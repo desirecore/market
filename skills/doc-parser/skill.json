@@ -1,0 +1,27 @@
+{
+  "id": "doc-parser",
+  "name": "文档解析器",
+  "icon": "file-text",
+  "shortDesc": "支持 50+ 格式的文档解析与结构化提取",
+  "fullDesc": "文档解析器是 Agent 的文档理解基础设施。无论是扫描版 PDF、手写笔记照片还是复杂排版的 Word 文档，都能准确提取文本、表格、图片和元数据，输出结构化的 Markdown 或 JSON。\n\n支持格式：\n- 办公文档：Word、Excel、PowerPoint、WPS\n- 版式文档：PDF（含扫描版 OCR）、EPUB、MOBI\n- 图片文档：JPG、PNG、TIFF、WebP（OCR 识别）\n- 标记语言：Markdown、HTML、XML、LaTeX\n- 代码文档：Jupyter Notebook、Swagger/OpenAPI",
+  "category": "data",
+  "tags": ["文档解析", "OCR", "PDF处理", "表格提取", "格式转换"],
+  "version": "2.1.3",
+  "latestVersion": "2.1.3",
+  "updatedAt": "2025-02-14",
+  "maintainer": {
+    "name": "DesireCore Official",
+    "verified": true
+  },
+  "downloads": 38920,
+  "rating": 4.7,
+  "ratingCount": 1567,
+  "installStatus": "not_installed",
+  "riskLevel": "low",
+  "requires": {
+    "tools": ["ocr_engine", "pdf_renderer", "table_extractor", "layout_analyzer"],
+    "connections": []
+  },
+  "compatibleAgents": ["writing-coach", "data-analyst", "translator", "code-reviewer"],
+  "changelog": "v2.1.3: 新增手写公式识别，支持 LaTeX 自动转换"
+}

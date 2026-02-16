@@ -1,0 +1,38 @@
+{
+  "productivity": {
+    "label": "效率",
+    "color": "#34C759",
+    "icon": "zap",
+    "description": "提升个人与团队工作效率的工具类 Agent/Skill，包括任务管理、时间管理、笔记整理、知识管理等"
+  },
+  "development": {
+    "label": "开发",
+    "color": "#007AFF",
+    "icon": "code-2",
+    "description": "软件开发辅助工具，包括代码审查、Bug 诊断、技术文档生成、开发环境管理等"
+  },
+  "business": {
+    "label": "商业",
+    "color": "#34C759",
+    "icon": "bar-chart-3",
+    "description": "商务与项目管理工具，包括市场分析、财务建模、项目规划、客户关系管理等"
+  },
+  "creative": {
+    "label": "创意",
+    "color": "#AF52DE",
+    "icon": "palette",
+    "description": "设计与内容创作工具，包括文案策划、创意写作、视觉设计辅助、多媒体制作等"
+  },
+  "communication": {
+    "label": "沟通",
+    "color": "#007AFF",
+    "icon": "message-circle",
+    "description": "沟通协作工具，包括翻译、邮件管理、会议辅助、客服应答、跨文化交流等"
+  },
+  "data": {
+    "label": "数据",
+    "color": "#AF52DE",
+    "icon": "database",
+    "description": "数据分析与可视化工具，包括数据清洗、统计分析、商业智能、报表生成等"
+  }
+}

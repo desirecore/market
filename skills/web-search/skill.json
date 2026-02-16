@@ -1,0 +1,27 @@
+{
+  "id": "web-search",
+  "name": "网络搜索",
+  "icon": "search",
+  "shortDesc": "智能网络搜索与信息聚合，快速获取准确答案",
+  "fullDesc": "网络搜索技能让 Agent 能够实时检索互联网信息，支持多引擎聚合、结果去重、可信度评估和结构化摘要。不只是返回链接，而是提炼出可直接使用的答案。\n\n功能特性：\n- 多引擎聚合：Google、Bing、DuckDuckGo 结果综合\n- 智能摘要：自动提取关键信息，生成 TL;DR\n- 可信度评估：基于域名权威性、发布日期、交叉验证打分\n- 实时热点：追踪新闻、社交媒体趋势\n- 学术搜索：arXiv、Google Scholar、PubMed 专精模式",
+  "category": "productivity",
+  "tags": ["搜索", "信息检索", "网页抓取", "实时信息", "研究辅助"],
+  "version": "3.0.2",
+  "latestVersion": "3.0.2",
+  "updatedAt": "2025-02-10",
+  "maintainer": {
+    "name": "DesireCore Official",
+    "verified": true
+  },
+  "downloads": 89340,
+  "rating": 4.8,
+  "ratingCount": 3421,
+  "installStatus": "not_installed",
+  "riskLevel": "medium",
+  "requires": {
+    "tools": ["http_client", "html_parser", "rate_limiter"],
+    "connections": ["internet", "search_api"]
+  },
+  "compatibleAgents": ["translator", "business-analyst", "data-analyst", "writing-coach"],
+  "changelog": "v3.0.2: 新增 AI 搜索结果去重算法，减少 40% 冗余信息"
+}

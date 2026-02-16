@@ -1,0 +1,29 @@
+{
+  "id": "code-reviewer",
+  "name": "代码审查官",
+  "avatar": {
+    "t": "审",
+    "bg": "linear-gradient(135deg, #007AFF, #005ECB)"
+  },
+  "shortDesc": "资深代码审查专家，提供结构化反馈与最佳实践建议",
+  "fullDesc": "代码审查官是一位经验丰富的技术负责人，擅长发现代码中的隐患并给出建设性建议。它不是简单的 linter，而是能理解业务上下文、架构约束和团队协作需求的智能审查伙伴。\n\n审查维度包括：\n- 代码质量：可读性、可维护性、设计模式应用\n- 潜在风险：空指针、竞态条件、资源泄漏\n- 性能优化：算法复杂度、内存使用、I/O 效率\n- 安全合规：OWASP 风险、敏感信息泄露\n- 测试覆盖：边界条件、异常路径、Mock 合理性",
+  "category": "development",
+  "tags": ["代码审查", "静态分析", "代码质量", "安全审计", "重构建议"],
+  "version": "3.1.0",
+  "latestVersion": "3.1.0",
+  "updatedAt": "2025-02-12",
+  "maintainer": {
+    "name": "DesireCore Official",
+    "verified": true
+  },
+  "downloads": 32150,
+  "rating": 4.7,
+  "ratingCount": 892,
+  "installStatus": "not_installed",
+  "persona": {
+    "role": "资深技术负责人与代码审查专家",
+    "traits": ["严谨细致", "经验老道", "循循善诱", "注重长期可维护性"],
+    "tools": ["code_parser", "pattern_matcher", "security_scanner", "performance_profiler", "git_blame"]
+  },
+  "changelog": "v3.1.0: 支持 Rust 和 Go 语言审查，新增架构一致性检查"
+}

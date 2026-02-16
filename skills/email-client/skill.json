@@ -1,0 +1,27 @@
+{
+  "id": "email-client",
+  "name": "邮件助理",
+  "icon": "mail",
+  "shortDesc": "智能邮件管理，自动分类、起草与跟进提醒",
+  "fullDesc": "邮件助理帮助 Agent 安全地访问你的邮箱，执行智能分类、优先级排序、自动回复起草和跟进提醒。支持 Gmail、Outlook、企业 Exchange 和 IMAP 协议，所有操作需经用户确认。\n\n功能特性：\n- 统一收件箱：多账户聚合、智能分类（工作/社交/推广/垃圾）\n- 智能起草：根据上下文生成得体回复、多语气选择\n- 跟进管理：自动识别待回复邮件、设置跟进提醒\n- 摘要功能：长邮件线程 TL;DR、每日收件箱总结\n- 安全控制：敏感操作确认、发送前预览、撤销窗口",
+  "category": "communication",
+  "tags": ["邮件", "收件箱管理", "自动回复", "跟进提醒", "通讯"],
+  "version": "2.2.0",
+  "latestVersion": "2.2.0",
+  "updatedAt": "2025-02-11",
+  "maintainer": {
+    "name": "DesireCore Official",
+    "verified": true
+  },
+  "downloads": 52180,
+  "rating": 4.6,
+  "ratingCount": 2134,
+  "installStatus": "not_installed",
+  "riskLevel": "high",
+  "requires": {
+    "tools": ["imap_client", "smtp_client", "oauth_client", "pgp_encryption"],
+    "connections": ["gmail_api", "outlook_api", "exchange_server"]
+  },
+  "compatibleAgents": ["translator", "business-analyst", "writing-coach", "task-master"],
+  "changelog": "v2.2.0: 新增邮件情绪分析，自动标记紧急和负面语气邮件"
+}

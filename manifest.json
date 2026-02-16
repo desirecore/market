@@ -1,0 +1,26 @@
+{
+  "name": "DesireCore Official Market",
+  "version": "1.0.0",
+  "description": "DesireCore 官方市场，提供精选高质量的 Agent 和 Skill",
+  "schemaVersion": "1.0.0",
+  "maintainer": {
+    "name": "DesireCore Team",
+    "email": "market@desirecore.net",
+    "url": "https://desirecore.net"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/desirecore/market.git"
+  },
+  "stats": {
+    "totalAgents": 6,
+    "totalSkills": 5,
+    "lastUpdated": "2025-02-14"
+  },
+  "features": [
+    "verified-only",
+    "auto-sync",
+    "multi-language"
+  ]
+}

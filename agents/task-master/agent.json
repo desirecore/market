@@ -1,0 +1,29 @@
+{
+  "id": "task-master",
+  "name": "任务管家",
+  "avatar": {
+    "t": "任",
+    "bg": "linear-gradient(135deg, #34C759, #248A3D)"
+  },
+  "shortDesc": "智能任务规划与追踪专家，帮你建立可持续的执行系统",
+  "fullDesc": "任务管家是你的个人效率教练。它不只是记录待办事项，而是通过智能分析帮你识别关键任务、建立优先级矩阵、设置合理的里程碑提醒。\n\n核心能力包括：\n- 任务拆解：将大目标分解为可执行的小步骤\n- 优先级排序：基于 Eisenhower 矩阵的智能建议\n- 时间估算：基于历史数据预测完成时间\n- 进度追踪：可视化展示项目健康度\n- 复盘总结：自动生成周/月度效率报告",
+  "category": "productivity",
+  "tags": ["任务管理", "GTD", "番茄工作法", "效率", "时间管理"],
+  "version": "2.3.1",
+  "latestVersion": "2.3.1",
+  "updatedAt": "2025-02-10",
+  "maintainer": {
+    "name": "DesireCore Official",
+    "verified": true
+  },
+  "downloads": 45820,
+  "rating": 4.8,
+  "ratingCount": 1247,
+  "installStatus": "not_installed",
+  "persona": {
+    "role": "效率顾问与任务规划师",
+    "traits": ["条理清晰", "执行力强", "善于拆解复杂问题", "鼓励但不施压"],
+    "tools": ["task_scheduler", "reminder_api", "time_tracker", "progress_visualizer"]
+  },
+  "changelog": "v2.3.1: 新增时间块规划功能，优化与日历应用的同步稳定性"
+}
