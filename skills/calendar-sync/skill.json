@@ -5,23 +5,40 @@
   "shortDesc": "无缝连接主流日历服务，智能安排与冲突检测",
   "fullDesc": "日历同步技能让 Agent 能够读取和写入你的日程安排，支持 Google Calendar、Outlook、Apple Calendar 等主流服务。智能识别会议重要性、自动建议最佳会议时间、检测时区冲突。\n\n功能特性：\n- 多平台同步：Google、Outlook、Apple、CalDAV 协议支持\n- 智能调度：基于忙碌状态自动建议会议时间\n- 时区处理：跨时区会议自动转换、旅行者时区感知\n- 会议辅助：议程模板、会议纪要自动生成、行动项跟踪\n- 提醒策略：分层提醒（提前一天、一小时、十五分钟）",
   "category": "business",
-  "tags": ["日历", "日程管理", "会议安排", "时区处理", "提醒"],
-  "version": "1.9.0",
+  "tags": [
+    "日历",
+    "日程管理",
+    "会议安排",
+    "时区处理",
+    "提醒"
+  ],
   "latestVersion": "1.9.0",
   "updatedAt": "2025-02-08",
   "maintainer": {
     "name": "DesireCore Official",
     "verified": true
   },
-  "downloads": 42350,
-  "rating": 4.5,
-  "ratingCount": 1234,
-  "installStatus": "not_installed",
   "riskLevel": "medium",
   "requires": {
-    "tools": ["oauth_client", "ical_parser", "timezone_calculator", "notification_api"],
-    "connections": ["google_calendar", "outlook_api", "apple_icloud"]
+    "tools": [
+      "oauth_client",
+      "ical_parser",
+      "timezone_calculator",
+      "notification_api"
+    ],
+    "connections": [
+      "google_calendar",
+      "outlook_api",
+      "apple_icloud"
+    ]
   },
-  "compatibleAgents": ["task-master", "business-analyst", "translator"],
-  "changelog": "v1.9.0: 新增 AI 会议重要性评分，自动保护深度工作时段"
+  "compatibleAgents": [
+    "task-master",
+    "business-analyst",
+    "translator"
+  ],
+  "changelog": "v1.9.0: 新增 AI 会议重要性评分，自动保护深度工作时段",
+  "files": {
+    "config": "skills/calendar-sync/skill.json"
+  }
 }
