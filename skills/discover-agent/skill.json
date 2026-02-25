@@ -1,11 +1,17 @@
 {
   "id": "discover-agent",
   "name": "发现智能体",
-  "icon": "compass",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><path d=\"m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z\"></path></svg>",
   "shortDesc": "根据需求描述智能推荐最匹配的智能体，引导快速选择",
   "fullDesc": "发现智能体是一个流程型技能，帮助用户在已注册的 Agent 中找到最合适的助手。通过语义理解用户需求，多维度匹配评分，展示候选列表并引导选择。无匹配时自动衔接创建流程。\n\n功能特性：\n- 语义匹配：基于描述相似度、技能匹配、领域匹配等多维度评分\n- 智能排序：综合得分降序，在线状态优先\n- 浏览模式：支持查看所有可用智能体\n- 流畅衔接：无匹配时自动建议创建新 Agent\n- 上下文传递：选择后自动传递用户需求到目标智能体",
   "category": "productivity",
-  "tags": ["智能体", "发现", "推荐", "匹配", "导航"],
+  "tags": [
+    "智能体",
+    "发现",
+    "推荐",
+    "匹配",
+    "导航"
+  ],
   "version": "1.0.0",
   "latestVersion": "1.0.0",
   "updatedAt": "2026-02-17",
@@ -19,7 +25,9 @@
   "installStatus": "not_installed",
   "riskLevel": "low",
   "requires": {
-    "tools": ["fetch_api"],
+    "tools": [
+      "fetch_api"
+    ],
     "connections": []
   },
   "compatibleAgents": [],

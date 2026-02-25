@@ -1,11 +1,17 @@
 {
   "id": "create-agent",
   "name": "创建智能体",
-  "icon": "user-plus",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"></path><circle cx=\"9\" cy=\"7\" r=\"4\"></circle><line x1=\"19\" x2=\"19\" y1=\"8\" y2=\"14\"></line><line x1=\"22\" x2=\"16\" y1=\"11\" y2=\"11\"></line></svg>",
   "shortDesc": "通过自然语言对话收集需求，一键创建专业化数字智能体",
   "fullDesc": "创建智能体是一个元技能，赋予 DesireCore 创建其他 Agent 的能力。通过多轮对话收集用户需求，自动生成符合 AgentFS v2 规范的 persona 和 principles，调用 HTTP API 完成创建。\n\n功能特性：\n- 自然语言交互：用对话描述需求即可创建，无需编程\n- 领域模板：根据专业领域自动匹配推荐风格与边界\n- AgentFS v2 规范：创建的仓库符合标准结构，支持版本管理\n- 多轮引导：智能追问必填信息，每轮最多 2 个问题\n- 预览确认：创建前展示完整的 persona 与 principles 预览",
   "category": "productivity",
-  "tags": ["智能体", "创建", "元技能", "AgentFS", "自动化"],
+  "tags": [
+    "智能体",
+    "创建",
+    "元技能",
+    "AgentFS",
+    "自动化"
+  ],
   "version": "2.0.0",
   "latestVersion": "2.0.0",
   "updatedAt": "2026-02-21",
@@ -19,7 +25,9 @@
   "installStatus": "not_installed",
   "riskLevel": "medium",
   "requires": {
-    "tools": ["fetch_api"],
+    "tools": [
+      "fetch_api"
+    ],
     "connections": []
   },
   "compatibleAgents": [],

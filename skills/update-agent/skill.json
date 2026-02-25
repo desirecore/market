@@ -1,11 +1,17 @@
 {
   "id": "update-agent",
   "name": "更新智能体",
-  "icon": "user-cog",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M10 15H6a4 4 0 0 0-4 4v2\"></path><path d=\"m14.305 16.53.923-.382\"></path><path d=\"m15.228 13.852-.923-.383\"></path><path d=\"m16.852 12.228-.383-.923\"></path><path d=\"m16.852 17.772-.383.924\"></path><path d=\"m19.148 12.228.383-.923\"></path><path d=\"m19.53 18.696-.382-.924\"></path><path d=\"m20.772 13.852.924-.383\"></path><path d=\"m20.772 16.148.924.383\"></path><circle cx=\"18\" cy=\"15\" r=\"3\"></circle><circle cx=\"9\" cy=\"7\" r=\"4\"></circle></svg>",
   "shortDesc": "安全更新智能体配置、人格、规则与技能，支持 diff 预览与版本回滚",
   "fullDesc": "更新智能体是一个元技能，允许通过自然语言对话修改 Agent 的各项配置。所有修改都会生成可审阅的 diff 补丁，经用户确认后才会应用，并通过 Git 支持版本回滚。\n\n功能特性：\n- 多维更新：支持 persona、principles、skills、memory、tools 等全方位修改\n- Diff 预览：变更以直观的 diff 形式展示，清晰明了\n- 风险分级：低/中/高/受保护四级，按风险等级要求不同确认流程\n- 受保护路径：核心身份与安全红线自动阻断修改\n- 版本回滚：通过 Git 管理版本历史，支持回滚到任意时间点",
   "category": "productivity",
-  "tags": ["智能体", "更新", "元技能", "配置管理", "版本控制"],
+  "tags": [
+    "智能体",
+    "更新",
+    "元技能",
+    "配置管理",
+    "版本控制"
+  ],
   "version": "1.1.0",
   "latestVersion": "1.1.0",
   "updatedAt": "2026-02-17",
@@ -19,7 +25,9 @@
   "installStatus": "not_installed",
   "riskLevel": "high",
   "requires": {
-    "tools": ["fetch_api"],
+    "tools": [
+      "fetch_api"
+    ],
     "connections": []
   },
   "compatibleAgents": [],

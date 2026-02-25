@@ -1,11 +1,17 @@
 {
   "id": "delete-agent",
   "name": "删除智能体",
-  "icon": "user-minus",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"></path><circle cx=\"9\" cy=\"7\" r=\"4\"></circle><line x1=\"22\" x2=\"16\" y1=\"11\" y2=\"11\"></line></svg>",
   "shortDesc": "安全删除智能体及其关联数据，支持多重确认与可选历史清理",
   "fullDesc": "删除智能体是一个元技能，允许安全地删除不再使用的 Agent。执行前会验证智能体状态，清理文件系统、内存状态、消息订阅等所有关联数据，支持可选地删除会话历史。\n\n功能特性：\n- 状态检查：自动验证智能体是否处于可删除状态\n- 完整清理：文件系统、调度器、消息订阅、MCP 连接一并清除\n- 可选历史：默认保留会话历史，可选择同时删除\n- 多重确认：高风险操作，需用户多步确认\n- 结果报告：输出详细的清理回执",
   "category": "productivity",
-  "tags": ["智能体", "删除", "元技能", "清理", "安全"],
+  "tags": [
+    "智能体",
+    "删除",
+    "元技能",
+    "清理",
+    "安全"
+  ],
   "version": "1.0.0",
   "latestVersion": "1.0.0",
   "updatedAt": "2026-02-17",
@@ -19,7 +25,9 @@
   "installStatus": "not_installed",
   "riskLevel": "high",
   "requires": {
-    "tools": ["fetch_api"],
+    "tools": [
+      "fetch_api"
+    ],
     "connections": []
   },
   "compatibleAgents": [],
