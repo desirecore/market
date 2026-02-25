@@ -1,0 +1,8 @@
+{
+  "skills": [
+    "create-agent",
+    "delete-agent",
+    "discover-agent",
+    "update-agent"
+  ]
+}

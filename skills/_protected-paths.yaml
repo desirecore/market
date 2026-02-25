@@ -1,0 +1,104 @@
+# 受保护路径配置
+# 此配置由元技能（update-agent, delete-agent, self-evolve）共享
+# 定义了不可被自动修改的敏感路径
+# 注意：create-agent 通过 HTTP API 创建，不直接操作文件，因此不受此配置约束
+
+version: 2
+
+# 保护级别定义
+protection_levels:
+  block:
+    description: 完全阻断，不可通过技能修改
+    requires: manual_edit
+  owner_only:
+    description: 需要 owner 角色显式确认
+    requires: owner_confirmation
+  confirm:
+    description: 需要用户确认
+    requires: user_confirmation
+
+# 受保护路径列表（AgentFS v2 扁平结构）
+protected_paths:
+
+  # ============================================
+  # 核心身份（不可自动修改）
+  # ============================================
+  - path: "persona.md"
+    section: "L0"
+    protection: block
+    reason: "核心身份定义，不可被对话或进化改变"
+    description: "L0 部分包含 Agent 的核心身份定义，是人格的根基"
+
+  # ============================================
+  # 安全红线（不可自动修改）
+  # ============================================
+  - path: "principles.md"
+    section: "绝不做"
+    protection: block
+    reason: "安全边界，必须由人类显式修改"
+    description: "绝不做部分定义了不可逾越的安全红线"
+
+  # ============================================
+  # 权限配置（需 owner 确认）
+  # ============================================
+  - path: "agent.json"
+    section: "access_control"
+    protection: owner_only
+    reason: "权限配置敏感，需 owner 审批"
+    description: "访问控制配置影响整个 Agent 的权限体系"
+
+  - path: "agent.json"
+    section: "privacy"
+    protection: owner_only
+    reason: "隐私配置敏感，需 owner 审批"
+    description: "隐私配置影响数据处理和共享策略"
+
+  # ============================================
+  # 工具权限（需 owner 确认）
+  # ============================================
+  - path: "tools/"
+    pattern: "**/permissions.yaml"
+    protection: owner_only
+    reason: "工具权限敏感，需 owner 审批"
+    description: "工具权限决定 Agent 可执行的操作范围"
+
+  - path: "tools/"
+    pattern: "**/credentials.yaml"
+    protection: block
+    reason: "凭证文件不可通过技能修改"
+    description: "凭证文件包含敏感信息，必须手动管理"
+
+  # ============================================
+  # 用户隐私（需用户本人确认）
+  # ============================================
+  - path: "~/.desirecore/users/*/privacy.md"
+    protection: owner_only
+    reason: "隐私设置需用户本人或 owner 修改"
+    description: "用户隐私边界配置"
+
+  - path: "~/.desirecore/users/*/agents/*/relationship.md"
+    section: "禁区"
+    protection: confirm
+    reason: "关系禁区需用户确认"
+    description: "用户定义的交互禁区"
+
+# 验证规则
+validation:
+  # 在应用变更前必须检查是否触及受保护路径
+  pre_change_check: true
+  # 触及受保护路径时的默认行为
+  default_action: block_and_notify
+  # 是否记录所有受保护路径访问尝试
+  audit_access_attempts: true
+
+# 例外规则（谨慎使用）
+exceptions:
+  # 系统初始化时可以写入所有路径
+  - context: system_initialization
+    paths: ["*"]
+    allowed_operations: [create]
+
+  # owner 可以在显式确认后修改 owner_only 路径
+  - context: owner_explicit_confirmation
+    paths: ["owner_only"]
+    allowed_operations: [update]
