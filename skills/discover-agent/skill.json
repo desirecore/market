@@ -12,9 +12,9 @@
     "匹配",
     "导航"
   ],
-  "version": "1.0.0",
-  "latestVersion": "1.0.0",
-  "updatedAt": "2026-02-17",
+  "version": "2.1.0",
+  "latestVersion": "2.1.0",
+  "updatedAt": "2026-02-26",
   "maintainer": {
     "name": "DesireCore Official",
     "verified": true
@@ -25,11 +25,9 @@
   "installStatus": "not_installed",
   "riskLevel": "low",
   "requires": {
-    "tools": [
-      "fetch_api"
-    ],
+    "tools": [],
     "connections": []
   },
   "compatibleAgents": [],
-  "changelog": "v1.0.0: 初始版本，支持多维度语义匹配与推荐"
+  "changelog": "v2.1.0: 移除 fetch_api 依赖，改为通过 Bash/curl 调用 HTTP API；API 地址由 system prompt 注入"
 }
