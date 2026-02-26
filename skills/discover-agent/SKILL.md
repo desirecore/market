@@ -1,7 +1,7 @@
 ---
 name: discover-agent
 description: 根据用户需求推荐最匹配的智能体，展示候选列表并引导选择。Use when 用户描述需求但不确定该找哪个智能体帮忙，或想浏览可用的智能体。
-version: "1.0.0"
+version: "2.1.0"
 type: procedural
 risk_level: low
 status: enabled
@@ -9,8 +9,8 @@ disable-model-invocation: false
 tags: [agent, discovery, recommendation]
 metadata:
   author: desirecore
-  version: "1.0.0"
-  updated_at: "2026-02-17"
+  version: "2.1.0"
+  updated_at: "2026-02-26"
 ---
 
 # discover-agent 技能
@@ -218,10 +218,11 @@ context_handoff:
 
 ### 权限要求
 
-- 需要调用 `fetch_api` 工具访问 Agent 列表 API
+- 建议优先通过 `Bash` 工具调用 curl 访问 Agent Service HTTP API 完成操作
+- API 基础地址已注入到 system prompt 的「本机 API」小节，直接引用即可
 - 只读操作，无风险
 
 ### 依赖
 
 - Agent Service HTTP API（`GET /api/agents`）
-- Agent Registry 状态查询
+- System prompt 中的本机 API 地址声明

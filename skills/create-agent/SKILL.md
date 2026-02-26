@@ -1,7 +1,7 @@
 ---
 name: create-agent
 description: 通过多轮对话收集需求，调用 HTTP API 创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
-version: "2.0.0"
+version: "2.1.0"
 type: meta
 risk_level: medium
 status: enabled
@@ -9,8 +9,8 @@ disable-model-invocation: true
 tags: [agent, creation, meta]
 metadata:
   author: desirecore
-  version: "2.0.0"
-  updated_at: "2026-02-21"
+  version: "2.1.0"
+  updated_at: "2026-02-26"
 ---
 
 # create-agent 技能
@@ -91,40 +91,40 @@ create-agent 是一个**元技能（Meta-Skill）**，赋予 DesireCore 创建�
 
 **persona.md 生成规范**：
 
-```markdown
-# L0 — 核心身份
+生成 persona.md 时，直接输出以下结构的 markdown 内容供用户阅读和确认，不要用代码块包裹：
 
-你是 {name}，{一句话角色定位}。
-
-# L1 — 行为风格
-
-- {风格特征 1}
-- {风格特征 2}
-- {风格特征 3}
-
-# L2 — 深层动机
-
-{2-3 句话描述深层价值观和驱动力}
-```
+> **L0 — 核心身份**
+>
+> 你是 {name}，{一句话角色定位}。
+>
+> **L1 — 行为风格**
+>
+> - {风格特征 1}
+> - {风格特征 2}
+> - {风格特征 3}
+>
+> **L2 — 深层动机**
+>
+> {2-3 句话描述深层价值观和驱动力}
 
 **principles.md 生成规范**：
 
-```markdown
-# L0 — 基础约束
+生成 principles.md 时，同样直接输出 markdown 内容：
 
-- {安全红线 1}
-- {安全红线 2}
-
-# L1 — 行为边界
-
-- {行为规则 1}
-- {行为规则 2}
-- {行为规则 3}
-
-# L2 — 治理原则
-
-{2-3 句话描述最高治理原则}
-```
+> **L0 — 基础约束**
+>
+> - {安全红线 1}
+> - {安全红线 2}
+>
+> **L1 — 行为边界**
+>
+> - {行为规则 1}
+> - {行为规则 2}
+> - {行为规则 3}
+>
+> **L2 — 治理原则**
+>
+> {2-3 句话描述最高治理原则}
 
 **领域匹配参考**：
 
@@ -139,26 +139,34 @@ create-agent 是一个**元技能（Meta-Skill）**，赋予 DesireCore 创建�
 
 **展示预览**：
 
-```
-即将创建智能体：
+向用户展示预览时，以自然可读的 markdown 格式直接呈现，不使用代码块包裹：
 
-名称：法律顾问小助手
-描述：专注于合同审查和法律风险评估的数字智能体
-
---- persona.md 预览 ---
-# L0 — 核心身份
-你是法律顾问小助手，专注于合同审查和法律风险评估...
-[完整内容]
-
---- principles.md 预览 ---
-# L0 — 基础约束
-- 不提供诉讼代理
-[完整内容]
----
-
-确认创建？
-[确认] [修改] [取消]
-```
+> 即将创建智能体：
+>
+> **名称**：法律顾问小助手
+> **描述**：专注于合同审查和法律风险评估的数字智能体
+>
+> ---
+>
+> **persona.md 预览**
+>
+> **L0 — 核心身份**
+> 你是法律顾问小助手，专注于合同审查和法律风险评估...
+>
+> *(完整内容)*
+>
+> ---
+>
+> **principles.md 预览**
+>
+> **L0 — 基础约束**
+> - 不提供诉讼代理
+>
+> *(完整内容)*
+>
+> ---
+>
+> 确认创建？（确认 / 修改 / 取消）
 
 ### 阶段 5：调用 API 创建
 
@@ -191,19 +199,19 @@ create-agent 是一个**元技能（Meta-Skill）**，赋予 DesireCore 创建�
 
 **回执报告**：
 
-```
-✅ 智能体 "法律顾问小助手" 创建成功
+创建成功后，以自然可读格式呈现回执：
 
-详情：
-- Agent Slug: fa-lv-gu-wen-xiao-zhu-shou
-- 仓库路径: ~/.desirecore/agents/fa-lv-gu-wen-xiao-zhu-shou
-- 已生成文件: agent.json, persona.md, principles.md
-- AgentFS 规范: v2（扁平结构）
-
-下一步建议：
-- 为它添加技能（通过 update-agent 技能）
-- 直接开始对话
-```
+> 智能体 "法律顾问小助手" 创建成功
+>
+> **详情**：
+> - **Agent Slug**: fa-lv-gu-wen-xiao-zhu-shou
+> - **仓库路径**: ~/.desirecore/agents/fa-lv-gu-wen-xiao-zhu-shou
+> - **已生成文件**: agent.json, persona.md, principles.md
+> - **AgentFS 规范**: v2（扁平结构）
+>
+> **下一步建议**：
+> - 为它添加技能（通过 update-agent 技能）
+> - 直接开始对话
 
 ### AgentFS 知识（创建后的仓库结构）
 
@@ -245,9 +253,11 @@ DesireCore 应理解创建后的 Agent 仓库遵循 AgentFS v2 扁平结构：
 
 ### 权限要求
 
-- 需要调用 `fetch_api` 工具访问创建 API
+- 建议优先通过 `Bash` 工具调用 curl 访问 Agent Service HTTP API 完成操作
+- API 基础地址已注入到 system prompt 的「本机 API」小节，直接引用即可
 - 创建操作需要用户确认
 
 ### 依赖
 
 - Agent Service HTTP API（`POST /api/agents`）
+- System prompt 中的本机 API 地址声明

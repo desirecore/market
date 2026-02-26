@@ -1,7 +1,7 @@
 ---
 name: update-agent
 description: 安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent 行为、安装/卸载技能、调整配置、回滚变更或修订规则。
-version: "1.1.0"
+version: "2.1.0"
 type: meta
 risk_level: high
 status: enabled
@@ -9,8 +9,8 @@ disable-model-invocation: true
 tags: [agent, update, meta]
 metadata:
   author: desirecore
-  version: "1.1.0"
-  updated_at: "2026-02-17"
+  version: "2.1.0"
+  updated_at: "2026-02-26"
 ---
 
 # update-agent 技能
@@ -265,6 +265,14 @@ git reset --soft <commit_hash>
 | Diff 应用冲突 | 展示冲突内容，请用户手动解决 |
 | Git 操作失败 | 保留修改文件，提示用户手动提交 |
 | 回滚版本不存在 | 列出可用版本，请用户重新选择 |
+
+### API 端点
+
+建议优先通过 HTTP API 完成操作，也可直接通过 Read/Write/Edit 工具编辑 AgentFS 文件：
+
+- `PUT /api/agents/:id/files/*` — 更新指定文件内容
+
+API 基础地址已注入到 system prompt 的「本机 API」小节，使用 `Bash` 工具调用 curl 访问即可。
 
 ### 权限要求
 

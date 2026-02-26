@@ -7,8 +7,8 @@ status: enabled
 disable-model-invocation: true
 metadata:
   author: desirecore
-  version: "1.0.0"
-  updated_at: "2026-02-17"
+  version: "2.1.0"
+  updated_at: "2026-02-26"
 ---
 
 # delete-agent 技能
@@ -123,8 +123,10 @@ delete-agent 是一个**元技能（Meta-Skill）**，赋予 DesireCore 安全�
 
 **请求示例**：
 ```bash
-curl -X DELETE "http://127.0.0.1:<agentServicePort>/api/agents/legal-assistant?deleteRuns=true"
+curl -X DELETE "{agentServiceUrl}/api/agents/legal-assistant?deleteRuns=true"
 ```
+
+> `{agentServiceUrl}` 取自 system prompt「本机 API」小节中的 Agent Service 地址。
 
 ### 阶段 6：返回操作结果
 
@@ -165,7 +167,7 @@ curl -X DELETE "http://127.0.0.1:<agentServicePort>/api/agents/legal-assistant?d
 在调用删除 API 前，系统会自动检查：
 
 | 状态 | 是否可删除 | 处理方式 |
-|------|-----------|---------|
+|------|-----------|--------|
 | `offline` | ✅ 是 | 直接删除 |
 | `error` | ✅ 是 | 直接删除 |
 | `online` | ❌ 否 | 返回 409 错误，提示先停止 |
@@ -234,10 +236,11 @@ curl -X DELETE "http://127.0.0.1:<agentServicePort>/api/agents/legal-assistant?d
 
 ## 权限要求
 
-- 需要调用 `fetch_api` 工具访问删除 API
+- 建议优先通过 `Bash` 工具调用 curl 访问 Agent Service HTTP API 完成操作
+- API 基础地址已注入到 system prompt 的「本机 API」小节，直接引用即可
 - 删除操作需要用户显式确认（高风险操作）
 
 ## 依赖
 
-- Agent Service HTTP API
-- Agent Registry 状态查询
+- Agent Service HTTP API（`DELETE /api/agents/{agentId}`）
+- System prompt 中的本机 API 地址声明
