@@ -34,5 +34,11 @@
     "color": "#AF52DE",
     "icon": "database",
     "description": "数据分析与可视化工具，包括数据清洗、统计分析、商业智能、报表生成等"
+  },
+  "management": {
+    "label": "管理",
+    "color": "#007AFF",
+    "icon": "layout-grid",
+    "description": "系统管理与编排工具，包括任务调度、Agent 管理、全局监控、系统配置等"
   }
 }

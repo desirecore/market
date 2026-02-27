@@ -14,9 +14,9 @@
     "url": "https://github.com/desirecore/market.git"
   },
   "stats": {
-    "totalAgents": 6,
+    "totalAgents": 1,
     "totalSkills": 5,
-    "lastUpdated": "2025-02-14"
+    "lastUpdated": "2026-02-27"
   },
   "features": [
     "verified-only",
