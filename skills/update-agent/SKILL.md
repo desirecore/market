@@ -1,16 +1,42 @@
 ---
 name: update-agent
-description: 安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent 行为、安装/卸载技能、调整配置、回滚变更或修订规则。
-version: "2.1.0"
+description: >-
+  安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent
+  行为、安装/卸载技能、调整配置、回滚变更或修订规则。
+version: 2.1.0
 type: meta
 risk_level: high
 status: enabled
 disable-model-invocation: true
-tags: [agent, update, meta]
+tags:
+  - agent
+  - update
+  - meta
 metadata:
   author: desirecore
-  version: "2.1.0"
-  updated_at: "2026-02-26"
+  version: 2.1.0
+  updated_at: '2026-02-26'
+market:
+  icon: >-
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
+    24 24" fill="none"><defs><linearGradient id="ua-a" x1="2" y1="7" x2="14"
+    y2="21" gradientUnits="userSpaceOnUse"><stop stop-color="#AF52DE"/><stop
+    offset="1" stop-color="#007AFF"/></linearGradient></defs><circle cx="9"
+    cy="7" r="4" fill="url(#ua-a)" fill-opacity="0.15" stroke="url(#ua-a)"
+    stroke-width="1.5"/><path d="M10 15H6a4 4 0 0 0-4 4v2" fill="url(#ua-a)"
+    fill-opacity="0.1" stroke="url(#ua-a)" stroke-width="1.5"/><circle cx="18"
+    cy="15" r="3" fill="#007AFF" fill-opacity="0.12" stroke="#007AFF"
+    stroke-width="1.3"/><path d="m14.3
+    16.53.92-.38m.01-2.3-.92-.38m1.5-1.24-.38-.92m0
+    5.54-.38.92m2.3.01.38-.92m.3-4.84-.38-.92m1.24 1.5.92-.38m0 2.3.92.38"
+    stroke="#AF52DE" stroke-width="1.3" stroke-linecap="round"/></svg>
+  short_desc: 安全更新智能体配置、人格、规则与技能，支持 diff 预览与版本回滚
+  category: productivity
+  maintainer:
+    name: DesireCore Official
+    verified: true
+  compatible_agents: []
+  channel: latest
 ---
 
 # update-agent 技能

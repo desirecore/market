@@ -1,16 +1,42 @@
 ---
 name: create-agent
-description: 通过多轮对话收集需求，调用 HTTP API 创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
-version: "2.1.0"
+description: >-
+  通过多轮对话收集需求，调用 HTTP API 创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when
+  用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
+version: 2.1.0
 type: meta
 risk_level: medium
 status: enabled
 disable-model-invocation: true
-tags: [agent, creation, meta]
+tags:
+  - agent
+  - creation
+  - meta
 metadata:
   author: desirecore
-  version: "2.1.0"
-  updated_at: "2026-02-26"
+  version: 2.1.0
+  updated_at: '2026-02-26'
+market:
+  icon: >-
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
+    24 24" fill="none"><defs><linearGradient id="ca-a" x1="2" y1="7" x2="16"
+    y2="21" gradientUnits="userSpaceOnUse"><stop stop-color="#34C759"/><stop
+    offset="1" stop-color="#007AFF"/></linearGradient></defs><circle cx="9"
+    cy="7" r="4" fill="url(#ca-a)" fill-opacity="0.15" stroke="url(#ca-a)"
+    stroke-width="1.5"/><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+    fill="url(#ca-a)" fill-opacity="0.1" stroke="url(#ca-a)"
+    stroke-width="1.5"/><circle cx="19" cy="11" r="4" fill="#34C759"
+    fill-opacity="0.15"/><line x1="19" y1="8.5" x2="19" y2="13.5"
+    stroke="#34C759" stroke-width="2" stroke-linecap="round"/><line x1="16.5"
+    y1="11" x2="21.5" y2="11" stroke="#34C759" stroke-width="2"
+    stroke-linecap="round"/></svg>
+  short_desc: 通过自然语言对话收集需求，一键创建专业化数字智能体
+  category: productivity
+  maintainer:
+    name: DesireCore Official
+    verified: true
+  compatible_agents: []
+  channel: latest
 ---
 
 # create-agent 技能

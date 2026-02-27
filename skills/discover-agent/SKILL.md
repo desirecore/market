@@ -1,16 +1,38 @@
 ---
 name: discover-agent
 description: 根据用户需求推荐最匹配的智能体，展示候选列表并引导选择。Use when 用户描述需求但不确定该找哪个智能体帮忙，或想浏览可用的智能体。
-version: "2.1.0"
+version: 2.1.0
 type: procedural
 risk_level: low
 status: enabled
 disable-model-invocation: false
-tags: [agent, discovery, recommendation]
+tags:
+  - agent
+  - discovery
+  - recommendation
 metadata:
   author: desirecore
-  version: "2.1.0"
-  updated_at: "2026-02-26"
+  version: 2.1.0
+  updated_at: '2026-02-26'
+market:
+  icon: >-
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
+    24 24" fill="none"><defs><linearGradient id="da-a" x1="2" y1="2" x2="22"
+    y2="22" gradientUnits="userSpaceOnUse"><stop stop-color="#AF52DE"
+    stop-opacity="0.12"/><stop offset="1" stop-color="#007AFF"
+    stop-opacity="0.06"/></linearGradient></defs><circle cx="12" cy="12" r="10"
+    fill="url(#da-a)" stroke="#AF52DE" stroke-width="1.5"/><path d="M16.24
+    7.76l-1.8 5.41a2 2 0 0 1-1.27 1.27L7.76 16.24" fill="#FF9500"
+    fill-opacity="0.85"/><path d="M7.76 16.24l1.8-5.41a2 2 0 0 1 1.27-1.27L16.24
+    7.76" fill="#AF52DE" fill-opacity="0.7"/><circle cx="12" cy="12" r="1.5"
+    fill="white" stroke="#AF52DE" stroke-width="0.8"/></svg>
+  short_desc: 根据需求描述智能推荐最匹配的智能体，引导快速选择
+  category: productivity
+  maintainer:
+    name: DesireCore Official
+    verified: true
+  compatible_agents: []
+  channel: latest
 ---
 
 # discover-agent 技能

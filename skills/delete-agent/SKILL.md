@@ -7,8 +7,34 @@ status: enabled
 disable-model-invocation: true
 metadata:
   author: desirecore
-  version: "2.1.0"
-  updated_at: "2026-02-26"
+  version: 2.1.0
+  updated_at: '2026-02-26'
+version: 2.1.0
+tags:
+  - 智能体
+  - 删除
+  - 元技能
+  - 清理
+  - 安全
+market:
+  icon: >-
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
+    24 24" fill="none"><defs><linearGradient id="da2-a" x1="2" y1="7" x2="16"
+    y2="21" gradientUnits="userSpaceOnUse"><stop stop-color="#FF9500"/><stop
+    offset="1" stop-color="#FF3B30"/></linearGradient></defs><circle cx="9"
+    cy="7" r="4" fill="url(#da2-a)" fill-opacity="0.15" stroke="url(#da2-a)"
+    stroke-width="1.5"/><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+    fill="url(#da2-a)" fill-opacity="0.1" stroke="url(#da2-a)"
+    stroke-width="1.5"/><circle cx="19" cy="11" r="4" fill="#FF3B30"
+    fill-opacity="0.12"/><line x1="16.5" y1="11" x2="21.5" y2="11"
+    stroke="#FF3B30" stroke-width="2" stroke-linecap="round"/></svg>
+  short_desc: 安全删除智能体及其关联数据，支持多重确认与可选历史清理
+  category: productivity
+  maintainer:
+    name: DesireCore Official
+    verified: true
+  compatible_agents: []
+  channel: latest
 ---
 
 # delete-agent 技能
