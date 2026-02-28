@@ -1,7 +1,7 @@
 ---
 name: 发现智能体
 description: 根据用户需求推荐最匹配的智能体，展示候选列表并引导选择。Use when 用户描述需求但不确定该找哪个智能体帮忙，或想浏览可用的智能体。
-version: 2.3.0
+version: 2.4.0
 type: procedural
 risk_level: low
 status: enabled
@@ -113,23 +113,21 @@ GET /api/agents
 - 默认只展示 `status: online` 或 `status: offline` 的智能体
 - 排除系统内部智能体（如 DesireCore 自身，除非用户显式要求）
 
-### 阶段 3：匹配评分
+### 阶段 3：匹配评估
 
-**匹配维度与权重**：
+根据以下维度综合判断匹配度（使用 LLM 语义理解，非公式计算）：
 
-| 维度 | 权重 | 说明 |
-|------|------|------|
-| 描述相似度 | 40% | 智能体 description 与用户需求的语义相似度 |
-| 技能匹配 | 30% | 智能体拥有的 skills 与任务类型的关联度 |
-| 领域匹配 | 20% | 智能体专业领域与用户需求领域的匹配度 |
-| 可用性 | 10% | 智能体当前状态（online 优先于 offline） |
+| 维度 | 说明 |
+|------|------|
+| 描述相关性 | 智能体 description / persona 与用户需求的语义相关度 |
+| 技能匹配度 | 智能体拥有的 skills 与任务类型的关联度 |
+| 领域契合度 | 智能体专业领域与用户需求领域的契合程度 |
+| 状态可用性 | 智能体当前状态（online 优先于 offline） |
 
-**评分规则**：
-- 每个维度 0-100 分
-- 加权计算综合得分
-- 综合得分 >= 60 为"推荐"
-- 综合得分 40-59 为"可能相关"
-- 综合得分 < 40 不展示
+**展示规则**：
+- 高度匹配（明确适合该任务）→ 标为"推荐"
+- 部分匹配（可能有帮助）→ 标为"可能相关"
+- 无明显关联 → 不展示
 
 ### 阶段 4：候选排序
 
@@ -201,9 +199,38 @@ GET /api/agents
 | 用户选择 | 后续操作 |
 |---------|---------|
 | 选择了某个智能体 | 切换到该智能体的对话，传递用户需求上下文 |
-| 要求了解更多 | 展示该智能体的详细信息（persona、skills、最近活跃时间） |
+| 要求了解更多 | 调用 `GET /api/agents/:id` 获取详情，展示结构化信息（见下方） |
 | 不满意候选 | 引导用户细化需求或建议创建新 Agent |
 | 选择"创建新的" | 调用 create-agent 技能，传递已收集的需求信息 |
+
+**"了解更多"的实现**：
+
+调用 `GET /api/agents/:id` 获取详情，并可选调用结构化端点获取人格/规则：
+
+```bash
+# 获取基本信息
+GET /api/agents/{agentId}
+# 返回: { id, name, description, skillsCount, toolsCount, status, config, persona, principles }
+
+# 获取结构化 persona（可选，用于展示更丰富的信息）
+GET /api/agents/{agentId}/persona
+# 返回: { L0, L1: { role, personality, communication_style }, L2 }
+```
+
+向用户展示时，以自然语言/表格形式呈现关键信息：
+
+```
+「法律顾问助手」详细信息
+
+| 字段 | 内容 |
+|------|------|
+| 角色定位 | 专注合同审查和法律风险评估 |
+| 性格特征 | 专业、严谨、审慎 |
+| 技能数量 | 3 个 |
+| 当前状态 | 在线 |
+
+需要与这个智能体对话吗？
+```
 
 **切换上下文传递**：
 
@@ -212,13 +239,6 @@ context_handoff:
   source_agent: desirecore
   target_agent: legal-assistant
   user_intent: "帮我审查这份合同的风险点"
-  discovery_metadata:
-    match_score: 92
-    match_dimensions:
-      description: 95
-      skills: 90
-      domain: 88
-      availability: 100
 ```
 
 ### 与其他技能的协作

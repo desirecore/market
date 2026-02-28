@@ -1,20 +1,18 @@
 ---
 name: 删除智能体
 description: 安全删除指定的智能体及其关联数据。删除前会验证智能体状态，支持可选地删除所有会话历史。Use when 用户需要删除不再使用的智能体。
+version: 2.4.0
 type: meta
 risk_level: high
 status: enabled
 disable-model-invocation: true
+tags:
+  - agent
+  - deletion
+  - meta
 metadata:
   author: desirecore
   updated_at: '2026-02-28'
-version: 2.3.0
-tags:
-  - 智能体
-  - 删除
-  - 元技能
-  - 清理
-  - 安全
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -185,79 +183,43 @@ curl -X DELETE "{agentServiceUrl}/api/agents/legal-assistant?deleteRuns=true"
 - 会话历史：已删除 5 条记录
 ```
 
-## 前置检查
+## 状态验证与错误处理
 
-### 智能体状态验证
+### 删除前状态检查
 
-在调用删除 API 前，系统会自动检查：
+在阶段 1 列出智能体时，通过 `GET /api/agents` 筛选状态：
 
-| 状态 | 是否可删除 | 处理方式 |
-|------|-----------|--------|
-| `offline` | ✅ 是 | 直接删除 |
-| `error` | ✅ 是 | 直接删除 |
-| `online` | ❌ 否 | 返回 409 错误，提示先停止 |
-| `busy` | ❌ 否 | 返回 409 错误，提示等待完成 |
-| `recovery` | ❌ 否 | 返回 409 错误，提示等待恢复 |
+| 状态 | 可否删除 | 阶段 1 展示方式 |
+|------|---------|---------------|
+| `offline` / `error` | ✅ 可删除 | 列入"可删除"列表 |
+| `online` / `busy` / `recovery` | ❌ 需先停止 | 标注"需先停止"，不进入后续流程 |
 
-**API 返回 409 时的处理**：
-```
-无法删除智能体 "xxx"：当前处于 online 状态。
+**停止活跃智能体的方式**：通过 Socket.IO 发送 `agent:shutdown` 事件：
 
-请先停止该智能体，或等待其完成任务后再删除。
-停止命令：...
+```yaml
+事件: agent:shutdown
+数据: { "agentId": "<agent_id>" }
+效果: 中止所有活跃会话 → 停止调度任务 → 状态转为 offline
 ```
 
-## 错误处理
+> Agent 无法直接发送 Socket.IO 事件。如果目标智能体处于活跃状态，应提示用户在 UI 中手动停止，或等待其完成当前任务后再删除。
+
+### API 错误码
 
 | 错误码 | 场景 | 处理方式 |
 |--------|------|---------|
 | 400 | Agent ID 格式无效 | 提示用户检查智能体名称 |
 | 404 | 智能体不存在 | 告知用户智能体已被删除或 ID 错误 |
-| 409 | 智能体处于活跃状态 | 提示先停止智能体或等待任务完成 |
-| 500 | 服务器内部错误 | 记录错误，提示用户稍后再试 |
+| 409 | 智能体处于活跃状态（API 返回 `Cannot delete agent "xxx": currently online`） | 提示用户先在 UI 中停止智能体 |
+| 500 | 服务器内部错误 | 提示用户稍后再试 |
 
 ## 删除范围说明
 
-### 始终删除的数据
-
-以下数据无论 `deleteRuns` 参数如何都会被删除：
-
-1. **AgentFS 目录**：`~/.desirecore/agents/{agentId}/`
-   - agent.json（入口配置）
-   - persona.md（人格定义）
-   - principles.md（行为原则）
-   - skills/（技能目录）
-   - tools/（工具目录）
-   - memory/（记忆目录）
-   - heartbeat/（心跳配置）
-
-2. **用户偏好数据**：`~/.desirecore/users/{userId}/agents/{agentId}/`
-   - 工作目录配置
-   - 用户特定设置
-
-3. **内存状态**
-   - 调度定时器（全部停止）
-   - 队列中的请求（全部取消）
-   - 消息订阅（全部取消）
-   - MCP 连接（全部关闭）
-
-4. **注册表条目**：从 AgentRegistry 中注销
-
-### 可选删除的数据
-
-仅当 `deleteRuns=true` 时删除：
-
-- **会话历史**：`~/.desirecore/runs/` 中该智能体的所有记录
-- **话题索引**：相关话题的索引和元数据
-
-### 保留的数据
-
-以下数据不会被删除：
-
-- 其他智能体的数据
-- 用户配置文件
-- 全局设置
-- 市场缓存数据
+| 类别 | 删除内容 | 条件 |
+|------|---------|------|
+| **始终删除** | AgentFS 目录（配置、人格、规则、技能、工具、记忆）、用户偏好数据、内存状态（调度器、队列、消息订阅、MCP 连接）、注册表条目 | 无条件 |
+| **可选删除** | 会话历史、话题索引 | `deleteRuns=true` |
+| **保留不删** | 其他智能体数据、用户配置、全局设置、市场缓存 | — |
 
 ## 权限要求
 

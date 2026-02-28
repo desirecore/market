@@ -3,7 +3,7 @@ name: 更新智能体
 description: >-
   安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent
   行为、安装/卸载技能、调整配置、回滚变更或修订规则。
-version: 2.3.0
+version: 2.4.0
 type: meta
 risk_level: low
 status: enabled
@@ -174,37 +174,23 @@ diff_metadata:
 
 ### 阶段 5：变更应用
 
-**应用步骤**：
+通过 HTTP API 完成变更，**不要直接操作 Git**（版本管理由后端自动处理）。
 
-1. **备份当前版本**：
-```bash
-git stash push -m "backup before update-agent"
+**Persona / Principles 更新**：
+
+```
+1. GET /api/agents/:id/persona      → 获取当前数据
+2. 修改目标字段
+3. PUT /api/agents/:id/persona      → 写回，返回 diff
 ```
 
-2. **应用变更**：
-```bash
-# 写入修改后的文件
+**其他文件更新**：
+
+```
+PUT /api/agents/:id/files/<path>    → 更新指定文件内容
 ```
 
-3. **Git 提交**：
-```bash
-git add <affected_files>
-git commit -m "refactor(persona): 调整沟通风格为专业严谨
-
-- 修改 persona.md 中的沟通风格描述
-- 从'友好随和'调整为'专业严谨'
-
-Updated by: update-agent skill
-Risk level: medium
-User confirmed: true
-"
-```
-
-4. **验证变更**：
-```bash
-# 检查文件语法
-# 验证配置完整性
-```
+**验证变更**：调用对应的 GET 端点确认写入成功。
 
 ### 阶段 6：回执生成
 
@@ -218,59 +204,18 @@ User confirmed: true
 
 ### 特殊操作：版本回滚
 
-**触发条件**：
-- 用户说"撤销刚才的修改"
-- 用户说"回滚到之前的版本"
-- 用户说"恢复原来的设置"
+**触发条件**：用户说"撤销刚才的修改"、"回滚到之前的版本"、"恢复原来的设置"
 
 **回滚流程**：
 
-1. **列出可回滚版本**：
-```
-可回滚的版本
+1. 通过 `GET /api/agents/:id/persona` 或 `GET /api/agents/:id/principles` 获取当前数据
+2. 列出可回滚版本供用户选择（版本信息来自后端 Git 历史）
+3. 用户确认后，通过 PUT 端点写入目标版本的数据
+4. 展示变更 diff，确认回滚成功
 
-1. [2小时前] 调整沟通风格为专业严谨
-2. [1天前] 添加合同审查技能
-3. [3天前] 初始化仓库
+### 背景知识
 
-请选择要回滚到的版本：
-```
-
-2. **确认回滚**：
-```
-回滚确认
-
-将回滚到版本 #2（1天前）
-以下变更将被撤销：
-- 沟通风格调整
-
-确认回滚？ [确认] [取消]
-```
-
-3. **执行回滚**：
-```bash
-git revert <commit_hash> --no-edit
-# 或
-git reset --soft <commit_hash>
-```
-
-### 背景知识：AgentFS 仓库结构
-
-> 以下信息仅供 Agent 内部理解，**不要向用户展示**。
-> 用于定位修改目标、排查问题、以及精细化维护。
-
-Agent 仓库遵循 AgentFS v2 扁平结构：
-
-```
-<agent_id>/
-├── agent.json        # 元数据与运行时配置
-├── persona.md        # 人格定义（L0/L1/L2）
-├── principles.md     # 行为原则（L0/L1/L2）
-├── memory/           # 记忆目录
-├── skills/           # 技能目录
-├── tools/            # 工具目录
-└── heartbeat/        # 心跳配置
-```
+> AgentFS 仓库结构与受保护路径详见 `_agentfs-background.md` 和 `_protected-paths.yaml`。
 
 **更新操作对照表**：
 
@@ -283,19 +228,13 @@ Agent 仓库遵循 AgentFS v2 扁平结构：
 | 添加记忆 | `memory/` | `PUT /api/agents/:id/files/*` |
 | 修改运行时配置 | `agent.json` | `PUT /api/agents/:id/files/agent.json` |
 
-**受保护路径**（不可自动修改）：
-- `persona.md` L0 section — 核心身份
-- `principles.md` "绝不做" section — 安全红线
-- `agent.json` access_control / privacy — 需 owner 确认
-- `tools/` permissions / credentials — 需 owner 确认
-
 ### 错误处理
 
 | 错误场景 | 处理方式 |
 |---------|---------|
 | 尝试修改受保护路径 | 阻断操作，提示需要 owner 权限 |
-| Diff 应用冲突 | 展示冲突内容，请用户手动解决 |
-| Git 操作失败 | 保留修改文件，提示用户手动提交 |
+| API 返回 404 | Agent 或目标文件不存在，提示用户检查 |
+| API 返回 400 | 请求体格式错误，检查字段内容 |
 | 回滚版本不存在 | 列出可用版本，请用户重新选择 |
 
 ### API 端点
@@ -325,7 +264,30 @@ API 基础地址已注入到 system prompt 的「本机 API」小节，使用 `B
 
 ---
 
-## 附录：Principles 更新示例
+## 附录：更新示例
+
+### Persona 修改示例
+
+**用户输入**："说话再正式一点，不要太随意"
+
+**操作流程**：
+
+```
+1. GET /api/agents/legal-assistant/persona
+   → 返回: { "L0": "...", "L1": { "role": "...", "personality": ["友好", "随和"], "communication_style": "轻松幽默" } }
+
+2. 修改目标字段:
+   - personality: ["友好", "随和"] → ["专业", "严谨"]
+   - communication_style: "轻松幽默" → "正式、准确、适度幽默"
+
+3. PUT /api/agents/legal-assistant/persona
+   请求体: { "L1": { "personality": ["专业", "严谨"], "communication_style": "正式、准确、适度幽默" } }
+   → 返回: { "success": true, "diff": "..." }
+```
+
+---
+
+### Principles 更新示例
 
 ### 添加新规则
 

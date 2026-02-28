@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.4.0] - 2026-02-28
+
+- 阶段 5"变更应用"统一为 HTTP API 调用，移除所有 Git 操作示例
+- AgentFS 背景知识提取到共享文件 `_agentfs-background.md`，消除重复
+- 受保护路径统一引用 `_protected-paths.yaml`
+- 新增 Persona 修改示例（GET → 修改字段 → PUT 流程）
+- 精简版本回滚流程，移除 Git 命令示例
+- 错误处理移除 Git 相关条目，改为 API 错误码
+
 ## [2.2.0] - 2026-02-27
 
 - 新增结构化 persona/principles API 端点（GET/PUT）说明

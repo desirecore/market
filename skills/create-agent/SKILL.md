@@ -3,7 +3,7 @@ name: 创建智能体
 description: >-
   通过多轮对话收集需求，调用 HTTP API 创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when
   用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
-version: 2.3.0
+version: 2.4.0
 type: meta
 risk_level: low
 status: enabled
@@ -176,6 +176,15 @@ create-agent 是一个**元技能（Meta-Skill）**，赋予 DesireCore 创建�
 >
 > 确认创建？（确认 / 修改 / 取消）
 
+**"修改"分支处理**：
+
+用户选择"修改"时：
+1. 询问用户要修改哪个字段（如"想修改哪一项？"）
+2. 用户指出要修改的字段（如"性格特征改成更活泼的"）
+3. Agent 重新收集该字段内容
+4. 更新预览中的对应字段
+5. 再次展示完整预览 → 重新进入确认流程
+
 ### 阶段 5：调用 API 创建
 
 **API 端点**：`POST /api/agents`
@@ -225,11 +234,20 @@ create-agent 是一个**元技能（Meta-Skill）**，赋予 DesireCore 创建�
 
 ```json
 {
-  "agentId": "fa-lv-gu-wen-xiao-zhu-shou"
+  "success": true,
+  "agentId": "fa-lv-gu-wen-xiao-zhu-shou",
+  "agent": {
+    "id": "fa-lv-gu-wen-xiao-zhu-shou",
+    "name": "法律顾问小助手",
+    "description": "专注于合同审查和法律风险评估的数字智能体",
+    "skillsCount": 0,
+    "toolsCount": 0,
+    "status": "offline"
+  }
 }
 ```
 
-**验证创建结果**：创建成功后可调用 `GET /api/agents/{agentId}` 确认（agentId 为 slug）。
+响应中的 `agent` 字段包含创建后的智能体完整信息，可直接用于回执展示。
 
 ### 阶段 6：回执生成
 
@@ -244,36 +262,9 @@ create-agent 是一个**元技能（Meta-Skill）**，赋予 DesireCore 创建�
 > - 为它添加技能，让它更强大
 > - 调整它的性格或行为规则
 
-### 背景知识：AgentFS 仓库结构
+### 背景知识
 
-> 以下信息仅供 Agent 内部理解，**不要向用户展示**。
-> 用于创建后的验证、排查问题、以及后续精细化维护。
-
-创建后的 Agent 仓库遵循 AgentFS v2 扁平结构：
-
-```
-<agent_id>/
-├── agent.json        # 元数据与运行时配置
-├── persona.md        # 人格定义（L0/L1/L2）
-├── principles.md     # 行为原则（L0/L1/L2）
-├── memory/           # 记忆目录
-├── skills/           # 技能目录
-├── tools/            # 工具目录
-└── heartbeat/        # 心跳配置
-```
-
-**排查要点**：
-
-| 文件 | 验证方式 | 常见问题 |
-|------|---------|---------|
-| `agent.json` | `GET /api/agents/:id` 返回完整配置 | engine 字段缺失导致无法启动 |
-| `persona.md` | `GET /api/agents/:id/persona` 返回结构化数据 | L0 为空则 Agent 无身份摘要 |
-| `principles.md` | `GET /api/agents/:id/principles` 返回结构化数据 | must_not 为空则无安全红线 |
-| `memory/` | 目录存在即可 | `_policy.json` 缺失会使用默认策略 |
-
-**受保护路径**（不可自动修改）：
-- `persona.md` L0 section — 核心身份
-- `principles.md` "绝不做" section — 安全红线
+> AgentFS 仓库结构、排查要点与受保护路径详见 `_agentfs-background.md` 和 `_protected-paths.yaml`。
 
 ### 错误处理
 
