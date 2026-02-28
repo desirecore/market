@@ -7,7 +7,6 @@ status: enabled
 disable-model-invocation: true
 metadata:
   author: desirecore
-  version: 2.2.0
   updated_at: '2026-02-28'
 version: 2.2.0
 tags:

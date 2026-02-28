@@ -14,8 +14,7 @@ tags:
   - meta
 metadata:
   author: desirecore
-  version: 2.2.0
-  updated_at: '2026-02-27'
+  updated_at: '2026-02-28'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
