@@ -3,7 +3,7 @@ name: 创建智能体
 description: >-
   通过多轮对话收集需求，调用 HTTP API 创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when
   用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
-version: 2.2.0
+version: 2.3.0
 type: meta
 risk_level: low
 status: enabled
