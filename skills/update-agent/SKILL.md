@@ -1,5 +1,5 @@
 ---
-name: update-agent
+name: 更新智能体
 description: >-
   安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent
   行为、安装/卸载技能、调整配置、回滚变更或修订规则。
@@ -209,31 +209,13 @@ User confirmed: true
 
 ### 阶段 6：回执生成
 
-**回执内容**：
+创建成功后，以用户友好的方式呈现回执（不要暴露内部路径或技术细节）：
 
-```yaml
-# ~/.desirecore/runs/<run_id>/receipts/update-<timestamp>.yaml
-receipt:
-  type: agent-update
-  timestamp: "2024-01-15T10:30:00Z"
-
-  request:
-    user_intent: "说话正式一点"
-    update_type: persona
-    target_files:
-      - persona.md
-
-  changes:
-    files_modified: 1
-    diff_summary: "沟通风格从'友好随和'改为'专业严谨'"
-    git_commit: "def456..."
-    previous_commit: "abc123..."
-
-  metadata:
-    risk_level: medium
-    user_confirmed: true
-    rollback_available: true
-```
+> 已更新「法律顾问小助手」的沟通风格。
+>
+> **变更摘要**：沟通风格从"友好随和"调整为"专业严谨"
+>
+> 如果不满意，可以随时说"撤销刚才的修改"来回滚。
 
 ### 特殊操作：版本回滚
 
@@ -273,15 +255,40 @@ git revert <commit_hash> --no-edit
 git reset --soft <commit_hash>
 ```
 
-### 受保护路径
+### 背景知识：AgentFS 仓库结构
 
-变更应用前**必须**检查是否触及受保护路径。完整定义见共享配置文件 [`_protected-paths.yaml`](../_protected-paths.yaml)。
+> 以下信息仅供 Agent 内部理解，**不要向用户展示**。
+> 用于定位修改目标、排查问题、以及精细化维护。
 
-**关键规则摘要**：
-- `persona.md` L0 section → **block**（核心身份不可自动修改）
-- `principles.md` "绝不做" section → **block**（安全红线不可自动修改）
-- `agent.json` access_control / privacy → **owner_only**（需 owner 确认）
-- `tools/` permissions / credentials → **owner_only / block**
+Agent 仓库遵循 AgentFS v2 扁平结构：
+
+```
+<agent_id>/
+├── agent.json        # 元数据与运行时配置
+├── persona.md        # 人格定义（L0/L1/L2）
+├── principles.md     # 行为原则（L0/L1/L2）
+├── memory/           # 记忆目录
+├── skills/           # 技能目录
+├── tools/            # 工具目录
+└── heartbeat/        # 心跳配置
+```
+
+**更新操作对照表**：
+
+| 用户意图 | 目标文件 | 推荐 API |
+|---------|---------|---------|
+| 修改性格/风格 | `persona.md` | `PUT /api/agents/:id/persona` |
+| 修改行为规则 | `principles.md` | `PUT /api/agents/:id/principles` |
+| 安装/卸载技能 | `skills/` | `PUT /api/agents/:id/files/*` |
+| 修改工具配置 | `tools/` | `PUT /api/agents/:id/files/*` |
+| 添加记忆 | `memory/` | `PUT /api/agents/:id/files/*` |
+| 修改运行时配置 | `agent.json` | `PUT /api/agents/:id/files/agent.json` |
+
+**受保护路径**（不可自动修改）：
+- `persona.md` L0 section — 核心身份
+- `principles.md` "绝不做" section — 安全红线
+- `agent.json` access_control / privacy — 需 owner 确认
+- `tools/` permissions / credentials — 需 owner 确认
 
 ### 错误处理
 

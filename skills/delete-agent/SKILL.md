@@ -1,5 +1,5 @@
 ---
-name: delete-agent
+name: 删除智能体
 description: 安全删除指定的智能体及其关联数据。删除前会验证智能体状态，支持可选地删除所有会话历史。Use when 用户需要删除不再使用的智能体。
 type: meta
 risk_level: high

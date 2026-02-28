@@ -1,5 +1,5 @@
 ---
-name: discover-agent
+name: 发现智能体
 description: 根据用户需求推荐最匹配的智能体，展示候选列表并引导选择。Use when 用户描述需求但不确定该找哪个智能体帮忙，或想浏览可用的智能体。
 version: 2.1.0
 type: procedural
