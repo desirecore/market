@@ -7,9 +7,9 @@ status: enabled
 disable-model-invocation: true
 metadata:
   author: desirecore
-  version: 2.1.0
-  updated_at: '2026-02-26'
-version: 2.1.0
+  version: 2.2.0
+  updated_at: '2026-02-28'
+version: 2.2.0
 tags:
   - 智能体
   - 删除

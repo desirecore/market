@@ -1,7 +1,7 @@
 ---
 name: 发现智能体
 description: 根据用户需求推荐最匹配的智能体，展示候选列表并引导选择。Use when 用户描述需求但不确定该找哪个智能体帮忙，或想浏览可用的智能体。
-version: 2.1.0
+version: 2.2.0
 type: procedural
 risk_level: low
 status: enabled
@@ -12,8 +12,8 @@ tags:
   - recommendation
 metadata:
   author: desirecore
-  version: 2.1.0
-  updated_at: '2026-02-26'
+  version: 2.2.0
+  updated_at: '2026-02-28'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
