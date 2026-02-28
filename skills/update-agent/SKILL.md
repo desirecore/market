@@ -3,7 +3,7 @@ name: update-agent
 description: >-
   安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent
   行为、安装/卸载技能、调整配置、回滚变更或修订规则。
-version: 2.1.0
+version: 2.2.0
 type: meta
 risk_level: high
 status: enabled
@@ -14,8 +14,8 @@ tags:
   - meta
 metadata:
   author: desirecore
-  version: 2.1.0
-  updated_at: '2026-02-26'
+  version: 2.2.0
+  updated_at: '2026-02-27'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -294,9 +294,15 @@ git reset --soft <commit_hash>
 
 ### API 端点
 
-建议优先通过 HTTP API 完成操作，也可直接通过 Read/Write/Edit 工具编辑 AgentFS 文件：
+建议优先通过结构化 HTTP API 完成 persona/principles 更新：
 
-- `PUT /api/agents/:id/files/*` — 更新指定文件内容
+- `GET /api/agents/:id/persona` — 获取当前 persona 的结构化数据（PersonaInput）
+- `PUT /api/agents/:id/persona` — 更新 persona（接受 PersonaInput JSON）
+- `GET /api/agents/:id/principles` — 获取当前 principles 的结构化数据（PrinciplesInput）
+- `PUT /api/agents/:id/principles` — 更新 principles（接受 PrinciplesInput JSON）
+- `PUT /api/agents/:id/files/*` — 更新指定文件内容（原始文本，向后兼容）
+
+**结构化更新流程**：先通过 GET 获取当前数据，修改目标字段后通过 PUT 写回。
 
 API 基础地址已注入到 system prompt 的「本机 API」小节，使用 `Bash` 工具调用 curl 访问即可。
 
