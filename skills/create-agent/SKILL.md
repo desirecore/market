@@ -5,7 +5,7 @@ description: >-
   用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
 version: 2.2.0
 type: meta
-risk_level: medium
+risk_level: low
 status: enabled
 disable-model-invocation: true
 tags:

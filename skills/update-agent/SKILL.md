@@ -5,7 +5,7 @@ description: >-
   行为、安装/卸载技能、调整配置、回滚变更或修订规则。
 version: 2.2.0
 type: meta
-risk_level: high
+risk_level: low
 status: enabled
 disable-model-invocation: true
 tags:
