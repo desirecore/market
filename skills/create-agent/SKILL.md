@@ -236,49 +236,14 @@ create-agent 是一个**元技能（Meta-Skill）**，赋予 DesireCore 创建�
 
 **回执报告**：
 
-创建成功后，以自然可读格式呈现回执：
+创建成功后，以用户友好的方式呈现回执（不要暴露内部路径或技术细节）：
 
-> 智能体 "法律顾问小助手" 创建成功
+> 智能体「法律顾问小助手」已创建成功！
 >
-> **详情**：
-> - **Agent Slug**: fa-lv-gu-wen-xiao-zhu-shou
-> - **仓库路径**: ~/.desirecore/agents/fa-lv-gu-wen-xiao-zhu-shou
-> - **已生成文件**: agent.json, persona.md, principles.md
-> - **AgentFS 规范**: v2（扁平结构）
->
-> **下一步建议**：
-> - 为它添加技能（通过 update-agent 技能）
+> **下一步你可以**：
 > - 直接开始对话
-
-### AgentFS 知识（创建后的仓库结构）
-
-DesireCore 应理解创建后的 Agent 仓库遵循 AgentFS v2 扁平结构：
-
-```
-<agent_id>/
-├── agent.json          # 入口配置（name, version, description, engine, skills, tools, mcp_servers）
-├── persona.md          # 人格定义（L0 核心身份 / L1 行为风格 / L2 深层动机）
-├── principles.md       # 行为原则（L0 基础约束 / L1 行为边界 / L2 治理原则）
-├── memory/             # 记忆目录（timeline/topics/pinned/product/lessons）
-│   └── _index.md
-├── skills/             # 技能目录
-│   └── _index.md
-├── tools/              # 工具目录
-│   └── _index.md
-└── heartbeat/          # 心跳配置
-    └── HEARTBEAT.md
-```
-
-**关键文件职责**：
-
-| 文件 | 职责 | AI Agent 关注点 |
-|------|------|----------------|
-| `agent.json` | Agent 元数据与运行时配置 | engine 字段决定使用哪个推理引擎 |
-| `persona.md` | 人格与沟通风格定义 | L0 不可自动修改（受保护路径） |
-| `principles.md` | 行为规则与安全红线 | "绝不做" section 不可自动修改 |
-| `memory/` | 对话记忆、知识积累 | 随交互自动积累 |
-| `skills/` | Agent 拥有的技能 | 可通过 update-agent 添加 |
-| `tools/` | Agent 可用的工具 | MCP Server、脚本工具等 |
+> - 为它添加技能，让它更强大
+> - 调整它的性格或行为规则
 
 ### 错误处理
 
