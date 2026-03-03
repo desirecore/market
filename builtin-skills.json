@@ -3,6 +3,7 @@
     "create-agent",
     "delete-agent",
     "discover-agent",
+    "manage-skills",
     "update-agent"
   ]
 }
