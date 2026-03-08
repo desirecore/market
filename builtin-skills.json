@@ -4,6 +4,7 @@
     "delete-agent",
     "discover-agent",
     "manage-skills",
+    "s3-storage-operations",
     "update-agent"
   ]
 }
