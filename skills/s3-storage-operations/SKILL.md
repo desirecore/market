@@ -6,8 +6,8 @@ status: enabled
 disable-model-invocation: true
 metadata:
   author: desirecore
-  version: "2.0.0"
-  updated_at: "2026-02-22"
+  version: "2.0.1"
+  updated_at: "2026-03-11"
 ---
 
 # s3-storage-operations 技能
