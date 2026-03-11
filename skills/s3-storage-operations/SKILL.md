@@ -1,7 +1,6 @@
 ---
 name: s3-storage-operations
 description: 操作 S3 兼容对象存储（上传、下载、列举、删除），通过 DesireCore HTTP API 调用。Use when 用户要求上传/下载/分享文件、需要生成下载链接、或工作流产出文件需要持久化存储与分发。
-type: tool
 risk_level: medium
 status: enabled
 disable-model-invocation: true
