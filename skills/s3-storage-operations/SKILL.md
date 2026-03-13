@@ -1,13 +1,46 @@
 ---
 name: 对象存储操作
 description: 操作 S3 兼容对象存储（上传、下载、列举、删除），通过 DesireCore HTTP API 调用。Use when 用户要求上传/下载/分享文件、需要生成下载链接、或工作流产出文件需要持久化存储与分发。
+version: 2.0.1
+type: procedural
 risk_level: medium
 status: enabled
 disable-model-invocation: true
+tags:
+  - storage
+  - s3
+  - upload
+  - download
+  - sharing
 metadata:
   author: desirecore
   version: "2.0.1"
-  updated_at: "2026-03-11"
+  updated_at: "2026-03-13"
+market:
+  icon: >-
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
+    24 24" fill="none"><defs><linearGradient id="s3so-a" x1="4" y1="3" x2="20"
+    y2="21" gradientUnits="userSpaceOnUse"><stop stop-color="#5AC8FA"/><stop
+    offset="1" stop-color="#AF52DE"/></linearGradient></defs><ellipse cx="11"
+    cy="5" rx="7" ry="2.75" fill="url(#s3so-a)" fill-opacity="0.14"
+    stroke="url(#s3so-a)" stroke-width="1.5"/><path d="M4 5v5.5c0 1.52 3.13
+    2.75 7 2.75s7-1.23 7-2.75V5" fill="url(#s3so-a)" fill-opacity="0.08"
+    stroke="url(#s3so-a)" stroke-width="1.5"/><path d="M4 10.5V16c0 1.52 3.13
+    2.75 7 2.75s7-1.23 7-2.75v-5.5" fill="url(#s3so-a)" fill-opacity="0.08"
+    stroke="url(#s3so-a)" stroke-width="1.5"/><rect x="15.5" y="8.5" width="5"
+    height="5" rx="1.4" fill="#34C759" fill-opacity="0.15" stroke="#34C759"
+    stroke-width="1.4"/><path d="M18 7v10" stroke="#34C759" stroke-width="1.8"
+    stroke-linecap="round"/><path d="M16.5 8.5 18 7l1.5 1.5" stroke="#34C759"
+    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path
+    d="M16.5 15.5 18 17l1.5-1.5" stroke="#34C759" stroke-width="1.8"
+    stroke-linecap="round" stroke-linejoin="round"/></svg>
+  short_desc: 通过 DesireCore HTTP API 操作 S3 兼容对象存储，支持上传、下载、列举、删除与分享链接
+  category: data
+  maintainer:
+    name: DesireCore Official
+    verified: true
+  compatible_agents: []
+  channel: latest
 ---
 
 # s3-storage-operations 技能
