@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.0.0] - 2026-03-17
+
+- **Breaking**：从 HTTP API 迁移到 AgentFS 直接文件操作
+- 移除所有 HTTP API 端点引用（PUT persona/principles/files）
+- 变更应用改为直接读写 `~/.desirecore/agents/<agentId>/` 下的文件
+- 回滚流程改用 git log/show 命令查看历史版本
+- 错误处理改为文件系统错误（文件不存在、权限不足等）
+
 ## [2.4.0] - 2026-02-28
 
 - 阶段 5"变更应用"统一为 HTTP API 调用，移除所有 Git 操作示例

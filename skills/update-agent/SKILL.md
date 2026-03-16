@@ -3,7 +3,7 @@ name: 更新智能体
 description: >-
   安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent
   行为、安装/卸载技能、调整配置、回滚变更或修订规则。
-version: 2.4.0
+version: 3.0.0
 type: meta
 risk_level: low
 status: enabled
@@ -14,7 +14,7 @@ tags:
   - meta
 metadata:
   author: desirecore
-  updated_at: '2026-02-28'
+  updated_at: '2026-03-17'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -174,23 +174,15 @@ diff_metadata:
 
 ### 阶段 5：变更应用
 
-通过 HTTP API 完成变更，**不要直接操作 Git**（版本管理由后端自动处理）。
+通过 AgentFS 直接读写文件完成变更。**不要调用 HTTP API，不要直接操作 Git**（版本管理由后端自动处理）。
 
-**Persona / Principles 更新**：
+**AgentFS 根目录**：`~/.desirecore/agents/<agentId>/`
 
-```
-1. GET /api/agents/:id/persona      → 获取当前数据
-2. 修改目标字段
-3. PUT /api/agents/:id/persona      → 写回，返回 diff
-```
+**读取文件**：使用 `cat` 命令读取目标文件当前内容。
 
-**其他文件更新**：
+**写入文件**：使用文本编辑工具直接写入目标文件。写入后重新读取文件确认内容正确。
 
-```
-PUT /api/agents/:id/files/<path>    → 更新指定文件内容
-```
-
-**验证变更**：调用对应的 GET 端点确认写入成功。
+**注意**：直接写入文件后，后端文件监控会自动检测变更并触发 Git 提交，无需手动执行 git 命令。
 
 ### 阶段 6：回执生成
 
@@ -208,10 +200,19 @@ PUT /api/agents/:id/files/<path>    → 更新指定文件内容
 
 **回滚流程**：
 
-1. 通过 `GET /api/agents/:id/persona` 或 `GET /api/agents/:id/principles` 获取当前数据
-2. 列出可回滚版本供用户选择（版本信息来自后端 Git 历史）
-3. 用户确认后，通过 PUT 端点写入目标版本的数据
+1. 在 Agent 目录下执行 `git log --oneline -10` 查看最近的版本历史
+2. 使用 `git show <commit>:<file>` 获取目标版本的文件内容，展示给用户确认
+3. 用户确认后，将目标版本内容写入对应文件
 4. 展示变更 diff，确认回滚成功
+
+```bash
+# 查看版本历史
+cd ~/.desirecore/agents/<agentId>
+git log --oneline -10
+
+# 查看某个版本的文件内容
+git show <commit>:persona.md
+```
 
 ### 背景知识
 
@@ -219,37 +220,23 @@ PUT /api/agents/:id/files/<path>    → 更新指定文件内容
 
 **更新操作对照表**：
 
-| 用户意图 | 目标文件 | 推荐 API |
-|---------|---------|---------|
-| 修改性格/风格 | `persona.md` | `PUT /api/agents/:id/persona` |
-| 修改行为规则 | `principles.md` | `PUT /api/agents/:id/principles` |
-| 安装/卸载技能 | `skills/` | `PUT /api/agents/:id/files/*` |
-| 修改工具配置 | `tools/` | `PUT /api/agents/:id/files/*` |
-| 添加记忆 | `memory/` | `PUT /api/agents/:id/files/*` |
-| 修改运行时配置 | `agent.json` | `PUT /api/agents/:id/files/agent.json` |
+| 用户意图 | 目标文件 | AgentFS 路径 |
+|---------|---------|-------------|
+| 修改性格/风格 | `persona.md` | `~/.desirecore/agents/<agentId>/persona.md` |
+| 修改行为规则 | `principles.md` | `~/.desirecore/agents/<agentId>/principles.md` |
+| 安装/卸载技能 | `skills/` | `~/.desirecore/agents/<agentId>/skills/` |
+| 修改工具配置 | `tools/` | `~/.desirecore/agents/<agentId>/tools/` |
+| 添加记忆 | `memory/` | `~/.desirecore/agents/<agentId>/memory/` |
+| 修改运行时配置 | `agent.json` | `~/.desirecore/agents/<agentId>/agent.json` |
 
 ### 错误处理
 
 | 错误场景 | 处理方式 |
 |---------|---------|
 | 尝试修改受保护路径 | 阻断操作，提示需要 owner 权限 |
-| API 返回 404 | Agent 或目标文件不存在，提示用户检查 |
-| API 返回 400 | 请求体格式错误，检查字段内容 |
+| 文件不存在 | Agent 或目标文件不存在，提示用户检查 |
+| 权限不足 | 文件系统权限错误，提示用户检查目录权限 |
 | 回滚版本不存在 | 列出可用版本，请用户重新选择 |
-
-### API 端点
-
-建议优先通过结构化 HTTP API 完成 persona/principles 更新：
-
-- `GET /api/agents/:id/persona` — 获取当前 persona 的结构化数据（PersonaInput）
-- `PUT /api/agents/:id/persona` — 更新 persona（接受 PersonaInput JSON）
-- `GET /api/agents/:id/principles` — 获取当前 principles 的结构化数据（PrinciplesInput）
-- `PUT /api/agents/:id/principles` — 更新 principles（接受 PrinciplesInput JSON）
-- `PUT /api/agents/:id/files/*` — 更新指定文件内容（原始文本，向后兼容）
-
-**结构化更新流程**：先通过 GET 获取当前数据，修改目标字段后通过 PUT 写回。
-
-API 基础地址已注入到 system prompt 的「本机 API」小节，使用 `Bash` 工具调用 curl 访问即可。
 
 ### 权限要求
 
@@ -272,17 +259,28 @@ API 基础地址已注入到 system prompt 的「本机 API」小节，使用 `B
 
 **操作流程**：
 
-```
-1. GET /api/agents/legal-assistant/persona
-   → 返回: { "L0": "...", "L1": { "role": "...", "personality": ["友好", "随和"], "communication_style": "轻松幽默" } }
+```bash
+# 1. 读取当前 persona.md
+cat ~/.desirecore/agents/legal-assistant/persona.md
 
-2. 修改目标字段:
-   - personality: ["友好", "随和"] → ["专业", "严谨"]
-   - communication_style: "轻松幽默" → "正式、准确、适度幽默"
+# 输出示例:
+# # 法律顾问小助手
+# ## L0
+# 专业的法律咨询助手
+# ## L1
+# ### Role
+# 法律顾问
+# ### Personality
+# 友好、随和
+# ### Communication Style
+# 轻松幽默
 
-3. PUT /api/agents/legal-assistant/persona
-   请求体: { "L1": { "personality": ["专业", "严谨"], "communication_style": "正式、准确、适度幽默" } }
-   → 返回: { "success": true, "diff": "..." }
+# 2. 分析需要修改的部分，生成 diff 展示给用户确认
+
+# 3. 用户确认后，直接编辑文件，将 Personality 和 Communication Style 修改为目标值
+
+# 4. 验证写入结果
+cat ~/.desirecore/agents/legal-assistant/persona.md
 ```
 
 ---
