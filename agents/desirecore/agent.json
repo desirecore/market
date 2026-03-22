@@ -2,7 +2,7 @@
   "id": "desirecore",
   "name": "DesireCore",
   "avatar": {
-    "t": "核",
+    "t": "D",
     "bg": "linear-gradient(135deg, #007AFF, #005ECB)"
   },
   "shortDesc": "系统中枢调度器，负责任务分发、Agent 编排与全局状态监控",
