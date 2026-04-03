@@ -6,6 +6,7 @@
     "manage-skills",
     "manage-teams",
     "s3-storage-operations",
+    "skill-creator",
     "update-agent"
   ]
 }
