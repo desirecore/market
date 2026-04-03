@@ -369,6 +369,11 @@ scripts/package_skill.py <path/to/skill-folder>
 
 生成 `skill-name.skill` 文件（ZIP 格式），可在 Claude Code 中使用。
 
+**安装完成后，必须向用户报告**：
+- 技能已安装到的完整路径
+- 安装的作用域（Global / Agent / Project）
+- 如何在后续对话中触发该技能
+
 #### 步骤 7：迭代
 
 1. 在真实任务中使用技能
