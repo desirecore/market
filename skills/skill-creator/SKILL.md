@@ -9,7 +9,7 @@ version: 1.0.0
 type: meta
 risk_level: low
 status: enabled
-disable-model-invocation: true
+disable-model-invocation: false
 tags:
   - skill
   - creation
