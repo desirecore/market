@@ -3,10 +3,14 @@
     "create-agent",
     "delete-agent",
     "discover-agent",
+    "docx",
     "manage-skills",
     "manage-teams",
+    "pdf",
+    "pptx",
     "s3-storage-operations",
     "skill-creator",
-    "update-agent"
+    "update-agent",
+    "xlsx"
   ]
 }
