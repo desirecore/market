@@ -37,6 +37,10 @@ market:
 
 # DOCX creation, editing, and analysis
 
+## Output Rule
+
+When you create or modify a .docx file, you **MUST** tell the user the absolute path of the output file in your response. Example: "文件已保存到：`/path/to/output.docx`"
+
 ## Overview
 
 A .docx file is a ZIP archive containing XML files.

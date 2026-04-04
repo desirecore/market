@@ -33,6 +33,10 @@ market:
 
 # PDF Processing Guide
 
+## Output Rule
+
+When you create or modify a .pdf file, you **MUST** tell the user the absolute path of the output file in your response. Example: "文件已保存到：`/path/to/output.pdf`"
+
 ## Overview
 
 This guide covers essential PDF processing operations using Python libraries and command-line tools. For advanced features, JavaScript libraries, and detailed examples, see REFERENCE.md. If you need to fill out a PDF form, read FORMS.md and follow its instructions.

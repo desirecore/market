@@ -37,6 +37,10 @@ market:
 
 # PPTX Skill
 
+## Output Rule
+
+When you create or modify a .pptx file, you **MUST** tell the user the absolute path of the output file in your response. Example: "文件已保存到：`/path/to/output.pptx`"
+
 ## Quick Reference
 
 | Task | Guide |
