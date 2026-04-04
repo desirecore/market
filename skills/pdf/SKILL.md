@@ -13,6 +13,7 @@ version: 1.0.0
 type: procedural
 risk_level: low
 status: enabled
+disable-model-invocation: false
 tags:
   - pdf
   - document
