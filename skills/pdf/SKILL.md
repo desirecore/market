@@ -6,7 +6,9 @@ description: >-
   multiple PDFs into one, splitting PDFs apart, rotating pages, adding
   watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs,
   extracting images, and OCR on scanned PDFs to make them searchable. If the
-  user mentions a .pdf file or asks to produce one, use this skill.
+  user mentions a .pdf file or asks to produce one, use this skill. Use when
+  用户提到 PDF、读取PDF、合并PDF、拆分PDF、填写表单、加水印、提取文字、
+  扫描识别。
 version: 1.0.0
 type: procedural
 risk_level: low

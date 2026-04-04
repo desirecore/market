@@ -10,7 +10,8 @@ description: >-
   Trigger whenever the user mentions "deck," "slides," "presentation," or
   references a .pptx filename, regardless of what they plan to do with the
   content afterward. If a .pptx file needs to be opened, created, or touched,
-  use this skill.
+  use this skill. Use when 用户提到 PPT、演示文稿、幻灯片、演讲稿、汇报材料、
+  pptx、创建演示、编辑幻灯片。
 version: 1.0.0
 type: procedural
 risk_level: low

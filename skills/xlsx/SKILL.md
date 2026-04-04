@@ -13,7 +13,8 @@ description: >-
   junk data) into proper spreadsheets. The deliverable must be a spreadsheet
   file. Do NOT trigger when the primary deliverable is a Word document, HTML
   report, standalone Python script, database pipeline, or Google Sheets API
-  integration, even if tabular data is involved.
+  integration, even if tabular data is involved. Use when 用户提到 Excel、
+  电子表格、xlsx、表格处理、公式计算、数据清洗、图表、CSV导入导出。
 version: 1.0.0
 type: procedural
 risk_level: low

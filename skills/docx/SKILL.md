@@ -11,7 +11,8 @@ description: >-
   Word document. If the user asks for a "report", "memo", "letter", "template",
   or similar deliverable as a Word or .docx file, use this skill. Do NOT use for
   PDFs, spreadsheets, Google Docs, or general coding tasks unrelated to document
-  generation.
+  generation. Use when 用户提到 Word文档、docx、创建文档、编辑文档、报告、
+  备忘录、公文、合同、信函模板。
 version: 1.0.0
 type: procedural
 risk_level: low
