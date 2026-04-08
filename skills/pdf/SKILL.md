@@ -45,6 +45,42 @@ market:
 
 # PDF Processing Guide
 
+## Prerequisites
+
+### Python 3（必需）
+
+在执行任何 Python 操作之前，先检测 Python 是否可用：
+
+```bash
+python3 --version 2>/dev/null || python --version 2>/dev/null
+```
+
+如果命令失败（Python 不可用），**必须停止并告知用户安装 Python 3**：
+
+- **macOS**: `brew install python3` 或从 https://www.python.org/downloads/ 下载
+- **Windows**: `winget install Python.Python.3` 或从 python.org 下载（安装时勾选 "Add Python to PATH"）
+- **Linux (Debian/Ubuntu)**: `sudo apt install python3 python3-pip`
+- **Linux (Fedora/RHEL)**: `sudo dnf install python3 python3-pip`
+
+如需更详细的环境配置帮助，加载 `environment-setup` 技能。
+
+### Python 包依赖
+
+本技能依赖以下 Python 包（按需检测）：
+
+- `pypdf` — PDF 基础操作（读取、合并、拆分、旋转）
+- `pdfplumber` — 表格提取、带布局的文本提取
+- `Pillow` — 图片处理（水印、验证图等）
+- `reportlab` — PDF 创建（可选，按需安装）
+- `pdf2image` — PDF 转图片（可选，需要 poppler）
+
+核心包检测：
+```bash
+python3 -c "import pypdf; import pdfplumber; import PIL" 2>/dev/null || echo "MISSING"
+```
+
+缺失时告知用户安装：`pip install pypdf pdfplumber Pillow`
+
 ## Output Rule
 
 When you create or modify a .pdf file, you **MUST** tell the user the absolute path of the output file in your response. Example: "文件已保存到：`/path/to/output.pdf`"

@@ -50,6 +50,41 @@ market:
 
 # PPTX Skill
 
+## Prerequisites
+
+### Python 3（必需 — 读取和编辑现有 PPTX 时需要）
+
+在执行任何 Python 脚本之前，先检测 Python 是否可用：
+
+```bash
+python3 --version 2>/dev/null || python --version 2>/dev/null
+```
+
+如果命令失败（Python 不可用），**必须停止并告知用户安装 Python 3**：
+
+- **macOS**: `brew install python3` 或从 https://www.python.org/downloads/ 下载
+- **Windows**: `winget install Python.Python.3` 或从 python.org 下载（安装时勾选 "Add Python to PATH"）
+- **Linux (Debian/Ubuntu)**: `sudo apt install python3 python3-pip`
+- **Linux (Fedora/RHEL)**: `sudo dnf install python3 python3-pip`
+
+注意：从零创建 PPTX 使用 pptxgenjs（Node.js），不需要 Python。
+
+如需更详细的环境配置帮助，加载 `environment-setup` 技能。
+
+### Python 包依赖
+
+本技能的 Python 操作依赖以下包（按需检测）：
+
+- `markitdown[pptx]` — PPTX 内容读取
+- `Pillow` — 缩略图生成
+
+检测方法：
+```bash
+python3 -c "import markitdown; import PIL" 2>/dev/null || echo "MISSING"
+```
+
+缺失时告知用户安装：`pip install "markitdown[pptx]" Pillow`
+
 ## Output Rule
 
 When you create or modify a .pptx file, you **MUST** tell the user the absolute path of the output file in your response. Example: "文件已保存到：`/path/to/output.pptx`"

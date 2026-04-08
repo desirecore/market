@@ -49,6 +49,39 @@ market:
 
 # DOCX creation, editing, and analysis
 
+## Prerequisites
+
+### Python 3（必需）
+
+在执行任何 Python 脚本之前，先检测 Python 是否可用：
+
+```bash
+python3 --version 2>/dev/null || python --version 2>/dev/null
+```
+
+如果命令失败（Python 不可用），**必须停止并告知用户安装 Python 3**：
+
+- **macOS**: `brew install python3` 或从 https://www.python.org/downloads/ 下载
+- **Windows**: `winget install Python.Python.3` 或从 python.org 下载（安装时勾选 "Add Python to PATH"）
+- **Linux (Debian/Ubuntu)**: `sudo apt install python3 python3-pip`
+- **Linux (Fedora/RHEL)**: `sudo dnf install python3 python3-pip`
+
+如需更详细的环境配置帮助，加载 `environment-setup` 技能。
+
+### Python 包依赖
+
+本技能的 Python 脚本依赖以下包（按需检测，仅在实际调用相关脚本时检查）：
+
+- `lxml` — XML schema 验证（validate.py）
+- `defusedxml` — 安全 XML 解析（unpack.py）
+
+检测方法：
+```bash
+python3 -c "import lxml; import defusedxml" 2>/dev/null || echo "MISSING"
+```
+
+缺失时告知用户安装：`pip install lxml defusedxml`
+
 ## Output Rule
 
 When you create or modify a .docx file, you **MUST** tell the user the absolute path of the output file in your response. Example: "文件已保存到：`/path/to/output.docx`"
