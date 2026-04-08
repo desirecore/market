@@ -31,6 +31,21 @@ metadata:
   author: desirecore
   updated_at: '2026-04-07'
 market:
+  icon: >-
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
+    24 24" fill="none"><defs><linearGradient id="wa-a" x1="2" y1="2" x2="20"
+    y2="20" gradientUnits="userSpaceOnUse"><stop stop-color="#007AFF"/><stop
+    offset="1" stop-color="#34C759"/></linearGradient></defs><circle cx="10"
+    cy="10" r="8" fill="url(#wa-a)" fill-opacity="0.1" stroke="url(#wa-a)"
+    stroke-width="1.5"/><ellipse cx="10" cy="10" rx="3.5" ry="8"
+    stroke="url(#wa-a)" stroke-width="1"
+    stroke-opacity="0.35"/><path d="M2 10h16" stroke="url(#wa-a)"
+    stroke-width="1" stroke-opacity="0.35"/><path d="M10 2v16"
+    stroke="url(#wa-a)" stroke-width="1"
+    stroke-opacity="0.35"/><circle cx="18.5" cy="18.5" r="2.5"
+    stroke="#34C759" stroke-width="1.5" fill="#34C759"
+    fill-opacity="0.12"/><path d="M20.5 20.5l2 2" stroke="#34C759"
+    stroke-width="1.8" stroke-linecap="round"/></svg>
   short_desc: 联网搜索、网页抓取、登录态浏览器访问（CDP）、研究调研工作流
   category: research
   maintainer:

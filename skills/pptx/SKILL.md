@@ -27,6 +27,19 @@ metadata:
   author: anthropic
   updated_at: '2026-04-04'
 market:
+  icon: >-
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
+    24 24" fill="none"><defs><linearGradient id="pp-a" x1="2" y1="3" x2="22"
+    y2="21" gradientUnits="userSpaceOnUse"><stop stop-color="#FF9500"/><stop
+    offset="1" stop-color="#34C759"/></linearGradient></defs><rect x="2" y="3"
+    width="20" height="15" rx="2" fill="url(#pp-a)" fill-opacity="0.1"
+    stroke="url(#pp-a)" stroke-width="1.5"/><path d="M12 18v3M8 21h8"
+    stroke="url(#pp-a)" stroke-width="1.5" stroke-linecap="round"/><rect
+    x="5" y="6.5" width="5.5" height="1.5" rx="0.5" fill="url(#pp-a)"
+    fill-opacity="0.4"/><path d="M5 10h9M5 12.5h6" stroke="url(#pp-a)"
+    stroke-width="1.2" stroke-linecap="round"/><circle cx="17" cy="10" r="3"
+    fill="#FF9500" fill-opacity="0.15"/><path d="M15.8 8.5v3l2.6-1.5z"
+    fill="#FF9500" fill-opacity="0.85"/></svg>
   short_desc: 创建、编辑和处理 PowerPoint 演示文稿（.pptx）
   category: productivity
   maintainer:

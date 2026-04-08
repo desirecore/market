@@ -27,6 +27,18 @@ metadata:
   author: anthropic
   updated_at: '2026-04-04'
 market:
+  icon: >-
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
+    24 24" fill="none"><defs><linearGradient id="dx-a" x1="4" y1="2" x2="20"
+    y2="22" gradientUnits="userSpaceOnUse"><stop stop-color="#007AFF"/><stop
+    offset="1" stop-color="#AF52DE"/></linearGradient></defs><path d="M14
+    2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+    fill="url(#dx-a)" fill-opacity="0.1" stroke="url(#dx-a)"
+    stroke-width="1.5"/><path d="M14 2v6h6" stroke="url(#dx-a)"
+    stroke-width="1.5" stroke-linejoin="round"/><rect x="7" y="10" width="6"
+    height="1.5" rx="0.5" fill="url(#dx-a)" fill-opacity="0.5"/><path d="M7
+    14.5h10M7 17h7" stroke="url(#dx-a)" stroke-width="1.3"
+    stroke-linecap="round"/></svg>
   short_desc: 创建、编辑和处理 Word 文档（.docx）
   category: productivity
   maintainer:

@@ -26,6 +26,20 @@ metadata:
   author: anthropic
   updated_at: '2026-04-07'
 market:
+  icon: >-
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
+    24 24" fill="none"><defs><linearGradient id="fd-a" x1="2" y1="2" x2="22"
+    y2="22" gradientUnits="userSpaceOnUse"><stop stop-color="#AF52DE"/><stop
+    offset="1" stop-color="#007AFF"/></linearGradient></defs><rect x="2" y="3"
+    width="20" height="18" rx="2.5" fill="url(#fd-a)" fill-opacity="0.1"
+    stroke="url(#fd-a)" stroke-width="1.5"/><path d="M2 8h20"
+    stroke="url(#fd-a)" stroke-width="1.2"/><circle cx="5" cy="5.5" r="0.8"
+    fill="#FF3B30"/><circle cx="7.5" cy="5.5" r="0.8"
+    fill="#FF9500"/><circle cx="10" cy="5.5" r="0.8"
+    fill="#34C759"/><rect x="5" y="11" width="6" height="4" rx="1"
+    fill="url(#fd-a)" fill-opacity="0.2" stroke="url(#fd-a)"
+    stroke-width="1"/><path d="M14 11h5M14 13.5h3.5M14 16h4.5"
+    stroke="url(#fd-a)" stroke-width="1.2" stroke-linecap="round"/></svg>
   short_desc: 创建有品味、避免 AI 烂大街审美的前端界面与组件
   category: design
   maintainer:

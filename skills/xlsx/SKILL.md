@@ -29,6 +29,19 @@ metadata:
   author: anthropic
   updated_at: '2026-04-04'
 market:
+  icon: >-
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
+    24 24" fill="none"><defs><linearGradient id="xl-a" x1="3" y1="3" x2="21"
+    y2="21" gradientUnits="userSpaceOnUse"><stop stop-color="#34C759"/><stop
+    offset="1" stop-color="#007AFF"/></linearGradient></defs><rect x="3" y="3"
+    width="18" height="18" rx="2.5" fill="url(#xl-a)" fill-opacity="0.1"
+    stroke="url(#xl-a)" stroke-width="1.5"/><path d="M3 9h18M3 15h18M9
+    3v18M15 3v18" stroke="url(#xl-a)" stroke-width="1"
+    stroke-opacity="0.4"/><rect x="9.5" y="3.5" width="5" height="5"
+    rx="0.3" fill="#34C759" fill-opacity="0.3"/><circle cx="19" cy="19"
+    r="3" fill="#34C759" fill-opacity="0.9"/><path d="M18 18.5l1 1.5 2-2.5"
+    stroke="white" stroke-width="1.2" stroke-linecap="round"
+    stroke-linejoin="round"/></svg>
   short_desc: 创建、编辑和处理 Excel 电子表格（.xlsx）
   category: productivity
   maintainer:

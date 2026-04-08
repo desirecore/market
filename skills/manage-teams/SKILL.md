@@ -13,6 +13,23 @@ metadata:
   author: desirecore
   updated_at: '2026-03-29'
 market:
+  icon: >-
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
+    24 24" fill="none"><defs><linearGradient id="mt-a" x1="1" y1="7" x2="16"
+    y2="21" gradientUnits="userSpaceOnUse"><stop stop-color="#007AFF"/><stop
+    offset="1" stop-color="#34C759"/></linearGradient></defs><circle cx="9"
+    cy="7" r="4" fill="url(#mt-a)" fill-opacity="0.15" stroke="url(#mt-a)"
+    stroke-width="1.5"/><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+    fill="url(#mt-a)" fill-opacity="0.1" stroke="url(#mt-a)"
+    stroke-width="1.5"/><circle cx="17" cy="8" r="3" fill="url(#mt-a)"
+    fill-opacity="0.2" stroke="url(#mt-a)" stroke-width="1.3"/><path d="M23
+    21v-1.5a3 3 0 0 0-3-3h-2" stroke="url(#mt-a)" stroke-width="1.3"
+    stroke-linecap="round"/><path d="M19.5 1.2L17.5 4M19.5 1.2L21.5 4M17.5
+    4h4" stroke="#34C759" stroke-width="1.2" stroke-linecap="round"
+    stroke-linejoin="round"/><circle cx="19.5" cy="1.2" r="1"
+    fill="#34C759"/><circle cx="17.5" cy="4" r="0.9" fill="#34C759"
+    fill-opacity="0.7"/><circle cx="21.5" cy="4" r="0.9" fill="#34C759"
+    fill-opacity="0.7"/></svg>
   short_desc: 创建团队、管理成员、组织多 Agent 协作
   category: productivity
 ---

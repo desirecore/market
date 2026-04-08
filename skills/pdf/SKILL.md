@@ -23,6 +23,18 @@ metadata:
   author: anthropic
   updated_at: '2026-04-04'
 market:
+  icon: >-
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
+    24 24" fill="none"><defs><linearGradient id="pd-a" x1="4" y1="2" x2="20"
+    y2="22" gradientUnits="userSpaceOnUse"><stop stop-color="#FF3B30"/><stop
+    offset="1" stop-color="#FF9500"/></linearGradient></defs><path d="M14
+    2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+    fill="url(#pd-a)" fill-opacity="0.1" stroke="url(#pd-a)"
+    stroke-width="1.5"/><path d="M14 2v6h6" stroke="url(#pd-a)"
+    stroke-width="1.5" stroke-linejoin="round"/><path d="M8 13h8M8 17h5"
+    stroke="url(#pd-a)" stroke-width="1.3" stroke-linecap="round"/><path
+    d="M17 11v6l2-1.5 2 1.5v-6z" fill="#FF3B30"
+    fill-opacity="0.8"/></svg>
   short_desc: 读取、创建、合并、拆分和填写 PDF 文档
   category: productivity
   maintainer:
