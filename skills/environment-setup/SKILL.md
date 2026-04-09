@@ -166,9 +166,89 @@ pip --version
 
 ---
 
-## Python 多版本管理（pyenv）
+## Python 多版本管理（Hatch — DesireCore 内置）
 
-当需要同时使用多个 Python 版本时，推荐使用 pyenv。
+DesireCore 内置了 [Hatch](https://hatch.pypa.io/) v1.16.5 作为 Python 项目管理器和版本管理器。Hatch 二进制随应用打包在 `static/hatch/` 中，**无需用户单独安装**。
+
+> **与系统 Python 的关系**：Hatch 管理的 Python 版本安装在 `~/.desirecore/runtime/hatch/local/` 中，与系统 Python 完全隔离，不会影响系统环境。
+
+### 查看可安装的 Python 版本
+
+```bash
+# Hatch 二进制位置（DesireCore 自动管理，通常无需手动调用）
+# macOS / Linux:
+~/.desirecore/runtime/hatch/hatch python show
+
+# 输出示例：
+# ┌──────────┬─────────┐
+# │ Name     │ Version │
+# ├──────────┼─────────┤
+# │ 3.8      │ 3.8.20  │
+# │ 3.9      │ 3.9.21  │
+# │ 3.10     │ 3.10.16 │
+# │ 3.11     │ 3.11.11 │
+# │ 3.12     │ 3.12.8  │
+# │ 3.13     │ 3.13.1  │
+# │ pypy3.10 │ 7.3.17  │
+# └──────────┴─────────┘
+```
+
+### 安装 Python 版本
+
+```bash
+# 安装指定版本（下载到 ~/.desirecore/runtime/hatch/local/）
+hatch python install 3.12
+hatch python install 3.11
+
+# 安装多个版本
+hatch python install 3.12 3.11 3.10
+```
+
+### 查看已安装版本
+
+```bash
+# 查看 ~/.desirecore/runtime/hatch/local/ 下的目录
+ls ~/.desirecore/runtime/hatch/local/
+# 输出：3.11  3.12
+```
+
+### 移除 Python 版本
+
+```bash
+hatch python remove 3.11
+```
+
+### 使用 Hatch 管理的 Python
+
+```bash
+# 直接使用安装的 Python
+~/.desirecore/runtime/hatch/local/3.12/python/bin/python3 --version
+
+# 创建虚拟环境
+~/.desirecore/runtime/hatch/local/3.12/python/bin/python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### 可视化管理
+
+打开 DesireCore 应用 → 资源管理器（侧边栏文件夹图标）→ 计算资源 → **运行环境** Tab，可以可视化地查看、安装、删除 Python 版本。
+
+### Hatch vs pyenv
+
+| 特性 | Hatch (DesireCore 内置) | pyenv (社区) |
+|------|------------------------|-------------|
+| 安装方式 | 随 DesireCore 自动内置 | 需手动安装 |
+| Python 存放位置 | `~/.desirecore/runtime/hatch/local/` | `~/.pyenv/versions/` |
+| 版本切换 | 通过绝对路径或 venv | `pyenv global/local` |
+| 系统影响 | 完全隔离 | 修改 shell PATH |
+| GUI 管理 | DesireCore 运行环境 Tab | 无 |
+| 适用场景 | DesireCore 技能执行环境 | 日常开发多版本管理 |
+
+---
+
+## Python 多版本管理（pyenv — 社区方案）
+
+当需要在系统级别管理多个 Python 版本时，pyenv 是社区中最流行的方案。
 
 ### 安装 pyenv
 
@@ -406,7 +486,95 @@ sudo pacman -S nodejs npm
 
 ---
 
-## Node.js 多版本管理（nvm）
+## Node.js 多版本管理（Volta — DesireCore 内置）
+
+DesireCore 内置了 [Volta](https://volta.sh/) v2.0.2 作为 Node.js 工具链管理器。Volta 二进制随应用打包在 `static/volta/` 中，**无需用户单独安装**。
+
+> **与系统 Node.js 的关系**：Volta 管理的 Node.js 和包管理器安装在 `~/.desirecore/runtime/volta/` 中，与系统 Node.js 完全隔离。
+
+### 安装 Node.js 版本
+
+```bash
+# Volta 二进制位置（DesireCore 自动管理）
+# 安装最新 LTS
+volta install node@22
+
+# 安装指定版本
+volta install node@20.11.0
+
+# 安装特定大版本的最新版
+volta install node@18
+```
+
+### 安装包管理器
+
+```bash
+# 安装 pnpm
+volta install pnpm@latest
+
+# 安装 yarn
+volta install yarn@latest
+
+# 安装指定版本的 npm
+volta install npm@10
+```
+
+### 查看已安装版本
+
+```bash
+# 查看已安装的 Node.js 版本
+volta list node
+
+# 查看已安装的所有工具
+volta list all
+```
+
+### 固定项目版本
+
+```bash
+# 在项目目录下，固定 Node.js 和包管理器版本到 package.json
+volta pin node@22
+volta pin pnpm@9
+
+# package.json 中会自动添加：
+# "volta": {
+#   "node": "22.x.x",
+#   "pnpm": "9.x.x"
+# }
+```
+
+### 版本自动切换
+
+Volta 的核心优势：当你 `cd` 进入一个项目目录时，如果 `package.json` 中包含 `volta` 配置，Volta 会**自动切换**到指定版本，无需手动 `use`。
+
+### 移除版本
+
+```bash
+# 移除 Node.js 版本
+# 通过 DesireCore 运行环境 Tab 管理，或手动删除：
+rm -rf ~/.desirecore/runtime/volta/tools/image/node/<version>
+```
+
+### 可视化管理
+
+打开 DesireCore 应用 → 资源管理器 → 计算资源 → **运行环境** Tab，可以可视化地查看、安装、删除 Node.js 版本和包管理器。
+
+### Volta vs nvm
+
+| 特性 | Volta (DesireCore 内置) | nvm (社区) |
+|------|------------------------|-----------|
+| 安装方式 | 随 DesireCore 自动内置 | 需手动安装 |
+| 版本切换 | 自动（基于 package.json） | 手动 `nvm use` 或 `.nvmrc` |
+| 包管理器管理 | 支持（pnpm/yarn/npm） | 不支持 |
+| Windows 支持 | 原生支持 | 需用 nvm-windows |
+| 速度 | 极快（Rust 实现） | 较慢（shell 脚本） |
+| 系统影响 | 完全隔离 | 修改 shell PATH |
+| GUI 管理 | DesireCore 运行环境 Tab | 无 |
+| 适用场景 | DesireCore 技能执行环境 | 日常开发多版本管理 |
+
+---
+
+## Node.js 多版本管理（nvm — 社区方案）
 
 ### 安装 nvm
 
@@ -453,7 +621,7 @@ echo "22" > .nvmrc
 nvm use   # 自动读取 .nvmrc
 ```
 
-### 使用 fnm（更快的替代品）
+### 使用 fnm（社区替代品，Rust 实现）
 
 [fnm](https://github.com/Schniz/fnm) 是用 Rust 编写的 Node.js 版本管理器，比 nvm 快得多：
 
