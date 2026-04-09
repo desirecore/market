@@ -1,18 +1,21 @@
 ---
 name: 开发环境配置
 description: >-
-  Use this skill when the user needs help setting up a development environment,
-  installing Python, Node.js, or their package managers, managing multiple
-  runtime versions, creating virtual environments, or troubleshooting
-  environment-related issues. Triggers include: "install python", "install
-  node", "setup environment", "virtual environment", "venv", "nvm", "pyenv",
+  Use this skill when the user needs help setting up a development environment.
+  Covers three pillars: (1) Python/Node.js runtime installation and multi-version
+  management (Hatch, Volta, pyenv, nvm); (2) Docker/Podman container runtime
+  detection, installation, and usage; (3) WSL2 setup on Windows for Linux
+  compatibility. Triggers include: "install python", "install node", "install
+  docker", "setup environment", "virtual environment", "venv", "nvm", "pyenv",
   "pip not found", "python not found", "node not found", "npm not found",
-  "PATH issues", "version manager", or any error message indicating a missing
-  runtime or package manager. Also use when other skills (docx, pdf, xlsx,
+  "docker not found", "container", "podman", "WSL", "WSL2", "PATH issues",
+  "version manager", or any error message indicating a missing runtime, package
+  manager, or container engine. Also use when other skills (docx, pdf, xlsx,
   pptx) report that Python or Node.js is not available and the user needs
-  guidance. Use when 用户提到 安装Python、安装Node、环境配置、虚拟环境、
-  版本管理、PATH问题、pip找不到、python找不到。
-version: 1.0.0
+  guidance. Use when 用户提到 安装Python、安装Node、安装Docker、容器、Podman、
+  WSL、WSL2、环境配置、虚拟环境、版本管理、PATH问题、pip找不到、python找不到、
+  docker找不到、容器运行环境。
+version: 1.1.0
 type: procedural
 risk_level: low
 status: enabled
@@ -21,6 +24,9 @@ tags:
   - environment
   - python
   - nodejs
+  - docker
+  - container
+  - wsl
   - setup
   - troubleshooting
 metadata:
@@ -37,7 +43,7 @@ market:
     stroke="url(#env-a)" stroke-width="1.5" stroke-linecap="round"
     stroke-linejoin="round"/><path d="M13 16h4" stroke="url(#env-a)"
     stroke-width="1.5" stroke-linecap="round"/></svg>
-  short_desc: Python / Node.js 环境安装、版本管理与问题排查
+  short_desc: Python / Node.js / Docker 环境安装、版本管理与问题排查
   category: productivity
   maintainer:
     name: DesireCore Official
@@ -47,7 +53,11 @@ market:
 
 # Environment Setup Guide
 
-本技能提供 Python 和 Node.js 开发环境的完整安装、多版本管理、虚拟环境配置以及常见问题排查指南。
+本技能提供开发环境的完整配置指南，涵盖三大支柱：
+
+1. **运行时环境**：Python / Node.js 安装与多版本管理（Hatch、Volta、pyenv、nvm）
+2. **容器环境**：Docker / Podman 检测、安装与使用
+3. **Windows 子系统**：WSL2 安装与配置（仅 Windows）
 
 ---
 
@@ -61,7 +71,16 @@ echo "=== Python ===" && python3 --version 2>/dev/null || python --version 2>/de
 echo "=== pip ===" && pip3 --version 2>/dev/null || pip --version 2>/dev/null || echo "NOT FOUND"
 echo "=== Node.js ===" && node --version 2>/dev/null || echo "NOT FOUND"
 echo "=== npm ===" && npm --version 2>/dev/null || echo "NOT FOUND"
+echo "=== Docker ===" && docker --version 2>/dev/null || echo "NOT FOUND"
+echo "=== Podman ===" && podman --version 2>/dev/null || echo "NOT FOUND"
 echo "=== PATH ===" && echo "$PATH" | tr ':' '\n'
+```
+
+**Windows 额外检测**（在 PowerShell 中运行）：
+
+```powershell
+Write-Host "=== WSL ===" ; wsl --status 2>&1
+Write-Host "=== Docker ===" ; docker --version 2>$null ; if (-not $?) { Write-Host "NOT FOUND" }
 ```
 
 根据输出结果，跳转到对应章节。
@@ -939,6 +958,279 @@ pip install lxml defusedxml pypdf pdfplumber Pillow reportlab openpyxl pandas "m
 # Node.js 包（全部）
 npm install -g docx pptxgenjs
 ```
+
+---
+
+## 容器运行环境（Docker / Podman）
+
+容器环境在开发中越来越常见，许多工具和服务（数据库、消息队列、AI 推理服务等）通过容器部署最为便捷。
+
+### 检测容器环境
+
+```bash
+# Docker
+docker --version 2>/dev/null && docker info --format '{{.OperatingSystem}}' 2>/dev/null || echo "Docker NOT FOUND or not running"
+
+# Podman（Docker 的无守护进程替代品）
+podman --version 2>/dev/null || echo "Podman NOT FOUND"
+```
+
+### Docker 安装
+
+#### macOS
+
+推荐使用 Docker Desktop（包含 Docker Engine + Docker Compose + GUI）：
+
+```bash
+# 方式 1：Homebrew Cask（推荐）
+brew install --cask docker
+
+# 安装后启动 Docker Desktop 应用
+# 首次启动需要授权特权访问
+
+# 方式 2：从官网下载
+# https://www.docker.com/products/docker-desktop/
+# 选择 Apple Silicon (M1/M2/M3) 或 Intel 版本
+```
+
+安装后验证：
+```bash
+docker --version
+docker run hello-world
+```
+
+#### Windows
+
+**推荐 Docker Desktop + WSL2 后端**（需要先安装 WSL2，见下方 WSL2 章节）：
+
+1. 下载 [Docker Desktop for Windows](https://www.docker.com/products/docker-desktop/)
+2. 安装时勾选 "Use WSL 2 instead of Hyper-V"
+3. 安装后在 Settings → General 中确认 "Use the WSL 2 based engine" 已启用
+
+```powershell
+# 或通过 winget 安装
+winget install Docker.DockerDesktop
+```
+
+验证：
+```powershell
+docker --version
+docker run hello-world
+```
+
+**不需要 Docker Desktop 的轻量方案**（仅 CLI，通过 WSL2）：
+
+```bash
+# 在 WSL2 Ubuntu 中：
+sudo apt update
+sudo apt install docker.io docker-compose-v2
+sudo usermod -aG docker $USER
+# 重新登录 WSL2 后生效
+```
+
+#### Linux (Debian/Ubuntu)
+
+```bash
+# 安装 Docker Engine（官方仓库）
+sudo apt update
+sudo apt install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+# 免 sudo 使用 Docker
+sudo usermod -aG docker $USER
+newgrp docker
+
+# 验证
+docker --version
+docker run hello-world
+```
+
+#### Linux (Fedora/RHEL)
+
+```bash
+sudo dnf install dnf-plugins-core
+sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+sudo dnf install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker $USER
+```
+
+### Podman（Docker 替代品，无守护进程）
+
+Podman 兼容 Docker CLI 命令，但不需要后台守护进程，更轻量：
+
+```bash
+# macOS
+brew install podman
+podman machine init
+podman machine start
+
+# Ubuntu/Debian
+sudo apt install podman
+
+# Fedora（预装）
+podman --version
+
+# Windows
+winget install RedHat.Podman
+```
+
+使用方式与 Docker 几乎一致（将 `docker` 替换为 `podman`）：
+```bash
+podman run hello-world
+podman ps
+podman images
+```
+
+### Docker 常见问题
+
+**"Cannot connect to the Docker daemon"**：
+```bash
+# Linux：启动 Docker 服务
+sudo systemctl start docker
+
+# macOS/Windows：确保 Docker Desktop 正在运行
+
+# WSL2：可能需要重启 Docker Desktop
+```
+
+**"permission denied while trying to connect to the Docker daemon socket"**：
+```bash
+# 将当前用户加入 docker 组
+sudo usermod -aG docker $USER
+# 重新登录（或执行 newgrp docker）
+```
+
+**Docker Desktop 占用资源过高**：
+在 Docker Desktop Settings → Resources 中调整 CPU 和内存限制。WSL2 后端用户也可编辑 `~/.wslconfig`：
+```ini
+[wsl2]
+memory=4GB
+processors=2
+```
+
+---
+
+## WSL2 安装与配置（仅 Windows）
+
+WSL2（Windows Subsystem for Linux 2）让 Windows 用户可以原生运行 Linux 环境，是运行 Python 脚本、Docker、以及各种开发工具的最佳方式。
+
+### 检测 WSL2
+
+```powershell
+# 检查 WSL 是否已安装
+wsl --status
+
+# 查看已安装的 Linux 发行版
+wsl --list --verbose
+```
+
+### 系统要求
+
+- Windows 11（21H2 或更高）或 Windows 10（版本 2004，Build 19041 或更高）
+- CPU 虚拟化已启用（BIOS 中的 Intel VT-x / AMD-V）
+
+### 安装 WSL2
+
+```powershell
+# 以管理员权限运行 PowerShell
+
+# 一键安装（包括 WSL2 内核 + Ubuntu 默认发行版）
+wsl --install
+
+# 安装完成后需要重启计算机
+# 重启后 Ubuntu 窗口会自动打开，提示设置用户名和密码
+```
+
+### 安装指定发行版
+
+```powershell
+# 查看可用发行版
+wsl --list --online
+
+# 安装指定发行版
+wsl --install -d Ubuntu-24.04
+wsl --install -d Debian
+
+# 设置默认发行版
+wsl --set-default Ubuntu-24.04
+```
+
+### 确保使用 WSL2（而非 WSL1）
+
+```powershell
+# 查看当前版本
+wsl --list --verbose
+# 输出中 VERSION 列应为 2
+
+# 如果显示为 1，升级到 WSL2
+wsl --set-version Ubuntu 2
+
+# 将 WSL2 设为未来安装的默认版本
+wsl --set-default-version 2
+```
+
+### WSL2 中配置开发环境
+
+进入 WSL2 后，按 Linux 方式配置即可（参考上方的 Python/Node.js/Docker Linux 安装章节）：
+
+```bash
+# 进入 WSL2
+wsl
+
+# 更新系统
+sudo apt update && sudo apt upgrade -y
+
+# 安装 Python
+sudo apt install python3 python3-pip python3-venv
+
+# 安装 Node.js
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt install nodejs
+
+# 安装 Docker（推荐使用 Docker Desktop 的 WSL2 后端，而非在 WSL2 内安装）
+```
+
+### WSL2 与 Windows 文件互访
+
+```bash
+# 在 WSL2 中访问 Windows 文件
+ls /mnt/c/Users/你的用户名/Desktop/
+
+# 在 Windows 中访问 WSL2 文件（资源管理器地址栏）
+# \\wsl$\Ubuntu\home\你的用户名\
+
+# 在 Windows Terminal 中打开 WSL2
+wsl ~
+```
+
+### WSL2 常见问题
+
+**"WslRegisterDistribution failed with error: 0x80370102"**：
+CPU 虚拟化未启用。重启计算机进入 BIOS，启用 Intel VT-x 或 AMD-V。
+
+**WSL2 网络问题（无法访问互联网）**：
+```bash
+# 在 WSL2 中
+echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
+```
+
+**WSL2 磁盘空间不足**：
+```powershell
+# 压缩 WSL2 虚拟磁盘
+wsl --shutdown
+# 使用 diskpart 压缩 ext4.vhdx（高级操作，请备份后再执行）
+```
+
+**DesireCore Windows 用户建议**：DesireCore 的环境检查功能（设置 → 环境检查）可以自动检测 Windows 版本、CPU 虚拟化、WSL2 安装状态，并提供一键修复。
 
 ---
 
