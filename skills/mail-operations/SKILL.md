@@ -97,8 +97,8 @@ market:
 | Provider 路径 | `/gmail/` | `/outlook/` | `/imap/` |
 | 邮件详情 | 路径参数 `/{id}` | 查询参数 `?id={id}` | UID `/{uid}?folder=` |
 | 搜索 | 支持 | 不支持 | 不支持 |
-| 草稿 | 支持 | 不支持 | 不支持 |
-| 附件下载 | 支持 | 不支持 | 不支持 |
+| 草稿 | 支持（含列表/详情） | 支持（创建/发送） | 支持（创建/发送） |
+| 附件下载 | 支持 | 支持 | 支持 |
 | 标签/分类 | 原生标签 | Categories | 仅本地标签 |
 | 自动规则 | 支持 | 支持 | 支持 |
 
@@ -199,15 +199,21 @@ market:
 | `isUnread` | true/false |
 | `offset` / `limit` | 分页 |
 
-### 6. 附件下载（仅 Gmail）
+### 6. 附件下载
 
-`POST /api/gmail/messages/{messageId}/attachment` — body: `{"email": "...", "attachmentId": "..."}`
+| Provider | 方法 | 端点 | Body |
+|----------|------|------|------|
+| Gmail | POST | `/gmail/messages/{messageId}/attachment` | `{email, attachmentId}` |
+| Outlook | POST | `/outlook/attachment` | `{email, messageId, attachmentId}` |
+| IMAP | POST | `/imap/attachment` | `{email, uid, folder, partId}` |
 
 响应 `result.data` 为 base64 编码，解码后保存文件。
 
-> 使用 POST 因为 Gmail attachmentId 可能超出 URL 长度限制。
+> Gmail 使用 POST 因为 attachmentId 可能超出 URL 长度限制。
 
-### 7. 草稿管理（仅 Gmail）
+### 7. 草稿管理
+
+**Gmail**：
 
 | 操作 | 方法 | 端点 |
 |------|------|------|
@@ -216,6 +222,24 @@ market:
 | 创建草稿 | POST | `/gmail/drafts` — body: `{email, to, cc, subject, body, contentType}` |
 | 更新草稿 | PUT | `/gmail/drafts/{draftId}` — body 同创建 |
 | 删除草稿 | DELETE | `/gmail/drafts/{draftId}?email=` |
+
+**Outlook**：
+
+| 操作 | 方法 | 端点 |
+|------|------|------|
+| 创建草稿 | POST | `/outlook/drafts` — body: `{email, toRecipients, subject, body, contentType}` |
+| 更新草稿 | PUT | `/outlook/drafts?id={draftId}&email=` — body 同创建 |
+| 删除草稿 | DELETE | `/outlook/drafts?id={draftId}&email=` |
+| 发送草稿 | POST | `/outlook/drafts/send?id={draftId}&email=` |
+
+**IMAP**：
+
+| 操作 | 方法 | 端点 |
+|------|------|------|
+| 创建草稿 | POST | `/imap/drafts` — body: `{email, toRecipients, subject, body, contentType}` |
+| 更新草稿 | PUT | `/imap/drafts/{uid}` — body: `{email, folder, toRecipients, subject, body, contentType}` |
+| 删除草稿 | DELETE | `/imap/drafts/{uid}?email=&folder=` |
+| 发送草稿 | POST | `/imap/drafts/{uid}/send` — body: `{email, folder}` |
 
 ### 8. 标签管理（统一接口）
 
@@ -232,8 +256,10 @@ market:
 | 移除邮件标签 | DELETE | `/mails/{p}/{email}/labels?mailId=&labelId=` |
 | 获取标签下邮件 | GET | `/labels/{labelId}/mails?provider=&email=&limit=&offset=` |
 
-**Gmail 原生标签**：`POST /api/gmail/messages/{id}/labels` — body: `{email, addLabelIds, removeLabelIds}`
-**Gmail 标签同步**：`POST /api/gmail/labels/sync?email=`
+**Gmail 原生标签**：
+- 获取标签列表：`GET /api/gmail/labels?email=`
+- 修改邮件标签：`POST /api/gmail/messages/{id}/labels` — body: `{email, addLabelIds, removeLabelIds}`
+- 同步远程标签：`POST /api/gmail/labels/sync?email=`
 
 ### 9. Outlook 分类
 
