@@ -1,7 +1,7 @@
 ---
 name: 团队管理
 description: 创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 围绕同一任务协作、需要建立组织架构、或需要组长统一调度分派任务时。
-version: 1.2.0
+version: 1.2.1
 type: procedural
 risk_level: medium
 status: enabled
@@ -11,7 +11,7 @@ tags:
   - organization
 metadata:
   author: desirecore
-  updated_at: '2026-03-29'
+  updated_at: '2026-04-13'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -34,11 +34,32 @@ market:
   category: productivity
 ---
 
-# 团队管理技能
+# manage-teams 技能
 
-## 概述
+## L0：一句话摘要
 
-团队是 DesireCore 中多个 Agent 围绕共同任务协作的组织单元。每个团队有一个组长（supervisor）负责接收需求、拆解任务、分派给成员、汇总结果。
+创建和管理 Agent 团队，组织多 Agent 围绕共同任务协作。
+
+## L1：概述与使用场景
+
+### 能力描述
+
+manage-teams 是一个**流程型技能（Procedural Skill）**，赋予 DesireCore 创建和管理 Agent 团队的能力。团队是多个 Agent 围绕共同任务协作的组织单元，每个团队有一个组长（supervisor）负责接收需求、拆解任务、分派给成员、汇总结果。
+
+### 使用场景
+
+- 需要多个 Agent 围绕同一任务持续协作（如项目组）
+- 需要建立组织架构（部门/团队层级）
+- 需要组长统一调度、拆解和分派任务
+- 简单一次性委派不够，需要共享上下文的长期协作
+
+### 核心价值
+
+- **组织化协作**：从单点委派升级为团队协作模式
+- **灵活管理**：支持临时团队和持久团队两种模式
+- **动态调整**：运行时可添加/移除成员、更换组长
+
+## L2：详细规范
 
 ## 核心概念
 

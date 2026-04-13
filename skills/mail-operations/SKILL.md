@@ -9,7 +9,7 @@ description: >-
   Use when 用户提到 邮件、邮箱、收件箱、发邮件、回复邮件、查邮件、Gmail、
   Outlook、QQ邮箱、163邮箱、附件、标签、草稿、自动回复、邮件规则、
   转发、抄送、未读邮件、收信、发信、邮件同步、邮件搜索。
-version: 1.0.0
+version: 1.0.1
 type: procedural
 risk_level: medium
 status: enabled
@@ -23,7 +23,7 @@ tags:
   - smtp
 metadata:
   author: desirecore
-  updated_at: '2026-04-10'
+  updated_at: '2026-04-13'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -42,9 +42,32 @@ market:
   channel: latest
 ---
 
-# 邮箱操作
+# mail-operations 技能
 
-通过 DesireCore 本地 REST API 操作邮件系统，支持 Gmail / Outlook / IMAP（QQ、163 等）。
+## L0：一句话摘要
+
+通过本地 REST API 收发邮件、搜索、标签管理和自动规则，支持 Gmail / Outlook / IMAP。
+
+## L1：概述与使用场景
+
+### 能力描述
+
+mail-operations 是一个**流程型技能（Procedural Skill）**，通过 DesireCore 本地 REST API 操作邮件系统。支持 Gmail（OAuth2）、Outlook（MSAL）和 IMAP/SMTP（QQ、163、Yahoo 等）三种邮箱类型，涵盖收发邮件、搜索、标签管理、附件下载、草稿管理和自动规则。
+
+### 使用场景
+
+- 用户需要查看收件箱、发送或回复邮件
+- 用户需要搜索特定邮件或管理邮件标签/分类
+- 用户需要下载附件或管理草稿
+- 用户需要设置自动回复规则或触发智能体处理邮件
+
+### 核心价值
+
+- **统一接口**：三种邮箱通过统一 API 操作，降低使用复杂度
+- **本地安全**：所有操作通过本地 API 完成，无需暴露凭证
+- **智能联动**：支持自动规则和智能体邮件处理
+
+## L2：详细规范
 
 ## API 基础信息
 

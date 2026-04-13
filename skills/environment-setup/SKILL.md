@@ -15,7 +15,7 @@ description: >-
   guidance. Use when 用户提到 安装Python、安装Node、安装Docker、容器、Podman、
   WSL、WSL2、环境配置、虚拟环境、版本管理、PATH问题、pip找不到、python找不到、
   docker找不到、容器运行环境。
-version: 1.1.0
+version: 1.1.1
 type: procedural
 risk_level: low
 status: enabled
@@ -31,7 +31,7 @@ tags:
   - troubleshooting
 metadata:
   author: desirecore
-  updated_at: '2026-04-08'
+  updated_at: '2026-04-13'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -51,15 +51,33 @@ market:
   channel: latest
 ---
 
-# Environment Setup Guide
+# environment-setup 技能
 
-本技能提供开发环境的完整配置指南，涵盖三大支柱：
+## L0：一句话摘要
 
-1. **运行时环境**：Python / Node.js 安装与多版本管理（Hatch、Volta、pyenv、nvm）
-2. **容器环境**：Docker / Podman 检测、安装与使用
-3. **Windows 子系统**：WSL2 安装与配置（仅 Windows）
+检测、安装和排查 Python / Node.js / Docker 开发环境，覆盖多版本管理与容器运行时。
 
----
+## L1：概述与使用场景
+
+### 能力描述
+
+environment-setup 是一个**流程型技能（Procedural Skill）**，提供开发环境的完整配置指南，涵盖三大支柱：运行时环境（Python / Node.js）、容器环境（Docker / Podman）、Windows 子系统（WSL2）。
+
+### 使用场景
+
+- 用户需要安装 Python、Node.js 或 Docker
+- 用户遇到 "python not found"、"npm not found"、"docker not found" 等环境问题
+- 用户需要配置多版本管理（Hatch、Volta、pyenv、nvm）
+- 其他技能（docx、pdf、xlsx、pptx）报告 Python 或 Node.js 不可用时
+- Windows 用户需要配置 WSL2
+
+### 核心价值
+
+- **全平台覆盖**：macOS / Windows / Linux 全面支持
+- **多方案对比**：DesireCore 内置方案（Hatch/Volta）与社区方案（pyenv/nvm）对比
+- **故障排查**：常见错误的诊断步骤和解决方案
+
+## L2：详细规范
 
 ## 快速诊断
 

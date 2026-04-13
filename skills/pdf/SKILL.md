@@ -9,7 +9,7 @@ description: >-
   user mentions a .pdf file or asks to produce one, use this skill. Use when
   用户提到 PDF、读取PDF、合并PDF、拆分PDF、填写表单、加水印、提取文字、
   扫描识别。
-version: 1.0.0
+version: 1.0.1
 type: procedural
 risk_level: low
 status: enabled
@@ -21,7 +21,7 @@ tags:
   - ocr
 metadata:
   author: anthropic
-  updated_at: '2026-04-04'
+  updated_at: '2026-04-13'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -43,7 +43,26 @@ market:
   channel: latest
 ---
 
-# PDF Processing Guide
+# pdf 技能
+
+## L0：一句话摘要
+
+读取、创建、合并、拆分和填写 PDF 文档，支持 OCR 识别和命令行工具。
+
+## L1：概述与使用场景
+
+### 能力描述
+
+pdf 是一个**流程型技能（Procedural Skill）**，提供 PDF 文档的完整处理能力。基于 Python 库（pypdf、pdfplumber、reportlab）和命令行工具（qpdf、pdftotext、pdftk），支持文本提取、表格提取、合并拆分、旋转、水印、加密、表单填写和 OCR 识别。
+
+### 使用场景
+
+- 用户需要从 PDF 中提取文本或表格数据
+- 用户需要合并多个 PDF 或拆分页面
+- 用户需要创建新的 PDF 文档
+- 用户需要填写 PDF 表单、添加水印或加密
+
+## L2：详细规范
 
 ## Prerequisites
 

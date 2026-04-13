@@ -12,7 +12,7 @@ description: >-
   content afterward. If a .pptx file needs to be opened, created, or touched,
   use this skill. Use when 用户提到 PPT、演示文稿、幻灯片、演讲稿、汇报材料、
   pptx、创建演示、编辑幻灯片。
-version: 1.0.0
+version: 1.0.1
 type: procedural
 risk_level: low
 status: enabled
@@ -25,7 +25,7 @@ tags:
   - office
 metadata:
   author: anthropic
-  updated_at: '2026-04-04'
+  updated_at: '2026-04-13'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -48,7 +48,26 @@ market:
   channel: latest
 ---
 
-# PPTX Skill
+# pptx 技能
+
+## L0：一句话摘要
+
+创建、编辑和处理 PowerPoint 演示文稿（.pptx），支持模板编辑和从零创建。
+
+## L1：概述与使用场景
+
+### 能力描述
+
+pptx 是一个**流程型技能（Procedural Skill）**，提供 PowerPoint 演示文稿的完整处理能力。支持通过 pptxgenjs（Node.js）从零创建演示文稿，通过解包 XML 编辑现有模板，以及内容提取和视觉质检。
+
+### 使用场景
+
+- 用户需要创建新的演示文稿（汇报材料、Pitch Deck 等）
+- 用户需要编辑或修改现有 .pptx 文件
+- 用户需要从 .pptx 文件中提取文本内容
+- 用户需要将演示文稿转换为 PDF 或图片
+
+## L2：详细规范
 
 ## Prerequisites
 

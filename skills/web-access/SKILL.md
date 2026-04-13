@@ -14,7 +14,7 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: Complete terms in LICENSE.txt
-version: 1.1.0
+version: 1.1.1
 type: procedural
 risk_level: low
 status: enabled
@@ -29,7 +29,7 @@ tags:
   - playwright
 metadata:
   author: desirecore
-  updated_at: '2026-04-07'
+  updated_at: '2026-04-13'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -54,15 +54,32 @@ market:
   channel: latest
 ---
 
-# Web Access Skill
+# web-access 技能
 
-Three-layer web access toolkit:
+## L0：一句话摘要
 
-1. **Layer 1 — Search & Fetch**: `WebSearch` + `WebFetch` for public pages
-2. **Layer 2 — Jina Reader**: default token-optimized extraction for heavy/JS-rendered pages
-3. **Layer 3 — CDP Browser**: Chrome DevTools Protocol for login-gated sites (小红书/B站/微博/飞书/Twitter)
+三层联网访问工具包——搜索公开页面、Jina 优化抓取、CDP 登录态浏览器访问。
 
----
+## L1：概述与使用场景
+
+### 能力描述
+
+web-access 是一个**流程型技能（Procedural Skill）**，提供三层互补的联网访问能力：Layer 1（WebSearch + WebFetch）用于公开页面；Layer 2（Jina Reader）用于 JS 渲染的重页面，默认节省 Token；Layer 3（Chrome CDP）用于需要登录态的站点（小红书/B站/微博/飞书/Twitter）。
+
+### 使用场景
+
+- 用户需要搜索当前信息或研究特定主题
+- 用户需要抓取公开网页内容或技术文档
+- 用户需要访问登录态站点（小红书、B站、微博、飞书、Twitter 等）
+- 用户需要对比产品、聚合新闻或调查 API/库版本
+
+### 核心价值
+
+- **三层递进**：从轻量搜索到重度 JS 渲染到登录态访问，按需选择
+- **Token 优化**：Jina Reader 默认减少 50-80% Token 消耗
+- **登录态复用**：通过 CDP 连接用户已登录的 Chrome，无需重复登录
+
+## L2：详细规范
 
 ## Output Rule
 

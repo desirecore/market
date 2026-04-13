@@ -13,7 +13,7 @@ description: >-
   PDFs, spreadsheets, Google Docs, or general coding tasks unrelated to document
   generation. Use when 用户提到 Word文档、docx、创建文档、编辑文档、报告、
   备忘录、公文、合同、信函模板。
-version: 1.0.0
+version: 1.0.1
 type: procedural
 risk_level: low
 status: enabled
@@ -25,7 +25,7 @@ tags:
   - office
 metadata:
   author: anthropic
-  updated_at: '2026-04-04'
+  updated_at: '2026-04-13'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -47,7 +47,26 @@ market:
   channel: latest
 ---
 
-# DOCX creation, editing, and analysis
+# docx 技能
+
+## L0：一句话摘要
+
+创建、编辑和处理 Word 文档（.docx），支持新建、修改 XML、格式校验全流程。
+
+## L1：概述与使用场景
+
+### 能力描述
+
+docx 是一个**流程型技能（Procedural Skill）**，提供 Word 文档的完整处理能力。支持通过 docx-js（Node.js）创建新文档，通过解包 XML 编辑现有文档，以及格式验证和 PDF 转换。
+
+### 使用场景
+
+- 用户需要创建新的 Word 文档（报告、备忘录、合同、信函等）
+- 用户需要编辑现有 .docx 文件（修改内容、添加批注、跟踪修改）
+- 用户需要从 .docx 文件中提取文本或表格数据
+- 用户需要进行文档格式转换（.doc → .docx、.docx → PDF）
+
+## L2：详细规范
 
 ## Prerequisites
 

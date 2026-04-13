@@ -5,7 +5,7 @@ version: 2.0.1
 type: procedural
 risk_level: medium
 status: enabled
-disable-model-invocation: true
+disable-model-invocation: false
 tags:
   - storage
   - s3
@@ -14,8 +14,8 @@ tags:
   - sharing
 metadata:
   author: desirecore
-  version: "2.0.1"
-  updated_at: "2026-03-13"
+  version: '2.0.1'
+  updated_at: '2026-03-13'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -78,13 +78,13 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 
 ### API 端点
 
-| 端点 | 方法 | 说明 |
-|------|------|------|
-| `/api/s3/connections` | GET | 列出可用连接摘要 |
-| `/api/s3/upload` | POST | 上传文件（multipart/form-data） |
-| `/api/s3/download` | GET | 生成下载链接或下载文件 |
-| `/api/s3/list` | GET | 列出对象 |
-| `/api/s3/objects` | DELETE | 删除对象 |
+| 端点                  | 方法   | 说明                            |
+| --------------------- | ------ | ------------------------------- |
+| `/api/s3/connections` | GET    | 列出可用连接摘要                |
+| `/api/s3/upload`      | POST   | 上传文件（multipart/form-data） |
+| `/api/s3/download`    | GET    | 生成下载链接或下载文件          |
+| `/api/s3/list`        | GET    | 列出对象                        |
+| `/api/s3/objects`     | DELETE | 删除对象                        |
 
 ### 快速参考
 
@@ -129,11 +129,11 @@ curl -k -X DELETE "https://127.0.0.1:${PORT}/api/s3/objects" \
 
 ### 安全红线
 
-| 规则 | 说明 |
-|------|------|
-| **禁止上传敏感文件** | `.env`、凭证文件、私钥等绝不上传 |
-| **删除前必须确认** | 调用删除 API 前应与用户确认意图 |
-| **不假设连接存在** | API 返回 `NO_CONNECTION` 时，引导用户在界面中添加连接 |
+| 规则                 | 说明                                                  |
+| -------------------- | ----------------------------------------------------- |
+| **禁止上传敏感文件** | `.env`、凭证文件、私钥等绝不上传                      |
+| **删除前必须确认**   | 调用删除 API 前应与用户确认意图                       |
+| **不假设连接存在**   | API 返回 `NO_CONNECTION` 时，引导用户在界面中添加连接 |
 
 ### 集成点
 

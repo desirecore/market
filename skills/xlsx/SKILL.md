@@ -15,7 +15,7 @@ description: >-
   report, standalone Python script, database pipeline, or Google Sheets API
   integration, even if tabular data is involved. Use when 用户提到 Excel、
   电子表格、xlsx、表格处理、公式计算、数据清洗、图表、CSV导入导出。
-version: 1.0.0
+version: 1.0.1
 type: procedural
 risk_level: low
 status: enabled
@@ -27,7 +27,7 @@ tags:
   - office
 metadata:
   author: anthropic
-  updated_at: '2026-04-04'
+  updated_at: '2026-04-13'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -49,6 +49,27 @@ market:
     verified: true
   channel: latest
 ---
+
+# xlsx 技能
+
+## L0：一句话摘要
+
+创建、编辑和分析 Excel 电子表格（.xlsx），支持公式、格式、数据分析和可视化。
+
+## L1：概述与使用场景
+
+### 能力描述
+
+xlsx 是一个**流程型技能（Procedural Skill）**，提供 Excel 电子表格的完整处理能力。基于 Python 库（openpyxl、pandas），支持创建新表格、编辑现有文件、数据分析、公式计算、格式设置和图表生成，并通过 LibreOffice 实现公式重算和错误检测。
+
+### 使用场景
+
+- 用户需要创建新的 Excel 电子表格（财务模型、数据报告等）
+- 用户需要编辑或修改现有 .xlsx 文件
+- 用户需要进行数据分析、清洗或格式转换（CSV/TSV → XLSX）
+- 用户需要添加公式、图表或格式化现有表格
+
+## L2：详细规范
 
 ## Prerequisites
 

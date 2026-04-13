@@ -10,7 +10,7 @@ description: >-
   界面设计、组件、海报、Landing Page、落地页、React 组件、Vue 组件、
   CSS 样式、美化界面、设计一个、做一个网页、官网、仪表盘、Dashboard。
 license: Complete terms in LICENSE.txt
-version: 1.0.0
+version: 1.0.1
 type: procedural
 risk_level: low
 status: enabled
@@ -24,7 +24,7 @@ tags:
   - html
 metadata:
   author: anthropic
-  updated_at: '2026-04-07'
+  updated_at: '2026-04-13'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -48,9 +48,31 @@ market:
   channel: latest
 ---
 
-This skill guides creation of distinctive, production-grade frontend interfaces that avoid generic "AI slop" aesthetics. Implement real working code with exceptional attention to aesthetic details and creative choices.
+# frontend-design 技能
 
-The user provides frontend requirements: a component, page, application, or interface to build. They may include context about the purpose, audience, or technical constraints.
+## L0：一句话摘要
+
+创建有品味、避免 AI 烂大街审美的高质量前端界面与组件。
+
+## L1：概述与使用场景
+
+### 能力描述
+
+frontend-design 是一个**流程型技能（Procedural Skill）**，引导创建独特、生产级的前端界面，避免千篇一律的 AI 生成审美。输出真实可运行的代码，注重美学细节和创意选择。
+
+### 使用场景
+
+- 用户需要创建网页组件、页面或应用（Landing Page、仪表盘、React 组件等）
+- 用户需要为现有 Web UI 进行样式美化
+- 用户需要创建海报、视觉设计等前端产出物
+
+### 核心价值
+
+- **反 AI 审美**：拒绝 Inter 字体 + 紫色渐变的烂大街风格
+- **设计思维驱动**：先确定美学方向，再编写代码
+- **生产级质量**：输出可直接使用的完整代码
+
+## L2：详细规范
 
 ## Output Rule
 

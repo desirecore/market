@@ -4,11 +4,11 @@ description: >-
   管理 Agent 的技能生命周期：通过 HTTP API 导入、安装、更新、删除技能，
   或通过 AgentFS 文件系统直接编写符合规范的 SKILL.md。Use when 用户要求
   安装技能、从 URL/Git 导入技能、编写新技能、或管理已有技能。
-version: 1.0.0
+version: 1.0.1
 type: meta
 risk_level: low
 status: enabled
-disable-model-invocation: true
+disable-model-invocation: false
 tags:
   - skill
   - import
@@ -98,6 +98,7 @@ Content-Type: application/json
 ```
 
 **安全限制**：
+
 - 仅允许 HTTPS URL
 - 文件大小上限 20MB
 - 请求超时 30 秒
@@ -163,9 +164,7 @@ Content-Type: application/json
       "id": "data-analysis",
       "path": "data-analysis",
       "content": "---\nname: 数据分析\n...",
-      "sidecarFiles": [
-        { "name": "examples.md", "content": "..." }
-      ]
+      "sidecarFiles": [{ "name": "examples.md", "content": "..." }]
     },
     {
       "id": "report-writing",
@@ -177,6 +176,7 @@ Content-Type: application/json
 ```
 
 API 会自动：
+
 - 使用 `--depth=1` 浅克隆以减少下载量
 - 递归扫描目录中的 SKILL.md 文件
 - 从目录名推导 skillId（fallback 从 frontmatter name 生成 slug）
@@ -315,6 +315,7 @@ Content-Type: application/json
 ```
 
 可选参数：
+
 - `sourceAgentId` — 源 Agent ID（从 agent 级复制时必填）
 - `sourceSource` — 源作用域：`project` | `agent` | `global`
 - `sourceWorkDir` — 源 project workDir（从 project 级复制时使用）
@@ -410,8 +411,8 @@ requires:
 ### 错误处理
 
 | 错误场景 | 处理方式 |
-|---------|---------|
-| ... | ... |
+| -------- | -------- |
+| ...      | ...      |
 ```
 
 #### 使用 Write 工具创建技能示例
@@ -476,60 +477,60 @@ metadata:
 
 #### Frontmatter 字段表
 
-| 字段 | 必填 | 类型 | 说明 |
-|------|------|------|------|
-| `description` | **必填** | string | 技能用途描述，建议包含 "Use when" 触发提示 |
-| `name` | 推荐 | string | 技能显示名称 |
-| `version` | 推荐 | string | 语义版本号（如 `1.0.0`） |
-| `type` | 推荐 | enum | `procedural` / `conversational` / `meta` |
-| `risk_level` | 推荐 | enum | `low` / `medium` / `high` |
-| `status` | 推荐 | enum | `enabled` / `disabled` |
-| `tags` | 可选 | string[] | 标签列表，用于搜索和分类 |
-| `disable-model-invocation` | 可选 | boolean | `true` 时仅允许显式调用，默认 `false` |
-| `requires` | 可选 | object | 依赖声明：`tools`、`optional_tools`、`connections` |
-| `metadata` | 可选 | object | 元信息：`author`、`updated_at` |
-| `market` | 可选 | object | 市场展示元数据（仅市场发布的技能需要） |
+| 字段                       | 必填     | 类型     | 说明                                               |
+| -------------------------- | -------- | -------- | -------------------------------------------------- |
+| `description`              | **必填** | string   | 技能用途描述，建议包含 "Use when" 触发提示         |
+| `name`                     | 推荐     | string   | 技能显示名称                                       |
+| `version`                  | 推荐     | string   | 语义版本号（如 `1.0.0`）                           |
+| `type`                     | 推荐     | enum     | `procedural` / `conversational` / `meta`           |
+| `risk_level`               | 推荐     | enum     | `low` / `medium` / `high`                          |
+| `status`                   | 推荐     | enum     | `enabled` / `disabled`                             |
+| `tags`                     | 可选     | string[] | 标签列表，用于搜索和分类                           |
+| `disable-model-invocation` | 可选     | boolean  | `true` 时仅允许显式调用，默认 `false`              |
+| `requires`                 | 可选     | object   | 依赖声明：`tools`、`optional_tools`、`connections` |
+| `metadata`                 | 可选     | object   | 元信息：`author`、`updated_at`                     |
+| `market`                   | 可选     | object   | 市场展示元数据（仅市场发布的技能需要）             |
 
 #### type 说明
 
-| 类型 | 含义 | 示例 |
-|------|------|------|
-| `procedural` | 流程型，按步骤执行 | 数据分析流程、审批流程 |
-| `conversational` | 对话型，通过多轮对话完成 | 需求收集、头脑风暴 |
-| `meta` | 元技能，管理其他资源 | 创建 Agent、管理技能 |
+| 类型             | 含义                     | 示例                   |
+| ---------------- | ------------------------ | ---------------------- |
+| `procedural`     | 流程型，按步骤执行       | 数据分析流程、审批流程 |
+| `conversational` | 对话型，通过多轮对话完成 | 需求收集、头脑风暴     |
+| `meta`           | 元技能，管理其他资源     | 创建 Agent、管理技能   |
 
 #### Markdown Body 结构（L0 / L1 / L2）
 
-| 层级 | 内容 | 用途 |
-|------|------|------|
-| L0 | 一句话摘要 | 快速理解技能做什么 |
-| L1 | 能力描述 + 使用场景 + 核心价值 | 判断是否适用 |
-| L2 | 详细规范：步骤、API、格式、错误处理 | 具体执行指南 |
+| 层级 | 内容                                | 用途               |
+| ---- | ----------------------------------- | ------------------ |
+| L0   | 一句话摘要                          | 快速理解技能做什么 |
+| L1   | 能力描述 + 使用场景 + 核心价值      | 判断是否适用       |
+| L2   | 详细规范：步骤、API、格式、错误处理 | 具体执行指南       |
 
 ### 6. 作用域说明
 
 技能存在三个作用域层级，按优先级从高到低：
 
-| 优先级 | 作用域 | 路径 | 可见范围 |
-|--------|--------|------|---------|
-| 最高 | Project 级 | `.claude/skills/` (项目根目录) | 当前项目所有 Agent |
-| 中 | Agent 级 | `~/.desirecore/agents/{agentId}/skills/` | 仅该 Agent |
-| 最低 | Global 级 | `~/.desirecore/skills/` | 所有 Agent |
+| 优先级 | 作用域     | 路径                                     | 可见范围           |
+| ------ | ---------- | ---------------------------------------- | ------------------ |
+| 最高   | Project 级 | `.claude/skills/` (项目根目录)           | 当前项目所有 Agent |
+| 中     | Agent 级   | `~/.desirecore/agents/{agentId}/skills/` | 仅该 Agent         |
+| 最低   | Global 级  | `~/.desirecore/skills/`                  | 所有 Agent         |
 
 **同名覆盖规则**：高优先级作用域的同名技能会覆盖低优先级的。例如 Agent 级有一个 `data-analysis` 技能，会覆盖全局同名技能。
 
 ### 7. 错误处理
 
-| 错误码 | 场景 | 处理方式 |
-|--------|------|---------|
-| 400 | 缺少必填字段或格式无效 | 提示用户检查输入，说明哪个字段有问题 |
-| 400 | SKILL.md frontmatter 校验失败 | 展示校验错误详情，引导用户修正 |
-| 404 | 技能不存在 | 提示技能 ID 可能拼写错误，列出可用技能 |
-| 404 | Git 仓库中无 SKILL.md | 提示仓库格式不符合技能规范 |
-| 409 | 技能已存在（冲突写入） | 建议使用 PUT 更新而非 POST 创建 |
-| 413 | 远程文件超过 20MB | 提示文件过大，建议精简内容 |
-| 504 | URL 抓取超时 | 提示网络超时，建议检查 URL 或稍后重试 |
-| 500 | 服务器内部错误 | 提示用户稍后再试 |
+| 错误码 | 场景                          | 处理方式                               |
+| ------ | ----------------------------- | -------------------------------------- |
+| 400    | 缺少必填字段或格式无效        | 提示用户检查输入，说明哪个字段有问题   |
+| 400    | SKILL.md frontmatter 校验失败 | 展示校验错误详情，引导用户修正         |
+| 404    | 技能不存在                    | 提示技能 ID 可能拼写错误，列出可用技能 |
+| 404    | Git 仓库中无 SKILL.md         | 提示仓库格式不符合技能规范             |
+| 409    | 技能已存在（冲突写入）        | 建议使用 PUT 更新而非 POST 创建        |
+| 413    | 远程文件超过 20MB             | 提示文件过大，建议精简内容             |
+| 504    | URL 抓取超时                  | 提示网络超时，建议检查 URL 或稍后重试  |
+| 500    | 服务器内部错误                | 提示用户稍后再试                       |
 
 ### 8. 权限说明
 
