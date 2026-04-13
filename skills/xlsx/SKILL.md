@@ -15,11 +15,11 @@ description: >-
   report, standalone Python script, database pipeline, or Google Sheets API
   integration, even if tabular data is involved. Use when 用户提到 Excel、
   电子表格、xlsx、表格处理、公式计算、数据清洗、图表、CSV导入导出。
-version: 1.0.1
+version: 1.0.2
 type: procedural
 risk_level: low
 status: enabled
-disable-model-invocation: false
+disable-model-invocation: true
 tags:
   - xlsx
   - excel

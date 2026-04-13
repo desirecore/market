@@ -4,11 +4,11 @@ description: >-
   管理 Agent 的技能生命周期：通过 HTTP API 导入、安装、更新、删除技能，
   或通过 AgentFS 文件系统直接编写符合规范的 SKILL.md。Use when 用户要求
   安装技能、从 URL/Git 导入技能、编写新技能、或管理已有技能。
-version: 1.0.1
+version: 1.0.2
 type: meta
 risk_level: low
 status: enabled
-disable-model-invocation: false
+disable-model-invocation: true
 tags:
   - skill
   - import
@@ -371,7 +371,7 @@ metadata:
   updated_at: '2026-03-03'
 
 # === 可选字段 ===
-disable-model-invocation: false
+disable-model-invocation: true
 requires:
   tools:
     - Bash

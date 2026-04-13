@@ -1,11 +1,11 @@
 ---
 name: 对象存储操作
 description: 操作 S3 兼容对象存储（上传、下载、列举、删除），通过 DesireCore HTTP API 调用。Use when 用户要求上传/下载/分享文件、需要生成下载链接、或工作流产出文件需要持久化存储与分发。
-version: 2.0.1
+version: 2.0.2
 type: procedural
 risk_level: medium
 status: enabled
-disable-model-invocation: false
+disable-model-invocation: true
 tags:
   - storage
   - s3

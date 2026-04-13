@@ -13,11 +13,11 @@ description: >-
   PDFs, spreadsheets, Google Docs, or general coding tasks unrelated to document
   generation. Use when 用户提到 Word文档、docx、创建文档、编辑文档、报告、
   备忘录、公文、合同、信函模板。
-version: 1.0.1
+version: 1.0.2
 type: procedural
 risk_level: low
 status: enabled
-disable-model-invocation: false
+disable-model-invocation: true
 tags:
   - docx
   - word

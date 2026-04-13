@@ -10,11 +10,11 @@ description: >-
   界面设计、组件、海报、Landing Page、落地页、React 组件、Vue 组件、
   CSS 样式、美化界面、设计一个、做一个网页、官网、仪表盘、Dashboard。
 license: Complete terms in LICENSE.txt
-version: 1.0.1
+version: 1.0.2
 type: procedural
 risk_level: low
 status: enabled
-disable-model-invocation: false
+disable-model-invocation: true
 tags:
   - frontend
   - design

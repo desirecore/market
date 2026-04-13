@@ -1,11 +1,11 @@
 ---
 name: 删除智能体
 description: 安全删除指定的智能体及其关联数据。删除前会验证智能体状态，支持可选地删除所有会话历史。Use when 用户需要删除不再使用的智能体。
-version: 2.4.1
+version: 2.4.2
 type: meta
 risk_level: high
 status: enabled
-disable-model-invocation: false
+disable-model-invocation: true
 tags:
   - agent
   - deletion

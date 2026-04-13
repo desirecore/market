@@ -9,11 +9,11 @@ description: >-
   user mentions a .pdf file or asks to produce one, use this skill. Use when
   用户提到 PDF、读取PDF、合并PDF、拆分PDF、填写表单、加水印、提取文字、
   扫描识别。
-version: 1.0.1
+version: 1.0.2
 type: procedural
 risk_level: low
 status: enabled
-disable-model-invocation: false
+disable-model-invocation: true
 tags:
   - pdf
   - document

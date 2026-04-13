@@ -9,11 +9,11 @@ description: >-
   Use when 用户提到 邮件、邮箱、收件箱、发邮件、回复邮件、查邮件、Gmail、
   Outlook、QQ邮箱、163邮箱、附件、标签、草稿、自动回复、邮件规则、
   转发、抄送、未读邮件、收信、发信、邮件同步、邮件搜索。
-version: 1.0.1
+version: 1.0.2
 type: procedural
 risk_level: medium
 status: enabled
-disable-model-invocation: false
+disable-model-invocation: true
 tags:
   - mail
   - email

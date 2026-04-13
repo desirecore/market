@@ -12,11 +12,11 @@ description: >-
   content afterward. If a .pptx file needs to be opened, created, or touched,
   use this skill. Use when 用户提到 PPT、演示文稿、幻灯片、演讲稿、汇报材料、
   pptx、创建演示、编辑幻灯片。
-version: 1.0.1
+version: 1.0.2
 type: procedural
 risk_level: low
 status: enabled
-disable-model-invocation: false
+disable-model-invocation: true
 tags:
   - pptx
   - powerpoint
