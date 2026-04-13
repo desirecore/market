@@ -15,11 +15,11 @@ description: >-
   guidance. Use when 用户提到 安装Python、安装Node、安装Docker、容器、Podman、
   WSL、WSL2、环境配置、虚拟环境、版本管理、PATH问题、pip找不到、python找不到、
   docker找不到、容器运行环境。
-version: 1.1.1
+version: 1.1.2
 type: procedural
 risk_level: low
 status: enabled
-disable-model-invocation: false
+disable-model-invocation: true
 tags:
   - environment
   - python
