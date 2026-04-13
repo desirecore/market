@@ -1,10 +1,11 @@
 ---
 name: 团队管理
 description: 创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 围绕同一任务协作、需要建立组织架构、或需要组长统一调度分派任务时。
-version: 1.2.1
+version: 1.2.2
 type: procedural
 risk_level: medium
 status: enabled
+disable-model-invocation: true
 tags:
   - group
   - collaboration
