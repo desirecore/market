@@ -23,6 +23,12 @@
     "icon": "palette",
     "description": "设计与内容创作工具，包括文案策划、创意写作、视觉设计辅助、多媒体制作等"
   },
+  "media": {
+    "label": "媒体",
+    "color": "#AF52DE",
+    "icon": "image",
+    "description": "图片、语音、视频等多媒体生成与处理技能"
+  },
   "communication": {
     "label": "沟通",
     "color": "#007AFF",
