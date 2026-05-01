@@ -25,7 +25,7 @@
 
 | 字段 | 类型 | 默认 | 说明 |
 |------|------|------|------|
-| `disable-model-invocation` | boolean | `true` | `true`=仅显式调用触发；`false`=自动注入 system prompt |
+| `disable-model-invocation` | boolean | `true` | `true`=L0+L1 自动注入 system prompt（按需加载，体积小）；`false`=L0+L1+L2 完整内容注入 system prompt |
 | `user-invocable` | boolean | `true` | `false`=不出现在命令补全，仅作为背景知识 |
 | `allowed-tools` | string[] | 全部 | 限制执行时可用的工具列表（如 `["Edit", "Read", "Bash"]`） |
 | `model` | string | 继承 | 覆盖使用的模型 ID（如 `"claude-sonnet-4-20250514"`） |
@@ -125,8 +125,8 @@ json_output:
 
 ### 分层加载机制
 
-- `disable-model-invocation: false` 时：L0 + L1 自动注入 system prompt
-- `disable-model-invocation: true` 时：显式调用时加载完整内容（L0 + L1 + L2）
+- `disable-model-invocation: true` 时：L0 + L1 自动注入 system prompt（按需加载完整内容，减少 system prompt 体积）
+- `disable-model-invocation: false` 时：L0 + L1 + L2 完整内容注入 system prompt
 - 不分层时：整段内容作为 fallback
 
 ## 完整示例

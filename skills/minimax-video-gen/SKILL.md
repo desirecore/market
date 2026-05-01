@@ -7,11 +7,11 @@ description: >-
   Use when 用户提到 生成视频、文生视频、AI 视频、创建视频、视频生成、
   动画生成、MiniMax 视频、海螺、Hailuo、图片变视频、图生视频。
 license: Complete terms in LICENSE.txt
-version: 1.2.0
+version: 1.2.1
 type: procedural
 risk_level: low
 status: enabled
-disable-model-invocation: false
+disable-model-invocation: true
 provider: minimax
 tags:
   - media

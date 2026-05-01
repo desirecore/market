@@ -6,11 +6,11 @@ description: >-
   consistency. Use when 用户提到 生成图片、画图、文生图、创建图片、
   AI 绘画、生成插图、画一张、帮我画、设计图片、MiniMax 画图。
 license: Complete terms in LICENSE.txt
-version: 1.3.0
+version: 1.3.1
 type: procedural
 risk_level: low
 status: enabled
-disable-model-invocation: false
+disable-model-invocation: true
 provider: minimax
 tags:
   - media

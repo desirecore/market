@@ -6,11 +6,11 @@ description: >-
   and voice cloning. Use when 用户提到 语音合成、文字转语音、TTS、朗读、
   读出来、生成语音、生成音频、文本转音频、配音、念出来、MiniMax 语音。
 license: Complete terms in LICENSE.txt
-version: 1.2.0
+version: 1.2.1
 type: procedural
 risk_level: low
 status: enabled
-disable-model-invocation: false
+disable-model-invocation: true
 provider: minimax
 tags:
   - media

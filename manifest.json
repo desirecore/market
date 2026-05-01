@@ -1,6 +1,6 @@
 {
   "name": "DesireCore Official Market",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "DesireCore 官方市场，提供精选高质量的 Agent 和 Skill",
   "schemaVersion": "1.0.0",
   "maintainer": {
@@ -15,8 +15,8 @@
   },
   "stats": {
     "totalAgents": 1,
-    "totalSkills": 22,
-    "lastUpdated": "2026-04-26"
+    "totalSkills": 19,
+    "lastUpdated": "2026-05-01"
   },
   "features": [
     "verified-only",
