@@ -81,7 +81,8 @@ python3 --version 2>/dev/null || python --version 2>/dev/null
 - **Linux (Debian/Ubuntu)**: `sudo apt install python3 python3-pip`
 - **Linux (Fedora/RHEL)**: `sudo dnf install python3 python3-pip`
 
-如需更详细的环境配置帮助，加载 `environment-setup` 技能。
+如需更详细的环境配置帮助：Python 相关问题加载 `python-runtime` 技能；
+其他（系统工具如 poppler / tesseract、容器 / WSL）加载 `dev-environment-setup` 技能。
 
 ### Python 包依赖
 

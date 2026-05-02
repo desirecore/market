@@ -88,7 +88,9 @@ python3 --version 2>/dev/null || python --version 2>/dev/null
 
 注意：从零创建 PPTX 使用 pptxgenjs（Node.js），不需要 Python。
 
-如需更详细的环境配置帮助，加载 `environment-setup` 技能。
+如需更详细的环境配置帮助：Python 相关问题加载 `python-runtime` 技能；
+Node.js（pptxgenjs）相关问题加载 `nodejs-runtime` 技能；其他（系统工具 /
+容器 / WSL）加载 `dev-environment-setup` 技能。
 
 ### Python 包依赖
 
