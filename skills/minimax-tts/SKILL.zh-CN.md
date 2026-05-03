@@ -126,7 +126,6 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
 ```
 ![语音合成结果](dc-media://这里替换为mediaId)
 ```
-```
 
 ### 参数说明
 

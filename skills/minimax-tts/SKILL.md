@@ -189,7 +189,6 @@ Reference it in your reply using the dc-media protocol (the frontend will automa
 ```
 ![语音合成结果](dc-media://这里替换为mediaId)
 ```
-```
 
 ### Parameter Reference
 

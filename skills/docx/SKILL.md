@@ -263,7 +263,7 @@ const doc = new Document({
 ```javascript
 // ❌ WRONG - never manually insert bullet characters
 new Paragraph({ children: [new TextRun("• Item")] })  // BAD
-new Paragraph({ children: [new TextRun("• Item")] })  // BAD
+new Paragraph({ children: [new TextRun("\u2022 Item")] })  // BAD
 
 // ✅ CORRECT - use numbering config with LevelFormat.BULLET
 const doc = new Document({
