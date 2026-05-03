@@ -1,0 +1,115 @@
+# Workflow DSL 模板
+# 版本：1.0
+# 说明：这是一个五基座示例工作流，展示 trigger / code / llm / agent / human_gate
+#       五种基座节点的完整 DSL 结构。Agent 可参考此模板构建工作流。
+#
+# 使用方式：
+#   1. 复制此模板到 ~/.desirecore/workflows/<wf_id>/workflow.dsl.yaml
+#   2. 修改 id、name、nodes、flow 等字段
+#   3. 用 WorkflowValidate 工具校验
+#   4. 用 WorkflowTest 工具干跑测试
+#   5. 用 WorkflowRun 工具正式执行
+
+version: "1.0"
+id: wf_example_doc_review
+name: 文档摘要与审核工作流
+description: 读取文档 → LLM 生成摘要 → Agent 法律审核 → 人工审批
+creator: desirecore                # 创建此工作流的 Agent ID
+
+nodes:
+  # 节点 0：trigger —— 工作流入口，声明输入参数
+  - id: trigger
+    base: trigger
+    display:
+      name: 手动触发
+      icon: ▶️
+    config:
+      type: manual
+    outputs:
+      filePath:
+        type: string
+        description: "要摘要的文档路径"
+        required: true
+
+  # 节点 1：code —— 读取文档内容
+  - id: prepare
+    base: code
+    display:
+      name: 准备文档
+    config:
+      runtime: nodejs
+      timeout_ms: 10000
+      code: |
+        const fs = await import('fs/promises')
+        const content = await fs.readFile(inputs.file_path, 'utf-8')
+        return { content }
+    inputs:
+      file_path: "{{trigger.filePath}}"
+    outputs:
+      content: "读取到的文档原始内容"
+
+  # 节点 2：llm —— 单次 LLM 调用生成摘要（无状态）
+  - id: summarize
+    base: llm
+    display:
+      name: AI 摘要
+    config:
+      system_prompt: |
+        你是文档摘要助手。请为文档生成结构化摘要，包含：
+        1. 核心要点（3-5 条）
+        2. 关键数据/结论
+        3. 待办事项（如有）
+      max_tokens: 2048
+      temperature: 0.3
+    inputs:
+      data: "{{prepare.content}}"
+    outputs:
+      summary: "结构化摘要文本"
+
+  # 节点 3：agent —— 调用完整 Agent 进行法律审核（有状态）
+  - id: legal_review
+    base: agent
+    display:
+      name: 法律审核
+    config:
+      agent_id: legal-advisor
+      task: |
+        请审核以下文档摘要，重点关注合规性和风险点：
+        {{summarize.summary}}
+    inputs:
+      content: "{{summarize.summary}}"
+    outputs:
+      review: "审核意见"
+      risk_level: "风险等级评估"
+
+  # 节点 4：human_gate —— 人工审批
+  - id: approval
+    base: human_gate
+    display:
+      name: 人工审批
+    config:
+      prompt: |
+        请审阅以下内容并决定是否通过：
+        摘要：{{summarize.summary}}
+        审核意见：{{legal_review.review}}
+        风险等级：{{legal_review.risk_level}}
+      options:
+        - { label: "批准", value: approve }
+        - { label: "拒绝", value: reject }
+        - { label: "修改后通过", value: modify }
+    inputs:
+      summary: "{{summarize.summary}}"
+      review: "{{legal_review.review}}"
+      risk_level: "{{legal_review.risk_level}}"
+    outputs:
+      decision: "审批决定（approve/reject/modify）"
+      comment: "审批备注"
+
+flow:
+  start: trigger
+  edges:
+    - { from: trigger, to: prepare }
+    - { from: prepare, to: summarize }
+    - { from: summarize, to: legal_review }
+    - { from: legal_review, to: approval }
+  end: [approval]
