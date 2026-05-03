@@ -35,7 +35,7 @@ When using an existing presentation as a template:
    - **Complete all structural changes before step 5**
 
 5. **Edit content**: Update text in each `slide{N}.xml`.
-   **Use delegate tool here if available** — slides are separate XML files, so delegated agents can edit in parallel.
+   **Use Delegate tool here if available** — slides are separate XML files, so delegated agents can edit in parallel.
 
 6. **Clean**: `python scripts/clean.py unpacked/`
 
@@ -112,7 +112,7 @@ Slide order is in `ppt/presentation.xml` → `<p:sldIdLst>`.
 
 ## Editing Content
 
-**Delegation:** If the delegate tool is available, use it here (after completing step 4). Each slide is a separate XML file, so delegated agents can edit in parallel. In your prompt to delegated agents, include:
+**Delegation:** If the Delegate tool is available, use it here (after completing step 4). Each slide is a separate XML file, so delegated agents can edit in parallel. In your prompt to delegated agents, include:
 - The slide file path(s) to edit
 - **"Use the Edit tool for all changes"**
 - The formatting rules and common pitfalls below
