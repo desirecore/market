@@ -1,5 +1,5 @@
 ---
-name: 技能创建器
+name: skill-creator
 description: >-
   引导用户创建和编辑符合规范的 SKILL.md 技能包。支持 DesireCore 完整格式
   （frontmatter 元数据 + L0/L1/L2 分层内容 + 脚本/参考/资产）和 Claude Code
@@ -19,6 +19,29 @@ tags:
 metadata:
   author: desirecore
   updated_at: '2026-04-03'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales:
+      - zh-CN
+      - en-US
+    zh-CN:
+      name: 技能创建器
+      short_desc: 引导创建符合规范的 SKILL.md 技能包，支持完整元数据与分层内容
+      description: >-
+        引导用户创建和编辑符合规范的 SKILL.md 技能包。支持 DesireCore 完整格式 （frontmatter 元数据 + L0/L1/L2 分层内容 + 脚本/参考/资产）和 Claude Code 基础格式。Use when 用户要求创建新技能、更新已有技能、或将经验封装为可复用 的技能包。
+      body: ./SKILL.zh-CN.md
+      source_hash: sha256:fa0f3136371f236c
+      translated_by: human
+    en-US:
+      name: Skill Creator
+      short_desc: Guides creation of standards-compliant SKILL.md packages with complete metadata and layered content
+      description: >-
+        Guides users to create and edit standards-compliant SKILL.md skill packages. Supports the DesireCore full format (frontmatter metadata + L0/L1/L2 layered content + scripts/references/assets) and the Claude Code basic format. Use when the user requests to create a new Skill, update an existing Skill, or package experience into a reusable Skill bundle.
+      body: ./SKILL.md
+      source_hash: sha256:fa0f3136371f236c
+      translated_by: ai:claude-opus-4-7
+      translated_at: '2026-05-03'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -30,7 +53,6 @@ market:
     stroke="url(#sc)" stroke-width="1.8" stroke-linecap="round"/><path d="M15
     14l2 2-2 2" stroke="#34C759" stroke-width="2" stroke-linecap="round"
     stroke-linejoin="round"/></svg>
-  short_desc: 引导创建符合规范的 SKILL.md 技能包，支持完整元数据与分层内容
   category: productivity
   maintainer:
     name: DesireCore Official
@@ -39,189 +61,189 @@ market:
   channel: latest
 ---
 
-# skill-creator 技能
+# skill-creator Skill
 
-## L0：一句话摘要
+## L0: One-line Summary
 
-引导用户将需求、经验和工作流封装为结构化的 SKILL.md 技能包。
+Guides users to package requirements, experience, and workflows into structured SKILL.md skill bundles.
 
-## L1：概述与使用场景
+## L1: Overview and Use Cases
 
-### 能力描述
+### Capability
 
-skill-creator 是一个**元技能（Meta-Skill）**，赋予 Agent 创建和编辑技能的能力。技能是模块化、自包含的能力包，通过 SKILL.md 为 Agent 提供专业知识、工作流和工具集成——将 Agent 从通用助手转变为领域专家。
+skill-creator is a **Meta-Skill** that gives an Agent the ability to create and edit Skills. Skills are modular, self-contained capability packages that, via SKILL.md, provide an Agent with domain knowledge, workflows, and tool integrations—turning the Agent from a general assistant into a domain expert.
 
-### 使用场景
+### Use Cases
 
-- 用户想把反复执行的工作流封装为可复用技能
-- 用户想创建新技能教会 Agent 新的能力
-- 用户想更新已有技能、优化其效果
-- 用户分享了参考资料，需要组织为结构化的技能包
+- The user wants to package a repeatedly executed workflow into a reusable Skill
+- The user wants to create a new Skill to teach the Agent a new capability
+- The user wants to update an existing Skill and improve its effectiveness
+- The user has shared reference material that needs to be organized into a structured Skill bundle
 
-### 核心价值
+### Core Value
 
-- **沉淀经验**：将个人知识和工作流固化为可复用的 Skill
-- **自我扩展**：创建的技能让 Agent 能力持续增长
-- **规范化**：生成符合标准的 SKILL.md，确保技能系统正确解析和分发
+- **Distill experience**: Solidify personal knowledge and workflows into reusable Skills
+- **Self-extension**: Skills you create let the Agent's capabilities grow continuously
+- **Standardization**: Generate standards-compliant SKILL.md files so the Skill system parses and distributes them correctly
 
-## L2：详细规范
+## L2: Detailed Specification
 
-### 关于技能
+### About Skills
 
-技能是模块化、自包含的能力包，为 Agent 提供：
+Skills are modular, self-contained capability packages that provide an Agent with:
 
-1. **专业工作流** — 特定领域的多步骤流程
-2. **工具集成** — 处理特定文件格式或 API 的指南
-3. **领域知识** — 公司规范、业务逻辑、专业 Schema
-4. **捆绑资源** — 脚本、参考文档和资产文件
+1. **Specialized workflows** — multi-step processes for a specific domain
+2. **Tool integrations** — guidance for handling specific file formats or APIs
+3. **Domain knowledge** — company conventions, business logic, specialized schemas
+4. **Bundled resources** — scripts, reference docs, and asset files
 
-### 核心原则
+### Core Principles
 
-#### 简洁优先
+#### Conciseness First
 
-上下文窗口是公共资源。技能与系统提示、对话历史、其他技能元数据和用户请求共享上下文窗口。
+The context window is a shared resource. A Skill shares the context window with the system prompt, conversation history, other Skill metadata, and the user request.
 
-**默认假设：AI 已经非常聪明。** 只添加 AI 不知道的内容。对每条信息问自己："AI 真的需要这个解释吗？" "这段话值得它的 Token 成本吗？"
+**Default assumption: the AI is already very capable.** Only add what the AI does not already know. For each piece of information, ask yourself: "Does the AI really need this explained?" "Is this paragraph worth its Token cost?"
 
-优先使用简洁的例子而非冗长的解释。
+Prefer concise examples over verbose explanations.
 
-#### 设置适当的自由度
+#### Set the Right Level of Latitude
 
-根据任务的脆弱性和可变性匹配指令的具体程度：
+Match instruction specificity to the task's fragility and variability:
 
-- **高自由度（文本指引）**：多种方案都可行时，决策依赖上下文
-- **中自由度（伪代码或带参脚本）**：存在首选模式，允许一定变化
-- **低自由度（固定脚本，少量参数）**：操作脆弱易错，一致性至关重要
+- **High latitude (text guidance)**: when multiple approaches work and decisions depend on context
+- **Medium latitude (pseudocode or parameterized scripts)**: when there is a preferred pattern but some variation is allowed
+- **Low latitude (fixed scripts with few parameters)**: when the operation is fragile and error-prone, and consistency is critical
 
-#### 渐进式披露
+#### Progressive Disclosure
 
-技能使用三层加载系统高效管理上下文：
+A Skill uses a three-tier loading system to manage context efficiently:
 
-1. **元数据（name + description）** — 始终在上下文中（~100 词）
-2. **SKILL.md body** — 技能触发时加载（<5k 词）
-3. **捆绑资源** — Agent 按需加载（无限制，脚本可直接执行无需读入上下文）
+1. **Metadata (name + description)** — always in context (~100 words)
+2. **SKILL.md body** — loaded when the Skill is triggered (<5k words)
+3. **Bundled resources** — loaded by the Agent on demand (no limit; scripts can be executed directly without being read into context)
 
-### 技能结构
+### Skill Structure
 
 ```
 skill-name/
-├── SKILL.md          （必须：技能定义文件）
-├── scripts/          （可选：可执行脚本）
-├── references/       （可选：参考文档）
-└── assets/           （可选：输出用资源文件）
+├── SKILL.md          (required: skill definition file)
+├── scripts/          (optional: executable scripts)
+├── references/       (optional: reference docs)
+└── assets/           (optional: output asset files)
 ```
 
-#### SKILL.md 格式
+#### SKILL.md Format
 
-SKILL.md 由两部分组成：**Frontmatter（YAML 元数据）** 和 **Body（Markdown 指令）**。
+A SKILL.md consists of two parts: **Frontmatter (YAML metadata)** and **Body (Markdown instructions)**.
 
-##### Frontmatter 字段
+##### Frontmatter Fields
 
-**必填**：
+**Required**:
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| `description` | string | 技能用途描述。**必须包含 "Use when" 触发提示**——AI 据此判断何时使用该技能 |
+| `description` | string | Skill purpose description. **Must include a "Use when" trigger hint**—the AI uses this to decide when to invoke the Skill |
 
-**推荐**：
+**Recommended**:
 
-| 字段 | 类型 | 说明 | 默认值 |
+| Field | Type | Description | Default |
 |------|------|------|--------|
-| `name` | string | 技能显示名称 | 目录名 |
-| `version` | string | 语义版本号（如 `1.0.0`） | — |
+| `name` | string | Skill display name | Directory name |
+| `version` | string | Semantic version (e.g. `1.0.0`) | — |
 | `type` | enum | `procedural` / `conversational` / `meta` | — |
 | `risk_level` | enum | `low` / `medium` / `high` | — |
 | `status` | enum | `enabled` / `disabled` | `enabled` |
-| `tags` | string[] | 标签列表 | — |
-| `metadata` | object | `author`、`updated_at` | — |
+| `tags` | string[] | List of tags | — |
+| `metadata` | object | `author`, `updated_at` | — |
 
-**功能控制**：
+**Feature Controls**:
 
-| 字段 | 类型 | 默认 | 说明 |
+| Field | Type | Default | Description |
 |------|------|------|------|
-| `disable-model-invocation` | boolean | `true` | `true`=L0+L1 自动注入 system prompt（按需加载，体积小）；`false`=L0+L1+L2 完整内容注入 system prompt |
-| `user-invocable` | boolean | `true` | `false`=不出现在命令补全，仅作为背景知识 |
-| `allowed-tools` | string[] | — | 限制执行时可用的工具列表 |
-| `requires` | object | — | 依赖声明：`tools`、`optional_tools`、`connections` |
+| `disable-model-invocation` | boolean | `true` | `true` = L0+L1 auto-injected into the system prompt (lazy load, small footprint); `false` = full L0+L1+L2 content injected into the system prompt |
+| `user-invocable` | boolean | `true` | `false` = does not appear in command completion; serves only as background knowledge |
+| `allowed-tools` | string[] | — | Restricts the list of tools available at execution time |
+| `requires` | object | — | Dependency declaration: `tools`, `optional_tools`, `connections` |
 
-完整字段表（含市场发布、JSON 输出、fork 执行等高级字段）见 [references/desirecore-format.md](references/desirecore-format.md)。
+For the full field table (including market publishing, JSON output, fork execution, and other advanced fields), see [references/desirecore-format.md](references/desirecore-format.md).
 
-> **Claude Code 兼容说明**：Claude Code 仅使用 `name` + `description`（+ 可选 `license`、`compatibility`）。这些字段在 DesireCore 中完全合法——DesireCore 格式是 Claude Code 的超集。
+> **Claude Code compatibility note**: Claude Code uses only `name` + `description` (plus optional `license`, `compatibility`). These fields are fully legal in DesireCore—the DesireCore format is a superset of Claude Code.
 
-##### Body 结构
+##### Body Structure
 
-**推荐使用 L0/L1/L2 分层**：
+**Recommended L0/L1/L2 layering**:
 
 ```markdown
-# skill-id 技能
+# skill-id Skill
 
-## L0：一句话摘要
-用一句话描述这个技能做什么。
+## L0: One-line Summary
+Describe in one sentence what this Skill does.
 
-## L1：概述与使用场景
-### 能力描述 / ### 使用场景 / ### 核心价值
+## L1: Overview and Use Cases
+### Capability / ### Use Cases / ### Core Value
 
-## L2：详细规范
-### 具体操作步骤 / ### 错误处理
+## L2: Detailed Specification
+### Concrete steps / ### Error handling
 ```
 
-分层加载机制：
-- **L0**（~50 字）：快速理解技能做什么
-- **L1**（~300 字）：判断是否适用于当前任务
-- **L2**（不限）：完整的执行指南
+Layered loading mechanism:
+- **L0** (~50 chars): quickly understand what the Skill does
+- **L1** (~300 chars): decide whether it applies to the current task
+- **L2** (unlimited): the complete execution guide
 
-> 分层不是强制的。如果技能内容简短（<100 行），可以不分层——解析器会以整段内容作为 fallback。Claude Code 的无分层格式在 DesireCore 中同样正常工作。
+> Layering is not mandatory. If the Skill content is short (<100 lines), you can skip layering—the parser will fall back to using the entire content. The unlayered Claude Code format also works in DesireCore.
 
 #### Bundled Resources
 
-##### Scripts（`scripts/`）
+##### Scripts (`scripts/`)
 
-可执行代码（Python/Bash 等），用于需要确定性可靠性或被反复编写的任务。
+Executable code (Python/Bash, etc.) used for tasks that need deterministic reliability or are written repeatedly.
 
-- **何时使用**：相同代码被反复编写，或需要确定性可靠性
-- **示例**：`scripts/rotate_pdf.py`（PDF 旋转）、`scripts/fill_form.py`（表单填充）
-- **优势**：Token 高效，确定性，可直接执行无需读入上下文
-- **注意**：脚本可能仍需被 AI 读取以做环境适配
+- **When to use**: the same code is written repeatedly, or deterministic reliability is needed
+- **Examples**: `scripts/rotate_pdf.py` (PDF rotation), `scripts/fill_form.py` (form filling)
+- **Advantages**: token-efficient, deterministic, can be executed directly without being read into context
+- **Note**: scripts may still need to be read by the AI for environment adaptation
 
-##### References（`references/`）
+##### References (`references/`)
 
-文档和参考资料，按需加载到上下文中。
+Documents and reference material loaded into context on demand.
 
-- **何时使用**：AI 工作时需要参考的详细文档
-- **示例**：API 文档、数据库 Schema、领域知识、公司政策
-- **最佳实践**：大文件（>10k 词）在 SKILL.md 中提供 grep 搜索模式
-- **避免重复**：信息只放 SKILL.md 或 references 中的一处
+- **When to use**: detailed documentation that the AI needs while working
+- **Examples**: API docs, database schemas, domain knowledge, company policies
+- **Best practice**: for large files (>10k words), provide grep search patterns in SKILL.md
+- **Avoid duplication**: keep information in only one place—either SKILL.md or references
 
-##### Assets（`assets/`）
+##### Assets (`assets/`)
 
-不加载到上下文、而是用于输出的文件。
+Files that are not loaded into context but used in the output.
 
-- **何时使用**：技能需要在最终输出中使用的文件
-- **示例**：PPT 模板、HTML 骨架、logo 图片、字体文件
-- **优势**：将输出资源与文档分离
+- **When to use**: files the Skill needs in the final output
+- **Examples**: PPT templates, HTML scaffolds, logo images, font files
+- **Advantage**: separates output assets from documentation
 
-#### 不应包含的内容
+#### What Should Not Be Included
 
-技能应只包含 AI 执行任务所需的文件。**不要**创建：README.md、INSTALLATION_GUIDE.md、CHANGELOG.md 等辅助文档。
+A Skill should contain only the files the AI needs to execute the task. **Do not** create README.md, INSTALLATION_GUIDE.md, CHANGELOG.md, or other ancillary documentation.
 
-### 渐进式披露模式
+### Progressive Disclosure Patterns
 
-保持 SKILL.md body 在 500 行以内。接近限制时拆分到 references。
+Keep the SKILL.md body within 500 lines. When approaching the limit, split content into references.
 
-**模式 1：高层指南 + 参考文件**
+**Pattern 1: High-level guide + reference files**
 
 ```markdown
 # PDF Processing
 
 ## Quick start
-[核心代码示例]
+[core code example]
 
 ## Advanced features
 - **Form filling**: See [FORMS.md](FORMS.md)
 - **API reference**: See [REFERENCE.md](REFERENCE.md)
 ```
 
-**模式 2：按领域组织**
+**Pattern 2: Organized by domain**
 
 ```
 bigquery-skill/
@@ -232,9 +254,9 @@ bigquery-skill/
     └── product.md
 ```
 
-用户问销售指标时，AI 只读 sales.md。
+When the user asks about sales metrics, the AI reads only sales.md.
 
-**模式 3：基本内容 + 条件高级内容**
+**Pattern 3: Basic content + conditional advanced content**
 
 ```markdown
 ## Editing documents
@@ -242,153 +264,153 @@ For simple edits, modify the XML directly.
 **For tracked changes**: See [REDLINING.md](REDLINING.md)
 ```
 
-**重要**：避免深层嵌套引用——references 只从 SKILL.md 直接链接一层。长 reference 文件（>100 行）在顶部加目录。
+**Important**: avoid deep nested references—references should be linked only one level directly from SKILL.md. Long reference files (>100 lines) should include a table of contents at the top.
 
-### 创建流程
+### Creation Workflow
 
-1. 用具体例子理解技能需求
-2. 规划可复用资源（脚本、参考、资产）
-3. 初始化技能（运行 init_skill.py）
-4. 编辑技能（实现资源，编写 SKILL.md）
-5. 验证技能（运行 quick_validate.py）
-6. 安装技能
-7. 迭代优化
+1. Understand the Skill requirements with concrete examples
+2. Plan reusable resources (scripts, references, assets)
+3. Initialize the Skill (run init_skill.py)
+4. Edit the Skill (implement resources, write SKILL.md)
+5. Validate the Skill (run quick_validate.py)
+6. Install the Skill
+7. Iterate and refine
 
-#### 步骤 1：理解技能需求
+#### Step 1: Understand the Skill Requirements
 
-跳过此步仅当技能的使用模式已经完全清晰。即使处理已有技能时，此步仍有价值。
+Skip this step only when the Skill's usage pattern is already completely clear. Even when working on an existing Skill, this step still has value.
 
-通过具体例子理解技能将如何被使用。例如构建 image-editor 技能时：
+Use concrete examples to understand how the Skill will be used. For instance, when building an image-editor Skill:
 
-- "这个技能应支持哪些功能？编辑、旋转、其他？"
-- "能举几个使用场景吗？"
-- "什么操作应该触发这个技能？"
+- "What features should this Skill support? Editing, rotating, anything else?"
+- "Can you give a few use cases?"
+- "What action should trigger this Skill?"
 
-避免一次问太多问题——从最重要的开始，按需跟进。当对技能应支持的功能有清晰认知时，结束此步。
+Avoid asking too many questions at once—start with the most important and follow up as needed. End this step when you have a clear understanding of what features the Skill should support.
 
-#### 步骤 2：规划资源
+#### Step 2: Plan Resources
 
-分析每个例子：
+For each example, analyze:
 
-1. 考虑如何从零执行
-2. 识别哪些脚本、参考、资产在反复执行时有帮助
+1. Consider how to execute it from scratch
+2. Identify which scripts, references, and assets would help when executing repeatedly
 
-示例分析：
+Example analysis:
 
-- `pdf-editor` 处理"旋转 PDF"→ 每次都要写相同代码 → `scripts/rotate_pdf.py`
-- `frontend-webapp-builder` 处理"创建 todo app"→ 每次都要写样板代码 → `assets/hello-world/`
-- `big-query` 处理"今天多少用户登录"→ 每次都要查 Schema → `references/schema.md`
+- `pdf-editor` handles "rotate PDF" → the same code is written every time → `scripts/rotate_pdf.py`
+- `frontend-webapp-builder` handles "create todo app" → boilerplate is written every time → `assets/hello-world/`
+- `big-query` handles "how many users logged in today" → the schema is queried every time → `references/schema.md`
 
-#### 步骤 3：初始化
+#### Step 3: Initialize
 
-使用 init_skill.py 创建模板：
+Use init_skill.py to create a template:
 
 ```bash
-# DesireCore 完整格式（默认，推荐）
+# DesireCore full format (default, recommended)
 scripts/init_skill.py <skill-name> --path <output-directory>
 
-# Claude Code 基础格式
+# Claude Code basic format
 scripts/init_skill.py <skill-name> --path <output-directory> --format basic
 ```
 
-默认生成 DesireCore 格式（含完整 frontmatter + L0/L1/L2 结构）。`--format basic` 生成 Claude Code 兼容的最小格式。
+By default this generates the DesireCore format (with full frontmatter + L0/L1/L2 structure). `--format basic` generates the minimal Claude Code-compatible format.
 
-初始化后，根据需要定制或删除生成的示例文件。
+After initialization, customize or delete the generated example files as needed.
 
-#### 步骤 4：编辑技能
+#### Step 4: Edit the Skill
 
-##### 学习设计模式
+##### Learn the Design Patterns
 
-根据技能需求查阅参考：
+Consult references based on the Skill's needs:
 
-- **多步骤流程**：见 [references/workflows.md](references/workflows.md)
-- **输出格式标准**：见 [references/output-patterns.md](references/output-patterns.md)
+- **Multi-step workflows**: see [references/workflows.md](references/workflows.md)
+- **Output format standards**: see [references/output-patterns.md](references/output-patterns.md)
 
-##### 从资源开始
+##### Start from Resources
 
-先实现步骤 2 识别的资源文件（scripts/、references/、assets/）。此步骤可能需要用户输入，如品牌资产需要用户提供 logo。
+First implement the resource files identified in Step 2 (scripts/, references/, assets/). This step may need user input—e.g. brand assets require the user to supply a logo.
 
-添加的脚本必须实际运行测试，确保无 bug 且输出符合预期。不需要的示例文件应删除。
+Any script you add must actually be run and tested to ensure it is bug-free and its output meets expectations. Unneeded example files should be deleted.
 
-##### 编写 SKILL.md
+##### Write SKILL.md
 
-**Frontmatter 编写要点**：
+**Frontmatter writing tips**:
 
-- `description` 是最关键的字段——AI 据此判断何时触发技能
-- 在 description 中包含 "Use when" 触发提示和典型使用场景
-- 所有 "when to use" 信息放 description 中，不放 body 里（body 只在触发后加载）
+- `description` is the most critical field—the AI uses it to decide when to trigger the Skill
+- Include a "Use when" trigger hint and typical use cases in description
+- Put all "when to use" information in description, not in the body (the body is loaded only after the Skill is triggered)
 
-**Body 编写要点**：
+**Body writing tips**:
 
-- 始终使用祈使句/不定式形式
-- L0 不超过一句话
-- L1 用于判断适用性，不超过 300 字
-- L2 放完整的操作步骤、API 调用、错误处理
+- Always use imperative/infinitive form
+- L0 should be no longer than one sentence
+- L1 is for deciding applicability and should not exceed 300 characters
+- L2 holds the complete steps, API calls, and error handling
 
-#### 步骤 5：验证
+#### Step 5: Validate
 
 ```bash
 scripts/quick_validate.py <path/to/skill-folder>
 ```
 
-验证 SKILL.md 格式、frontmatter 字段合法性和目录结构。
+Validates SKILL.md format, the legality of frontmatter fields, and the directory structure.
 
-#### 步骤 6：安装
+#### Step 6: Install
 
-**方式 A：通过 API 安装（推荐，需 Agent Service 运行中）**
+**Option A: Install via API (recommended; requires the Agent Service to be running)**
 
 ```bash
 PORT=$(cat ~/.desirecore/agent-service.port 2>/dev/null)
 
-# 安装为全局技能（所有 Agent 可见）
+# Install as a global Skill (visible to all Agents)
 curl -k -X POST "https://127.0.0.1:${PORT}/api/skills" \
   -H "Content-Type: application/json" \
   -d "{\"skillId\": \"<skill-name>\", \"content\": \"$(cat path/to/SKILL.md | jq -Rsa .)\"}"
 
-# 安装为 Agent 级技能（仅指定 Agent 可见）
+# Install as an Agent-scoped Skill (visible only to the specified Agent)
 curl -k -X POST "https://127.0.0.1:${PORT}/api/agents/<agentId>/skills" \
   -H "Content-Type: application/json" \
   -d "{\"id\": \"<skill-name>\", \"fullContent\": \"$(cat path/to/SKILL.md | jq -Rsa .)\"}"
 ```
 
-**方式 B：文件系统直写**
+**Option B: Direct filesystem write**
 
 ```bash
-# 全局技能
+# Global Skill
 cp -r path/to/skill-name ~/.desirecore/skills/
 
-# Agent 级技能
+# Agent-scoped Skill
 cp -r path/to/skill-name ~/.desirecore/agents/<agentId>/skills/
 ```
 
-**方式 C：打包为 .skill 文件（Claude Code 兼容）**
+**Option C: Package as a .skill file (Claude Code compatible)**
 
 ```bash
 scripts/package_skill.py <path/to/skill-folder>
 ```
 
-生成 `skill-name.skill` 文件（ZIP 格式），可在 Claude Code 中使用。
+Generates a `skill-name.skill` file (ZIP format) usable in Claude Code.
 
-**安装完成后，必须向用户报告**：
-- 技能已安装到的完整路径
-- 安装的作用域（Global / Agent / Project）
-- 如何在后续对话中触发该技能
+**After installation, you must report to the user**:
+- The full path the Skill was installed to
+- The installation scope (Global / Agent / Project)
+- How to trigger this Skill in subsequent conversations
 
-#### 步骤 7：迭代
+#### Step 7: Iterate
 
-1. 在真实任务中使用技能
-2. 观察不足或低效之处
-3. 确定 SKILL.md 或资源需要如何改进
-4. 实施修改并再次测试
+1. Use the Skill on real tasks
+2. Observe shortcomings or inefficiencies
+3. Decide how the SKILL.md or its resources need to change
+4. Apply the changes and test again
 
-### 作用域说明
+### Scope Notes
 
-技能存在三个作用域层级，按优先级从高到低：
+Skills exist at three scope levels, listed from highest priority to lowest:
 
-| 优先级 | 作用域 | 路径 | 可见范围 |
+| Priority | Scope | Path | Visibility |
 |--------|--------|------|---------|
-| 最高 | Project | `.claude/skills/` | 当前项目所有 Agent |
-| 中 | Agent | `~/.desirecore/agents/{agentId}/skills/` | 仅该 Agent |
-| 最低 | Global | `~/.desirecore/skills/` | 所有 Agent |
+| Highest | Project | `.claude/skills/` | All Agents in the current project |
+| Medium | Agent | `~/.desirecore/agents/{agentId}/skills/` | Only that Agent |
+| Lowest | Global | `~/.desirecore/skills/` | All Agents |
 
-同名技能按优先级覆盖——高优先级的技能会遮蔽低优先级的同名技能。
+Skills with the same name override each other by priority—a higher-priority Skill shadows a lower-priority one with the same name.

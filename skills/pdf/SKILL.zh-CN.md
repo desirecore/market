@@ -1,131 +1,66 @@
----
-name: pdf
-description: >-
-  Use this skill whenever the user wants to do anything with PDF files. This
-  includes reading or extracting text/tables from PDFs, combining or merging
-  multiple PDFs into one, splitting PDFs apart, rotating pages, adding
-  watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs,
-  extracting images, and OCR on scanned PDFs to make them searchable. If the
-  user mentions a .pdf file or asks to produce one, use this skill. Use when
-  用户提到 PDF、读取PDF、合并PDF、拆分PDF、填写表单、加水印、提取文字、
-  扫描识别。
-version: 1.0.2
-type: procedural
-risk_level: low
-status: enabled
-disable-model-invocation: true
-tags:
-  - pdf
-  - document
-  - form
-  - ocr
-metadata:
-  author: anthropic
-  updated_at: '2026-04-13'
-  i18n:
-    default_locale: en-US
-    source_locale: zh-CN
-    locales:
-      - zh-CN
-      - en-US
-    zh-CN:
-      name: PDF 文档处理
-      short_desc: 读取、创建、合并、拆分和填写 PDF 文档
-      description: >-
-        Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs apart, rotating pages, adding watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs, extracting images, and OCR on scanned PDFs to make them searchable. If the user mentions a .pdf file or asks to produce one, use this skill. Use when 用户提到 PDF、读取PDF、合并PDF、拆分PDF、填写表单、加水印、提取文字、 扫描识别。
-      body: ./SKILL.zh-CN.md
-      source_hash: sha256:15805c1921ac2c1e
-      translated_by: human
-    en-US:
-      name: PDF Document Processing
-      short_desc: Read, create, merge, split, and fill PDF documents
-      description: >-
-        Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs apart, rotating pages, adding watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs, extracting images, and OCR on scanned PDFs to make them searchable. If the user mentions a .pdf file or asks to produce one, use this skill. Use when the user mentions PDF, reading PDFs, merging PDFs, splitting PDFs, filling forms, adding watermarks, extracting text, or OCR.
-      body: ./SKILL.md
-      source_hash: sha256:15805c1921ac2c1e
-      translated_by: ai:claude-opus-4-7
-      translated_at: '2026-05-03'
-market:
-  icon: >-
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
-    24 24" fill="none"><defs><linearGradient id="pd-a" x1="4" y1="2" x2="20"
-    y2="22" gradientUnits="userSpaceOnUse"><stop stop-color="#FF3B30"/><stop
-    offset="1" stop-color="#FF9500"/></linearGradient></defs><path d="M14
-    2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-    fill="url(#pd-a)" fill-opacity="0.1" stroke="url(#pd-a)"
-    stroke-width="1.5"/><path d="M14 2v6h6" stroke="url(#pd-a)"
-    stroke-width="1.5" stroke-linejoin="round"/><path d="M8 13h8M8 17h5"
-    stroke="url(#pd-a)" stroke-width="1.3" stroke-linecap="round"/><path
-    d="M17 11v6l2-1.5 2 1.5v-6z" fill="#FF3B30"
-    fill-opacity="0.8"/></svg>
-  category: productivity
-  maintainer:
-    name: DesireCore Official
-    verified: true
-  channel: latest
----
+<!-- locale: zh-CN -->
 
-# pdf skill
+# pdf 技能
 
-## L0: One-Sentence Summary
+## L0：一句话摘要
 
-Read, create, merge, split, and fill PDF documents, with OCR support and command-line tools.
+读取、创建、合并、拆分和填写 PDF 文档，支持 OCR 识别和命令行工具。
 
-## L1: Overview and Use Cases
+## L1：概述与使用场景
 
-### Capability Description
+### 能力描述
 
-pdf is a **Procedural Skill** that provides full PDF document processing capabilities. Built on Python libraries (pypdf, pdfplumber, reportlab) and command-line tools (qpdf, pdftotext, pdftk), it supports text extraction, table extraction, merging/splitting, rotation, watermarking, encryption, form filling, and OCR.
+pdf 是一个**流程型技能（Procedural Skill）**，提供 PDF 文档的完整处理能力。基于 Python 库（pypdf、pdfplumber、reportlab）和命令行工具（qpdf、pdftotext、pdftk），支持文本提取、表格提取、合并拆分、旋转、水印、加密、表单填写和 OCR 识别。
 
-### Use Cases
+### 使用场景
 
-- The user needs to extract text or table data from a PDF
-- The user needs to merge multiple PDFs or split pages
-- The user needs to create a new PDF document
-- The user needs to fill PDF forms, add watermarks, or encrypt PDFs
+- 用户需要从 PDF 中提取文本或表格数据
+- 用户需要合并多个 PDF 或拆分页面
+- 用户需要创建新的 PDF 文档
+- 用户需要填写 PDF 表单、添加水印或加密
 
-## L2: Detailed Specification
+## L2：详细规范
 
 ## Prerequisites
 
-### Python 3 (required)
+### Python 3（必需）
 
-Before performing any Python operation, check that Python is available:
+在执行任何 Python 操作之前，先检测 Python 是否可用：
 
 ```bash
 python3 --version 2>/dev/null || python --version 2>/dev/null
 ```
 
-If the command fails (Python is not available), **you must stop and tell the user to install Python 3**:
+如果命令失败（Python 不可用），**必须停止并告知用户安装 Python 3**：
 
-- **macOS**: `brew install python3`, or download from https://www.python.org/downloads/
-- **Windows**: `winget install Python.Python.3`, or download from python.org (check "Add Python to PATH" during installation)
+- **macOS**: `brew install python3` 或从 https://www.python.org/downloads/ 下载
+- **Windows**: `winget install Python.Python.3` 或从 python.org 下载（安装时勾选 "Add Python to PATH"）
 - **Linux (Debian/Ubuntu)**: `sudo apt install python3 python3-pip`
 - **Linux (Fedora/RHEL)**: `sudo dnf install python3 python3-pip`
 
-For more detailed environment setup help: load the `python-runtime` skill for Python issues;
-load the `dev-environment-setup` skill for everything else (system tools like poppler / tesseract, containers / WSL).
+如需更详细的环境配置帮助：Python 相关问题加载 `python-runtime` 技能；
+其他（系统工具如 poppler / tesseract、容器 / WSL）加载 `dev-environment-setup` 技能。
 
-### Python Package Dependencies
+### Python 包依赖
 
-This skill depends on the following Python packages (checked on demand):
+本技能依赖以下 Python 包（按需检测）：
 
-- `pypdf` — Basic PDF operations (read, merge, split, rotate)
-- `pdfplumber` — Table extraction, layout-aware text extraction
-- `Pillow` — Image processing (watermarks, verification images, etc.)
-- `reportlab` — PDF creation (optional, install on demand)
-- `pdf2image` — PDF-to-image conversion (optional, requires poppler)
+- `pypdf` — PDF 基础操作（读取、合并、拆分、旋转）
+- `pdfplumber` — 表格提取、带布局的文本提取
+- `Pillow` — 图片处理（水印、验证图等）
+- `reportlab` — PDF 创建（可选，按需安装）
+- `pdf2image` — PDF 转图片（可选，需要 poppler）
 
-Core package check:
+核心包检测：
 ```bash
 python3 -c "import pypdf; import pdfplumber; import PIL" 2>/dev/null || echo "MISSING"
 ```
 
-If missing, tell the user to install: `pip install pypdf pdfplumber Pillow`
+缺失时告知用户安装：`pip install pypdf pdfplumber Pillow`
 
 ## Output Rule
 
-When you create or modify a .pdf file, you **MUST** tell the user the absolute path of the output file in your response. Example: "File saved to: `/path/to/output.pdf`"
+When you create or modify a .pdf file, you **MUST** tell the user the absolute path of the output file in your response. Example: "文件已保存到：`/path/to/output.pdf`"
 
 ## Overview
 

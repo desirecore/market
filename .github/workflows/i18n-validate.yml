@@ -1,0 +1,42 @@
+name: i18n Validate
+
+on:
+  pull_request:
+    paths:
+      - "skills/**"
+      - "agents/**"
+      - "manifest.json"
+      - "categories.json"
+      - "scripts/i18n/**"
+  push:
+    branches: [main]
+    paths:
+      - "skills/**"
+      - "agents/**"
+      - "manifest.json"
+      - "categories.json"
+      - "scripts/i18n/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Validate i18n
+        run: uv run --quiet scripts/i18n/validate-i18n.py
+
+      - name: Check for stale translations
+        run: uv run --quiet scripts/i18n/translate.py --check
+        # --check exits 1 when any locale needs translation. We don't fail the
+        # PR — translate.py (the i18n-translate workflow) will fix it. We just
+        # surface the report.
+        continue-on-error: true

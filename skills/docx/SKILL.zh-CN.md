@@ -1,132 +1,63 @@
----
-name: docx
-description: >-
-  Use this skill whenever the user wants to create, read, edit, or manipulate
-  Word documents (.docx files). Triggers include: any mention of "Word doc",
-  "word document", ".docx", or requests to produce professional documents with
-  formatting like tables of contents, headings, page numbers, or letterheads.
-  Also use when extracting or reorganizing content from .docx files, inserting
-  or replacing images in documents, performing find-and-replace in Word files,
-  working with tracked changes or comments, or converting content into a polished
-  Word document. If the user asks for a "report", "memo", "letter", "template",
-  or similar deliverable as a Word or .docx file, use this skill. Do NOT use for
-  PDFs, spreadsheets, Google Docs, or general coding tasks unrelated to document
-  generation. Use when 用户提到 Word文档、docx、创建文档、编辑文档、报告、
-  备忘录、公文、合同、信函模板。
-version: 1.0.2
-type: procedural
-risk_level: low
-status: enabled
-disable-model-invocation: true
-tags:
-  - docx
-  - word
-  - document
-  - office
-metadata:
-  author: anthropic
-  updated_at: '2026-04-13'
-  i18n:
-    default_locale: en-US
-    source_locale: zh-CN
-    locales:
-      - zh-CN
-      - en-US
-    zh-CN:
-      name: Word 文档处理
-      short_desc: 创建、编辑和处理 Word 文档（.docx）
-      description: >-
-        Use this skill whenever the user wants to create, read, edit, or manipulate Word documents (.docx files). Triggers include: any mention of "Word doc", "word document", ".docx", or requests to produce professional documents with formatting like tables of contents, headings, page numbers, or letterheads. Also use when extracting or reorganizing content from .docx files, inserting or replacing images in documents, performing find-and-replace in Word files, working with tracked changes or comments, or converting content into a polished Word document. If the user asks for a "report", "memo", "letter", "template", or similar deliverable as a Word or .docx file, use this skill. Do NOT use for PDFs, spreadsheets, Google Docs, or general coding tasks unrelated to document generation. Use when 用户提到 Word文档、docx、创建文档、编辑文档、报告、 备忘录、公文、合同、信函模板。
-      body: ./SKILL.zh-CN.md
-      source_hash: sha256:b9f7129ef5e82c4b
-      translated_by: human
-    en-US:
-      name: Word Document Processing
-      short_desc: Create, edit, and process Word documents (.docx)
-      description: >-
-        Use this skill whenever the user wants to create, read, edit, or manipulate Word documents (.docx files). Triggers include: any mention of "Word doc", "word document", ".docx", or requests to produce professional documents with formatting like tables of contents, headings, page numbers, or letterheads. Also use when extracting or reorganizing content from .docx files, inserting or replacing images in documents, performing find-and-replace in Word files, working with tracked changes or comments, or converting content into a polished Word document. If the user asks for a "report", "memo", "letter", "template", or similar deliverable as a Word or .docx file, use this skill. Do NOT use for PDFs, spreadsheets, Google Docs, or general coding tasks unrelated to document generation. Use when the user mentions Word documents, docx, creating documents, editing documents, reports, memos, official documents, contracts, or letter templates.
-      body: ./SKILL.md
-      source_hash: sha256:b9f7129ef5e82c4b
-      translated_by: ai:claude-opus-4-7
-      translated_at: '2026-05-03'
-market:
-  icon: >-
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
-    24 24" fill="none"><defs><linearGradient id="dx-a" x1="4" y1="2" x2="20"
-    y2="22" gradientUnits="userSpaceOnUse"><stop stop-color="#007AFF"/><stop
-    offset="1" stop-color="#AF52DE"/></linearGradient></defs><path d="M14
-    2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-    fill="url(#dx-a)" fill-opacity="0.1" stroke="url(#dx-a)"
-    stroke-width="1.5"/><path d="M14 2v6h6" stroke="url(#dx-a)"
-    stroke-width="1.5" stroke-linejoin="round"/><rect x="7" y="10" width="6"
-    height="1.5" rx="0.5" fill="url(#dx-a)" fill-opacity="0.5"/><path d="M7
-    14.5h10M7 17h7" stroke="url(#dx-a)" stroke-width="1.3"
-    stroke-linecap="round"/></svg>
-  category: productivity
-  maintainer:
-    name: DesireCore Official
-    verified: true
-  channel: latest
----
+<!-- locale: zh-CN -->
 
-# docx Skill
+# docx 技能
 
-## L0: One-line Summary
+## L0：一句话摘要
 
-Create, edit, and process Word documents (.docx), with end-to-end support for creation, XML editing, and format validation.
+创建、编辑和处理 Word 文档（.docx），支持新建、修改 XML、格式校验全流程。
 
-## L1: Overview and Use Cases
+## L1：概述与使用场景
 
-### Capability
+### 能力描述
 
-docx is a **Procedural Skill** that provides full processing capabilities for Word documents. It supports creating new documents via docx-js (Node.js), editing existing documents by unpacking and modifying XML, plus format validation and PDF conversion.
+docx 是一个**流程型技能（Procedural Skill）**，提供 Word 文档的完整处理能力。支持通过 docx-js（Node.js）创建新文档，通过解包 XML 编辑现有文档，以及格式验证和 PDF 转换。
 
-### Use Cases
+### 使用场景
 
-- The user needs to create a new Word document (report, memo, contract, letter, etc.)
-- The user needs to edit an existing .docx file (modify content, add comments, track changes)
-- The user needs to extract text or table data from a .docx file
-- The user needs to perform document format conversion (.doc → .docx, .docx → PDF)
+- 用户需要创建新的 Word 文档（报告、备忘录、合同、信函等）
+- 用户需要编辑现有 .docx 文件（修改内容、添加批注、跟踪修改）
+- 用户需要从 .docx 文件中提取文本或表格数据
+- 用户需要进行文档格式转换（.doc → .docx、.docx → PDF）
 
-## L2: Detailed Specification
+## L2：详细规范
 
 ## Prerequisites
 
-### Python 3 (required)
+### Python 3（必需）
 
-Before running any Python script, first check whether Python is available:
+在执行任何 Python 脚本之前，先检测 Python 是否可用：
 
 ```bash
 python3 --version 2>/dev/null || python --version 2>/dev/null
 ```
 
-If the command fails (Python is unavailable), **you must stop and instruct the user to install Python 3**:
+如果命令失败（Python 不可用），**必须停止并告知用户安装 Python 3**：
 
-- **macOS**: `brew install python3` or download from https://www.python.org/downloads/
-- **Windows**: `winget install Python.Python.3` or download from python.org (check "Add Python to PATH" during installation)
+- **macOS**: `brew install python3` 或从 https://www.python.org/downloads/ 下载
+- **Windows**: `winget install Python.Python.3` 或从 python.org 下载（安装时勾选 "Add Python to PATH"）
 - **Linux (Debian/Ubuntu)**: `sudo apt install python3 python3-pip`
 - **Linux (Fedora/RHEL)**: `sudo dnf install python3 python3-pip`
 
-For more detailed environment setup help: for Python-related issues, load the `python-runtime` Skill;
-for everything else (containers / WSL / system tools), load the `dev-environment-setup` Skill.
+如需更详细的环境配置帮助：Python 相关问题加载 `python-runtime` 技能；
+其他（容器 / WSL / 系统工具）加载 `dev-environment-setup` 技能。
 
-### Python Package Dependencies
+### Python 包依赖
 
-The Python scripts in this Skill depend on the following packages (checked on demand, only when the relevant scripts are actually invoked):
+本技能的 Python 脚本依赖以下包（按需检测，仅在实际调用相关脚本时检查）：
 
-- `lxml` — XML schema validation (validate.py)
-- `defusedxml` — safe XML parsing (unpack.py)
+- `lxml` — XML schema 验证（validate.py）
+- `defusedxml` — 安全 XML 解析（unpack.py）
 
-Detection method:
+检测方法：
 ```bash
 python3 -c "import lxml; import defusedxml" 2>/dev/null || echo "MISSING"
 ```
 
-If missing, instruct the user to install: `pip install lxml defusedxml`
+缺失时告知用户安装：`pip install lxml defusedxml`
 
 ## Output Rule
 
-When you create or modify a .docx file, you **MUST** tell the user the absolute path of the output file in your response. Example: "File saved to: `/path/to/output.docx`"
+When you create or modify a .docx file, you **MUST** tell the user the absolute path of the output file in your response. Example: "文件已保存到：`/path/to/output.docx`"
 
 ## Overview
 
@@ -263,7 +194,7 @@ const doc = new Document({
 ```javascript
 // ❌ WRONG - never manually insert bullet characters
 new Paragraph({ children: [new TextRun("• Item")] })  // BAD
-new Paragraph({ children: [new TextRun("• Item")] })  // BAD
+new Paragraph({ children: [new TextRun("\u2022 Item")] })  // BAD
 
 // ✅ CORRECT - use numbering config with LevelFormat.BULLET
 const doc = new Document({

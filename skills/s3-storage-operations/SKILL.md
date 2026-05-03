@@ -1,5 +1,5 @@
 ---
-name: 对象存储操作
+name: s3-storage-operations
 description: 操作 S3 兼容对象存储（上传、下载、列举、删除），通过 DesireCore HTTP API 调用。Use when 用户要求上传/下载/分享文件、需要生成下载链接、或工作流产出文件需要持久化存储与分发。
 version: 2.0.2
 type: procedural
@@ -16,6 +16,29 @@ metadata:
   author: desirecore
   version: '2.0.1'
   updated_at: '2026-03-13'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales:
+      - zh-CN
+      - en-US
+    zh-CN:
+      name: 对象存储操作
+      short_desc: 通过 DesireCore HTTP API 操作 S3 兼容对象存储，支持上传、下载、列举、删除与分享链接
+      description: >-
+        操作 S3 兼容对象存储（上传、下载、列举、删除），通过 DesireCore HTTP API 调用。Use when 用户要求上传/下载/分享文件、需要生成下载链接、或工作流产出文件需要持久化存储与分发。
+      body: ./SKILL.zh-CN.md
+      source_hash: sha256:6ea8e1375f12de72
+      translated_by: human
+    en-US:
+      name: Object Storage Operations
+      short_desc: Operate S3-compatible object storage via DesireCore HTTP API — upload, download, list, delete, and share links
+      description: >-
+        Operate S3-compatible object storage (upload, download, list, delete) via the DesireCore HTTP API. Use when the user requests file upload/download/sharing, needs a download link, or when workflow outputs need persistent storage and distribution.
+      body: ./SKILL.md
+      source_hash: sha256:6ea8e1375f12de72
+      translated_by: ai:claude-opus-4-7
+      translated_at: '2026-05-03'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -34,7 +57,6 @@ market:
     stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path
     d="M16.5 15.5 18 17l1.5-1.5" stroke="#34C759" stroke-width="1.8"
     stroke-linecap="round" stroke-linejoin="round"/></svg>
-  short_desc: 通过 DesireCore HTTP API 操作 S3 兼容对象存储，支持上传、下载、列举、删除与分享链接
   category: data
   maintainer:
     name: DesireCore Official
@@ -43,50 +65,50 @@ market:
   channel: latest
 ---
 
-# s3-storage-operations 技能
+# s3-storage-operations Skill
 
-## L0：一句话摘要
+## L0: One-line Summary
 
-让 Agent 通过 DesireCore HTTP API 操作 S3 兼容对象存储，实现文件上传/下载/列举/删除并生成可分享的下载链接。
+Lets the Agent operate S3-compatible object storage through the DesireCore HTTP API — uploading, downloading, listing, and deleting files, and generating shareable download links.
 
-## L1：概述与使用场景
+## L1: Overview and Use Cases
 
-### 能力描述
+### Capability Description
 
-s3-storage-operations 是一个**工具技能（Tool-Skill）**，通过 DesireCore Agent Service 的 HTTP API 与用户预配置的 S3 兼容对象存储（AWS S3、七牛云 Kodo、MinIO 等）交互。
+s3-storage-operations is a **Tool-Skill** that interacts with the user's pre-configured S3-compatible object storage (AWS S3, Qiniu Kodo, MinIO, etc.) via the DesireCore Agent Service HTTP API.
 
-**架构变更（v2.0）**：S3 操作已从内置工具迁移为 HTTP REST API 端点，可通过 curl 从任意环境调用。Claude Code 的 Global Skill（`desirecore-s3-storage`）包含完整的 curl 调用指南。
+**Architecture change (v2.0)**: S3 operations have been migrated from a built-in tool to HTTP REST API endpoints, callable via curl from any environment. Claude Code's Global Skill (`desirecore-s3-storage`) contains the full curl invocation guide.
 
-核心原则：用户的 S3 连接已在 **资源 → 对象存储** 中预配置。API 自动解析连接——Agent 无需关心连接细节，专注于操作本身。
+Core principle: the user's S3 connection is pre-configured under **Resources → Object Storage**. The API resolves the connection automatically — the Agent does not need to worry about connection details and can focus on the operation itself.
 
-### 使用场景
+### Use Cases
 
-- 用户要求「上传文件」、「放到存储里」、「保存到 S3」
-- 用户要求「给我个下载链接」、「分享这个文件」、「从 S3 下载」
-- 用户要求「看看存储里有什么」、「列出桶里的文件」
-- 用户要求「从 S3 删除」、「清理临时文件」
-- 工作流产出文件（报告、导出、图片）需要通过 URL 分享
-- Agent 需要读取存储在 S3 中的数据进行处理
+- The user asks to "upload a file", "put it in storage", or "save to S3"
+- The user asks for "a download link", "share this file", or "download from S3"
+- The user asks to "see what's in storage" or "list files in the bucket"
+- The user asks to "delete from S3" or "clean up temp files"
+- A workflow produces files (reports, exports, images) that need to be shared via URL
+- The Agent needs to read data stored in S3 for further processing
 
-## L2：详细规范
+## L2: Detailed Specification
 
-### 端口发现
+### Port Discovery
 
 ```bash
 PORT=$(cat ~/.desirecore/agent-service.port)
 ```
 
-### API 端点
+### API Endpoints
 
-| 端点                  | 方法   | 说明                            |
+| Endpoint              | Method | Description                     |
 | --------------------- | ------ | ------------------------------- |
-| `/api/s3/connections` | GET    | 列出可用连接摘要                |
-| `/api/s3/upload`      | POST   | 上传文件（multipart/form-data） |
-| `/api/s3/download`    | GET    | 生成下载链接或下载文件          |
-| `/api/s3/list`        | GET    | 列出对象                        |
-| `/api/s3/objects`     | DELETE | 删除对象                        |
+| `/api/s3/connections` | GET    | List available connection summaries |
+| `/api/s3/upload`      | POST   | Upload a file (multipart/form-data) |
+| `/api/s3/download`    | GET    | Generate a download link or download a file |
+| `/api/s3/list`        | GET    | List objects                    |
+| `/api/s3/objects`     | DELETE | Delete an object                |
 
-### 快速参考
+### Quick Reference
 
 ```bash
 PORT=$(cat ~/.desirecore/agent-service.port)
@@ -109,36 +131,36 @@ curl -k -X DELETE "https://127.0.0.1:${PORT}/api/s3/objects" \
   -H "Content-Type: application/json" -d '{"key":"remote/path.pdf"}'
 ```
 
-### 连接解析机制
+### Connection Resolution
 
-所有 API 端点均接受可选 `connection_id` 参数。未指定时，系统按以下优先级自动解析：
+All API endpoints accept an optional `connection_id` parameter. When unspecified, the system resolves it automatically with the following priority:
 
 ```
-指定 ID  →  isDefault=true  →  第一个 status="connected"  →  第一个连接
+Specified ID  →  isDefault=true  →  first status="connected"  →  first connection
 ```
 
-### 错误处理
+### Error Handling
 
-所有错误返回统一格式：
+All errors return a unified format:
 
 ```json
 { "success": false, "error": "描述信息", "code": "ERROR_CODE" }
 ```
 
-错误代码：`NO_CONNECTION` | `NOT_FOUND` | `UPLOAD_FAILED` | `DOWNLOAD_FAILED` | `DELETE_FAILED` | `LIST_FAILED` | `INVALID_REQUEST`
+Error codes: `NO_CONNECTION` | `NOT_FOUND` | `UPLOAD_FAILED` | `DOWNLOAD_FAILED` | `DELETE_FAILED` | `LIST_FAILED` | `INVALID_REQUEST`
 
-### 安全红线
+### Security Red Lines
 
-| 规则                 | 说明                                                  |
-| -------------------- | ----------------------------------------------------- |
-| **禁止上传敏感文件** | `.env`、凭证文件、私钥等绝不上传                      |
-| **删除前必须确认**   | 调用删除 API 前应与用户确认意图                       |
-| **不假设连接存在**   | API 返回 `NO_CONNECTION` 时，引导用户在界面中添加连接 |
+| Rule                      | Description                                            |
+| ------------------------- | ------------------------------------------------------ |
+| **No uploading sensitive files** | Never upload `.env`, credential files, private keys, etc. |
+| **Confirm before deletion** | Always confirm intent with the user before calling the delete API |
+| **Do not assume a connection exists** | When the API returns `NO_CONNECTION`, guide the user to add a connection in the UI |
 
-### 集成点
+### Integration Points
 
-- **S3 Routes** — `lib/agent-service/routes/s3-routes.ts`: HTTP API 实现
-- **S3 Client** — `lib/agent-service/s3-client.ts`: AWS V4 签名，CRUD 操作
-- **Connection Resolver** — `lib/agent-service/s3-connection-resolver.ts`: 自动选择连接
-- **Global Skill Sync** — `lib/agent-service/global-skill-sync.ts`: 启动时写入 Global Skill
-- **Port Discovery** — `~/.desirecore/agent-service.port`: 端口发现文件
+- **S3 Routes** — `lib/agent-service/routes/s3-routes.ts`: HTTP API implementation
+- **S3 Client** — `lib/agent-service/s3-client.ts`: AWS V4 signing, CRUD operations
+- **Connection Resolver** — `lib/agent-service/s3-connection-resolver.ts`: automatic connection selection
+- **Global Skill Sync** — `lib/agent-service/global-skill-sync.ts`: writes the Global Skill on startup
+- **Port Discovery** — `~/.desirecore/agent-service.port`: port discovery file

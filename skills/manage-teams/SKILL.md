@@ -1,5 +1,5 @@
 ---
-name: 团队管理
+name: manage-teams
 description: 创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 围绕同一任务协作、需要建立组织架构、或需要组长统一调度分派任务时。
 version: 1.2.2
 type: procedural
@@ -13,6 +13,29 @@ tags:
 metadata:
   author: desirecore
   updated_at: '2026-04-13'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales:
+      - zh-CN
+      - en-US
+    zh-CN:
+      name: 团队管理
+      short_desc: 创建团队、管理成员、组织多 Agent 协作
+      description: >-
+        创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 围绕同一任务协作、需要建立组织架构、或需要组长统一调度分派任务时。
+      body: ./SKILL.zh-CN.md
+      source_hash: sha256:d773c10ef1cf4ac7
+      translated_by: human
+    en-US:
+      name: Team Management
+      short_desc: Create teams, manage members, and organize multi-Agent collaboration
+      description: >-
+        Create and manage Agent teams to organize multi-Agent collaboration. Use when multiple Agents need to collaborate on the same task, when organizational structure is required, or when a team leader needs to orchestrate and dispatch tasks.
+      body: ./SKILL.md
+      source_hash: sha256:d773c10ef1cf4ac7
+      translated_by: ai:claude-opus-4-7
+      translated_at: '2026-05-03'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -31,73 +54,72 @@ market:
     fill="#34C759"/><circle cx="17.5" cy="4" r="0.9" fill="#34C759"
     fill-opacity="0.7"/><circle cx="21.5" cy="4" r="0.9" fill="#34C759"
     fill-opacity="0.7"/></svg>
-  short_desc: 创建团队、管理成员、组织多 Agent 协作
   category: productivity
 ---
 
-# manage-teams 技能
+# manage-teams Skill
 
-## L0：一句话摘要
+## L0: One-line Summary
 
-创建和管理 Agent 团队，组织多 Agent 围绕共同任务协作。
+Create and manage Agent teams to organize multiple Agents collaborating around a shared task.
 
-## L1：概述与使用场景
+## L1: Overview and Use Cases
 
-### 能力描述
+### Capability Description
 
-manage-teams 是一个**流程型技能（Procedural Skill）**，赋予 DesireCore 创建和管理 Agent 团队的能力。团队是多个 Agent 围绕共同任务协作的组织单元，每个团队有一个组长（supervisor）负责接收需求、拆解任务、分派给成员、汇总结果。
+manage-teams is a **Procedural Skill** that gives DesireCore the ability to create and manage Agent teams. A team is an organizational unit in which multiple Agents collaborate around a shared task; each team has a supervisor responsible for receiving requirements, decomposing tasks, dispatching work to members, and consolidating results.
 
-### 使用场景
+### Use Cases
 
-- 需要多个 Agent 围绕同一任务持续协作（如项目组）
-- 需要建立组织架构（部门/团队层级）
-- 需要组长统一调度、拆解和分派任务
-- 简单一次性委派不够，需要共享上下文的长期协作
+- Multiple Agents need to collaborate continuously on the same task (e.g., a project group)
+- An organizational hierarchy is required (departments / team levels)
+- A supervisor is needed to centrally orchestrate, decompose, and dispatch tasks
+- Simple one-off delegation is insufficient and long-term collaboration with shared context is required
 
-### 核心价值
+### Core Value
 
-- **组织化协作**：从单点委派升级为团队协作模式
-- **灵活管理**：支持临时团队和持久团队两种模式
-- **动态调整**：运行时可添加/移除成员、更换组长
+- **Organized collaboration**: upgrade from point-to-point delegation to a team collaboration model
+- **Flexible management**: supports both ephemeral and persistent team modes
+- **Dynamic adjustment**: members can be added/removed and supervisors swapped at runtime
 
-## L2：详细规范
+## L2: Detailed Specification
 
-## 核心概念
+## Core Concepts
 
-### 团队 vs 单点委派
+### Teams vs. Single-point Delegation
 
-| 场景 | 推荐方式 | 理由 |
+| Scenario | Recommended Approach | Rationale |
 |------|---------|------|
-| 一次性简单问题 | `delegate(target, mode='sync')` | 无需组织开销 |
-| 需要一个专家处理 | `delegate(target, mode='sync/async')` | 一对一足够 |
-| 需要多专家各出意见 | `delegate(targets, mode='fan-out')` | 并行分派无需创建团队 |
-| 持续协作 + 共享上下文 | **创建团队** | 团队提供共享 workdir 和组织架构 |
-| 组织架构管理 | **创建嵌套团队** | 部门/团队层级关系 |
+| One-off simple problem | `delegate(target, mode='sync')` | No need for organizational overhead |
+| Need a single expert to handle | `delegate(target, mode='sync/async')` | One-to-one is sufficient |
+| Need multiple experts to weigh in | `delegate(targets, mode='fan-out')` | Parallel dispatch without creating a team |
+| Continuous collaboration + shared context | **Create a team** | Teams provide a shared workdir and structure |
+| Organizational hierarchy management | **Create nested teams** | Department / team hierarchy relationships |
 
-### 团队类型
+### Team Types
 
-- **临时团队（ephemeral）**：任务驱动，完成后可解散。适合项目制协作。
-- **持久团队（persistent）**：长期存在，适合部门/团队。临时团队可升级为持久团队。
+- **Ephemeral team**: task-driven, can be disbanded after completion. Suitable for project-based collaboration.
+- **Persistent team**: long-lived, suitable for departments / teams. Ephemeral teams can be promoted to persistent.
 
-### 组长唯一性约束
+### Supervisor Uniqueness Constraint
 
-**一个 Agent 只能担任一个团队的组长（TL）。** 这是组织架构的硬性约束：
+**An Agent can only serve as the supervisor (TL) of a single team.** This is a hard constraint of the organizational structure:
 
-- 创建团队时，如果调用者已是其他团队的组长，应先卸任原团队组长（`set_supervisor` 指定接替者）再创建新团队
-- 不要将已担任组长的 Agent 设为另一个团队的组长
-- 一个 Agent 可以同时是某团队的组长和另一个团队的普通成员，但不能同时担任两个团队的组长
+- When creating a team, if the caller is already a supervisor of another team, they must first step down from the original team (use `set_supervisor` to designate a successor) before creating the new team
+- Do not assign an Agent who already serves as supervisor to be the supervisor of another team
+- An Agent can simultaneously be the supervisor of one team and a regular member of another, but cannot be supervisor of two teams at once
 
-### 组长职责
+### Supervisor Responsibilities
 
-1. 接收用户需求，分析任务复杂度
-2. 拆解子任务，决定需要哪些成员参与
-3. 使用 `delegate` 工具分派任务（单点或 fan-out）
-4. 汇总各成员结果，给出综合回答
-5. 根据需要动态调整成员（添加/移除）
+1. Receive user requirements and analyze task complexity
+2. Decompose subtasks and decide which members are needed
+3. Use the `delegate` tool to dispatch tasks (single-point or fan-out)
+4. Consolidate results from members and produce an integrated answer
+5. Dynamically adjust members (add/remove) as needed
 
-## 操作指南
+## Operations Guide
 
-### 创建团队
+### Create a Team
 
 ```
 manage_team({
@@ -108,11 +130,11 @@ manage_team({
 })
 ```
 
-组长默认为调用者（你自己）。创建后你就是这个团队的 supervisor。
+The supervisor defaults to the caller (you). After creation, you are the supervisor of this team.
 
-### 向团队成员分派任务
+### Dispatch Tasks to Team Members
 
-**单点委派**（一个成员处理）：
+**Single-point delegation** (one member handles it):
 ```
 delegate({
   target: 'legal-advisor',
@@ -121,7 +143,7 @@ delegate({
 })
 ```
 
-**扇出委派**（多个成员并行）：
+**Fan-out delegation** (multiple members in parallel):
 ```
 delegate({
   targets: ['legal-advisor', 'finance-advisor', 'real-estate'],
@@ -131,7 +153,7 @@ delegate({
 })
 ```
 
-### 管理成员
+### Manage Members
 
 ```
 // 添加成员
@@ -150,7 +172,7 @@ manage_team({ action: 'remove_members', teamId: '...', members: ['agent-a', 'age
 manage_team({ action: 'set_supervisor', teamId: '...', agentId: 'new-leader' })
 ```
 
-### 团队生命周期
+### Team Lifecycle
 
 ```
 // 任务完成，解散临时团队
@@ -160,13 +182,13 @@ manage_team({ action: 'disband', teamId: '...' })
 manage_team({ action: 'promote', teamId: '...' })
 ```
 
-## 最佳实践
+## Best Practices
 
-1. **先评估再创建团队**：简单任务直接 delegate，不要过度组织
-2. **成员精简**：只拉入真正需要的专家，避免信息过载
-3. **优先团队内成员**：在团队中优先委派给团队内成员。如需团队外专家的一次性意见，可临时 delegate 咨询而无需加入团队；若反复需要，则用 add_member 正式拉入
-4. **明确任务描述**：分派时给出清晰的任务描述和背景信息
-5. **及时汇总**：收到成员结果后及时汇总，不要让用户等待
-6. **动态调整**：发现缺少某领域专家时，用 add_member 补充
-7. **用完即散**：临时团队任务完成后及时解散，保持组织整洁
-8. **组长唯一**：一个 Agent 只担任一个团队的组长，避免职责分散导致管理混乱
+1. **Evaluate before creating a team**: simple tasks should be delegated directly without over-organizing
+2. **Keep membership lean**: only bring in the experts truly needed to avoid information overload
+3. **Prefer in-team members**: within a team, prefer delegating to its members. For one-off opinions from outside experts, ad-hoc `delegate` consultation is fine without joining the team; if needed repeatedly, formally bring them in via `add_member`
+4. **Clear task descriptions**: provide a clear task description and background information when dispatching
+5. **Consolidate promptly**: synthesize member results promptly — do not keep the user waiting
+6. **Adjust dynamically**: when missing a domain expert, supplement with `add_member`
+7. **Disband after use**: disband ephemeral teams promptly when their task is done to keep the organization tidy
+8. **One supervisor per Agent**: an Agent should only serve as supervisor of one team to avoid management chaos from divided responsibilities
