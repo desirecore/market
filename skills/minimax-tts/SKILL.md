@@ -36,7 +36,7 @@ metadata:
       description: >-
         Use this skill when the user wants to convert text to speech using MiniMax's T2A (Text-to-Audio) API. Supports multiple voice styles, emotional control, and voice cloning. Use when 用户提到 语音合成、文字转语音、TTS、朗读、 读出来、生成语音、生成音频、文本转音频、配音、念出来、MiniMax 语音。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:f372052761b12559
+      source_hash: sha256:455a2ee6365958c2
       translated_by: human
     en-US:
       name: MiniMax Text-to-Speech
@@ -44,7 +44,7 @@ metadata:
       description: >-
         Use this skill when the user wants to convert text to speech using MiniMax's T2A (Text-to-Audio) API. Supports multiple voice styles, emotional control, and voice cloning. Use when the user mentions text-to-speech, TTS, read aloud, read it out, generate speech, generate audio, text-to-audio, voiceover, narrate it, MiniMax voice.
       body: ./SKILL.md
-      source_hash: sha256:f372052761b12559
+      source_hash: sha256:455a2ee6365958c2
       translated_by: ai:claude-opus-4-7
       translated_at: '2026-05-03'
 market:

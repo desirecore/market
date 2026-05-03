@@ -1,7 +1,7 @@
 ---
 name: manage-teams
 description: 创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 围绕同一任务协作、需要建立组织架构、或需要组长统一调度分派任务时。
-version: 1.2.2
+version: 1.2.3
 type: procedural
 risk_level: medium
 status: enabled
@@ -12,7 +12,7 @@ tags:
   - organization
 metadata:
   author: desirecore
-  updated_at: '2026-04-13'
+  updated_at: '2026-05-04'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -25,7 +25,7 @@ metadata:
       description: >-
         创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 围绕同一任务协作、需要建立组织架构、或需要组长统一调度分派任务时。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:d773c10ef1cf4ac7
+      source_hash: sha256:2aad4d237ca4bc7a
       translated_by: human
     en-US:
       name: Team Management
@@ -33,7 +33,7 @@ metadata:
       description: >-
         Create and manage Agent teams to organize multi-Agent collaboration. Use when multiple Agents need to collaborate on the same task, when organizational structure is required, or when a team leader needs to orchestrate and dispatch tasks.
       body: ./SKILL.md
-      source_hash: sha256:d773c10ef1cf4ac7
+      source_hash: sha256:2aad4d237ca4bc7a
       translated_by: ai:claude-opus-4-7
       translated_at: '2026-05-03'
 market:
@@ -90,9 +90,9 @@ manage-teams is a **Procedural Skill** that gives DesireCore the ability to crea
 
 | Scenario | Recommended Approach | Rationale |
 |------|---------|------|
-| One-off simple problem | `delegate(target, mode='sync')` | No need for organizational overhead |
-| Need a single expert to handle | `delegate(target, mode='sync/async')` | One-to-one is sufficient |
-| Need multiple experts to weigh in | `delegate(targets, mode='fan-out')` | Parallel dispatch without creating a team |
+| One-off simple problem | `Delegate(target, mode='sync')` | No need for organizational overhead |
+| Need a single expert to handle | `Delegate(target, mode='sync/async')` | One-to-one is sufficient |
+| Need multiple experts to weigh in | `Delegate(targets, mode='fan-out')` | Parallel dispatch without creating a team |
 | Continuous collaboration + shared context | **Create a team** | Teams provide a shared workdir and structure |
 | Organizational hierarchy management | **Create nested teams** | Department / team hierarchy relationships |
 
@@ -113,7 +113,7 @@ manage-teams is a **Procedural Skill** that gives DesireCore the ability to crea
 
 1. Receive user requirements and analyze task complexity
 2. Decompose subtasks and decide which members are needed
-3. Use the `delegate` tool to dispatch tasks (single-point or fan-out)
+3. Use the `Delegate` tool to dispatch tasks (single-point or fan-out)
 4. Consolidate results from members and produce an integrated answer
 5. Dynamically adjust members (add/remove) as needed
 
@@ -122,7 +122,7 @@ manage-teams is a **Procedural Skill** that gives DesireCore the ability to crea
 ### Create a Team
 
 ```
-manage_team({
+ManageTeam({
   action: 'create',
   name: '房产评估项目组',
   members: ['legal-advisor', 'finance-advisor', 'real-estate'],
@@ -136,7 +136,7 @@ The supervisor defaults to the caller (you). After creation, you are the supervi
 
 **Single-point delegation** (one member handles it):
 ```
-delegate({
+Delegate({
   target: 'legal-advisor',
   task: '检查该房产的产权状况和法律风险',
   mode: 'sync'
@@ -145,7 +145,7 @@ delegate({
 
 **Fan-out delegation** (multiple members in parallel):
 ```
-delegate({
+Delegate({
   targets: ['legal-advisor', 'finance-advisor', 'real-estate'],
   task: '从各自专业角度评估这套房产',
   mode: 'fan-out',
@@ -157,36 +157,36 @@ delegate({
 
 ```
 // 添加成员
-manage_team({ action: 'add_member', teamId: '...', agentId: 'new-agent' })
+ManageTeam({ action: 'add_member', teamId: '...', agentId: 'new-agent' })
 
 // 批量添加成员
-manage_team({ action: 'add_members', teamId: '...', members: ['agent-a', 'agent-b'] })
+ManageTeam({ action: 'add_members', teamId: '...', members: ['agent-a', 'agent-b'] })
 
 // 移除成员
-manage_team({ action: 'remove_member', teamId: '...', agentId: 'old-agent' })
+ManageTeam({ action: 'remove_member', teamId: '...', agentId: 'old-agent' })
 
 // 批量移除成员
-manage_team({ action: 'remove_members', teamId: '...', members: ['agent-a', 'agent-b'] })
+ManageTeam({ action: 'remove_members', teamId: '...', members: ['agent-a', 'agent-b'] })
 
 // 更换组长
-manage_team({ action: 'set_supervisor', teamId: '...', agentId: 'new-leader' })
+ManageTeam({ action: 'set_supervisor', teamId: '...', agentId: 'new-leader' })
 ```
 
 ### Team Lifecycle
 
 ```
 // 任务完成，解散临时团队
-manage_team({ action: 'disband', teamId: '...' })
+ManageTeam({ action: 'disband', teamId: '...' })
 
 // 或升级为持久团队（长期使用）
-manage_team({ action: 'promote', teamId: '...' })
+ManageTeam({ action: 'promote', teamId: '...' })
 ```
 
 ## Best Practices
 
 1. **Evaluate before creating a team**: simple tasks should be delegated directly without over-organizing
 2. **Keep membership lean**: only bring in the experts truly needed to avoid information overload
-3. **Prefer in-team members**: within a team, prefer delegating to its members. For one-off opinions from outside experts, ad-hoc `delegate` consultation is fine without joining the team; if needed repeatedly, formally bring them in via `add_member`
+3. **Prefer in-team members**: within a team, prefer delegating to its members. For one-off opinions from outside experts, ad-hoc `Delegate` consultation is fine without joining the team; if needed repeatedly, formally bring them in via `add_member`
 4. **Clear task descriptions**: provide a clear task description and background information when dispatching
 5. **Consolidate promptly**: synthesize member results promptly — do not keep the user waiting
 6. **Adjust dynamically**: when missing a domain expert, supplement with `add_member`

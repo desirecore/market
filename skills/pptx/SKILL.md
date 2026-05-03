@@ -12,7 +12,7 @@ description: >-
   content afterward. If a .pptx file needs to be opened, created, or touched,
   use this skill. Use when 用户提到 PPT、演示文稿、幻灯片、演讲稿、汇报材料、
   pptx、创建演示、编辑幻灯片。
-version: 1.0.2
+version: 1.0.3
 type: procedural
 risk_level: low
 status: enabled
@@ -25,7 +25,7 @@ tags:
   - office
 metadata:
   author: anthropic
-  updated_at: '2026-04-13'
+  updated_at: '2026-05-04'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
