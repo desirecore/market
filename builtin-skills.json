@@ -10,6 +10,7 @@
     "manage-skills",
     "manage-teams",
     "minimax-image-gen",
+    "minimax-music-gen",
     "minimax-tts",
     "minimax-video-gen",
     "nodejs-runtime",
