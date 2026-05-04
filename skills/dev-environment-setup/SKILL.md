@@ -12,7 +12,7 @@ description: >-
   cross-cutting environment question. 使用场景：用户提到 环境配置、PATH、
   容器、Docker、Podman、WSL、WSL2、办公依赖、系统工具，或不确定属于 Python /
   Node.js 时的入口指引。
-version: 2.0.1
+version: 2.0.2
 type: procedural
 risk_level: low
 status: enabled
@@ -27,7 +27,7 @@ tags:
   - router
 metadata:
   author: desirecore
-  updated_at: '2026-05-02'
+  updated_at: '2026-05-05'
   i18n:
     default_locale: en-US
     source_locale: zh-CN

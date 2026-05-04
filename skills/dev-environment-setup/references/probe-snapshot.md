@@ -9,7 +9,7 @@
 | `platform` | `"darwin" \| "linux" \| "win32"` | 操作系统标识 |
 | `arch` | `"arm64" \| "x64" \| ...` | CPU 架构 |
 | `desirecore_api` | `string` | 探测到的 DesireCore agent-service URL，不可达时为 `""` |
-| `desirecore_port_file` | `string` | `~/.desirecore/agent-service.port` 是否存在 |
+| `desirecore_port_file` | `boolean` | `~/.desirecore/agent-service.port` 是否存在（probe.sh / probe.ps1 输出原生 JSON boolean） |
 
 ## probe.sh / probe.ps1（父级 dev-environment-setup）
 
@@ -95,7 +95,7 @@ Windows 上 `wsl` 字段值类似 `{ "installed": true, "version": "2", "default
 
 1. **JSON 必合法**：缺字段也保留键并赋空字符串/`null`，避免 Claude 解析失败。
 2. **不阻塞**：每个外部命令都加 `2>/dev/null`，失败用空值，不让脚本中途退出。
-3. **超时控制**：HTTP 探测 0.5s 超时；CLI 调用最长 5s。
+3. **超时控制**：HTTP 探测 0.5s 超时（curl `--max-time`/PowerShell `TimeoutSec`）；CLI 调用（`--version` 等）依赖工具自身实现，无显式 timeout 包装，正常情况通常 <5s 完成。
 4. **跨平台**：`probe.sh` / `probe-python.sh` / `probe-node.sh` 共用 POSIX 子集；Windows 同等功能由 `probe.ps1` 提供（仅父级提供，python/nodejs 子 skill 可由 PowerShell 直接 invoke 父级或自行实现）。
 5. **路径展开**：所有 `~` 在 JSON 中展开为绝对路径，避免下游解析歧义。
 
