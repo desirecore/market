@@ -1,5 +1,5 @@
 ---
-name: 开发环境综合配置
+name: dev-environment-setup
 description: >-
   Use this skill as a router/index when the user faces a development
   environment question that spans multiple domains: containers
@@ -28,6 +28,29 @@ tags:
 metadata:
   author: desirecore
   updated_at: '2026-05-02'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales:
+      - zh-CN
+      - en-US
+    zh-CN:
+      name: 开发环境综合配置
+      short_desc: 开发环境综合入口（容器 / WSL / 办公依赖 / 系统工具）
+      description: >-
+        Use this skill as a router/index when the user faces a development environment question that spans multiple domains: containers (Docker/Podman), WSL2 on Windows, office-skill dependencies (DOCX/PDF/XLSX/ PPTX), or system tools (LibreOffice/Poppler/Pandoc/Tesseract). For pure Python issues use python-runtime skill; for pure Node.js issues use nodejs-runtime skill. Triggers include: "setup environment", "PATH", "WSL", "WSL2", "docker not found", "podman", "container", "office dependency", "LibreOffice", "poppler", "pandoc", "tesseract", or any cross-cutting environment question. 使用场景：用户提到 环境配置、PATH、 容器、Docker、Podman、WSL、WSL2、办公依赖、系统工具，或不确定属于 Python / Node.js 时的入口指引。
+      body: ./SKILL.zh-CN.md
+      source_hash: sha256:7e4baaf42d5c0ace
+      translated_by: human
+    en-US:
+      name: Dev Environment Setup
+      short_desc: Unified dev environment entry (container / WSL / office deps / system tools)
+      description: >-
+        Use this skill as a router/index when the user faces a development environment question that spans multiple domains: containers (Docker/Podman), WSL2 on Windows, office-skill dependencies (DOCX/PDF/XLSX/ PPTX), or system tools (LibreOffice/Poppler/Pandoc/Tesseract). For pure Python issues use python-runtime skill; for pure Node.js issues use nodejs-runtime skill. Triggers include: "setup environment", "PATH", "WSL", "WSL2", "docker not found", "podman", "container", "office dependency", "LibreOffice", "poppler", "pandoc", "tesseract", or any cross-cutting environment question. Use when the user mentions environment setup, PATH, containers, Docker, Podman, WSL, WSL2, office dependencies, system tools, or needs an entry-point guide when uncertain whether the issue belongs to Python or Node.js.
+      body: ./SKILL.md
+      source_hash: sha256:7e4baaf42d5c0ace
+      translated_by: ai:claude-opus-4-7
+      translated_at: '2026-05-03'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -39,7 +62,6 @@ market:
     stroke="url(#env-a)" stroke-width="1.5" stroke-linecap="round"
     stroke-linejoin="round"/><path d="M13 16h4" stroke="url(#env-a)"
     stroke-width="1.5" stroke-linecap="round"/></svg>
-  short_desc: 开发环境综合入口（容器 / WSL / 办公依赖 / 系统工具）
   category: productivity
   maintainer:
     name: DesireCore Official
@@ -47,94 +69,94 @@ market:
   channel: latest
 ---
 
-# dev-environment-setup 技能（v2.0.0 router）
+# dev-environment-setup Skill (v2.0.0 router)
 
-## L0：一句话摘要
+## L0: One-line Summary
 
-**何时使用**：用户需要
+**When to use**: The user needs to
 
-- 安装 / 排查 **Docker** 或 **Podman** 容器（"docker not found"、daemon 启动、镜像加速等）
-- 在 Windows 上配置 **WSL2**（Linux 子系统）
-- 一次性安装 **办公技能依赖**（DOCX / PDF / XLSX / PPTX 所需的 Python 包 + npm 包 + 系统工具）
-- 安装 **系统工具**：LibreOffice / Poppler / Pandoc / Tesseract / qpdf / ImageMagick / Ghostscript / Git
-- **不确定** 问题属于 Python 还是 Node.js，需要先做综合诊断
+- Install / troubleshoot **Docker** or **Podman** containers ("docker not found", daemon startup, registry mirror, etc.)
+- Configure **WSL2** (Linux Subsystem) on Windows
+- One-shot install of **office skill dependencies** (Python packages + npm packages + system tools required by DOCX / PDF / XLSX / PPTX)
+- Install **system tools**: LibreOffice / Poppler / Pandoc / Tesseract / qpdf / ImageMagick / Ghostscript / Git
+- **Uncertain** whether the issue belongs to Python or Node.js, and a comprehensive diagnosis is needed first
 
-**何时不要用**：纯 Python 问题用 `python-runtime`，纯 Node.js 问题用 `nodejs-runtime`。
+**When not to use**: Use `python-runtime` for pure Python issues, and `nodejs-runtime` for pure Node.js issues.
 
-**怎么做**：先跑 `scripts/probe.sh`（Windows 用 `probe.ps1`）取系统快照 JSON，
-按结果路由到对应 references 或子 skill；同时也是 DesireCore 内置 Hatch / Volta /
-HTTP API / Socket.IO 集成的事实源（`references/desirecore-runtime.md`）。
+**How to do it**: First run `scripts/probe.sh` (use `probe.ps1` on Windows) to obtain a system snapshot JSON,
+and route to the corresponding references or sub-skill based on the result; this skill is also the source of truth
+for DesireCore's built-in Hatch / Volta / HTTP API / Socket.IO integration (`references/desirecore-runtime.md`).
 
-## L1：路由规则
+## L1: Routing Rules
 
-按用户问题的关键字直接转到对应 skill 或文档：
+Route directly to the corresponding skill or document by the keywords in the user's question:
 
-| 关键字 / 场景 | 路径 |
+| Keyword / Scenario | Path |
 |--------------|------|
 | python / pip / venv / pyenv / hatch / virtualenv / PEP 668 | `python-runtime` skill |
 | node / npm / pnpm / yarn / volta / nvm / fnm / EACCES | `nodejs-runtime` skill |
-| docker / podman / container / 容器守护进程 | `references/container.md` |
-| WSL / WSL2 / Windows Linux 子系统 | `references/wsl.md` |
-| DOCX / PDF / XLSX / PPTX 依赖 / 办公技能依赖 | `references/office-deps.md` |
+| docker / podman / container / container daemon | `references/container.md` |
+| WSL / WSL2 / Windows Linux Subsystem | `references/wsl.md` |
+| DOCX / PDF / XLSX / PPTX dependencies / office skill dependencies | `references/office-deps.md` |
 | LibreOffice / poppler / pandoc / tesseract / qpdf | `references/system-tools.md` |
-| 不确定属于哪类、想要快速诊断 | 先跑 `scripts/probe.sh` 看 JSON |
+| Unsure of category, want a quick diagnosis | First run `scripts/probe.sh` and inspect the JSON |
 | DesireCore Hatch / Volta / HTTP API / Socket.IO | `references/desirecore-runtime.md` |
-| 四级降级决策（API → CLI → 包管理器 → 社区方案） | `references/decision-tree.md` |
+| Four-tier fallback decision (API → CLI → package manager → community solution) | `references/decision-tree.md` |
 
-## L2：详细规范
+## L2: Detailed Specification
 
-### 第一步：快速诊断
+### Step 1: Quick Diagnosis
 
 ```bash
 bash skills/dev-environment-setup/scripts/probe.sh > /tmp/env-probe.json
 cat /tmp/env-probe.json | jq .
 ```
 
-输出字段含义：见 `references/probe-snapshot.md`。Windows 用 `scripts/probe.ps1`。
+For the meaning of output fields, see `references/probe-snapshot.md`. On Windows use `scripts/probe.ps1`.
 
-### 第二步：按结果路由
+### Step 2: Route by Result
 
-- `desirecore_api` 非空 → 走 HTTP API 路径（`references/desirecore-runtime.md`）
-- `tools.python3.available = false` 或 `tools.node.available = false` → 进入对应子 skill
-- `tools.docker.available = false` 且用户需容器 → `references/container.md`
-- `wsl.installed = false` 且 Windows 用户 → `references/wsl.md`
+- `desirecore_api` non-empty → take the HTTP API path (`references/desirecore-runtime.md`)
+- `tools.python3.available = false` or `tools.node.available = false` → enter the corresponding sub-skill
+- `tools.docker.available = false` and the user needs containers → `references/container.md`
+- `wsl.installed = false` and Windows user → `references/wsl.md`
 
-### 第三步：执行子 skill 决策树
+### Step 3: Execute the Sub-skill Decision Tree
 
-`python-runtime` 与 `nodejs-runtime` 都有自己的四级降级（L1 API → L2 内置 CLI → L3 系统包管理器 → L4 社区方案），定义在共享的 `references/decision-tree.md`。
+Both `python-runtime` and `nodejs-runtime` have their own four-tier fallback (L1 API → L2 built-in CLI → L3 system package manager → L4 community solution), defined in the shared `references/decision-tree.md`.
 
-### 第四步：办公技能依赖
+### Step 4: Office Skill Dependencies
 
-办公四件套（DOCX / PDF / XLSX / PPTX）依赖速查：`references/office-deps.md`。包含 Python 包、npm 包、系统工具的一键安装命令。
+Quick lookup for the office quartet (DOCX / PDF / XLSX / PPTX) dependencies: `references/office-deps.md`. Includes one-shot install commands for Python packages, npm packages, and system tools.
 
-### 第五步：系统工具
+### Step 5: System Tools
 
-LibreOffice / Poppler / Pandoc / Tesseract / qpdf / ImageMagick / Ghostscript 安装与故障排查：`references/system-tools.md`。
+Installation and troubleshooting for LibreOffice / Poppler / Pandoc / Tesseract / qpdf / ImageMagick / Ghostscript: `references/system-tools.md`.
 
-## DesireCore 内置环境管理底座
+## DesireCore Built-in Environment Management Base
 
-DesireCore 内置 Hatch（Python）和 Volta（Node.js），通过 HTTP API + Socket.IO 提供完整的环境管理能力。本 skill 与子 skill（python/nodejs）都依赖：
+DesireCore embeds Hatch (Python) and Volta (Node.js), providing complete environment management via HTTP API + Socket.IO. This skill and the sub-skills (python/nodejs) all rely on:
 
-| 文档 | 内容 |
+| Document | Content |
 |------|------|
-| `references/desirecore-runtime.md` | 二进制路径表、HTTP API 速查、Socket.IO 事件契约、`EnvironmentSnapshot` 数据结构 |
-| `references/decision-tree.md` | 四级降级流程图、判定失败的具体信号、切换提示 |
-| `references/probe-snapshot.md` | 探测脚本 JSON 输出协议 |
+| `references/desirecore-runtime.md` | Binary path table, HTTP API quick-reference, Socket.IO event contracts, `EnvironmentSnapshot` data structure |
+| `references/decision-tree.md` | Four-tier fallback flowchart, concrete signals for failure detection, switch prompts |
+| `references/probe-snapshot.md` | Probe script JSON output protocol |
 
-## 重要约束
+## Important Constraints
 
-1. **不要把 python / node / pip / npm 强关键词写入本 skill description**——这些归属各自的子 skill，避免触发冲突。
-2. **API 优先**：`scripts/probe.sh` 第一步检测 `~/.desirecore/agent-service.port`；存在则推荐 HTTP API 路径。
-3. **缓存协同**：任何安装/移除完成后，调 `POST /api/runtime/environment/refresh` 失效缓存，再发后续 GET。
-4. **跨平台**：所有命令模板提供 macOS / Linux + Windows（PowerShell）双版本。
+1. **Do not write strong keywords like python / node / pip / npm into this skill's description**—those belong to their respective sub-skills, to avoid trigger conflicts.
+2. **API first**: `scripts/probe.sh` first checks `~/.desirecore/agent-service.port`; if it exists, recommend the HTTP API path.
+3. **Cache coherence**: after any install/uninstall completes, call `POST /api/runtime/environment/refresh` to invalidate the cache before issuing subsequent GETs.
+4. **Cross-platform**: every command template provides both macOS / Linux and Windows (PowerShell) versions.
 
-## 子 skill 与文档清单
+## Sub-skill and Document Manifest
 
 ```
 skills/
-├── python-runtime/        # Python 环境（Hatch 优先）
-├── nodejs-runtime/        # Node.js 环境（Volta 优先）
-└── dev-environment-setup/         # 本 skill（综合入口）
+├── python-runtime/        # Python environment (Hatch first)
+├── nodejs-runtime/        # Node.js environment (Volta first)
+└── dev-environment-setup/         # This skill (composite entry)
     ├── references/
     │   ├── desirecore-runtime.md
     │   ├── decision-tree.md
@@ -148,12 +170,12 @@ skills/
         └── probe.ps1
 ```
 
-## 升级说明（v1.x → v2.0.0）
+## Upgrade Notes (v1.x → v2.0.0)
 
-- v1.x 是单文件 1380 行的全能手册，已拆分。
-- Python 相关 → `python-runtime`
-- Node.js 相关 → `nodejs-runtime`
-- Docker / WSL / 办公依赖 / 系统工具 → 本 skill 的 `references/`
-- DesireCore Hatch / Volta 从"可选社区方案"升级为强制 L1/L2 主路径
+- v1.x was a 1380-line all-in-one manual, now split.
+- Python-related → `python-runtime`
+- Node.js-related → `nodejs-runtime`
+- Docker / WSL / office dependencies / system tools → this skill's `references/`
+- DesireCore Hatch / Volta upgraded from "optional community solution" to mandatory L1/L2 primary path
 
-下游 skill（docx / pdf / xlsx / pptx）应将 "Python 环境问题请参考 dev-environment-setup" 改写为 "Python 环境问题请参考 python-runtime / Node.js 环境问题请参考 nodejs-runtime"。
+Downstream skills (docx / pdf / xlsx / pptx) should rewrite "for Python environment issues, see dev-environment-setup" to "for Python environment issues, see python-runtime / for Node.js environment issues, see nodejs-runtime".

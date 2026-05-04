@@ -1,5 +1,5 @@
 ---
-name: 邮箱操作
+name: mail-operations
 description: >-
   Use this skill whenever the user wants to interact with email. This includes
   reading inbox, sending emails, replying, searching messages, managing labels
@@ -24,6 +24,29 @@ tags:
 metadata:
   author: desirecore
   updated_at: '2026-04-13'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales:
+      - zh-CN
+      - en-US
+    zh-CN:
+      name: 邮箱操作
+      short_desc: 邮件收发、搜索、标签管理、自动规则与智能体邮件处理
+      description: >-
+        Use this skill whenever the user wants to interact with email. This includes reading inbox, sending emails, replying, searching messages, managing labels and categories, downloading attachments, setting up auto-reply rules, or triggering agents to handle incoming emails. Supports Gmail, Outlook, and IMAP/SMTP (QQ Mail, 163, Yahoo, etc.) through DesireCore's local REST API. Use when 用户提到 邮件、邮箱、收件箱、发邮件、回复邮件、查邮件、Gmail、 Outlook、QQ邮箱、163邮箱、附件、标签、草稿、自动回复、邮件规则、 转发、抄送、未读邮件、收信、发信、邮件同步、邮件搜索。
+      body: ./SKILL.zh-CN.md
+      source_hash: sha256:24bffbade0dc09a7
+      translated_by: human
+    en-US:
+      name: Email Operations
+      short_desc: Email send/receive, search, label management, auto-rules, and Agent-driven email handling
+      description: >-
+        Use this skill whenever the user wants to interact with email. This includes reading inbox, sending emails, replying, searching messages, managing labels and categories, downloading attachments, setting up auto-reply rules, or triggering agents to handle incoming emails. Supports Gmail, Outlook, and IMAP/SMTP (QQ Mail, 163, Yahoo, etc.) through DesireCore's local REST API. Use when the user mentions email, mailbox, inbox, sending email, replying, checking email, Gmail, Outlook, QQ Mail, 163 Mail, attachments, labels, drafts, auto-reply, email rules, forwarding, CC, unread email, receiving, sending, email sync, or email search.
+      body: ./SKILL.md
+      source_hash: sha256:24bffbade0dc09a7
+      translated_by: ai:claude-opus-4-7
+      translated_at: '2026-05-03'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -34,7 +57,6 @@ market:
     stroke="url(#ml-a)" stroke-width="1.5"/><path d="m22 7-8.97 5.7a1.94 1.94
     0 0 1-2.06 0L2 7" stroke="url(#ml-a)" stroke-width="1.5"
     stroke-linecap="round" stroke-linejoin="round"/></svg>
-  short_desc: 邮件收发、搜索、标签管理、自动规则与智能体邮件处理
   category: productivity
   maintainer:
     name: DesireCore Official
@@ -42,281 +64,281 @@ market:
   channel: latest
 ---
 
-# mail-operations 技能
+# mail-operations Skill
 
-## L0：一句话摘要
+## L0: One-line Summary
 
-通过本地 REST API 收发邮件、搜索、标签管理和自动规则，支持 Gmail / Outlook / IMAP。
+Send and receive email, search, manage labels, and run automation rules via a local REST API; supports Gmail / Outlook / IMAP.
 
-## L1：概述与使用场景
+## L1: Overview and Use Cases
 
-### 能力描述
+### Capability
 
-mail-operations 是一个**流程型技能（Procedural Skill）**，通过 DesireCore 本地 REST API 操作邮件系统。支持 Gmail（OAuth2）、Outlook（MSAL）和 IMAP/SMTP（QQ、163、Yahoo 等）三种邮箱类型，涵盖收发邮件、搜索、标签管理、附件下载、草稿管理和自动规则。
+mail-operations is a **Procedural Skill** that operates email systems through DesireCore's local REST API. It supports three mailbox types—Gmail (OAuth2), Outlook (MSAL), and IMAP/SMTP (QQ, 163, Yahoo, etc.)—covering send/receive, search, label management, attachment download, draft management, and automation rules.
 
-### 使用场景
+### Use Cases
 
-- 用户需要查看收件箱、发送或回复邮件
-- 用户需要搜索特定邮件或管理邮件标签/分类
-- 用户需要下载附件或管理草稿
-- 用户需要设置自动回复规则或触发智能体处理邮件
+- The user wants to view the inbox, send, or reply to email
+- The user wants to search for specific emails or manage email labels/categories
+- The user wants to download attachments or manage drafts
+- The user wants to set up auto-reply rules or trigger an Agent to handle email
 
-### 核心价值
+### Core Value
 
-- **统一接口**：三种邮箱通过统一 API 操作，降低使用复杂度
-- **本地安全**：所有操作通过本地 API 完成，无需暴露凭证
-- **智能联动**：支持自动规则和智能体邮件处理
+- **Unified interface**: three mailbox types are operated through a unified API, lowering complexity
+- **Local and secure**: all operations go through the local API; no need to expose credentials
+- **Smart integration**: supports automation rules and Agent-based email handling
 
-## L2：详细规范
+## L2: Detailed Specification
 
-## API 基础信息
+## API Basics
 
 - **Base URL**: `https://127.0.0.1:62000/api`
-- **认证**: 无需认证（本地服务）
+- **Authentication**: none required (local service)
 - **Content-Type**: `application/json`
-- **SSL**: 使用 `curl -k` 跳过自签名证书验证
-- **响应格式**: 成功 `{"code": 1, "msg": "Success", "result": ...}`，失败 `{"code": 0, "msg": "错误信息"}`
+- **SSL**: use `curl -k` to skip self-signed certificate verification
+- **Response format**: success `{"code": 1, "msg": "Success", "result": ...}`, failure `{"code": 0, "msg": "error message"}`
 
 ---
 
-## 强制行为规则
+## Mandatory Behavior Rules
 
-以下规则优先级最高，每次操作必须遵守。
+The following rules have the highest priority and must be obeyed on every operation.
 
-### 规则 1：只能通过本地 API 操作
+### Rule 1: Operate Only Through the Local API
 
-所有邮件操作**必须且只能**通过 `https://127.0.0.1:62000` 完成。**禁止**调用外部邮件客户端或浏览器。
+All email operations **must and may only** be done through `https://127.0.0.1:62000`. **Never** call an external email client or browser.
 
-如果 API 返回 **401（授权过期）**：
-1. 告知用户该账户授权已失效
-2. 提示在 DesireCore 中重新授权
-3. Gmail: `POST /api/gmail/auth/initiate?loginHint={email}`，Outlook: `POST /api/outlook/auth/initiate`
+If the API returns **401 (authorization expired)**:
+1. Tell the user the account's authorization has expired
+2. Prompt the user to re-authorize in DesireCore
+3. Gmail: `POST /api/gmail/auth/initiate?loginHint={email}`, Outlook: `POST /api/outlook/auth/initiate`
 
-### 规则 2：操作前先确认账户
+### Rule 2: Confirm the Account Before Operating
 
-执行任何操作前，**必须先调用 `GET /api/accounts`** 获取账户列表：
-- 按邮箱地址或域名匹配用户指定的账户（"QQ 邮箱"→ imap 中 `qq.com`）
-- 仅有一个账户且用户说"我的邮箱"→ 直接使用
-- 找不到匹配账户 → 告知用户并提示添加
+Before performing any operation, **you must first call `GET /api/accounts`** to obtain the account list:
+- Match the user's specified account by email address or domain ("QQ mailbox" → IMAP `qq.com`)
+- Only one account exists and the user says "my mailbox" → use it directly
+- No matching account found → tell the user and prompt them to add one
 
-### 规则 3：查询为空时自动同步
+### Rule 3: Auto-Sync When the Query Is Empty
 
-查询返回空列表或找不到指定数据时：
-1. 调用 `POST /{provider}/messages/fetch` 同步远程数据
-2. **自动重试**原查询
-3. 仍为空才告知用户
+When a query returns an empty list or cannot find the specified data:
+1. Call `POST /{provider}/messages/fetch` to sync remote data
+2. **Automatically retry** the original query
+3. Only inform the user if it is still empty
 
-### 规则 4：写操作后提示刷新
+### Rule 4: Prompt for a Refresh After Write Operations
 
-发送、回复、删除、标记、标签变更等写操作成功后，提示：`操作已完成。需要我帮你刷新当前邮箱页面以查看最新状态吗？`
+After a write operation (send, reply, delete, mark, label change, etc.) succeeds, prompt: `Operation completed. Do you want me to refresh the current mailbox view to see the latest state?`
 
 ---
 
-## 三种邮箱的差异速查
+## Quick Reference: Differences Between the Three Mailbox Types
 
-| 功能 | Gmail | Outlook | IMAP |
+| Feature | Gmail | Outlook | IMAP |
 |------|-------|---------|------|
-| 授权 | OAuth2 | OAuth2 (MSAL) | 密码/授权码 |
-| Provider 路径 | `/gmail/` | `/outlook/` | `/imap/` |
-| 邮件详情 | 路径参数 `/{id}` | 查询参数 `?id={id}` | UID `/{uid}?folder=` |
-| 搜索 | 支持 | 不支持 | 不支持 |
-| 草稿 | 支持（含列表/详情） | 支持（创建/发送） | 支持（创建/发送） |
-| 附件下载 | 支持 | 支持 | 支持 |
-| 标签/分类 | 原生标签 | Categories | 仅本地标签 |
-| 自动规则 | 支持 | 支持 | 支持 |
+| Authorization | OAuth2 | OAuth2 (MSAL) | password / app password |
+| Provider path | `/gmail/` | `/outlook/` | `/imap/` |
+| Message detail | path param `/{id}` | query param `?id={id}` | UID `/{uid}?folder=` |
+| Search | supported | not supported | not supported |
+| Drafts | supported (incl. list/detail) | supported (create/send) | supported (create/send) |
+| Attachment download | supported | supported | supported |
+| Labels/categories | native labels | Categories | local labels only |
+| Auto-rules | supported | supported | supported |
 
 ---
 
-## 核心操作
+## Core Operations
 
-以下 `{p}` 代表 provider（`gmail`、`outlook`、`imap`），`{email}` 需 URL 编码。
+In the following, `{p}` denotes the provider (`gmail`, `outlook`, `imap`); `{email}` must be URL-encoded.
 
-### 1. 账户管理
+### 1. Account Management
 
-| 操作 | 方法 | 端点 |
+| Operation | Method | Endpoint |
 |------|------|------|
-| 获取所有账户 | GET | `/accounts` |
-| 获取账户含设置 | GET | `/accounts-with-settings` |
-| 删除账户 | DELETE | `/accounts/{p}/{email}` |
-| 获取账户设置 | GET | `/accounts/{p}/{email}/settings` |
-| 更新账户设置 | PUT | `/accounts/{p}/{email}/settings` |
-| 更新显示名称 | PUT | `/accounts/{p}/{email}/displayName` — body: `{"displayName": "..."}` |
+| Get all accounts | GET | `/accounts` |
+| Get accounts with settings | GET | `/accounts-with-settings` |
+| Delete account | DELETE | `/accounts/{p}/{email}` |
+| Get account settings | GET | `/accounts/{p}/{email}/settings` |
+| Update account settings | PUT | `/accounts/{p}/{email}/settings` |
+| Update display name | PUT | `/accounts/{p}/{email}/displayName` — body: `{"displayName": "..."}` |
 
-**IMAP 专属**：
+**IMAP-specific**:
 
-| 操作 | 方法 | 端点 |
+| Operation | Method | Endpoint |
 |------|------|------|
-| 获取预设邮箱配置 | GET | `/imap/presets` — 返回 QQ/163/Yahoo 等服务器配置 |
-| 测试 IMAP 连接 | POST | `/imap/test` — body: `{email, password, imap: {host, port, secure}, smtp: {host, port, secure}}` |
-| 添加 IMAP 账户 | POST | `/imap/accounts` — body 同上，加 `displayName` |
+| Get preset mailbox configs | GET | `/imap/presets` — returns server configs for QQ/163/Yahoo, etc. |
+| Test IMAP connection | POST | `/imap/test` — body: `{email, password, imap: {host, port, secure}, smtp: {host, port, secure}}` |
+| Add IMAP account | POST | `/imap/accounts` — same body as above plus `displayName` |
 
-### 2. 邮件列表与同步
+### 2. Message List and Sync
 
-| 操作 | 方法 | 端点 | 参数 |
+| Operation | Method | Endpoint | Parameters |
 |------|------|------|------|
-| 查询本地缓存 | GET | `/{p}/messages` | `email, offset, limit, folder` |
-| 远程同步 | POST | `/{p}/messages/fetch` | `email, limit, folder` |
-| 手动触发同步 | POST | `/sync` | `provider, email` |
+| Query local cache | GET | `/{p}/messages` | `email, offset, limit, folder` |
+| Remote sync | POST | `/{p}/messages/fetch` | `email, limit, folder` |
+| Manually trigger sync | POST | `/sync` | `provider, email` |
 
-**folder 取值**：Gmail/Outlook: `inbox, sent, drafts, trash, spam, archive`；IMAP: `INBOX, Sent, Drafts, Trash` 等。
+**folder values**: Gmail/Outlook: `inbox, sent, drafts, trash, spam, archive`; IMAP: `INBOX, Sent, Drafts, Trash`, etc.
 
-**响应格式**（邮件列表项）：
+**Response format** (message list item):
 ```json
 {
-  "id": "消息ID", "subject": "主题",
+  "id": "messageID", "subject": "subject",
   "from": {"name": "...", "address": "..."},
   "to": [{"name": "...", "address": "..."}],
-  "date": "ISO8601", "snippet": "摘要",
+  "date": "ISO8601", "snippet": "snippet",
   "isRead": true, "hasAttachments": false,
   "labels": ["INBOX"], "folder": "inbox"
 }
 ```
 
-### 3. 单封邮件操作
+### 3. Single Message Operations
 
-| 操作 | Gmail | Outlook | IMAP |
+| Operation | Gmail | Outlook | IMAP |
 |------|-------|---------|------|
-| 获取详情 | GET `/{id}?email=` | GET `/message?id={id}&email=` | GET `/{uid}?email=&folder=` |
-| 标记已读 | POST `/{id}/read?email=` | POST `/message/read?id={id}&email=` | POST `/{uid}/read?email=&folder=` |
-| 标记未读 | POST `/{id}/unread?email=` | POST `/message/unread?id={id}&email=` | POST `/{uid}/unread?email=&folder=` |
-| 删除 | DELETE `/{id}?email=` | DELETE `/message?id={id}&email=` | DELETE `/{uid}?email=&folder=` |
+| Get detail | GET `/{id}?email=` | GET `/message?id={id}&email=` | GET `/{uid}?email=&folder=` |
+| Mark as read | POST `/{id}/read?email=` | POST `/message/read?id={id}&email=` | POST `/{uid}/read?email=&folder=` |
+| Mark as unread | POST `/{id}/unread?email=` | POST `/message/unread?id={id}&email=` | POST `/{uid}/unread?email=&folder=` |
+| Delete | DELETE `/{id}?email=` | DELETE `/message?id={id}&email=` | DELETE `/{uid}?email=&folder=` |
 
-> 所有路径前缀为 `/api/{provider}/messages`（Gmail/IMAP）或 `/api/outlook/`（Outlook 特殊路由）。
+> All paths are prefixed with `/api/{provider}/messages` (Gmail/IMAP) or `/api/outlook/` (Outlook's special routing).
 
-**邮件详情额外字段**：`body: {content, contentType}`, `cc`, `attachments: [{id, filename, mimeType, size}]`
+**Extra fields in message detail**: `body: {content, contentType}`, `cc`, `attachments: [{id, filename, mimeType, size}]`
 
-### 4. 发送与回复
+### 4. Send and Reply
 
-**发送新邮件** — `POST /api/{p}/send`：
+**Send a new email** — `POST /api/{p}/send`:
 ```json
 {
   "email": "sender@example.com",
-  "toRecipients": [{"name": "收件人", "address": "to@example.com"}],
+  "toRecipients": [{"name": "recipient", "address": "to@example.com"}],
   "ccRecipients": [],
   "bccRecipients": [],
-  "subject": "主题",
-  "body": "正文（支持 HTML）",
+  "subject": "subject",
+  "body": "body (HTML supported)",
   "contentType": "html",
   "attachments": []
 }
 ```
 
-**回复邮件**：
+**Reply to an email**:
 
-| Provider | 端点 | Body |
+| Provider | Endpoint | Body |
 |----------|------|------|
 | Gmail | POST `/gmail/reply` | `{email, messageId, body, contentType}` |
 | Outlook | POST `/outlook/message/reply?id={id}&email=` | `{body, contentType}` |
 | IMAP | POST `/imap/reply` | `{email, uid, folder, body, contentType}` |
 
-### 5. 搜索（仅 Gmail）
+### 5. Search (Gmail only)
 
 `GET /api/gmail/search?email={email}&q={keyword}`
 
-| 参数 | 说明 |
+| Parameter | Description |
 |------|------|
-| `q` | 关键词（搜索主题、正文、发件人） |
-| `from` | 发件人地址 |
-| `dateFrom` / `dateTo` | 日期范围 YYYY-MM-DD |
+| `q` | keyword (searches subject, body, sender) |
+| `from` | sender address |
+| `dateFrom` / `dateTo` | date range YYYY-MM-DD |
 | `hasAttachment` | true/false |
 | `isUnread` | true/false |
-| `offset` / `limit` | 分页 |
+| `offset` / `limit` | pagination |
 
-### 6. 附件下载
+### 6. Attachment Download
 
-| Provider | 方法 | 端点 | Body |
+| Provider | Method | Endpoint | Body |
 |----------|------|------|------|
 | Gmail | POST | `/gmail/messages/{messageId}/attachment` | `{email, attachmentId}` |
 | Outlook | POST | `/outlook/attachment` | `{email, messageId, attachmentId}` |
 | IMAP | POST | `/imap/attachment` | `{email, uid, folder, partId}` |
 
-响应 `result.data` 为 base64 编码，解码后保存文件。
+The response `result.data` is base64-encoded; decode it and save to a file.
 
-> Gmail 使用 POST 因为 attachmentId 可能超出 URL 长度限制。
+> Gmail uses POST because the attachmentId may exceed URL length limits.
 
-### 7. 草稿管理
+### 7. Draft Management
 
-**Gmail**：
+**Gmail**:
 
-| 操作 | 方法 | 端点 |
+| Operation | Method | Endpoint |
 |------|------|------|
-| 获取草稿列表 | GET | `/gmail/drafts?email=&limit=` |
-| 获取草稿详情 | GET | `/gmail/drafts/{draftId}?email=` |
-| 创建草稿 | POST | `/gmail/drafts` — body: `{email, to, cc, subject, body, contentType}` |
-| 更新草稿 | PUT | `/gmail/drafts/{draftId}` — body 同创建 |
-| 删除草稿 | DELETE | `/gmail/drafts/{draftId}?email=` |
+| List drafts | GET | `/gmail/drafts?email=&limit=` |
+| Get draft detail | GET | `/gmail/drafts/{draftId}?email=` |
+| Create draft | POST | `/gmail/drafts` — body: `{email, to, cc, subject, body, contentType}` |
+| Update draft | PUT | `/gmail/drafts/{draftId}` — same body as create |
+| Delete draft | DELETE | `/gmail/drafts/{draftId}?email=` |
 
-**Outlook**：
+**Outlook**:
 
-| 操作 | 方法 | 端点 |
+| Operation | Method | Endpoint |
 |------|------|------|
-| 创建草稿 | POST | `/outlook/drafts` — body: `{email, toRecipients, subject, body, contentType}` |
-| 更新草稿 | PUT | `/outlook/drafts?id={draftId}&email=` — body 同创建 |
-| 删除草稿 | DELETE | `/outlook/drafts?id={draftId}&email=` |
-| 发送草稿 | POST | `/outlook/drafts/send?id={draftId}&email=` |
+| Create draft | POST | `/outlook/drafts` — body: `{email, toRecipients, subject, body, contentType}` |
+| Update draft | PUT | `/outlook/drafts?id={draftId}&email=` — same body as create |
+| Delete draft | DELETE | `/outlook/drafts?id={draftId}&email=` |
+| Send draft | POST | `/outlook/drafts/send?id={draftId}&email=` |
 
-**IMAP**：
+**IMAP**:
 
-| 操作 | 方法 | 端点 |
+| Operation | Method | Endpoint |
 |------|------|------|
-| 创建草稿 | POST | `/imap/drafts` — body: `{email, toRecipients, subject, body, contentType}` |
-| 更新草稿 | PUT | `/imap/drafts/{uid}` — body: `{email, folder, toRecipients, subject, body, contentType}` |
-| 删除草稿 | DELETE | `/imap/drafts/{uid}?email=&folder=` |
-| 发送草稿 | POST | `/imap/drafts/{uid}/send` — body: `{email, folder}` |
+| Create draft | POST | `/imap/drafts` — body: `{email, toRecipients, subject, body, contentType}` |
+| Update draft | PUT | `/imap/drafts/{uid}` — body: `{email, folder, toRecipients, subject, body, contentType}` |
+| Delete draft | DELETE | `/imap/drafts/{uid}?email=&folder=` |
+| Send draft | POST | `/imap/drafts/{uid}/send` — body: `{email, folder}` |
 
-### 8. 标签管理（统一接口）
+### 8. Label Management (Unified Interface)
 
-| 操作 | 方法 | 端点 |
+| Operation | Method | Endpoint |
 |------|------|------|
-| 获取标签列表 | GET | `/labels?provider=&email=` |
-| 获取单个标签 | GET | `/labels/{labelId}` |
-| 创建标签 | POST | `/labels` — body: `{name, color, provider, email, visible}` |
-| 更新标签 | PUT | `/labels/{labelId}` — body: `{name, color, order, visible}` |
-| 删除标签 | DELETE | `/labels/{labelId}` |
-| 获取邮件标签 | GET | `/mails/{p}/{email}/labels?mailId=` |
-| 添加邮件标签 | POST | `/mails/{p}/{email}/labels?mailId=` — body: `{"labelId": "..."}` |
-| 批量设置标签 | PUT | `/mails/{p}/{email}/labels?mailId=` — body: `{"labelIds": [...]}` |
-| 移除邮件标签 | DELETE | `/mails/{p}/{email}/labels?mailId=&labelId=` |
-| 获取标签下邮件 | GET | `/labels/{labelId}/mails?provider=&email=&limit=&offset=` |
+| List labels | GET | `/labels?provider=&email=` |
+| Get a single label | GET | `/labels/{labelId}` |
+| Create label | POST | `/labels` — body: `{name, color, provider, email, visible}` |
+| Update label | PUT | `/labels/{labelId}` — body: `{name, color, order, visible}` |
+| Delete label | DELETE | `/labels/{labelId}` |
+| Get email's labels | GET | `/mails/{p}/{email}/labels?mailId=` |
+| Add label to email | POST | `/mails/{p}/{email}/labels?mailId=` — body: `{"labelId": "..."}` |
+| Bulk set labels | PUT | `/mails/{p}/{email}/labels?mailId=` — body: `{"labelIds": [...]}` |
+| Remove label from email | DELETE | `/mails/{p}/{email}/labels?mailId=&labelId=` |
+| Get emails under a label | GET | `/labels/{labelId}/mails?provider=&email=&limit=&offset=` |
 
-**Gmail 原生标签**：
-- 获取标签列表：`GET /api/gmail/labels?email=`
-- 修改邮件标签：`POST /api/gmail/messages/{id}/labels` — body: `{email, addLabelIds, removeLabelIds}`
-- 同步远程标签：`POST /api/gmail/labels/sync?email=`
+**Gmail native labels**:
+- List labels: `GET /api/gmail/labels?email=`
+- Modify message labels: `POST /api/gmail/messages/{id}/labels` — body: `{email, addLabelIds, removeLabelIds}`
+- Sync remote labels: `POST /api/gmail/labels/sync?email=`
 
-### 9. Outlook 分类
+### 9. Outlook Categories
 
-Outlook 使用 Categories 而非 Labels。
+Outlook uses Categories instead of Labels.
 
-| 操作 | 方法 | 端点 |
+| Operation | Method | Endpoint |
 |------|------|------|
-| 获取分类 | GET | `/outlook/categories?email=` |
-| 同步分类 | POST | `/outlook/categories/sync?email=` |
-| 创建分类 | POST | `/outlook/categories/create?email=` — body: `{displayName, color}` |
-| 更新分类 | PUT | `/outlook/categories/update?email=&categoryId=` — body: `{displayName, color}` |
-| 删除分类 | DELETE | `/outlook/categories/delete?email=&categoryId=` |
-| 修改邮件分类 | POST | `/outlook/message/categories?id=&email=` — body: `{addCategories, removeCategories}` |
+| Get categories | GET | `/outlook/categories?email=` |
+| Sync categories | POST | `/outlook/categories/sync?email=` |
+| Create category | POST | `/outlook/categories/create?email=` — body: `{displayName, color}` |
+| Update category | PUT | `/outlook/categories/update?email=&categoryId=` — body: `{displayName, color}` |
+| Delete category | DELETE | `/outlook/categories/delete?email=&categoryId=` |
+| Modify message categories | POST | `/outlook/message/categories?id=&email=` — body: `{addCategories, removeCategories}` |
 
-> `color` 使用 Outlook 预设值 `preset0` ~ `preset24`。
+> `color` uses Outlook preset values `preset0` ~ `preset24`.
 
-### 10. 自动规则
+### 10. Automation Rules
 
-| 操作 | 方法 | 端点 |
+| Operation | Method | Endpoint |
 |------|------|------|
-| 获取所有规则 | GET | `/rules?provider=&email=` |
-| 获取单个规则 | GET | `/rules/{ruleId}` |
-| 创建规则 | POST | `/rules` |
-| 更新规则 | PUT | `/rules/{ruleId}` |
-| 删除规则 | DELETE | `/rules/{ruleId}` |
-| 启用/禁用 | POST | `/rules/{ruleId}/toggle` |
-| 对邮件执行规则 | POST | `/rules/execute` — body: `{provider, email, mailId}` |
-| 测试规则匹配 | POST | `/rules/{ruleId}/test` — body 同上 |
+| List all rules | GET | `/rules?provider=&email=` |
+| Get a single rule | GET | `/rules/{ruleId}` |
+| Create rule | POST | `/rules` |
+| Update rule | PUT | `/rules/{ruleId}` |
+| Delete rule | DELETE | `/rules/{ruleId}` |
+| Enable/disable | POST | `/rules/{ruleId}/toggle` |
+| Run rule on a message | POST | `/rules/execute` — body: `{provider, email, mailId}` |
+| Test rule match | POST | `/rules/{ruleId}/test` — same body as above |
 
-**创建规则 body**：
+**Create rule body**:
 ```json
 {
-  "name": "规则名",
-  "description": "说明",
+  "name": "rule name",
+  "description": "description",
   "provider": "gmail",
   "email": "xxx@gmail.com",
   "enabled": true,
@@ -332,60 +354,60 @@ Outlook 使用 Categories 而非 Labels。
 }
 ```
 
-**动作类型说明**：
+**Action types**:
 
-| type | value | 说明 |
+| type | value | Description |
 |------|-------|------|
-| `add_label` | 标签 ID | 添加标签 |
-| `remove_label` | 标签 ID | 移除标签 |
-| `mark_as_read` | 省略 | 标记已读 |
-| `mark_as_unread` | 省略 | 标记未读 |
-| `archive` | 省略 | 归档 |
-| `delete` | 省略 | 删除 |
-| `auto_reply` | 回复文本 | 自动回复固定内容 |
-| `agent_handle` | Agent ID | 触发智能体处理邮件 |
+| `add_label` | label ID | add a label |
+| `remove_label` | label ID | remove a label |
+| `mark_as_read` | omit | mark as read |
+| `mark_as_unread` | omit | mark as unread |
+| `archive` | omit | archive |
+| `delete` | omit | delete |
+| `auto_reply` | reply text | auto-reply with fixed content |
+| `agent_handle` | Agent ID | trigger an Agent to handle the email |
 
-> 规则在轮询引擎检测到新邮件时**自动执行**，无需手动调用。`auto_reply` 和 `agent_handle` 支持全部三种邮箱类型。
+> Rules are **executed automatically** when the polling engine detects a new email; no manual call is required. `auto_reply` and `agent_handle` support all three mailbox types.
 
-### 11. 授权管理
+### 11. Authorization Management
 
-| 操作 | 方法 | 端点 |
+| Operation | Method | Endpoint |
 |------|------|------|
-| Gmail OAuth | POST | `/gmail/auth/initiate?loginHint={email}` — 打开浏览器授权 |
-| Gmail 状态 | GET | `/gmail/auth/status?email=` |
-| Outlook OAuth | POST | `/outlook/auth/initiate` — 打开浏览器授权 |
-| Outlook 状态 | GET | `/outlook/auth/status?email=` |
+| Gmail OAuth | POST | `/gmail/auth/initiate?loginHint={email}` — opens browser for authorization |
+| Gmail status | GET | `/gmail/auth/status?email=` |
+| Outlook OAuth | POST | `/outlook/auth/initiate` — opens browser for authorization |
+| Outlook status | GET | `/outlook/auth/status?email=` |
 
-### 12. 文件夹
+### 12. Folders
 
-| 操作 | 方法 | 端点 |
+| Operation | Method | Endpoint |
 |------|------|------|
-| IMAP 文件夹列表 | GET | `/imap/folders?email=` |
-| Outlook 文件夹列表 | GET | `/outlook/folders?email=` |
+| IMAP folder list | GET | `/imap/folders?email=` |
+| Outlook folder list | GET | `/outlook/folders?email=` |
 
-> Gmail 文件夹固定：inbox, sent, drafts, trash, spam, archive。
+> Gmail folders are fixed: inbox, sent, drafts, trash, spam, archive.
 
 ---
 
-## 数据同步机制
+## Data Sync Mechanism
 
-邮件系统采用**本地缓存 + 定期轮询**：
+The email system uses **local cache + periodic polling**:
 
-- **写操作**（发送、标记、删除、标签）：同时更新本地和远程，无延迟
-- **读操作**（查询、搜索）：返回本地缓存，可能有延迟（默认 30 秒轮询）
-- **远程变更**（用户在官方页面操作）：需等待下次轮询同步
+- **Write operations** (send, mark, delete, label): update local and remote simultaneously, no delay
+- **Read operations** (query, search): return the local cache; may be delayed (default 30-second polling)
+- **Remote changes** (the user operates from the official web UI): wait for the next polling cycle to sync
 
-**存储路径**：`~/.desirecore/mail/{provider}/{email}/`（index.json, messages/, sync.json）
+**Storage path**: `~/.desirecore/mail/{provider}/{email}/` (index.json, messages/, sync.json)
 
 ---
 
-## 错误处理
+## Error Handling
 
-| 状态码 | 原因 | 处理 |
+| Status code | Reason | Handling |
 |--------|------|------|
-| 400 | 参数错误 | 检查请求参数 |
-| 401 | 授权过期 | **按规则 1 处理**，不要尝试其他途径 |
-| 404 | 资源不存在 | 先同步再重试（规则 3） |
-| 500 | 内部错误 | 告知用户稍后重试 |
+| 400 | parameter error | check the request parameters |
+| 401 | authorization expired | **handle per Rule 1**; do not try other channels |
+| 404 | resource not found | sync first and retry (Rule 3) |
+| 500 | internal error | tell the user to retry later |
 
-**IMAP 注意**：国内邮箱（QQ、163）需使用"授权码"而非登录密码。用 `/imap/test` 预先验证配置。
+**IMAP note**: domestic Chinese mailboxes (QQ, 163) require an "app password" instead of the login password. Use `/imap/test` to validate the configuration in advance.

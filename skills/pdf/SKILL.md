@@ -1,5 +1,5 @@
 ---
-name: PDF 文档处理
+name: pdf
 description: >-
   Use this skill whenever the user wants to do anything with PDF files. This
   includes reading or extracting text/tables from PDFs, combining or merging
@@ -22,6 +22,29 @@ tags:
 metadata:
   author: anthropic
   updated_at: '2026-04-13'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales:
+      - zh-CN
+      - en-US
+    zh-CN:
+      name: PDF 文档处理
+      short_desc: 读取、创建、合并、拆分和填写 PDF 文档
+      description: >-
+        Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs apart, rotating pages, adding watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs, extracting images, and OCR on scanned PDFs to make them searchable. If the user mentions a .pdf file or asks to produce one, use this skill. Use when 用户提到 PDF、读取PDF、合并PDF、拆分PDF、填写表单、加水印、提取文字、 扫描识别。
+      body: ./SKILL.zh-CN.md
+      source_hash: sha256:15805c1921ac2c1e
+      translated_by: human
+    en-US:
+      name: PDF Document Processing
+      short_desc: Read, create, merge, split, and fill PDF documents
+      description: >-
+        Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs apart, rotating pages, adding watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs, extracting images, and OCR on scanned PDFs to make them searchable. If the user mentions a .pdf file or asks to produce one, use this skill. Use when the user mentions PDF, reading PDFs, merging PDFs, splitting PDFs, filling forms, adding watermarks, extracting text, or OCR.
+      body: ./SKILL.md
+      source_hash: sha256:15805c1921ac2c1e
+      translated_by: ai:claude-opus-4-7
+      translated_at: '2026-05-03'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -35,7 +58,6 @@ market:
     stroke="url(#pd-a)" stroke-width="1.3" stroke-linecap="round"/><path
     d="M17 11v6l2-1.5 2 1.5v-6z" fill="#FF3B30"
     fill-opacity="0.8"/></svg>
-  short_desc: 读取、创建、合并、拆分和填写 PDF 文档
   category: productivity
   maintainer:
     name: DesireCore Official
@@ -43,67 +65,67 @@ market:
   channel: latest
 ---
 
-# pdf 技能
+# pdf skill
 
-## L0：一句话摘要
+## L0: One-Sentence Summary
 
-读取、创建、合并、拆分和填写 PDF 文档，支持 OCR 识别和命令行工具。
+Read, create, merge, split, and fill PDF documents, with OCR support and command-line tools.
 
-## L1：概述与使用场景
+## L1: Overview and Use Cases
 
-### 能力描述
+### Capability Description
 
-pdf 是一个**流程型技能（Procedural Skill）**，提供 PDF 文档的完整处理能力。基于 Python 库（pypdf、pdfplumber、reportlab）和命令行工具（qpdf、pdftotext、pdftk），支持文本提取、表格提取、合并拆分、旋转、水印、加密、表单填写和 OCR 识别。
+pdf is a **Procedural Skill** that provides full PDF document processing capabilities. Built on Python libraries (pypdf, pdfplumber, reportlab) and command-line tools (qpdf, pdftotext, pdftk), it supports text extraction, table extraction, merging/splitting, rotation, watermarking, encryption, form filling, and OCR.
 
-### 使用场景
+### Use Cases
 
-- 用户需要从 PDF 中提取文本或表格数据
-- 用户需要合并多个 PDF 或拆分页面
-- 用户需要创建新的 PDF 文档
-- 用户需要填写 PDF 表单、添加水印或加密
+- The user needs to extract text or table data from a PDF
+- The user needs to merge multiple PDFs or split pages
+- The user needs to create a new PDF document
+- The user needs to fill PDF forms, add watermarks, or encrypt PDFs
 
-## L2：详细规范
+## L2: Detailed Specification
 
 ## Prerequisites
 
-### Python 3（必需）
+### Python 3 (required)
 
-在执行任何 Python 操作之前，先检测 Python 是否可用：
+Before performing any Python operation, check that Python is available:
 
 ```bash
 python3 --version 2>/dev/null || python --version 2>/dev/null
 ```
 
-如果命令失败（Python 不可用），**必须停止并告知用户安装 Python 3**：
+If the command fails (Python is not available), **you must stop and tell the user to install Python 3**:
 
-- **macOS**: `brew install python3` 或从 https://www.python.org/downloads/ 下载
-- **Windows**: `winget install Python.Python.3` 或从 python.org 下载（安装时勾选 "Add Python to PATH"）
+- **macOS**: `brew install python3`, or download from https://www.python.org/downloads/
+- **Windows**: `winget install Python.Python.3`, or download from python.org (check "Add Python to PATH" during installation)
 - **Linux (Debian/Ubuntu)**: `sudo apt install python3 python3-pip`
 - **Linux (Fedora/RHEL)**: `sudo dnf install python3 python3-pip`
 
-如需更详细的环境配置帮助：Python 相关问题加载 `python-runtime` 技能；
-其他（系统工具如 poppler / tesseract、容器 / WSL）加载 `dev-environment-setup` 技能。
+For more detailed environment setup help: load the `python-runtime` skill for Python issues;
+load the `dev-environment-setup` skill for everything else (system tools like poppler / tesseract, containers / WSL).
 
-### Python 包依赖
+### Python Package Dependencies
 
-本技能依赖以下 Python 包（按需检测）：
+This skill depends on the following Python packages (checked on demand):
 
-- `pypdf` — PDF 基础操作（读取、合并、拆分、旋转）
-- `pdfplumber` — 表格提取、带布局的文本提取
-- `Pillow` — 图片处理（水印、验证图等）
-- `reportlab` — PDF 创建（可选，按需安装）
-- `pdf2image` — PDF 转图片（可选，需要 poppler）
+- `pypdf` — Basic PDF operations (read, merge, split, rotate)
+- `pdfplumber` — Table extraction, layout-aware text extraction
+- `Pillow` — Image processing (watermarks, verification images, etc.)
+- `reportlab` — PDF creation (optional, install on demand)
+- `pdf2image` — PDF-to-image conversion (optional, requires poppler)
 
-核心包检测：
+Core package check:
 ```bash
 python3 -c "import pypdf; import pdfplumber; import PIL" 2>/dev/null || echo "MISSING"
 ```
 
-缺失时告知用户安装：`pip install pypdf pdfplumber Pillow`
+If missing, tell the user to install: `pip install pypdf pdfplumber Pillow`
 
 ## Output Rule
 
-When you create or modify a .pdf file, you **MUST** tell the user the absolute path of the output file in your response. Example: "文件已保存到：`/path/to/output.pdf`"
+When you create or modify a .pdf file, you **MUST** tell the user the absolute path of the output file in your response. Example: "File saved to: `/path/to/output.pdf`"
 
 ## Overview
 

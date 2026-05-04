@@ -1,5 +1,5 @@
 ---
-name: Python 运行时管理
+name: python-runtime
 description: >-
   Use this skill when the user needs to install, upgrade, or troubleshoot
   Python and pip environments. Covers four-tier fallback strategy: (1)
@@ -31,6 +31,29 @@ tags:
 metadata:
   author: desirecore
   updated_at: '2026-05-02'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales:
+      - zh-CN
+      - en-US
+    zh-CN:
+      name: Python 运行时管理
+      short_desc: Python 安装、多版本与虚拟环境（DesireCore Hatch 优先）
+      description: >-
+        Use this skill when the user needs to install, upgrade, or troubleshoot Python and pip environments. Covers four-tier fallback strategy: (1) DesireCore HTTP API for in-app installation, (2) DesireCore built-in Hatch CLI for Python version management, (3) system package managers (brew/apt/dnf/winget), (4) community pyenv as last resort. Also covers virtual environments (venv/pipx/conda), PEP 668 externally-managed errors, and import / PATH troubleshooting. Triggers include: "install python", "pip not found", "python not found", "PEP 668", "externally-managed", "venv", "virtualenv", "pipx", "conda", "miniconda", "pyenv", "hatch", "python version", "pip command not found", or any Python-related runtime error. 使用场景：用户需要 安装 Python、安装 pip、配置虚拟环境、管理多版本、 解决 PEP 668、import 失败、PATH 问题、SSL 证书错误等。
+      body: ./SKILL.zh-CN.md
+      source_hash: sha256:ea796e0282dc77af
+      translated_by: human
+    en-US:
+      name: Python Runtime Management
+      short_desc: Python install, multi-version, and virtual envs (DesireCore Hatch first)
+      description: >-
+        Use this skill when the user needs to install, upgrade, or troubleshoot Python and pip environments. Covers four-tier fallback strategy: (1) DesireCore HTTP API for in-app installation, (2) DesireCore built-in Hatch CLI for Python version management, (3) system package managers (brew/apt/dnf/winget), (4) community pyenv as last resort. Also covers virtual environments (venv/pipx/conda), PEP 668 externally-managed errors, and import / PATH troubleshooting. Triggers include: "install python", "pip not found", "python not found", "PEP 668", "externally-managed", "venv", "virtualenv", "pipx", "conda", "miniconda", "pyenv", "hatch", "python version", "pip command not found", or any Python-related runtime error. Use when the user needs to install Python, install pip, configure virtual environments, manage multiple versions, resolve PEP 668, import failures, PATH issues, SSL certificate errors, etc.
+      body: ./SKILL.md
+      source_hash: sha256:ea796e0282dc77af
+      translated_by: ai:claude-opus-4-7
+      translated_at: '2026-05-03'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -46,7 +69,6 @@ market:
     8v-.5" stroke="url(#py-a)" stroke-width="1.4" stroke-linecap="round"
     fill="none"/><circle cx="10.5" cy="10" r="0.6" fill="url(#py-a)"/><circle
     cx="13.5" cy="14" r="0.6" fill="url(#py-a)"/></svg>
-  short_desc: Python 安装、多版本与虚拟环境（DesireCore Hatch 优先）
   category: development
   maintainer:
     name: DesireCore Official
@@ -54,101 +76,103 @@ market:
   channel: latest
 ---
 
-# python-runtime 技能
+# python-runtime Skill
 
-## L0：一句话摘要
+## L0: One-line Summary
 
-**何时使用**：用户需要 安装 Python / 升级 Python / 切换 Python 多版本 / 配置
-pip / 创建虚拟环境（venv / pipx / conda）/ 排查 `python: command not found`、
-`pip: command not found`、PEP 668 "externally-managed"、SSL 证书、import 失败、
-PATH 异常 等 Python 运行时问题，或其他 skill（docx / pdf / xlsx / pptx）报告
-"Python 不可用" 时。
+**When to use**: The user needs to install Python / upgrade Python / switch
+between multiple Python versions / configure pip / create virtual environments
+(venv / pipx / conda) / troubleshoot `python: command not found`,
+`pip: command not found`, PEP 668 "externally-managed", SSL certificates,
+import failures, PATH anomalies, and other Python runtime issues; or when
+another skill (docx / pdf / xlsx / pptx) reports "Python unavailable".
 
-**怎么做**：优先使用 DesireCore 内置 Hatch，按四级降级（HTTP API → Hatch CLI →
-系统包管理器 brew/apt/dnf/winget → 社区方案 pyenv）执行。
+**How to do it**: Prefer DesireCore's built-in Hatch, executing through the
+four-tier fallback (HTTP API → Hatch CLI → system package manager
+brew/apt/dnf/winget → community solution pyenv).
 
-## L1：概述与使用场景
+## L1: Overview and Use Cases
 
-### 能力描述
+### Capability Description
 
-procedural skill。每次执行 Python 环境操作前，先运行 `scripts/probe-python.sh` 取 JSON 快照，再按 `references/decision-tree`（→ `../dev-environment-setup/references/decision-tree.md`）四级降级选择路径。
+Procedural skill. Before each Python environment operation, first run `scripts/probe-python.sh` to obtain a JSON snapshot, then follow `references/decision-tree` (→ `../dev-environment-setup/references/decision-tree.md`) to choose a path through the four-tier fallback.
 
-### 使用场景
+### Use Cases
 
 - "python not found" / "pip not found"
-- 用户要求安装/升级 Python
-- 用户要求多版本管理（3.10/3.11/3.12 切换）
-- 创建/激活/调试虚拟环境（venv/pipx/conda）
-- "externally-managed-environment"（PEP 668）报错
-- import 失败、PATH 问题、SSL 证书错误
-- 其他 skill（docx/pdf/xlsx/pptx）报告 Python 不可用
+- The user requests to install/upgrade Python
+- The user requests multi-version management (3.10/3.11/3.12 switching)
+- Create/activate/debug virtual environments (venv/pipx/conda)
+- "externally-managed-environment" (PEP 668) error
+- import failures, PATH issues, SSL certificate errors
+- Other skills (docx/pdf/xlsx/pptx) report Python unavailable
 
-### 核心价值
+### Core Value
 
-- **DesireCore 优先**：Hatch + HTTP API 作为强制 L1/L2，避免污染系统 Python
-- **JSON 决策**：probe 脚本输出结构化数据，Claude 可直接解析
-- **跨平台一致**：macOS / Linux / Windows 统一 4 级降级
+- **DesireCore first**: Hatch + HTTP API as mandatory L1/L2, avoiding pollution of system Python
+- **JSON-driven decisions**: the probe script outputs structured data that Claude can parse directly
+- **Cross-platform consistency**: macOS / Linux / Windows share a unified 4-tier fallback
 
-## L2：详细规范
+## L2: Detailed Specification
 
-### 第一步：环境探测（必须）
+### Step 1: Environment Probe (mandatory)
 
 ```bash
 bash skills/python-runtime/scripts/probe-python.sh > /tmp/py-probe.json
 cat /tmp/py-probe.json | jq .
 ```
 
-输出字段含义见 `../dev-environment-setup/references/probe-snapshot.md`。
+For the meaning of output fields, see `../dev-environment-setup/references/probe-snapshot.md`.
 
-### 第二步：选择执行路径
+### Step 2: Choose an Execution Path
 
-按 `../dev-environment-setup/references/decision-tree.md` 判断：
+Decide using `../dev-environment-setup/references/decision-tree.md`:
 
-| 条件 | 路径 |
+| Condition | Path |
 |------|------|
-| `desirecore_api` 非空 | **L1** HTTP API |
-| `desirecore_api` 空，`hatch_path` 非空 | **L2** Hatch CLI |
-| 上述都不满足 | **L3** 系统包管理器（brew/apt/dnf/winget） |
-| L1–L3 全部失败或用户明示 | **L4** 社区方案（pyenv） |
+| `desirecore_api` is non-empty | **L1** HTTP API |
+| `desirecore_api` empty, `hatch_path` non-empty | **L2** Hatch CLI |
+| Neither of the above | **L3** system package manager (brew/apt/dnf/winget) |
+| L1–L3 all fail or user explicitly requests | **L4** community solution (pyenv) |
 
-### 第三步：执行（仅展示主路径，详见各 references）
+### Step 3: Execute (only the main path is shown; see references for details)
 
-#### L1：HTTP API（→ `references/hatch-desirecore.md`）
+#### L1: HTTP API (→ `references/hatch-desirecore.md`)
 
 ```bash
 PORT=$(cat ~/.desirecore/agent-service.port)
 BASE="https://127.0.0.1:${PORT}/api/runtime"
 
-# 列出可装版本
+# List installable versions
 curl -sk "${BASE}/python/available"
 
-# 触发安装（异步，订阅 runtime:terminal 看进度）
+# Trigger install (asynchronous; subscribe to runtime:terminal for progress)
 curl -sk -X POST "${BASE}/python/install" \
   -H "Content-Type: application/json" \
   -d '{"version":"3.12"}'
 
-# 安装完成后强制刷新缓存
+# Force-refresh the cache after install completes
 curl -sk -X POST "${BASE}/environment/refresh"
 ```
 
-#### L2：Hatch CLI 绝对路径（→ `references/hatch-desirecore.md`）
+#### L2: Hatch CLI absolute path (→ `references/hatch-desirecore.md`)
 
 ```bash
 HATCH=~/.desirecore/runtime/hatch/hatch
 export HATCH_HOME=~/.desirecore/runtime/hatch
 
 "$HATCH" python install 3.12
-"$HATCH" python show           # 列出已安装/可装版本
+"$HATCH" python show           # List installed/installable versions
 
-# 直接使用 Hatch 安装的 Python
+# Use the Hatch-installed Python directly
 ~/.desirecore/runtime/hatch/local/3.12/python/bin/python3 -m venv .venv
 ```
 
-Windows：`%USERPROFILE%\.desirecore\runtime\hatch\hatch.exe`。
+Windows: `%USERPROFILE%\.desirecore\runtime\hatch\hatch.exe`.
 
-#### L3：系统包管理器
+#### L3: System Package Manager
 
-| 平台 | 命令 |
+| Platform | Command |
 |------|------|
 | macOS | `brew install python3` |
 | Debian/Ubuntu | `sudo apt install python3 python3-pip python3-venv` |
@@ -156,39 +180,39 @@ Windows：`%USERPROFILE%\.desirecore\runtime\hatch\hatch.exe`。
 | Arch | `sudo pacman -S python python-pip` |
 | Windows | `winget install Python.Python.3` |
 
-#### L4：pyenv（→ `references/pyenv-fallback.md`）
+#### L4: pyenv (→ `references/pyenv-fallback.md`)
 
-仅在用户明示或上述失败时启用。
+Only enable when the user explicitly requests it or the above paths fail.
 
-### 第四步：虚拟环境
+### Step 4: Virtual Environments
 
-虚拟环境策略详见 `references/virtualenv.md`：
-- venv（推荐，标准库）
-- pipx（全局 CLI 工具如 black/ruff/markitdown）
-- conda / miniconda（数据科学场景）
+For virtual environment strategy, see `references/virtualenv.md`:
+- venv (recommended, standard library)
+- pipx (global CLI tools such as black/ruff/markitdown)
+- conda / miniconda (data-science scenarios)
 
-### 第五步：故障排查
+### Step 5: Troubleshooting
 
-报错时按 `references/troubleshooting.md` 查表：
+When errors occur, look up `references/troubleshooting.md`:
 - "python: command not found" / "pip: command not found"
 - PEP 668 "externally-managed-environment"
-- SSL/TLS 证书错误
-- import 失败（包名 vs import 名差异）
-- macOS xcrun / Xcode CLI 缺失
-- Windows PowerShell 执行策略阻止脚本
-- 代理环境配置
+- SSL/TLS certificate errors
+- import failures (package name vs. import name differences)
+- macOS xcrun / Xcode CLI missing
+- Windows PowerShell execution policy blocking scripts
+- Proxy environment configuration
 
-## 重要约束
+## Important Constraints
 
-1. **绝不 `sudo pip install`**：始终用虚拟环境或 `pipx`。
-2. **修改了环境后必须刷新**：L1 调 `POST /api/runtime/environment/refresh`；L2/L3/L4 重新跑 probe。
-3. **跨 skill 协作**：`docx` / `pdf` / `xlsx` / `pptx` 报"Python 不可用"时，进入 L1/L2 安装；办公依赖速查见 `../dev-environment-setup/references/office-deps.md`。
-4. **不污染系统 Python**：项目级别一律使用 venv，全局 CLI 用 pipx。
+1. **Never `sudo pip install`**: always use a virtual environment or `pipx`.
+2. **Refresh after modifying the environment**: for L1 call `POST /api/runtime/environment/refresh`; for L2/L3/L4 re-run probe.
+3. **Cross-skill collaboration**: when `docx` / `pdf` / `xlsx` / `pptx` report "Python unavailable", fall into L1/L2 install; for office dependency lookup see `../dev-environment-setup/references/office-deps.md`.
+4. **Do not pollute system Python**: at the project level always use venv; for global CLI use pipx.
 
-## 引用关系
+## References
 
-- 决策树：`../dev-environment-setup/references/decision-tree.md`
-- DesireCore 底座：`../dev-environment-setup/references/desirecore-runtime.md`
-- 探测协议：`../dev-environment-setup/references/probe-snapshot.md`
-- 办公依赖：`../dev-environment-setup/references/office-deps.md`
-- 系统工具：`../dev-environment-setup/references/system-tools.md`
+- Decision tree: `../dev-environment-setup/references/decision-tree.md`
+- DesireCore base: `../dev-environment-setup/references/desirecore-runtime.md`
+- Probe protocol: `../dev-environment-setup/references/probe-snapshot.md`
+- Office dependencies: `../dev-environment-setup/references/office-deps.md`
+- System tools: `../dev-environment-setup/references/system-tools.md`

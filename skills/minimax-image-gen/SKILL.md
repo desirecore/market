@@ -1,5 +1,5 @@
 ---
-name: MiniMax 文生图
+name: minimax-image-gen
 description: >-
   Use this skill when the user wants to generate images using MiniMax's
   image-01 model. Supports text-to-image and subject reference for character
@@ -23,6 +23,29 @@ requires:
 metadata:
   author: desirecore
   updated_at: '2026-04-25'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales:
+      - zh-CN
+      - en-US
+    zh-CN:
+      name: MiniMax 文生图
+      short_desc: 基于 MiniMax image-01 的文本生成图片技能
+      description: >-
+        Use this skill when the user wants to generate images using MiniMax's image-01 model. Supports text-to-image and subject reference for character consistency. Use when 用户提到 生成图片、画图、文生图、创建图片、 AI 绘画、生成插图、画一张、帮我画、设计图片、MiniMax 画图。
+      body: ./SKILL.zh-CN.md
+      source_hash: sha256:4630268ef3bd4e23
+      translated_by: human
+    en-US:
+      name: MiniMax Image Generation
+      short_desc: Text-to-image generation skill powered by MiniMax image-01
+      description: >-
+        Use this skill when the user wants to generate images using MiniMax's image-01 model. Supports text-to-image and subject reference for character consistency. Use when the user mentions generate images, draw a picture, text-to-image, create an image, AI painting, generate illustration, draw one for me, help me draw, design an image, MiniMax drawing.
+      body: ./SKILL.md
+      source_hash: sha256:4630268ef3bd4e23
+      translated_by: ai:claude-opus-4-7
+      translated_at: '2026-05-03'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -32,7 +55,6 @@ market:
     stroke-width="1.2"/><path d="M3 16l5-5 4 4 3-3 6 6" stroke="#34C759"
     stroke-width="1.5" stroke-linecap="round"
     stroke-linejoin="round"/></svg>
-  short_desc: 基于 MiniMax image-01 的文本生成图片技能
   category: media
   maintainer:
     name: DesireCore Official
@@ -41,19 +63,19 @@ market:
   listed: false
 ---
 
-# minimax-image-gen 技能
+# minimax-image-gen Skill
 
-## 强制规则（违反将导致功能失败）
+## Mandatory Rules (violations will cause feature failure)
 
-1. **必须使用 `"response_format": "url"`** — 禁止 `"base64"`，base64 会导致输出截断
-2. **必须用 HTTPS 访问 agent-service** — `https://127.0.0.1:${PORT}` 加 `-k` 跳过证书验证
-3. **必须通过 `/api/media/upload` 上传到 media-store** — 禁止保存到本地路径
-4. **必须使用 `dc-media://` 协议展示图片** — 唯一能让前端正确渲染的方式
-5. **全程使用 Bash curl** — 不要使用 HttpRequest 工具或 Python
+1. **Must use `"response_format": "url"`** — `"base64"` is forbidden, base64 will cause output truncation
+2. **Must access agent-service over HTTPS** — `https://127.0.0.1:${PORT}` with `-k` to skip certificate verification
+3. **Must upload to media-store via `/api/media/upload`** — saving to local paths is forbidden
+4. **Must use the `dc-media://` protocol to display images** — the only way the frontend can render correctly
+5. **Use Bash curl throughout** — do not use the HttpRequest tool or Python
 
-## 完整执行流程（严格按此三步执行）
+## Complete Execution Flow (strictly follow these three steps)
 
-### 第一步：调用 API 生成图片
+### Step 1: Call the API to generate the image
 
 ```bash
 PORT=$(cat ~/.desirecore/agent-service.port)
@@ -73,9 +95,9 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   }'
 ```
 
-从 JSON 响应中提取 `data.data.image_urls[0]` 得到图片 URL。
+Extract `data.data.image_urls[0]` from the JSON response to obtain the image URL.
 
-### 第二步：下载并上传到 media-store
+### Step 2: Download and upload to media-store
 
 ```bash
 PORT=$(cat ~/.desirecore/agent-service.port)
@@ -85,33 +107,33 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
   -F "file=@/tmp/minimax-gen.png;type=image/png"
 ```
 
-从 JSON 响应中提取 `mediaId` 字段（格式如 `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.png`）。
+Extract the `mediaId` field from the JSON response (format like `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.png`).
 
-### 第三步：用 dc-media 协议展示图片
+### Step 3: Display the image with the dc-media protocol
 
-在你的回复文本中直接写 Markdown 图片语法：
+Write Markdown image syntax directly in your reply text:
 
 ```
 ![图片描述](dc-media://这里替换为mediaId)
 ```
 
-例如：`![白色的猫坐在书桌上](dc-media://a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6.png)`
+For example: `![白色的猫坐在书桌上](dc-media://a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6.png)`
 
-前端会自动将 `dc-media://` 转为可访问的图片 URL 并渲染出来。
+The frontend will automatically convert `dc-media://` into an accessible image URL and render it.
 
-## 参数映射
+## Parameter Mapping
 
-| 用户意图 | aspect_ratio |
+| User Intent | aspect_ratio |
 |---------|-------------|
-| 正方形/头像 | "1:1" |
-| 横版/风景/壁纸 | "16:9" |
-| 竖版/手机/海报 | "9:16" |
-| 标准照片 | "4:3" |
-| 竖版照片 | "3:4" |
+| Square / avatar | "1:1" |
+| Landscape / scenery / wallpaper | "16:9" |
+| Portrait / phone / poster | "9:16" |
+| Standard photo | "4:3" |
+| Portrait photo | "3:4" |
 
-## 主体参考（角色一致性）
+## Subject Reference (character consistency)
 
-在 body 中添加 `subject_reference`：
+Add `subject_reference` in the body:
 
 ```json
 "subject_reference": [
@@ -119,8 +141,8 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
 ]
 ```
 
-## 错误处理
+## Error Handling
 
-- `"error": "未找到匹配的供应商"`：未配置 MiniMax Media Provider
-- `statusCode: 401`：API Key 无效
-- `statusCode: 429`：频率限制，稍后重试
+- `"error": "未找到匹配的供应商"`: MiniMax Media Provider not configured
+- `statusCode: 401`: Invalid API Key
+- `statusCode: 429`: Rate limited, retry later

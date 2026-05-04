@@ -1,5 +1,5 @@
 ---
-name: Node.js 运行时管理
+name: nodejs-runtime
 description: >-
   Use this skill when the user needs to install, upgrade, or troubleshoot
   Node.js, npm, pnpm, yarn, and JavaScript/TypeScript runtime environments.
@@ -30,6 +30,29 @@ tags:
 metadata:
   author: desirecore
   updated_at: '2026-05-02'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales:
+      - zh-CN
+      - en-US
+    zh-CN:
+      name: Node.js 运行时管理
+      short_desc: Node.js / npm / pnpm / yarn 安装与多版本（DesireCore Volta 优先）
+      description: >-
+        Use this skill when the user needs to install, upgrade, or troubleshoot Node.js, npm, pnpm, yarn, and JavaScript/TypeScript runtime environments. Covers four-tier fallback strategy: (1) DesireCore HTTP API for in-app installation, (2) DesireCore built-in Volta CLI for Node.js + package manager version management, (3) system package managers (brew/apt/dnf/winget/NodeSource), (4) community nvm/fnm as last resort. Also covers global package management, npm registry/proxy configuration, EACCES permission errors, and PATH troubleshooting. Triggers include: "install node", "node not found", "npm not found", "npm EACCES", "pnpm", "yarn", "volta", "nvm", "fnm", "nodejs version", "package-lock", or any Node.js / npm runtime error. 使用场景：用户需要 安装 Node.js、安装 npm、 pnpm、yarn、配置全局包、解决 EACCES、PATH 问题、镜像/代理配置。
+      body: ./SKILL.zh-CN.md
+      source_hash: sha256:2b8a00816c65d71c
+      translated_by: human
+    en-US:
+      name: Node.js Runtime Management
+      short_desc: Node.js / npm / pnpm / yarn install and multi-version (DesireCore Volta first)
+      description: >-
+        Use this skill when the user needs to install, upgrade, or troubleshoot Node.js, npm, pnpm, yarn, and JavaScript/TypeScript runtime environments. Covers four-tier fallback strategy: (1) DesireCore HTTP API for in-app installation, (2) DesireCore built-in Volta CLI for Node.js + package manager version management, (3) system package managers (brew/apt/dnf/winget/NodeSource), (4) community nvm/fnm as last resort. Also covers global package management, npm registry/proxy configuration, EACCES permission errors, and PATH troubleshooting. Triggers include: "install node", "node not found", "npm not found", "npm EACCES", "pnpm", "yarn", "volta", "nvm", "fnm", "nodejs version", "package-lock", or any Node.js / npm runtime error. Use cases: the user needs to install Node.js, install npm, pnpm, yarn, configure global packages, resolve EACCES, PATH issues, registry mirror / proxy configuration.
+      body: ./SKILL.md
+      source_hash: sha256:2b8a00816c65d71c
+      translated_by: ai:claude-opus-4-7
+      translated_at: '2026-05-03'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -43,7 +66,6 @@ market:
     stroke-linejoin="round" fill="none"/><path d="M12 11.5v3M10 12.5l2 1l2-1"
     stroke="url(#node-a)" stroke-width="1.4" stroke-linecap="round"
     fill="none"/></svg>
-  short_desc: Node.js / npm / pnpm / yarn 安装与多版本（DesireCore Volta 优先）
   category: development
   maintainer:
     name: DesireCore Official
@@ -51,63 +73,63 @@ market:
   channel: latest
 ---
 
-# nodejs-runtime 技能
+# nodejs-runtime Skill
 
-## L0：一句话摘要
+## L0: One-line Summary
 
-**何时使用**：用户需要 安装 Node.js / 升级 Node / 切换 Node 多版本 / 安装或配置
-npm / pnpm / yarn / 排查 `node: command not found`、`npm: command not found`、
-EACCES 全局安装权限错误、node-gyp 编译失败、registry 镜像 / proxy 问题 等
-Node.js 运行时问题，或其他 skill（pptx 用 pptxgenjs 等）报告 "Node.js 不可用" 时。
+**When to use**: the user needs to install Node.js / upgrade Node / switch Node multi-version / install or configure
+npm / pnpm / yarn / troubleshoot `node: command not found`, `npm: command not found`,
+EACCES global install permission errors, node-gyp build failures, registry mirror / proxy issues, or other
+Node.js runtime problems, or when other skills (pptx using pptxgenjs, etc.) report "Node.js unavailable".
 
-**怎么做**：优先使用 DesireCore 内置 Volta，按四级降级（HTTP API → Volta CLI →
-系统包管理器 brew/apt/NodeSource/winget → 社区方案 nvm/fnm）执行。
+**How**: prefer the DesireCore built-in Volta and follow a four-tier fallback (HTTP API → Volta CLI →
+system package manager brew/apt/NodeSource/winget → community options nvm/fnm).
 
-## L1：概述与使用场景
+## L1: Overview and Use Cases
 
-### 能力描述
+### Capability Description
 
-procedural skill。每次执行 Node.js 环境操作前，先运行 `scripts/probe-node.sh` 取 JSON 快照，再按 `../dev-environment-setup/references/decision-tree.md` 四级降级选择路径。
+Procedural skill. Before each Node.js environment operation, run `scripts/probe-node.sh` to obtain a JSON snapshot, then choose a path according to the four-tier fallback in `../dev-environment-setup/references/decision-tree.md`.
 
-### 使用场景
+### Use Cases
 
 - "node not found" / "npm not found"
-- 用户要求安装/升级 Node.js
-- 多版本切换（基于 `package.json#volta` 或 `.nvmrc`）
-- 安装/管理 pnpm / yarn / npm
-- "EACCES: permission denied"（npm 全局安装权限错误）
-- 配置 registry / proxy
-- 其他 skill（pptx 等）报告 Node.js 不可用
+- The user requests to install/upgrade Node.js
+- Multi-version switching (based on `package.json#volta` or `.nvmrc`)
+- Install/manage pnpm / yarn / npm
+- "EACCES: permission denied" (npm global install permission error)
+- Configure registry / proxy
+- Other skills (pptx, etc.) report Node.js unavailable
 
-### 核心价值
+### Core Value
 
-- **DesireCore 优先**：Volta + HTTP API 作为 L1/L2，避免污染系统 Node
-- **JSON 决策**：probe 脚本输出结构化数据，Claude 可直接解析
-- **package.json#volta 兼容**：Volta 自动按项目切换版本
+- **DesireCore first**: Volta + HTTP API as L1/L2, avoiding pollution of the system Node
+- **JSON-driven decisions**: the probe script outputs structured data that Claude can parse directly
+- **package.json#volta compatible**: Volta automatically switches versions per project
 
-## L2：详细规范
+## L2: Detailed Specification
 
-### 第一步：环境探测（必须）
+### Step 1: Environment Probe (mandatory)
 
 ```bash
 bash skills/nodejs-runtime/scripts/probe-node.sh > /tmp/node-probe.json
 cat /tmp/node-probe.json | jq .
 ```
 
-字段含义见 `../dev-environment-setup/references/probe-snapshot.md`。
+See `../dev-environment-setup/references/probe-snapshot.md` for field definitions.
 
-### 第二步：选择执行路径
+### Step 2: Choose an Execution Path
 
-| 条件 | 路径 |
+| Condition | Path |
 |------|------|
-| `desirecore_api` 非空 | **L1** HTTP API |
-| `desirecore_api` 空，`volta_path` 非空 | **L2** Volta CLI |
-| 上述都不满足 | **L3** 系统包管理器（brew / apt / NodeSource / winget） |
-| L1–L3 全部失败或用户明示 | **L4** 社区方案（nvm / fnm） |
+| `desirecore_api` non-empty | **L1** HTTP API |
+| `desirecore_api` empty, `volta_path` non-empty | **L2** Volta CLI |
+| Neither of the above | **L3** System package manager (brew / apt / NodeSource / winget) |
+| L1–L3 all fail or user explicitly requests | **L4** Community options (nvm / fnm) |
 
-### 第三步：执行（仅展示主路径，详见各 references）
+### Step 3: Execute (only the main path is shown; see each reference for details)
 
-#### L1：HTTP API（→ `references/volta-desirecore.md`）
+#### L1: HTTP API (→ `references/volta-desirecore.md`)
 
 ```bash
 PORT=$(cat ~/.desirecore/agent-service.port)
@@ -130,7 +152,7 @@ curl -sk -X POST "${BASE}/pkg/pnpm/install" \
 curl -sk -X POST "${BASE}/environment/refresh"
 ```
 
-#### L2：Volta CLI 绝对路径（→ `references/volta-desirecore.md`）
+#### L2: Volta CLI Absolute Path (→ `references/volta-desirecore.md`)
 
 ```bash
 VOLTA=~/.desirecore/runtime/volta/volta
@@ -146,48 +168,48 @@ export VOLTA_FEATURE_PNPM=1
 "$VOLTA" pin node@22 pnpm@9
 ```
 
-Windows：`%USERPROFILE%\.desirecore\runtime\volta\volta.exe`。
+Windows: `%USERPROFILE%\.desirecore\runtime\volta\volta.exe`.
 
-#### L3：系统包管理器
+#### L3: System Package Manager
 
-| 平台 | 命令 |
+| Platform | Command |
 |------|------|
 | macOS | `brew install node` |
-| Debian/Ubuntu | NodeSource：`curl -fsSL https://deb.nodesource.com/setup_22.x \| sudo -E bash - && sudo apt install nodejs` |
+| Debian/Ubuntu | NodeSource: `curl -fsSL https://deb.nodesource.com/setup_22.x \| sudo -E bash - && sudo apt install nodejs` |
 | Fedora/RHEL | `curl -fsSL https://rpm.nodesource.com/setup_22.x \| sudo bash - && sudo dnf install nodejs` |
 | Arch | `sudo pacman -S nodejs npm` |
 | Windows | `winget install OpenJS.NodeJS.LTS` |
 
-#### L4：nvm / fnm（→ `references/nvm-fallback.md`）
+#### L4: nvm / fnm (→ `references/nvm-fallback.md`)
 
-仅在用户明示或上述失败时启用。
+Only enable when explicitly requested by the user or when the above fail.
 
-### 第四步：包管理器策略
+### Step 4: Package Manager Strategy
 
-详见 `references/package-managers.md`：
-- pnpm（推荐，磁盘高效、严格依赖）
-- yarn（Berry / Classic）
-- npm（默认，Node.js 自带）
-- 项目级 `package.json#volta` 自动切换
+See `references/package-managers.md` for details:
+- pnpm (recommended, disk-efficient, strict dependencies)
+- yarn (Berry / Classic)
+- npm (default, ships with Node.js)
+- Project-level `package.json#volta` automatic switching
 
-### 第五步：故障排查
+### Step 5: Troubleshooting
 
-详见 `references/troubleshooting.md`：
-- npm EACCES 权限错误（**不要用 sudo npm**）
-- registry / proxy 配置
-- node-gyp 编译失败
-- "node: command not found" 在 nvm 已装时
+See `references/troubleshooting.md` for details:
+- npm EACCES permission errors (**do not use sudo npm**)
+- registry / proxy configuration
+- node-gyp build failures
+- "node: command not found" when nvm is installed
 
-## 重要约束
+## Important Constraints
 
-1. **绝不 `sudo npm install -g`**：用户级 prefix 或 Volta/nvm。
-2. **修改环境后必须刷新**：L1 调 `POST /api/runtime/environment/refresh`；其它路径重跑 probe。
-3. **跨 skill 协作**：`pptx` 等需要 Node.js 时，按本 skill 主路径安装；npm 包速查见 `../dev-environment-setup/references/office-deps.md`。
-4. **package.json#volta 必须尊重**：检测到该字段时优先 Volta，不要切到 nvm。
+1. **Never `sudo npm install -g`**: use a user-level prefix or Volta/nvm.
+2. **Refresh after modifying the environment**: for L1, call `POST /api/runtime/environment/refresh`; for other paths, re-run the probe.
+3. **Cross-skill collaboration**: when `pptx` and others need Node.js, install via this skill's main path; for npm package quick reference, see `../dev-environment-setup/references/office-deps.md`.
+4. **Respect package.json#volta**: when this field is detected, prefer Volta — do not switch to nvm.
 
-## 引用关系
+## References
 
-- 决策树：`../dev-environment-setup/references/decision-tree.md`
-- DesireCore 底座：`../dev-environment-setup/references/desirecore-runtime.md`
-- 探测协议：`../dev-environment-setup/references/probe-snapshot.md`
-- 办公依赖（npm 包）：`../dev-environment-setup/references/office-deps.md`
+- Decision tree: `../dev-environment-setup/references/decision-tree.md`
+- DesireCore foundation: `../dev-environment-setup/references/desirecore-runtime.md`
+- Probe protocol: `../dev-environment-setup/references/probe-snapshot.md`
+- Office dependencies (npm packages): `../dev-environment-setup/references/office-deps.md`

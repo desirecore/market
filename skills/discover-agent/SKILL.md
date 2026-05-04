@@ -1,5 +1,5 @@
 ---
-name: 发现智能体
+name: discover-agent
 description: 根据用户需求推荐最匹配的智能体，展示候选列表并引导选择。Use when 用户描述需求但不确定该找哪个智能体帮忙，或想浏览可用的智能体。
 version: 2.5.2
 type: procedural
@@ -13,6 +13,28 @@ tags:
 metadata:
   author: desirecore
   updated_at: '2026-02-28'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales:
+      - zh-CN
+      - en-US
+    zh-CN:
+      name: 发现智能体
+      short_desc: 根据需求描述智能推荐最匹配的智能体，引导快速选择
+      description: 根据用户需求推荐最匹配的智能体，展示候选列表并引导选择。Use when 用户描述需求但不确定该找哪个智能体帮忙，或想浏览可用的智能体。
+      body: ./SKILL.zh-CN.md
+      source_hash: sha256:28ecd07724adda9a
+      translated_by: human
+    en-US:
+      name: Discover Agent
+      short_desc: Intelligently recommend the best-matching Agent based on the user's needs and guide a quick selection
+      description: >-
+        Recommend the best-matching Agent based on the user's needs, present a candidate list, and guide the user's selection. Use when the user describes a need but is unsure which Agent to ask, or wants to browse available Agents.
+      body: ./SKILL.md
+      source_hash: sha256:28ecd07724adda9a
+      translated_by: ai:claude-opus-4-7
+      translated_at: '2026-05-03'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -25,7 +47,6 @@ market:
     fill-opacity="0.85"/><path d="M7.76 16.24l1.8-5.41a2 2 0 0 1 1.27-1.27L16.24
     7.76" fill="#AF52DE" fill-opacity="0.7"/><circle cx="12" cy="12" r="1.5"
     fill="white" stroke="#AF52DE" stroke-width="0.8"/></svg>
-  short_desc: 根据需求描述智能推荐最匹配的智能体，引导快速选择
   category: productivity
   maintainer:
     name: DesireCore Official
@@ -34,34 +55,34 @@ market:
   channel: latest
 ---
 
-# discover-agent 技能
+# discover-agent skill
 
-## L0：一句话摘要
+## L0: One-Sentence Summary
 
-根据用户需求描述，在已注册的智能体中匹配并推荐最合适的 Agent。
+Match and recommend the most suitable registered Agent based on the user's described needs.
 
-## L1：概述与使用场景
+## L1: Overview and Use Cases
 
-### 能力描述
+### Capability Description
 
-discover-agent 是一个**流程型技能（Procedural Skill）**，赋予 DesireCore 为用户发现和推荐合适智能体的能力。它通过理解用户需求描述，在已注册的 Agent 列表中进行多维度匹配，展示候选列表供用户选择。
+discover-agent is a **Procedural Skill** that gives DesireCore the ability to discover and recommend a suitable Agent for the user. It understands the user's described needs, performs multi-dimensional matching across the registered Agent list, and presents a candidate list for the user to choose from.
 
-### 使用场景
+### Use Cases
 
-- 用户描述了一个需求，但不知道该找哪个智能体帮忙
-- 用户想浏览当前可用的智能体及其能力
-- 用户需要为特定任务找到最合适的专业助手
-- 新用户初次使用系统，需要了解有哪些智能体可用
+- The user describes a need but doesn't know which Agent to ask for help
+- The user wants to browse currently available Agents and their capabilities
+- The user needs to find the best specialist assistant for a specific task
+- A new user trying the system for the first time needs to learn which Agents are available
 
-### 核心价值
+### Core Value
 
-- **降低门槛**：用户无需记住每个智能体的名称和能力
-- **精准匹配**：基于需求语义进行智能推荐，而非简单关键词搜索
-- **流畅衔接**：无匹配时自动建议创建新 Agent（衔接 create-agent 技能）
+- **Lower the barrier**: Users don't have to remember each Agent's name and capabilities
+- **Precise matching**: Smart recommendations based on the semantics of the need, not simple keyword search
+- **Smooth handoff**: When there's no match, automatically suggest creating a new Agent (handing off to the create-agent skill)
 
-## L2：详细规范
+## L2: Detailed Specification
 
-### 执行流程
+### Execution Flow
 
 ```
 ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
@@ -74,77 +95,77 @@ discover-agent 是一个**流程型技能（Procedural Skill）**，赋予 Desir
 └──────────────┘     └──────────────┘     └──────────────┘
 ```
 
-### 阶段 1：需求理解
+### Stage 1: Need Understanding
 
-**触发条件**（任一满足）：
+**Trigger conditions** (any one is sufficient):
 
-- 用户说"帮我找一个..."、"有没有..."、"谁能帮我..."
-- 用户描述了一个任务但未指定具体智能体
-- 用户说"有哪些智能体"、"看看都有谁"
-- 系统检测到用户需求与当前 Agent 能力不匹配
+- The user says "find me a...", "is there a...", "who can help me..."
+- The user describes a task without specifying a particular Agent
+- The user says "what Agents are there?", "show me who's available"
+- The system detects that the user's need does not match the current Agent's capabilities
 
-**需求解析**：
+**Need parsing**:
 
-从用户描述中提取以下维度：
+Extract the following dimensions from the user's description:
 
-| 维度        | 说明     | 示例                   |
-| ----------- | -------- | ---------------------- |
-| `domain`    | 专业领域 | 法律、财务、技术、教育 |
-| `task_type` | 任务类型 | 咨询、审查、分析、创作 |
-| `keywords`  | 关键词   | 合同、报表、代码、论文 |
-| `urgency`   | 紧急程度 | 日常 / 紧急            |
+| Dimension   | Description       | Examples                                |
+| ----------- | ----------------- | --------------------------------------- |
+| `domain`    | Specialty domain  | Legal, finance, technology, education   |
+| `task_type` | Task type         | Consultation, review, analysis, writing |
+| `keywords`  | Keywords          | Contract, report, code, paper           |
+| `urgency`   | Urgency level     | Routine / urgent                        |
 
-### 阶段 2：Agent 检索
+### Stage 2: Agent Retrieval
 
-**数据源**：调用 `GET /api/agents` 获取所有已注册的智能体列表。
+**Data source**: Call `GET /api/agents` to fetch the list of all registered Agents.
 
-**API 调用**：
+**API call**:
 
 ```bash
 GET /api/agents
 ```
 
-**返回数据中的关键字段**：
+**Key fields in the returned data**:
 
-- `id` — 智能体唯一标识
-- `name` — 智能体名称
-- `description` — 智能体描述
-- `skills` — 技能列表
-- `status` — 当前状态（online/offline/busy）
+- `id` — Unique Agent identifier
+- `name` — Agent name
+- `description` — Agent description
+- `skills` — Skill list
+- `status` — Current status (online/offline/busy)
 
-**过滤规则**：
+**Filter rules**:
 
-- 默认只展示 `status: online` 或 `status: offline` 的智能体
-- 排除系统内部智能体（如 DesireCore 自身，除非用户显式要求）
+- By default, show only Agents with `status: online` or `status: offline`
+- Exclude system-internal Agents (e.g. DesireCore itself, unless the user explicitly requests them)
 
-### 阶段 3：匹配评估
+### Stage 3: Match Evaluation
 
-根据以下维度综合判断匹配度（使用 LLM 语义理解，非公式计算）：
+Comprehensively judge match degree based on the following dimensions (using LLM semantic understanding rather than formula-based computation):
 
-| 维度       | 说明                                                |
-| ---------- | --------------------------------------------------- |
-| 描述相关性 | 智能体 description / persona 与用户需求的语义相关度 |
-| 技能匹配度 | 智能体拥有的 skills 与任务类型的关联度              |
-| 领域契合度 | 智能体专业领域与用户需求领域的契合程度              |
-| 状态可用性 | 智能体当前状态（online 优先于 offline）             |
+| Dimension              | Description                                                              |
+| ---------------------- | ------------------------------------------------------------------------ |
+| Description relevance  | Semantic relevance between Agent description / persona and user's need   |
+| Skill match            | Relevance of the Agent's skills to the task type                         |
+| Domain fit             | Fit between the Agent's specialty domain and the user's need domain      |
+| Status availability    | Agent's current status (online preferred over offline)                   |
 
-**展示规则**：
+**Display rules**:
 
-- 高度匹配（明确适合该任务）→ 标为"推荐"
-- 部分匹配（可能有帮助）→ 标为"可能相关"
-- 无明显关联 → 不展示
+- Highly matched (clearly suited to the task) → tag as "Recommended"
+- Partial match (may help) → tag as "Possibly relevant"
+- No clear relation → do not display
 
-### 阶段 4：候选排序
+### Stage 4: Candidate Ranking
 
-**排序规则**：
+**Ranking rules**:
 
-1. 按综合得分降序排列
-2. 同分时 online 状态优先
-3. 最多展示 5 个候选
+1. Sort by overall score in descending order
+2. On ties, online status takes precedence
+3. Show at most 5 candidates
 
-### 阶段 5：结果展示
+### Stage 5: Result Display
 
-**有匹配结果时**：
+**When matches are found**:
 
 ```
 根据你的需求，我推荐以下智能体：
@@ -169,7 +190,7 @@ GET /api/agents
 请选择一个智能体，或告诉我更具体的需求。
 ```
 
-**无匹配结果时**：
+**When no matches are found**:
 
 ```
 目前没有找到完全匹配你需求的智能体。
@@ -182,7 +203,7 @@ GET /api/agents
 你想怎么做？
 ```
 
-**浏览模式**（用户要求查看所有）：
+**Browse mode** (when the user asks to view all):
 
 ```
 当前可用的智能体：
@@ -198,20 +219,20 @@ GET /api/agents
 共 4 个智能体。需要了解某个智能体的详细信息吗？
 ```
 
-### 阶段 6：引导选择
+### Stage 6: Guided Selection
 
-**用户选择后的操作**：
+**Actions after the user selects**:
 
-| 用户选择         | 后续操作                                                      |
-| ---------------- | ------------------------------------------------------------- |
-| 选择了某个智能体 | 切换到该智能体的对话，传递用户需求上下文                      |
-| 要求了解更多     | 调用 `GET /api/agents/:id` 获取详情，展示结构化信息（见下方） |
-| 不满意候选       | 引导用户细化需求或建议创建新 Agent                            |
-| 选择"创建新的"   | 调用 create-agent 技能，传递已收集的需求信息                  |
+| User Choice              | Follow-up Action                                                   |
+| ------------------------ | ------------------------------------------------------------------ |
+| Selected an Agent        | Switch to a conversation with that Agent and pass the need context |
+| Asked to learn more      | Call `GET /api/agents/:id` for details and present structured info (see below) |
+| Not satisfied with candidates | Guide the user to refine the need or suggest creating a new Agent |
+| Chose "create new"       | Invoke the create-agent skill, passing the need info already collected |
 
-**"了解更多"的实现**：
+**Implementation of "learn more"**:
 
-调用 `GET /api/agents/:id` 获取详情，并可选调用结构化端点获取人格/规则：
+Call `GET /api/agents/:id` for details, and optionally call structured endpoints for persona/principles:
 
 ```bash
 # 获取基本信息
@@ -223,7 +244,7 @@ GET /api/agents/{agentId}/persona
 # 返回: { L0, L1: { role, personality, communication_style }, L2 }
 ```
 
-向用户展示时，以自然语言/表格形式呈现关键信息：
+When presenting to the user, render key information in natural language / table form:
 
 ```
 「法律顾问助手」详细信息
@@ -238,7 +259,7 @@ GET /api/agents/{agentId}/persona
 需要与这个智能体对话吗？
 ```
 
-**切换上下文传递**：
+**Context handoff on switch**:
 
 ```yaml
 context_handoff:
@@ -247,29 +268,29 @@ context_handoff:
   user_intent: '帮我审查这份合同的风险点'
 ```
 
-### 与其他技能的协作
+### Collaboration with Other Skills
 
-| 协作技能        | 协作方式                                           |
-| --------------- | -------------------------------------------------- |
-| create-agent    | 无匹配时建议创建新 Agent，传递用户需求作为初始信息 |
-| task-management | 匹配成功后可自动创建任务并分配给目标 Agent         |
+| Collaborating Skill | How It Collaborates                                         |
+| ------------------- | ----------------------------------------------------------- |
+| create-agent        | When there's no match, suggest creating a new Agent and pass the user's need as initial info |
+| task-management     | After a successful match, optionally auto-create a task and assign it to the target Agent |
 
-### 错误处理
+### Error Handling
 
-| 错误场景              | 处理方式                         |
-| --------------------- | -------------------------------- |
-| API 调用失败          | 提示网络错误，建议稍后重试       |
-| Agent 列表为空        | 引导用户创建第一个智能体         |
-| 用户描述过于模糊      | 追问具体需求，提供领域选项引导   |
-| 推荐的 Agent 状态异常 | 标注状态，建议选择其他在线 Agent |
+| Error Scenario               | Handling                                                  |
+| ---------------------------- | --------------------------------------------------------- |
+| API call fails               | Indicate a network error and suggest retrying later       |
+| Agent list is empty          | Guide the user to create their first Agent                |
+| User description too vague   | Ask follow-up questions and offer domain options to guide |
+| Recommended Agent has bad status | Mark the status and suggest selecting another online Agent |
 
-### 权限要求
+### Permission Requirements
 
-- 建议优先通过 `Bash` 工具调用 curl 访问 Agent Service HTTP API 完成操作
-- API 基础地址已注入到 system prompt 的「本机 API」小节，直接引用即可
-- 只读操作，无风险
+- Prefer accessing the Agent Service HTTP API via the `Bash` tool with curl
+- The API base URL is already injected into the "Local API" section of the system prompt; reference it directly
+- Read-only operations; no risk
 
-### 依赖
+### Dependencies
 
-- Agent Service HTTP API（`GET /api/agents`）
-- System prompt 中的本机 API 地址声明
+- Agent Service HTTP API (`GET /api/agents`)
+- The local API URL declaration in the system prompt
