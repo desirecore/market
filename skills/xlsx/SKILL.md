@@ -1,5 +1,5 @@
 ---
-name: 电子表格处理
+name: xlsx
 description: >-
   Use this skill any time a spreadsheet file is the primary input or output.
   This means any task where the user wants to: open, read, edit, or fix an
@@ -28,6 +28,29 @@ tags:
 metadata:
   author: anthropic
   updated_at: '2026-04-13'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales:
+      - zh-CN
+      - en-US
+    zh-CN:
+      name: 电子表格处理
+      short_desc: 创建、编辑和处理 Excel 电子表格（.xlsx）
+      description: >-
+        Use this skill any time a spreadsheet file is the primary input or output. This means any task where the user wants to: open, read, edit, or fix an existing .xlsx, .xlsm, .csv, or .tsv file (e.g., adding columns, computing formulas, formatting, charting, cleaning messy data); create a new spreadsheet from scratch or from other data sources; or convert between tabular file formats. Trigger especially when the user references a spreadsheet file by name or path — even casually (like "the xlsx in my downloads") — and wants something done to it or produced from it. Also trigger for cleaning or restructuring messy tabular data files (malformed rows, misplaced headers, junk data) into proper spreadsheets. The deliverable must be a spreadsheet file. Do NOT trigger when the primary deliverable is a Word document, HTML report, standalone Python script, database pipeline, or Google Sheets API integration, even if tabular data is involved. Use when 用户提到 Excel、 电子表格、xlsx、表格处理、公式计算、数据清洗、图表、CSV导入导出。
+      body: ./SKILL.zh-CN.md
+      source_hash: sha256:de1660781d23798b
+      translated_by: human
+    en-US:
+      name: Spreadsheet Processing
+      short_desc: Create, edit, and process Excel spreadsheets (.xlsx)
+      description: >-
+        Use this skill any time a spreadsheet file is the primary input or output. This means any task where the user wants to: open, read, edit, or fix an existing .xlsx, .xlsm, .csv, or .tsv file (e.g., adding columns, computing formulas, formatting, charting, cleaning messy data); create a new spreadsheet from scratch or from other data sources; or convert between tabular file formats. Trigger especially when the user references a spreadsheet file by name or path — even casually (like "the xlsx in my downloads") — and wants something done to it or produced from it. Also trigger for cleaning or restructuring messy tabular data files (malformed rows, misplaced headers, junk data) into proper spreadsheets. The deliverable must be a spreadsheet file. Do NOT trigger when the primary deliverable is a Word document, HTML report, standalone Python script, database pipeline, or Google Sheets API integration, even if tabular data is involved. Use when the user mentions Excel, spreadsheets, xlsx, table processing, formula computation, data cleaning, charts, or CSV import/export.
+      body: ./SKILL.md
+      source_hash: sha256:de1660781d23798b
+      translated_by: ai:claude-opus-4-7
+      translated_at: '2026-05-03'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -42,7 +65,6 @@ market:
     r="3" fill="#34C759" fill-opacity="0.9"/><path d="M18 18.5l1 1.5 2-2.5"
     stroke="white" stroke-width="1.2" stroke-linecap="round"
     stroke-linejoin="round"/></svg>
-  short_desc: 创建、编辑和处理 Excel 电子表格（.xlsx）
   category: productivity
   maintainer:
     name: DesireCore Official
@@ -50,66 +72,66 @@ market:
   channel: latest
 ---
 
-# xlsx 技能
+# xlsx Skill
 
-## L0：一句话摘要
+## L0: One-line Summary
 
-创建、编辑和分析 Excel 电子表格（.xlsx），支持公式、格式、数据分析和可视化。
+Create, edit, and analyze Excel spreadsheets (.xlsx), with support for formulas, formatting, data analysis, and visualization.
 
-## L1：概述与使用场景
+## L1: Overview and Use Cases
 
-### 能力描述
+### Capability
 
-xlsx 是一个**流程型技能（Procedural Skill）**，提供 Excel 电子表格的完整处理能力。基于 Python 库（openpyxl、pandas），支持创建新表格、编辑现有文件、数据分析、公式计算、格式设置和图表生成，并通过 LibreOffice 实现公式重算和错误检测。
+xlsx is a **Procedural Skill** that provides full processing capabilities for Excel spreadsheets. Built on Python libraries (openpyxl, pandas), it supports creating new spreadsheets, editing existing files, data analysis, formula calculation, formatting, and chart generation, and uses LibreOffice for formula recalculation and error detection.
 
-### 使用场景
+### Use Cases
 
-- 用户需要创建新的 Excel 电子表格（财务模型、数据报告等）
-- 用户需要编辑或修改现有 .xlsx 文件
-- 用户需要进行数据分析、清洗或格式转换（CSV/TSV → XLSX）
-- 用户需要添加公式、图表或格式化现有表格
+- The user needs to create a new Excel spreadsheet (financial models, data reports, etc.)
+- The user needs to edit or modify an existing .xlsx file
+- The user needs to perform data analysis, cleaning, or format conversion (CSV/TSV → XLSX)
+- The user needs to add formulas, charts, or formatting to an existing spreadsheet
 
-## L2：详细规范
+## L2: Detailed Specification
 
 ## Prerequisites
 
-### Python 3（必需）
+### Python 3 (required)
 
-在执行任何 Python 操作之前，先检测 Python 是否可用：
+Before performing any Python operation, first check whether Python is available:
 
 ```bash
 python3 --version 2>/dev/null || python --version 2>/dev/null
 ```
 
-如果命令失败（Python 不可用），**必须停止并告知用户安装 Python 3**：
+If the command fails (Python is unavailable), **you must stop and instruct the user to install Python 3**:
 
-- **macOS**: `brew install python3` 或从 https://www.python.org/downloads/ 下载
-- **Windows**: `winget install Python.Python.3` 或从 python.org 下载（安装时勾选 "Add Python to PATH"）
+- **macOS**: `brew install python3` or download from https://www.python.org/downloads/
+- **Windows**: `winget install Python.Python.3` or download from python.org (check "Add Python to PATH" during installation)
 - **Linux (Debian/Ubuntu)**: `sudo apt install python3 python3-pip`
 - **Linux (Fedora/RHEL)**: `sudo dnf install python3 python3-pip`
 
-如需更详细的环境配置帮助：Python 相关问题加载 `python-runtime` 技能；
-其他（LibreOffice / 容器 / WSL）加载 `dev-environment-setup` 技能。
+For more detailed environment setup help: for Python-related issues load the `python-runtime` Skill;
+for everything else (LibreOffice / containers / WSL), load the `dev-environment-setup` Skill.
 
-### Python 包依赖
+### Python Package Dependencies
 
-本技能依赖以下 Python 包（按需检测）：
+This Skill depends on the following Python packages (checked on demand):
 
-- `openpyxl` — Excel 文件创建和编辑（公式、格式）
-- `pandas` — 数据分析和读写
+- `openpyxl` — Excel file creation and editing (formulas, formatting)
+- `pandas` — data analysis and read/write
 
-检测方法：
+Detection method:
 ```bash
 python3 -c "import openpyxl; import pandas" 2>/dev/null || echo "MISSING"
 ```
 
-缺失时告知用户安装：`pip install openpyxl pandas`
+If missing, instruct the user to install: `pip install openpyxl pandas`
 
 # Requirements for Outputs
 
 ## Output Rule
 
-When you create or modify a .xlsx file, you **MUST** tell the user the absolute path of the output file in your response. Example: "文件已保存到：`/path/to/output.xlsx`"
+When you create or modify a .xlsx file, you **MUST** tell the user the absolute path of the output file in your response. Example: "File saved to: `/path/to/output.xlsx`"
 
 ## All Excel files
 

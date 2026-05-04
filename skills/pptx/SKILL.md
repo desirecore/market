@@ -1,5 +1,5 @@
 ---
-name: 演示文稿处理
+name: pptx
 description: >-
   Use this skill any time a .pptx file is involved in any way — as input,
   output, or both. This includes: creating slide decks, pitch decks, or
@@ -26,6 +26,29 @@ tags:
 metadata:
   author: anthropic
   updated_at: '2026-05-04'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales:
+      - zh-CN
+      - en-US
+    zh-CN:
+      name: 演示文稿处理
+      short_desc: 创建、编辑和处理 PowerPoint 演示文稿（.pptx）
+      description: >-
+        Use this skill any time a .pptx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from any .pptx file (even if the extracted content will be used elsewhere, like in an email or summary); editing, modifying, or updating existing presentations; combining or splitting slide files; working with templates, layouts, speaker notes, or comments. Trigger whenever the user mentions "deck," "slides," "presentation," or references a .pptx filename, regardless of what they plan to do with the content afterward. If a .pptx file needs to be opened, created, or touched, use this skill. Use when 用户提到 PPT、演示文稿、幻灯片、演讲稿、汇报材料、 pptx、创建演示、编辑幻灯片。
+      body: ./SKILL.zh-CN.md
+      source_hash: sha256:761da55f1e450adc
+      translated_by: human
+    en-US:
+      name: Presentation Processing
+      short_desc: Create, edit, and process PowerPoint presentations (.pptx)
+      description: >-
+        Use this skill any time a .pptx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from any .pptx file (even if the extracted content will be used elsewhere, like in an email or summary); editing, modifying, or updating existing presentations; combining or splitting slide files; working with templates, layouts, speaker notes, or comments. Trigger whenever the user mentions "deck," "slides," "presentation," or references a .pptx filename, regardless of what they plan to do with the content afterward. If a .pptx file needs to be opened, created, or touched, use this skill. Use when the user mentions PPT, presentation, slides, speaker notes, briefing materials, pptx, creating presentations, or editing slides.
+      body: ./SKILL.md
+      source_hash: sha256:761da55f1e450adc
+      translated_by: ai:claude-opus-4-7
+      translated_at: '2026-05-03'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -40,7 +63,6 @@ market:
     stroke-width="1.2" stroke-linecap="round"/><circle cx="17" cy="10" r="3"
     fill="#FF9500" fill-opacity="0.15"/><path d="M15.8 8.5v3l2.6-1.5z"
     fill="#FF9500" fill-opacity="0.85"/></svg>
-  short_desc: 创建、编辑和处理 PowerPoint 演示文稿（.pptx）
   category: productivity
   maintainer:
     name: DesireCore Official
@@ -48,67 +70,66 @@ market:
   channel: latest
 ---
 
-# pptx 技能
+# pptx skill
 
-## L0：一句话摘要
+## L0: One-Sentence Summary
 
-创建、编辑和处理 PowerPoint 演示文稿（.pptx），支持模板编辑和从零创建。
+Create, edit, and process PowerPoint presentations (.pptx), with support for template editing and creation from scratch.
 
-## L1：概述与使用场景
+## L1: Overview and Use Cases
 
-### 能力描述
+### Capability Description
 
-pptx 是一个**流程型技能（Procedural Skill）**，提供 PowerPoint 演示文稿的完整处理能力。支持通过 pptxgenjs（Node.js）从零创建演示文稿，通过解包 XML 编辑现有模板，以及内容提取和视觉质检。
+pptx is a **Procedural Skill** providing full PowerPoint presentation processing capabilities. It supports creating presentations from scratch via pptxgenjs (Node.js), editing existing templates by unpacking XML, plus content extraction and visual quality checks.
 
-### 使用场景
+### Use Cases
 
-- 用户需要创建新的演示文稿（汇报材料、Pitch Deck 等）
-- 用户需要编辑或修改现有 .pptx 文件
-- 用户需要从 .pptx 文件中提取文本内容
-- 用户需要将演示文稿转换为 PDF 或图片
+- The user needs to create a new presentation (briefing materials, pitch deck, etc.)
+- The user needs to edit or modify an existing .pptx file
+- The user needs to extract text content from a .pptx file
+- The user needs to convert a presentation to PDF or images
 
-## L2：详细规范
+## L2: Detailed Specification
 
 ## Prerequisites
 
-### Python 3（必需 — 读取和编辑现有 PPTX 时需要）
+### Python 3 (required — needed when reading and editing existing PPTX)
 
-在执行任何 Python 脚本之前，先检测 Python 是否可用：
+Before running any Python script, check that Python is available:
 
 ```bash
 python3 --version 2>/dev/null || python --version 2>/dev/null
 ```
 
-如果命令失败（Python 不可用），**必须停止并告知用户安装 Python 3**：
+If the command fails (Python is not available), **you must stop and tell the user to install Python 3**:
 
-- **macOS**: `brew install python3` 或从 https://www.python.org/downloads/ 下载
-- **Windows**: `winget install Python.Python.3` 或从 python.org 下载（安装时勾选 "Add Python to PATH"）
+- **macOS**: `brew install python3`, or download from https://www.python.org/downloads/
+- **Windows**: `winget install Python.Python.3`, or download from python.org (check "Add Python to PATH" during installation)
 - **Linux (Debian/Ubuntu)**: `sudo apt install python3 python3-pip`
 - **Linux (Fedora/RHEL)**: `sudo dnf install python3 python3-pip`
 
-注意：从零创建 PPTX 使用 pptxgenjs（Node.js），不需要 Python。
+Note: Creating PPTX from scratch uses pptxgenjs (Node.js), and does not require Python.
 
-如需更详细的环境配置帮助：Python 相关问题加载 `python-runtime` 技能；
-Node.js（pptxgenjs）相关问题加载 `nodejs-runtime` 技能；其他（系统工具 /
-容器 / WSL）加载 `dev-environment-setup` 技能。
+For more detailed environment setup help: load the `python-runtime` skill for Python issues;
+load the `nodejs-runtime` skill for Node.js (pptxgenjs) issues; load the `dev-environment-setup` skill for everything else (system tools / containers / WSL).
 
-### Python 包依赖
+### Python Package Dependencies
 
-本技能的 Python 操作依赖以下包（按需检测）：
+This skill's Python operations depend on the following packages (checked on demand):
 
-- `markitdown[pptx]` — PPTX 内容读取
-- `Pillow` — 缩略图生成
+- `markitdown[pptx]` — PPTX content reading
+- `Pillow` — Thumbnail generation
 
-检测方法：
+Detection method:
 ```bash
 python3 -c "import markitdown; import PIL" 2>/dev/null || echo "MISSING"
 ```
 
-缺失时告知用户安装：`pip install "markitdown[pptx]" Pillow`
+If missing, tell the user to install: `pip install "markitdown[pptx]" Pillow`
 
 ## Output Rule
 
-When you create or modify a .pptx file, you **MUST** tell the user the absolute path of the output file in your response. Example: "文件已保存到：`/path/to/output.pptx`"
+When you create or modify a .pptx file, you **MUST** tell the user the absolute path of the output file in your response. Example: "File saved to: `/path/to/output.pptx`"
 
 ## Quick Reference
 

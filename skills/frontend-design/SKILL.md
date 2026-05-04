@@ -1,5 +1,5 @@
 ---
-name: 前端设计
+name: frontend-design
 description: >-
   Create distinctive, production-grade frontend interfaces with high design
   quality. Use this skill when the user asks to build web components, pages,
@@ -25,6 +25,29 @@ tags:
 metadata:
   author: anthropic
   updated_at: '2026-04-13'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales:
+      - zh-CN
+      - en-US
+    zh-CN:
+      name: 前端设计
+      short_desc: 创建有品味、避免 AI 烂大街审美的前端界面与组件
+      description: >-
+        Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics. Use when 用户提到 前端设计、网页设计、UI 设计、 界面设计、组件、海报、Landing Page、落地页、React 组件、Vue 组件、 CSS 样式、美化界面、设计一个、做一个网页、官网、仪表盘、Dashboard。
+      body: ./SKILL.zh-CN.md
+      source_hash: sha256:136983c7c029579c
+      translated_by: human
+    en-US:
+      name: Frontend Design
+      short_desc: Create tasteful frontend interfaces and components that avoid generic AI aesthetics
+      description: >-
+        Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics. Use when the user mentions frontend design, web design, UI design, interface design, components, posters, landing pages, React components, Vue components, CSS styling, polishing the UI, designing something, building a webpage, official site, or dashboard.
+      body: ./SKILL.md
+      source_hash: sha256:136983c7c029579c
+      translated_by: ai:claude-opus-4-7
+      translated_at: '2026-05-03'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -40,7 +63,6 @@ market:
     fill="url(#fd-a)" fill-opacity="0.2" stroke="url(#fd-a)"
     stroke-width="1"/><path d="M14 11h5M14 13.5h3.5M14 16h4.5"
     stroke="url(#fd-a)" stroke-width="1.2" stroke-linecap="round"/></svg>
-  short_desc: 创建有品味、避免 AI 烂大街审美的前端界面与组件
   category: design
   maintainer:
     name: DesireCore Official
@@ -48,35 +70,35 @@ market:
   channel: latest
 ---
 
-# frontend-design 技能
+# frontend-design Skill
 
-## L0：一句话摘要
+## L0: One-line Summary
 
-创建有品味、避免 AI 烂大街审美的高质量前端界面与组件。
+Create tasteful, production-grade frontend interfaces and components that avoid generic AI aesthetics.
 
-## L1：概述与使用场景
+## L1: Overview and Use Cases
 
-### 能力描述
+### Capability Description
 
-frontend-design 是一个**流程型技能（Procedural Skill）**，引导创建独特、生产级的前端界面，避免千篇一律的 AI 生成审美。输出真实可运行的代码，注重美学细节和创意选择。
+frontend-design is a **Procedural Skill** that guides the creation of distinctive, production-grade frontend interfaces while avoiding cookie-cutter AI-generated aesthetics. It outputs real, runnable code with attention to aesthetic detail and creative choices.
 
-### 使用场景
+### Use Cases
 
-- 用户需要创建网页组件、页面或应用（Landing Page、仪表盘、React 组件等）
-- 用户需要为现有 Web UI 进行样式美化
-- 用户需要创建海报、视觉设计等前端产出物
+- The user needs to create web components, pages, or applications (landing pages, Dashboards, React components, etc.)
+- The user needs to polish the styling of an existing web UI
+- The user needs to create posters, visual designs, or other frontend deliverables
 
-### 核心价值
+### Core Value
 
-- **反 AI 审美**：拒绝 Inter 字体 + 紫色渐变的烂大街风格
-- **设计思维驱动**：先确定美学方向，再编写代码
-- **生产级质量**：输出可直接使用的完整代码
+- **Anti-AI aesthetics**: rejects the cliched Inter font + purple gradient style
+- **Design-thinking driven**: settle on an aesthetic direction first, then write code
+- **Production-grade quality**: outputs complete, ready-to-use code
 
-## L2：详细规范
+## L2: Detailed Specification
 
 ## Output Rule
 
-When you create or modify HTML/CSS/JS/React/Vue files, you **MUST** tell the user the absolute path of the output file in your response. Example: "文件已保存到：`/path/to/index.html`"
+When you create or modify HTML/CSS/JS/React/Vue files, you **MUST** tell the user the absolute path of the output file in your response. Example: "File saved to: `/path/to/index.html`"
 
 If you create multiple files (e.g. HTML + CSS + JS), list each path explicitly.
 

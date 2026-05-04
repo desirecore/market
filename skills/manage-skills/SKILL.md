@@ -1,5 +1,5 @@
 ---
-name: 管理技能
+name: manage-skills
 description: >-
   管理 Agent 的技能生命周期：通过 HTTP API 导入、安装、更新、删除技能，
   或通过 AgentFS 文件系统直接编写符合规范的 SKILL.md。Use when 用户要求
@@ -18,6 +18,29 @@ tags:
 metadata:
   author: desirecore
   updated_at: '2026-03-03'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales:
+      - zh-CN
+      - en-US
+    zh-CN:
+      name: 管理技能
+      short_desc: 导入、编写、安装与管理 Agent 技能的完整工具箱
+      description: >-
+        管理 Agent 的技能生命周期：通过 HTTP API 导入、安装、更新、删除技能， 或通过 AgentFS 文件系统直接编写符合规范的 SKILL.md。Use when 用户要求 安装技能、从 URL/Git 导入技能、编写新技能、或管理已有技能。
+      body: ./SKILL.zh-CN.md
+      source_hash: sha256:7f116cc5de352822
+      translated_by: human
+    en-US:
+      name: Manage Skills
+      short_desc: Complete toolbox for importing, authoring, installing, and managing Agent Skills
+      description: >-
+        Manage the Skill lifecycle of an Agent: import, install, update, and delete Skills via HTTP API, or directly author standards-compliant SKILL.md files via the AgentFS filesystem. Use when the user requests to install Skills, import Skills from URL/Git, author new Skills, or manage existing Skills.
+      body: ./SKILL.md
+      source_hash: sha256:7f116cc5de352822
+      translated_by: ai:claude-opus-4-7
+      translated_at: '2026-05-03'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -30,7 +53,6 @@ market:
     stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="6" r="3"
     fill="#34C759" fill-opacity="0.9"/><path d="M17 6h2M18 5v2"
     stroke="white" stroke-width="1.2" stroke-linecap="round"/></svg>
-  short_desc: 导入、编写、安装与管理 Agent 技能的完整工具箱
   category: productivity
   maintainer:
     name: DesireCore Official
@@ -39,46 +61,46 @@ market:
   channel: latest
 ---
 
-# manage-skills 技能
+# manage-skills Skill
 
-## L0：一句话摘要
+## L0: One-line Summary
 
-管理技能的完整生命周期——导入、编写、安装、更新、删除。
+Manage the full lifecycle of Skills—import, author, install, update, and delete.
 
-## L1：概述与使用场景
+## L1: Overview and Use Cases
 
-### 能力描述
+### Capability
 
-manage-skills 是一个**元技能（Meta-Skill）**，赋予 DesireCore 管理技能系统的能力。它涵盖 5 种核心操作：
+manage-skills is a **Meta-Skill** that gives DesireCore the ability to manage the Skill system. It covers five core operations:
 
-1. **从 URL 导入技能** — 指定远程 SKILL.md 文件 URL，抓取内容并创建
-2. **从 Git 仓库批量导入** — 克隆 Git 仓库，扫描所有 SKILL.md，选择性导入
-3. **通过 API 管理已有技能** — 列出、读取、更新、删除、启用/禁用技能
-4. **通过 AgentFS 直接编写 SKILL.md** — 使用 Write/Edit 工具在文件系统创建技能
-5. **批量操作与跨 Agent 复制** — 批量启用/禁用/删除，以及复制技能到其他 Agent
+1. **Import a Skill from a URL** — supply a remote SKILL.md URL, fetch the content, and create
+2. **Bulk import from a Git repository** — clone a Git repo, scan all SKILL.md files, and selectively import
+3. **Manage existing Skills via API** — list, read, update, delete, enable/disable Skills
+4. **Author SKILL.md directly via AgentFS** — use the Write/Edit tools to create Skills on the filesystem
+5. **Bulk operations and cross-Agent copying** — bulk enable/disable/delete, plus copy Skills to other Agents
 
-### 使用场景
+### Use Cases
 
-- 用户想从 GitHub 等平台导入社区分享的技能
-- 用户想给某个 Agent 安装新技能、增强其能力
-- 用户需要编写自定义技能教会 Agent 新的工作流程
-- 用户想批量管理已有技能（启用/禁用/删除）
-- 用户想把一个 Agent 的技能复制给另一个 Agent
-- 用户需要查看或编辑某个技能的内容
+- The user wants to import community-shared Skills from platforms like GitHub
+- The user wants to install a new Skill on an Agent to enhance its capabilities
+- The user needs to author a custom Skill to teach the Agent a new workflow
+- The user wants to bulk-manage existing Skills (enable/disable/delete)
+- The user wants to copy one Agent's Skill to another Agent
+- The user needs to view or edit the contents of a Skill
 
-### 核心价值
+### Core Value
 
-- **自我扩展**：Agent 可通过导入或编写技能，自主扩展能力边界
-- **可治理**：所有技能变更通过 API 或文件系统操作，可追溯、可审计
-- **灵活性**：支持 API 导入和文件系统直写两种方式，适应不同场景
+- **Self-extension**: an Agent can autonomously expand its capability boundary by importing or authoring Skills
+- **Governable**: every Skill change goes through the API or filesystem operations and is traceable and auditable
+- **Flexibility**: supports both API import and direct filesystem authoring to fit different scenarios
 
-## L2：详细规范
+## L2: Detailed Specification
 
-### 1. 从 URL 导入单个技能
+### 1. Import a Single Skill from a URL
 
-适用于导入单个 SKILL.md 文件（如 GitHub raw 链接）。
+For importing a single SKILL.md file (e.g. a GitHub raw link).
 
-**步骤 1：抓取远程内容**
+**Step 1: Fetch the remote content**
 
 ```bash
 POST /api/skills/fetch-url
@@ -89,25 +111,25 @@ Content-Type: application/json
 }
 ```
 
-**成功响应**（`200 OK`）：
+**Success response** (`200 OK`):
 
 ```json
 {
-  "content": "---\nname: 我的技能\ndescription: ...\n---\n\n# 技能内容..."
+  "content": "---\nname: My Skill\ndescription: ...\n---\n\n# Skill content..."
 }
 ```
 
-**安全限制**：
+**Security limits**:
 
-- 仅允许 HTTPS URL
-- 文件大小上限 20MB
-- 请求超时 30 秒
+- HTTPS URLs only
+- 20MB file size limit
+- 30-second request timeout
 
-**步骤 2：创建技能**
+**Step 2: Create the Skill**
 
-抓取成功后，根据作用域选择创建端点：
+After a successful fetch, choose the creation endpoint based on scope:
 
-**创建全局技能**（所有 Agent 可见）：
+**Create a global Skill** (visible to all Agents):
 
 ```bash
 POST /api/skills
@@ -115,11 +137,11 @@ Content-Type: application/json
 
 {
   "skillId": "my-skill",
-  "content": "<上一步返回的 content>"
+  "content": "<content returned in the previous step>"
 }
 ```
 
-**创建 Agent 级技能**（仅指定 Agent 可见）：
+**Create an Agent-scoped Skill** (visible only to the specified Agent):
 
 ```bash
 POST /api/agents/{agentId}/skills
@@ -127,24 +149,24 @@ Content-Type: application/json
 
 {
   "id": "my-skill",
-  "fullContent": "<上一步返回的 content>"
+  "fullContent": "<content returned in the previous step>"
 }
 ```
 
-**成功响应**（`201 Created`）：
+**Success response** (`201 Created`):
 
 ```json
 {
   "success": true,
-  "skill": { "id": "my-skill", "name": "我的技能", "description": "..." }
+  "skill": { "id": "my-skill", "name": "My Skill", "description": "..." }
 }
 ```
 
-### 2. 从 Git 仓库批量导入
+### 2. Bulk Import from a Git Repository
 
-适用于导入包含多个技能的 Git 仓库。
+For importing a Git repository that contains multiple Skills.
 
-**步骤 1：扫描仓库**
+**Step 1: Scan the repository**
 
 ```bash
 POST /api/skills/fetch-git
@@ -155,7 +177,7 @@ Content-Type: application/json
 }
 ```
 
-**成功响应**（`200 OK`）：
+**Success response** (`200 OK`):
 
 ```json
 {
@@ -163,53 +185,53 @@ Content-Type: application/json
     {
       "id": "data-analysis",
       "path": "data-analysis",
-      "content": "---\nname: 数据分析\n...",
+      "content": "---\nname: Data Analysis\n...",
       "sidecarFiles": [{ "name": "examples.md", "content": "..." }]
     },
     {
       "id": "report-writing",
       "path": "report-writing",
-      "content": "---\nname: 报告撰写\n..."
+      "content": "---\nname: Report Writing\n..."
     }
   ]
 }
 ```
 
-API 会自动：
+The API automatically:
 
-- 使用 `--depth=1` 浅克隆以减少下载量
-- 递归扫描目录中的 SKILL.md 文件
-- 从目录名推导 skillId（fallback 从 frontmatter name 生成 slug）
-- 收集同目录的 sidecar 文件（如 examples.md, references/ 等）
-- 完成后自动清理临时目录
+- Uses `--depth=1` shallow clone to reduce download size
+- Recursively scans for SKILL.md files in directories
+- Derives skillId from the directory name (falls back to a slug from the frontmatter name)
+- Collects sidecar files in the same directory (e.g. examples.md, references/)
+- Cleans up the temporary directory once finished
 
-**步骤 2：逐个导入选中的技能**
+**Step 2: Import the chosen Skills one by one**
 
-向用户展示扫描结果列表，让用户选择要导入的技能，然后逐个调用创建 API：
+Show the scan results to the user and let them choose which Skills to import, then call the create API for each:
 
 ```bash
-# 全局技能
+# Global Skill
 POST /api/skills
 { "skillId": "data-analysis", "content": "<content>" }
 
-# 或 Agent 级技能
+# Or Agent-scoped Skill
 POST /api/agents/{agentId}/skills
 { "id": "data-analysis", "fullContent": "<content>" }
 ```
 
-**sidecarFiles 处理**：如果扫描结果包含 sidecarFiles，需要在创建技能后将它们写入对应目录：
+**Handling sidecarFiles**: if the scan result contains sidecarFiles, after creating the Skill write them to the corresponding directory:
 
 ```bash
-# 全局技能的 sidecar 文件路径
+# Sidecar file path for a global Skill
 ~/.desirecore/skills/{skillId}/{filename}
 
-# Agent 级技能的 sidecar 文件路径
+# Sidecar file path for an Agent-scoped Skill
 ~/.desirecore/agents/{agentId}/skills/{skillId}/{filename}
 ```
 
-### 3. 通过 API 管理已有技能
+### 3. Manage Existing Skills via API
 
-#### 列出所有技能
+#### List All Skills
 
 ```bash
 GET /api/skills/list
@@ -217,77 +239,77 @@ GET /api/skills/list?agentId={agentId}
 GET /api/skills/list?includeDisabled=true
 ```
 
-返回包含 project、agent、global 三级作用域的技能列表。
+Returns a Skill list covering all three scopes: project, agent, and global.
 
-#### 列出指定 Agent 的技能
+#### List Skills for a Specific Agent
 
 ```bash
 GET /api/agents/{agentId}/skills
 ```
 
-#### 读取技能内容
+#### Read Skill Content
 
 ```bash
-# 按作用域优先级自动解析
+# Resolved automatically by scope priority
 GET /api/skills/{skillId}/content
 GET /api/skills/{skillId}/content?agentId={agentId}
 
-# 读取指定 Agent 的技能
+# Read a specific Agent's Skill
 GET /api/agents/{agentId}/skills/{skillId}
 ```
 
-#### 更新技能内容
+#### Update Skill Content
 
-**更新全局技能**：
+**Update a global Skill**:
 
 ```bash
 PUT /api/skills/{skillId}/content
 Content-Type: application/json
 
 {
-  "content": "---\nname: 更新后的技能\n...\n---\n\n# 新内容..."
+  "content": "---\nname: Updated Skill\n...\n---\n\n# New content..."
 }
 ```
 
-**更新 Agent 级技能**：
+**Update an Agent-scoped Skill**:
 
 ```bash
 PUT /api/agents/{agentId}/skills/{skillId}
 Content-Type: application/json
 
 {
-  "content": "---\nname: 更新后的技能\n...\n---\n\n# 新内容...",
+  "content": "---\nname: Updated Skill\n...\n---\n\n# New content...",
   "bumpVersion": "minor"
 }
 ```
 
-`bumpVersion` 可选值：`major` | `minor` | `patch`，指定后自动递增版本号。内容变化时系统会自动更新 `metadata.updated_at`。
+`bumpVersion` accepts: `major` | `minor` | `patch`; when specified, the version number is auto-incremented. The system automatically updates `metadata.updated_at` whenever the content changes.
 
-#### 删除技能
+#### Delete a Skill
 
 ```bash
-# 删除全局技能
+# Delete a global Skill
 DELETE /api/skills/{skillId}
 
-# 删除 Agent 级技能
+# Delete an Agent-scoped Skill
 DELETE /api/agents/{agentId}/skills/{skillId}
 ```
 
-#### 启用/禁用技能
+#### Enable/Disable a Skill
 
 ```bash
-# 全局技能
+# Global Skill
 PATCH /api/skills/{skillId}/status
 Content-Type: application/json
 { "enabled": false }
 
-# Agent 级技能
+# Agent-scoped Skill
 PATCH /api/agents/{agentId}/skills/{skillId}/status
 Content-Type: application/json
 { "enabled": true }
 ```
 
-#### 批量操作
+#### Bulk Operations
 
 ```bash
 POST /api/agents/{agentId}/skills/batch
@@ -299,9 +321,9 @@ Content-Type: application/json
 }
 ```
 
-`action` 可选值：`enable` | `disable` | `delete`
+`action` accepts: `enable` | `disable` | `delete`
 
-#### 复制技能到其他 Agent
+#### Copy a Skill to Another Agent
 
 ```bash
 POST /api/agents/{targetAgentId}/skills/copy
@@ -314,31 +336,31 @@ Content-Type: application/json
 }
 ```
 
-可选参数：
+Optional parameters:
 
-- `sourceAgentId` — 源 Agent ID（从 agent 级复制时必填）
-- `sourceSource` — 源作用域：`project` | `agent` | `global`
-- `sourceWorkDir` — 源 project workDir（从 project 级复制时使用）
-- `targetSkillId` — 目标技能 ID（不填则沿用 sourceSkillId）
+- `sourceAgentId` — source Agent ID (required when copying from agent scope)
+- `sourceSource` — source scope: `project` | `agent` | `global`
+- `sourceWorkDir` — source project workDir (used when copying from project scope)
+- `targetSkillId` — target Skill ID (defaults to sourceSkillId if omitted)
 
-### 4. 通过 AgentFS 直接编写 SKILL.md
+### 4. Author SKILL.md Directly via AgentFS
 
-当需要从零创建技能，或 API 方式不够灵活时，可直接在文件系统编写 SKILL.md。
+When you need to create a Skill from scratch or the API approach is not flexible enough, you can author SKILL.md directly on the filesystem.
 
-#### 目录结构
+#### Directory Structure
 
-**全局技能**（所有 Agent 可见）：
+**Global Skill** (visible to all Agents):
 
 ```
 ~/.desirecore/skills/
 └── my-new-skill/
-    ├── SKILL.md          # 必须：技能定义文件
-    ├── examples/          # 可选：示例文件
-    ├── scripts/           # 可选：辅助脚本
-    └── references/        # 可选：参考资料
+    ├── SKILL.md          # required: skill definition file
+    ├── examples/          # optional: example files
+    ├── scripts/           # optional: helper scripts
+    └── references/        # optional: reference material
 ```
 
-**Agent 级技能**（仅指定 Agent 可见）：
+**Agent-scoped Skill** (visible only to the specified Agent):
 
 ```
 ~/.desirecore/agents/{agentId}/
@@ -348,17 +370,17 @@ Content-Type: application/json
         └── ...
 ```
 
-#### SKILL.md 完整格式
+#### Full SKILL.md Format
 
 ```markdown
 ---
-# === 必填字段 ===
+# === Required fields ===
 description: >-
-  技能用途的完整描述。应包含 "Use when" 触发提示，
-  帮助 AI 判断何时使用该技能。
+  Full description of the Skill's purpose. Should include a "Use when" trigger hint
+  to help the AI decide when to use this Skill.
 
-# === 推荐字段 ===
-name: 技能显示名称
+# === Recommended fields ===
+name: Skill display name
 version: 1.0.0
 type: procedural
 risk_level: low
@@ -370,7 +392,7 @@ metadata:
   author: your-name
   updated_at: '2026-03-03'
 
-# === 可选字段 ===
+# === Optional fields ===
 disable-model-invocation: true
 requires:
   tools:
@@ -380,57 +402,57 @@ requires:
     - Edit
 ---
 
-# skill-id 技能
+# skill-id Skill
 
-## L0：一句话摘要
+## L0: One-line Summary
 
-用一句话描述这个技能做什么。
+Describe in one sentence what this Skill does.
 
-## L1：概述与使用场景
+## L1: Overview and Use Cases
 
-### 能力描述
+### Capability
 
-详细描述技能的核心能力。
+Detailed description of the Skill's core capability.
 
-### 使用场景
+### Use Cases
 
-- 场景 1
-- 场景 2
+- Scenario 1
+- Scenario 2
 
-### 核心价值
+### Core Value
 
-- 价值 1
-- 价值 2
+- Value 1
+- Value 2
 
-## L2：详细规范
+## L2: Detailed Specification
 
-### 具体操作步骤
+### Concrete Steps
 
-按阶段/步骤详细描述执行流程、API 调用、输入输出格式等。
+Describe the execution flow, API calls, and input/output formats stage by stage / step by step.
 
-### 错误处理
+### Error Handling
 
-| 错误场景 | 处理方式 |
+| Error scenario | Handling |
 | -------- | -------- |
 | ...      | ...      |
 ```
 
-#### 使用 Write 工具创建技能示例
+#### Example: Create a Skill with the Write Tool
 
-以下示例展示如何使用 Write 工具创建一个全局技能：
+The following example shows how to create a global Skill with the Write tool:
 
 ```
-目标路径：~/.desirecore/skills/daily-summary/SKILL.md
+Target path: ~/.desirecore/skills/daily-summary/SKILL.md
 ```
 
-写入内容：
+Content to write:
 
 ```markdown
 ---
-name: 每日摘要
+name: Daily Summary
 description: >-
-  汇总当天对话记录，生成结构化的每日工作摘要。
-  Use when 用户要求总结今天的工作、生成日报、或回顾对话内容。
+  Aggregates today's conversation records and produces a structured daily work summary.
+  Use when the user asks for a summary of today's work, generation of a daily report, or a recap of conversation content.
 version: 1.0.0
 type: procedural
 risk_level: low
@@ -444,108 +466,108 @@ metadata:
   updated_at: '2026-03-03'
 ---
 
-# daily-summary 技能
+# daily-summary Skill
 
-## L0：一句话摘要
+## L0: One-line Summary
 
-汇总当天对话记录，自动生成结构化的工作摘要。
+Aggregates today's conversation records and automatically produces a structured work summary.
 
-## L1：概述与使用场景
+## L1: Overview and Use Cases
 
-### 能力描述
+### Capability
 
-从对话历史中提取关键信息，按项目/主题分类整理，生成包含完成事项、
-待办事项和重要决策的每日摘要。
+Extracts key information from conversation history, organizes it by project/topic, and produces a daily summary
+covering completed items, to-dos, and important decisions.
 
-### 使用场景
+### Use Cases
 
-- 用户在一天工作结束时要求总结
-- 用户需要生成日报或周报素材
-- 用户想回顾某天的对话和决策
+- The user asks for a summary at the end of a workday
+- The user needs material for a daily or weekly report
+- The user wants to recap a particular day's conversation and decisions
 
-## L2：详细规范
+## L2: Detailed Specification
 
-### 摘要结构
+### Summary Structure
 
-1. 今日完成事项
-2. 进行中事项
-3. 重要决策和结论
-4. 明日待办建议
+1. Items completed today
+2. Items in progress
+3. Important decisions and conclusions
+4. Suggested to-dos for tomorrow
 ```
 
-### 5. SKILL.md 格式参考
+### 5. SKILL.md Format Reference
 
-#### Frontmatter 字段表
+#### Frontmatter Field Table
 
-| 字段                       | 必填     | 类型     | 说明                                               |
+| Field                       | Required     | Type     | Description                                               |
 | -------------------------- | -------- | -------- | -------------------------------------------------- |
-| `description`              | **必填** | string   | 技能用途描述，建议包含 "Use when" 触发提示         |
-| `name`                     | 推荐     | string   | 技能显示名称                                       |
-| `version`                  | 推荐     | string   | 语义版本号（如 `1.0.0`）                           |
-| `type`                     | 推荐     | enum     | `procedural` / `conversational` / `meta`           |
-| `risk_level`               | 推荐     | enum     | `low` / `medium` / `high`                          |
-| `status`                   | 推荐     | enum     | `enabled` / `disabled`                             |
-| `tags`                     | 可选     | string[] | 标签列表，用于搜索和分类                           |
-| `disable-model-invocation` | 可选     | boolean  | `true`=L0+L1 自动注入 system prompt；`false`=L0+L1+L2 完整内容注入；默认 `true` |
-| `requires`                 | 可选     | object   | 依赖声明：`tools`、`optional_tools`、`connections` |
-| `metadata`                 | 可选     | object   | 元信息：`author`、`updated_at`                     |
-| `market`                   | 可选     | object   | 市场展示元数据（仅市场发布的技能需要）             |
+| `description`              | **Required** | string   | Skill purpose description; including a "Use when" trigger hint is recommended |
+| `name`                     | Recommended     | string   | Skill display name                                       |
+| `version`                  | Recommended     | string   | Semantic version (e.g. `1.0.0`)                           |
+| `type`                     | Recommended     | enum     | `procedural` / `conversational` / `meta`           |
+| `risk_level`               | Recommended     | enum     | `low` / `medium` / `high`                          |
+| `status`                   | Recommended     | enum     | `enabled` / `disabled`                             |
+| `tags`                     | Optional     | string[] | List of tags, used for search and categorization                           |
+| `disable-model-invocation` | Optional     | boolean  | `true` = L0+L1 auto-injected into the system prompt; `false` = full L0+L1+L2 content injected; default `true` |
+| `requires`                 | Optional     | object   | Dependency declaration: `tools`, `optional_tools`, `connections` |
+| `metadata`                 | Optional     | object   | Meta information: `author`, `updated_at`                     |
+| `market`                   | Optional     | object   | Market display metadata (only required for Skills published to the Market)             |
 
-#### type 说明
+#### type Description
 
-| 类型             | 含义                     | 示例                   |
+| Type             | Meaning                     | Examples                   |
 | ---------------- | ------------------------ | ---------------------- |
-| `procedural`     | 流程型，按步骤执行       | 数据分析流程、审批流程 |
-| `conversational` | 对话型，通过多轮对话完成 | 需求收集、头脑风暴     |
-| `meta`           | 元技能，管理其他资源     | 创建 Agent、管理技能   |
+| `procedural`     | Procedural; executed step by step       | Data analysis flow, approval flow |
+| `conversational` | Conversational; completed through multi-turn dialogue | Requirements gathering, brainstorming     |
+| `meta`           | Meta-Skill that manages other resources     | Creating Agents, managing Skills   |
 
-#### Markdown Body 结构（L0 / L1 / L2）
+#### Markdown Body Structure (L0 / L1 / L2)
 
-| 层级 | 内容                                | 用途               |
+| Tier | Content                                | Purpose               |
 | ---- | ----------------------------------- | ------------------ |
-| L0   | 一句话摘要                          | 快速理解技能做什么 |
-| L1   | 能力描述 + 使用场景 + 核心价值      | 判断是否适用       |
-| L2   | 详细规范：步骤、API、格式、错误处理 | 具体执行指南       |
+| L0   | One-line summary                          | Quickly understand what the Skill does |
+| L1   | Capability + Use Cases + Core Value      | Decide whether it applies       |
+| L2   | Detailed specification: steps, APIs, formats, error handling | Concrete execution guide       |
 
-### 6. 作用域说明
+### 6. Scope Notes
 
-技能存在三个作用域层级，按优先级从高到低：
+Skills exist at three scope levels, listed from highest priority to lowest:
 
-| 优先级 | 作用域     | 路径                                     | 可见范围           |
+| Priority | Scope     | Path                                     | Visibility           |
 | ------ | ---------- | ---------------------------------------- | ------------------ |
-| 最高   | Project 级 | `.claude/skills/` (项目根目录)           | 当前项目所有 Agent |
-| 中     | Agent 级   | `~/.desirecore/agents/{agentId}/skills/` | 仅该 Agent         |
-| 最低   | Global 级  | `~/.desirecore/skills/`                  | 所有 Agent         |
+| Highest   | Project | `.claude/skills/` (project root)           | All Agents in the current project |
+| Medium     | Agent   | `~/.desirecore/agents/{agentId}/skills/` | Only that Agent         |
+| Lowest    | Global  | `~/.desirecore/skills/`                  | All Agents         |
 
-**同名覆盖规则**：高优先级作用域的同名技能会覆盖低优先级的。例如 Agent 级有一个 `data-analysis` 技能，会覆盖全局同名技能。
+**Same-name override rule**: a Skill in a higher-priority scope overrides a same-named Skill in a lower-priority scope. For example, an Agent-scoped `data-analysis` Skill will shadow a global Skill of the same name.
 
-### 7. 错误处理
+### 7. Error Handling
 
-| 错误码 | 场景                          | 处理方式                               |
+| Error code | Scenario                          | Handling                               |
 | ------ | ----------------------------- | -------------------------------------- |
-| 400    | 缺少必填字段或格式无效        | 提示用户检查输入，说明哪个字段有问题   |
-| 400    | SKILL.md frontmatter 校验失败 | 展示校验错误详情，引导用户修正         |
-| 404    | 技能不存在                    | 提示技能 ID 可能拼写错误，列出可用技能 |
-| 404    | Git 仓库中无 SKILL.md         | 提示仓库格式不符合技能规范             |
-| 409    | 技能已存在（冲突写入）        | 建议使用 PUT 更新而非 POST 创建        |
-| 413    | 远程文件超过 20MB             | 提示文件过大，建议精简内容             |
-| 504    | URL 抓取超时                  | 提示网络超时，建议检查 URL 或稍后重试  |
-| 500    | 服务器内部错误                | 提示用户稍后再试                       |
+| 400    | Missing required fields or invalid format        | Prompt the user to check the input and explain which field is problematic   |
+| 400    | SKILL.md frontmatter validation failed | Show validation error details and guide the user to fix         |
+| 404    | Skill does not exist                    | Note the Skill ID may be misspelled, list available Skills |
+| 404    | No SKILL.md in the Git repo         | Note the repository's format does not match the Skill spec             |
+| 409    | Skill already exists (write conflict)        | Suggest using PUT to update instead of POST to create        |
+| 413    | Remote file exceeds 20MB             | Note the file is too large; suggest trimming the content         |
+| 504    | URL fetch timeout                  | Note the network timed out; suggest checking the URL or retrying later  |
+| 500    | Server internal error                | Tell the user to retry later                       |
 
-### 8. 权限说明
+### 8. Permission Notes
 
-- 建议优先通过 `Bash` 工具调用 curl 访问 Agent Service HTTP API 完成操作
-- API 基础地址已注入到 system prompt 的「本机 API」小节，直接引用即可
-- 导入和创建操作建议先向用户展示预览，获得确认后再执行
-- 删除操作需要用户明确确认
-- 通过 AgentFS 编写技能时，使用 Write 工具创建文件即可
+- It is recommended to use the `Bash` tool to call the Agent Service HTTP API via curl
+- The API base address is already injected into the system prompt's "Local API" section; you can reference it directly
+- For import and create operations, show the user a preview first and proceed only after confirmation
+- Deletions require explicit user confirmation
+- When authoring Skills via AgentFS, simply use the Write tool to create the file
 
-### 背景知识
+### Background Knowledge
 
-> AgentFS 仓库结构、排查要点与受保护路径详见 `_agentfs-background.md` 和 `_protected-paths.yaml`。
+> AgentFS repository structure, troubleshooting tips, and protected paths are detailed in `_agentfs-background.md` and `_protected-paths.yaml`.
 
-### 依赖
+### Dependencies
 
-- Agent Service HTTP API（Skills 路由组）
-- System prompt 中的本机 API 地址声明
-- Write / Edit 工具（AgentFS 直写场景）
+- Agent Service HTTP API (Skills route group)
+- The local API address declaration in the system prompt
+- Write / Edit tools (for the AgentFS direct-authoring scenario)
