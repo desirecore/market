@@ -58,7 +58,7 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "provider": "minimax",
+    "providerId": "provider-minimax-media-001",
     "endpoint": "/music_generation",
     "body": {
       "model": "music-2.6",
@@ -81,7 +81,7 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "provider": "minimax",
+    "providerId": "provider-minimax-media-001",
     "endpoint": "/music_generation",
     "body": {
       "model": "music-2.6",
@@ -194,7 +194,7 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "provider": "minimax",
+    "providerId": "provider-minimax-media-001",
     "endpoint": "/music_generation",
     "body": {
       "model": "music-2.6",

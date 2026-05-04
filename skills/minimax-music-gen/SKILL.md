@@ -7,7 +7,7 @@ description: >-
   AI 作曲、创作歌曲、写一首歌、音乐生成、AI 音乐、MiniMax 音乐、
   作词作曲、纯音乐、伴奏、翻唱、cover。
 license: Complete terms in LICENSE.txt
-version: 1.1.1
+version: 1.1.2
 type: procedural
 risk_level: low
 status: enabled
@@ -24,7 +24,7 @@ requires:
     - Bash
 metadata:
   author: desirecore
-  updated_at: '2026-05-03'
+  updated_at: '2026-05-05'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -123,7 +123,7 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "provider": "minimax",
+    "providerId": "provider-minimax-media-001",
     "endpoint": "/music_generation",
     "body": {
       "model": "music-2.6",
@@ -146,7 +146,7 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "provider": "minimax",
+    "providerId": "provider-minimax-media-001",
     "endpoint": "/music_generation",
     "body": {
       "model": "music-2.6",
@@ -259,7 +259,7 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "provider": "minimax",
+    "providerId": "provider-minimax-media-001",
     "endpoint": "/music_generation",
     "body": {
       "model": "music-2.6",

@@ -5,7 +5,7 @@ description: >-
   （frontmatter 元数据 + L0/L1/L2 分层内容 + 脚本/参考/资产）和 Claude Code
   基础格式。Use when 用户要求创建新技能、更新已有技能、或将经验封装为可复用
   的技能包。
-version: 1.0.1
+version: 1.0.2
 type: meta
 risk_level: low
 status: enabled
@@ -18,7 +18,7 @@ tags:
   - authoring
 metadata:
   author: desirecore
-  updated_at: '2026-04-03'
+  updated_at: '2026-05-05'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -161,7 +161,7 @@ A SKILL.md consists of two parts: **Frontmatter (YAML metadata)** and **Body (Ma
 
 | Field | Type | Default | Description |
 |------|------|------|------|
-| `disable-model-invocation` | boolean | `true` | `true` = L0+L1 auto-injected into the system prompt (lazy load, small footprint); `false` = full L0+L1+L2 content injected into the system prompt |
+| `disable-model-invocation` | boolean | `true` | `false` = opt-in auto-injection of full SKILL.md content into the system prompt (auto-loaded); `true` (or omitted) = no auto-injection, only loaded when an Agent explicitly invokes the Skill tool (aligned with Claude Skills: disabled by default, opt-in) |
 | `user-invocable` | boolean | `true` | `false` = does not appear in command completion; serves only as background knowledge |
 | `allowed-tools` | string[] | — | Restricts the list of tools available at execution time |
 | `requires` | object | — | Dependency declaration: `tools`, `optional_tools`, `connections` |

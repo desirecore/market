@@ -447,7 +447,7 @@ metadata:
 | `risk_level`               | 推荐     | enum     | `low` / `medium` / `high`                          |
 | `status`                   | 推荐     | enum     | `enabled` / `disabled`                             |
 | `tags`                     | 可选     | string[] | 标签列表，用于搜索和分类                           |
-| `disable-model-invocation` | 可选     | boolean  | `true`=L0+L1 自动注入 system prompt；`false`=L0+L1+L2 完整内容注入；默认 `true` |
+| `disable-model-invocation` | 可选     | boolean  | `false`=opt-in 自动注入完整内容到 system prompt；`true` 或缺省=不自动注入，仅显式 Skill 工具调用时才加载；默认 `true` |
 | `requires`                 | 可选     | object   | 依赖声明：`tools`、`optional_tools`、`connections` |
 | `metadata`                 | 可选     | object   | 元信息：`author`、`updated_at`                     |
 | `market`                   | 可选     | object   | 市场展示元数据（仅市场发布的技能需要）             |

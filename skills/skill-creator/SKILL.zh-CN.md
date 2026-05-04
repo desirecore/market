@@ -100,7 +100,7 @@ SKILL.md 由两部分组成：**Frontmatter（YAML 元数据）** 和 **Body（M
 
 | 字段 | 类型 | 默认 | 说明 |
 |------|------|------|------|
-| `disable-model-invocation` | boolean | `true` | `true`=L0+L1 自动注入 system prompt（按需加载，体积小）；`false`=L0+L1+L2 完整内容注入 system prompt |
+| `disable-model-invocation` | boolean | `true` | `false`=opt-in 自动注入完整 SKILL.md 内容到 system prompt（自动加载）；`true` 或缺省=不自动注入，仅当 Agent 显式调用 Skill 工具时才加载（与 Claude Skills 对齐：默认禁用，需显式启用） |
 | `user-invocable` | boolean | `true` | `false`=不出现在命令补全，仅作为背景知识 |
 | `allowed-tools` | string[] | — | 限制执行时可用的工具列表 |
 | `requires` | object | — | 依赖声明：`tools`、`optional_tools`、`connections` |
