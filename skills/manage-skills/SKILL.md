@@ -4,7 +4,7 @@ description: >-
   管理 Agent 的技能生命周期：通过 HTTP API 导入、安装、更新、删除技能，
   或通过 AgentFS 文件系统直接编写符合规范的 SKILL.md。Use when 用户要求
   安装技能、从 URL/Git 导入技能、编写新技能、或管理已有技能。
-version: 1.0.2
+version: 1.0.3
 type: meta
 risk_level: low
 status: enabled
@@ -17,7 +17,7 @@ tags:
   - agentfs
 metadata:
   author: desirecore
-  updated_at: '2026-03-03'
+  updated_at: '2026-05-05'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -508,7 +508,7 @@ covering completed items, to-dos, and important decisions.
 | `risk_level`               | Recommended     | enum     | `low` / `medium` / `high`                          |
 | `status`                   | Recommended     | enum     | `enabled` / `disabled`                             |
 | `tags`                     | Optional     | string[] | List of tags, used for search and categorization                           |
-| `disable-model-invocation` | Optional     | boolean  | `true` = L0+L1 auto-injected into the system prompt; `false` = full L0+L1+L2 content injected; default `true` |
+| `disable-model-invocation` | Optional     | boolean  | `false` = opt-in auto-injection of full content into the system prompt; `true` (or omitted) = no auto-injection, only loaded when explicitly invoked via the Skill tool; default `true` |
 | `requires`                 | Optional     | object   | Dependency declaration: `tools`, `optional_tools`, `connections` |
 | `metadata`                 | Optional     | object   | Meta information: `author`, `updated_at`                     |
 | `market`                   | Optional     | object   | Market display metadata (only required for Skills published to the Market)             |
