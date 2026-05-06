@@ -14,7 +14,7 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: Complete terms in LICENSE.txt
-version: 1.1.2
+version: 2.0.0
 type: procedural
 risk_level: low
 status: enabled
@@ -27,9 +27,22 @@ tags:
   - browsing
   - cdp
   - playwright
+provides:
+  tools:
+    - BrowserListTabs
+    - BrowserNavigate
+    - BrowserEval
+    - BrowserClick
+    - BrowserScreenshot
+    - BrowserScroll
+    - BrowserSetFiles
+    - BrowserCloseTab
+    - SitePatternRead
+    - SitePatternWrite
+    - LocalBookmarks
 metadata:
   author: desirecore
-  updated_at: '2026-05-03'
+  updated_at: '2026-05-05'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -84,7 +97,28 @@ A three-layer web-access toolkit — search public pages, optimize fetches via J
 
 ### Capability
 
-web-access is a **procedural skill** that provides three complementary layers of web access: Layer 1 (WebSearch + WebFetch) for public pages; Layer 2 (Jina Reader) for JS-rendered heavy pages, saving tokens by default; Layer 3 (Chrome CDP) for sites requiring a logged-in session (Xiaohongshu / Bilibili / Weibo / Feishu / Twitter).
+web-access is a **procedural skill** that provides four complementary layers of web access:
+
+- **L1** (WebSearch + WebFetch): public, static pages
+- **L2** (Jina Reader): JS-rendered heavy pages, saving tokens by default
+- **L3-fast** (BrowserXxx builtin tool family — **new in v2.0**): preferred for logged-in sites — zero Python dependency, in-process cdp-proxy, supports CDP real-mouse events
+- **L3-fallback** (Chrome CDP + Python Playwright): backup for complex automation (long waits, race conditions, custom in-browser scripts)
+
+### v2.0 — BrowserXxx tool family (default-hidden, exposed only after Skill activation)
+
+When you call `Skill('web-access')`, the following 11 tools are injected into the current session so the LLM can drive Chrome directly:
+
+| Tool | Purpose |
+|------|---------|
+| BrowserListTabs / BrowserNavigate / BrowserCloseTab | Tab management |
+| BrowserEval | Run JS to extract data |
+| BrowserClick (`mode: js \| real-mouse`) | Click elements; real-mouse defeats anti-bot |
+| BrowserScreenshot / BrowserScroll | Screenshots, scroll to trigger lazy loading |
+| BrowserSetFiles | Upload local files (requires user confirmation) |
+| SitePatternRead / SitePatternWrite | Per-domain "site experience" (AgentFS three-layer) |
+| LocalBookmarks | Search local Chrome bookmarks / history |
+
+> **Important**: before `Skill('web-access')` is called, none of these tools appear in the LLM tools list — default conversations don't pay their token cost. See [references/browser-tools.md](references/browser-tools.md).
 
 ### Use Cases
 
@@ -95,7 +129,7 @@ web-access is a **procedural skill** that provides three complementary layers of
 
 ### Core Value
 
-- **Three-layer progression**: from lightweight search to heavy JS rendering to logged-in access — pick on demand
+- **Four-layer progression**: from lightweight search to heavy JS rendering to logged-in access — pick on demand
 - **Token optimization**: Jina Reader cuts token usage by 50–80% by default
 - **Logged-in session reuse**: connect to the user's already-logged-in Chrome via CDP — no re-login required
 
@@ -184,18 +218,22 @@ User intent
   │          - PyPI:   curl https://pypi.org/pypi/<pkg>/json
   │
   └─ "Real-time interactive task" (click, fill form, scroll, screenshot)
-        └─→ CDP + Playwright (see references/cdp-browser.md)
+        ├─→ **Default: BrowserXxx tools** (BrowserNavigate / BrowserEval / BrowserClick / BrowserScreenshot —
+        │     see references/browser-tools.md, no Python needed)
+        └─→ Fallback: CDP + Python Playwright (references/cdp-browser.md) when BrowserXxx is insufficient
+            (e.g., complex race conditions, multi-event waits, long-running in-browser scripts)
 ```
 
-### Three-layer strategy summary
+### Four-layer strategy summary
 
 | Layer | Use case | Primary tool | Token cost |
 |-------|----------|--------------|------------|
 | L1 | Public, static | `WebFetch` | Low |
 | L2 | JS-heavy, long articles, token savings | `Bash curl r.jina.ai` | **Lowest** (Markdown pre-cleaned) |
-| L3 | Login-gated, interactive | `Bash + Python Playwright CDP` | Medium (raw HTML, then clean via Jina or BS4) |
+| **L3-fast** | **Login-gated, interactive (PRIMARY)** | **BrowserXxx tool family** | Medium |
+| L3-fallback | Complex automation (race / long-wait / custom scripts) | `Bash + Python Playwright CDP` | Medium |
 
-**Default priority**: L1 for simple public pages → L2 for anything heavy → L3 only when login is required.
+**Default priority**: L1 for simple public pages → L2 for heavy → **L3-fast for login-gated** → L3-fallback only when BrowserXxx is insufficient.
 
 ---
 
@@ -311,6 +349,64 @@ See [references/cdp-browser.md](references/cdp-browser.md) for:
 
 ---
 
+## L3-fast: BrowserXxx Tool Cheatsheet (v2.0 recommended)
+
+**Only after you call `Skill('web-access')` will the following tools appear in `tools[]`.**
+
+| Tool | One-line example |
+|------|-----------------|
+| `BrowserListTabs()` | List all open tabs |
+| `BrowserNavigate({ url })` | Open URL in a new tab |
+| `BrowserNavigate({ target, url })` | Navigate an existing tab |
+| `BrowserEval({ target, expression })` | Run JS in the tab to extract structured data |
+| `BrowserClick({ target, selector, mode: 'real-mouse' })` | Real-mouse mode for anti-bot-strict sites |
+| `BrowserScreenshot({ target })` | Saved under ~/.desirecore/screenshots/ |
+| `BrowserScroll({ target, direction: 'bottom' })` | Trigger lazy loading |
+| `BrowserSetFiles({ target, selector, files })` | Upload local files (**user confirmation required**) |
+| `BrowserCloseTab({ target })` | Clean up temporary tabs at task end |
+
+Full API and edge cases: see [references/browser-tools.md](references/browser-tools.md).
+
+### Recommended flow (Xiaohongshu example)
+
+```
+1. BrowserListTabs() → check whether there's an already-logged-in xhs tab
+2. If not → BrowserNavigate({ url: "https://www.xiaohongshu.com/explore/abc123" })
+3. BrowserEval({ target, expression: "...JSON.stringify({title, content})" })
+4. SitePatternRead({ domain: "xiaohongshu.com" })  ← read accumulated experience
+5. At task end → BrowserCloseTab({ target })
+6. If you find a new pitfall → SitePatternWrite({ domain, scope: "agent", mode: "merge", content })
+```
+
+---
+
+## Site Experience Accumulation (v2.0)
+
+When the task ends and you've discovered new anti-bot pitfalls, effective selectors, or platform quirks, call:
+
+```
+SitePatternWrite({
+  domain: "xiaohongshu.com",
+  scope: "agent",     // agent=shared (Git-tracked, can be published); user=private
+  mode: "merge",      // merge appends; replace overwrites
+  content: "## Known pitfalls\n- 2026-05: ...",
+  confidence: "medium"
+})
+```
+
+Reads use a three-layer priority order:
+
+```
+SitePatternRead({ domain: "xiaohongshu.com" })
+  → users/<userId>/agents/<agentId>/memory/site-patterns/   (user-private)
+  → agents/<agentId>/memory/site-patterns/                  (agent-shared, Git)
+  → defaults/global-skills/web-access/references/site-patterns/  (global baseline, read-only)
+```
+
+Content containing cookies / tokens / phone numbers / emails will **automatically downgrade scope='user'** and notify you.
+
+---
+
 ## Common Workflows
 
 Read [references/workflows.md](references/workflows.md) for detailed templates:
@@ -351,6 +447,9 @@ Read [references/jina-reader.md](references/jina-reader.md) for Jina Reader posi
 - ❌ **Forgetting the year in time-sensitive queries** — "best AI models" returns 2023 results; "best AI models 2026" returns current.
 - ❌ **Hardcoding login credentials in scripts** — always rely on the user's pre-logged CDP session.
 - ❌ **Citing only after the fact** — collect URLs as you fetch, not from memory afterwards.
+- ❌ **(v2.0) Writing Python heredoc when BrowserXxx would do** — slow, requires Python+Playwright install, and bloats context. Prefer L3-fast; fall back to Python only when BrowserXxx is insufficient (race / long-wait / custom scripts).
+- ❌ **(v2.0) Discovering new pitfalls and not writing a site-pattern** — next time the same Agent runs the task, it'll repeat the same mistakes. Anything that took 2+ steps to figure out is worth `SitePatternWrite(scope='agent', mode='merge')`.
+- ❌ **(v2.0) Writing cookies / phone numbers to scope='agent'** — that layer is Git-tracked and may be published to the marketplace. SitePatternWrite auto-downgrades, but don't deliberately write secrets to the agent layer.
 
 ---
 
