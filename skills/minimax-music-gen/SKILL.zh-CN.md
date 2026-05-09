@@ -58,7 +58,8 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "providerId": "provider-minimax-media-001",
+    "provider": "minimax",
+    "serviceType": "music_gen",
     "endpoint": "/music_generation",
     "body": {
       "model": "music-2.6",
@@ -81,7 +82,8 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "providerId": "provider-minimax-media-001",
+    "provider": "minimax",
+    "serviceType": "music_gen",
     "endpoint": "/music_generation",
     "body": {
       "model": "music-2.6",
@@ -194,7 +196,8 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "providerId": "provider-minimax-media-001",
+    "provider": "minimax",
+    "serviceType": "music_gen",
     "endpoint": "/music_generation",
     "body": {
       "model": "music-2.6",
@@ -217,7 +220,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
 - `base_resp.status_code: 1008`：余额不足
 - `base_resp.status_code: 1026`：内容敏感，修改歌词或 prompt 后重试
 - `base_resp.status_code: 2013`：参数错误，检查必填字段
-- `success: false` + `error: "未找到匹配的供应商"`：未配置 MiniMax Provider
+- `success: false` + `error: "未找到匹配的供应商"`：未找到已启用且支持 `music_gen` 服务的 MiniMax Provider
 
 ### 注意事项
 

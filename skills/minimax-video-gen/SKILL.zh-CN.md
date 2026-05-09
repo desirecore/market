@@ -12,7 +12,7 @@
 
 ### 前置条件
 
-- 用户已在资源管理器-算力中配置 MiniMax Media Provider 并填写 API Key
+- 用户已在资源管理器-算力中配置并启用 MiniMax Provider（常规 API 或 Token Plan）并填写 API Key
 - agent-service 正在运行
 
 ### 核心概念：三步异步流程
@@ -43,7 +43,8 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "providerId": "provider-minimax-media-001",
+    "provider": "minimax",
+    "serviceType": "video_gen",
     "endpoint": "/video_generation",
     "body": {
       "model": "MiniMax-Hailuo-2.3",
@@ -66,7 +67,8 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "providerId": "provider-minimax-media-001",
+    "provider": "minimax",
+    "serviceType": "video_gen",
     "endpoint": "/video_generation",
     "body": {
       "model": "MiniMax-Hailuo-2.3",
@@ -87,7 +89,8 @@ TASK_ID="第一步返回的task_id"
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d "{
-    \"providerId\": \"provider-minimax-media-001\",
+    \"provider\": \"minimax\",
+    \"serviceType\": \"video_gen\",
     \"endpoint\": \"/query/video_generation?task_id=${TASK_ID}\",
     \"method\": \"GET\",
     \"responseType\": \"json\"
@@ -128,7 +131,8 @@ FILE_ID="第二步返回的file_id"
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d "{
-    \"providerId\": \"provider-minimax-media-001\",
+    \"provider\": \"minimax\",
+    \"serviceType\": \"video_gen\",
     \"endpoint\": \"/files/retrieve?file_id=${FILE_ID}\",
     \"method\": \"GET\",
     \"responseType\": \"json\"
@@ -162,7 +166,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
 ### 错误处理
 
 - `status: "Fail"`：视频生成失败，向用户说明
-- `success: false` + `error: "未找到匹配的供应商"`：未配置 MiniMax Media Provider
+- `success: false` + `error: "未找到匹配的供应商"`：未找到已启用且支持 `video_gen` 服务的 MiniMax Provider
 - `success: false` + `error: "未配置 API Key"`：未填写 API Key
 - **额度不足**（`statusCode: 429`、`insufficient_quota`、`balance` 相关错误）：文生视频无法降级（Fast 模型不支持 T2V），告知用户额度不足；图生视频可换用 `MiniMax-Hailuo-2.3-fast` 从第一步重试
 - 轮询超过 10 分钟未完成：告知用户任务可能超时
