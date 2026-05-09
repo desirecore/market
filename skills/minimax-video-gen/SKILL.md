@@ -7,7 +7,7 @@ description: >-
   Use when 用户提到 生成视频、文生视频、AI 视频、创建视频、视频生成、
   动画生成、MiniMax 视频、海螺、Hailuo、图片变视频、图生视频。
 license: Complete terms in LICENSE.txt
-version: 1.2.1
+version: 1.2.2
 type: procedural
 risk_level: low
 status: enabled
@@ -76,7 +76,7 @@ market:
 
 ### Prerequisites
 
-- The user has already configured the MiniMax Media Provider in Resource Manager → Compute and entered the API Key
+- The user has already configured and enabled a MiniMax Provider (regular API or Token Plan) in Resource Manager → Compute and entered the API Key
 - agent-service is running
 
 ### Core Concept: Three-Step Asynchronous Flow
@@ -107,7 +107,8 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "providerId": "provider-minimax-media-001",
+    "provider": "minimax",
+    "serviceType": "video_gen",
     "endpoint": "/video_generation",
     "body": {
       "model": "MiniMax-Hailuo-2.3",
@@ -130,7 +131,8 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "providerId": "provider-minimax-media-001",
+    "provider": "minimax",
+    "serviceType": "video_gen",
     "endpoint": "/video_generation",
     "body": {
       "model": "MiniMax-Hailuo-2.3",
@@ -151,7 +153,8 @@ TASK_ID="task_id returned from step 1"
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d "{
-    \"providerId\": \"provider-minimax-media-001\",
+    \"provider\": \"minimax\",
+    \"serviceType\": \"video_gen\",
     \"endpoint\": \"/query/video_generation?task_id=${TASK_ID}\",
     \"method\": \"GET\",
     \"responseType\": \"json\"
@@ -192,7 +195,8 @@ FILE_ID="file_id returned from step 2"
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d "{
-    \"providerId\": \"provider-minimax-media-001\",
+    \"provider\": \"minimax\",
+    \"serviceType\": \"video_gen\",
     \"endpoint\": \"/files/retrieve?file_id=${FILE_ID}\",
     \"method\": \"GET\",
     \"responseType\": \"json\"
@@ -226,7 +230,7 @@ Write Markdown image syntax directly in your reply (the frontend will automatica
 ### Error Handling
 
 - `status: "Fail"`: video generation failed; explain to the user
-- `success: false` + `error: "No matching provider found"`: MiniMax Media Provider is not configured
+- `success: false` + `error: "No matching provider found"`: No enabled MiniMax provider with `video_gen` service found
 - `success: false` + `error: "API Key not configured"`: API Key has not been entered
 - **Insufficient quota** (errors related to `statusCode: 429`, `insufficient_quota`, `balance`): text-to-video cannot fall back (the Fast model does not support T2V); inform the user of insufficient quota; image-to-video can switch to `MiniMax-Hailuo-2.3-fast` and retry from Step 1
 - Polling exceeds 10 minutes without completion: inform the user that the task may have timed out
