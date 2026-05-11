@@ -9,6 +9,7 @@
     "mail-operations",
     "manage-skills",
     "manage-teams",
+    "markdown",
     "minimax-music-gen",
     "minimax-video-gen",
     "nodejs-runtime",
