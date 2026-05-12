@@ -3,8 +3,6 @@ name: Wait for Copilot review
 on:
   pull_request:
     types: [opened, reopened, synchronize, ready_for_review]
-  pull_request_review:
-    types: [submitted, dismissed, edited]
 
 permissions:
   pull-requests: read
@@ -13,28 +11,33 @@ jobs:
   wait-for-copilot-review:
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 10
     steps:
-      - name: Check Copilot has reviewed the head commit
+      - name: Wait for Copilot to review the head commit
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -e
-          reviews=$(gh api --paginate "repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews")
-          matching=$(echo "$reviews" | jq -r --arg sha "$HEAD_SHA" '
-            [ .[] | select(
-                (.user.login | ascii_downcase | test("^copilot"))
-                and (.commit_id == $sha)
-                and (.state != "DISMISSED" and .state != "PENDING")
-              ) ] | length
-          ')
-          if [ "$matching" -gt 0 ]; then
-            echo "✓ Copilot has reviewed commit $HEAD_SHA ($matching review(s))"
-            exit 0
-          fi
-          echo "✗ Copilot has not yet reviewed commit $HEAD_SHA"
-          echo "All reviews on this PR:"
-          echo "$reviews" | jq -r '.[] | "  - \(.user.login) on \(.commit_id // "?")[:7]: \(.state)"' || true
+          # Poll up to ~8 minutes for Copilot to submit a review on the current head.
+          for i in $(seq 1 48); do
+            reviews=$(gh api --paginate "repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews")
+            matching=$(echo "$reviews" | jq -r --arg sha "$HEAD_SHA" '
+              [ .[] | select(
+                  (.user.login | ascii_downcase | test("^copilot"))
+                  and (.commit_id == $sha)
+                  and (.state != "DISMISSED" and .state != "PENDING")
+                ) ] | length
+            ')
+            if [ "$matching" -gt 0 ]; then
+              echo "✓ Copilot has reviewed commit $HEAD_SHA ($matching review(s))"
+              exit 0
+            fi
+            echo "Attempt $i/48: Copilot has not reviewed $HEAD_SHA yet — sleeping 10s."
+            sleep 10
+          done
+          echo "✗ Timed out waiting for Copilot review on $HEAD_SHA."
+          echo "All reviews currently on this PR:"
+          echo "$reviews" | jq -r '.[] | "  - \(.user.login) on \((.commit_id // "?")[0:7]): \(.state)"' || true
           exit 1
