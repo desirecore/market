@@ -1,5 +1,5 @@
 ---
-name: 小米 MiMo 语音合成
+name: xiaomi-tts
 description: >-
   Use this skill when the user wants to convert text to speech using Xiaomi
   MiMo's TTS models (mimo-v2.5-tts). Uses OpenAI-compatible chat/completions
@@ -27,6 +27,9 @@ requires:
 metadata:
   author: desirecore
   updated_at: '2026-05-08'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0

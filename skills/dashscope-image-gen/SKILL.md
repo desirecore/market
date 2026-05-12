@@ -1,5 +1,5 @@
 ---
-name: 阿里云 文生图
+name: dashscope-image-gen
 description: >-
   Use this skill when the user wants to generate images using Alibaba Cloud
   DashScope's Wan (通义万相) series models. Supports text-to-image with multiple
@@ -26,6 +26,9 @@ requires:
 metadata:
   author: desirecore
   updated_at: '2026-05-08'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
