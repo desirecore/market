@@ -1,6 +1,7 @@
 {
   "skills": [
     "create-agent",
+    "dashscope-image-gen",
     "delete-agent",
     "dev-environment-setup",
     "discover-agent",
@@ -9,9 +10,8 @@
     "mail-operations",
     "manage-skills",
     "manage-teams",
-    "minimax-image-gen",
+    "markdown",
     "minimax-music-gen",
-    "minimax-tts",
     "minimax-video-gen",
     "nodejs-runtime",
     "pdf",
@@ -22,6 +22,7 @@
     "update-agent",
     "web-access",
     "workflow",
+    "xiaomi-tts",
     "xlsx"
   ]
 }

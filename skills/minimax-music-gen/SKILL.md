@@ -7,7 +7,7 @@ description: >-
   AI 作曲、创作歌曲、写一首歌、音乐生成、AI 音乐、MiniMax 音乐、
   作词作曲、纯音乐、伴奏、翻唱、cover。
 license: Complete terms in LICENSE.txt
-version: 1.1.2
+version: 1.1.3
 type: procedural
 risk_level: low
 status: enabled
@@ -123,7 +123,8 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "providerId": "provider-minimax-media-001",
+    "provider": "minimax",
+    "serviceType": "music_gen",
     "endpoint": "/music_generation",
     "body": {
       "model": "music-2.6",
@@ -146,7 +147,8 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "providerId": "provider-minimax-media-001",
+    "provider": "minimax",
+    "serviceType": "music_gen",
     "endpoint": "/music_generation",
     "body": {
       "model": "music-2.6",
@@ -259,7 +261,8 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "providerId": "provider-minimax-media-001",
+    "provider": "minimax",
+    "serviceType": "music_gen",
     "endpoint": "/music_generation",
     "body": {
       "model": "music-2.6",
@@ -282,7 +285,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
 - `base_resp.status_code: 1008`: insufficient balance
 - `base_resp.status_code: 1026`: content sensitive, modify the lyrics or prompt and retry
 - `base_resp.status_code: 2013`: parameter error, check required fields
-- `success: false` + `error: "未找到匹配的供应商"`: MiniMax Provider not configured
+- `success: false` + `error: "未找到匹配的供应商"`: No enabled MiniMax provider with `music_gen` service found
 
 ### Notes
 
