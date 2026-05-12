@@ -1,0 +1,40 @@
+name: Wait for Copilot review
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+  pull_request_review:
+    types: [submitted, dismissed, edited]
+
+permissions:
+  pull-requests: read
+
+jobs:
+  wait-for-copilot-review:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Check Copilot has reviewed the head commit
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -e
+          reviews=$(gh api --paginate "repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews")
+          matching=$(echo "$reviews" | jq -r --arg sha "$HEAD_SHA" '
+            [ .[] | select(
+                (.user.login | ascii_downcase | test("^copilot"))
+                and (.commit_id == $sha)
+                and (.state != "DISMISSED" and .state != "PENDING")
+              ) ] | length
+          ')
+          if [ "$matching" -gt 0 ]; then
+            echo "✓ Copilot has reviewed commit $HEAD_SHA ($matching review(s))"
+            exit 0
+          fi
+          echo "✗ Copilot has not yet reviewed commit $HEAD_SHA"
+          echo "All reviews on this PR:"
+          echo "$reviews" | jq -r '.[] | "  - \(.user.login) on \(.commit_id // "?")[:7]: \(.state)"' || true
+          exit 1

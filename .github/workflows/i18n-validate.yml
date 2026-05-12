@@ -2,20 +2,8 @@ name: i18n Validate
 
 on:
   pull_request:
-    paths:
-      - "skills/**"
-      - "agents/**"
-      - "manifest.json"
-      - "categories.json"
-      - "scripts/i18n/**"
   push:
     branches: [main]
-    paths:
-      - "skills/**"
-      - "agents/**"
-      - "manifest.json"
-      - "categories.json"
-      - "scripts/i18n/**"
   workflow_dispatch:
 
 permissions:
@@ -27,16 +15,39 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect relevant changes
+        id: changes
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -e
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            range="${BASE_SHA}...${HEAD_SHA}"
+          else
+            range="HEAD~1...HEAD"
+          fi
+          changed=$(git diff --name-only "$range" || true)
+          echo "$changed" | grep -E '^(skills/|agents/|manifest\.json$|categories\.json$|scripts/i18n/)' \
+            && echo "relevant=true" >> "$GITHUB_OUTPUT" \
+            || echo "relevant=false" >> "$GITHUB_OUTPUT"
 
       - name: Install uv
+        if: steps.changes.outputs.relevant == 'true'
         uses: astral-sh/setup-uv@v3
 
       - name: Validate i18n
+        if: steps.changes.outputs.relevant == 'true'
         run: uv run --quiet scripts/i18n/validate-i18n.py
 
       - name: Check for stale translations
+        if: steps.changes.outputs.relevant == 'true'
         run: uv run --quiet scripts/i18n/translate.py --check
-        # --check exits 1 when any locale needs translation. We don't fail the
-        # PR — translate.py (the i18n-translate workflow) will fix it. We just
-        # surface the report.
         continue-on-error: true
+
+      - name: Skip notice
+        if: steps.changes.outputs.relevant != 'true'
+        run: echo "No i18n-relevant changes; validation skipped."
