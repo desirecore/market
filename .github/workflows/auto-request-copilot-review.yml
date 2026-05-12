@@ -20,10 +20,20 @@ jobs:
         run: |
           set -e
           if gh api "repos/${{ github.repository }}/pulls/$PR_NUMBER" \
-              --jq '.requested_reviewers[].login' | grep -qi '^Copilot$'; then
+              --jq '.requested_reviewers[].login' \
+              | grep -qE '^(Copilot|copilot-pull-request-reviewer\[bot\])$'; then
             echo "Copilot already requested as reviewer."
             exit 0
           fi
-          gh api -X POST \
-            "repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers" \
-            -f 'reviewers[]=copilot-pull-request-reviewer[bot]'
+          # 422 here usually means Copilot has already submitted a review (so the
+          # request slot is gone). Treat that as benign.
+          if ! resp=$(gh api -X POST \
+              "repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers" \
+              -f 'reviewers[]=copilot-pull-request-reviewer[bot]' 2>&1); then
+            echo "$resp"
+            if echo "$resp" | grep -q '"status":"422"'; then
+              echo "POST returned 422; Copilot likely already reviewed."
+              exit 0
+            fi
+            exit 1
+          fi

@@ -25,7 +25,7 @@ jobs:
             reviews=$(gh api --paginate "repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews")
             matching=$(echo "$reviews" | jq -r --arg sha "$HEAD_SHA" '
               [ .[] | select(
-                  (.user.login | ascii_downcase | test("^copilot"))
+                  ((.user.login == "Copilot") or (.user.login == "copilot-pull-request-reviewer[bot]"))
                   and (.commit_id == $sha)
                   and (.state != "DISMISSED" and .state != "PENDING")
                 ) ] | length
@@ -39,5 +39,5 @@ jobs:
           done
           echo "✗ Timed out waiting for Copilot review on $HEAD_SHA."
           echo "All reviews currently on this PR:"
-          echo "$reviews" | jq -r '.[] | "  - \(.user.login) on \((.commit_id // "?")[0:7]): \(.state)"' || true
+          echo "$reviews" | jq -r '.[] | "  - \(.user.login) on \(((.commit_id // "?") | .[0:7])): \(.state)"' || true
           exit 1

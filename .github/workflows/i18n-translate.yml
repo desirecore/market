@@ -55,6 +55,7 @@ jobs:
             echo "relevant=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          git fetch --no-tags --depth=1 origin "$BASE_SHA" 2>/dev/null || true
           changed=$(git diff --name-only "${BASE_SHA}...${HEAD_SHA}" || true)
           if echo "$changed" | grep -qE '^(skills/.+/SKILL(\.zh-CN)?\.md$|manifest\.json$|categories\.json$)'; then
             echo "relevant=true" >> "$GITHUB_OUTPUT"
