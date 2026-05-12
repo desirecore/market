@@ -42,6 +42,7 @@ metadata:
       translated_by: human
     en-US:
       name: Xiaomi MiMo TTS
+      short_desc: Text-to-speech synthesis using Xiaomi MiMo models
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
