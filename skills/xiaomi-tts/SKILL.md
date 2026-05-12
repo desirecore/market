@@ -36,6 +36,12 @@ metadata:
     zh-CN:
       name: 小米 MiMo 语音合成
       short_desc: 基于小米 MiMo 的文本转语音技能
+      description: >-
+        Use this skill when the user wants to convert text to speech using Xiaomi MiMo's TTS models (mimo-v2.5-tts). Uses OpenAI-compatible chat/completions API with audio response. Supports multiple preset voices and custom voice design. Use when 用户提到 语音合成、文字转语音、TTS、朗读、读出来、生成语音、 生成音频、文本转音频、配音、念出来、小米语音、MiMo 语音、小米 TTS。
+      body: ./SKILL.zh-CN.md
+      translated_by: human
+    en-US:
+      name: Xiaomi MiMo TTS
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
