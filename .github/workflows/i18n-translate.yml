@@ -12,11 +12,6 @@ name: i18n Auto-Translate
 
 on:
   pull_request:
-    paths:
-      - "skills/**/SKILL.zh-CN.md"
-      - "skills/**/SKILL.md"
-      - "manifest.json"
-      - "categories.json"
   workflow_dispatch:
     inputs:
       target_locale:
@@ -49,11 +44,32 @@ jobs:
           token: ${{ secrets.DESIRECORE_BOT_TOKEN || secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
+      - name: Detect relevant changes
+        id: changes
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -e
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "relevant=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git fetch --no-tags --depth=1 origin "$BASE_SHA" 2>/dev/null || true
+          changed=$(git diff --name-only "${BASE_SHA}...${HEAD_SHA}" || true)
+          if echo "$changed" | grep -qE '^(skills/.+/SKILL(\.zh-CN)?\.md$|manifest\.json$|categories\.json$)'; then
+            echo "relevant=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "relevant=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Install uv
+        if: steps.changes.outputs.relevant == 'true'
         uses: astral-sh/setup-uv@v3
 
       - name: Check for stale translations
         id: precheck
+        if: steps.changes.outputs.relevant == 'true'
         run: |
           set +e
           uv run --quiet scripts/i18n/translate.py --check
@@ -66,7 +82,7 @@ jobs:
           exit 0
 
       - name: Translate stale locales
-        if: steps.precheck.outputs.stale == 'true'
+        if: steps.changes.outputs.relevant == 'true' && steps.precheck.outputs.stale == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -84,12 +100,12 @@ jobs:
           uv run --quiet scripts/i18n/translate.py "${ARGS[@]}"
 
       - name: Validate after translation
-        if: steps.precheck.outputs.stale == 'true'
+        if: steps.changes.outputs.relevant == 'true' && steps.precheck.outputs.stale == 'true'
         run: uv run --quiet scripts/i18n/validate-i18n.py
 
       - name: Detect changes
         id: diff
-        if: steps.precheck.outputs.stale == 'true'
+        if: steps.changes.outputs.relevant == 'true' && steps.precheck.outputs.stale == 'true'
         run: |
           if git diff --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -154,3 +170,7 @@ jobs:
               issue_number: context.issue.number,
               labels: ['i18n-translation-failed'],
             });
+
+      - name: Skip notice
+        if: steps.changes.outputs.relevant != 'true'
+        run: echo "No i18n-relevant changes; translation skipped."

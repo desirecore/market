@@ -1,0 +1,39 @@
+name: Auto-request Copilot review
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  request:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Request Copilot reviewer
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -e
+          if gh api "repos/${{ github.repository }}/pulls/$PR_NUMBER" \
+              --jq '.requested_reviewers[].login' \
+              | grep -qE '^(Copilot|copilot-pull-request-reviewer\[bot\])$'; then
+            echo "Copilot already requested as reviewer."
+            exit 0
+          fi
+          # 422 here usually means Copilot has already submitted a review (so the
+          # request slot is gone). Treat that as benign.
+          if ! resp=$(gh api -X POST \
+              "repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers" \
+              -f 'reviewers[]=copilot-pull-request-reviewer[bot]' 2>&1); then
+            echo "$resp"
+            if echo "$resp" | grep -q '"status":"422"'; then
+              echo "POST returned 422; Copilot likely already reviewed."
+              exit 0
+            fi
+            exit 1
+          fi
