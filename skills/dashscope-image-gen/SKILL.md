@@ -43,6 +43,8 @@ metadata:
     en-US:
       name: DashScope Image Generation
       short_desc: Text-to-image generation using Alibaba Cloud Wan (通义万相) models
+      source_hash: sha256:116cd74078bcf172
+      translated_by: human
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
