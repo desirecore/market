@@ -38,12 +38,12 @@ metadata:
       description: >-
         Use this skill when the user wants to generate images using Alibaba Cloud DashScope's Wan (通义万相) series models. Supports text-to-image with multiple model tiers (wan2.7-image-pro, wan2.7-image). Uses OpenAI-compatible chat/completions API for synchronous image generation. Use when 用户提到 生成图片、画图、文生图、创建图片、AI 绘画、 生成插图、画一张、帮我画、设计图片、通义万相、万相、阿里云画图、dashscope 画图。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:3315063db219e1f7
+      source_hash: sha256:49c70c8b9e876943
       translated_by: human
     en-US:
       name: DashScope Image Generation
       short_desc: Text-to-image generation using Alibaba Cloud Wan (通义万相) models
-      source_hash: sha256:3315063db219e1f7
+      source_hash: sha256:49c70c8b9e876943
       translated_by: human
 market:
   icon: >-
@@ -81,7 +81,7 @@ market:
 
 **默认规则**：用户未指定模型时，使用 `wan2.7-image`。
 
-## 完整执行流程（严格按此两步执行）
+## 完整执行流程（严格按此三步执行）
 
 ### 前置条件
 

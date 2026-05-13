@@ -170,7 +170,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
 | 成熟男声 | voice: "Baihua" |
 | 英文女声 | voice: "Mia" 或 "Chloe" |
 | 英文男声 | voice: "Milo" 或 "Dean" |
-| 高音质/无损 | response_format: "wav" |
+| 高音质/无损 | audio.format: "wav" |
 
 ## 错误处理
 
