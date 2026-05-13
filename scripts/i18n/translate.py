@@ -248,6 +248,13 @@ def _post_with_retries(url: str, headers: dict, payload: dict, *, extract) -> st
         try:
             with httpx.Client(timeout=HTTP_TIMEOUT) as client:
                 resp = client.post(url, headers=headers, json=payload)
+            # Don't retry on 413: payload won't get smaller on next attempt.
+            if resp.status_code == 413:
+                raise RuntimeError(
+                    f"413 Payload Too Large from {url} — skill body too big for this backend. "
+                    f"Switch backend (TRANSLATE_BACKEND=anthropic), use a model with larger input budget, "
+                    f"or set translated_by: human to lock the locale."
+                )
             if resp.status_code == 429 or resp.status_code >= 500:
                 raise httpx.HTTPStatusError(f"{resp.status_code}", request=resp.request, response=resp)
             resp.raise_for_status()
@@ -499,11 +506,19 @@ def main(argv: list[str]) -> int:
         if not (skill_dir.is_dir() and (skill_dir / "SKILL.md").is_file()):
             continue
         for tl in target_locales:
-            plans.append(translate_skill(
-                skill_dir, tl,
-                check_only=args.check, mark_human=args.human,
-                backend=backend, model=model, endpoint=endpoint,
-            ))
+            try:
+                plans.append(translate_skill(
+                    skill_dir, tl,
+                    check_only=args.check, mark_human=args.human,
+                    backend=backend, model=model, endpoint=endpoint,
+                ))
+            except Exception as e:  # don't let one bad skill abort the entire run
+                plans.append({
+                    "skill": skill_dir.name,
+                    "target": tl,
+                    "actions": [],
+                    "errors": [f"unhandled exception: {e}"],
+                })
 
     needs = [p for p in plans if p.get("needs_translation")]
     errs = [p for p in plans if p.get("errors")]
@@ -514,7 +529,7 @@ def main(argv: list[str]) -> int:
         for p in errs:
             for e in p["errors"]:
                 print(f"  ERROR [{p['skill']}/{p['target']}]: {e}")
-        return 1 if needs else 0
+        return 1 if (needs or errs) else 0
 
     print(f"Backend: {backend}  Model: {model}  Endpoint: {endpoint}\n")
     for p in plans:
