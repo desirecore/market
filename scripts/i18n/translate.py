@@ -188,6 +188,9 @@ def call_github_models(system_prompt: str, user_payload: str, model: str, endpoi
             "Locally, create a fine-grained PAT with 'Models: Read' permission."
         )
     url = f"{endpoint.rstrip('/')}/chat/completions"
+    # GPT-5 series rejects the legacy `max_tokens` field and requires
+    # `max_completion_tokens` instead (OpenAI Chat Completions 2024+ contract).
+    # GPT-4 and earlier accept either, so always use the new name.
     payload = {
         "model": model,
         "messages": [
@@ -195,7 +198,7 @@ def call_github_models(system_prompt: str, user_payload: str, model: str, endpoi
             {"role": "user", "content": user_payload},
         ],
         "temperature": 0.1,
-        "max_tokens": 8192,
+        "max_completion_tokens": 8192,
     }
     headers = {
         "Authorization": f"Bearer {token}",
@@ -255,7 +258,22 @@ def _post_with_retries(url: str, headers: dict, payload: dict, *, extract) -> st
                     f"Switch backend (TRANSLATE_BACKEND=anthropic), use a model with larger input budget, "
                     f"or set translated_by: human to lock the locale."
                 )
+            if resp.status_code == 400:
+                # 400 is almost always a payload contract issue (unsupported
+                # parameter, content filter, missing field, model not in
+                # account's allowlist, etc.) — same payload won't fix itself,
+                # so surface the response body and bail without retrying.
+                body_preview = (resp.text or "")[:600]
+                raise RuntimeError(
+                    f"400 Bad Request from {url}; response body: {body_preview}"
+                )
             if resp.status_code == 429 or resp.status_code >= 500:
+                # Log body so rate-limit / billing details (e.g. "budget limit
+                # reached") are visible in CI logs before we retry.
+                body_preview = (resp.text or "")[:300]
+                sys.stderr.write(
+                    f"[translate] {resp.status_code} body preview: {body_preview}\n"
+                )
                 raise httpx.HTTPStatusError(f"{resp.status_code}", request=resp.request, response=resp)
             resp.raise_for_status()
             return extract(resp.json())
