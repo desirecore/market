@@ -45,8 +45,8 @@ metadata:
       short_desc: Text-to-image generation using Alibaba Cloud Wan (通义万相) models
       description: "Use this skill when the user wants to generate images using Alibaba Cloud DashScope's Wan (通义万相) series models. Supports text-to-image with multiple model tiers (wan2.7-image-pro, wan2.7-image) via the OpenAI-compatible chat/completions API. Trigger keywords: generate image, draw, text-to-image, create image, AI painting, illustration, design picture, Wan, Tongyi Wanxiang, DashScope."
       body: ./SKILL.md
-      source_hash: sha256:d24415cd18ebf5d2-stale
-      translated_by: ai:needs-refresh
+      source_hash: sha256:135b99cdd33441fb
+      translated_by: human
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
