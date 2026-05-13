@@ -64,20 +64,33 @@ jobs:
             exit 0
           fi
 
-          git fetch --no-tags --depth=1 origin "$BASE_SHA" 2>/dev/null || true
-          changed=$(git diff --name-only "${BASE_SHA}...${HEAD_SHA}" || true)
+          # Ensure BASE_SHA is locally reachable; if we can't fetch it, fall back
+          # to a full scan rather than silently producing an empty diff that would
+          # mis-classify a real i18n PR as relevant=false.
+          if ! git cat-file -e "${BASE_SHA}^{commit}" 2>/dev/null; then
+            if ! git fetch --no-tags --depth=1 origin "$BASE_SHA" 2>/dev/null; then
+              echo "::warning::failed to fetch base SHA ${BASE_SHA}; falling back to full scan"
+              echo "relevant=true" >> "$GITHUB_OUTPUT"
+              echo "skill_paths=" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          fi
+
+          changed=$(git diff --name-only "${BASE_SHA}...${HEAD_SHA}")
 
           # If manifest.json or categories.json changed, fall back to full scan
           # (these affect i18n fallback chain / supportedLocales globally).
-          if echo "$changed" | grep -qE '^(manifest\.json|categories\.json)$'; then
+          if printf '%s\n' "$changed" | grep -qE '^(manifest\.json|categories\.json)$'; then
             echo "relevant=true" >> "$GITHUB_OUTPUT"
             echo "skill_paths=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
           # Otherwise: extract unique skill directories touched by SKILL*.md edits.
-          skill_paths=$(echo "$changed" \
-            | grep -E '^skills/[^/]+/SKILL(\.[a-z]+-[A-Z]+)?\.md$' \
+          # The brace group with `|| true` turns grep's "no match" (exit 1) into
+          # success so pipefail doesn't kill the step when this PR is unrelated.
+          skill_paths=$(printf '%s\n' "$changed" \
+            | { grep -E '^skills/[^/]+/SKILL(\.[a-z]+-[A-Z]+)?\.md$' || true; } \
             | awk -F/ '{print $1"/"$2}' \
             | sort -u \
             | tr '\n' ' ' \
@@ -100,11 +113,20 @@ jobs:
         if: steps.changes.outputs.relevant == 'true'
         env:
           SKILL_PATHS: ${{ steps.changes.outputs.skill_paths }}
+          INPUT_SKILL: ${{ github.event.inputs.skill }}
         run: |
           set +e
-          # If skill_paths is set, only check those skills; otherwise full scan.
-          # SKILL_PATHS is space-separated and intentionally unquoted for word splitting.
-          uv run --quiet scripts/i18n/translate.py --check $SKILL_PATHS
+          ARGS=(--check)
+          if [ -n "$INPUT_SKILL" ]; then
+            # workflow_dispatch with explicit skill input takes precedence
+            ARGS+=("$INPUT_SKILL")
+          elif [ -n "$SKILL_PATHS" ]; then
+            # pull_request: read space-separated paths into an array to avoid
+            # word-splitting / glob expansion surprises.
+            read -r -a SKILL_ARR <<<"$SKILL_PATHS"
+            ARGS+=("${SKILL_ARR[@]}")
+          fi
+          uv run --quiet scripts/i18n/translate.py "${ARGS[@]}"
           rc=$?
           if [ $rc -eq 0 ]; then
             echo "stale=false" >> "$GITHUB_OUTPUT"
@@ -121,20 +143,21 @@ jobs:
           TRANSLATE_BACKEND: ${{ vars.TRANSLATE_BACKEND || 'github' }}
           TRANSLATE_MODEL: ${{ vars.TRANSLATE_MODEL || 'openai/gpt-5-mini' }}
           SKILL_PATHS: ${{ steps.changes.outputs.skill_paths }}
+          INPUT_SKILL: ${{ github.event.inputs.skill }}
+          INPUT_TARGET: ${{ github.event.inputs.target_locale }}
         run: |
           set -e
           ARGS=()
-          # workflow_dispatch input takes precedence (single specific skill)
-          if [ -n "${{ github.event.inputs.skill }}" ]; then
-            ARGS+=("${{ github.event.inputs.skill }}")
+          if [ -n "$INPUT_SKILL" ]; then
+            # workflow_dispatch input takes precedence (single specific skill)
+            ARGS+=("$INPUT_SKILL")
           elif [ -n "$SKILL_PATHS" ]; then
             # pull_request: only translate skills touched by this PR
-            for p in $SKILL_PATHS; do
-              ARGS+=("$p")
-            done
+            read -r -a SKILL_ARR <<<"$SKILL_PATHS"
+            ARGS+=("${SKILL_ARR[@]}")
           fi
-          if [ -n "${{ github.event.inputs.target_locale }}" ]; then
-            ARGS+=(--target "${{ github.event.inputs.target_locale }}")
+          if [ -n "$INPUT_TARGET" ]; then
+            ARGS+=(--target "$INPUT_TARGET")
           fi
           uv run --quiet scripts/i18n/translate.py "${ARGS[@]}"
 
