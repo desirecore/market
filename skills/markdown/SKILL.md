@@ -52,7 +52,7 @@ metadata:
         particular format. Ensures files are written via Write tool, absolute
         path is reported, and attachment is sent via SendUserMessage.
       body: ./SKILL.md
-      source_hash: sha256:0000000000000000
+      source_hash: sha256:2434b01b42d751c0
       translated_by: human
 market:
   icon: >-
