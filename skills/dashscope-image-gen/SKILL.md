@@ -27,7 +27,7 @@ metadata:
   author: desirecore
   updated_at: '2026-05-08'
   i18n:
-    default_locale: en-US
+    default_locale: zh-CN
     source_locale: zh-CN
     locales:
       - zh-CN
@@ -38,11 +38,13 @@ metadata:
       description: >-
         Use this skill when the user wants to generate images using Alibaba Cloud DashScope's Wan (通义万相) series models. Supports text-to-image with multiple model tiers (wan2.7-image-pro, wan2.7-image). Uses OpenAI-compatible chat/completions API for synchronous image generation. Use when 用户提到 生成图片、画图、文生图、创建图片、AI 绘画、 生成插图、画一张、帮我画、设计图片、通义万相、万相、阿里云画图、dashscope 画图。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:116cd74078bcf172
+      source_hash: sha256:3315063db219e1f7
       translated_by: human
     en-US:
       name: DashScope Image Generation
       short_desc: Text-to-image generation using Alibaba Cloud Wan (通义万相) models
+      source_hash: sha256:3315063db219e1f7
+      translated_by: human
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
