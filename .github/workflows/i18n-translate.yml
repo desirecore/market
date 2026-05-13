@@ -56,7 +56,9 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
-          set -e
+          # GitHub Actions default shell already runs with -eo pipefail; we set
+          # it explicitly so the `|| true` workaround on grep below is unambiguous.
+          set -eo pipefail
           # workflow_dispatch: full scan (skill input handled later if provided)
           if [ "${{ github.event_name }}" != "pull_request" ]; then
             echo "relevant=true" >> "$GITHUB_OUTPUT"
@@ -76,7 +78,18 @@ jobs:
             fi
           fi
 
-          changed=$(git diff --name-only "${BASE_SHA}...${HEAD_SHA}")
+          # `A...B` (triple-dot) needs merge-base(A,B) in history. With
+          # actions/checkout@v4 + fetch-depth: 0 it normally is, but if the base
+          # branch advanced after the PR was opened and the merge-base isn't
+          # locally reachable, fall back to a full scan instead of silently
+          # producing a wrong diff.
+          if ! merge_base=$(git merge-base "${BASE_SHA}" "${HEAD_SHA}" 2>/dev/null); then
+            echo "::warning::could not compute merge-base for ${BASE_SHA}...${HEAD_SHA}; falling back to full scan"
+            echo "relevant=true" >> "$GITHUB_OUTPUT"
+            echo "skill_paths=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          changed=$(git diff --name-only "${merge_base}" "${HEAD_SHA}")
 
           # If manifest.json or categories.json changed, fall back to full scan
           # (these affect i18n fallback chain / supportedLocales globally).
