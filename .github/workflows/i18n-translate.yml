@@ -9,6 +9,12 @@ name: i18n Auto-Translate
 # then set repository variable TRANSLATE_BACKEND=anthropic and TRANSLATE_MODEL to
 # a Claude model id (e.g. claude-sonnet-4-6). Claude is NOT in the GitHub Models
 # catalog as of 2026-05.
+#
+# Scope: on pull_request events, only skills whose SKILL*.md files actually changed
+# in the PR are checked/translated — keeps token usage proportional to the PR. If
+# manifest.json or categories.json changed, falls back to full-repo scan (these
+# affect the i18n fallback chain globally). workflow_dispatch always does a full
+# scan unless `skill` input is supplied.
 
 on:
   pull_request:
@@ -51,16 +57,38 @@ jobs:
           HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           set -e
+          # workflow_dispatch: full scan (skill input handled later if provided)
           if [ "${{ github.event_name }}" != "pull_request" ]; then
             echo "relevant=true" >> "$GITHUB_OUTPUT"
+            echo "skill_paths=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+
           git fetch --no-tags --depth=1 origin "$BASE_SHA" 2>/dev/null || true
           changed=$(git diff --name-only "${BASE_SHA}...${HEAD_SHA}" || true)
-          if echo "$changed" | grep -qE '^(skills/.+/SKILL(\.zh-CN)?\.md$|manifest\.json$|categories\.json$)'; then
+
+          # If manifest.json or categories.json changed, fall back to full scan
+          # (these affect i18n fallback chain / supportedLocales globally).
+          if echo "$changed" | grep -qE '^(manifest\.json|categories\.json)$'; then
             echo "relevant=true" >> "$GITHUB_OUTPUT"
+            echo "skill_paths=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Otherwise: extract unique skill directories touched by SKILL*.md edits.
+          skill_paths=$(echo "$changed" \
+            | grep -E '^skills/[^/]+/SKILL(\.[a-z]+-[A-Z]+)?\.md$' \
+            | awk -F/ '{print $1"/"$2}' \
+            | sort -u \
+            | tr '\n' ' ' \
+            | sed 's/ $//')
+
+          if [ -n "$skill_paths" ]; then
+            echo "relevant=true" >> "$GITHUB_OUTPUT"
+            echo "skill_paths=$skill_paths" >> "$GITHUB_OUTPUT"
           else
             echo "relevant=false" >> "$GITHUB_OUTPUT"
+            echo "skill_paths=" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Install uv
@@ -70,9 +98,13 @@ jobs:
       - name: Check for stale translations
         id: precheck
         if: steps.changes.outputs.relevant == 'true'
+        env:
+          SKILL_PATHS: ${{ steps.changes.outputs.skill_paths }}
         run: |
           set +e
-          uv run --quiet scripts/i18n/translate.py --check
+          # If skill_paths is set, only check those skills; otherwise full scan.
+          # SKILL_PATHS is space-separated and intentionally unquoted for word splitting.
+          uv run --quiet scripts/i18n/translate.py --check $SKILL_PATHS
           rc=$?
           if [ $rc -eq 0 ]; then
             echo "stale=false" >> "$GITHUB_OUTPUT"
@@ -88,11 +120,18 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TRANSLATE_BACKEND: ${{ vars.TRANSLATE_BACKEND || 'github' }}
           TRANSLATE_MODEL: ${{ vars.TRANSLATE_MODEL || 'openai/gpt-5-mini' }}
+          SKILL_PATHS: ${{ steps.changes.outputs.skill_paths }}
         run: |
           set -e
           ARGS=()
+          # workflow_dispatch input takes precedence (single specific skill)
           if [ -n "${{ github.event.inputs.skill }}" ]; then
             ARGS+=("${{ github.event.inputs.skill }}")
+          elif [ -n "$SKILL_PATHS" ]; then
+            # pull_request: only translate skills touched by this PR
+            for p in $SKILL_PATHS; do
+              ARGS+=("$p")
+            done
           fi
           if [ -n "${{ github.event.inputs.target_locale }}" ]; then
             ARGS+=(--target "${{ github.event.inputs.target_locale }}")
