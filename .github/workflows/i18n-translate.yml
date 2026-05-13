@@ -87,17 +87,23 @@ jobs:
           fi
 
           # Otherwise: extract unique skill directories touched by SKILL*.md edits.
-          # Regex aligns with the i18n schema:
+          # Grep enforces:
           #   - skill name: lowercase ASCII letters, digits, hyphens
-          #     (no leading/trailing hyphen — enforced by anchoring with [a-z0-9])
+          #     (no leading/trailing hyphen — anchored with [a-z0-9])
           #   - locale tag (BCP-47 subset): 2-3 lowercase letters + optional -RR
+          # awk enforces the rest of the schema's name constraints (no consecutive
+          # hyphens, no reserved names) as defense-in-depth — those would already
+          # have been blocked upstream by validate-i18n.py / schema validation.
           # The brace group with `|| true` turns grep's "no match" (exit 1) into
           # success so pipefail doesn't kill the step when this PR is unrelated.
-          # Strict regex doubles as input sanitization for the $GITHUB_OUTPUT write
-          # below (filters out any path that doesn't match this safe shape).
+          # Strict filtering also sanitizes input for the $GITHUB_OUTPUT write
+          # below (any path failing the shape is dropped).
           skill_paths=$(printf '%s\n' "$changed" \
             | { grep -E '^skills/[a-z0-9]([a-z0-9-]*[a-z0-9])?/SKILL(\.[a-z]{2,3}(-[A-Z]{2})?)?\.md$' || true; } \
-            | awk -F/ '{print $1"/"$2}' \
+            | awk -F/ '
+                $2 !~ /--/ && $2 != "anthropic" && $2 != "claude" {
+                  print $1 "/" $2
+                }' \
             | sort -u \
             | tr '\n' ' ' \
             | sed 's/ $//')
