@@ -39,15 +39,15 @@ metadata:
       description: >-
         当用户希望使用小米 MiMo 的 TTS 模型（mimo-v2.5-tts）将文本转为语音时使用此技能。基于 OpenAI 兼容的 chat/completions API，响应中携带音频。支持多种预置音色和自定义音色设计。用户提到 语音合成、文字转语音、TTS、朗读、读出来、生成语音、生成音频、文本转音频、配音、念出来、小米语音、MiMo 语音、小米 TTS。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:2dd06b13152349e5
+      source_hash: sha256:afa1138c9b2cbd20
       translated_by: human
     en-US:
       name: Xiaomi MiMo TTS
       short_desc: Text-to-speech synthesis using Xiaomi MiMo models
       description: "Use this skill when the user wants to convert text to speech using Xiaomi MiMo's TTS models (mimo-v2.5-tts). Built on the OpenAI-compatible chat/completions API with audio response, supporting multiple preset voices and custom voice design. Trigger keywords: text-to-speech, TTS, read aloud, narrate, generate audio, voice synthesis, MiMo voice, Xiaomi TTS."
       body: ./SKILL.md
-      source_hash: sha256:2dd06b13152349e5
-      translated_by: human
+      source_hash: sha256:2dd06b13152349e5-stale
+      translated_by: ai:needs-refresh
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
