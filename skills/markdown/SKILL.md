@@ -52,8 +52,6 @@ metadata:
         particular format. Ensures files are written via Write tool, absolute
         path is reported, and attachment is sent via SendUserMessage.
       body: ./SKILL.md
-      source_hash: sha256:2434b01b42d751c0
-      translated_by: human
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
