@@ -191,15 +191,22 @@ def call_github_models(system_prompt: str, user_payload: str, model: str, endpoi
     # GPT-5 series rejects the legacy `max_tokens` field and requires
     # `max_completion_tokens` instead (OpenAI Chat Completions 2024+ contract).
     # GPT-4 and earlier accept either, so always use the new name.
-    payload = {
+    payload: dict[str, Any] = {
         "model": model,
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_payload},
         ],
-        "temperature": 0.1,
         "max_completion_tokens": 8192,
     }
+    # GPT-5 / o-series only allow the default temperature (1); sending any other
+    # value returns 400 `unsupported_value`. Older models accept custom values,
+    # where 0.1 is preferred for deterministic translation output.
+    is_gpt5_or_o_series = any(
+        tag in model.lower() for tag in ("gpt-5", "/o1", "/o3", "/o4")
+    )
+    if not is_gpt5_or_o_series:
+        payload["temperature"] = 0.1
     headers = {
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json",
