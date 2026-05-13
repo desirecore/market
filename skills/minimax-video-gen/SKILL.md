@@ -45,7 +45,7 @@ metadata:
       description: >-
         Use this skill when the user wants to generate videos using MiniMax's Hailuo model. Supports text-to-video, image-to-video, and subject reference. The API is asynchronous — submit a task, poll for status, then download. Use when the user mentions generating videos, text-to-video, AI video, creating videos, video generation, animation generation, MiniMax video, Hailuo, image-to-video.
       body: ./SKILL.md
-      source_hash: sha256:57314c8d07d63585
+      source_hash: sha256:3b2855b9ff2d0ef1
       translated_by: ai:claude-opus-4-7
       translated_at: '2026-05-03'
 market:

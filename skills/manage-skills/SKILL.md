@@ -38,7 +38,7 @@ metadata:
       description: >-
         Manage the Skill lifecycle of an Agent: import, install, update, and delete Skills via HTTP API, or directly author standards-compliant SKILL.md files via the AgentFS filesystem. Use when the user requests to install Skills, import Skills from URL/Git, author new Skills, or manage existing Skills.
       body: ./SKILL.md
-      source_hash: sha256:7f116cc5de352822
+      source_hash: sha256:e67016840ba430ae
       translated_by: ai:claude-opus-4-7
       translated_at: '2026-05-03'
 market:

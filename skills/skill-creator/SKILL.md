@@ -39,7 +39,7 @@ metadata:
       description: >-
         Guides users to create and edit standards-compliant SKILL.md skill packages. Supports the DesireCore full format (frontmatter metadata + L0/L1/L2 layered content + scripts/references/assets) and the Claude Code basic format. Use when the user requests to create a new Skill, update an existing Skill, or package experience into a reusable Skill bundle.
       body: ./SKILL.md
-      source_hash: sha256:fa0f3136371f236c
+      source_hash: sha256:2e8b886dc0b77dd1
       translated_by: ai:claude-opus-4-7
       translated_at: '2026-05-03'
 market:

@@ -45,7 +45,7 @@ metadata:
       description: >-
         Use this skill when the user wants to generate music using MiniMax's Music Generation API. Supports text-to-music with lyrics, instrumental generation, and music cover. Use when the user mentions generating music, text-to-music, AI composing, creating songs, writing a song, music generation, AI music, MiniMax music, songwriting, instrumental music, accompaniment, cover, or remake.
       body: ./SKILL.md
-      source_hash: sha256:403153a9c1da2ad9
+      source_hash: sha256:f3785e1da2fc5a11
       translated_by: ai:claude-opus-4-7
       translated_at: '2026-05-04'
 market:
