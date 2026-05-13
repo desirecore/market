@@ -40,7 +40,7 @@ metadata:
       description: >-
         Use this skill any time a spreadsheet file is the primary input or output. This means any task where the user wants to: open, read, edit, or fix an existing .xlsx, .xlsm, .csv, or .tsv file (e.g., adding columns, computing formulas, formatting, charting, cleaning messy data); create a new spreadsheet from scratch or from other data sources; or convert between tabular file formats. Trigger especially when the user references a spreadsheet file by name or path — even casually (like "the xlsx in my downloads") — and wants something done to it or produced from it. Also trigger for cleaning or restructuring messy tabular data files (malformed rows, misplaced headers, junk data) into proper spreadsheets. The deliverable must be a spreadsheet file. Do NOT trigger when the primary deliverable is a Word document, HTML report, standalone Python script, database pipeline, or Google Sheets API integration, even if tabular data is involved. Use when 用户提到 Excel、 电子表格、xlsx、表格处理、公式计算、数据清洗、图表、CSV导入导出。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:de1660781d23798b
+      source_hash: sha256:17c76a78ed03d451
       translated_by: human
     en-US:
       name: Spreadsheet Processing
@@ -48,8 +48,8 @@ metadata:
       description: >-
         Use this skill any time a spreadsheet file is the primary input or output. This means any task where the user wants to: open, read, edit, or fix an existing .xlsx, .xlsm, .csv, or .tsv file (e.g., adding columns, computing formulas, formatting, charting, cleaning messy data); create a new spreadsheet from scratch or from other data sources; or convert between tabular file formats. Trigger especially when the user references a spreadsheet file by name or path — even casually (like "the xlsx in my downloads") — and wants something done to it or produced from it. Also trigger for cleaning or restructuring messy tabular data files (malformed rows, misplaced headers, junk data) into proper spreadsheets. The deliverable must be a spreadsheet file. Do NOT trigger when the primary deliverable is a Word document, HTML report, standalone Python script, database pipeline, or Google Sheets API integration, even if tabular data is involved. Use when the user mentions Excel, spreadsheets, xlsx, table processing, formula computation, data cleaning, charts, or CSV import/export.
       body: ./SKILL.md
-      source_hash: sha256:de1660781d23798b
-      translated_by: ai:claude-opus-4-7
+      source_hash: sha256:17c76a78ed03d451
+      translated_by: human
       translated_at: '2026-05-03'
 market:
   icon: >-
@@ -92,6 +92,20 @@ xlsx is a **Procedural Skill** that provides full processing capabilities for Ex
 - The user needs to add formulas, charts, or formatting to an existing spreadsheet
 
 ## L2: Detailed Specification
+
+### Script Path Rule (mandatory)
+
+The Python scripts bundled with this skill live inside the skill installation directory. You **MUST use full paths** when invoking them — never use bare relative paths.
+
+The skill directory is provided by the `<skill-dir>` tag in the context. Prefix all `scripts/` commands accordingly:
+
+```bash
+python "<skill-dir>/scripts/office/unpack.py" spreadsheet.xlsx unpacked/
+python "<skill-dir>/scripts/office/pack.py" unpacked/ output.xlsx
+python "<skill-dir>/scripts/recalc.py" output.xlsx
+```
+
+**NEVER** run `python scripts/office/unpack.py` directly — that relative path does not exist in the user's working directory.
 
 ## Prerequisites
 

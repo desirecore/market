@@ -38,7 +38,7 @@ metadata:
       description: >-
         Use this skill any time a .pptx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from any .pptx file (even if the extracted content will be used elsewhere, like in an email or summary); editing, modifying, or updating existing presentations; combining or splitting slide files; working with templates, layouts, speaker notes, or comments. Trigger whenever the user mentions "deck," "slides," "presentation," or references a .pptx filename, regardless of what they plan to do with the content afterward. If a .pptx file needs to be opened, created, or touched, use this skill. Use when 用户提到 PPT、演示文稿、幻灯片、演讲稿、汇报材料、 pptx、创建演示、编辑幻灯片。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:761da55f1e450adc
+      source_hash: sha256:a952bf5622ede8e0
       translated_by: human
     en-US:
       name: Presentation Processing
@@ -46,8 +46,8 @@ metadata:
       description: >-
         Use this skill any time a .pptx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from any .pptx file (even if the extracted content will be used elsewhere, like in an email or summary); editing, modifying, or updating existing presentations; combining or splitting slide files; working with templates, layouts, speaker notes, or comments. Trigger whenever the user mentions "deck," "slides," "presentation," or references a .pptx filename, regardless of what they plan to do with the content afterward. If a .pptx file needs to be opened, created, or touched, use this skill. Use when the user mentions PPT, presentation, slides, speaker notes, briefing materials, pptx, creating presentations, or editing slides.
       body: ./SKILL.md
-      source_hash: sha256:761da55f1e450adc
-      translated_by: ai:claude-opus-4-7
+      source_hash: sha256:a952bf5622ede8e0
+      translated_by: human
       translated_at: '2026-05-03'
 market:
   icon: >-
@@ -90,6 +90,19 @@ pptx is a **Procedural Skill** providing full PowerPoint presentation processing
 - The user needs to convert a presentation to PDF or images
 
 ## L2: Detailed Specification
+
+### Script Path Rule (mandatory)
+
+The Python scripts bundled with this skill live inside the skill installation directory. You **MUST use full paths** when invoking them — never use bare relative paths.
+
+The skill directory is provided by the `<skill-dir>` tag in the context. Prefix all `scripts/` commands accordingly:
+
+```bash
+python "<skill-dir>/scripts/office/unpack.py" presentation.pptx unpacked/
+python "<skill-dir>/scripts/office/pack.py" unpacked/ output.pptx
+```
+
+**NEVER** run `python scripts/office/unpack.py` directly — that relative path does not exist in the user's working directory.
 
 ## Prerequisites
 
