@@ -255,7 +255,21 @@ def _post_with_retries(url: str, headers: dict, payload: dict, *, extract) -> st
                     f"Switch backend (TRANSLATE_BACKEND=anthropic), use a model with larger input budget, "
                     f"or set translated_by: human to lock the locale."
                 )
+            if resp.status_code == 400:
+                # 400 from GitHub Models often indicates content policy / quota /
+                # rate limit problems. Surface the response body so the failure is
+                # actionable instead of opaque, then bail without retrying — the
+                # request body won't change between attempts.
+                body_preview = (resp.text or "")[:600]
+                raise RuntimeError(
+                    f"400 Bad Request from {url}; response body: {body_preview}"
+                )
             if resp.status_code == 429 or resp.status_code >= 500:
+                # Surface response body too so rate-limit headers are visible.
+                body_preview = (resp.text or "")[:300]
+                sys.stderr.write(
+                    f"[translate] {resp.status_code} body preview: {body_preview}\n"
+                )
                 raise httpx.HTTPStatusError(f"{resp.status_code}", request=resp.request, response=resp)
             resp.raise_for_status()
             return extract(resp.json())
