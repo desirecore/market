@@ -1,4 +1,4 @@
-<\!-- locale: zh-CN -->
+<!-- locale: zh-CN -->
 
 # xiaomi-tts 技能
 

@@ -1,4 +1,4 @@
-<\!-- locale: zh-CN -->
+<!-- locale: zh-CN -->
 
 # dashscope-image-gen 技能
 

@@ -529,7 +529,7 @@ def main(argv: list[str]) -> int:
         for p in errs:
             for e in p["errors"]:
                 print(f"  ERROR [{p['skill']}/{p['target']}]: {e}")
-        return 1 if needs else 0
+        return 1 if (needs or errs) else 0
 
     print(f"Backend: {backend}  Model: {model}  Endpoint: {endpoint}\n")
     for p in plans:
