@@ -28,7 +28,7 @@ metadata:
   author: desirecore
   updated_at: '2026-05-08'
   i18n:
-    default_locale: zh-CN
+    default_locale: en-US
     source_locale: zh-CN
     locales:
       - zh-CN
@@ -44,6 +44,8 @@ metadata:
     en-US:
       name: Xiaomi MiMo TTS
       short_desc: Text-to-speech synthesis using Xiaomi MiMo models
+      description: "Use this skill when the user wants to convert text to speech using Xiaomi MiMo's TTS models (mimo-v2.5-tts). Built on the OpenAI-compatible chat/completions API with audio response, supporting multiple preset voices and custom voice design. Trigger keywords: text-to-speech, TTS, read aloud, narrate, generate audio, voice synthesis, MiMo voice, Xiaomi TTS."
+      body: ./SKILL.md
       source_hash: sha256:2dd06b13152349e5
       translated_by: human
 market:
@@ -62,58 +64,58 @@ market:
   channel: latest
 ---
 
-# xiaomi-tts 技能
+# xiaomi-tts Skill
 
-## 强制规则（违反将导致功能失败）
+## Mandatory Rules (violations cause failure)
 
-1. **必须用 HTTPS 访问 agent-service** — `https://127.0.0.1:${PORT}` 加 `-k` 跳过证书验证
-2. **必须通过 `/api/media/upload` 上传到 media-store** — /tmp 仅作下载/解码中转，不可直接以本地路径作为最终输出
-3. **必须使用 `dc-media://` 协议展示音频** — 唯一能让前端正确渲染的方式
-4. **全程使用 Bash curl** — 不要使用 HttpRequest 工具或 Python
-5. **使用 /chat/completions 端点** — 小米 MiMo TTS 使用 OpenAI 兼容格式
+1. **Must access agent-service over HTTPS** — use `https://127.0.0.1:${PORT}` with `-k` to skip certificate verification
+2. **Must upload to media-store via `/api/media/upload`** — `/tmp` is only a transient download/decode location, never use a local path as the final output
+3. **Must use the `dc-media://` protocol to display audio** — the only form the frontend can render correctly
+4. **Use Bash curl throughout** — do not use the HttpRequest tool or Python
+5. **Use the `/chat/completions` endpoint** — Xiaomi MiMo TTS speaks OpenAI-compatible chat format
 
-## 模型选择指南
+## Model Selection
 
-| 模型 | 特点 | 适用场景 |
+| Model | Characteristics | When to use |
 |------|------|---------|
-| mimo-v2.5-tts | 标准 TTS，多种预置音色 | **默认首选**，常规语音合成 |
-| mimo-v2.5-tts-voicedesign | 自定义音色设计 | 需要特定音色描述生成 |
-| mimo-v2.5-tts-voiceclone | 声音克隆 | 需要克隆特定人声（需上传参考音频） |
+| mimo-v2.5-tts | Standard TTS, multiple preset voices | **Default**, regular speech synthesis |
+| mimo-v2.5-tts-voicedesign | Custom voice design | When you need a voice generated from a description |
+| mimo-v2.5-tts-voiceclone | Voice cloning | When you need to clone a specific voice (reference audio required) |
 
-**默认规则**：用户未指定模型时，使用 `mimo-v2.5-tts`。
+**Default rule**: if the user does not specify a model, use `mimo-v2.5-tts`.
 
-## 音色选择指南
+## Voice Selection
 
-### 预置音色
+### Preset Voices
 
-| voice_id | 名称 | 特点 |
+| voice_id | Name | Characteristics |
 |----------|------|------|
-| default_zh | 默认中文 | 中文通用女声 |
-| default_en | 默认英文 | 英文通用女声 |
-| mimo_default | MiMo 默认 | MiMo 特色音色 |
-| Bingtang | 冰糖 | 甜美女声 |
-| Moli | 茉莉 | 温柔女声 |
-| Suda | 苏打 | 年轻男声 |
-| Baihua | 白桦 | 成熟男声 |
-| Mia | Mia | 英文女声 |
-| Chloe | Chloe | 英文女声 |
-| Milo | Milo | 英文男声 |
-| Dean | Dean | 英文男声 |
+| default_zh | Default Chinese | General-purpose Chinese female voice |
+| default_en | Default English | General-purpose English female voice |
+| mimo_default | MiMo Default | MiMo's signature voice |
+| Bingtang | Bingtang | Sweet female voice |
+| Moli | Moli | Soft, gentle female voice |
+| Suda | Suda | Young male voice |
+| Baihua | Baihua | Mature male voice |
+| Mia | Mia | English female voice |
+| Chloe | Chloe | English female voice |
+| Milo | Milo | English male voice |
+| Dean | Dean | English male voice |
 
-**默认规则**：中文内容用 `Bingtang`，英文内容用 `Mia`，用户未指定时按内容语言自动选择。
+**Default rule**: use `Bingtang` for Chinese text and `Mia` for English text; if the user doesn't specify, pick automatically by content language.
 
-## 完整执行流程（严格按此三步执行）
+## Full Execution Flow (strictly three steps)
 
-### 前置条件
+### Prerequisites
 
-- 用户已在资源管理器-算力中配置小米 MiMo Provider 并填写 API Key
-- agent-service 正在运行
+- The user has configured a Xiaomi MiMo provider in Resource Manager → Compute and filled in an API Key
+- agent-service is running
 
-### 第一步：调用 TTS API
+### Step 1: Call the TTS API
 
-通过 media-proxy 的 /chat/completions 端点生成语音。
+Generate speech via media-proxy's `/chat/completions` endpoint.
 
-**重要**：messages 必须使用 `assistant` role（不是 user），要合成的文本放在 assistant 消息的 content 中。
+**Important**: `messages` must use the `assistant` role (not `user`); the text to synthesize goes in the assistant message's content.
 
 ```bash
 PORT=$(cat ~/.desirecore/agent-service.port)
@@ -128,7 +130,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
       "messages": [
         {
           "role": "assistant",
-          "content": "这里替换为要合成的文本内容"
+          "content": "Replace this with the text to synthesize"
         }
       ],
       "voice": "Bingtang",
@@ -138,7 +140,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   }'
 ```
 
-**响应示例**：
+**Example response**:
 ```json
 {
   "success": true,
@@ -150,7 +152,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
         "message": {
           "role": "assistant",
           "audio": {
-            "data": "base64编码的音频数据...",
+            "data": "base64-encoded audio data...",
             "format": "mp3"
           }
         },
@@ -162,17 +164,17 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
 }
 ```
 
-从 `data.choices[0].message.audio.data` 提取 base64 编码的音频数据。
+Pull the base64-encoded audio data from `data.choices[0].message.audio.data`.
 
-### 第二步：解码并上传到 media-store
+### Step 2: Decode and upload to media-store
 
-音频以 base64 返回，需要解码后保存到本地 media-store。
+The audio comes back as base64; decode it and save to the local media-store.
 
-**推荐方式**（先保存完整响应到文件，避免 shell 参数过长）：
+**Recommended approach** (write the full response to a file first to avoid overlong shell arguments):
 
 ```bash
 PORT=$(cat ~/.desirecore/agent-service.port)
-# 将完整请求和响应保存到文件
+# Save the full request and response to a file
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
@@ -181,74 +183,74 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
     "endpoint": "/chat/completions",
     "body": {
       "model": "mimo-v2.5-tts",
-      "messages": [{"role": "assistant", "content": "要合成的文本"}],
+      "messages": [{"role": "assistant", "content": "Text to synthesize"}],
       "voice": "Bingtang",
       "audio": {"format": "mp3"}
     },
     "responseType": "json"
   }' > /tmp/xiaomi-tts-response.json
 
-# 提取 base64 音频数据并解码
+# Extract and decode the base64 audio data
 cat /tmp/xiaomi-tts-response.json | jq -r '.data.choices[0].message.audio.data' | base64 -d > /tmp/xiaomi-tts.mp3
 
-# 上传到 media-store
+# Upload to media-store
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
   -F "file=@/tmp/xiaomi-tts.mp3;type=audio/mpeg"
 ```
 
-从 JSON 响应中提取 `mediaId` 字段（格式如 `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.mp3`）。
+Pick the `mediaId` field from the JSON response (format `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.mp3`).
 
-### 第三步：用 dc-media 协议展示音频
+### Step 3: Render the audio via the dc-media protocol
 
-在你的回复文本中直接写 Markdown 语法：
+In your reply text, write Markdown syntax directly:
 
 ```
-![语音合成结果](dc-media://这里替换为mediaId)
+![TTS result](dc-media://replace-with-mediaId)
 ```
 
-例如：`![TTS: 你好世界](dc-media://a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6.mp3)`
+For example: `![TTS: Hello world](dc-media://a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6.mp3)`
 
-前端会自动检测 `.mp3` 扩展名并渲染为音频播放器。
+The frontend detects the `.mp3` extension and renders an audio player.
 
-## 参数映射
+## Parameter Mapping
 
-### 请求体参数（放在 body 中）
+### Request body parameters (inside `body`)
 
-| 参数 | 说明 | 默认值 |
+| Parameter | Description | Default |
 |------|------|--------|
-| `model` | 模型名称 | "mimo-v2.5-tts" |
-| `messages[0].role` | **必须为 "assistant"** | "assistant"（固定） |
-| `messages[0].content` | 要合成的文本 | 必填 |
-| `voice` | 音色 ID | "Bingtang"（中文）/ "Mia"（英文） |
-| `audio.format` | 音频格式 | "mp3"（可选 "wav"） |
+| `model` | Model name | "mimo-v2.5-tts" |
+| `messages[0].role` | **Must be "assistant"** | "assistant" (fixed) |
+| `messages[0].content` | Text to synthesize | required |
+| `voice` | Voice ID | "Bingtang" (Chinese) / "Mia" (English) |
+| `audio.format` | Audio format | "mp3" (also accepts "wav") |
 
-### 用户意图映射
+### User intent mapping
 
-| 用户意图 | 参数选择 |
+| User intent | Parameter |
 |---------|---------|
-| 甜美/可爱 | voice: "Bingtang" |
-| 温柔/知性 | voice: "Moli" |
-| 年轻男声 | voice: "Suda" |
-| 成熟男声 | voice: "Baihua" |
-| 英文女声 | voice: "Mia" 或 "Chloe" |
-| 英文男声 | voice: "Milo" 或 "Dean" |
-| 高音质/无损 | audio.format: "wav" |
+| Sweet / cute | voice: "Bingtang" |
+| Gentle / refined | voice: "Moli" |
+| Young male | voice: "Suda" |
+| Mature male | voice: "Baihua" |
+| English female | voice: "Mia" or "Chloe" |
+| English male | voice: "Milo" or "Dean" |
+| High fidelity / lossless | audio.format: "wav" |
 
-## 错误处理
+## Error Handling
 
-- `success: false` + `error: "未找到匹配的供应商"`：未配置小米 MiMo Provider 或未启用
-- `success: false` + `error: "未配置 API Key"`：未填写 API Key
-- `statusCode: 401`：API Key 无效或已过期
-- `statusCode: 429`：频率限制，稍后重试
-- `statusCode: 400`：参数错误（如 voice 不存在、文本为空）
-- `statusCode: 403`：模型未开通或权限不足
+- `success: false` + `error: "No matching provider"`: Xiaomi MiMo provider not configured or disabled
+- `success: false` + `error: "API Key not configured"`: API Key missing
+- `statusCode: 401`: API Key invalid or expired
+- `statusCode: 429`: rate limited, retry later
+- `statusCode: 400`: bad parameters (e.g. unknown voice, empty text)
+- `statusCode: 403`: model not activated or insufficient permission
 
-## 注意事项
+## Notes
 
-- 调用是同步的，通常 3-15 秒返回（视文本长度而定）
-- 音频以 base64 返回，无外部 URL 时效问题，但数据量较大时注意 shell 参数长度限制
-- 长文本建议分段合成（每段不超过 500 字），然后逐段上传展示
-- 如果用户未明确要求音色/格式，默认使用 `mimo-v2.5-tts` + 按语言选音色 + `mp3`
-- Token Plan 密钥（tp- 前缀）使用 `https://token-plan-cn.xiaomimimo.com/v1` 端点
-- 按量付费密钥使用 `https://api.xiaomimimo.com/v1` 端点
-- media-proxy 会自动根据配置选择正确的端点，技能无需区分
+- Calls are synchronous, typically 3–15 seconds depending on text length
+- Audio is returned as base64, so URL expiry is not a concern, but watch shell argument length on long responses
+- For long text, split into segments (no more than ~500 chars each), then upload and render each segment
+- When the user doesn't specify, default to `mimo-v2.5-tts` + auto-selected voice by language + `mp3`
+- Token Plan keys (prefix `tp-`) use the `https://token-plan-cn.xiaomimimo.com/v1` endpoint
+- Pay-as-you-go keys use the `https://api.xiaomimimo.com/v1` endpoint
+- media-proxy picks the correct endpoint based on configuration; the skill does not need to differentiate
