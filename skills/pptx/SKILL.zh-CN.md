@@ -58,6 +58,21 @@ python3 -c "import markitdown; import PIL" 2>/dev/null || echo "MISSING"
 
 缺失时告知用户安装：`pip install "markitdown[pptx]" Pillow`
 
+### 脚本路径规则（强制）
+
+本技能自带的 Python 脚本位于技能安装目录内。执行时**必须使用完整路径**，不能使用相对路径。
+
+技能目录由上下文中的 `<skill-dir>` 标签提供。所有 `scripts/` 开头的命令都应拼接为：
+
+```bash
+python "<skill-dir>/scripts/office/unpack.py" presentation.pptx unpacked/
+python "<skill-dir>/scripts/office/pack.py" unpacked/ output.pptx
+python "<skill-dir>/scripts/office/soffice.py" --headless --convert-to pdf output.pptx
+python "<skill-dir>/scripts/thumbnail.py" presentation.pptx
+```
+
+**禁止**直接执行 `python scripts/office/unpack.py`——该相对路径在用户工作目录下不存在。
+
 ## Output Rule
 
 When you create or modify a .pptx file, you **MUST** tell the user the absolute path of the output file in your response. Example: "文件已保存到：`/path/to/output.pptx`"

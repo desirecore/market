@@ -38,7 +38,7 @@ metadata:
       description: >-
         Use this skill whenever the user wants to create, read, edit, or manipulate Word documents (.docx files). Triggers include: any mention of "Word doc", "word document", ".docx", or requests to produce professional documents with formatting like tables of contents, headings, page numbers, or letterheads. Also use when extracting or reorganizing content from .docx files, inserting or replacing images in documents, performing find-and-replace in Word files, working with tracked changes or comments, or converting content into a polished Word document. If the user asks for a "report", "memo", "letter", "template", or similar deliverable as a Word or .docx file, use this skill. Do NOT use for PDFs, spreadsheets, Google Docs, or general coding tasks unrelated to document generation. Use when 用户提到 Word文档、docx、创建文档、编辑文档、报告、 备忘录、公文、合同、信函模板。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:b9f7129ef5e82c4b
+      source_hash: sha256:58d1aae3a57a1851
       translated_by: human
     en-US:
       name: Word Document Processing
@@ -46,9 +46,8 @@ metadata:
       description: >-
         Use this skill whenever the user wants to create, read, edit, or manipulate Word documents (.docx files). Triggers include: any mention of "Word doc", "word document", ".docx", or requests to produce professional documents with formatting like tables of contents, headings, page numbers, or letterheads. Also use when extracting or reorganizing content from .docx files, inserting or replacing images in documents, performing find-and-replace in Word files, working with tracked changes or comments, or converting content into a polished Word document. If the user asks for a "report", "memo", "letter", "template", or similar deliverable as a Word or .docx file, use this skill. Do NOT use for PDFs, spreadsheets, Google Docs, or general coding tasks unrelated to document generation. Use when the user mentions Word documents, docx, creating documents, editing documents, reports, memos, official documents, contracts, or letter templates.
       body: ./SKILL.md
-      source_hash: sha256:b9f7129ef5e82c4b
-      translated_by: ai:claude-opus-4-7
-      translated_at: '2026-05-03'
+      source_hash: sha256:58d1aae3a57a1851
+      translated_by: human
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -89,6 +88,19 @@ docx is a **Procedural Skill** that provides full processing capabilities for Wo
 - The user needs to perform document format conversion (.doc → .docx, .docx → PDF)
 
 ## L2: Detailed Specification
+
+### Script Path Rule (mandatory)
+
+The Python scripts bundled with this skill live inside the skill installation directory. You **MUST use full paths** when invoking them — never use bare relative paths.
+
+The skill directory is provided by the `<skill-dir>` tag in the context. Prefix all `scripts/` commands accordingly:
+
+```bash
+python "<skill-dir>/scripts/office/unpack.py" document.docx unpacked/
+python "<skill-dir>/scripts/office/pack.py" unpacked/ output.docx
+```
+
+**NEVER** run `python scripts/office/unpack.py` directly — that relative path does not exist in the user's working directory.
 
 ## Prerequisites
 
