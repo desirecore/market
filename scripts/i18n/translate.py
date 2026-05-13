@@ -259,10 +259,10 @@ def _post_with_retries(url: str, headers: dict, payload: dict, *, extract) -> st
                     f"or set translated_by: human to lock the locale."
                 )
             if resp.status_code == 400:
-                # 400 from GitHub Models is usually a payload contract issue
-                # (e.g. unsupported parameter, content filter, missing field).
-                # Surface the response body so the failure is actionable.
-                # Don't retry — body won't change between attempts.
+                # 400 is almost always a payload contract issue (unsupported
+                # parameter, content filter, missing field, model not in
+                # account's allowlist, etc.) — same payload won't fix itself,
+                # so surface the response body and bail without retrying.
                 body_preview = (resp.text or "")[:600]
                 raise RuntimeError(
                     f"400 Bad Request from {url}; response body: {body_preview}"
