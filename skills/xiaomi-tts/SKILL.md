@@ -37,14 +37,14 @@ metadata:
       name: 小米 MiMo 语音合成
       short_desc: 基于小米 MiMo 的文本转语音技能
       description: >-
-        Use this skill when the user wants to convert text to speech using Xiaomi MiMo's TTS models (mimo-v2.5-tts). Uses OpenAI-compatible chat/completions API with audio response. Supports multiple preset voices and custom voice design. Use when 用户提到 语音合成、文字转语音、TTS、朗读、读出来、生成语音、 生成音频、文本转音频、配音、念出来、小米语音、MiMo 语音、小米 TTS。
+        当用户希望使用小米 MiMo 的 TTS 模型（mimo-v2.5-tts）将文本转为语音时使用此技能。基于 OpenAI 兼容的 chat/completions API，响应中携带音频。支持多种预置音色和自定义音色设计。用户提到 语音合成、文字转语音、TTS、朗读、读出来、生成语音、生成音频、文本转音频、配音、念出来、小米语音、MiMo 语音、小米 TTS。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:6b21a51cc87a2a70
+      source_hash: sha256:2dd06b13152349e5
       translated_by: human
     en-US:
       name: Xiaomi MiMo TTS
       short_desc: Text-to-speech synthesis using Xiaomi MiMo models
-      source_hash: sha256:6b21a51cc87a2a70
+      source_hash: sha256:2dd06b13152349e5
       translated_by: human
 market:
   icon: >-
@@ -67,7 +67,7 @@ market:
 ## 强制规则（违反将导致功能失败）
 
 1. **必须用 HTTPS 访问 agent-service** — `https://127.0.0.1:${PORT}` 加 `-k` 跳过证书验证
-2. **必须通过 `/api/media/upload` 上传到 media-store** — 禁止保存到本地路径
+2. **必须通过 `/api/media/upload` 上传到 media-store** — /tmp 仅作下载/解码中转，不可直接以本地路径作为最终输出
 3. **必须使用 `dc-media://` 协议展示音频** — 唯一能让前端正确渲染的方式
 4. **全程使用 Bash curl** — 不要使用 HttpRequest 工具或 Python
 5. **使用 /chat/completions 端点** — 小米 MiMo TTS 使用 OpenAI 兼容格式

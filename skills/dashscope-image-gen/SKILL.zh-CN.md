@@ -5,7 +5,7 @@
 ## 强制规则（违反将导致功能失败）
 
 1. **必须用 HTTPS 访问 agent-service** — `https://127.0.0.1:${PORT}` 加 `-k` 跳过证书验证
-2. **必须通过 `/api/media/upload` 上传到 media-store** — 禁止保存到本地路径
+2. **必须通过 `/api/media/upload` 上传到 media-store** — /tmp 仅作下载/解码中转，不可直接以本地路径作为最终输出
 3. **必须使用 `dc-media://` 协议展示图片** — 唯一能让前端正确渲染的方式
 4. **全程使用 Bash curl** — 不要使用 HttpRequest 工具或 Python
 5. **使用 compatible-mode（/chat/completions）** — 同步调用，响应直接包含图片 URL

@@ -36,14 +36,14 @@ metadata:
       name: 阿里云 文生图
       short_desc: 基于阿里云通义万相的文本生成图片技能
       description: >-
-        Use this skill when the user wants to generate images using Alibaba Cloud DashScope's Wan (通义万相) series models. Supports text-to-image with multiple model tiers (wan2.7-image-pro, wan2.7-image). Uses OpenAI-compatible chat/completions API for synchronous image generation. Use when 用户提到 生成图片、画图、文生图、创建图片、AI 绘画、 生成插图、画一张、帮我画、设计图片、通义万相、万相、阿里云画图、dashscope 画图。
+        当用户希望使用阿里云 DashScope 的通义万相系列模型生成图片时使用此技能。支持多种模型层级（wan2.7-image-pro / wan2.7-image）的文生图，通过 OpenAI 兼容的 chat/completions API 同步生成图片。用户提到 生成图片、画图、文生图、创建图片、AI 绘画、生成插图、画一张、帮我画、设计图片、通义万相、万相、阿里云画图、dashscope 画图。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:49c70c8b9e876943
+      source_hash: sha256:d24415cd18ebf5d2
       translated_by: human
     en-US:
       name: DashScope Image Generation
       short_desc: Text-to-image generation using Alibaba Cloud Wan (通义万相) models
-      source_hash: sha256:49c70c8b9e876943
+      source_hash: sha256:d24415cd18ebf5d2
       translated_by: human
 market:
   icon: >-
@@ -67,7 +67,7 @@ market:
 ## 强制规则（违反将导致功能失败）
 
 1. **必须用 HTTPS 访问 agent-service** — `https://127.0.0.1:${PORT}` 加 `-k` 跳过证书验证
-2. **必须通过 `/api/media/upload` 上传到 media-store** — 禁止保存到本地路径
+2. **必须通过 `/api/media/upload` 上传到 media-store** — /tmp 仅作下载/解码中转，不可直接以本地路径作为最终输出
 3. **必须使用 `dc-media://` 协议展示图片** — 唯一能让前端正确渲染的方式
 4. **全程使用 Bash curl** — 不要使用 HttpRequest 工具或 Python
 5. **使用 compatible-mode（/chat/completions）** — 同步调用，响应直接包含图片 URL
