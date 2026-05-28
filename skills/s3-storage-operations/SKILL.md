@@ -37,7 +37,7 @@ metadata:
         Operate S3-compatible object storage (upload, download, list, delete) via the DesireCore HTTP API. Use when the user requests file upload/download/sharing, needs a download link, or when workflow outputs need persistent storage and distribution.
       body: ./SKILL.md
       source_hash: sha256:6ea8e1375f12de72
-      translated_by: ai:claude-opus-4-7
+      translated_by: human
       translated_at: '2026-05-03'
 market:
   icon: >-

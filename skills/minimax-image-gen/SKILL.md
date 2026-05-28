@@ -44,7 +44,7 @@ metadata:
         Use this skill when the user wants to generate images using MiniMax's image-01 model. Supports text-to-image and subject reference for character consistency. Use when the user mentions generate images, draw a picture, text-to-image, create an image, AI painting, generate illustration, draw one for me, help me draw, design an image, MiniMax drawing.
       body: ./SKILL.md
       source_hash: sha256:4630268ef3bd4e23
-      translated_by: ai:claude-opus-4-7
+      translated_by: human
       translated_at: '2026-05-03'
 market:
   icon: >-

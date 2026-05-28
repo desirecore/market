@@ -45,7 +45,7 @@ metadata:
         Use this skill when the user wants to convert text to speech using MiniMax's T2A (Text-to-Audio) API. Supports multiple voice styles, emotional control, and voice cloning. Use when the user mentions text-to-speech, TTS, read aloud, read it out, generate speech, generate audio, text-to-audio, voiceover, narrate it, MiniMax voice.
       body: ./SKILL.md
       source_hash: sha256:455a2ee6365958c2
-      translated_by: ai:claude-opus-4-7
+      translated_by: human
       translated_at: '2026-05-03'
 market:
   icon: >-
