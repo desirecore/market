@@ -49,7 +49,7 @@ metadata:
         Use this skill as a router/index when the user faces a development environment question that spans multiple domains: containers (Docker/Podman), WSL2 on Windows, office-skill dependencies (DOCX/PDF/XLSX/ PPTX), or system tools (LibreOffice/Poppler/Pandoc/Tesseract). For pure Python issues use python-runtime skill; for pure Node.js issues use nodejs-runtime skill. Triggers include: "setup environment", "PATH", "WSL", "WSL2", "docker not found", "podman", "container", "office dependency", "LibreOffice", "poppler", "pandoc", "tesseract", or any cross-cutting environment question. Use when the user mentions environment setup, PATH, containers, Docker, Podman, WSL, WSL2, office dependencies, system tools, or needs an entry-point guide when uncertain whether the issue belongs to Python or Node.js.
       body: ./SKILL.md
       source_hash: sha256:7e4baaf42d5c0ace
-      translated_by: ai:claude-opus-4-7
+      translated_by: human
       translated_at: '2026-05-03'
 market:
   icon: >-
