@@ -162,10 +162,10 @@ POST /api/agents/{agentId}/skills
 
 ```bash
 # 全局技能的 sidecar 文件路径
-~/.desirecore/skills/{skillId}/{filename}
+${DESIRECORE_ROOT}/skills/{skillId}/{filename}
 
 # Agent 级技能的 sidecar 文件路径
-~/.desirecore/agents/{agentId}/skills/{skillId}/{filename}
+${DESIRECORE_ROOT}/agents/{agentId}/skills/{skillId}/{filename}
 ```
 
 ### 3. 通过 API 管理已有技能
@@ -291,7 +291,7 @@ Content-Type: application/json
 **全局技能**（所有 Agent 可见）：
 
 ```
-~/.desirecore/skills/
+${DESIRECORE_ROOT}/skills/
 └── my-new-skill/
     ├── SKILL.md          # 必须：技能定义文件
     ├── examples/          # 可选：示例文件
@@ -302,7 +302,7 @@ Content-Type: application/json
 **Agent 级技能**（仅指定 Agent 可见）：
 
 ```
-~/.desirecore/agents/{agentId}/
+${DESIRECORE_ROOT}/agents/{agentId}/
 └── skills/
     └── my-new-skill/
         ├── SKILL.md
@@ -381,7 +381,7 @@ requires:
 以下示例展示如何使用 Write 工具创建一个全局技能：
 
 ```
-目标路径：~/.desirecore/skills/daily-summary/SKILL.md
+目标路径：${DESIRECORE_ROOT}/skills/daily-summary/SKILL.md
 ```
 
 写入内容：
@@ -475,8 +475,8 @@ metadata:
 | 优先级 | 作用域     | 路径                                     | 可见范围           |
 | ------ | ---------- | ---------------------------------------- | ------------------ |
 | 最高   | Project 级 | `.claude/skills/` (项目根目录)           | 当前项目所有 Agent |
-| 中     | Agent 级   | `~/.desirecore/agents/{agentId}/skills/` | 仅该 Agent         |
-| 最低   | Global 级  | `~/.desirecore/skills/`                  | 所有 Agent         |
+| 中     | Agent 级   | `${DESIRECORE_ROOT}/agents/{agentId}/skills/` | 仅该 Agent         |
+| 最低   | Global 级  | `${DESIRECORE_ROOT}/skills/`                  | 所有 Agent         |
 
 **同名覆盖规则**：高优先级作用域的同名技能会覆盖低优先级的。例如 Agent 级有一个 `data-analysis` 技能，会覆盖全局同名技能。
 

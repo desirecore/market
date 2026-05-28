@@ -397,7 +397,7 @@ The email system uses **local cache + periodic polling**:
 - **Read operations** (query, search): return the local cache; may be delayed (default 30-second polling)
 - **Remote changes** (the user operates from the official web UI): wait for the next polling cycle to sync
 
-**Storage path**: `~/.desirecore/mail/{provider}/{email}/` (index.json, messages/, sync.json)
+**Storage path**: `${DESIRECORE_ROOT}/mail/{provider}/{email}/` (index.json, messages/, sync.json)
 
 ---
 

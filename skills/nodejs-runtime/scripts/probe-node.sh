@@ -31,7 +31,7 @@ esac
 
 # ── DesireCore API ──────────────────────
 DESIRECORE_API=""
-PORT_FILE="$HOME/.desirecore/agent-service.port"
+PORT_FILE="${DESIRECORE_ROOT}/agent-service.port"
 if [ -r "$PORT_FILE" ]; then
   PORT=$(cat "$PORT_FILE" 2>/dev/null | tr -d '[:space:]')
   if [ -n "$PORT" ]; then
@@ -46,7 +46,7 @@ SYS_NODE=$(detect_tool node)
 SYS_NPM=$(detect_tool npm)
 
 # ── DesireCore Volta ────────────────────
-VOLTA_BIN="$HOME/.desirecore/runtime/volta/volta"
+VOLTA_BIN="${DESIRECORE_ROOT}/runtime/volta/volta"
 VOLTA_PATH=""
 VOLTA_VERSION=""
 if [ -x "$VOLTA_BIN" ]; then
@@ -55,7 +55,7 @@ if [ -x "$VOLTA_BIN" ]; then
 fi
 
 # Volta 已装工具（直接读 image 目录最稳）
-VOLTA_IMG="$HOME/.desirecore/runtime/volta/tools/image"
+VOLTA_IMG="${DESIRECORE_ROOT}/runtime/volta/tools/image"
 list_dir() {
   local dir="$1"
   if [ -d "$dir" ]; then

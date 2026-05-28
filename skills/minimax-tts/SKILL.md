@@ -92,7 +92,7 @@ market:
 MiniMax TTS returns JSON (containing an audio URL or hex data); use `"json"` for `responseType`.
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
@@ -164,7 +164,7 @@ Audio URLs have a time limit, so they must be downloaded immediately and saved t
 
 **URL format**:
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 AUDIO_URL="响应中的audio_url"
 curl -sL "$AUDIO_URL" -o /tmp/minimax-tts.mp3 && \
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
@@ -173,7 +173,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
 
 **Hex format**:
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 HEX_DATA="响应中的hex数据"
 echo -n "$HEX_DATA" | xxd -r -p > /tmp/minimax-tts.mp3 && \
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \

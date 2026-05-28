@@ -222,10 +222,10 @@ POST /api/agents/{agentId}/skills
 
 ```bash
 # Sidecar file path for a global Skill
-~/.desirecore/skills/{skillId}/{filename}
+${DESIRECORE_ROOT}/skills/{skillId}/{filename}
 
 # Sidecar file path for an Agent-scoped Skill
-~/.desirecore/agents/{agentId}/skills/{skillId}/{filename}
+${DESIRECORE_ROOT}/agents/{agentId}/skills/{skillId}/{filename}
 ```
 
 ### 3. Manage Existing Skills via API
@@ -351,7 +351,7 @@ When you need to create a Skill from scratch or the API approach is not flexible
 **Global Skill** (visible to all Agents):
 
 ```
-~/.desirecore/skills/
+${DESIRECORE_ROOT}/skills/
 └── my-new-skill/
     ├── SKILL.md          # required: skill definition file
     ├── examples/          # optional: example files
@@ -362,7 +362,7 @@ When you need to create a Skill from scratch or the API approach is not flexible
 **Agent-scoped Skill** (visible only to the specified Agent):
 
 ```
-~/.desirecore/agents/{agentId}/
+${DESIRECORE_ROOT}/agents/{agentId}/
 └── skills/
     └── my-new-skill/
         ├── SKILL.md
@@ -441,7 +441,7 @@ Describe the execution flow, API calls, and input/output formats stage by stage 
 The following example shows how to create a global Skill with the Write tool:
 
 ```
-Target path: ~/.desirecore/skills/daily-summary/SKILL.md
+Target path: ${DESIRECORE_ROOT}/skills/daily-summary/SKILL.md
 ```
 
 Content to write:
@@ -535,8 +535,8 @@ Skills exist at three scope levels, listed from highest priority to lowest:
 | Priority | Scope     | Path                                     | Visibility           |
 | ------ | ---------- | ---------------------------------------- | ------------------ |
 | Highest   | Project | `.claude/skills/` (project root)           | All Agents in the current project |
-| Medium     | Agent   | `~/.desirecore/agents/{agentId}/skills/` | Only that Agent         |
-| Lowest    | Global  | `~/.desirecore/skills/`                  | All Agents         |
+| Medium     | Agent   | `${DESIRECORE_ROOT}/agents/{agentId}/skills/` | Only that Agent         |
+| Lowest    | Global  | `${DESIRECORE_ROOT}/skills/`                  | All Agents         |
 
 **Same-name override rule**: a Skill in a higher-priority scope overrides a same-named Skill in a lower-priority scope. For example, an Agent-scoped `data-analysis` Skill will shadow a global Skill of the same name.
 

@@ -54,7 +54,7 @@
 **重要**：messages 必须使用 `assistant` role（不是 user），要合成的文本放在 assistant 消息的 content 中。
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
@@ -109,7 +109,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
 **推荐方式**（先保存完整响应到文件，避免 shell 参数过长）：
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 # 将完整请求和响应保存到文件
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \

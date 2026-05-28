@@ -14,8 +14,8 @@ export NVM_DIR="$HOME/.nvm"
 node --version
 
 # 3. Volta 已装但未在 PATH？
-ls ~/.desirecore/runtime/volta/volta 2>/dev/null && \
-  echo "运行 ~/.desirecore/runtime/volta/volta 直接调用，无需 PATH"
+ls ${DESIRECORE_ROOT}/runtime/volta/volta 2>/dev/null && \
+  echo "运行 ${DESIRECORE_ROOT}/runtime/volta/volta 直接调用，无需 PATH"
 ```
 
 **根治**：按主 SKILL.md 决策树重新执行 L1–L3 安装路径。

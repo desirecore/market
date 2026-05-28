@@ -132,7 +132,7 @@ See `../dev-environment-setup/references/probe-snapshot.md` for field definition
 #### L1: HTTP API (→ `references/volta-desirecore.md`)
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 BASE="https://127.0.0.1:${PORT}/api/runtime"
 
 # 列出可装版本
@@ -155,8 +155,8 @@ curl -sk -X POST "${BASE}/environment/refresh"
 #### L2: Volta CLI Absolute Path (→ `references/volta-desirecore.md`)
 
 ```bash
-VOLTA=~/.desirecore/runtime/volta/volta
-export VOLTA_HOME=~/.desirecore/runtime/volta
+VOLTA=${DESIRECORE_ROOT}/runtime/volta/volta
+export VOLTA_HOME=${DESIRECORE_ROOT}/runtime/volta
 export VOLTA_FEATURE_PNPM=1
 
 "$VOLTA" install node@22

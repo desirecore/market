@@ -200,7 +200,7 @@ diff_metadata:
 
 Apply the change by reading and writing files directly through AgentFS. **Do not call HTTP APIs, and do not operate Git directly** (version management is handled automatically by the backend).
 
-**AgentFS root directory**: `~/.desirecore/agents/<agentId>/`
+**AgentFS root directory**: `${DESIRECORE_ROOT}/agents/<agentId>/`
 
 **Read file**: Use the `cat` command to read the current contents of the target file.
 
@@ -231,7 +231,7 @@ After a successful change, present a user-friendly receipt (do not expose intern
 
 ```bash
 # 查看版本历史
-cd ~/.desirecore/agents/<agentId>
+cd ${DESIRECORE_ROOT}/agents/<agentId>
 git log --oneline -10
 
 # 查看某个版本的文件内容
@@ -246,12 +246,12 @@ git show <commit>:persona.md
 
 | User Intent                  | Target File     | AgentFS Path                                   |
 | ---------------------------- | --------------- | ---------------------------------------------- |
-| Modify personality/style     | `persona.md`    | `~/.desirecore/agents/<agentId>/persona.md`    |
-| Modify behavioral rules      | `principles.md` | `~/.desirecore/agents/<agentId>/principles.md` |
-| Install/uninstall skills     | `skills/`       | `~/.desirecore/agents/<agentId>/skills/`       |
-| Modify tools config          | `tools/`        | `~/.desirecore/agents/<agentId>/tools/`        |
-| Add memory                   | `memory/`       | `~/.desirecore/agents/<agentId>/memory/`       |
-| Modify runtime config        | `agent.json`    | `~/.desirecore/agents/<agentId>/agent.json`    |
+| Modify personality/style     | `persona.md`    | `${DESIRECORE_ROOT}/agents/<agentId>/persona.md`    |
+| Modify behavioral rules      | `principles.md` | `${DESIRECORE_ROOT}/agents/<agentId>/principles.md` |
+| Install/uninstall skills     | `skills/`       | `${DESIRECORE_ROOT}/agents/<agentId>/skills/`       |
+| Modify tools config          | `tools/`        | `${DESIRECORE_ROOT}/agents/<agentId>/tools/`        |
+| Add memory                   | `memory/`       | `${DESIRECORE_ROOT}/agents/<agentId>/memory/`       |
+| Modify runtime config        | `agent.json`    | `${DESIRECORE_ROOT}/agents/<agentId>/agent.json`    |
 
 ### Error Handling
 
@@ -285,7 +285,7 @@ git show <commit>:persona.md
 
 ```bash
 # 1. 读取当前 persona.md
-cat ~/.desirecore/agents/legal-assistant/persona.md
+cat ${DESIRECORE_ROOT}/agents/legal-assistant/persona.md
 
 # 输出示例:
 # # 法律顾问小助手
@@ -304,7 +304,7 @@ cat ~/.desirecore/agents/legal-assistant/persona.md
 # 3. 用户确认后，直接编辑文件，将 Personality 和 Communication Style 修改为目标值
 
 # 4. 验证写入结果
-cat ~/.desirecore/agents/legal-assistant/persona.md
+cat ${DESIRECORE_ROOT}/agents/legal-assistant/persona.md
 ```
 
 ---

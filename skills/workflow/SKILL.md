@@ -147,7 +147,7 @@ workflow is a **Procedural Skill** that empowers the Agent to orchestrate multi-
 **DSL file location**:
 
 ```
-~/.desirecore/workflows/<wf_id>/workflow.dsl.yaml
+${DESIRECORE_ROOT}/workflows/<wf_id>/workflow.dsl.yaml
 ```
 
 Where `wf_id` uses a `wf_` prefix + snake_case, e.g. `wf_legal_review`, `wf_daily_report`.
@@ -539,7 +539,7 @@ All dynamic values in the DSL are uniformly referenced using the `{{}}` template
 
 A workflow can reference user-preconfigured secrets via `{{secrets.keyName}}` for scenarios such as API calls.
 
-- Secrets are preconfigured by the user in `~/.desirecore/config/secrets.json`
+- Secrets are preconfigured by the user in `${DESIRECORE_ROOT}/config/secrets.json`
 - The engine automatically resolves `{{secrets.*}}` at runtime, replacing them with the actual values
 - Secrets are resolved only during the execution phase; their actual values are not exposed during validation or dry-run
 
@@ -563,7 +563,7 @@ Use the `WorkflowValidate` tool to validate the structure and reference integrit
 ```
 Tool: WorkflowValidate
 Parameters:
-  path: ~/.desirecore/workflows/<wf_id>/workflow.dsl.yaml
+  path: ${DESIRECORE_ROOT}/workflows/<wf_id>/workflow.dsl.yaml
 ```
 
 **What is validated**:
@@ -587,7 +587,7 @@ Use the `WorkflowTest` tool to perform a simulated execution (dry-run) without a
 ```
 Tool: WorkflowTest
 Parameters:
-  path: ~/.desirecore/workflows/<wf_id>/workflow.dsl.yaml
+  path: ${DESIRECORE_ROOT}/workflows/<wf_id>/workflow.dsl.yaml
   params:                      # Optional, used to simulate trigger parameters
     filePath: /path/to/input.md
 ```
@@ -610,7 +610,7 @@ Use the `WorkflowRun` tool to start the workflow.
 ```
 Tool: WorkflowRun
 Parameters:
-  path: ~/.desirecore/workflows/<wf_id>/workflow.dsl.yaml
+  path: ${DESIRECORE_ROOT}/workflows/<wf_id>/workflow.dsl.yaml
   params:                      # Optional, passed in as the {{trigger.key}} context
     filePath: /path/to/input.md
 ```

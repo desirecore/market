@@ -78,7 +78,7 @@ market:
 ### Step 1: Call the API to generate the image
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
@@ -100,7 +100,7 @@ Extract `data.data.image_urls[0]` from the JSON response to obtain the image URL
 ### Step 2: Download and upload to media-store
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 IMAGE_URL="第一步拿到的图片URL"
 curl -sL "$IMAGE_URL" -o /tmp/minimax-gen.png && \
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \

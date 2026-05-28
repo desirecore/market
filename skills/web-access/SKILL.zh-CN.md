@@ -70,14 +70,14 @@ Launch a dedicated Chrome instance with remote debugging enabled:
 ```bash
 /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
   --remote-debugging-port=9222 \
-  --user-data-dir="$HOME/.desirecore/chrome-profile"
+  --user-data-dir="${DESIRECORE_ROOT}/chrome-profile"
 ```
 
 **Linux**:
 ```bash
 google-chrome \
   --remote-debugging-port=9222 \
-  --user-data-dir="$HOME/.desirecore/chrome-profile"
+  --user-data-dir="${DESIRECORE_ROOT}/chrome-profile"
 ```
 
 **Windows (PowerShell)**:
@@ -273,7 +273,7 @@ See [references/cdp-browser.md](references/cdp-browser.md) for:
 | `BrowserNavigate({ target, url })` | 在指定 tab 跳转 |
 | `BrowserEval({ target, expression })` | 在 tab 内跑 JS，提取结构化数据 |
 | `BrowserClick({ target, selector, mode: 'real-mouse' })` | 反爬严格站点用真实鼠标事件 |
-| `BrowserScreenshot({ target })` | 写入 ~/.desirecore/screenshots/ |
+| `BrowserScreenshot({ target })` | 写入 ${DESIRECORE_ROOT}/screenshots/ |
 | `BrowserScroll({ target, direction: 'bottom' })` | 触发懒加载 |
 | `BrowserSetFiles({ target, selector, files })` | 上传本地文件（**需用户确认**） |
 | `BrowserCloseTab({ target })` | 任务收尾清理临时 tab |

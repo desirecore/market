@@ -146,7 +146,7 @@ DesireCore embeds Hatch (Python) and Volta (Node.js), providing complete environ
 ## Important Constraints
 
 1. **Do not write strong keywords like python / node / pip / npm into this skill's description**—those belong to their respective sub-skills, to avoid trigger conflicts.
-2. **API first**: `scripts/probe.sh` first checks `~/.desirecore/agent-service.port`; if it exists, recommend the HTTP API path.
+2. **API first**: `scripts/probe.sh` first checks `${DESIRECORE_ROOT}/agent-service.port`; if it exists, recommend the HTTP API path.
 3. **Cache coherence**: after any install/uninstall completes, call `POST /api/runtime/environment/refresh` to invalidate the cache before issuing subsequent GETs.
 4. **Cross-platform**: every command template provides both macOS / Linux and Windows (PowerShell) versions.
 

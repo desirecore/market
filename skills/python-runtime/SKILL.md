@@ -140,7 +140,7 @@ Decide using `../dev-environment-setup/references/decision-tree.md`:
 #### L1: HTTP API (→ `references/hatch-desirecore.md`)
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 BASE="https://127.0.0.1:${PORT}/api/runtime"
 
 # List installable versions
@@ -158,14 +158,14 @@ curl -sk -X POST "${BASE}/environment/refresh"
 #### L2: Hatch CLI absolute path (→ `references/hatch-desirecore.md`)
 
 ```bash
-HATCH=~/.desirecore/runtime/hatch/hatch
-export HATCH_HOME=~/.desirecore/runtime/hatch
+HATCH=${DESIRECORE_ROOT}/runtime/hatch/hatch
+export HATCH_HOME=${DESIRECORE_ROOT}/runtime/hatch
 
 "$HATCH" python install 3.12
 "$HATCH" python show           # List installed/installable versions
 
 # Use the Hatch-installed Python directly
-~/.desirecore/runtime/hatch/local/3.12/python/bin/python3 -m venv .venv
+${DESIRECORE_ROOT}/runtime/hatch/local/3.12/python/bin/python3 -m venv .venv
 ```
 
 Windows: `%USERPROFILE%\.desirecore\runtime\hatch\hatch.exe`.
