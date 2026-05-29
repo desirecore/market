@@ -71,12 +71,12 @@ protected_paths:
   # ============================================
   # 用户隐私（需用户本人确认）
   # ============================================
-  - path: "~/.desirecore/users/*/privacy.md"
+  - path: "${DESIRECORE_ROOT}/users/*/privacy.md"
     protection: owner_only
     reason: "隐私设置需用户本人或 owner 修改"
     description: "用户隐私边界配置"
 
-  - path: "~/.desirecore/users/*/agents/*/relationship.md"
+  - path: "${DESIRECORE_ROOT}/users/*/agents/*/relationship.md"
     section: "禁区"
     protection: confirm
     reason: "关系禁区需用户确认"

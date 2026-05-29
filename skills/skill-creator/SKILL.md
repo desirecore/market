@@ -359,7 +359,7 @@ Validates SKILL.md format, the legality of frontmatter fields, and the directory
 **Option A: Install via API (recommended; requires the Agent Service to be running)**
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port 2>/dev/null)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port 2>/dev/null)
 
 # Install as a global Skill (visible to all Agents)
 curl -k -X POST "https://127.0.0.1:${PORT}/api/skills" \
@@ -376,10 +376,10 @@ curl -k -X POST "https://127.0.0.1:${PORT}/api/agents/<agentId>/skills" \
 
 ```bash
 # Global Skill
-cp -r path/to/skill-name ~/.desirecore/skills/
+cp -r path/to/skill-name ${DESIRECORE_ROOT}/skills/
 
 # Agent-scoped Skill
-cp -r path/to/skill-name ~/.desirecore/agents/<agentId>/skills/
+cp -r path/to/skill-name ${DESIRECORE_ROOT}/agents/<agentId>/skills/
 ```
 
 **Option C: Package as a .skill file (Claude Code compatible)**
@@ -409,7 +409,7 @@ Skills exist at three scope levels, listed from highest priority to lowest:
 | Priority | Scope | Path | Visibility |
 |--------|--------|------|---------|
 | Highest | Project | `.claude/skills/` | All Agents in the current project |
-| Medium | Agent | `~/.desirecore/agents/{agentId}/skills/` | Only that Agent |
-| Lowest | Global | `~/.desirecore/skills/` | All Agents |
+| Medium | Agent | `${DESIRECORE_ROOT}/agents/{agentId}/skills/` | Only that Agent |
+| Lowest | Global | `${DESIRECORE_ROOT}/skills/` | All Agents |
 
 Skills with the same name override each other by priority—a higher-priority Skill shadows a lower-priority one with the same name.

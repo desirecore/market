@@ -76,7 +76,7 @@ BrowserClick:
 ```yaml
 BrowserScreenshot:
   target: <targetId>
-  filename: 自定义文件名.png  # 可选；写入 ~/.desirecore/screenshots/
+  filename: 自定义文件名.png  # 可选；写入 ${DESIRECORE_ROOT}/screenshots/
 ```
 
 ### BrowserScroll

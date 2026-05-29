@@ -1,15 +1,15 @@
 # DesireCore 内置 Hatch（L1 / L2 主路径）
 
-DesireCore 内置 [Hatch](https://hatch.pypa.io/) v1.16.5。Hatch 二进制随应用打包于 `static/hatch/`，运行时位于 `~/.desirecore/runtime/hatch/`，**用户无需单独安装**。
+DesireCore 内置 [Hatch](https://hatch.pypa.io/) v1.16.5。Hatch 二进制随应用打包于 `static/hatch/`，运行时位于 `${DESIRECORE_ROOT}/runtime/hatch/`，**用户无需单独安装**。
 
-> 与系统 Python 完全隔离：Hatch 安装的 Python 位于 `~/.desirecore/runtime/hatch/local/<version>/`，不修改系统 PATH。
+> 与系统 Python 完全隔离：Hatch 安装的 Python 位于 `${DESIRECORE_ROOT}/runtime/hatch/local/<version>/`，不修改系统 PATH。
 
 ## L1：通过 HTTP API 操作（推荐，DesireCore 应用内）
 
 ### 探测 API 可用性
 
 ```bash
-PORT_FILE="$HOME/.desirecore/agent-service.port"
+PORT_FILE="${DESIRECORE_ROOT}/agent-service.port"
 [ -r "$PORT_FILE" ] || { echo "API 不可用，降级到 L2"; exit 1; }
 PORT=$(cat "$PORT_FILE")
 BASE="https://127.0.0.1:${PORT}/api/runtime"
@@ -68,8 +68,8 @@ curl -sk -X POST "${BASE}/environment/refresh"
 ### macOS / Linux
 
 ```bash
-HATCH=~/.desirecore/runtime/hatch/hatch
-export HATCH_HOME=~/.desirecore/runtime/hatch
+HATCH=${DESIRECORE_ROOT}/runtime/hatch/hatch
+export HATCH_HOME=${DESIRECORE_ROOT}/runtime/hatch
 # export HATCH_PYTHON_MIRROR_URL=...   # 中国大陆加速可选
 
 # 列出版本表
@@ -89,7 +89,7 @@ export HATCH_HOME=~/.desirecore/runtime/hatch
 "$HATCH" python install 3.12 3.11 3.10   # 批量
 
 # 已装版本（直接读目录最稳）
-ls ~/.desirecore/runtime/hatch/local/
+ls ${DESIRECORE_ROOT}/runtime/hatch/local/
 
 # 移除
 "$HATCH" python remove 3.11
@@ -109,10 +109,10 @@ $env:HATCH_HOME = "$env:USERPROFILE\.desirecore\runtime\hatch"
 
 ```bash
 # 直接用绝对路径
-~/.desirecore/runtime/hatch/local/3.12/python/bin/python3 --version
+${DESIRECORE_ROOT}/runtime/hatch/local/3.12/python/bin/python3 --version
 
 # 创建项目级虚拟环境（venv 推荐）
-~/.desirecore/runtime/hatch/local/3.12/python/bin/python3 -m venv .venv
+${DESIRECORE_ROOT}/runtime/hatch/local/3.12/python/bin/python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
@@ -128,7 +128,7 @@ DesireCore 应用 → 资源管理器（侧边栏文件夹图标）→ 计算资
 | 维度 | Hatch（DesireCore 内置） | pyenv（社区） |
 |------|--------------------------|---------------|
 | 安装方式 | 随应用自动内置 | 用户手动安装 |
-| Python 存放 | `~/.desirecore/runtime/hatch/local/` | `~/.pyenv/versions/` |
+| Python 存放 | `${DESIRECORE_ROOT}/runtime/hatch/local/` | `~/.pyenv/versions/` |
 | 版本切换 | 绝对路径 / venv | shell PATH (`pyenv global/local`) |
 | 系统影响 | 完全隔离 | 修改 shell 启动脚本 |
 | GUI | DesireCore 运行环境 Tab | 无 |
@@ -141,7 +141,7 @@ DesireCore 应用 → 资源管理器（侧边栏文件夹图标）→ 计算资
 
 | 现象 | 排查 |
 |------|------|
-| `~/.desirecore/runtime/hatch/hatch: not found` | 二进制未释放。先 `POST /api/runtime/hatch/install` 触发下载 |
+| `${DESIRECORE_ROOT}/runtime/hatch/hatch: not found` | 二进制未释放。先 `POST /api/runtime/hatch/install` 触发下载 |
 | Hatch 安装 Python 时网络超时 | 设置 `HATCH_PYTHON_MIRROR_URL` 镜像 |
 | 多版本共存路径混乱 | Hatch 永远绝对路径调用，**不要**写入 PATH |
-| macOS Gatekeeper 阻止运行 | `xattr -d com.apple.quarantine ~/.desirecore/runtime/hatch/hatch` |
+| macOS Gatekeeper 阻止运行 | `xattr -d com.apple.quarantine ${DESIRECORE_ROOT}/runtime/hatch/hatch` |

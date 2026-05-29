@@ -140,7 +140,7 @@ diff_metadata:
 
 通过 AgentFS 直接读写文件完成变更。**不要调用 HTTP API，不要直接操作 Git**（版本管理由后端自动处理）。
 
-**AgentFS 根目录**：`~/.desirecore/agents/<agentId>/`
+**AgentFS 根目录**：`${DESIRECORE_ROOT}/agents/<agentId>/`
 
 **读取文件**：使用 `cat` 命令读取目标文件当前内容。
 
@@ -171,7 +171,7 @@ diff_metadata:
 
 ```bash
 # 查看版本历史
-cd ~/.desirecore/agents/<agentId>
+cd ${DESIRECORE_ROOT}/agents/<agentId>
 git log --oneline -10
 
 # 查看某个版本的文件内容
@@ -186,12 +186,12 @@ git show <commit>:persona.md
 
 | 用户意图       | 目标文件        | AgentFS 路径                                   |
 | -------------- | --------------- | ---------------------------------------------- |
-| 修改性格/风格  | `persona.md`    | `~/.desirecore/agents/<agentId>/persona.md`    |
-| 修改行为规则   | `principles.md` | `~/.desirecore/agents/<agentId>/principles.md` |
-| 安装/卸载技能  | `skills/`       | `~/.desirecore/agents/<agentId>/skills/`       |
-| 修改工具配置   | `tools/`        | `~/.desirecore/agents/<agentId>/tools/`        |
-| 添加记忆       | `memory/`       | `~/.desirecore/agents/<agentId>/memory/`       |
-| 修改运行时配置 | `agent.json`    | `~/.desirecore/agents/<agentId>/agent.json`    |
+| 修改性格/风格  | `persona.md`    | `${DESIRECORE_ROOT}/agents/<agentId>/persona.md`    |
+| 修改行为规则   | `principles.md` | `${DESIRECORE_ROOT}/agents/<agentId>/principles.md` |
+| 安装/卸载技能  | `skills/`       | `${DESIRECORE_ROOT}/agents/<agentId>/skills/`       |
+| 修改工具配置   | `tools/`        | `${DESIRECORE_ROOT}/agents/<agentId>/tools/`        |
+| 添加记忆       | `memory/`       | `${DESIRECORE_ROOT}/agents/<agentId>/memory/`       |
+| 修改运行时配置 | `agent.json`    | `${DESIRECORE_ROOT}/agents/<agentId>/agent.json`    |
 
 ### 错误处理
 
@@ -225,7 +225,7 @@ git show <commit>:persona.md
 
 ```bash
 # 1. 读取当前 persona.md
-cat ~/.desirecore/agents/legal-assistant/persona.md
+cat ${DESIRECORE_ROOT}/agents/legal-assistant/persona.md
 
 # 输出示例:
 # # 法律顾问小助手
@@ -244,7 +244,7 @@ cat ~/.desirecore/agents/legal-assistant/persona.md
 # 3. 用户确认后，直接编辑文件，将 Personality 和 Communication Style 修改为目标值
 
 # 4. 验证写入结果
-cat ~/.desirecore/agents/legal-assistant/persona.md
+cat ${DESIRECORE_ROOT}/agents/legal-assistant/persona.md
 ```
 
 ---

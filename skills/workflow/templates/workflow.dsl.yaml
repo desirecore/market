@@ -4,7 +4,7 @@
 #       五种基座节点的完整 DSL 结构。Agent 可参考此模板构建工作流。
 #
 # 使用方式：
-#   1. 复制此模板到 ~/.desirecore/workflows/<wf_id>/workflow.dsl.yaml
+#   1. 复制此模板到 ${DESIRECORE_ROOT}/workflows/<wf_id>/workflow.dsl.yaml
 #   2. 修改 id、name、nodes、flow 等字段
 #   3. 用 WorkflowValidate 工具校验
 #   4. 用 WorkflowTest 工具干跑测试

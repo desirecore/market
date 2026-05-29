@@ -77,7 +77,7 @@ DesireCore 内置 Hatch（Python）和 Volta（Node.js），通过 HTTP API + So
 ## 重要约束
 
 1. **不要把 python / node / pip / npm 强关键词写入本 skill description**——这些归属各自的子 skill，避免触发冲突。
-2. **API 优先**：`scripts/probe.sh` 第一步检测 `~/.desirecore/agent-service.port`；存在则推荐 HTTP API 路径。
+2. **API 优先**：`scripts/probe.sh` 第一步检测 `${DESIRECORE_ROOT}/agent-service.port`；存在则推荐 HTTP API 路径。
 3. **缓存协同**：任何安装/移除完成后，调 `POST /api/runtime/environment/refresh` 失效缓存，再发后续 GET。
 4. **跨平台**：所有命令模板提供 macOS / Linux + Windows（PowerShell）双版本。
 

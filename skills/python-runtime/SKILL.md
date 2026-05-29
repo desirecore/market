@@ -52,7 +52,7 @@ metadata:
         Use this skill when the user needs to install, upgrade, or troubleshoot Python and pip environments. Covers four-tier fallback strategy: (1) DesireCore HTTP API for in-app installation, (2) DesireCore built-in Hatch CLI for Python version management, (3) system package managers (brew/apt/dnf/winget), (4) community pyenv as last resort. Also covers virtual environments (venv/pipx/conda), PEP 668 externally-managed errors, and import / PATH troubleshooting. Triggers include: "install python", "pip not found", "python not found", "PEP 668", "externally-managed", "venv", "virtualenv", "pipx", "conda", "miniconda", "pyenv", "hatch", "python version", "pip command not found", or any Python-related runtime error. Use when the user needs to install Python, install pip, configure virtual environments, manage multiple versions, resolve PEP 668, import failures, PATH issues, SSL certificate errors, etc.
       body: ./SKILL.md
       source_hash: sha256:ea796e0282dc77af
-      translated_by: ai:claude-opus-4-7
+      translated_by: human
       translated_at: '2026-05-03'
 market:
   icon: >-
@@ -140,7 +140,7 @@ Decide using `../dev-environment-setup/references/decision-tree.md`:
 #### L1: HTTP API (→ `references/hatch-desirecore.md`)
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 BASE="https://127.0.0.1:${PORT}/api/runtime"
 
 # List installable versions
@@ -158,14 +158,14 @@ curl -sk -X POST "${BASE}/environment/refresh"
 #### L2: Hatch CLI absolute path (→ `references/hatch-desirecore.md`)
 
 ```bash
-HATCH=~/.desirecore/runtime/hatch/hatch
-export HATCH_HOME=~/.desirecore/runtime/hatch
+HATCH=${DESIRECORE_ROOT}/runtime/hatch/hatch
+export HATCH_HOME=${DESIRECORE_ROOT}/runtime/hatch
 
 "$HATCH" python install 3.12
 "$HATCH" python show           # List installed/installable versions
 
 # Use the Hatch-installed Python directly
-~/.desirecore/runtime/hatch/local/3.12/python/bin/python3 -m venv .venv
+${DESIRECORE_ROOT}/runtime/hatch/local/3.12/python/bin/python3 -m venv .venv
 ```
 
 Windows: `%USERPROFILE%\.desirecore\runtime\hatch\hatch.exe`.

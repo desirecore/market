@@ -31,7 +31,7 @@ esac
 
 # ── DesireCore API ──────────────────────
 DESIRECORE_API=""
-PORT_FILE="$HOME/.desirecore/agent-service.port"
+PORT_FILE="${DESIRECORE_ROOT}/agent-service.port"
 if [ -r "$PORT_FILE" ]; then
   PORT=$(cat "$PORT_FILE" 2>/dev/null | tr -d '[:space:]')
   if [ -n "$PORT" ]; then
@@ -48,7 +48,7 @@ SYS_PIP=$(detect_tool pip3)
 [ "$(echo "$SYS_PIP" | grep -c '"path":""')" = "1" ] && SYS_PIP=$(detect_tool pip)
 
 # ── DesireCore Hatch ────────────────────
-HATCH_BIN="$HOME/.desirecore/runtime/hatch/hatch"
+HATCH_BIN="${DESIRECORE_ROOT}/runtime/hatch/hatch"
 HATCH_PATH=""
 HATCH_VERSION=""
 if [ -x "$HATCH_BIN" ]; then
@@ -57,7 +57,7 @@ if [ -x "$HATCH_BIN" ]; then
 fi
 
 # Hatch 已安装的 Python 版本（直接读 local/ 目录，避免依赖 hatch 命令）
-HATCH_LOCAL="$HOME/.desirecore/runtime/hatch/local"
+HATCH_LOCAL="${DESIRECORE_ROOT}/runtime/hatch/local"
 HATCH_VERSIONS="[]"
 if [ -d "$HATCH_LOCAL" ]; then
   versions=$(ls -1 "$HATCH_LOCAL" 2>/dev/null | sort -V | tr '\n' ',' | sed 's/,$//')

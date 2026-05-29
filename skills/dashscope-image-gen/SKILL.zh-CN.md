@@ -31,7 +31,7 @@
 通过 media-proxy 的 compatible-mode 端点生成图片，响应直接包含图片 URL：
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
@@ -87,7 +87,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
 图片 URL 有时效，必须立即下载并保存到本地 media-store：
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 IMAGE_URL="第一步响应中的 image URL"
 curl -sL "$IMAGE_URL" -o /tmp/dashscope-gen.png && \
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \

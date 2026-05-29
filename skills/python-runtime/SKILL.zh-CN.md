@@ -62,7 +62,7 @@ cat /tmp/py-probe.json | jq .
 #### L1：HTTP API（→ `references/hatch-desirecore.md`）
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 BASE="https://127.0.0.1:${PORT}/api/runtime"
 
 # 列出可装版本
@@ -80,14 +80,14 @@ curl -sk -X POST "${BASE}/environment/refresh"
 #### L2：Hatch CLI 绝对路径（→ `references/hatch-desirecore.md`）
 
 ```bash
-HATCH=~/.desirecore/runtime/hatch/hatch
-export HATCH_HOME=~/.desirecore/runtime/hatch
+HATCH=${DESIRECORE_ROOT}/runtime/hatch/hatch
+export HATCH_HOME=${DESIRECORE_ROOT}/runtime/hatch
 
 "$HATCH" python install 3.12
 "$HATCH" python show           # 列出已安装/可装版本
 
 # 直接使用 Hatch 安装的 Python
-~/.desirecore/runtime/hatch/local/3.12/python/bin/python3 -m venv .venv
+${DESIRECORE_ROOT}/runtime/hatch/local/3.12/python/bin/python3 -m venv .venv
 ```
 
 Windows：`%USERPROFILE%\.desirecore\runtime\hatch\hatch.exe`。

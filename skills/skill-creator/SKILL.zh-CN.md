@@ -299,7 +299,7 @@ scripts/quick_validate.py <path/to/skill-folder>
 **方式 A：通过 API 安装（推荐，需 Agent Service 运行中）**
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port 2>/dev/null)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port 2>/dev/null)
 
 # 安装为全局技能（所有 Agent 可见）
 curl -k -X POST "https://127.0.0.1:${PORT}/api/skills" \
@@ -316,10 +316,10 @@ curl -k -X POST "https://127.0.0.1:${PORT}/api/agents/<agentId>/skills" \
 
 ```bash
 # 全局技能
-cp -r path/to/skill-name ~/.desirecore/skills/
+cp -r path/to/skill-name ${DESIRECORE_ROOT}/skills/
 
 # Agent 级技能
-cp -r path/to/skill-name ~/.desirecore/agents/<agentId>/skills/
+cp -r path/to/skill-name ${DESIRECORE_ROOT}/agents/<agentId>/skills/
 ```
 
 **方式 C：打包为 .skill 文件（Claude Code 兼容）**
@@ -349,7 +349,7 @@ scripts/package_skill.py <path/to/skill-folder>
 | 优先级 | 作用域 | 路径 | 可见范围 |
 |--------|--------|------|---------|
 | 最高 | Project | `.claude/skills/` | 当前项目所有 Agent |
-| 中 | Agent | `~/.desirecore/agents/{agentId}/skills/` | 仅该 Agent |
-| 最低 | Global | `~/.desirecore/skills/` | 所有 Agent |
+| 中 | Agent | `${DESIRECORE_ROOT}/agents/{agentId}/skills/` | 仅该 Agent |
+| 最低 | Global | `${DESIRECORE_ROOT}/skills/` | 所有 Agent |
 
 同名技能按优先级覆盖——高优先级的技能会遮蔽低优先级的同名技能。

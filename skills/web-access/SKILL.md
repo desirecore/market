@@ -156,14 +156,14 @@ Launch a dedicated Chrome instance with remote debugging enabled:
 ```bash
 /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
   --remote-debugging-port=9222 \
-  --user-data-dir="$HOME/.desirecore/chrome-profile"
+  --user-data-dir="${DESIRECORE_ROOT}/chrome-profile"
 ```
 
 **Linux**:
 ```bash
 google-chrome \
   --remote-debugging-port=9222 \
-  --user-data-dir="$HOME/.desirecore/chrome-profile"
+  --user-data-dir="${DESIRECORE_ROOT}/chrome-profile"
 ```
 
 **Windows (PowerShell)**:
@@ -359,7 +359,7 @@ See [references/cdp-browser.md](references/cdp-browser.md) for:
 | `BrowserNavigate({ target, url })` | Navigate an existing tab |
 | `BrowserEval({ target, expression })` | Run JS in the tab to extract structured data |
 | `BrowserClick({ target, selector, mode: 'real-mouse' })` | Real-mouse mode for anti-bot-strict sites |
-| `BrowserScreenshot({ target })` | Saved under ~/.desirecore/screenshots/ |
+| `BrowserScreenshot({ target })` | Saved under ${DESIRECORE_ROOT}/screenshots/ |
 | `BrowserScroll({ target, direction: 'bottom' })` | Trigger lazy loading |
 | `BrowserSetFiles({ target, selector, files })` | Upload local files (**user confirmation required**) |
 | `BrowserCloseTab({ target })` | Clean up temporary tabs at task end |

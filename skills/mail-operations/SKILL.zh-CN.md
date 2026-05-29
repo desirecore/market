@@ -333,7 +333,7 @@ Outlook 使用 Categories 而非 Labels。
 - **读操作**（查询、搜索）：返回本地缓存，可能有延迟（默认 30 秒轮询）
 - **远程变更**（用户在官方页面操作）：需等待下次轮询同步
 
-**存储路径**：`~/.desirecore/mail/{provider}/{email}/`（index.json, messages/, sync.json）
+**存储路径**：`${DESIRECORE_ROOT}/mail/{provider}/{email}/`（index.json, messages/, sync.json）
 
 ---
 

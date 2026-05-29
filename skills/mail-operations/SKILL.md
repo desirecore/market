@@ -45,7 +45,7 @@ metadata:
         Use this skill whenever the user wants to interact with email. This includes reading inbox, sending emails, replying, searching messages, managing labels and categories, downloading attachments, setting up auto-reply rules, or triggering agents to handle incoming emails. Supports Gmail, Outlook, and IMAP/SMTP (QQ Mail, 163, Yahoo, etc.) through DesireCore's local REST API. Use when the user mentions email, mailbox, inbox, sending email, replying, checking email, Gmail, Outlook, QQ Mail, 163 Mail, attachments, labels, drafts, auto-reply, email rules, forwarding, CC, unread email, receiving, sending, email sync, or email search.
       body: ./SKILL.md
       source_hash: sha256:24bffbade0dc09a7
-      translated_by: ai:claude-opus-4-7
+      translated_by: human
       translated_at: '2026-05-03'
 market:
   icon: >-
@@ -397,7 +397,7 @@ The email system uses **local cache + periodic polling**:
 - **Read operations** (query, search): return the local cache; may be delayed (default 30-second polling)
 - **Remote changes** (the user operates from the official web UI): wait for the next polling cycle to sync
 
-**Storage path**: `~/.desirecore/mail/{provider}/{email}/` (index.json, messages/, sync.json)
+**Storage path**: `${DESIRECORE_ROOT}/mail/{provider}/{email}/` (index.json, messages/, sync.json)
 
 ---
 
