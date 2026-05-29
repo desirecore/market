@@ -37,7 +37,7 @@ metadata:
         Operate S3-compatible object storage (upload, download, list, delete) via the DesireCore HTTP API. Use when the user requests file upload/download/sharing, needs a download link, or when workflow outputs need persistent storage and distribution.
       body: ./SKILL.md
       source_hash: sha256:6ea8e1375f12de72
-      translated_by: ai:claude-opus-4-7
+      translated_by: human
       translated_at: '2026-05-03'
 market:
   icon: >-
@@ -95,7 +95,7 @@ Core principle: the user's S3 connection is pre-configured under **Resources →
 ### Port Discovery
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 ```
 
 ### API Endpoints
@@ -111,7 +111,7 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 ### Quick Reference
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 
 # 列出连接
 curl -k "https://127.0.0.1:${PORT}/api/s3/connections"
@@ -163,4 +163,4 @@ Error codes: `NO_CONNECTION` | `NOT_FOUND` | `UPLOAD_FAILED` | `DOWNLOAD_FAILED`
 - **S3 Client** — `lib/agent-service/s3-client.ts`: AWS V4 signing, CRUD operations
 - **Connection Resolver** — `lib/agent-service/s3-connection-resolver.ts`: automatic connection selection
 - **Global Skill Sync** — `lib/agent-service/global-skill-sync.ts`: writes the Global Skill on startup
-- **Port Discovery** — `~/.desirecore/agent-service.port`: port discovery file
+- **Port Discovery** — `${DESIRECORE_ROOT}/agent-service.port`: port discovery file

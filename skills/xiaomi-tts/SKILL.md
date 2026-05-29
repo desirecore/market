@@ -118,7 +118,7 @@ Generate speech via media-proxy's `/chat/completions` endpoint.
 **Important**: `messages` must use the `assistant` role (not `user`); the text to synthesize goes in the assistant message's content.
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
@@ -173,7 +173,7 @@ The audio comes back as base64; decode it and save to the local media-store.
 **Recommended approach** (write the full response to a file first to avoid overlong shell arguments):
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 # Save the full request and response to a file
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \

@@ -118,7 +118,7 @@ Example lyrics format:
 **Note: Do not pass the `output_format` parameter; use the default hex format.**
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
@@ -142,7 +142,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
 ### Generate Pure Instrumental
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
@@ -198,7 +198,7 @@ The API returns JSON; audio data is hex-encoded and stored in the `data.data.aud
 Extract the hex string from the `data.data.audio.data` field of the response JSON, convert it to binary, and upload:
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 # Save the API response to a temporary file (avoid letting large hex data overflow shell variables)
 # Assume the curl output of the previous step has been saved to /tmp/minimax-music-resp.json
 
@@ -256,7 +256,7 @@ Example: `"独立民谣,温暖治愈,木吉他为主,轻柔的鼓点,渐进式�
 If the user only describes the desired music style without providing lyrics, set `lyrics_optimizer: true` and the model will auto-generate lyrics from the prompt:
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{

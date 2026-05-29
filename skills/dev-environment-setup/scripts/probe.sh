@@ -32,7 +32,7 @@ case "$ARCH" in
 esac
 
 # ── DesireCore API 探测 ─────────────────
-PORT_FILE="$HOME/.desirecore/agent-service.port"
+PORT_FILE="${DESIRECORE_ROOT}/agent-service.port"
 DESIRECORE_API=""
 PORT_FILE_EXISTS="false"
 if [ -r "$PORT_FILE" ]; then

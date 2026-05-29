@@ -51,7 +51,7 @@ metadata:
         Use this skill when the user needs to install, upgrade, or troubleshoot Node.js, npm, pnpm, yarn, and JavaScript/TypeScript runtime environments. Covers four-tier fallback strategy: (1) DesireCore HTTP API for in-app installation, (2) DesireCore built-in Volta CLI for Node.js + package manager version management, (3) system package managers (brew/apt/dnf/winget/NodeSource), (4) community nvm/fnm as last resort. Also covers global package management, npm registry/proxy configuration, EACCES permission errors, and PATH troubleshooting. Triggers include: "install node", "node not found", "npm not found", "npm EACCES", "pnpm", "yarn", "volta", "nvm", "fnm", "nodejs version", "package-lock", or any Node.js / npm runtime error. Use cases: the user needs to install Node.js, install npm, pnpm, yarn, configure global packages, resolve EACCES, PATH issues, registry mirror / proxy configuration.
       body: ./SKILL.md
       source_hash: sha256:2b8a00816c65d71c
-      translated_by: ai:claude-opus-4-7
+      translated_by: human
       translated_at: '2026-05-03'
 market:
   icon: >-
@@ -132,7 +132,7 @@ See `../dev-environment-setup/references/probe-snapshot.md` for field definition
 #### L1: HTTP API (→ `references/volta-desirecore.md`)
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 BASE="https://127.0.0.1:${PORT}/api/runtime"
 
 # 列出可装版本
@@ -155,8 +155,8 @@ curl -sk -X POST "${BASE}/environment/refresh"
 #### L2: Volta CLI Absolute Path (→ `references/volta-desirecore.md`)
 
 ```bash
-VOLTA=~/.desirecore/runtime/volta/volta
-export VOLTA_HOME=~/.desirecore/runtime/volta
+VOLTA=${DESIRECORE_ROOT}/runtime/volta/volta
+export VOLTA_HOME=${DESIRECORE_ROOT}/runtime/volta
 export VOLTA_FEATURE_PNPM=1
 
 "$VOLTA" install node@22

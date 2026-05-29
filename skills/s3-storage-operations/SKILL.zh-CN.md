@@ -30,7 +30,7 @@ s3-storage-operations 是一个**工具技能（Tool-Skill）**，通过 DesireC
 ### 端口发现
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 ```
 
 ### API 端点
@@ -46,7 +46,7 @@ PORT=$(cat ~/.desirecore/agent-service.port)
 ### 快速参考
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 
 # 列出连接
 curl -k "https://127.0.0.1:${PORT}/api/s3/connections"
@@ -98,4 +98,4 @@ curl -k -X DELETE "https://127.0.0.1:${PORT}/api/s3/objects" \
 - **S3 Client** — `lib/agent-service/s3-client.ts`: AWS V4 签名，CRUD 操作
 - **Connection Resolver** — `lib/agent-service/s3-connection-resolver.ts`: 自动选择连接
 - **Global Skill Sync** — `lib/agent-service/global-skill-sync.ts`: 启动时写入 Global Skill
-- **Port Discovery** — `~/.desirecore/agent-service.port`: 端口发现文件
+- **Port Discovery** — `${DESIRECORE_ROOT}/agent-service.port`: 端口发现文件

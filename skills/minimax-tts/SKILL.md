@@ -45,7 +45,7 @@ metadata:
         Use this skill when the user wants to convert text to speech using MiniMax's T2A (Text-to-Audio) API. Supports multiple voice styles, emotional control, and voice cloning. Use when the user mentions text-to-speech, TTS, read aloud, read it out, generate speech, generate audio, text-to-audio, voiceover, narrate it, MiniMax voice.
       body: ./SKILL.md
       source_hash: sha256:455a2ee6365958c2
-      translated_by: ai:claude-opus-4-7
+      translated_by: human
       translated_at: '2026-05-03'
 market:
   icon: >-
@@ -92,7 +92,7 @@ market:
 MiniMax TTS returns JSON (containing an audio URL or hex data); use `"json"` for `responseType`.
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
@@ -164,7 +164,7 @@ Audio URLs have a time limit, so they must be downloaded immediately and saved t
 
 **URL format**:
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 AUDIO_URL="响应中的audio_url"
 curl -sL "$AUDIO_URL" -o /tmp/minimax-tts.mp3 && \
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
@@ -173,7 +173,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
 
 **Hex format**:
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 HEX_DATA="响应中的hex数据"
 echo -n "$HEX_DATA" | xxd -r -p > /tmp/minimax-tts.mp3 && \
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \

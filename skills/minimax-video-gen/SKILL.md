@@ -102,7 +102,7 @@ MiniMax video generation uses an asynchronous task model:
 ### Step 1: Submit a Text-to-Video Task
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
@@ -126,7 +126,7 @@ Extract `data.task_id` from the JSON response.
 ### Step 1 (alternative): Image-to-Video
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
@@ -147,7 +147,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
 Call once every 10 seconds until `status` is `"Success"` or `"Fail"`. Replace `TASK_ID` with the `task_id` returned in Step 1.
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 TASK_ID="task_id returned from step 1"
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
@@ -189,7 +189,7 @@ Polling response (completed):
 Replace `FILE_ID` with the `file_id` from the completed response in Step 2.
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 FILE_ID="file_id returned from step 2"
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
@@ -209,7 +209,7 @@ Extract `data.file.download_url` from the response.
 The download URL is valid for 24 hours; you must download immediately and save it to the local media-store.
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 VIDEO_URL="download_url obtained in step 3"
 curl -sL "$VIDEO_URL" -o /tmp/minimax-video.mp4 && \
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \

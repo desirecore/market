@@ -127,9 +127,9 @@ def install_skill(skill_path, scope='global', agent_id=None):
         print("❌ Error: Agent Service not running (port file not found)")
         print("\nFallback — install via file system:")
         if scope == 'agent' and agent_id:
-            print(f"  cp -r {skill_path} ~/.desirecore/agents/{agent_id}/skills/")
+            print(f"  cp -r {skill_path} ${DESIRECORE_ROOT}/agents/{agent_id}/skills/")
         else:
-            print(f"  cp -r {skill_path} ~/.desirecore/skills/")
+            print(f"  cp -r {skill_path} ${DESIRECORE_ROOT}/skills/")
         return None
 
     content = skill_md.read_text()

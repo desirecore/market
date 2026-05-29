@@ -9,7 +9,7 @@
 | `platform` | `"darwin" \| "linux" \| "win32"` | 操作系统标识 |
 | `arch` | `"arm64" \| "x64" \| ...` | CPU 架构 |
 | `desirecore_api` | `string` | 探测到的 DesireCore agent-service URL，不可达时为 `""` |
-| `desirecore_port_file` | `boolean` | `~/.desirecore/agent-service.port` 是否存在（probe.sh / probe.ps1 输出原生 JSON boolean） |
+| `desirecore_port_file` | `boolean` | `${DESIRECORE_ROOT}/agent-service.port` 是否存在（probe.sh / probe.ps1 输出原生 JSON boolean） |
 
 ## probe.sh / probe.ps1（父级 dev-environment-setup）
 
@@ -57,7 +57,7 @@ Windows 上 `wsl` 字段值类似 `{ "installed": true, "version": "2", "default
 
 字段语义：
 - `hatch_path` 空字符串表示二进制不存在
-- `hatch_versions` 是 `~/.desirecore/runtime/hatch/local/` 下的目录列表（即已通过 Hatch 安装的 Python 版本）
+- `hatch_versions` 是 `${DESIRECORE_ROOT}/runtime/hatch/local/` 下的目录列表（即已通过 Hatch 安装的 Python 版本）
 - `active_venv` 取自 `$VIRTUAL_ENV` 环境变量
 - `pep668` 检测 `/usr/lib/python*/EXTERNALLY-MANAGED` 是否存在（Debian 12+/Ubuntu 23.04+ 启用）
 

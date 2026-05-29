@@ -15,7 +15,7 @@
 ### 第一步：调用 API 生成图片
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
@@ -37,7 +37,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
 ### 第二步：下载并上传到 media-store
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 IMAGE_URL="第一步拿到的图片URL"
 curl -sL "$IMAGE_URL" -o /tmp/minimax-gen.png && \
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \

@@ -166,10 +166,10 @@ DesireCore 内置 Hatch/Volta，但**不直接管理 pip / npm 包安装**——
 
 如果使用 Hatch 创建的 Python：
 ```bash
-~/.desirecore/runtime/hatch/local/3.12/python/bin/python3 -m pip install lxml defusedxml
+${DESIRECORE_ROOT}/runtime/hatch/local/3.12/python/bin/python3 -m pip install lxml defusedxml
 ```
 
 如果使用 Volta 安装的 Node：
 ```bash
-~/.desirecore/runtime/volta/bin/npm install -g docx pptxgenjs
+${DESIRECORE_ROOT}/runtime/volta/bin/npm install -g docx pptxgenjs
 ```

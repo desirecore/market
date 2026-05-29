@@ -30,7 +30,7 @@ deactivate
 ### 用 Hatch 安装的 Python 创建 venv
 
 ```bash
-~/.desirecore/runtime/hatch/local/3.12/python/bin/python3 -m venv .venv
+${DESIRECORE_ROOT}/runtime/hatch/local/3.12/python/bin/python3 -m venv .venv
 source .venv/bin/activate
 ```
 

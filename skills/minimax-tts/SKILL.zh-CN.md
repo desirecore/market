@@ -29,7 +29,7 @@
 MiniMax TTS 返回 JSON（包含音频 URL 或 hex 数据），`responseType` 使用 `"json"`。
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
@@ -101,7 +101,7 @@ MiniMax TTS 返回 JSON，根据请求参数可能返回 URL 或 hex 格式：
 
 **URL 格式**：
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 AUDIO_URL="响应中的audio_url"
 curl -sL "$AUDIO_URL" -o /tmp/minimax-tts.mp3 && \
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
@@ -110,7 +110,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
 
 **Hex 格式**：
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 HEX_DATA="响应中的hex数据"
 echo -n "$HEX_DATA" | xxd -r -p > /tmp/minimax-tts.mp3 && \
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \

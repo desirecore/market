@@ -6,8 +6,8 @@ Usage:
     init_skill.py <skill-name> --path <path> [--format basic|desirecore]
 
 Examples:
-    init_skill.py my-new-skill --path ~/.desirecore/skills
-    init_skill.py my-api-helper --path ~/.desirecore/skills --format basic
+    init_skill.py my-new-skill --path ${DESIRECORE_ROOT}/skills
+    init_skill.py my-api-helper --path ${DESIRECORE_ROOT}/skills --format basic
 """
 
 import sys
@@ -230,8 +230,8 @@ def main():
     parser = argparse.ArgumentParser(
         description='Initialize a new skill from template',
         epilog='Examples:\n'
-               '  init_skill.py my-new-skill --path ~/.desirecore/skills\n'
-               '  init_skill.py my-api-helper --path ~/.desirecore/skills --format basic',
+               '  init_skill.py my-new-skill --path ${DESIRECORE_ROOT}/skills\n'
+               '  init_skill.py my-api-helper --path ${DESIRECORE_ROOT}/skills --format basic',
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument('skill_name', help='Skill name (kebab-case, max 64 chars)')

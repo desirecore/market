@@ -95,7 +95,7 @@ market:
 Generate the image via media-proxy's compatible-mode endpoint; the response includes the image URL directly:
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
@@ -151,7 +151,7 @@ Locate the item with `type: "image"` inside `data.output.choices[0].message.cont
 The image URL is time-limited; download and persist it to the local media-store immediately:
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 IMAGE_URL="image URL from step 1's response"
 curl -sL "$IMAGE_URL" -o /tmp/dashscope-gen.png && \
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \

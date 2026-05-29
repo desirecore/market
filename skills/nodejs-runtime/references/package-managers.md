@@ -12,7 +12,7 @@
 ## 通过 DesireCore Volta 安装
 
 ```bash
-VOLTA=~/.desirecore/runtime/volta/volta
+VOLTA=${DESIRECORE_ROOT}/runtime/volta/volta
 export VOLTA_FEATURE_PNPM=1
 
 "$VOLTA" install pnpm@latest
@@ -23,7 +23,7 @@ export VOLTA_FEATURE_PNPM=1
 或 HTTP API：
 
 ```bash
-BASE="https://127.0.0.1:$(cat ~/.desirecore/agent-service.port)/api/runtime"
+BASE="https://127.0.0.1:$(cat ${DESIRECORE_ROOT}/agent-service.port)/api/runtime"
 curl -sk -X POST "${BASE}/pkg/pnpm/install" -H "Content-Type: application/json" -d '{"version":"latest"}'
 ```
 

@@ -39,7 +39,7 @@ MiniMax 视频生成采用异步任务模式：
 ### 第一步：提交文生视频任务
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
@@ -63,7 +63,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
 ### 第一步（备选）：图生视频
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
@@ -84,7 +84,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
 每隔 10 秒调用一次，直到 `status` 为 `"Success"` 或 `"Fail"`。将 `TASK_ID` 替换为第一步返回的 `task_id`。
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 TASK_ID="第一步返回的task_id"
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
@@ -126,7 +126,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
 将 `FILE_ID` 替换为第二步完成响应中的 `file_id`。
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 FILE_ID="第二步返回的file_id"
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
@@ -146,7 +146,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
 下载 URL 有 24 小时时效，必须立即下载并保存到本地 media-store。
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 VIDEO_URL="第三步获取的download_url"
 curl -sL "$VIDEO_URL" -o /tmp/minimax-video.mp4 && \
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \

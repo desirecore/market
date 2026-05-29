@@ -280,7 +280,7 @@ print(clean_md)
 
 Chrome is not running with remote debugging. Tell the user:
 > "请先用下面的命令启动 Chrome：
-> `/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --remote-debugging-port=9222 --user-data-dir=\"$HOME/.desirecore/chrome-profile\"`
+> `/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --remote-debugging-port=9222 --user-data-dir=\"${DESIRECORE_ROOT}/chrome-profile\"`
 > 然后手动登录需要抓取的网站，再让我继续。"
 
 ### `browser.contexts[0]` is empty
@@ -316,7 +316,7 @@ The selector is stale — the site updated its DOM. Dump `page.content()[:5000]`
 - **Never log or print cookies** from `context.cookies()` even during debugging
 - **Never extract and store** the user's session tokens to files
 - **Never use the CDP session** to perform writes (post, comment, like) unless the user explicitly requested it
-- The `~/.desirecore/chrome-profile` directory contains the user's credentials — treat it as sensitive
+- The `${DESIRECORE_ROOT}/chrome-profile` directory contains the user's credentials — treat it as sensitive
 - If the user asks to "log in automatically", refuse and explain they must log in manually in the Chrome window; the skill only reads already-authenticated sessions
 
 ---

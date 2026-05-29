@@ -1,15 +1,15 @@
 # DesireCore 内置 Volta（L1 / L2 主路径）
 
-DesireCore 内置 [Volta](https://volta.sh/) v2.0.2（Rust 实现的 Node.js 工具链管理器）。Volta 二进制随应用打包于 `static/volta/`，运行时位于 `~/.desirecore/runtime/volta/`，**用户无需单独安装**。
+DesireCore 内置 [Volta](https://volta.sh/) v2.0.2（Rust 实现的 Node.js 工具链管理器）。Volta 二进制随应用打包于 `static/volta/`，运行时位于 `${DESIRECORE_ROOT}/runtime/volta/`，**用户无需单独安装**。
 
-> 与系统 Node.js 完全隔离：Volta 安装的工具位于 `~/.desirecore/runtime/volta/tools/image/`，不修改系统 PATH。
+> 与系统 Node.js 完全隔离：Volta 安装的工具位于 `${DESIRECORE_ROOT}/runtime/volta/tools/image/`，不修改系统 PATH。
 
 ## L1：通过 HTTP API 操作（推荐，DesireCore 应用内）
 
 ### 探测 API 可用性
 
 ```bash
-PORT_FILE="$HOME/.desirecore/agent-service.port"
+PORT_FILE="${DESIRECORE_ROOT}/agent-service.port"
 [ -r "$PORT_FILE" ] || { echo "API 不可用，降级到 L2"; exit 1; }
 PORT=$(cat "$PORT_FILE")
 BASE="https://127.0.0.1:${PORT}/api/runtime"
@@ -76,8 +76,8 @@ curl -sk -X POST "${BASE}/environment/refresh"   # 安装结束后刷新
 ### macOS / Linux
 
 ```bash
-VOLTA=~/.desirecore/runtime/volta/volta
-export VOLTA_HOME=~/.desirecore/runtime/volta
+VOLTA=${DESIRECORE_ROOT}/runtime/volta/volta
+export VOLTA_HOME=${DESIRECORE_ROOT}/runtime/volta
 export VOLTA_FEATURE_PNPM=1
 # export VOLTA_NODE_MIRROR=https://npmmirror.com/mirrors/node   # 中国大陆加速
 
@@ -123,7 +123,7 @@ $env:VOLTA_FEATURE_PNPM = "1"
 Volta 没有 `volta uninstall node`，直接删目录或用 HTTP API：
 
 ```bash
-rm -rf ~/.desirecore/runtime/volta/tools/image/node/<version>
+rm -rf ${DESIRECORE_ROOT}/runtime/volta/tools/image/node/<version>
 ```
 
 或：

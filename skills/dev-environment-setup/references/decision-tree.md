@@ -35,14 +35,14 @@
 
 **触发条件**
 
-- `~/.desirecore/agent-service.port` 文件存在且可读
+- `${DESIRECORE_ROOT}/agent-service.port` 文件存在且可读
 - `curl -sk --max-time 0.5 https://127.0.0.1:${PORT}/api/runtime/environment` 返回 2xx
 - 当前会话能订阅 Socket.IO（DesireCore 内部 Agent 默认满足）
 
 **典型操作**
 
 ```bash
-PORT=$(cat ~/.desirecore/agent-service.port)
+PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 BASE="https://127.0.0.1:${PORT}/api/runtime"
 
 # 1. 拉取快照
@@ -74,11 +74,11 @@ curl -sk -X POST "${BASE}/python/install" \
 **典型操作（macOS / Linux）**
 
 ```bash
-HATCH=~/.desirecore/runtime/hatch/hatch
-VOLTA=~/.desirecore/runtime/volta/volta
+HATCH=${DESIRECORE_ROOT}/runtime/hatch/hatch
+VOLTA=${DESIRECORE_ROOT}/runtime/volta/volta
 
-export HATCH_HOME=~/.desirecore/runtime/hatch
-export VOLTA_HOME=~/.desirecore/runtime/volta
+export HATCH_HOME=${DESIRECORE_ROOT}/runtime/hatch
+export VOLTA_HOME=${DESIRECORE_ROOT}/runtime/volta
 
 "$HATCH" python install 3.12
 "$VOLTA" install node@22
