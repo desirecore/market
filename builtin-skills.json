@@ -19,6 +19,7 @@
     "python-runtime",
     "s3-storage-operations",
     "skill-creator",
+    "tech-diagram",
     "update-agent",
     "web-access",
     "workflow",
