@@ -26,7 +26,7 @@
    classDef warn   fill:#FFFBF0,stroke:#FF9500,color:#1d1d1f
    classDef error  fill:#FFF0F0,stroke:#FF3B30,color:#1d1d1f
    ```
-   色值来自 `app/theme/tokens/index.ts`（green `#34C759` / blue `#007AFF` / purple `#AF52DE` / orange `#FF9500` / red `#FF3B30`）与 `cardBgColors` / `cardBorderColors`。选 class 的规则与 `agent-colors.ts` 一致：系统/通用→blue，知识/学习→purple，业务/执行→green，项目管理/警示→orange，错误→red。
+   色值来自 DesireCore app 代码库（`app/theme/tokens/index.ts`：green `#34C759` / blue `#007AFF` / purple `#AF52DE` / orange `#FF9500` / red `#FF3B30`，以及 `cardBgColors` / `cardBorderColors`；这些 app 路径不在本 market 仓库内）。选 class 的规则与 `agent-colors.ts` 一致：系统/通用→blue，知识/学习→purple，业务/执行→green，项目管理/警示→orange，错误→red。
 3. **使用下面的语义形状**，不要随意选形状。
 4. **标签含标点、括号或 `/` 时必须加引号**，避免 Mermaid 解析失败，例如 `A["查询 / 检索"]`。
 
@@ -60,7 +60,7 @@ DesireCore 自身 Pattern 的现成 Mermaid 放在 `references/templates.md`：*
 
 ## 输出约定
 
-直接在回复中用 ` ```mermaid ` 代码块输出图。对话会自动渲染为 SVG；语法出错时会降级展示原始代码（`mermaid-fallback` 路径），所以源码必须合法。节点标签要短——文字过长会撑坏布局。
+直接在回复中用栅栏代码块输出图，info string 为 `mermaid`（用三个反引号紧跟单词 mermaid 开启栅栏）。对话会自动渲染为 SVG；语法出错时会降级展示原始代码（`mermaid-fallback` 路径），所以源码必须合法。节点标签要短——文字过长会撑坏布局。
 
 ## 常见错误
 

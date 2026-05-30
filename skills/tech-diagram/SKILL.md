@@ -37,7 +37,7 @@ metadata:
       description: >-
         当用户希望把描述转成技术图时使用此技能——架构图、流程图、时序图、状态机、ER 图、类图或思维导图。生成符合 DesireCore 3+2 设计令牌与语义形状/箭头词汇表的 Mermaid，对话内即时渲染为 SVG。用于结构、流程或关系类图，而非写实摄影/插画类图片（后者请用文生图技能）。用户提到 画架构图、架构图、流程图、时序图、序列图、状态图、状态机、ER图、类图、思维导图、出图、画图、可视化、画一张图、画个图。
       body: ./SKILL.zh-CN.md
-      source_hash: 'sha256:e3792548a07e86ac'
+      source_hash: 'sha256:1f74e524df631a67'
       translated_by: human
     en-US:
       name: Tech Diagram Generator
@@ -45,7 +45,7 @@ metadata:
       description: >-
         Use this skill when the user wants to turn a description into a technical diagram — architecture diagrams, flowcharts, sequence diagrams, state machines, ER diagrams, class diagrams, or mind maps. Generates brand-consistent Mermaid that the DesireCore chat renders inline as SVG, styled with the DesireCore 3+2 design tokens and a semantic shape/arrow vocabulary. Use this for diagrams of structure, flow, or relationships — not for photographic or illustrative images.
       body: ./SKILL.md
-      source_hash: 'sha256:e3792548a07e86ac'
+      source_hash: 'sha256:1f74e524df631a67'
       translated_by: human
 market:
   icon: >-
@@ -101,9 +101,10 @@ These are non-negotiable. Violating them produces off-brand or unrendered diagra
    classDef warn   fill:#FFFBF0,stroke:#FF9500,color:#1d1d1f
    classDef error  fill:#FFF0F0,stroke:#FF3B30,color:#1d1d1f
    ```
-   Values come from `app/theme/tokens/index.ts` (green `#34C759` / blue `#007AFF`
-   / purple `#AF52DE` / orange `#FF9500` / red `#FF3B30`) and `cardBgColors` /
-   `cardBorderColors`. Pick the class by the same rule as `agent-colors.ts`:
+   Values come from the DesireCore app codebase (`app/theme/tokens/index.ts` —
+   green `#34C759` / blue `#007AFF` / purple `#AF52DE` / orange `#FF9500` / red
+   `#FF3B30` — and `cardBgColors` / `cardBorderColors`; these app paths are not in
+   this market repo). Pick the class by the same rule as `agent-colors.ts`:
    system/generic → blue, knowledge/learning → purple, business/execution → green,
    project-management/warning → orange, error → red.
 3. **Use the semantic shapes below**, not arbitrary ones.
@@ -145,10 +146,11 @@ from scratch.
 
 ## Output Convention
 
-Emit the diagram directly in your reply inside a ` ```mermaid ` fenced block.
-The chat renders it to SVG automatically; on a syntax error it falls back to
-showing the raw code (the `mermaid-fallback` path), so the source MUST be valid.
-Keep node labels short — long text breaks the layout.
+Emit the diagram directly in your reply inside a fenced code block whose info
+string is `mermaid` (open the fence with three backticks immediately followed by
+the word mermaid). The chat renders it to SVG automatically; on a syntax error it
+falls back to showing the raw code (the `mermaid-fallback` path), so the source
+MUST be valid. Keep node labels short — long text breaks the layout.
 
 ## Common Mistakes
 

@@ -4,6 +4,10 @@ Ready-to-use, brand-styled Mermaid for DesireCore's own architecture patterns.
 Adapt the labels to the user's subject; keep the header and `classDef`s intact.
 All four are verified to render.
 
+> Note: file paths like `lib/...` and `app/...` cited below refer to the
+> **DesireCore application codebase** where this skill runs at runtime — they do
+> not exist in this market repository.
+
 ## 1. Agent architecture (Agent 架构图)
 
 Mirrors the delegate / skills / memory layout (`lib/agent-service/builtin-tools/delegate.ts`).
@@ -39,15 +43,15 @@ The unified delegate tool and its six execution modes.
 %%{init: {'theme':'base','themeVariables':{'primaryColor':'#F0F5FF','primaryBorderColor':'#007AFF','primaryTextColor':'#1d1d1f','lineColor':'#6e6e73','fontFamily':'-apple-system,SF Pro Text,Noto Sans SC,sans-serif'}}}%%
 flowchart LR
     classDef system fill:#F0F5FF,stroke:#007AFF,color:#1d1d1f
-    classDef agent  fill:#F6F3FF,stroke:#AF52DE,color:#1d1d1f
+    classDef biz    fill:#F0FDF4,stroke:#34C759,color:#1d1d1f
 
     D("Delegate Tool"):::system
-    D --> S["sync: block & await"]:::agent
-    D --> AS["async: fire & report back"]:::agent
-    D --> W["worker: ephemeral SubAgent"]:::agent
-    D --> F["fan-out: parallel / sequential"]:::agent
-    D --> H["handoff: hand session to user"]:::agent
-    D --> V["via-messaging: fallback wait"]:::agent
+    D --> S["sync: block & await"]:::biz
+    D --> AS["async: fire & report back"]:::biz
+    D --> W["worker: ephemeral SubAgent"]:::biz
+    D --> F["fan-out: parallel / sequential"]:::biz
+    D --> H["handoff: hand session to user"]:::biz
+    D --> V["via-messaging: fallback wait"]:::biz
 ```
 
 ## 3. Three-tier conversation memory (三层对话记忆)
@@ -62,8 +66,8 @@ flowchart LR
     classDef warn   fill:#FFFBF0,stroke:#FF9500,color:#1d1d1f
 
     New(["New Message"]):::warn
-    Active["active: ongoing matters"]:::system
-    Recent["recent: L0 / L1 summaries"]:::system
+    Active[("active: ongoing matters")]:::system
+    Recent[("recent: L0 / L1 summaries")]:::system
     Archive[("archive: L2 full log")]:::system
 
     New --> Active

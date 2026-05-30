@@ -20,8 +20,9 @@ classDef error  fill:#FFF0F0,stroke:#FF3B30,color:#1d1d1f
 ```
 
 `fill` = `cardBgColors`, `stroke` = the 3+2 accent, `color` = `systemColors.label`
-(`#1d1d1f`). Source of truth: `app/theme/tokens/index.ts`,
-`app/theme/presets/agent-colors.ts`.
+(`#1d1d1f`). Source of truth: `app/theme/tokens/index.ts` and
+`app/theme/presets/agent-colors.ts` **in the DesireCore application codebase**
+(where this skill runs) — these paths are not part of this market repository.
 
 ### Class selection rule (mirrors agent-colors.ts)
 
