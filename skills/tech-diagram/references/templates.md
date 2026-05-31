@@ -9,10 +9,11 @@ All four are verified to render.
 > not exist in this market repository.
 >
 > All templates use the `brand-light` style (its `%%{init}%%` line plus the
-> `classDef`s each diagram needs). To render a template in another style, replace
-> the `%%{init}%%` line and the `classDef` lines with the chosen preset from
-> `styles.md` — **keep the template's own direction line** (`flowchart LR` /
-> `flowchart TD`) and the node/edge body unchanged.
+> `classDef`s each diagram needs). To render a template in another style, take from
+> the chosen `styles.md` preset **only its `%%{init}%%` line and its `classDef`
+> lines** — do **not** copy the preset's own `flowchart TD` line. Keep the
+> template's existing direction line (`flowchart LR` / `flowchart TD`) and the
+> node/edge body unchanged.
 
 ## 1. Agent architecture (Agent 架构图)
 

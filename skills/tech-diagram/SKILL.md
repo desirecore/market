@@ -10,8 +10,8 @@ description: >-
   relationships — NOT for photographic or illustrative images (use an
   image-generation skill for those).
   Use when 用户提到 画架构图、架构图、流程图、时序图、序列图、状态图、状态机、
-  ER图、类图、思维导图、出图、画图、可视化、画一张图、画个图、风格、暗色风格、
-  蓝图风格、奶油风格、draw diagram、architecture diagram、flowchart、sequence diagram。
+  ER图、类图、思维导图、出图、画图、可视化、画一张图、画个图、图表风格、
+  暗色风格图、蓝图风格图、奶油风格图、draw diagram、architecture diagram、flowchart、sequence diagram。
 version: 1.1.0
 type: procedural
 risk_level: low
@@ -36,9 +36,9 @@ metadata:
       name: 技术架构图生成
       short_desc: 用 Mermaid 画品牌一致的架构图/流程图/时序图，对话内即时渲染
       description: >-
-        当用户希望把描述转成技术图时使用此技能——架构图、流程图、时序图、状态机、ER 图、类图或思维导图。生成带语义形状/箭头词汇表的 Mermaid，对话内即时渲染为 SVG，并提供 6 套可选视觉风格（brand-light/brand-dark/terminal/blueprint/cream/mono）。用于结构、流程或关系类图，而非写实摄影/插画类图片（后者请用文生图技能）。用户提到 画架构图、架构图、流程图、时序图、序列图、状态图、状态机、ER图、类图、思维导图、出图、画图、可视化、画一张图、画个图、风格、暗色风格、蓝图风格、奶油风格。
+        当用户希望把描述转成技术图时使用此技能——架构图、流程图、时序图、状态机、ER 图、类图或思维导图。生成带语义形状/箭头词汇表的 Mermaid，对话内即时渲染为 SVG，并提供 6 套可选视觉风格（brand-light/brand-dark/terminal/blueprint/cream/mono）。用于结构、流程或关系类图，而非写实摄影/插画类图片（后者请用文生图技能）。用户提到 画架构图、架构图、流程图、时序图、序列图、状态图、状态机、ER图、类图、思维导图、出图、画图、可视化、画一张图、画个图、图表风格、暗色风格图、蓝图风格图、奶油风格图。
       body: ./SKILL.zh-CN.md
-      source_hash: 'sha256:98d6dab3ac448c1b'
+      source_hash: 'sha256:137c70e6c64841a3'
       translated_by: human
     en-US:
       name: Tech Diagram Generator
@@ -46,7 +46,7 @@ metadata:
       description: >-
         Use this skill when the user wants to turn a description into a technical diagram — architecture diagrams, flowcharts, sequence diagrams, state machines, ER diagrams, class diagrams, or mind maps. Generates Mermaid with a semantic shape/arrow vocabulary that the DesireCore chat renders inline as SVG, with 6 selectable visual styles (brand-light/brand-dark/terminal/blueprint/cream/mono). Use this for diagrams of structure, flow, or relationships — not for photographic or illustrative images.
       body: ./SKILL.md
-      source_hash: 'sha256:98d6dab3ac448c1b'
+      source_hash: 'sha256:137c70e6c64841a3'
       translated_by: human
 market:
   icon: >-
