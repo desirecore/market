@@ -8,9 +8,10 @@ All four are verified to render.
 > **DesireCore application codebase** where this skill runs at runtime — they do
 > not exist in this market repository.
 >
-> All templates use the `brand-light` style header. To render any template in
-> another style, replace its `%%{init}%%` + `classDef` header with the chosen
-> preset from `styles.md` — the node/edge body stays identical.
+> All templates use the `brand-light` style. To render any template in another
+> style, replace only the `%%{init}%%` line and the five `classDef` lines with the
+> chosen preset from `styles.md` — **keep the template's own direction line**
+> (`flowchart LR` / `flowchart TD`) and the node/edge body unchanged.
 
 ## 1. Agent architecture (Agent 架构图)
 

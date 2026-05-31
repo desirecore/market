@@ -5,9 +5,11 @@ color encode meaning, so a reader understands a diagram without a legend.
 
 ## The style header (paste verbatim as the first lines of every diagram)
 
-Every diagram starts with a **style header** = a `%%{init}%%` directive + five
-`classDef`s. The six presets live in `styles.md`; the default is `brand-light`,
-shown here:
+Every diagram starts with a style's `%%{init}%%` directive. For **flowcharts** the
+header also carries five `classDef`s (full preset below); **non-flowchart** types
+(`sequenceDiagram` / `stateDiagram-v2` / `erDiagram` / `classDiagram` / `mindmap`)
+use **only the `%%{init}%%` line** — they have no `classDef`. The six presets live
+in `styles.md`; the default `brand-light` flowchart header is shown here:
 
 ```
 %%{init: {'theme':'base','themeVariables':{'background':'#ffffff','primaryColor':'#F0F5FF','primaryBorderColor':'#007AFF','primaryTextColor':'#1d1d1f','lineColor':'#6e6e73','textColor':'#1d1d1f','fontFamily':'-apple-system,SF Pro Text,Noto Sans SC,sans-serif'}}}%%
