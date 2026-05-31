@@ -40,7 +40,7 @@ flowchart TD
     classDef biz    fill:#F0FDF4,stroke:#34C759,color:#1d1d1f
     classDef warn   fill:#FFFBF0,stroke:#FF9500,color:#1d1d1f
     classDef error  fill:#FFF0F0,stroke:#FF3B30,color:#1d1d1f
-    %% nodes & edges here, e.g. A{{"Agent"}}:::agent --> B(["Core"]):::system
+    %% nodes & edges here, e.g. A{{"Agent"}}:::agent --> B("Core"):::system
 ```
 
 ## 2. brand-dark (DesireCore 暗色模式一致)
