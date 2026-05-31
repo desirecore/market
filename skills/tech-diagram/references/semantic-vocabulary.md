@@ -3,39 +3,42 @@
 The full mapping from concept → Mermaid shape → DesireCore 3+2 class. Shape and
 color encode meaning, so a reader understands a diagram without a legend.
 
-## The brand header (paste verbatim as the first line of every diagram)
+## The style header (paste verbatim as the first lines of every diagram)
+
+Every diagram starts with a style's `%%{init}%%` directive. For **flowcharts** the
+header also carries five `classDef`s (full preset below); for **other** types
+(`sequenceDiagram` / `stateDiagram-v2` / `erDiagram` / `classDiagram` / `mindmap`)
+use **only the `%%{init}%%` line** — the `classDef` block is flowchart-specific.
+The six presets live in `styles.md`; the default `brand-light` flowchart header is
+shown here:
 
 ```
-%%{init: {'theme':'base','themeVariables':{'primaryColor':'#F0F5FF','primaryBorderColor':'#007AFF','primaryTextColor':'#1d1d1f','lineColor':'#6e6e73','fontFamily':'-apple-system,SF Pro Text,Noto Sans SC,sans-serif'}}}%%
+%%{init: {'theme':'base','themeVariables':{'background':'#ffffff','primaryColor':'#F0F5FF','primaryBorderColor':'#007AFF','primaryTextColor':'#1d1d1f','lineColor':'#6e6e73','textColor':'#1d1d1f','fontFamily':'-apple-system,SF Pro Text,Noto Sans SC,sans-serif'}}}%%
+flowchart TD
+    classDef agent  fill:#F6F3FF,stroke:#AF52DE,color:#1d1d1f
+    classDef system fill:#F0F5FF,stroke:#007AFF,color:#1d1d1f
+    classDef biz    fill:#F0FDF4,stroke:#34C759,color:#1d1d1f
+    classDef warn   fill:#FFFBF0,stroke:#FF9500,color:#1d1d1f
+    classDef error  fill:#FFF0F0,stroke:#FF3B30,color:#1d1d1f
 ```
 
-## The 5 color classes (the only allowed palette)
+In `brand-light` the values map to the DesireCore design tokens (`fill` =
+`cardBgColors`, `stroke` = the 3+2 accent, `color` = `systemColors.label`) defined
+in `app/theme/tokens/index.ts` / `app/theme/presets/agent-colors.ts` **in the
+DesireCore application codebase** — those paths are not part of this market repo.
+Other styles use their own palettes (see `styles.md`).
 
-```
-classDef agent  fill:#F6F3FF,stroke:#AF52DE,color:#1d1d1f
-classDef system fill:#F0F5FF,stroke:#007AFF,color:#1d1d1f
-classDef biz    fill:#F0FDF4,stroke:#34C759,color:#1d1d1f
-classDef warn   fill:#FFFBF0,stroke:#FF9500,color:#1d1d1f
-classDef error  fill:#FFF0F0,stroke:#FF3B30,color:#1d1d1f
-```
+### Class selection rule (role → class, fixed across all styles)
 
-`fill` = `cardBgColors`, `stroke` = the 3+2 accent, `color` = `systemColors.label`
-(`#1d1d1f`). Source of truth: `app/theme/tokens/index.ts` and
-`app/theme/presets/agent-colors.ts` **in the DesireCore application codebase**
-(where this skill runs) — these paths are not part of this market repository.
+| Domain | Class |
+|--------|-------|
+| System / generic (DesireCore core, infra, LLM) | system |
+| Knowledge / learning (legal, writer, memory) | agent |
+| Business / execution (data, real-estate, code) | biz |
+| Project management / warning / decision | warn |
+| Error / failure | error |
 
-### Class selection rule (mirrors agent-colors.ts)
-
-| Domain | Class | Accent |
-|--------|-------|--------|
-| System / generic (DesireCore core, infra, LLM) | system | blue `#007AFF` |
-| Knowledge / learning (legal, writer, memory) | agent / system | purple `#AF52DE` |
-| Business / execution (data, real-estate, code) | biz | green `#34C759` |
-| Project management / warning / decision | warn | orange `#FF9500` |
-| Error / failure | error | red `#FF3B30` |
-
-Decorative-only colors `yellow #FFCC00` and `teal #5AC8FA` are for background
-gradients elsewhere in the product — never use them in diagrams.
+The class names are stable; only their colors change per style.
 
 ## Shape table
 
@@ -74,5 +77,5 @@ gradients elsewhere in the product — never use them in diagrams.
 | Class / type model | `classDiagram` |
 | Mind map | `mindmap` |
 
-For `sequenceDiagram`, `classDiagram`, etc. that do not support `classDef`, still
-keep the `%%{init}%%` brand header so the theme stays light and on-brand.
+For non-flowchart types, copy only the style's `%%{init}%%` line (the `classDef`
+block is flowchart-specific) so the canvas and font stay on-style.
