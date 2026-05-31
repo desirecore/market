@@ -1,9 +1,19 @@
 # Style Presets (风格预设)
 
-Six ready-to-paste style headers. A "style" = a `%%{init}%%` block + five
-`classDef`s. **The class names (`agent` / `system` / `biz` / `warn` / `error`)
-are identical across all styles**, so switching styles means swapping only the
-header — the diagram body (`:::agent`, `:::system`, …) never changes.
+Six style presets. A "style" = a `%%{init}%%` directive + five `classDef`s.
+**The class names (`agent` / `system` / `biz` / `warn` / `error`) are identical
+across all styles**, so switching styles means swapping only the header — the
+diagram body (`:::agent`, `:::system`, …) never changes.
+
+> **Flowchart vs. other diagram types.** Each preset below is a complete
+> **flowchart** skeleton (`%%{init}%%` + `flowchart TD` + `classDef`s). Use it as
+> follows:
+> - **Flowchart / architecture / data-flow:** paste the whole block, then add nodes.
+> - **sequenceDiagram / stateDiagram-v2 / erDiagram / classDiagram / mindmap:** copy
+>   **only the first `%%{init}%%` line**, then write your diagram type. Those types
+>   do **not** support `flowchart TD` or `classDef` — pasting the full block would
+>   force a flowchart or mix incompatible declarations. The `%%{init}%%` line alone
+>   still gives them the style's canvas color and font.
 
 ## How to pick a style
 

@@ -14,14 +14,14 @@
 
 以下规则不可妥协，违反会产出偏离品牌或无法渲染的图。
 
-1. **每张图必须以"风格头部"开头。** 风格头部 = 一段 `%%{init}%%` 指令 + 五个 `classDef`，从 `references/styles.md` 原样复制。这很关键：对话全局 Mermaid 主题写死为暗色，`%%{init}%%` 头部按图覆盖它。除非用户另有要求，默认用 `brand-light` 风格（见下方**风格**）。
+1. **每张图必须以某风格的 `%%{init}%%` 指令开头**（用它覆盖对话写死的暗色全局主题）。除非用户另有要求，默认用 `brand-light`（见下方**风格**）。`references/styles.md` 的预设是完整的 **flowchart** 骨架（`%%{init}%%` + `flowchart TD` + 五个 `classDef`）：画 flowchart 时整块复制；画 `sequenceDiagram` / `stateDiagram-v2` / `erDiagram` / `classDiagram` / `mindmap` 时**只复制首行 `%%{init}%%`**（这些图类型不支持 `classDef`）。
 2. **每个节点都用这五个 `classDef` 上色，不要临时写 hex。** 类名——`agent` / `system` / `biz` / `warn` / `error`——在所有风格里都相同，所以换风格时图体完全不用改。按角色选类：系统/通用→`system`，知识/学习→`agent`，业务/执行→`biz`，项目管理/警示/决策→`warn`，错误/失败→`error`。
 3. **使用下面的语义形状**，不要随意选形状。
 4. **标签含标点、括号或 `/` 时必须加引号**，避免 Mermaid 解析失败，例如 `A["查询 / 检索"]`。
 
 ## 风格
 
-六套可选视觉风格放在 `references/styles.md`，每套是一段现成头部（`%%{init}%%` + 五个 `classDef`）。换风格只换头部，节点/连线图体不变。
+六套可选视觉风格放在 `references/styles.md`，每套是一段现成的 **flowchart** 头部（`%%{init}%%` + 五个 `classDef`；非 flowchart 图类型只复制 `%%{init}%%` 首行，见规则 1）。换风格只换头部，节点/连线图体不变。
 
 | 风格 | 外观 | 适用 |
 |------|------|------|

@@ -38,7 +38,7 @@ metadata:
       description: >-
         当用户希望把描述转成技术图时使用此技能——架构图、流程图、时序图、状态机、ER 图、类图或思维导图。生成带语义形状/箭头词汇表的 Mermaid，对话内即时渲染为 SVG，并提供 6 套可选视觉风格（brand-light/brand-dark/terminal/blueprint/cream/mono）。用于结构、流程或关系类图，而非写实摄影/插画类图片（后者请用文生图技能）。用户提到 画架构图、架构图、流程图、时序图、序列图、状态图、状态机、ER图、类图、思维导图、出图、画图、可视化、画一张图、画个图、风格、暗色风格、蓝图风格、奶油风格。
       body: ./SKILL.zh-CN.md
-      source_hash: 'sha256:9f72c79fe36aa8c8'
+      source_hash: 'sha256:06773fd2f9531fd1'
       translated_by: human
     en-US:
       name: Tech Diagram Generator
@@ -46,7 +46,7 @@ metadata:
       description: >-
         Use this skill when the user wants to turn a description into a technical diagram — architecture diagrams, flowcharts, sequence diagrams, state machines, ER diagrams, class diagrams, or mind maps. Generates Mermaid with a semantic shape/arrow vocabulary that the DesireCore chat renders inline as SVG, with 6 selectable visual styles (brand-light/brand-dark/terminal/blueprint/cream/mono). Use this for diagrams of structure, flow, or relationships — not for photographic or illustrative images.
       body: ./SKILL.md
-      source_hash: 'sha256:9f72c79fe36aa8c8'
+      source_hash: 'sha256:06773fd2f9531fd1'
       translated_by: human
 market:
   icon: >-
@@ -87,11 +87,13 @@ image-generation skill (e.g. dashscope-image-gen, minimax-image-gen).
 
 These are non-negotiable. Violating them produces off-brand or unrendered diagrams.
 
-1. **Every diagram MUST start with a style header.** A style header is a
-   `%%{init}%%` directive plus five `classDef`s, copied verbatim from
-   `references/styles.md`. This matters because the chat's global Mermaid theme is
-   hardcoded to dark; the `%%{init}%%` header overrides it per diagram. Default to
-   the `brand-light` style unless the user asks for another (see **Styles** below).
+1. **Every diagram MUST start with a style's `%%{init}%%` directive** (it overrides
+   the chat's hardcoded-dark global theme). Default to `brand-light` unless the user
+   asks for another (see **Styles** below). The presets in `references/styles.md` are
+   full **flowchart** skeletons (`%%{init}%%` + `flowchart TD` + five `classDef`s):
+   for a flowchart, paste the whole block; for `sequenceDiagram` / `stateDiagram-v2`
+   / `erDiagram` / `classDiagram` / `mindmap`, copy **only the first `%%{init}%%`
+   line** (those types don't support `classDef`).
 2. **Color every node via the five `classDef`s, never with ad-hoc hex.** The class
    names — `agent` / `system` / `biz` / `warn` / `error` — are identical across all
    styles, so the diagram body never changes when the style does. Pick a node's
@@ -105,8 +107,9 @@ These are non-negotiable. Violating them produces off-brand or unrendered diagra
 ## Styles
 
 Six selectable visual styles live in `references/styles.md`; each is a
-ready-to-paste header (`%%{init}%%` + five `classDef`s). Switching style swaps
-only the header — the node/edge body stays the same.
+ready-to-paste **flowchart** header (`%%{init}%%` + five `classDef`s; for
+non-flowchart types copy only the `%%{init}%%` line, per rule 1). Switching style
+swaps only the header — the node/edge body stays the same.
 
 | Style | Look | Good for |
 |-------|------|----------|
