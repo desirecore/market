@@ -10,10 +10,11 @@ diagram body (`:::agent`, `:::system`, …) never changes.
 > follows:
 > - **Flowchart / architecture / data-flow:** paste the whole block, then add nodes.
 > - **sequenceDiagram / stateDiagram-v2 / erDiagram / classDiagram / mindmap:** copy
->   **only the first `%%{init}%%` line**, then write your diagram type. Those types
->   do **not** support `flowchart TD` or `classDef` — pasting the full block would
->   force a flowchart or mix incompatible declarations. The `%%{init}%%` line alone
->   still gives them the style's canvas color and font.
+>   **only the first `%%{init}%%` line**, then write your diagram type. The
+>   `flowchart TD` + `classDef` block is flowchart-specific — pasting it would force
+>   a flowchart or break parsing. The `%%{init}%%` line alone still gives them the
+>   style's canvas color and font. (If you want semantic coloring in these types,
+>   use that type's own class/style syntax — but init-only is the safe default.)
 
 ## How to pick a style
 
@@ -24,8 +25,8 @@ diagram body (`:::agent`, `:::system`, …) never changes.
   is a deliberate exception to the app's 3+2 color rule, which governs product UI,
   not exported diagrams). Each preset is internally consistent.
 - Semantic shapes and arrow encoding (see `semantic-vocabulary.md`) stay the same
-  in every style. `sequenceDiagram` / `classDiagram` etc. ignore `classDef`; keep
-  the style's `%%{init}%%` header for a consistent canvas + font.
+  in every flowchart style. For non-flowchart types, keep the style's `%%{init}%%`
+  header for a consistent canvas + font (see the note above).
 
 ---
 

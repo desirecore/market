@@ -38,7 +38,7 @@ metadata:
       description: >-
         当用户希望把描述转成技术图时使用此技能——架构图、流程图、时序图、状态机、ER 图、类图或思维导图。生成带语义形状/箭头词汇表的 Mermaid，对话内即时渲染为 SVG，并提供 6 套可选视觉风格（brand-light/brand-dark/terminal/blueprint/cream/mono）。用于结构、流程或关系类图，而非写实摄影/插画类图片（后者请用文生图技能）。用户提到 画架构图、架构图、流程图、时序图、序列图、状态图、状态机、ER图、类图、思维导图、出图、画图、可视化、画一张图、画个图、风格、暗色风格、蓝图风格、奶油风格。
       body: ./SKILL.zh-CN.md
-      source_hash: 'sha256:db209dd83388acb9'
+      source_hash: 'sha256:98d6dab3ac448c1b'
       translated_by: human
     en-US:
       name: Tech Diagram Generator
@@ -46,7 +46,7 @@ metadata:
       description: >-
         Use this skill when the user wants to turn a description into a technical diagram — architecture diagrams, flowcharts, sequence diagrams, state machines, ER diagrams, class diagrams, or mind maps. Generates Mermaid with a semantic shape/arrow vocabulary that the DesireCore chat renders inline as SVG, with 6 selectable visual styles (brand-light/brand-dark/terminal/blueprint/cream/mono). Use this for diagrams of structure, flow, or relationships — not for photographic or illustrative images.
       body: ./SKILL.md
-      source_hash: 'sha256:db209dd83388acb9'
+      source_hash: 'sha256:98d6dab3ac448c1b'
       translated_by: human
 market:
   icon: >-
@@ -91,12 +91,14 @@ These are non-negotiable. Violating them produces off-brand or unrendered diagra
    the chat's hardcoded-dark global theme). Default to `brand-light` unless the user
    asks for another (see **Styles** below). The presets in `references/styles.md` are
    full **flowchart** skeletons (`%%{init}%%` + `flowchart TD` + five `classDef`s):
-   for a flowchart, paste the whole block; for `sequenceDiagram` / `stateDiagram-v2`
-   / `erDiagram` / `classDiagram` / `mindmap`, copy **only the first `%%{init}%%`
-   line** (those types don't support `classDef`).
+   for a flowchart, paste the whole block; for any other type (`sequenceDiagram` /
+   `stateDiagram-v2` / `erDiagram` / `classDiagram` / `mindmap`), copy **only the
+   first `%%{init}%%` line** — the `flowchart TD` + `classDef` block is
+   flowchart-specific and the `%%{init}%%` line alone gives them the style's canvas
+   and font.
 2. **In a flowchart, color every node via the five `classDef`s, never with ad-hoc
-   hex** (non-flowchart types have no `classDef` — they just inherit the style's
-   `%%{init}%%` canvas + font). The class names — `agent` / `system` / `biz` /
+   hex** (other diagram types just inherit the style's `%%{init}%%` canvas + font;
+   the `classDef` block is flowchart-specific). The class names — `agent` / `system` / `biz` /
    `warn` / `error` — are identical across all styles, so the flowchart body never
    changes when the style does. Pick a node's class by its role: system/generic →
    `system`, knowledge/learning → `agent`, business/execution → `biz`,

@@ -6,10 +6,11 @@ color encode meaning, so a reader understands a diagram without a legend.
 ## The style header (paste verbatim as the first lines of every diagram)
 
 Every diagram starts with a style's `%%{init}%%` directive. For **flowcharts** the
-header also carries five `classDef`s (full preset below); **non-flowchart** types
+header also carries five `classDef`s (full preset below); for **other** types
 (`sequenceDiagram` / `stateDiagram-v2` / `erDiagram` / `classDiagram` / `mindmap`)
-use **only the `%%{init}%%` line** — they have no `classDef`. The six presets live
-in `styles.md`; the default `brand-light` flowchart header is shown here:
+use **only the `%%{init}%%` line** — the `classDef` block is flowchart-specific.
+The six presets live in `styles.md`; the default `brand-light` flowchart header is
+shown here:
 
 ```
 %%{init: {'theme':'base','themeVariables':{'background':'#ffffff','primaryColor':'#F0F5FF','primaryBorderColor':'#007AFF','primaryTextColor':'#1d1d1f','lineColor':'#6e6e73','textColor':'#1d1d1f','fontFamily':'-apple-system,SF Pro Text,Noto Sans SC,sans-serif'}}}%%
@@ -76,5 +77,5 @@ The class names are stable; only their colors change per style.
 | Class / type model | `classDiagram` |
 | Mind map | `mindmap` |
 
-For `sequenceDiagram`, `classDiagram`, etc. that do not support `classDef`, still
-keep the `%%{init}%%` brand header so the theme stays light and on-brand.
+For non-flowchart types, copy only the style's `%%{init}%%` line (the `classDef`
+block is flowchart-specific) so the canvas and font stay on-style.

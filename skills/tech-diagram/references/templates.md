@@ -8,17 +8,18 @@ All four are verified to render.
 > **DesireCore application codebase** where this skill runs at runtime — they do
 > not exist in this market repository.
 >
-> All templates use the `brand-light` style. To render any template in another
-> style, replace only the `%%{init}%%` line and the five `classDef` lines with the
-> chosen preset from `styles.md` — **keep the template's own direction line**
-> (`flowchart LR` / `flowchart TD`) and the node/edge body unchanged.
+> All templates use the `brand-light` style (its `%%{init}%%` line plus the
+> `classDef`s each diagram needs). To render a template in another style, replace
+> the `%%{init}%%` line and the `classDef` lines with the chosen preset from
+> `styles.md` — **keep the template's own direction line** (`flowchart LR` /
+> `flowchart TD`) and the node/edge body unchanged.
 
 ## 1. Agent architecture (Agent 架构图)
 
 Mirrors the delegate / skills / memory layout (`lib/agent-service/builtin-tools/delegate.ts`).
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'primaryColor':'#F0F5FF','primaryBorderColor':'#007AFF','primaryTextColor':'#1d1d1f','lineColor':'#6e6e73','fontFamily':'-apple-system,SF Pro Text,Noto Sans SC,sans-serif'}}}%%
+%%{init: {'theme':'base','themeVariables':{'background':'#ffffff','primaryColor':'#F0F5FF','primaryBorderColor':'#007AFF','primaryTextColor':'#1d1d1f','lineColor':'#6e6e73','textColor':'#1d1d1f','fontFamily':'-apple-system,SF Pro Text,Noto Sans SC,sans-serif'}}}%%
 flowchart TD
     classDef agent  fill:#F6F3FF,stroke:#AF52DE,color:#1d1d1f
     classDef system fill:#F0F5FF,stroke:#007AFF,color:#1d1d1f
@@ -45,7 +46,7 @@ flowchart TD
 The unified delegate tool and its six execution modes.
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'primaryColor':'#F0F5FF','primaryBorderColor':'#007AFF','primaryTextColor':'#1d1d1f','lineColor':'#6e6e73','fontFamily':'-apple-system,SF Pro Text,Noto Sans SC,sans-serif'}}}%%
+%%{init: {'theme':'base','themeVariables':{'background':'#ffffff','primaryColor':'#F0F5FF','primaryBorderColor':'#007AFF','primaryTextColor':'#1d1d1f','lineColor':'#6e6e73','textColor':'#1d1d1f','fontFamily':'-apple-system,SF Pro Text,Noto Sans SC,sans-serif'}}}%%
 flowchart LR
     classDef system fill:#F0F5FF,stroke:#007AFF,color:#1d1d1f
     classDef biz    fill:#F0FDF4,stroke:#34C759,color:#1d1d1f
@@ -65,7 +66,7 @@ active → recent (L0/L1) → archive (L2); writes are dotted
 (`lib/schemas/agent-service/conversation-memory.ts`).
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'primaryColor':'#F0F5FF','primaryBorderColor':'#007AFF','primaryTextColor':'#1d1d1f','lineColor':'#6e6e73','fontFamily':'-apple-system,SF Pro Text,Noto Sans SC,sans-serif'}}}%%
+%%{init: {'theme':'base','themeVariables':{'background':'#ffffff','primaryColor':'#F0F5FF','primaryBorderColor':'#007AFF','primaryTextColor':'#1d1d1f','lineColor':'#6e6e73','textColor':'#1d1d1f','fontFamily':'-apple-system,SF Pro Text,Noto Sans SC,sans-serif'}}}%%
 flowchart LR
     classDef system fill:#F0F5FF,stroke:#007AFF,color:#1d1d1f
     classDef warn   fill:#FFFBF0,stroke:#FF9500,color:#1d1d1f
@@ -86,7 +87,7 @@ The six edge types projected by `lib/agent-service/relations/projector.ts`, each
 drawn with a distinct edge style. Edge weight decays over time (30-day half-life).
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'primaryColor':'#F0F5FF','primaryBorderColor':'#007AFF','primaryTextColor':'#1d1d1f','lineColor':'#6e6e73','fontFamily':'-apple-system,SF Pro Text,Noto Sans SC,sans-serif'}}}%%
+%%{init: {'theme':'base','themeVariables':{'background':'#ffffff','primaryColor':'#F0F5FF','primaryBorderColor':'#007AFF','primaryTextColor':'#1d1d1f','lineColor':'#6e6e73','textColor':'#1d1d1f','fontFamily':'-apple-system,SF Pro Text,Noto Sans SC,sans-serif'}}}%%
 flowchart TD
     classDef agent fill:#F6F3FF,stroke:#AF52DE,color:#1d1d1f
     classDef biz   fill:#F0FDF4,stroke:#34C759,color:#1d1d1f
@@ -110,7 +111,7 @@ For sequence / state / ER / class diagrams, keep the same `%%{init}%%` header fo
 a consistent light theme. Example sequence diagram:
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'primaryColor':'#F0F5FF','primaryBorderColor':'#007AFF','primaryTextColor':'#1d1d1f','lineColor':'#6e6e73','fontFamily':'-apple-system,SF Pro Text,Noto Sans SC,sans-serif'}}}%%
+%%{init: {'theme':'base','themeVariables':{'background':'#ffffff','primaryColor':'#F0F5FF','primaryBorderColor':'#007AFF','primaryTextColor':'#1d1d1f','lineColor':'#6e6e73','textColor':'#1d1d1f','fontFamily':'-apple-system,SF Pro Text,Noto Sans SC,sans-serif'}}}%%
 sequenceDiagram
     actor U as User
     participant C as DesireCore Core

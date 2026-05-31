@@ -2,7 +2,7 @@
 
 # tech-diagram 技能
 
-把自然语言描述转成品牌一致的技术图。你在回复中写 **Mermaid**，DesireCore 对话会即时渲染为 SVG。本技能的核心价值是一致性：每张图都用同一套 DesireCore 3+2 配色和同一套语义形状/箭头词汇表，让所有图看起来像出自同一个产品。
+把自然语言描述转成精致的技术图。你在回复中写 **Mermaid**，DesireCore 对话会即时渲染为 SVG。本技能的核心价值是一致性：固定的语义形状/箭头词汇表，加上六套自洽的视觉风格（默认 `brand-light`），让每张图都连贯且统一。
 
 ## 何时使用
 
@@ -14,8 +14,8 @@
 
 以下规则不可妥协，违反会产出偏离品牌或无法渲染的图。
 
-1. **每张图必须以某风格的 `%%{init}%%` 指令开头**（用它覆盖对话写死的暗色全局主题）。除非用户另有要求，默认用 `brand-light`（见下方**风格**）。`references/styles.md` 的预设是完整的 **flowchart** 骨架（`%%{init}%%` + `flowchart TD` + 五个 `classDef`）：画 flowchart 时整块复制；画 `sequenceDiagram` / `stateDiagram-v2` / `erDiagram` / `classDiagram` / `mindmap` 时**只复制首行 `%%{init}%%`**（这些图类型不支持 `classDef`）。
-2. **flowchart 内每个节点都用这五个 `classDef` 上色，不要临时写 hex**（非 flowchart 图类型没有 `classDef`，只继承风格的 `%%{init}%%` 底色与字体）。类名——`agent` / `system` / `biz` / `warn` / `error`——在所有风格里都相同，所以换风格时 flowchart 图体完全不用改。按角色选类：系统/通用→`system`，知识/学习→`agent`，业务/执行→`biz`，项目管理/警示/决策→`warn`，错误/失败→`error`。
+1. **每张图必须以某风格的 `%%{init}%%` 指令开头**（用它覆盖对话写死的暗色全局主题）。除非用户另有要求，默认用 `brand-light`（见下方**风格**）。`references/styles.md` 的预设是完整的 **flowchart** 骨架（`%%{init}%%` + `flowchart TD` + 五个 `classDef`）：画 flowchart 时整块复制；画其他类型（`sequenceDiagram` / `stateDiagram-v2` / `erDiagram` / `classDiagram` / `mindmap`）时**只复制首行 `%%{init}%%`**——`flowchart TD` + `classDef` 块是 flowchart 专用，仅 `%%{init}%%` 首行即可给它们风格的底色与字体。
+2. **flowchart 内每个节点都用这五个 `classDef` 上色，不要临时写 hex**（其他图类型只继承风格的 `%%{init}%%` 底色与字体；`classDef` 块是 flowchart 专用）。类名——`agent` / `system` / `biz` / `warn` / `error`——在所有风格里都相同，所以换风格时 flowchart 图体完全不用改。按角色选类：系统/通用→`system`，知识/学习→`agent`，业务/执行→`biz`，项目管理/警示/决策→`warn`，错误/失败→`error`。
 3. **使用下面的语义形状**，不要随意选形状。
 4. **标签含标点、括号或 `/` 时必须加引号**，避免 Mermaid 解析失败，例如 `A["查询 / 检索"]`。
 
