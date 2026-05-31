@@ -7,6 +7,10 @@ All four are verified to render.
 > Note: file paths like `lib/...` and `app/...` cited below refer to the
 > **DesireCore application codebase** where this skill runs at runtime — they do
 > not exist in this market repository.
+>
+> All templates use the `brand-light` style header. To render any template in
+> another style, replace its `%%{init}%%` + `classDef` header with the chosen
+> preset from `styles.md` — the node/edge body stays identical.
 
 ## 1. Agent architecture (Agent 架构图)
 
