@@ -42,9 +42,10 @@ metadata:
         visual systems — editorial “magazine × e-ink” and “Swiss International” —
         with WebGL backgrounds, chapter covers, data headlines and image grids.
         Ideal for talks, sharing sessions, product launches and year-in-review
-        decks. Body localization (en-US) is pending the market AI-translation
-        pipeline; until then it falls back to the zh-CN body.
-      translated_by: ai:claude-opus-4-8
+        decks. The skill body itself is bilingual (zh-CN/en mixed) and the en-US
+        locale intentionally falls back to the shared body, so it is locked as
+        human-maintained.
+      translated_by: human
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
