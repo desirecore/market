@@ -14,9 +14,15 @@ Examples:
 """
 
 import argparse
+import os
 import sys
 import zipfile
 from pathlib import Path
+
+# 复用客户端预装的共享 Python 依赖（defusedxml 等）：office → scripts → docx → skills → <ROOT>
+_deps = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "runtime-deps", "python-libs")
+if os.path.isdir(_deps):
+    sys.path.insert(0, _deps)
 
 import defusedxml.minidom
 
