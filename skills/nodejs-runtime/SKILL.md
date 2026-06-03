@@ -13,7 +13,7 @@ description: >-
   "yarn", "volta", "nvm", "fnm", "nodejs version", "package-lock", or any
   Node.js / npm runtime error. 使用场景：用户需要 安装 Node.js、安装 npm、
   pnpm、yarn、配置全局包、解决 EACCES、PATH 问题、镜像/代理配置。
-version: 1.0.1
+version: 1.0.2
 type: procedural
 risk_level: low
 status: enabled

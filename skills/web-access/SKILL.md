@@ -14,7 +14,7 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: Complete terms in LICENSE.txt
-version: 2.0.0
+version: 2.0.1
 type: procedural
 risk_level: low
 status: enabled

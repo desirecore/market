@@ -7,7 +7,7 @@ description: >-
   AI 作曲、创作歌曲、写一首歌、音乐生成、AI 音乐、MiniMax 音乐、
   作词作曲、纯音乐、伴奏、翻唱、cover。
 license: Complete terms in LICENSE.txt
-version: 1.1.3
+version: 1.1.4
 type: procedural
 risk_level: low
 status: enabled

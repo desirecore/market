@@ -13,7 +13,7 @@ description: >-
   version", "pip command not found", or any Python-related runtime error.
   使用场景：用户需要 安装 Python、安装 pip、配置虚拟环境、管理多版本、
   解决 PEP 668、import 失败、PATH 问题、SSL 证书错误等。
-version: 1.0.1
+version: 1.0.2
 type: procedural
 risk_level: low
 status: enabled
