@@ -4,7 +4,7 @@ description: >-
   管理 Agent 的技能生命周期：通过 HTTP API 导入、安装、更新、删除技能，
   或通过 AgentFS 文件系统直接编写符合规范的 SKILL.md。Use when 用户要求
   安装技能、从 URL/Git 导入技能、编写新技能、或管理已有技能。
-version: 1.0.3
+version: 1.0.4
 type: meta
 risk_level: low
 status: enabled
