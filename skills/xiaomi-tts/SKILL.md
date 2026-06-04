@@ -8,7 +8,7 @@ description: >-
   Use when 用户提到 语音合成、文字转语音、TTS、朗读、读出来、生成语音、
   生成音频、文本转音频、配音、念出来、小米语音、MiMo 语音、小米 TTS。
 license: Complete terms in LICENSE.txt
-version: 1.0.0
+version: 1.0.1
 type: procedural
 risk_level: low
 status: enabled
