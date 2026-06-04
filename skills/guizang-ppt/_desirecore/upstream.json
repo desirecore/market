@@ -1,0 +1,10 @@
+{
+  "skillId": "guizang-ppt",
+  "repoUrl": "https://github.com/op7418/guizang-ppt-skill.git",
+  "branch": "main",
+  "ref": "main",
+  "commit": "014c572454065e905477a7432ae331dfc0fe6070",
+  "license": "AGPL-3.0",
+  "author": "歸藏 (op7418)",
+  "vendoredAt": "2026-05-31T14:31:12.948Z"
+}
