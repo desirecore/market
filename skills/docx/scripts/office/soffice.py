@@ -17,6 +17,7 @@ Usage:
 import os
 import socket
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
@@ -42,11 +43,16 @@ _SHIM_SO = Path(tempfile.gettempdir()) / "lo_socket_shim.so"
 
 
 def _needs_shim() -> bool:
+    # AF_UNIX socket 屏蔽的 LD_PRELOAD + gcc(.so) 兜底仅对 Linux 沙箱有意义；
+    # macOS/Windows 上既无 LD_PRELOAD 机制也无该限制，且 socket.AF_UNIX 在部分
+    # Windows Python 上不存在（AttributeError），直接判定为不需要 shim。
+    if sys.platform != "linux":
+        return False
     try:
         s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         s.close()
         return False
-    except OSError:
+    except (OSError, AttributeError):
         return True
 
 

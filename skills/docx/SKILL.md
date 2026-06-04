@@ -13,7 +13,7 @@ description: >-
   PDFs, spreadsheets, Google Docs, or general coding tasks unrelated to document
   generation. Use when 用户提到 Word文档、docx、创建文档、编辑文档、报告、
   备忘录、公文、合同、信函模板。
-version: 1.0.2
+version: 1.0.3
 type: procedural
 risk_level: low
 status: enabled
@@ -25,7 +25,7 @@ tags:
   - office
 metadata:
   author: anthropic
-  updated_at: '2026-04-13'
+  updated_at: '2026-06-02'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -38,7 +38,7 @@ metadata:
       description: >-
         Use this skill whenever the user wants to create, read, edit, or manipulate Word documents (.docx files). Triggers include: any mention of "Word doc", "word document", ".docx", or requests to produce professional documents with formatting like tables of contents, headings, page numbers, or letterheads. Also use when extracting or reorganizing content from .docx files, inserting or replacing images in documents, performing find-and-replace in Word files, working with tracked changes or comments, or converting content into a polished Word document. If the user asks for a "report", "memo", "letter", "template", or similar deliverable as a Word or .docx file, use this skill. Do NOT use for PDFs, spreadsheets, Google Docs, or general coding tasks unrelated to document generation. Use when 用户提到 Word文档、docx、创建文档、编辑文档、报告、 备忘录、公文、合同、信函模板。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:58d1aae3a57a1851
+      source_hash: sha256:ceb03c49d0215800
       translated_by: human
     en-US:
       name: Word Document Processing
@@ -46,7 +46,7 @@ metadata:
       description: >-
         Use this skill whenever the user wants to create, read, edit, or manipulate Word documents (.docx files). Triggers include: any mention of "Word doc", "word document", ".docx", or requests to produce professional documents with formatting like tables of contents, headings, page numbers, or letterheads. Also use when extracting or reorganizing content from .docx files, inserting or replacing images in documents, performing find-and-replace in Word files, working with tracked changes or comments, or converting content into a polished Word document. If the user asks for a "report", "memo", "letter", "template", or similar deliverable as a Word or .docx file, use this skill. Do NOT use for PDFs, spreadsheets, Google Docs, or general coding tasks unrelated to document generation. Use when the user mentions Word documents, docx, creating documents, editing documents, reports, memos, official documents, contracts, or letter templates.
       body: ./SKILL.md
-      source_hash: sha256:58d1aae3a57a1851
+      source_hash: sha256:ceb03c49d0215800
       translated_by: human
 market:
   icon: >-
@@ -93,14 +93,16 @@ docx is a **Procedural Skill** that provides full processing capabilities for Wo
 
 The Python scripts bundled with this skill live inside the skill installation directory. You **MUST use full paths** when invoking them — never use bare relative paths.
 
-The skill directory is provided by the `<skill-dir>` tag in the context. Prefix all `scripts/` commands accordingly:
+The skill directory is provided by the `<skill-dir>` tag in the context. **Always run the office Python scripts through the cross-platform launcher** `scripts/with-deps.py`, so they reuse the runtime-preinstalled libraries (`defusedxml`, and `lxml` for full validation) with no `pip install`. The launcher is pure Python and behaves identically on **macOS / Linux / Windows — it does NOT require `bash`**:
 
 ```bash
-python "<skill-dir>/scripts/office/unpack.py" document.docx unpacked/
-python "<skill-dir>/scripts/office/pack.py" unpacked/ output.docx
+python "<skill-dir>/scripts/with-deps.py" office/unpack.py document.docx unpacked/
+python "<skill-dir>/scripts/with-deps.py" office/pack.py unpacked/ output.docx
 ```
 
-**NEVER** run `python scripts/office/unpack.py` directly — that relative path does not exist in the user's working directory.
+The launcher runs the target script under a runtime-bundled Python that has `lxml`/`defusedxml` preinstalled, and falls back to the system `python3` if that bundled Python is unavailable (in which case full XSD validation is skipped gracefully). The script path is **relative to `scripts/`** (e.g. `office/unpack.py`, `comment.py`).
+
+**NEVER** invoke an office script with a bare relative path like `python scripts/office/unpack.py` — that path does not exist in the user's working directory, and it bypasses the preinstalled libraries. Always go through `<skill-dir>/scripts/with-deps.py`.
 
 ## Prerequisites
 
@@ -124,17 +126,9 @@ for everything else (containers / WSL / system tools), load the `dev-environment
 
 ### Python Package Dependencies
 
-The Python scripts in this Skill depend on the following packages (checked on demand, only when the relevant scripts are actually invoked):
+The Python scripts in this Skill depend on `defusedxml` (XML parsing) and `lxml` (XSD validation). **Both are pre-installed by the runtime** — when you run the scripts through `scripts/with-deps.py`, the target runs under a runtime-bundled Python that has both, so **no `pip install` and no network are needed** (works offline, on every platform, without `bash`).
 
-- `lxml` — XML schema validation (validate.py)
-- `defusedxml` — safe XML parsing (unpack.py)
-
-Detection method:
-```bash
-python3 -c "import lxml; import defusedxml" 2>/dev/null || echo "MISSING"
-```
-
-If missing, instruct the user to install: `pip install lxml defusedxml`
+Fallback: if the runtime-bundled Python is unavailable (older client / build without it), the wrapper uses system `python3`. In that case `defusedxml` still resolves (pure-Python, bundled separately) but `lxml` may be missing — full XSD validation is then **skipped gracefully** (editing/packing still succeed). To enable full validation in that fallback case: `pip install lxml`.
 
 ## Output Rule
 
@@ -157,7 +151,7 @@ A .docx file is a ZIP archive containing XML files.
 Legacy `.doc` files must be converted before editing:
 
 ```bash
-python scripts/office/soffice.py --headless --convert-to docx document.doc
+python "<skill-dir>/scripts/with-deps.py" office/soffice.py --headless --convert-to docx document.doc
 ```
 
 ### Reading Content
@@ -167,13 +161,13 @@ python scripts/office/soffice.py --headless --convert-to docx document.doc
 pandoc --track-changes=all document.docx -o output.md
 
 # Raw XML access
-python scripts/office/unpack.py document.docx unpacked/
+python "<skill-dir>/scripts/with-deps.py" office/unpack.py document.docx unpacked/
 ```
 
 ### Converting to Images
 
 ```bash
-python scripts/office/soffice.py --headless --convert-to pdf document.docx
+python "<skill-dir>/scripts/with-deps.py" office/soffice.py --headless --convert-to pdf document.docx
 pdftoppm -jpeg -r 150 document.pdf page
 ```
 
@@ -182,17 +176,28 @@ pdftoppm -jpeg -r 150 document.pdf page
 To produce a clean document with all tracked changes accepted (requires LibreOffice):
 
 ```bash
-python scripts/accept_changes.py input.docx output.docx
+python "<skill-dir>/scripts/with-deps.py" accept_changes.py input.docx output.docx
 ```
 
 ---
 
 ## Creating New Documents
 
-Generate .docx files with JavaScript, then validate. Install: `npm install -g docx`
+Generate .docx files with JavaScript, then validate. The `docx` (docx-js) library is **pre-installed by the runtime** — no `npm install` needed. You MUST run the generator through the Node preloader (`scripts/preload-deps.cjs`, see Run below) so `require('docx')` resolves the pre-installed library.
+
+### Authoring the script (CRITICAL — avoids quote/escaping failures)
+
+**You MUST create `generate.js` with the `Write` tool — write the file directly.**
+
+**NEVER** build the script through the shell: do NOT use `bash` heredocs (`cat <<EOF`), `echo`, or `python3 -c "...open(...).write(...)"` to emit JavaScript. Document content (especially manuals/reports) contains many `"` quotes, apostrophes, and CJK punctuation; routing it through the shell causes three layers of quoting to collide (shell quotes × JS string quotes × heredoc delimiter), which corrupts the script and triggers endless retries and command timeouts.
+
+- Use the `Write` tool → quotes in content are written verbatim, no shell escaping at all.
+- For long documents, keep content as plain JS strings/arrays inside the file; split into many `Paragraph`s. If a single document is very large, write it in **multiple smaller `Write`/`Edit` steps** rather than one giant command.
 
 ### Setup
+Write the generator to a file (e.g. `generate.js`) **using the Write tool**:
 ```javascript
+const fs = require('fs');
 const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, ImageRun,
         Header, Footer, AlignmentType, PageOrientation, LevelFormat, ExternalHyperlink,
         TableOfContents, HeadingLevel, BorderStyle, WidthType, ShadingType,
@@ -202,10 +207,17 @@ const doc = new Document({ sections: [{ children: [/* content */] }] });
 Packer.toBuffer(doc).then(buffer => fs.writeFileSync("doc.docx", buffer));
 ```
 
+### Run
+Run it with the cross-platform Node preloader (it injects `NODE_PATH` for the pre-installed `docx`; pure Node, works on **macOS / Linux / Windows**, no `bash` needed):
+```bash
+node -r "<skill-dir>/scripts/preload-deps.cjs" generate.js
+```
+**Use CommonJS `require('docx')`, NOT ESM `import`** — the pre-installed library is resolved via `NODE_PATH`, which Node **ignores for ESM**. Do not put a `"type": "module"` `package.json` in the working directory either, as it would force `.js` files to be treated as ESM and break `require`. If `require('docx')` still fails (e.g. the runtime pre-install is unavailable on an older client), fall back to `npm install -g docx` and re-run.
+
 ### Validation
 After creating the file, validate it. If validation fails, unpack, fix the XML, and repack.
 ```bash
-python scripts/office/validate.py doc.docx
+python "<skill-dir>/scripts/with-deps.py" office/validate.py doc.docx
 ```
 
 ### Page Size
@@ -426,7 +438,7 @@ sections: [{
 
 ### Step 1: Unpack
 ```bash
-python scripts/office/unpack.py document.docx unpacked/
+python "<skill-dir>/scripts/with-deps.py" office/unpack.py document.docx unpacked/
 ```
 Extracts XML, pretty-prints, merges adjacent runs, and converts smart quotes to XML entities (`&#x201C;` etc.) so they survive editing. Use `--merge-runs false` to skip run merging.
 
@@ -452,15 +464,15 @@ Edit files in `unpacked/word/`. See XML Reference below for patterns.
 
 **Adding comments:** Use `comment.py` to handle boilerplate across multiple XML files (text must be pre-escaped XML):
 ```bash
-python scripts/comment.py unpacked/ 0 "Comment text with &amp; and &#x2019;"
-python scripts/comment.py unpacked/ 1 "Reply text" --parent 0  # reply to comment 0
-python scripts/comment.py unpacked/ 0 "Text" --author "Custom Author"  # custom author name
+python "<skill-dir>/scripts/with-deps.py" comment.py unpacked/ 0 "Comment text with &amp; and &#x2019;"
+python "<skill-dir>/scripts/with-deps.py" comment.py unpacked/ 1 "Reply text" --parent 0  # reply to comment 0
+python "<skill-dir>/scripts/with-deps.py" comment.py unpacked/ 0 "Text" --author "Custom Author"  # custom author name
 ```
 Then add markers to document.xml (see Comments in XML Reference).
 
 ### Step 3: Pack
 ```bash
-python scripts/office/pack.py unpacked/ output.docx --original document.docx
+python "<skill-dir>/scripts/with-deps.py" office/pack.py unpacked/ output.docx --original document.docx
 ```
 Validates with auto-repair, condenses XML, and creates DOCX. Use `--validate false` to skip.
 
@@ -609,7 +621,13 @@ After running `comment.py` (see Step 2), add markers to document.xml. For replie
 
 ## Dependencies
 
-- **pandoc**: Text extraction
-- **docx**: `npm install -g docx` (new documents)
-- **LibreOffice**: PDF conversion (auto-configured for sandboxed environments via `scripts/office/soffice.py`)
-- **Poppler**: `pdftoppm` for images
+Runtime-preinstalled (no install, offline, cross-platform — the launchers below need no `bash`):
+
+- **docx** (docx-js): new documents — **pre-installed by the runtime** (`runtime-deps/node_modules`); run generators via `node -r "<skill-dir>/scripts/preload-deps.cjs" generate.js`. No `npm install` needed.
+- **defusedxml** + **lxml**: XML parsing & full XSD validation — **pre-installed by the runtime** in a bundled Python (`runtime-deps/python-runtime`); run scripts via `python "<skill-dir>/scripts/with-deps.py" <script> ...` to use them offline. Falls back to the system `python3` and skips XSD validation gracefully if the bundled Python / `lxml` is unavailable.
+
+External system tools (only needed for reading/conversion, **not** for generation; install per OS if used):
+
+- **pandoc**: Text extraction. macOS `brew install pandoc` · Windows `winget install --id JohnMacFarlane.Pandoc` · Linux `sudo apt install pandoc`
+- **LibreOffice** (`soffice`): `.doc`→`.docx` and PDF conversion, accept-changes. macOS `brew install --cask libreoffice` · Windows `winget install --id TheDocumentFoundation.LibreOffice` (ensure `soffice` is on `PATH`) · Linux `sudo apt install libreoffice`. The Linux-sandbox `AF_UNIX` shim in `scripts/office/soffice.py` is auto-skipped on macOS/Windows.
+- **Poppler** (`pdftoppm`, page→image): macOS `brew install poppler` · Windows `winget install --id oschwartz10612.Poppler` or `choco install poppler` · Linux `sudo apt install poppler-utils`

@@ -5,16 +5,21 @@ Requires LibreOffice (soffice) to be installed.
 
 import argparse
 import logging
+import os
 import shutil
 import subprocess
+import tempfile
 from pathlib import Path
 
 from office.soffice import get_soffice_env
 
 logger = logging.getLogger(__name__)
 
-LIBREOFFICE_PROFILE = "/tmp/libreoffice_docx_profile"
-MACRO_DIR = f"{LIBREOFFICE_PROFILE}/user/basic/Standard"
+# 跨平台临时目录（Windows 无 /tmp）；LibreOffice 的 UserInstallation 需 file:// URI，
+# Path.as_uri() 在 POSIX/Windows 上分别生成 file:///tmp/... 与 file:///C:/...
+LIBREOFFICE_PROFILE = os.path.join(tempfile.gettempdir(), "libreoffice_docx_profile")
+LIBREOFFICE_PROFILE_URI = Path(LIBREOFFICE_PROFILE).as_uri()
+MACRO_DIR = os.path.join(LIBREOFFICE_PROFILE, "user", "basic", "Standard")
 
 ACCEPT_CHANGES_MACRO = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
@@ -58,7 +63,7 @@ def accept_changes(
     cmd = [
         "soffice",
         "--headless",
-        f"-env:UserInstallation=file://{LIBREOFFICE_PROFILE}",
+        f"-env:UserInstallation={LIBREOFFICE_PROFILE_URI}",
         "--norestore",
         "vnd.sun.star.script:Standard.Module1.AcceptAllTrackedChanges?language=Basic&location=application",
         str(output_path.absolute()),
@@ -100,7 +105,7 @@ def _setup_libreoffice_macro() -> bool:
             [
                 "soffice",
                 "--headless",
-                f"-env:UserInstallation=file://{LIBREOFFICE_PROFILE}",
+                f"-env:UserInstallation={LIBREOFFICE_PROFILE_URI}",
                 "--terminate_after_init",
             ],
             capture_output=True,
