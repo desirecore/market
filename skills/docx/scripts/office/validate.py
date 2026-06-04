@@ -14,15 +14,36 @@ Auto-repair fixes:
 """
 
 import argparse
+import atexit
+import os
+import shutil
 import sys
 import tempfile
 import zipfile
 from pathlib import Path
 
-from validators import DOCXSchemaValidator, PPTXSchemaValidator, RedliningValidator
+# 复用客户端预装的共享 Python 依赖（defusedxml 等）：office → scripts → docx → skills → <ROOT>
+_deps = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "runtime-deps", "python-libs")
+if os.path.isdir(_deps):
+    sys.path.insert(0, _deps)
+
+try:
+    from validators import DOCXSchemaValidator, PPTXSchemaValidator, RedliningValidator
+    _VALIDATORS_AVAILABLE = True
+except ImportError:
+    # validators 依赖 lxml（编译型扩展，未随客户端预装）。缺失时优雅降级：
+    # 提示安装并以成功退出，而非崩溃——避免阻塞依赖本脚本的上层流程。
+    _VALIDATORS_AVAILABLE = False
 
 
 def main():
+    if not _VALIDATORS_AVAILABLE:
+        print(
+            "Warning: lxml 未安装，已跳过 XSD 完整校验。如需完整校验请安装 lxml：pip install lxml",
+            file=sys.stderr,
+        )
+        return 0
+
     parser = argparse.ArgumentParser(description="Validate Office document XML files")
     parser.add_argument(
         "path",
@@ -70,6 +91,8 @@ def main():
 
     if path.is_file() and path.suffix.lower() in [".docx", ".pptx", ".xlsx"]:
         temp_dir = tempfile.mkdtemp()
+        # 解包目录在进程退出时清理（含 sys.exit），避免每次校验泄漏 /tmp 目录
+        atexit.register(shutil.rmtree, temp_dir, ignore_errors=True)
         with zipfile.ZipFile(path, "r") as zf:
             zf.extractall(temp_dir)
         unpacked_dir = Path(temp_dir)

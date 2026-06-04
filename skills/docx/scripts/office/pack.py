@@ -11,15 +11,28 @@ Examples:
 """
 
 import argparse
+import os
 import sys
 import shutil
 import tempfile
 import zipfile
 from pathlib import Path
 
+# 复用客户端预装的共享 Python 依赖（defusedxml 等）：office → scripts → docx → skills → <ROOT>
+_deps = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "runtime-deps", "python-libs")
+if os.path.isdir(_deps):
+    sys.path.insert(0, _deps)
+
 import defusedxml.minidom
 
-from validators import DOCXSchemaValidator, PPTXSchemaValidator, RedliningValidator
+try:
+    from validators import DOCXSchemaValidator, PPTXSchemaValidator, RedliningValidator
+    _VALIDATORS_AVAILABLE = True
+except ImportError as _e:
+    # validators 依赖 lxml（编译型扩展，未随客户端预装）。缺失时优雅降级：
+    # 跳过 XSD 完整校验而非崩溃——打包/编辑本身不需要 lxml。
+    _VALIDATORS_AVAILABLE = False
+    _VALIDATORS_IMPORT_ERROR = _e
 
 def pack(
     input_directory: str,
@@ -39,15 +52,22 @@ def pack(
         return None, f"Error: {output_file} must be a .docx, .pptx, or .xlsx file"
 
     if validate and original_file:
-        original_path = Path(original_file)
-        if original_path.exists():
-            success, output = _run_validation(
-                input_dir, original_path, suffix, infer_author_func
+        if not _VALIDATORS_AVAILABLE:
+            print(
+                "Warning: lxml 未安装，已跳过 XSD 完整校验（文件仍正常打包）。"
+                "如需完整校验请安装 lxml：pip install lxml",
+                file=sys.stderr,
             )
-            if output:
-                print(output)
-            if not success:
-                return None, f"Error: Validation failed for {input_dir}"
+        else:
+            original_path = Path(original_file)
+            if original_path.exists():
+                success, output = _run_validation(
+                    input_dir, original_path, suffix, infer_author_func
+                )
+                if output:
+                    print(output)
+                if not success:
+                    return None, f"Error: Validation failed for {input_dir}"
 
     with tempfile.TemporaryDirectory() as temp_dir:
         temp_content_dir = Path(temp_dir) / "content"

@@ -14,11 +14,17 @@ After running, add markers to document.xml:
 """
 
 import argparse
+import os
 import random
 import shutil
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
+# 复用客户端预装的共享 Python 依赖（defusedxml 等）：scripts → docx → skills → <ROOT>
+_deps = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "runtime-deps", "python-libs")
+if os.path.isdir(_deps):
+    sys.path.insert(0, _deps)
 
 import defusedxml.minidom
 
