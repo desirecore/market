@@ -23,7 +23,7 @@
 
 ### 前置条件
 
-- 用户已在资源管理器-算力中配置阿里云 DashScope Provider 并填写 API Key
+- 至少有一个已启用的算力供应商支持 `image_gen` 服务类型（如 DashScope 或默认的 DesireCore Cloud 供应商）
 - agent-service 正在运行
 
 ### 第一步：调用文生图 API（同步）
@@ -35,7 +35,6 @@ PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "provider": "dashscope",
     "serviceType": "image_gen",
     "endpoint": "/chat/completions",
     "body": {
@@ -146,7 +145,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
 
 ## 错误处理
 
-- `success: false` + `error: "未找到匹配的供应商"`：未配置 DashScope Provider 或未启用
+- `success: false` + `error: "未找到匹配的供应商"`：没有已启用的供应商支持 `image_gen` 服务类型
 - `success: false` + `error: "未配置 API Key"`：未填写 API Key
 - `statusCode: 401`：API Key 无效或已过期
 - `statusCode: 429`：频率限制，稍后重试
