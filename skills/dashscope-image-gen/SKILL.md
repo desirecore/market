@@ -8,12 +8,12 @@ description: >-
   Use when 用户提到 生成图片、画图、文生图、创建图片、AI 绘画、
   生成插图、画一张、帮我画、设计图片、通义万相、万相、阿里云画图、dashscope 画图。
 license: Complete terms in LICENSE.txt
-version: 1.1.1
+version: 1.2.0
 type: procedural
 risk_level: low
 status: enabled
 disable-model-invocation: false
-provider: dashscope
+provider: auto
 tags:
   - media
   - image
@@ -87,7 +87,7 @@ market:
 
 ### Prerequisites
 
-- The user has configured an Alibaba Cloud DashScope provider in Resource Manager → Compute and filled in an API Key
+- At least one enabled compute provider supports `image_gen` service type (e.g. DashScope, or the default DesireCore Cloud provider)
 - agent-service is running
 
 ### Step 1: Call the text-to-image API (synchronous)
@@ -99,7 +99,6 @@ PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "provider": "dashscope",
     "serviceType": "image_gen",
     "endpoint": "/chat/completions",
     "body": {
@@ -210,7 +209,7 @@ When `n > 1`, the `choices` array contains multiple entries, each with an image 
 
 ## Error Handling
 
-- `success: false` + `error: "No matching provider"`: DashScope provider not configured or disabled
+- `success: false` + `error: "No matching provider"`: No enabled provider supports `image_gen` service type
 - `success: false` + `error: "API Key not configured"`: API Key missing
 - `statusCode: 401`: API Key invalid or expired
 - `statusCode: 429`: rate limited, retry later
