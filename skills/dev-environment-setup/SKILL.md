@@ -50,7 +50,7 @@ metadata:
       body: ./SKILL.md
       source_hash: sha256:748e754b5537ea01
       translated_by: human
-      translated_at: '2026-05-03'
+      translated_at: '2026-06-09'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
