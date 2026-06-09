@@ -52,7 +52,7 @@ BASE="https://127.0.0.1:${PORT}/api/runtime"
 | 方法 | 路径 | 说明 |
 |------|------|------|
 | GET | `/environment` | 返回完整 `EnvironmentSnapshot`（platform/arch/tools/wsl） |
-| POST | `/environment/refresh` | 清除进程级缓存并重新检测，返回新快照 |
+| POST | `/environment/refresh` | **重新加载登录环境变量**（重抓 `.zshrc` / 注册表并精确同步到 `process.env`）+ 清除进程级检测缓存并重新检测；返回 `EnvironmentSnapshot & { envDiff }`（详见第七节） |
 
 ### 工具链状态与安装
 
@@ -149,15 +149,34 @@ type EnvironmentSnapshot = {
 }
 ```
 
-## 七、缓存与失效
+## 七、缓存失效 + 重新加载登录环境变量
 
-`detectRuntimeEnvironment()` 使用进程级缓存。当 skill 触发了安装/移除操作后，应立即调用：
+`POST /api/runtime/environment/refresh` 按顺序做两件事：
+
+1. **重新加载登录环境变量并精确同步到 `process.env`**：重新 fork 一个登录 shell（macOS/Linux：读最新 `.zshrc` / `.zprofile` / `.bashrc`）或重读 Windows 注册表（User + Machine），把用户最新 `export` / `setx` 的变量同步进 agent-service 主进程环境。删除采用可逆回退：用户在 rc 里删掉的变量，注入前不存在则移除、注入前是系统原值则回退到原值。受保护键（`HOME` / `USER` / `SHELL` / `DESIRECORE_*` 等）不受影响。
+2. **清除运行时检测缓存并重新检测**，返回最新 `EnvironmentSnapshot`。
 
 ```bash
 curl -sk -X POST "${DESIRECORE_API}/api/runtime/environment/refresh"
 ```
 
-强制刷新；否则后续 GET `/environment` 仍返回旧快照。
+返回结构（在 `EnvironmentSnapshot` 基础上附带 `envDiff`）：
+
+```ts
+type EnvDiff = {
+  added: string[]    // 本次新增的环境变量名
+  removed: string[]  // 本次移除 / 回退的环境变量名
+  changed: string[]  // 值发生变更的环境变量名
+}
+// 返回 = EnvironmentSnapshot & { envDiff: EnvDiff }
+```
+
+**何时主动调用此端点：**
+
+- **触发了任何安装/移除操作后**（Python/Node 版本、包管理器）：失效检测缓存，否则后续 GET `/environment` 仍返回旧快照。
+- **用户反馈「我改了 `.zshrc` / 某个环境变量 / 代理 / `export` 了新变量，但你（Agent）还是看不到」**：调此端点重新加载登录环境，用户**无需重启 App**。调用后**新执行**的 Bash / 脚本工具即可看到更新后的变量。可读取返回的 `envDiff.added` / `envDiff.removed` 向用户确认实际生效的变更。
+
+**局限**：刷新仅更新主进程 `process.env` 及刷新**后**新 spawn 的子进程；已常驻运行的子进程（已启动的 MCP server、后台 `&` 进程）仍持旧 env，需重启该子进程才能生效。
 
 ## 八、参考源代码
 
