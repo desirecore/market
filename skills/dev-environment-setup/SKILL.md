@@ -12,7 +12,7 @@ description: >-
   cross-cutting environment question. 使用场景：用户提到 环境配置、PATH、
   容器、Docker、Podman、WSL、WSL2、办公依赖、系统工具，或不确定属于 Python /
   Node.js 时的入口指引。
-version: 2.0.3
+version: 2.0.4
 type: procedural
 risk_level: low
 status: enabled
@@ -27,7 +27,7 @@ tags:
   - router
 metadata:
   author: desirecore
-  updated_at: '2026-05-05'
+  updated_at: '2026-06-09'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -40,7 +40,7 @@ metadata:
       description: >-
         Use this skill as a router/index when the user faces a development environment question that spans multiple domains: containers (Docker/Podman), WSL2 on Windows, office-skill dependencies (DOCX/PDF/XLSX/ PPTX), or system tools (LibreOffice/Poppler/Pandoc/Tesseract). For pure Python issues use python-runtime skill; for pure Node.js issues use nodejs-runtime skill. Triggers include: "setup environment", "PATH", "WSL", "WSL2", "docker not found", "podman", "container", "office dependency", "LibreOffice", "poppler", "pandoc", "tesseract", or any cross-cutting environment question. 使用场景：用户提到 环境配置、PATH、 容器、Docker、Podman、WSL、WSL2、办公依赖、系统工具，或不确定属于 Python / Node.js 时的入口指引。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:7e4baaf42d5c0ace
+      source_hash: sha256:748e754b5537ea01
       translated_by: human
     en-US:
       name: Dev Environment Setup
@@ -48,9 +48,9 @@ metadata:
       description: >-
         Use this skill as a router/index when the user faces a development environment question that spans multiple domains: containers (Docker/Podman), WSL2 on Windows, office-skill dependencies (DOCX/PDF/XLSX/ PPTX), or system tools (LibreOffice/Poppler/Pandoc/Tesseract). For pure Python issues use python-runtime skill; for pure Node.js issues use nodejs-runtime skill. Triggers include: "setup environment", "PATH", "WSL", "WSL2", "docker not found", "podman", "container", "office dependency", "LibreOffice", "poppler", "pandoc", "tesseract", or any cross-cutting environment question. Use when the user mentions environment setup, PATH, containers, Docker, Podman, WSL, WSL2, office dependencies, system tools, or needs an entry-point guide when uncertain whether the issue belongs to Python or Node.js.
       body: ./SKILL.md
-      source_hash: sha256:7e4baaf42d5c0ace
+      source_hash: sha256:748e754b5537ea01
       translated_by: human
-      translated_at: '2026-05-03'
+      translated_at: '2026-06-09'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -101,6 +101,7 @@ Route directly to the corresponding skill or document by the keywords in the use
 | LibreOffice / poppler / pandoc / tesseract / qpdf | `references/system-tools.md` |
 | Unsure of category, want a quick diagnosis | First run `scripts/probe.sh` and inspect the JSON |
 | DesireCore Hatch / Volta / HTTP API / Socket.IO | `references/desirecore-runtime.md` |
+| User edited `.zshrc` / an env var / proxy / `setx`, but tools can't see it | `POST /api/runtime/environment/refresh` reloads the login environment (see `references/desirecore-runtime.md` §7, no app restart needed) |
 | Four-tier fallback decision (API → CLI → package manager → community solution) | `references/decision-tree.md` |
 
 ## L2: Detailed Specification
@@ -147,7 +148,7 @@ DesireCore embeds Hatch (Python) and Volta (Node.js), providing complete environ
 
 1. **Do not write strong keywords like python / node / pip / npm into this skill's description**—those belong to their respective sub-skills, to avoid trigger conflicts.
 2. **API first**: `scripts/probe.sh` first checks `${DESIRECORE_ROOT}/agent-service.port`; if it exists, recommend the HTTP API path.
-3. **Cache coherence**: after any install/uninstall completes, call `POST /api/runtime/environment/refresh` to invalidate the cache before issuing subsequent GETs.
+3. **Cache coherence + env reload**: after any install/uninstall completes, call `POST /api/runtime/environment/refresh` to invalidate the cache before subsequent GETs; the same endpoint also reloads login environment variables (re-reads `.zshrc` / registry and precise-syncs into `process.env`), so when a user reports a freshly-changed env var that tools can't see, call it proactively too (no app restart; the returned `envDiff` confirms the changes).
 4. **Cross-platform**: every command template provides both macOS / Linux and Windows (PowerShell) versions.
 
 ## Sub-skill and Document Manifest
