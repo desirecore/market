@@ -7,21 +7,36 @@
 1. **必须用 HTTPS 访问 agent-service** — `https://127.0.0.1:${PORT}` 加 `-k` 跳过证书验证
 2. **全程使用 Bash curl** — 不要使用 HttpRequest 工具或 Python
 3. **轮询间隔 10 秒** — 使用 `sleep 10` 等待
+4. **必须使用 `providerId`** — 不要使用 `provider`，否则会路由到错误的上游
 
 ## 完整执行流程
 
 ### 前置条件
 
-- 用户已在资源管理器-算力中配置并启用 MiniMax Provider（常规 API 或 Token Plan）并填写 API Key
+- 用户已在资源管理器-算力中配置并启用支持 `video_gen` 服务的 Provider 并填写 API Key
 - agent-service 正在运行
 
-### 核心概念：三步异步流程
+### 核心概念：四步异步流程
 
-MiniMax 视频生成采用异步任务模式：
+视频生成通过 NewAPI 网关采用异步任务模式：
 
-1. **提交任务**：POST 创建视频生成任务，返回 `task_id`
-2. **轮询状态**：用 `task_id` 查询任务状态，直到 `status` 为 `"Success"` 或 `"Fail"`
-3. **下载视频**：用 `file_id` 获取下载 URL
+1. **提交任务**：POST `/video/generations` 创建任务，返回 `task_id`
+2. **轮询状态**：GET `/videos/{task_id}` 直到 `status` 为 `"completed"`
+3. **下载并上传**：从 `data.metadata.url` 下载视频，上传到 media-store
+4. **展示**：用 `dc-media://` 协议展示
+
+### Provider 选择（重要）
+
+使用 `providerId`（不是 `provider`）来指定正确的网关。当 Provider 是 NewAPI 网关（如 `desirecore-cloud`）时，使用 `providerId`。**不要**使用 `provider: "minimax"`——这会路由到 MiniMax 原生主机，原生主机**不支持** NewAPI 的 `/video/generations` 路径。
+
+```json
+{
+  "providerId": "desirecore-cloud",
+  "serviceType": "video_gen",
+  "endpoint": "/video/generations",
+  ...
+}
+```
 
 ### 模型选择与降级策略
 
@@ -38,17 +53,21 @@ MiniMax 视频生成采用异步任务模式：
 
 ### 第一步：提交文生视频任务
 
+**重要**：endpoint 是 `/video/generations`（带 "s"），不是 `/video_generation`。
+
 ```bash
 PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "provider": "minimax",
+    "providerId": "desirecore-cloud",
     "serviceType": "video_gen",
-    "endpoint": "/video_generation",
+    "endpoint": "/video/generations",
     "body": {
       "model": "MiniMax-Hailuo-2.3",
-      "prompt": "用户描述的视频内容"
+      "prompt": "用户描述的视频内容",
+      "size": "768P",
+      "duration": 6
     },
     "responseType": "json"
   }'
@@ -56,9 +75,26 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
 
 可选参数（加入 body 中）：
 - `"duration"`: 视频时长秒数（6 或 10）
-- `"resolution"`: `"768P"` 或 `"1080P"`
+- `"size"`: `"768P"` 或 `"1080P"`（使用 `size`，不是 `resolution`）
 
 从 JSON 响应中提取 `data.task_id`。
+
+成功响应示例：
+```json
+{
+  "success": true,
+  "data": {
+    "id": "task_xxx",
+    "task_id": "task_xxx",
+    "object": "video",
+    "model": "MiniMax-Hailuo-2.3",
+    "status": "queued",
+    "progress": 0,
+    "created_at": 1780995870
+  },
+  "statusCode": 200
+}
+```
 
 ### 第一步（备选）：图生视频
 
@@ -67,13 +103,14 @@ PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "provider": "minimax",
+    "providerId": "desirecore-cloud",
     "serviceType": "video_gen",
-    "endpoint": "/video_generation",
+    "endpoint": "/video/generations",
     "body": {
       "model": "MiniMax-Hailuo-2.3",
       "prompt": "描述图片中场景的动态变化",
-      "first_frame_image": "https://图片URL"
+      "first_frame_image": "https://图片URL",
+      "size": "768P"
     },
     "responseType": "json"
   }'
@@ -81,7 +118,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
 
 ### 第二步：轮询任务状态
 
-每隔 10 秒调用一次，直到 `status` 为 `"Success"` 或 `"Fail"`。将 `TASK_ID` 替换为第一步返回的 `task_id`。
+每隔 10 秒调用一次，直到 `status` 为 `"completed"` 或 `"failed"`。将 `TASK_ID` 替换为第一步返回的 `task_id`。
 
 ```bash
 PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
@@ -89,22 +126,24 @@ TASK_ID="第一步返回的task_id"
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d "{
-    \"provider\": \"minimax\",
+    \"providerId\": \"desirecore-cloud\",
     \"serviceType\": \"video_gen\",
-    \"endpoint\": \"/query/video_generation?task_id=${TASK_ID}\",
+    \"endpoint\": \"/videos/${TASK_ID}\",
     \"method\": \"GET\",
     \"responseType\": \"json\"
   }"
 ```
+
+处理中状态可能为：`"queued"` 或 `"in_progress"`。
 
 轮询响应（进行中）：
 ```json
 {
   "success": true,
   "data": {
-    "task_id": "task_xxx",
-    "status": "Processing",
-    "file_id": ""
+    "id": "task_xxx",
+    "status": "in_progress",
+    "progress": 42
   }
 }
 ```
@@ -114,40 +153,23 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
 {
   "success": true,
   "data": {
-    "task_id": "task_xxx",
-    "status": "Success",
-    "file_id": "file_xxx"
+    "id": "task_xxx",
+    "status": "completed",
+    "progress": 100,
+    "metadata": {
+      "url": "https://.../output_aigc.mp4?..."
+    }
   }
 }
 ```
 
-### 第三步：获取视频下载链接
+### 第三步：下载并上传到 media-store
 
-将 `FILE_ID` 替换为第二步完成响应中的 `file_id`。
-
-```bash
-PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
-FILE_ID="第二步返回的file_id"
-curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
-  -H "Content-Type: application/json" \
-  -d "{
-    \"provider\": \"minimax\",
-    \"serviceType\": \"video_gen\",
-    \"endpoint\": \"/files/retrieve?file_id=${FILE_ID}\",
-    \"method\": \"GET\",
-    \"responseType\": \"json\"
-  }"
-```
-
-从响应中提取 `data.file.download_url`。
-
-### 第四步：下载并上传到 media-store
-
-下载 URL 有 24 小时时效，必须立即下载并保存到本地 media-store。
+从第二步完成响应的 `data.metadata.url` 提取视频下载地址。下载 URL 有 24 小时时效，必须立即下载。
 
 ```bash
 PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
-VIDEO_URL="第三步获取的download_url"
+VIDEO_URL="第二步返回的 data.metadata.url"
 curl -sL "$VIDEO_URL" -o /tmp/minimax-video.mp4 && \
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
   -F "file=@/tmp/minimax-video.mp4;type=video/mp4"
@@ -155,7 +177,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
 
 从 JSON 响应中提取 `mediaId` 字段。
 
-### 第五步：用 dc-media 协议展示视频
+### 第四步：用 dc-media 协议展示视频
 
 在你的回复文本中直接写 Markdown 图片语法（前端会自动识别视频扩展名并渲染播放器）：
 
@@ -165,15 +187,16 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
 
 ### 错误处理
 
-- `status: "Fail"`：视频生成失败，向用户说明
-- `success: false` + `error: "未找到匹配的供应商"`：未找到已启用且支持 `video_gen` 服务的 MiniMax Provider
+- `status: "failed"`：视频生成失败，向用户说明
+- `success: false` + `error: "未找到匹配的供应商"`：未找到已启用且支持 `video_gen` 服务的 Provider
 - `success: false` + `error: "未配置 API Key"`：未填写 API Key
 - **额度不足**（`statusCode: 429`、`insufficient_quota`、`balance` 相关错误）：文生视频无法降级（Fast 模型不支持 T2V），告知用户额度不足；图生视频可换用 `MiniMax-Hailuo-2.3-fast` 从第一步重试
 - 轮询超过 10 分钟未完成：告知用户任务可能超时
 
 ### 注意事项
 
-- MiniMax 视频生成是异步的，通常需要 2-10 分钟
+- 视频生成是异步的，通常需要 2-10 分钟
 - 轮询间隔建议 10 秒
 - 下载 URL 有 24 小时时效
-- 如果用户未明确要求，默认不传 duration 和 resolution（使用 API 默认值）
+- 如果用户未明确要求，默认传 `"size": "768P"` 和 `"duration": 6`
+- **不要**通过 media-proxy 代理下载 URL——用 `curl -sL "$VIDEO_URL"` 直接下载

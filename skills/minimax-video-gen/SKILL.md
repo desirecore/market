@@ -7,7 +7,7 @@ description: >-
   Use when 用户提到 生成视频、文生视频、AI 视频、创建视频、视频生成、
   动画生成、MiniMax 视频、海螺、Hailuo、图片变视频、图生视频。
 license: Complete terms in LICENSE.txt
-version: 1.2.3
+version: 1.3.0
 type: procedural
 risk_level: low
 status: enabled
@@ -24,7 +24,7 @@ requires:
     - Bash
 metadata:
   author: desirecore
-  updated_at: '2026-04-25'
+  updated_at: '2026-06-09'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -70,21 +70,36 @@ market:
 1. **Must use HTTPS to access agent-service** — `https://127.0.0.1:${PORT}` with `-k` to skip certificate verification
 2. **Use Bash curl throughout** — do not use the HttpRequest tool or Python
 3. **Polling interval is 10 seconds** — use `sleep 10` to wait
+4. **Must use `providerId`** — do not use `provider`, or requests will route to the wrong upstream
 
 ## Full Execution Flow
 
 ### Prerequisites
 
-- The user has already configured and enabled a MiniMax Provider (regular API or Token Plan) in Resource Manager → Compute and entered the API Key
+- The user has already configured and enabled a Provider with `video_gen` service in Resource Manager → Compute and entered the API Key
 - agent-service is running
 
-### Core Concept: Three-Step Asynchronous Flow
+### Core Concept: Four-Step Asynchronous Flow
 
-MiniMax video generation uses an asynchronous task model:
+Video generation uses an asynchronous task model via the NewAPI gateway:
 
-1. **Submit task**: POST to create a video generation task and receive a `task_id`
-2. **Poll status**: query the task status with `task_id` until `status` is `"Success"` or `"Fail"`
-3. **Download video**: use `file_id` to obtain the download URL
+1. **Submit task**: POST `/video/generations` to create a task, receive a `task_id`
+2. **Poll status**: GET `/videos/{task_id}` until `status` is `"completed"`
+3. **Download & upload**: download from `data.metadata.url`, upload to media-store
+4. **Display**: use `dc-media://` protocol to show the video
+
+### Provider Selection (Important)
+
+Use `providerId` (not `provider`) to target the correct gateway. When the provider is a NewAPI gateway (e.g. `desirecore-cloud`), use `providerId`. Do **not** use `provider: "minimax"` — this would route to the MiniMax native host, which does **not** support the NewAPI `/video/generations` path.
+
+```json
+{
+  "providerId": "desirecore-cloud",
+  "serviceType": "video_gen",
+  "endpoint": "/video/generations",
+  ...
+}
+```
 
 ### Model Selection and Fallback Strategy
 
@@ -101,17 +116,21 @@ MiniMax video generation uses an asynchronous task model:
 
 ### Step 1: Submit a Text-to-Video Task
 
+**Important**: The endpoint is `/video/generations` (with an "s"), NOT `/video_generation`.
+
 ```bash
 PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "provider": "minimax",
+    "providerId": "desirecore-cloud",
     "serviceType": "video_gen",
-    "endpoint": "/video_generation",
+    "endpoint": "/video/generations",
     "body": {
       "model": "MiniMax-Hailuo-2.3",
-      "prompt": "Video content described by the user"
+      "prompt": "Video content described by the user",
+      "size": "768P",
+      "duration": 6
     },
     "responseType": "json"
   }'
@@ -119,9 +138,26 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
 
 Optional parameters (add to the body):
 - `"duration"`: video length in seconds (6 or 10)
-- `"resolution"`: `"768P"` or `"1080P"`
+- `"size"`: `"768P"` or `"1080P"` (use `size`, not `resolution`)
 
 Extract `data.task_id` from the JSON response.
+
+Successful response example:
+```json
+{
+  "success": true,
+  "data": {
+    "id": "task_xxx",
+    "task_id": "task_xxx",
+    "object": "video",
+    "model": "MiniMax-Hailuo-2.3",
+    "status": "queued",
+    "progress": 0,
+    "created_at": 1780995870
+  },
+  "statusCode": 200
+}
+```
 
 ### Step 1 (alternative): Image-to-Video
 
@@ -130,13 +166,14 @@ PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
-    "provider": "minimax",
+    "providerId": "desirecore-cloud",
     "serviceType": "video_gen",
-    "endpoint": "/video_generation",
+    "endpoint": "/video/generations",
     "body": {
       "model": "MiniMax-Hailuo-2.3",
       "prompt": "Describe the dynamic changes of the scene in the image",
-      "first_frame_image": "https://image-URL"
+      "first_frame_image": "https://image-URL",
+      "size": "768P"
     },
     "responseType": "json"
   }'
@@ -144,7 +181,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
 
 ### Step 2: Poll the Task Status
 
-Call once every 10 seconds until `status` is `"Success"` or `"Fail"`. Replace `TASK_ID` with the `task_id` returned in Step 1.
+Call once every 10 seconds until `status` is `"completed"` or `"failed"`. Replace `TASK_ID` with the `task_id` returned in Step 1.
 
 ```bash
 PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
@@ -152,22 +189,24 @@ TASK_ID="task_id returned from step 1"
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d "{
-    \"provider\": \"minimax\",
+    \"providerId\": \"desirecore-cloud\",
     \"serviceType\": \"video_gen\",
-    \"endpoint\": \"/query/video_generation?task_id=${TASK_ID}\",
+    \"endpoint\": \"/videos/${TASK_ID}\",
     \"method\": \"GET\",
     \"responseType\": \"json\"
   }"
 ```
+
+In-progress statuses may be: `"queued"` or `"in_progress"`.
 
 Polling response (in progress):
 ```json
 {
   "success": true,
   "data": {
-    "task_id": "task_xxx",
-    "status": "Processing",
-    "file_id": ""
+    "id": "task_xxx",
+    "status": "in_progress",
+    "progress": 42
   }
 }
 ```
@@ -177,40 +216,23 @@ Polling response (completed):
 {
   "success": true,
   "data": {
-    "task_id": "task_xxx",
-    "status": "Success",
-    "file_id": "file_xxx"
+    "id": "task_xxx",
+    "status": "completed",
+    "progress": 100,
+    "metadata": {
+      "url": "https://.../output_aigc.mp4?..."
+    }
   }
 }
 ```
 
-### Step 3: Get the Video Download URL
+### Step 3: Download and Upload to media-store
 
-Replace `FILE_ID` with the `file_id` from the completed response in Step 2.
-
-```bash
-PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
-FILE_ID="file_id returned from step 2"
-curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
-  -H "Content-Type: application/json" \
-  -d "{
-    \"provider\": \"minimax\",
-    \"serviceType\": \"video_gen\",
-    \"endpoint\": \"/files/retrieve?file_id=${FILE_ID}\",
-    \"method\": \"GET\",
-    \"responseType\": \"json\"
-  }"
-```
-
-Extract `data.file.download_url` from the response.
-
-### Step 4: Download and Upload to media-store
-
-The download URL is valid for 24 hours; you must download immediately and save it to the local media-store.
+Extract the video download URL from `data.metadata.url` in the completed Step 2 response. The URL is valid for 24 hours; download immediately.
 
 ```bash
 PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
-VIDEO_URL="download_url obtained in step 3"
+VIDEO_URL="data.metadata.url from step 2"
 curl -sL "$VIDEO_URL" -o /tmp/minimax-video.mp4 && \
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
   -F "file=@/tmp/minimax-video.mp4;type=video/mp4"
@@ -218,7 +240,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
 
 Extract the `mediaId` field from the JSON response.
 
-### Step 5: Display the Video Using the dc-media Protocol
+### Step 4: Display the Video Using the dc-media Protocol
 
 Write Markdown image syntax directly in your reply (the frontend will automatically recognize the video extension and render a player):
 
@@ -228,15 +250,16 @@ Write Markdown image syntax directly in your reply (the frontend will automatica
 
 ### Error Handling
 
-- `status: "Fail"`: video generation failed; explain to the user
-- `success: false` + `error: "No matching provider found"`: No enabled MiniMax provider with `video_gen` service found
+- `status: "failed"`: video generation failed; explain to the user
+- `success: false` + `error: "No matching provider found"`: No enabled provider with `video_gen` service found
 - `success: false` + `error: "API Key not configured"`: API Key has not been entered
 - **Insufficient quota** (errors related to `statusCode: 429`, `insufficient_quota`, `balance`): text-to-video cannot fall back (the Fast model does not support T2V); inform the user of insufficient quota; image-to-video can switch to `MiniMax-Hailuo-2.3-fast` and retry from Step 1
 - Polling exceeds 10 minutes without completion: inform the user that the task may have timed out
 
 ### Notes
 
-- MiniMax video generation is asynchronous and typically takes 2–10 minutes
+- Video generation is asynchronous and typically takes 2–10 minutes
 - A polling interval of 10 seconds is recommended
 - The download URL is valid for 24 hours
-- If the user does not explicitly request otherwise, by default do not pass `duration` or `resolution` (use API defaults)
+- If the user does not explicitly request otherwise, by default pass `"size": "768P"` and `"duration": 6`
+- Do **not** proxy the download URL through media-proxy — use `curl -sL "$VIDEO_URL"` to download directly
