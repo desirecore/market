@@ -4,11 +4,22 @@
 
 ## 强制规则（违反将导致功能失败）
 
-1. **必须用 HTTPS 访问 agent-service** — `https://127.0.0.1:${PORT}` 加 `-k` 跳过证书验证
-2. **必须通过 `/api/media/upload` 上传到 media-store** — 禁止保存到本地路径
-3. **必须使用 `dc-media://` 协议展示图片** — 唯一能让前端正确渲染的方式
-4. **全程使用 Bash curl** — 不要使用 HttpRequest 工具或 Python
-5. **使用 compatible-mode（/chat/completions）** — 同步调用，响应直接包含图片 URL
+1. **严格按下方步骤执行** — 禁止自行探索其他端点、尝试本文档未列出的模型、或读取配置文件
+2. **必须用 HTTPS 访问 agent-service** — API 地址已在系统提示词的"本机 API"部分提供（如 `https://127.0.0.1:PORT`），直接使用，加 `-k` 跳过证书验证
+3. **必须通过 `/api/media/upload` 上传到 media-store** — 禁止保存到本地路径
+4. **必须使用 `dc-media://` 协议展示图片** — 唯一能让前端正确渲染的方式
+5. **全程使用 Bash curl** — 不要使用 HttpRequest 工具或 Python
+6. **使用 `/images/generations` 端点** — 同步调用，响应包含 b64_json 图片数据
+7. **只能使用下方模型列表中的模型** — 禁止尝试 dall-e-3、qwen-vl 或任何未列出的模型
+
+## 供应商与默认算力
+
+本技能使用阿里云 DashScope 的通义万相系列模型。**无需指定供应商**，只需传 `"serviceType": "image_gen"`，系统会自动路由到正确的供应商：
+
+- **DesireCore Cloud**（默认，始终可用）：内置算力供应商已支持 `image_gen` 和通义万相模型。用户无需任何配置即可直接生成图片。
+- **DashScope**（用户自配）：如果用户自己配置了阿里云 API Key，系统可能会路由到用户自己的供应商。
+
+**禁止**尝试查询供应商列表、读取 compute.json、或通过 API 探索可用模型。下方列出的模型保证可用。
 
 ## 模型选择指南
 
@@ -19,81 +30,76 @@
 
 **默认规则**：用户未指定模型时，使用 `wan2.7-image`。
 
-## 完整执行流程（严格按此两步执行）
+## 完整执行流程（严格按此步骤执行）
 
-### 前置条件
+### 获取 API 地址
 
-- 至少有一个已启用的算力供应商支持 `image_gen` 服务类型（如 DashScope 或默认的 DesireCore Cloud 供应商）
-- agent-service 正在运行
+系统提示词中"本机 API"部分已包含 agent-service 的地址（如 `Agent Service: https://127.0.0.1:61000`）。直接从中提取 URL 使用。
 
-### 第一步：调用文生图 API（同步）
-
-通过 media-proxy 的 compatible-mode 端点生成图片，响应直接包含图片 URL：
+如果无法从系统提示词中找到，使用以下兜底方式：
 
 ```bash
-PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
+PORT=$(cat "${DESIRECORE_HOME:-$HOME/.desirecore}/agent-service.port")
+# 然后使用 https://127.0.0.1:${PORT}
+```
+
+### 第一步：生成图片（单次 curl 调用）
+
+通过 media-proxy 调用 `/images/generations` 端点。**必须严格使用以下请求结构** — 禁止添加 `messages`、`response_format` 或任何未在此处列出的参数：
+
+```bash
+# 将响应保存到临时文件，避免 base64 数据灌入终端
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
     "serviceType": "image_gen",
-    "endpoint": "/chat/completions",
+    "endpoint": "/images/generations",
     "body": {
       "model": "wan2.7-image",
-      "messages": [
-        {
-          "role": "user",
-          "content": [
-            {"type": "text", "text": "这里替换为图片描述（建议英文效果更好）"}
-          ]
-        }
-      ]
+      "prompt": "这里替换为图片描述（建议英文效果更好）",
+      "size": "1024x1024",
+      "n": 1
     },
     "responseType": "json"
-  }'
+  }' -o /tmp/dashscope-response.json
+
+# 检查成功并直接将 b64_json 提取为图片文件（禁止将响应内容输出到终端）
+python3 -c "
+import json, base64, sys
+with open('/tmp/dashscope-response.json') as f:
+    resp = json.load(f)
+if not resp.get('success'):
+    print('ERROR:', json.dumps(resp, ensure_ascii=False)[:500])
+    sys.exit(1)
+b64 = resp['data']['data'][0]['b64_json']
+with open('/tmp/dashscope-gen.png', 'wb') as f:
+    f.write(base64.b64decode(b64))
+print('OK: saved to /tmp/dashscope-gen.png')
+"
 ```
 
-**响应示例**：
+**关键警告**：响应包含大约 2MB 的 base64 图片数据。**禁止**将原始响应或 b64_json 打印到终端。始终使用 `-o` 保存到文件，再用上面的 python3 脚本提取。
+
+**响应格式**（保存在 `/tmp/dashscope-response.json` 中）：
 ```json
 {
   "success": true,
   "data": {
-    "request_id": "...",
-    "output": {
-      "choices": [
-        {
-          "message": {
-            "role": "assistant",
-            "content": [
-              {
-                "type": "image",
-                "image": "https://dashscope-result.oss.aliyuncs.com/..."
-              }
-            ]
-          },
-          "finish_reason": "stop"
-        }
-      ]
-    }
-  },
-  "statusCode": 200
+    "created": 1781060911,
+    "data": [{"b64_json": "<非常大的 base64 字符串>"}],
+    "size": "1024x1024"
+  }
 }
 ```
 
-从 `data.output.choices[0].message.content` 中找到 `type: "image"` 的项，提取其 `image` URL。
-
-### 第二步：下载并上传到 media-store
-
-图片 URL 有时效，必须立即下载并保存到本地 media-store：
+### 第二步：上传到 media-store
 
 ```bash
-PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
-IMAGE_URL="第一步响应中的 image URL"
-curl -sL "$IMAGE_URL" -o /tmp/dashscope-gen.png && \
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
   -F "file=@/tmp/dashscope-gen.png;type=image/png"
 ```
 
-从 JSON 响应中提取 `mediaId` 字段（格式如 `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.png`）。
+从上传 JSON 响应中提取 `mediaId` 字段（格式如 `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.png`）。
 
 ### 第三步：用 dc-media 协议展示图片
 
@@ -111,13 +117,14 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
 
 ### 尺寸选择
 
-通义万相通过 compatible-mode 调用时，尺寸通过 `size` 参数传入（放在请求体顶层）：
+`size` 放在 `body` 对象中：
 
 ```json
 {
   "model": "wan2.7-image",
+  "prompt": "图片描述",
   "size": "1024x1024",
-  "messages": [...]
+  "n": 1
 }
 ```
 
@@ -136,7 +143,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
 
 ## 多图生成
 
-当 `n > 1` 时，`choices` 数组会有多个元素，每个 `message.content` 中都有一张图片。需要为每张图片执行下载+上传，然后逐一展示：
+当 `n > 1` 时，为每张图片执行下载+上传，然后逐一展示：
 
 ```
 ![图片1描述](dc-media://mediaId1)
@@ -145,16 +152,20 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
 
 ## 错误处理
 
-- `success: false` + `error: "未找到匹配的供应商"`：没有已启用的供应商支持 `image_gen` 服务类型
-- `success: false` + `error: "未配置 API Key"`：未填写 API Key
-- `statusCode: 401`：API Key 无效或已过期
-- `statusCode: 429`：频率限制，稍后重试
-- `statusCode: 400` + `InvalidParameter`：参数错误（如尺寸不支持）
-- `statusCode: 403` + `AccessDenied.Unpurchased`：模型未开通，需要在阿里云控制台开通
+| 错误 | 含义 | 处理方式 |
+|------|------|---------|
+| `"未找到匹配的供应商"` | 没有启用的供应商支持 `image_gen` | 告知用户在设置中启用支持 image_gen 的供应商 |
+| `"未配置 API Key"` | 未填写 API Key | 告知用户配置 API Key |
+| `statusCode: 401` | API Key 无效或过期 | 告知用户检查 API Key |
+| `statusCode: 429` | 频率限制 | 等待后重试一次 |
+| `statusCode: 400` | 参数错误 | 检查模型名和尺寸是否在上表中 |
+| `statusCode: 403 AccessDenied.Unpurchased` | 模型未开通 | 告知用户在阿里云控制台开通 |
+
+**遇到任何错误时**：禁止尝试其他模型、其他端点、或读取配置文件。直接向用户清晰报告错误即可。
 
 ## 注意事项
 
-- 通过 compatible-mode 调用是同步的，通常 10-60 秒返回（wan2.7-image-pro 可能更长）
+- 图片生成调用是同步的，通常 10-60 秒返回（wan2.7-image-pro 可能更长）
 - 结果图片 URL 有时效，必须及时下载
 - 提示词建议用英文以获得最佳效果，中文也支持
 - 如果用户未明确要求模型/尺寸，默认使用 `wan2.7-image` + `1024x1024`

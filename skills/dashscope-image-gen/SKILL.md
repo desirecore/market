@@ -4,11 +4,11 @@ description: >-
   Use this skill when the user wants to generate images using Alibaba Cloud
   DashScope's Wan (通义万相) series models. Supports text-to-image with multiple
   model tiers (wan2.7-image-pro, wan2.7-image). Uses OpenAI-compatible
-  chat/completions API for synchronous image generation.
+  images/generations API for synchronous image generation.
   Use when 用户提到 生成图片、画图、文生图、创建图片、AI 绘画、
   生成插图、画一张、帮我画、设计图片、通义万相、万相、阿里云画图、dashscope 画图。
 license: Complete terms in LICENSE.txt
-version: 1.2.0
+version: 1.3.0
 type: procedural
 risk_level: low
 status: enabled
@@ -25,7 +25,7 @@ requires:
     - Bash
 metadata:
   author: desirecore
-  updated_at: '2026-05-08'
+  updated_at: '2026-06-10'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -36,16 +36,16 @@ metadata:
       name: 阿里云 文生图
       short_desc: 基于阿里云通义万相的文本生成图片技能
       description: >-
-        当用户希望使用阿里云 DashScope 的通义万相系列模型生成图片时使用此技能。支持多种模型层级（wan2.7-image-pro / wan2.7-image）的文生图，通过 OpenAI 兼容的 chat/completions API 同步生成图片。用户提到 生成图片、画图、文生图、创建图片、AI 绘画、生成插图、画一张、帮我画、设计图片、通义万相、万相、阿里云画图、dashscope 画图。
+        当用户希望使用阿里云 DashScope 的通义万相系列模型生成图片时使用此技能。支持多种模型层级（wan2.7-image-pro / wan2.7-image）的文生图，通过 OpenAI 兼容的 images/generations API 同步生成图片。用户提到 生成图片、画图、文生图、创建图片、AI 绘画、生成插图、画一张、帮我画、设计图片、通义万相、万相、阿里云画图、dashscope 画图。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:135b99cdd33441fb
+      source_hash: sha256:a2c4e8f01b3d5e7f
       translated_by: human
     en-US:
       name: DashScope Image Generation
       short_desc: Text-to-image generation using Alibaba Cloud Wan (通义万相) models
-      description: "Use this skill when the user wants to generate images using Alibaba Cloud DashScope's Wan (通义万相) series models. Supports text-to-image with multiple model tiers (wan2.7-image-pro, wan2.7-image) via the OpenAI-compatible chat/completions API. Trigger keywords: generate image, draw, text-to-image, create image, AI painting, illustration, design picture, Wan, Tongyi Wanxiang, DashScope."
+      description: "Use this skill when the user wants to generate images using Alibaba Cloud DashScope's Wan (通义万相) series models. Supports text-to-image with multiple model tiers (wan2.7-image-pro, wan2.7-image) via the OpenAI-compatible images/generations API. Trigger keywords: generate image, draw, text-to-image, create image, AI painting, illustration, design picture, Wan, Tongyi Wanxiang, DashScope."
       body: ./SKILL.md
-      source_hash: sha256:135b99cdd33441fb
+      source_hash: sha256:a2c4e8f01b3d5e7f
       translated_by: human
 market:
   icon: >-
@@ -68,11 +68,22 @@ market:
 
 ## Mandatory Rules (violations cause failure)
 
-1. **Must access agent-service over HTTPS** — use `https://127.0.0.1:${PORT}` with `-k` to skip certificate verification
-2. **Must upload to media-store via `/api/media/upload`** — `/tmp` is only a transient download/decode location, never use a local path as the final output
-3. **Must use the `dc-media://` protocol to display images** — the only form the frontend can render correctly
-4. **Use Bash curl throughout** — do not use the HttpRequest tool or Python
-5. **Use compatible-mode (`/chat/completions`)** — synchronous call; the response contains the image URL directly
+1. **STRICTLY follow the execution steps below** — do NOT improvise, explore alternative endpoints, or try models not listed in this document
+2. **Must access agent-service over HTTPS** — the API address is already provided in the system prompt under "本机 API" section (e.g. `https://127.0.0.1:PORT`); use it directly with `-k` to skip certificate verification
+3. **Must upload to media-store via `/api/media/upload`** — `/tmp` is only a transient download/decode location, never use a local path as the final output
+4. **Must use the `dc-media://` protocol to display images** — the only form the frontend can render correctly
+5. **Use Bash curl throughout** — do not use the HttpRequest tool or Python
+6. **Use `/images/generations` endpoint** — synchronous call; the response contains b64_json image data
+7. **Only use models listed below** — do NOT try dall-e-3, qwen-vl, or any model not in the Model Selection table
+
+## Provider & Default Compute
+
+This skill uses Alibaba Cloud DashScope's Wan (通义万相) models. You do NOT need to specify a provider — just pass `"serviceType": "image_gen"` and the system will automatically route to the correct provider:
+
+- **DesireCore Cloud** (default, always available): The built-in compute provider already supports `image_gen` with Wan models. Users can generate images immediately without any configuration.
+- **DashScope** (user-configured): If the user has configured their own DashScope API key, the system may route to it.
+
+**Never** try to query provider lists, read compute.json, or explore available models through API calls. The models listed below are guaranteed to work.
 
 ## Model Selection
 
@@ -83,76 +94,71 @@ market:
 
 **Default rule**: if the user does not specify a model, use `wan2.7-image`.
 
-## Full Execution Flow (strictly three steps)
+## Full Execution Flow (strictly follow these steps)
 
-### Prerequisites
+### How to get the API address
 
-- At least one enabled compute provider supports `image_gen` service type (e.g. DashScope, or the default DesireCore Cloud provider)
-- agent-service is running
+The system prompt already contains the agent-service API address under "本机 API" (e.g. `Agent Service: https://127.0.0.1:61000`). Extract the URL from there and use it directly.
 
-### Step 1: Call the text-to-image API (synchronous)
-
-Generate the image via media-proxy's compatible-mode endpoint; the response includes the image URL directly:
+If for any reason you cannot find it in the system prompt, use this fallback:
 
 ```bash
-PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
+PORT=$(cat "${DESIRECORE_HOME:-$HOME/.desirecore}/agent-service.port")
+# Then use https://127.0.0.1:${PORT}
+```
+
+### Step 1: Generate the image (single curl command)
+
+Call `/images/generations` through media-proxy. **You MUST use this exact request structure** — do not add `messages`, `response_format`, or any other parameters not shown here:
+
+```bash
+# Save response to a temp file to avoid base64 flooding the terminal
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
   -H "Content-Type: application/json" \
   -d '{
     "serviceType": "image_gen",
-    "endpoint": "/chat/completions",
+    "endpoint": "/images/generations",
     "body": {
       "model": "wan2.7-image",
-      "messages": [
-        {
-          "role": "user",
-          "content": [
-            {"type": "text", "text": "Replace this with the image description (English usually gives better results)"}
-          ]
-        }
-      ]
+      "prompt": "Replace this with the image description (English usually gives better results)",
+      "size": "1024x1024",
+      "n": 1
     },
     "responseType": "json"
-  }'
+  }' -o /tmp/dashscope-response.json
+
+# Check success and extract b64_json directly to image file (NEVER cat the response to stdout)
+python3 -c "
+import json, base64, sys
+with open('/tmp/dashscope-response.json') as f:
+    resp = json.load(f)
+if not resp.get('success'):
+    print('ERROR:', json.dumps(resp, ensure_ascii=False)[:500])
+    sys.exit(1)
+b64 = resp['data']['data'][0]['b64_json']
+with open('/tmp/dashscope-gen.png', 'wb') as f:
+    f.write(base64.b64decode(b64))
+print('OK: saved to /tmp/dashscope-gen.png')
+"
 ```
 
-**Example response**:
+**CRITICAL**: The response contains a large base64 image (~2MB). NEVER print the raw response or b64_json to the terminal. Always save to file with `-o` and extract with the python3 script above.
+
+**Response format** (saved in `/tmp/dashscope-response.json`):
 ```json
 {
   "success": true,
   "data": {
-    "request_id": "...",
-    "output": {
-      "choices": [
-        {
-          "message": {
-            "role": "assistant",
-            "content": [
-              {
-                "type": "image",
-                "image": "https://dashscope-result.oss.aliyuncs.com/..."
-              }
-            ]
-          },
-          "finish_reason": "stop"
-        }
-      ]
-    }
-  },
-  "statusCode": 200
+    "created": 1781060911,
+    "data": [{"b64_json": "<very large base64 string>"}],
+    "size": "1024x1024"
+  }
 }
 ```
 
-Locate the item with `type: "image"` inside `data.output.choices[0].message.content` and extract its `image` URL.
-
-### Step 2: Download and upload to media-store
-
-The image URL is time-limited; download and persist it to the local media-store immediately:
+### Step 2: Upload to media-store
 
 ```bash
-PORT=$(cat ${DESIRECORE_ROOT}/agent-service.port)
-IMAGE_URL="image URL from step 1's response"
-curl -sL "$IMAGE_URL" -o /tmp/dashscope-gen.png && \
 curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
   -F "file=@/tmp/dashscope-gen.png;type=image/png"
 ```
@@ -175,13 +181,14 @@ The frontend will translate `dc-media://` into a reachable image URL and render 
 
 ### Size selection
 
-When calling Wan via compatible-mode, the size is passed as the top-level `size` parameter:
+Pass `size` in the `body` object:
 
 ```json
 {
   "model": "wan2.7-image",
+  "prompt": "your image description",
   "size": "1024x1024",
-  "messages": [...]
+  "n": 1
 }
 ```
 
@@ -195,12 +202,12 @@ When calling Wan via compatible-mode, the size is passed as the top-level `size`
 
 | Parameter | Description |
 |------|------|
-| `n` | Number of images, 1–4, default 1 |
+| `n` | Number of images, 1-4, default 1 |
 | `size` | Image size, e.g. "1024x1024" |
 
 ## Multiple Image Generation
 
-When `n > 1`, the `choices` array contains multiple entries, each with an image inside `message.content`. Download and upload each image, then render them one by one:
+When `n > 1`, download and upload each image, then render them one by one:
 
 ```
 ![Image 1 description](dc-media://mediaId1)
@@ -209,16 +216,20 @@ When `n > 1`, the `choices` array contains multiple entries, each with an image 
 
 ## Error Handling
 
-- `success: false` + `error: "No matching provider"`: No enabled provider supports `image_gen` service type
-- `success: false` + `error: "API Key not configured"`: API Key missing
-- `statusCode: 401`: API Key invalid or expired
-- `statusCode: 429`: rate limited, retry later
-- `statusCode: 400` + `InvalidParameter`: bad parameters (e.g. unsupported size)
-- `statusCode: 403` + `AccessDenied.Unpurchased`: model not activated; enable it in the Alibaba Cloud console
+| Error | Meaning | Action |
+|-------|---------|--------|
+| `"No matching provider"` | No enabled provider supports `image_gen` | Tell user to enable a provider with image_gen support in settings |
+| `"API Key not configured"` | API Key missing | Tell user to configure API key |
+| `statusCode: 401` | API Key invalid or expired | Tell user to check API key |
+| `statusCode: 429` | Rate limited | Wait and retry once |
+| `statusCode: 400` | Bad parameters | Check model name and size are from the tables above |
+| `statusCode: 403 AccessDenied.Unpurchased` | Model not activated | Tell user to enable the model in Alibaba Cloud console |
+
+**On any error**: Do NOT try alternative models, alternative endpoints, or read config files. Report the error to the user clearly.
 
 ## Notes
 
-- compatible-mode calls are synchronous and typically return in 10–60 seconds (wan2.7-image-pro can take longer)
+- Image generation calls are synchronous and typically return in 10-60 seconds (wan2.7-image-pro can take longer)
 - Image URLs expire; download promptly
 - English prompts usually produce the best results; Chinese is also supported
 - When the user does not specify a model or size, default to `wan2.7-image` + `1024x1024`
