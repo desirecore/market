@@ -1,14 +1,14 @@
 ---
 name: dashscope-image-gen
 description: >-
-  Use this skill when the user wants to generate images using Alibaba Cloud
-  DashScope's Wan (通义万相) series models. Supports text-to-image with multiple
-  model tiers (wan2.7-image-pro, wan2.7-image). Uses OpenAI-compatible
-  images/generations API for synchronous image generation.
-  Use when 用户提到 生成图片、画图、文生图、创建图片、AI 绘画、
-  生成插图、画一张、帮我画、设计图片、通义万相、万相、阿里云画图、dashscope 画图。
+  Use this skill when the user wants to generate images. Supports multiple
+  models: gpt-image-2 (default, via DesireCore Cloud), wan2.7-image-pro and
+  wan2.7-image (when user has DashScope configured). Uses OpenAI-compatible
+  /images/generations API for synchronous image generation.
+  Use when the user mentions: generate image, draw, text-to-image, create image,
+  AI painting, illustration, design picture.
 license: Complete terms in LICENSE.txt
-version: 1.3.0
+version: 1.4.0
 type: procedural
 risk_level: low
 status: enabled
@@ -25,7 +25,7 @@ requires:
     - Bash
 metadata:
   author: desirecore
-  updated_at: '2026-06-10'
+  updated_at: '2026-06-15'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -33,19 +33,22 @@ metadata:
       - zh-CN
       - en-US
     zh-CN:
-      name: 阿里云 文生图
-      short_desc: 基于阿里云通义万相的文本生成图片技能
+      name: AI 文生图
+      short_desc: AI 文本生成图片技能（支持 GPT Image / 通义万相）
       description: >-
-        当用户希望使用阿里云 DashScope 的通义万相系列模型生成图片时使用此技能。支持多种模型层级（wan2.7-image-pro / wan2.7-image）的文生图，通过 OpenAI 兼容的 images/generations API 同步生成图片。用户提到 生成图片、画图、文生图、创建图片、AI 绘画、生成插图、画一张、帮我画、设计图片、通义万相、万相、阿里云画图、dashscope 画图。
+        当用户希望生成图片时使用此技能。支持多种模型：gpt-image-2（默认，通过
+        DesireCore Cloud）、wan2.7-image-pro / wan2.7-image（用户自行配置阿里云
+        DashScope 时可用）。通过 OpenAI 兼容的 /images/generations API 同步生成图片。
+        用户提到 生成图片、画图、文生图、创建图片、AI 绘画、生成插图、画一张、帮我画、设计图片。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:a2c4e8f01b3d5e7f
+      source_hash: sha256:b3d5f7a91c2e4068
       translated_by: human
     en-US:
-      name: DashScope Image Generation
-      short_desc: Text-to-image generation using Alibaba Cloud Wan (通义万相) models
-      description: "Use this skill when the user wants to generate images using Alibaba Cloud DashScope's Wan (通义万相) series models. Supports text-to-image with multiple model tiers (wan2.7-image-pro, wan2.7-image) via the OpenAI-compatible images/generations API. Trigger keywords: generate image, draw, text-to-image, create image, AI painting, illustration, design picture, Wan, Tongyi Wanxiang, DashScope."
+      name: AI Image Generation
+      short_desc: AI text-to-image generation (GPT Image / Wan models)
+      description: "Use this skill when the user wants to generate images. Supports multiple models: gpt-image-2 (default via DesireCore Cloud), wan2.7-image-pro / wan2.7-image (when user has DashScope configured). Uses the OpenAI-compatible /images/generations API. Trigger keywords: generate image, draw, text-to-image, create image, AI painting, illustration, design picture."
       body: ./SKILL.md
-      source_hash: sha256:a2c4e8f01b3d5e7f
+      source_hash: sha256:b3d5f7a91c2e4068
       translated_by: human
 market:
   icon: >-
@@ -56,7 +59,7 @@ market:
     fill-opacity="0.4" stroke="#34C759" stroke-width="1.2"
     stroke-linejoin="round"/><circle cx="15.5" cy="8.5" r="1.5" fill="#34C759"
     fill-opacity="0.6"/></svg>
-  short_desc: 基于阿里云通义万相的文本生成图片技能
+  short_desc: AI text-to-image generation (GPT Image / Wan models)
   category: media
   maintainer:
     name: DesireCore Official
@@ -69,7 +72,7 @@ market:
 ## Mandatory Rules (violations cause failure)
 
 1. **STRICTLY follow the execution steps below** — do NOT improvise, explore alternative endpoints, or try models not listed in this document
-2. **Must access agent-service over HTTPS** — the API address is already provided in the system prompt under "本机 API" section (e.g. `https://127.0.0.1:PORT`); use it directly with `-k` to skip certificate verification
+2. **Must access agent-service over HTTPS** — the API address is already provided in the system prompt under the local API section (e.g. `https://127.0.0.1:PORT`); use it directly with `-k` to skip certificate verification
 3. **Must upload to media-store via `/api/media/upload`** — `/tmp` is only a transient download/decode location, never use a local path as the final output
 4. **Must use the `dc-media://` protocol to display images** — the only form the frontend can render correctly
 5. **Use Bash curl throughout** — do not use the HttpRequest tool or Python
@@ -78,27 +81,27 @@ market:
 
 ## Provider & Default Compute
 
-This skill uses Alibaba Cloud DashScope's Wan (通义万相) models. You do NOT need to specify a provider — just pass `"serviceType": "image_gen"` and the system will automatically route to the correct provider:
-
-- **DesireCore Cloud** (default, always available): The built-in compute provider already supports `image_gen` with Wan models. Users can generate images immediately without any configuration.
-- **DashScope** (user-configured): If the user has configured their own DashScope API key, the system may route to it.
+You do NOT need to specify a provider — just pass `"serviceType": "image_gen"` and the system will automatically route to the correct provider.
 
 **Never** try to query provider lists, read compute.json, or explore available models through API calls. The models listed below are guaranteed to work.
 
 ## Model Selection
 
 | Model | Characteristics | When to use |
-|------|------|---------|
-| wan2.7-image-pro | Flagship, 4K resolution, thinking_mode | User asks for top quality, 4K, or rich detail |
-| wan2.7-image | Standard high quality, thinking_mode | **Default**, for unspecified requests |
+|-------|----------------|-------------|
+| gpt-image-2 | High quality, fast, versatile styles | **Default** — use when user does not specify a model |
+| wan2.7-image | Standard high quality (requires DashScope provider) | Only when user explicitly asks for Wan / DashScope |
+| wan2.7-image-pro | Flagship, 4K resolution (requires DashScope provider) | Only when user explicitly asks for top quality Wan model |
 
-**Default rule**: if the user does not specify a model, use `wan2.7-image`.
+**Default rule**: if the user does not specify a model, use `gpt-image-2`.
+
+**Note**: `wan2.7-image` and `wan2.7-image-pro` only work when the user has configured their own Alibaba Cloud DashScope provider. If you get an error with these models, fall back to `gpt-image-2`.
 
 ## Full Execution Flow (strictly follow these steps)
 
 ### How to get the API address
 
-The system prompt already contains the agent-service API address under "本机 API" (e.g. `Agent Service: https://127.0.0.1:61000`). Extract the URL from there and use it directly.
+The system prompt already contains the agent-service API address under the local API section (e.g. `Agent Service: https://127.0.0.1:61000`). Extract the URL from there and use it directly.
 
 If for any reason you cannot find it in the system prompt, use this fallback:
 
@@ -119,7 +122,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
     "serviceType": "image_gen",
     "endpoint": "/images/generations",
     "body": {
-      "model": "wan2.7-image",
+      "model": "gpt-image-2",
       "prompt": "Replace this with the image description (English usually gives better results)",
       "size": "1024x1024",
       "n": 1
@@ -185,7 +188,7 @@ Pass `size` in the `body` object:
 
 ```json
 {
-  "model": "wan2.7-image",
+  "model": "gpt-image-2",
   "prompt": "your image description",
   "size": "1024x1024",
   "n": 1
@@ -193,15 +196,15 @@ Pass `size` in the `body` object:
 ```
 
 | User intent | size value |
-|---------|-----------|
+|-------------|-----------|
 | Square / avatar / default | "1024x1024" |
-| Landscape / scenery / wallpaper | "1792x1024" |
-| Portrait / mobile / poster | "1024x1792" |
+| Landscape / scenery / wallpaper | "1536x1024" |
+| Portrait / mobile / poster | "1024x1536" |
 
 ### Optional parameters (top-level body fields)
 
 | Parameter | Description |
-|------|------|
+|-----------|-------------|
 | `n` | Number of images, 1-4, default 1 |
 | `size` | Image size, e.g. "1024x1024" |
 
@@ -222,14 +225,15 @@ When `n > 1`, download and upload each image, then render them one by one:
 | `"API Key not configured"` | API Key missing | Tell user to configure API key |
 | `statusCode: 401` | API Key invalid or expired | Tell user to check API key |
 | `statusCode: 429` | Rate limited | Wait and retry once |
-| `statusCode: 400` | Bad parameters | Check model name and size are from the tables above |
-| `statusCode: 403 AccessDenied.Unpurchased` | Model not activated | Tell user to enable the model in Alibaba Cloud console |
+| `statusCode: 400` + `model_price_error` | Model not available on current provider | Switch to `gpt-image-2` and retry |
+| `statusCode: 400` | Other bad parameters | Check model name and size are from the tables above |
 
-**On any error**: Do NOT try alternative models, alternative endpoints, or read config files. Report the error to the user clearly.
+**On model error**: If `wan2.7-image` or `wan2.7-image-pro` fails with `model_price_error`, automatically retry with `gpt-image-2`. Do NOT ask the user before retrying.
+
+**On other errors**: Report the error to the user clearly. Do NOT try alternative endpoints or read config files.
 
 ## Notes
 
-- Image generation calls are synchronous and typically return in 10-60 seconds (wan2.7-image-pro can take longer)
-- Image URLs expire; download promptly
+- Image generation calls are synchronous and typically return in 10-60 seconds
 - English prompts usually produce the best results; Chinese is also supported
-- When the user does not specify a model or size, default to `wan2.7-image` + `1024x1024`
+- When the user does not specify a model or size, default to `gpt-image-2` + `1024x1024`

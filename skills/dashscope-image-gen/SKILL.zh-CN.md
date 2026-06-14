@@ -14,10 +14,7 @@
 
 ## 供应商与默认算力
 
-本技能使用阿里云 DashScope 的通义万相系列模型。**无需指定供应商**，只需传 `"serviceType": "image_gen"`，系统会自动路由到正确的供应商：
-
-- **DesireCore Cloud**（默认，始终可用）：内置算力供应商已支持 `image_gen` 和通义万相模型。用户无需任何配置即可直接生成图片。
-- **DashScope**（用户自配）：如果用户自己配置了阿里云 API Key，系统可能会路由到用户自己的供应商。
+**无需指定供应商**，只需传 `"serviceType": "image_gen"`，系统会自动路由到正确的供应商。
 
 **禁止**尝试查询供应商列表、读取 compute.json、或通过 API 探索可用模型。下方列出的模型保证可用。
 
@@ -25,10 +22,13 @@
 
 | 模型 | 特点 | 适用场景 |
 |------|------|---------|
-| wan2.7-image-pro | 旗舰，4K 分辨率，thinking_mode | 用户要求最高画质、4K、细节丰富 |
-| wan2.7-image | 标准高画质，thinking_mode | **默认首选**，无特殊要求时使用 |
+| gpt-image-2 | 高画质，速度快，风格多样 | **默认首选** — 用户未指定模型时使用 |
+| wan2.7-image | 标准高画质（需配置阿里云 DashScope） | 仅当用户明确要求万相 / DashScope 时 |
+| wan2.7-image-pro | 旗舰，4K 分辨率（需配置阿里云 DashScope） | 仅当用户明确要求最高画质万相模型时 |
 
-**默认规则**：用户未指定模型时，使用 `wan2.7-image`。
+**默认规则**：用户未指定模型时，使用 `gpt-image-2`。
+
+**注意**：`wan2.7-image` 和 `wan2.7-image-pro` 仅在用户自行配置了阿里云 DashScope 供应商时可用。如果使用这些模型出错，自动降级到 `gpt-image-2`。
 
 ## 完整执行流程（严格按此步骤执行）
 
@@ -55,7 +55,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
     "serviceType": "image_gen",
     "endpoint": "/images/generations",
     "body": {
-      "model": "wan2.7-image",
+      "model": "gpt-image-2",
       "prompt": "这里替换为图片描述（建议英文效果更好）",
       "size": "1024x1024",
       "n": 1
@@ -121,7 +121,7 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
 
 ```json
 {
-  "model": "wan2.7-image",
+  "model": "gpt-image-2",
   "prompt": "图片描述",
   "size": "1024x1024",
   "n": 1
@@ -131,8 +131,8 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
 | 用户意图 | size 参数 |
 |---------|-----------|
 | 正方形/头像/默认 | "1024x1024" |
-| 横版/风景/壁纸 | "1792x1024" |
-| 竖版/手机/海报 | "1024x1792" |
+| 横版/风景/壁纸 | "1536x1024" |
+| 竖版/手机/海报 | "1024x1536" |
 
 ### 可选参数（加入请求体顶层）
 
@@ -158,14 +158,15 @@ curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
 | `"未配置 API Key"` | 未填写 API Key | 告知用户配置 API Key |
 | `statusCode: 401` | API Key 无效或过期 | 告知用户检查 API Key |
 | `statusCode: 429` | 频率限制 | 等待后重试一次 |
-| `statusCode: 400` | 参数错误 | 检查模型名和尺寸是否在上表中 |
-| `statusCode: 403 AccessDenied.Unpurchased` | 模型未开通 | 告知用户在阿里云控制台开通 |
+| `statusCode: 400` + `model_price_error` | 模型在当前供应商不可用 | 切换到 `gpt-image-2` 重试 |
+| `statusCode: 400` | 其他参数错误 | 检查模型名和尺寸是否在上表中 |
 
-**遇到任何错误时**：禁止尝试其他模型、其他端点、或读取配置文件。直接向用户清晰报告错误即可。
+**模型出错时**：如果 `wan2.7-image` 或 `wan2.7-image-pro` 报 `model_price_error`，自动切换到 `gpt-image-2` 重试。无需询问用户。
+
+**其他错误时**：直接向用户清晰报告错误。禁止尝试其他端点或读取配置文件。
 
 ## 注意事项
 
-- 图片生成调用是同步的，通常 10-60 秒返回（wan2.7-image-pro 可能更长）
-- 结果图片 URL 有时效，必须及时下载
+- 图片生成调用是同步的，通常 10-60 秒返回
 - 提示词建议用英文以获得最佳效果，中文也支持
-- 如果用户未明确要求模型/尺寸，默认使用 `wan2.7-image` + `1024x1024`
+- 如果用户未明确要求模型/尺寸，默认使用 `gpt-image-2` + `1024x1024`
