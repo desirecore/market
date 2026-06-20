@@ -9,7 +9,7 @@ description: >-
   Use when 用户提到 邮件、邮箱、收件箱、发邮件、回复邮件、查邮件、Gmail、
   Outlook、QQ邮箱、163邮箱、附件、标签、草稿、自动回复、邮件规则、
   转发、抄送、未读邮件、收信、发信、邮件同步、邮件搜索。
-version: 1.0.3
+version: 1.0.4
 type: procedural
 risk_level: medium
 status: enabled
@@ -23,7 +23,7 @@ tags:
   - smtp
 metadata:
   author: desirecore
-  updated_at: '2026-04-13'
+  updated_at: '2026-06-20'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -90,6 +90,17 @@ mail-operations is a **Procedural Skill** that operates email systems through De
 - **Smart integration**: supports automation rules and Agent-based email handling
 
 ## L2: Detailed Specification
+
+## How to Access the Email Service
+
+Users can reach the email management interface via:
+
+1. Click the **third icon** (folder icon) in the left navigation rail to open the **Resource Explorer**
+2. On the Resource Explorer home page, find and click the **"Emails"** card to enter email management
+
+> If a user doesn't know how to open the email page, guide them through the steps above. They can also click "Open Resource Explorer" from the top-right corner of the chat interface, then select the Emails card.
+
+---
 
 ## API Basics
 
