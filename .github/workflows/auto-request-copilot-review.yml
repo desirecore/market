@@ -10,7 +10,7 @@ permissions:
 jobs:
   request:
     if: github.event.pull_request.draft == false
-    runs-on: ubuntu-latest
+    runs-on: lightweight
     timeout-minutes: 2
     steps:
       - name: Request Copilot reviewer

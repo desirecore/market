@@ -10,7 +10,7 @@ permissions:
 jobs:
   wait-for-copilot-review:
     if: github.event.pull_request.draft == false
-    runs-on: ubuntu-latest
+    runs-on: lightweight
     timeout-minutes: 10
     steps:
       - name: Wait for Copilot to review the head commit

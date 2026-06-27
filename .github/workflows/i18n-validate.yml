@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: lightweight
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4

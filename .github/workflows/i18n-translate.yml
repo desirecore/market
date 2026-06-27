@@ -40,7 +40,7 @@ jobs:
   translate:
     # Don't run on bot's own commits to avoid loops
     if: github.actor != 'desirecore-bot[bot]' && !contains(github.event.head_commit.message, '[skip ci]')
-    runs-on: ubuntu-latest
+    runs-on: lightweight
     timeout-minutes: 30
     steps:
       - name: Checkout PR branch
