@@ -1,0 +1,65 @@
+[
+  {
+    "id": "flyai-skill",
+    "kind": "git",
+    "url": "https://github.com/alibaba-flyai/flyai-skill.git",
+    "license": "MIT",
+    "redistribution": "allowed"
+  },
+  {
+    "id": "wecom-cli",
+    "kind": "git",
+    "url": "https://github.com/WecomTeam/wecom-cli.git",
+    "license": "MIT",
+    "redistribution": "allowed"
+  },
+  {
+    "id": "larksuite-cli",
+    "kind": "git",
+    "url": "https://github.com/larksuite/cli.git",
+    "license": "MIT",
+    "redistribution": "allowed"
+  },
+  {
+    "id": "wechatpay-skills",
+    "kind": "git",
+    "url": "https://github.com/wechatpay-apiv3/wechatpay-skills.git",
+    "license": "MIT",
+    "redistribution": "allowed"
+  },
+  {
+    "id": "amap-jsapi-skill",
+    "kind": "web",
+    "url": "https://clawhub.ai/lbs-amap/skills/amap-jsapi-skill",
+    "license": "MIT-0",
+    "redistribution": "allowed"
+  },
+  {
+    "id": "dingtalk-api",
+    "kind": "web",
+    "url": "https://clawhub.ai/ogenes/skills/dingtalk-api",
+    "license": "MIT-0",
+    "redistribution": "allowed"
+  },
+  {
+    "id": "mt-paotui-for-client",
+    "kind": "git",
+    "url": "https://github.com/meituan/MT-Paotui-For-Client.git",
+    "license": "not-declared",
+    "redistribution": "source-pointer-only"
+  },
+  {
+    "id": "netease-skills",
+    "kind": "git",
+    "url": "https://github.com/NetEase/skills.git",
+    "license": "not-declared",
+    "redistribution": "source-pointer-only"
+  },
+  {
+    "id": "luckin-my-coffee",
+    "kind": "zip",
+    "url": "https://unpkg.luckincoffeecdn.com/@luckin/my-coffee-skill@latest/dist/my-coffee-skill.zip",
+    "license": "packaged-distribution",
+    "redistribution": "verify-package-terms"
+  }
+]
