@@ -1,0 +1,35 @@
+name: Sync external skills
+
+on:
+  schedule:
+    - cron: "0 2 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Check external skill sources
+        run: node scripts/vendor/sync-external-skills.mjs
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: chore/sync-external-skills
+          title: "chore: sync external skill metadata"
+          commit-message: "chore: sync external skill metadata"
+          body: |
+            Automated sync of external skill source metadata.
+
+            This workflow refreshes `scripts/vendor/external-skills.lock.json`.
+            Source code is not vendored for upstream projects without a declared license.
