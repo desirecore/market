@@ -1,0 +1,81 @@
+// Copyright (c) 2026 Lark Technologies Pte. Ltd.
+// SPDX-License-Identifier: MIT
+
+package client
+
+import (
+	"fmt"
+	"io"
+
+	"github.com/larksuite/cli/internal/core"
+	"github.com/larksuite/cli/internal/output"
+)
+
+// PaginationOptions contains pagination control options.
+type PaginationOptions struct {
+	PageLimit int           // max pages to fetch; 0 = unlimited (default: 10)
+	PageDelay int           // ms, default 200
+	Identity  core.Identity // identity passed to checkErr; defaults to AsUser when empty
+}
+
+func mergePagedResults(w io.Writer, results []interface{}) interface{} {
+	if len(results) == 0 {
+		return map[string]interface{}{}
+	}
+
+	firstMap, ok := results[0].(map[string]interface{})
+	if !ok {
+		return map[string]interface{}{"pages": results}
+	}
+
+	data, ok := firstMap["data"].(map[string]interface{})
+	if !ok {
+		return map[string]interface{}{"pages": results}
+	}
+
+	arrayField := output.FindArrayField(data)
+	if arrayField == "" {
+		return map[string]interface{}{"pages": results}
+	}
+
+	var merged []interface{}
+	for _, r := range results {
+		if rm, ok := r.(map[string]interface{}); ok {
+			if d, ok := rm["data"].(map[string]interface{}); ok {
+				if items, ok := d[arrayField].([]interface{}); ok {
+					merged = append(merged, items...)
+				}
+			}
+		}
+	}
+
+	fmt.Fprintf(w, "[pagination] merged %d pages, %d total items\n", len(results), len(merged))
+
+	mergedData := make(map[string]interface{})
+	for k, v := range data {
+		mergedData[k] = v
+	}
+	mergedData[arrayField] = merged
+
+	// Surface the last page's real has_more so callers can detect truncation
+	// when --page-limit stops the loop before the API is exhausted. Page tokens
+	// are intentionally dropped: the merged view is an aggregate, not a resume
+	// cursor — to fetch more, re-run with a larger --page-limit.
+	lastHasMore := false
+	if lastMap, ok := results[len(results)-1].(map[string]interface{}); ok {
+		if lastData, ok := lastMap["data"].(map[string]interface{}); ok {
+			lastHasMore, _ = lastData["has_more"].(bool)
+		}
+	}
+	mergedData["has_more"] = lastHasMore
+	delete(mergedData, "page_token")
+	delete(mergedData, "next_page_token")
+
+	result := make(map[string]interface{})
+	for k, v := range firstMap {
+		result[k] = v
+	}
+	result["data"] = mergedData
+
+	return result
+}

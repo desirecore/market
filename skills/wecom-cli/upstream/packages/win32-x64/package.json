@@ -1,0 +1,19 @@
+{
+  "name": "@wecom/cli-win32-x64",
+  "version": "0.1.9",
+  "description": "The win32-x64 binary for @wecom/cli",
+  "license": "MIT",
+  "files": [
+    "bin",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "x64"
+  ]
+}

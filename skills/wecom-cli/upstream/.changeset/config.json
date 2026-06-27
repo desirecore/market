@@ -1,0 +1,20 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
+  "changelog": "@changesets/cli/changelog",
+  "commit": false,
+  "fixed": [
+    [
+      "@wecom/cli",
+      "@wecom/cli-darwin-arm64",
+      "@wecom/cli-darwin-x64",
+      "@wecom/cli-linux-x64",
+      "@wecom/cli-linux-arm64",
+      "@wecom/cli-win32-x64"
+    ]
+  ],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": []
+}

@@ -1,0 +1,23 @@
+{
+  "name": "flyai-marketplace",
+  "owner": {
+    "name": "alibaba-flyai"
+  },
+  "metadata": {
+    "description": "Search and compare flights, hotels, attractions, concerts & more across Fliggy — book directly from your terminal"
+  },
+  "plugins": [
+    {
+      "name": "flyai",
+      "description": "Travel search powered by Fliggy — search flights, hotels, attractions, concerts, and more with natural language",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/alibaba-flyai/flyai-skill.git"
+      },
+      "version": "1.0.14",
+      "author": {
+        "name": "alibaba-flyai"
+      }
+    }
+  ]
+}

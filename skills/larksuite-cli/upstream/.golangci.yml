@@ -1,0 +1,191 @@
+version: "2"
+
+run:
+  timeout: 5m
+
+linters:
+  default: none
+  enable:
+    - asasalint       # checks for pass []any as any in variadic func(...any)
+    - asciicheck      # checks that code does not contain non-ASCII identifiers
+    - bidichk         # checks for dangerous unicode character sequences
+    - bodyclose       # checks whether HTTP response body is closed successfully
+    - copyloopvar     # detects places where loop variables are copied
+    - durationcheck   # checks for two durations multiplied together
+    - exptostd        # detects functions from golang.org/x/exp/ replaceable by std
+    - fatcontext      # detects nested contexts in loops
+    - gocheckcompilerdirectives # validates go compiler directive comments (//go:)
+    - gochecksumtype  # checks exhaustiveness on Go "sum types"
+    - gocritic        # diagnostics for bugs, performance and style
+    - gomoddirectives # checks for replace, retract, and exclude in go.mod
+    - goprintffuncname # checks that printf-like functions end with f
+    - govet           # reports suspicious constructs
+    - ineffassign     # detects ineffective assignments
+    - nilerr          # finds code that returns nil even if error is not nil
+    - nolintlint      # reports ill-formed nolint directives
+    - nosprintfhostport # checks for misuse of Sprintf to construct host:port
+    - reassign        # checks that package variables are not reassigned
+    - unconvert       # removes unnecessary type conversions
+    - unused          # checks for unused constants, variables, functions and types
+    - depguard        # blocks forbidden package imports
+    - forbidigo       # forbids specific function calls
+    - errorlint       # enforces error wrapping (%w) and errors.Is/As over == and type asserts
+
+    # To enable later after fixing existing issues:
+    # - errcheck      # checks for unchecked errors
+    # - errname       # checks that error types are named XxxError
+    # - gosec         # security-oriented linter
+    # - misspell      # finds commonly misspelled English words
+    # - staticcheck   # comprehensive static analysis
+
+  exclusions:
+    paths:
+      - generated
+    rules:
+      - path: _test\.go$
+        linters:
+          - bodyclose
+          - bidichk
+          - gocritic
+          - depguard
+          - forbidigo
+          - errorlint # tests legitimately do identity (==) and concrete type-assert checks
+      # forbidigo runs repo-wide (minus the boundaries below) so errs-no-bare-wrap
+      # has no gap. The framework bans (os/vfs, raw HTTP, fmt.Print, filepath,
+      # log) stay scoped to shortcuts/ + internal/ + config/auth/service via the
+      # next rule; elsewhere only errs-no-bare-wrap fires.
+      - path-except: (shortcuts/|internal/|cmd/|events/)
+        linters:
+          - forbidigo
+      - path-except: (shortcuts/|internal/|cmd/auth/|cmd/config/|cmd/service/)
+        text: (vfs|IOStreams|ctx\.Out|shortcuts-no-raw-http|filepath functions|os\.Exit|structured error return)
+        linters:
+          - forbidigo
+      - path: internal/vfs/
+        linters:
+          - forbidigo
+      # internal/gen build-time generators (standalone `package main` run via
+      # go:generate) are not shortcut runtime code — no ctx/runtime/framework —
+      # so the shortcut forbidigo bans don't apply. Going "compliant" is also
+      # impossible here: a structured error return needs os.Exit (also banned),
+      # and the vfs.Xxx() alternative is blocked by depguard shortcuts-no-vfs.
+      - path: shortcuts/.*/internal/gen/
+        linters:
+          - forbidigo
+      # internal/qualitygate/cmd contains standalone CI tools. Their main
+      # entrypoints legitimately own process exit codes and stdio, matching the
+      # old tools/ layout before these packages moved under internal/.
+      - path: internal/qualitygate/cmd/[^/]+/main\.go$
+        linters:
+          - forbidigo
+      # shortcuts-no-raw-http is shortcuts-only; internal/ wraps raw HTTP
+      # for the client / credential layer.
+      - path-except: shortcuts/
+        text: shortcuts-no-raw-http
+        linters:
+          - forbidigo
+      # errs-no-bare-wrap enforced across every command/wire boundary by
+      # structural prefix, so any future business domain or command is covered
+      # without editing an allowlist. Genuine intermediate wraps inside these
+      # paths use //nolint:forbidigo with a reason.
+      - path-except: (cmd/|shortcuts/|events/)
+        text: errs-no-bare-wrap
+        linters:
+          - forbidigo
+
+  settings:
+    depguard:
+      rules:
+        shortcuts-no-vfs:
+          files:
+            - "**/shortcuts/**"
+          deny:
+            - pkg: "github.com/larksuite/cli/internal/vfs"
+              desc: >-
+                shortcuts must not import internal/vfs directly.
+                Use runtime.FileIO() for file operations or runtime.ValidatePath() for path validation.
+            - pkg: "github.com/larksuite/cli/internal/vfs/localfileio"
+              desc: >-
+                shortcuts must not import internal/vfs/localfileio directly.
+                Use runtime.FileIO() for file operations or runtime.ValidatePath() for path validation.
+    forbidigo:
+      forbid:
+        # ── bare error wraps banned on fully-typed paths ──
+        - pattern: (fmt\.Errorf|errors\.New)\b
+          msg: >-
+            [errs-no-bare-wrap] final errors must be typed (errs.NewXxxError);
+            wrap a cause with .WithCause(err). Genuine intermediate wraps:
+            //nolint:forbidigo with a reason.
+        # ── http: shortcuts must not construct raw HTTP requests ──
+        # Bans request / client construction; constants (http.MethodPost,
+        # http.StatusOK) and pure helpers (http.StatusText, http.Header) are
+        # intentionally allowed since they don't bypass the runtime layer.
+        - pattern: http\.(Client|NewRequest|NewRequestWithContext|Get|Post|PostForm|Head|DefaultClient|DefaultTransport|RoundTripper|Do|Serve|ListenAndServe)\b
+          msg: >-
+            [shortcuts-no-raw-http] use RuntimeContext.DoAPI/CallAPI/DoAPIJSON
+            instead of constructing raw HTTP. The runtime handles auth, headers,
+            and error normalization. (Constants and helpers like http.MethodPost,
+            http.StatusOK, http.StatusText remain allowed.)
+        # ── os: already wrapped in internal/vfs ──
+        - pattern: os\.(Stat|Lstat|Open|OpenFile|Rename|ReadFile|WriteFile|Getwd|UserHomeDir|ReadDir)\b
+          msg: "use the corresponding vfs.Xxx() from internal/vfs"
+        - pattern: os\.(Create|CreateTemp|MkdirTemp)\b
+          msg: >-
+            internal/: use vfs.CreateTemp() or vfs.OpenFile().
+            shortcuts/: avoid temp files — use io.Reader streaming or in-memory buffers.
+        - pattern: os\.Mkdir(All)?\b
+          msg: "use vfs.MkdirAll() from internal/vfs"
+        - pattern: os\.Remove\b
+          msg: >-
+            internal/: use vfs.Remove() from internal/vfs.
+            shortcuts/: avoid temp files — use io.Reader streaming or in-memory buffers.
+        - pattern: os\.RemoveAll\b
+          msg: >-
+            internal/: add RemoveAll to internal/vfs/fs.go first, then use vfs.RemoveAll().
+            shortcuts/: avoid temp files — use io.Reader streaming or in-memory buffers.
+        # ── os: not yet in vfs — add to vfs/fs.go first ──
+        - pattern: os\.(Chdir|Chmod|Chown|Lchown|Chtimes|CopyFS|DirFS|Link|Symlink|Readlink|Truncate|SameFile)\b
+          msg: "add this function to internal/vfs/fs.go first, then use vfs.Xxx()"
+        # ── os: IO streams ──
+        - pattern: os\.Std(in|out|err)\b
+          msg: "use IOStreams (In/Out/ErrOut) instead of os.Stdin/Stdout/Stderr"
+        # ── os: process ──
+        - pattern: os\.Exit\b
+          msg: >-
+            Do not use os.Exit in shortcuts/. Return an error instead and let
+            the caller (cmd layer) decide how to terminate.
+        # ── output: shortcuts must use ctx.Out() ──
+        - pattern: fmt\.Print(f|ln)?\b
+          msg: >-
+            use ctx.Out() or ctx.OutFormat() for structured JSON output.
+            fmt.Print* bypasses the output envelope and breaks --jq/--format.
+        # ── logging: shortcuts must return errors, not log.Fatal ──
+        - pattern: log\.(Print|Fatal|Panic)(f|ln)?\b
+          msg: >-
+            use structured error return, not log.Fatal/Panic.
+            Shortcuts must return errors to the framework for proper exit code handling.
+        # ── filepath: functions that access the filesystem ──
+        - pattern: filepath\.(EvalSymlinks|Walk|WalkDir|Glob|Abs)\b
+          msg: >-
+            These filepath functions access the filesystem directly.
+            internal/: use vfs helpers or localfileio path validation.
+            shortcuts/: use runtime.ValidatePath() or runtime.FileIO().
+      analyze-types: true
+    gocritic:
+      disabled-checks:
+        - appendAssign
+        - hugeParam
+      disabled-tags:
+        - style
+    govet:
+      enable:
+        - httpresponse
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0

@@ -1,0 +1,29 @@
+# Rust
+/target
+
+# Node
+node_modules
+
+# Env
+.env*
+
+# IDE
+.codebuddy
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs & temp
+*.log
+*.swp
+*.swo
+*~
+
+# Platform binary directories (populated during build)
+packages/darwin-arm64/bin/
+packages/darwin-x64/bin/
+packages/linux-x64/bin/
+packages/win32-x64/bin/

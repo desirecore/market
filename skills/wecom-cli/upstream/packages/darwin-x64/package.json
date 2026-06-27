@@ -1,0 +1,19 @@
+{
+  "name": "@wecom/cli-darwin-x64",
+  "version": "0.1.9",
+  "description": "The darwin-x64 binary for @wecom/cli",
+  "license": "MIT",
+  "files": [
+    "bin",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "x64"
+  ]
+}

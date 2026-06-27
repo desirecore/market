@@ -1,0 +1,3 @@
+# 构建脚本每次 git clone 生成，勿提交
+flyai-skill/
+build.sh

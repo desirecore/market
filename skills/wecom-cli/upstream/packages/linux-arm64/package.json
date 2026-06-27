@@ -1,0 +1,19 @@
+{
+  "name": "@wecom/cli-linux-arm64",
+  "version": "0.1.9",
+  "description": "The linux-arm64 binary for @wecom/cli",
+  "license": "MIT",
+  "files": [
+    "bin",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm64"
+  ]
+}

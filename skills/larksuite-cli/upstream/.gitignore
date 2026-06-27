@@ -1,0 +1,54 @@
+# Build output
+/lark-cli*
+.cache/
+dist/
+bin/
+
+# Node
+node_modules/
+
+# Python (skill-bundled helper scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Go
+docs/ref
+docs/
+vendor/
+
+
+#test
+test_scripts/
+tests/mail/reports/
+
+/log/
+
+
+# Generated / test artifacts
+.hammer/
+.lark-slides/
+/notes/
+/minutes/
+internal/registry/meta_data.json
+cmd/api/download.bin
+app.log
+/sidecar-server-demo
+/server-demo
+.tmp/
+cover*.out
+
+lark-env.sh
+/automations/

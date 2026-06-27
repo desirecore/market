@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Run clippy and fmt check if any Rust files are staged
+if git diff --cached --name-only --diff-filter=d | grep -q '\.rs$'; then
+  cargo fmt --check || exit 1
+  cargo clippy --all-targets -- -D warnings || exit 1
+fi
+
+# Run eslint on staged JS/TS files
+JS_FILES=$(git diff --cached --name-only --diff-filter=d | grep -E '\.(js|ts)$')
+if [ -n "$JS_FILES" ]; then
+  npx eslint $JS_FILES || exit 1
+fi

@@ -1,0 +1,48 @@
+{
+  "name": "@wecom/cli",
+  "version": "0.1.9",
+  "description": "The official CLI for WeCom",
+  "keywords": [
+    "wecom-cli",
+    "mcp"
+  ],
+  "homepage": "https://github.com/WecomTeam/wecom-cli#readme",
+  "bugs": {
+    "url": "https://github.com/WecomTeam/wecom-cli/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WecomTeam/wecom-cli.git"
+  },
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "wecom-cli": "./bin/wecom.js"
+  },
+  "files": [
+    "bin",
+    "README.md"
+  ],
+  "scripts": {
+    "prepare": "git config core.hooksPath .githooks"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.30.0",
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "@eslint/js": "^10.0.1",
+    "@tsconfig/node-lts": "^24.0.0",
+    "@types/node": "^25.5.0",
+    "eslint": "^10.1.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.4.0",
+    "prettier": "^3.8.1",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.57.2"
+  },
+  "packageManager": "pnpm@10.32.1",
+  "engines": {
+    "node": ">=18"
+  }
+}
