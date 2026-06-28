@@ -1,0 +1,21 @@
+{
+  "id": "luckin-my-coffee",
+  "name": "Luckin My Coffee",
+  "category": "business",
+  "tags": [
+    "luckin"
+  ],
+  "maintainer": {
+    "name": "luckin",
+    "verified": false,
+    "account": "luckin",
+    "url": "https://unpkg.luckincoffeecdn.com/@luckin/my-coffee-skill@latest/dist/my-coffee-skill.zip"
+  },
+  "stewardship": "pointer",
+  "license": "packaged-distribution",
+  "redistribution": "verify-package-terms",
+  "source": {
+    "kind": "zip",
+    "repoUrl": "https://unpkg.luckincoffeecdn.com/@luckin/my-coffee-skill@latest/dist/my-coffee-skill.zip"
+  }
+}

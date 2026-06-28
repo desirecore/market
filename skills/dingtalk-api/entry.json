@@ -1,0 +1,21 @@
+{
+  "id": "dingtalk-api",
+  "name": "DingTalk API Skill",
+  "category": "communication",
+  "tags": [
+    "ogenes"
+  ],
+  "maintainer": {
+    "name": "ogenes",
+    "verified": false,
+    "account": "ogenes",
+    "url": "https://clawhub.ai/ogenes/skills/dingtalk-api"
+  },
+  "stewardship": "community",
+  "license": "MIT-0",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "web",
+    "repoUrl": "https://clawhub.ai/ogenes/skills/dingtalk-api"
+  }
+}

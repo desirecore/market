@@ -1,0 +1,23 @@
+{
+  "id": "mt-paotui-for-client",
+  "name": "Meituan Paotui Client",
+  "category": "business",
+  "tags": [
+    "meituan"
+  ],
+  "maintainer": {
+    "name": "meituan",
+    "verified": false,
+    "account": "meituan",
+    "url": "https://github.com/meituan/MT-Paotui-For-Client"
+  },
+  "stewardship": "pointer",
+  "license": "not-declared",
+  "redistribution": "source-pointer-only",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/meituan/MT-Paotui-For-Client.git",
+    "repoBranch": "main",
+    "ref": "dc5cc223a010c2fe4377088affc2fbe4c6c6473d"
+  }
+}

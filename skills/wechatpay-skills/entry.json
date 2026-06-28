@@ -1,0 +1,23 @@
+{
+  "id": "wechatpay-skills",
+  "name": "WeChat Pay Skills",
+  "category": "business",
+  "tags": [
+    "wechatpay-apiv3"
+  ],
+  "maintainer": {
+    "name": "wechatpay-apiv3",
+    "verified": false,
+    "account": "wechatpay-apiv3",
+    "url": "https://github.com/wechatpay-apiv3/wechatpay-skills"
+  },
+  "stewardship": "partner",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/wechatpay-apiv3/wechatpay-skills.git",
+    "repoBranch": "main",
+    "ref": "8573bdc38b86fa67a42acfc422d6b4dbca4ada21"
+  }
+}
