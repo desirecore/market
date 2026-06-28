@@ -1,0 +1,36 @@
+{
+  "id": "minimax-tts",
+  "name": "MiniMax 语音合成",
+  "category": "media",
+  "tags": [
+    "minimax",
+    "media"
+  ],
+  "latestVersion": "1.2.1",
+  "i18n": {
+    "zh-CN": {
+      "name": "MiniMax 语音合成",
+      "shortDesc": "MiniMax 语音合成"
+    },
+    "en-US": {
+      "name": "MiniMax Text-to-Speech",
+      "shortDesc": "MiniMax Text-to-Speech"
+    }
+  },
+  "maintainer": {
+    "name": "DesireCore",
+    "verified": true,
+    "account": "desirecore",
+    "url": "https://github.com/desirecore"
+  },
+  "stewardship": "official",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/desirecore/skills-minimax.git",
+    "repoBranch": "main",
+    "path": "minimax-tts",
+    "ref": "6e39eee2ad39632a21f43ed997983e70594b2b8a"
+  }
+}

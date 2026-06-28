@@ -1,0 +1,23 @@
+{
+  "id": "flyai-skill",
+  "name": "FlyAI",
+  "category": "productivity",
+  "tags": [
+    "alibaba-flyai"
+  ],
+  "maintainer": {
+    "name": "alibaba-flyai",
+    "verified": false,
+    "account": "alibaba-flyai",
+    "url": "https://github.com/alibaba-flyai/flyai-skill"
+  },
+  "stewardship": "partner",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/alibaba-flyai/flyai-skill.git",
+    "repoBranch": "main",
+    "ref": "54277b27b68e53741954c08541faedba1d45cc7b"
+  }
+}

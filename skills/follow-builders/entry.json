@@ -1,0 +1,22 @@
+{
+  "id": "follow-builders",
+  "name": "Follow Builders",
+  "category": "productivity",
+  "tags": [
+    "zarazhangrui"
+  ],
+  "maintainer": {
+    "name": "zarazhangrui",
+    "verified": false,
+    "account": "zarazhangrui",
+    "url": "https://github.com/zarazhangrui/follow-builders"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/zarazhangrui/follow-builders.git",
+    "repoBranch": "main"
+  }
+}
