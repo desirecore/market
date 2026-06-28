@@ -61,5 +61,12 @@
     "url": "https://unpkg.luckincoffeecdn.com/@luckin/my-coffee-skill@latest/dist/my-coffee-skill.zip",
     "license": "packaged-distribution",
     "redistribution": "verify-package-terms"
+  },
+  {
+    "id": "follow-builders",
+    "kind": "git",
+    "url": "https://github.com/zarazhangrui/follow-builders.git",
+    "license": "MIT",
+    "redistribution": "allowed"
   }
 ]

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-27T11:20:59.300Z",
+  "generatedAt": "2026-06-28T06:38:06.919Z",
   "sources": {
     "flyai-skill": {
       "id": "flyai-skill",
@@ -9,7 +9,7 @@
       "redistribution": "allowed",
       "ref": "main",
       "revision": "54277b27b68e53741954c08541faedba1d45cc7b",
-      "checkedAt": "2026-06-27T11:20:59.300Z",
+      "checkedAt": "2026-06-28T06:38:06.919Z",
       "status": "current"
     },
     "wecom-cli": {
@@ -20,7 +20,7 @@
       "redistribution": "allowed",
       "ref": "main",
       "revision": "72e14f7695f34d28f1ff23ea504ddd2210a87c13",
-      "checkedAt": "2026-06-27T11:20:59.300Z",
+      "checkedAt": "2026-06-28T06:38:06.919Z",
       "status": "current"
     },
     "larksuite-cli": {
@@ -31,7 +31,7 @@
       "redistribution": "allowed",
       "ref": "main",
       "revision": "4c31323de1ca878b2070c05f7c3cb66c0de4c767",
-      "checkedAt": "2026-06-27T11:20:59.300Z",
+      "checkedAt": "2026-06-28T06:38:06.919Z",
       "status": "current"
     },
     "wechatpay-skills": {
@@ -42,7 +42,7 @@
       "redistribution": "allowed",
       "ref": "main",
       "revision": "8573bdc38b86fa67a42acfc422d6b4dbca4ada21",
-      "checkedAt": "2026-06-27T11:20:59.300Z",
+      "checkedAt": "2026-06-28T06:38:06.919Z",
       "status": "current"
     },
     "amap-jsapi-skill": {
@@ -51,12 +51,12 @@
       "url": "https://clawhub.ai/lbs-amap/skills/amap-jsapi-skill",
       "license": "MIT-0",
       "redistribution": "allowed",
-      "revision": "899f2ad55b37053a130152e7480d8152126501899d8fc705bfea5c910f97b77e",
+      "revision": "88965c26eba0c34b8e1691f29d94485de439357d3ac78e49f06f9f16307d5b1d",
       "size": 109935,
       "contentType": "text/html; charset=utf-8",
       "lastModified": null,
       "etag": null,
-      "checkedAt": "2026-06-27T11:20:59.300Z",
+      "checkedAt": "2026-06-28T06:38:06.919Z",
       "status": "changed"
     },
     "dingtalk-api": {
@@ -65,12 +65,12 @@
       "url": "https://clawhub.ai/ogenes/skills/dingtalk-api",
       "license": "MIT-0",
       "redistribution": "allowed",
-      "revision": "9016853d3181de9d2cb2567e0f7cabbc0bdcb31761ef8653e2e6c4a3e0ee212d",
+      "revision": "dc29a27326ce84a7d6b08c7f7be7740905ecf72bab4c1c8e12f5cc14eced5fb9",
       "size": 155611,
       "contentType": "text/html; charset=utf-8",
       "lastModified": null,
       "etag": null,
-      "checkedAt": "2026-06-27T11:20:59.300Z",
+      "checkedAt": "2026-06-28T06:38:06.919Z",
       "status": "changed"
     },
     "mt-paotui-for-client": {
@@ -81,7 +81,7 @@
       "redistribution": "source-pointer-only",
       "ref": "main",
       "revision": "dc5cc223a010c2fe4377088affc2fbe4c6c6473d",
-      "checkedAt": "2026-06-27T11:20:59.300Z",
+      "checkedAt": "2026-06-28T06:38:06.919Z",
       "status": "current"
     },
     "netease-skills": {
@@ -92,7 +92,7 @@
       "redistribution": "source-pointer-only",
       "ref": "master",
       "revision": "58ff0771d6977feb847d6bfe322280eec4bec004",
-      "checkedAt": "2026-06-27T11:20:59.300Z",
+      "checkedAt": "2026-06-28T06:38:06.919Z",
       "status": "current"
     },
     "luckin-my-coffee": {
@@ -106,7 +106,18 @@
       "contentType": "application/zip",
       "lastModified": "Sat, 26 Oct 1985 08:15:00 GMT",
       "etag": "\"27c1-O6NoV+5yV2b/I+Ngo+rzkPL9ppc\"",
-      "checkedAt": "2026-06-27T11:20:59.300Z",
+      "checkedAt": "2026-06-28T06:38:06.919Z",
+      "status": "current"
+    },
+    "follow-builders": {
+      "id": "follow-builders",
+      "kind": "git",
+      "url": "https://github.com/zarazhangrui/follow-builders.git",
+      "license": "MIT",
+      "redistribution": "allowed",
+      "ref": "main",
+      "revision": "c2cfc11ca39cb5f7778d8cafeb9111085d4a197a",
+      "checkedAt": "2026-06-28T06:38:06.919Z",
       "status": "current"
     }
   }
