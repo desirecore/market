@@ -1,0 +1,21 @@
+{
+  "id": "amap-jsapi-skill",
+  "name": "AMap JSAPI Skill",
+  "category": "development",
+  "tags": [
+    "lbs-amap"
+  ],
+  "maintainer": {
+    "name": "lbs-amap",
+    "verified": false,
+    "account": "lbs-amap",
+    "url": "https://clawhub.ai/lbs-amap/skills/amap-jsapi-skill"
+  },
+  "stewardship": "community",
+  "license": "MIT-0",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "web",
+    "repoUrl": "https://clawhub.ai/lbs-amap/skills/amap-jsapi-skill"
+  }
+}

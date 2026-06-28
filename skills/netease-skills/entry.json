@@ -1,0 +1,22 @@
+{
+  "id": "netease-skills",
+  "name": "NetEase Skills",
+  "category": "productivity",
+  "tags": [
+    "NetEase"
+  ],
+  "maintainer": {
+    "name": "NetEase",
+    "verified": false,
+    "account": "NetEase",
+    "url": "https://github.com/NetEase/skills"
+  },
+  "stewardship": "pointer",
+  "license": "not-declared",
+  "redistribution": "source-pointer-only",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/NetEase/skills.git",
+    "repoBranch": "main"
+  }
+}

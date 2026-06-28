@@ -1,0 +1,23 @@
+{
+  "id": "larksuite-cli",
+  "name": "Lark Suite CLI",
+  "category": "communication",
+  "tags": [
+    "larksuite"
+  ],
+  "maintainer": {
+    "name": "larksuite",
+    "verified": false,
+    "account": "larksuite",
+    "url": "https://github.com/larksuite/cli"
+  },
+  "stewardship": "partner",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/larksuite/cli.git",
+    "repoBranch": "main",
+    "ref": "4c31323de1ca878b2070c05f7c3cb66c0de4c767"
+  }
+}
