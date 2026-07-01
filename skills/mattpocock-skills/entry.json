@@ -1,0 +1,24 @@
+{
+  "id": "mattpocock-skills",
+  "name": "Matt Pocock Skills",
+  "category": "development",
+  "tags": [
+    "engineering",
+    "tdd",
+    "mattpocock"
+  ],
+  "maintainer": {
+    "name": "Matt Pocock",
+    "verified": false,
+    "account": "mattpocock",
+    "url": "https://github.com/mattpocock/skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/mattpocock/skills.git",
+    "repoBranch": "main"
+  }
+}
