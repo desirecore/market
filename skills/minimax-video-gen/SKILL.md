@@ -60,7 +60,6 @@ market:
     name: DesireCore Official
     verified: true
   channel: latest
-  listed: false
 ---
 
 # minimax-video-gen Skill
