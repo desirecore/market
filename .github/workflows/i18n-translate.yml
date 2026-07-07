@@ -15,6 +15,12 @@ name: i18n Auto-Translate
 # manifest.json or categories.json changed, falls back to full-repo scan (these
 # affect the i18n fallback chain globally). workflow_dispatch always does a full
 # scan unless `skill` input is supplied.
+#
+# Fork PRs: GITHUB_TOKEN is read-only and repo secrets are unavailable, so we
+# can't push translations, comment, or label. We check out the PR merge ref
+# (refs/pull/N/merge — the head branch only exists in the fork), run the same
+# stale-translation check, and fail with instructions for the contributor to
+# run scripts/i18n/translate.py locally if translations are missing.
 
 on:
   pull_request:
@@ -46,7 +52,12 @@ jobs:
       - name: Checkout PR branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.ref || github.ref }}
+          # Same-repo PR: check out the head branch so translations can be
+          # pushed back to it. Fork PR: the head branch doesn't exist in this
+          # repo, so check out the PR merge ref instead (github.ref =
+          # refs/pull/N/merge on pull_request events) — read-only checks still
+          # run, write steps are skipped below. workflow_dispatch: github.ref.
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref || github.ref }}
           token: ${{ secrets.DESIRECORE_BOT_TOKEN || secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
@@ -160,6 +171,19 @@ jobs:
           fi
           exit 0
 
+      - name: Fail fork PR with stale translations
+        # Fork PRs get a read-only GITHUB_TOKEN and no repo secrets, so the
+        # workflow can't push generated translations back to the PR branch.
+        # Fail here (before spending model tokens) with instructions instead.
+        if: >-
+          steps.changes.outputs.relevant == 'true' &&
+          steps.precheck.outputs.stale == 'true' &&
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.head.repo.full_name != github.repository
+        run: |
+          echo "::error::The i18n pre-check failed for this fork PR (stale/missing translations, or a check error — see the 'Check for stale translations' step logs above), and the workflow cannot push auto-generated translations to a fork. Please run 'uv run scripts/i18n/translate.py --check' locally to see what's wrong, then 'uv run scripts/i18n/translate.py' and commit the generated SKILL.<locale>.md files to your branch."
+          exit 1
+
       - name: Translate stale locales
         if: steps.changes.outputs.relevant == 'true' && steps.precheck.outputs.stale == 'true'
         env:
@@ -202,7 +226,10 @@ jobs:
           fi
 
       - name: Commit & push translations
-        if: steps.diff.outputs.changed == 'true'
+        if: >-
+          steps.diff.outputs.changed == 'true' &&
+          (github.event_name != 'pull_request' ||
+           github.event.pull_request.head.repo.full_name == github.repository)
         run: |
           git config user.name "desirecore-bot"
           git config user.email "bot@desirecore.net"
@@ -246,7 +273,12 @@ jobs:
           TRANSLATE_MODEL: ${{ vars.TRANSLATE_MODEL || 'openai/gpt-5-mini' }}
 
       - name: Label on translation failure
-        if: failure() && github.event_name == 'pull_request'
+        # Skip on fork PRs: GITHUB_TOKEN is read-only there and repo secrets
+        # are unavailable, so addLabels would 403 ("Resource not accessible
+        # by integration"). The failed check itself is the signal.
+        if: >-
+          failure() && github.event_name == 'pull_request' &&
+          github.event.pull_request.head.repo.full_name == github.repository
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.DESIRECORE_BOT_TOKEN || secrets.GITHUB_TOKEN }}
