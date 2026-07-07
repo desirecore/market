@@ -37,7 +37,7 @@ metadata:
       description: >-
         Guides the Agent to design, edit, test, and execute Workflow workflows. Use when the user asks to create a workflow, orchestrate multi-step automation, design an approval pipeline, or turn repetitive multi-node tasks into a reusable DSL.
       body: ./SKILL.md
-      source_hash: sha256:aa197c62ae8a33d7
+      source_hash: sha256:ef8c32dbcc87bc32
       translated_by: human
       translated_at: '2026-05-04'
 market:

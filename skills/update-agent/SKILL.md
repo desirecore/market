@@ -35,7 +35,7 @@ metadata:
       description: >-
         Safely update an existing Agent's config, persona, principles, skills, and memory, producing reviewable diffs that are applied and committed only after confirmation. Use when the user asks to modify Agent behavior, install/uninstall skills, adjust config, roll back changes, or revise rules.
       body: ./SKILL.md
-      source_hash: sha256:a0fecd84f92204bd
+      source_hash: sha256:a58c60b086945340
       translated_by: human
       translated_at: '2026-05-03'
 market:

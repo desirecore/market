@@ -61,7 +61,7 @@ metadata:
       short_desc: Web search, page fetching, logged-in browser access via CDP, research workflows
       description: A three-layer web-access toolkit — search public pages, fetch heavy pages via Jina Reader, and reach logged-in sites via Chrome CDP.
       body: ./SKILL.md
-      source_hash: sha256:1d044824f5ab31bc
+      source_hash: sha256:4cda9ca594fbd974
       translated_by: human
 market:
   icon: >-

@@ -65,7 +65,6 @@ jobs:
       - name: Check for stale translations
         if: steps.changes.outputs.relevant == 'true'
         run: uv run --quiet scripts/i18n/translate.py --check
-        continue-on-error: true
 
       - name: Skip notice
         if: steps.changes.outputs.relevant != 'true'

@@ -336,6 +336,22 @@ jobs:
               issue_number: context.issue.number,
               labels: ['i18n-translation-failed'],
             });
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: [
+                '🌐 **i18n translation check failed**',
+                '',
+                'Please inspect the workflow logs for the exact failing skill/locale.',
+                '',
+                'Common causes:',
+                '- A machine-translated locale could not be regenerated.',
+                '- A `translated_by: human` locale has source hash drift and must be manually synchronized.',
+                '',
+                'After manually reviewing a human-locked translation, update its `source_hash` to match the current source content.',
+              ].join('\n'),
+            });
 
       - name: Skip notice
         if: steps.changes.outputs.relevant != 'true'

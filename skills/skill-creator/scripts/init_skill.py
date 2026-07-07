@@ -23,18 +23,56 @@ DESIRECORE_TEMPLATE = """\
 ---
 name: {skill_name}
 description: >-
-  [TODO: 完整描述技能用途。必须包含 "Use when" 触发提示，
-  帮助 AI 判断何时使用该技能。]
+  [TODO: Complete and informative explanation of what the skill does and when to
+  use it. Include "Use when" trigger hints and Chinese trigger keywords.]
 version: 1.0.0
 type: procedural
 risk_level: low
 status: enabled
 tags:
-  - [TODO: 添加标签]
+  - {first_tag}
 metadata:
   author: user
   updated_at: '{today}'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales:
+      - zh-CN
+      - en-US
+    zh-CN:
+      name: {skill_title}
+      short_desc: '[TODO: 中文一句话简介]'
+      description: >-
+        [TODO: 中文较长描述。]
+      body: ./SKILL.zh-CN.md
+      translated_by: human
+    en-US:
+      name: {skill_title}
+      short_desc: '[TODO: English one-line summary]'
+      description: >-
+        [TODO: Longer English description. CI can replace this when source_hash
+        is missing or stale.]
+      body: ./SKILL.md
+      translated_by: ai:pending
+market:
+  icon: ''
+  category: productivity
+  channel: latest
+  maintainer:
+    name: user
+    verified: false
 ---
+
+# {skill_title}
+
+_Translation pending. The source body is in `SKILL.zh-CN.md`; run
+`uv run scripts/i18n/translate.py {skill_path}` from the market repository to
+generate this default-language body._
+"""
+
+DESIRECORE_SOURCE_BODY = """\
+<!-- locale: zh-CN -->
 
 # {skill_title}
 
@@ -182,6 +220,8 @@ def init_skill(skill_name, path, fmt='desirecore'):
     skill_content = template.format(
         skill_name=skill_name,
         skill_title=skill_title,
+        first_tag=skill_name.split('-')[0],
+        skill_path=f"skills/{skill_name}",
         today=date.today().isoformat(),
     )
 
@@ -192,6 +232,15 @@ def init_skill(skill_name, path, fmt='desirecore'):
     except Exception as e:
         print(f"❌ Error creating SKILL.md: {e}")
         return None
+
+    if fmt == 'desirecore':
+        source_body = DESIRECORE_SOURCE_BODY.format(skill_title=skill_title)
+        try:
+            (skill_dir / 'SKILL.zh-CN.md').write_text(source_body)
+            print("✅ Created SKILL.zh-CN.md (source locale)")
+        except Exception as e:
+            print(f"❌ Error creating SKILL.zh-CN.md: {e}")
+            return None
 
     # Create resource directories with example files
     try:

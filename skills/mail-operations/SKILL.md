@@ -44,7 +44,7 @@ metadata:
       description: >-
         Use this skill whenever the user wants to interact with email. This includes reading inbox, sending emails, replying, searching messages, managing labels and categories, downloading attachments, setting up auto-reply rules, or triggering agents to handle incoming emails. Supports Gmail, Outlook, and IMAP/SMTP (QQ Mail, 163, Yahoo, etc.) through DesireCore's local REST API. Use when the user mentions email, mailbox, inbox, sending email, replying, checking email, Gmail, Outlook, QQ Mail, 163 Mail, attachments, labels, drafts, auto-reply, email rules, forwarding, CC, unread email, receiving, sending, email sync, or email search.
       body: ./SKILL.md
-      source_hash: sha256:24bffbade0dc09a7
+      source_hash: sha256:0ee04ebff49d92ea
       translated_by: human
       translated_at: '2026-05-03'
 market:
