@@ -140,6 +140,8 @@ diff_metadata:
 
 通过 AgentFS 直接读写文件完成变更。**不要调用 HTTP API，不要直接操作 Git**（版本管理由后端自动处理）。
 
+> **修改智能体显示名称 → 必须用 Edit 工具同时改两个文件保持一致。** 若用户要改 Agent 的**显示名称**（如"把 X 改名为 Y"），用 Edit 工具**同时**更新两处：①`agent.json` 的 `name` 字段；②`persona.md` 的首行标题（`# 名称`）。只改其中一个会导致显示名与人格文档标题脱节。**绝不要在没有实际编辑文件的情况下声称已改名**——不真正编辑文件则磁盘不变、智能体列表也不会刷新。
+
 **AgentFS 根目录**：`${DESIRECORE_ROOT}/agents/<agentId>/`
 
 **读取文件**：使用 `cat` 命令读取目标文件当前内容。
@@ -186,6 +188,7 @@ git show <commit>:persona.md
 
 | 用户意图       | 目标文件        | AgentFS 路径                                   |
 | -------------- | --------------- | ---------------------------------------------- |
+| **改名（显示名称）** | `agent.json` **+** `persona.md` | 用 Edit 同时改：`agent.json` 的 name 字段 + `persona.md` 首行 `# 标题` |
 | 修改性格/风格  | `persona.md`    | `${DESIRECORE_ROOT}/agents/<agentId>/persona.md`    |
 | 修改行为规则   | `principles.md` | `${DESIRECORE_ROOT}/agents/<agentId>/principles.md` |
 | 安装/卸载技能  | `skills/`       | `${DESIRECORE_ROOT}/agents/<agentId>/skills/`       |

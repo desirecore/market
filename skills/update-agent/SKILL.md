@@ -35,7 +35,7 @@ metadata:
       description: >-
         Safely update an existing Agent's config, persona, principles, skills, and memory, producing reviewable diffs that are applied and committed only after confirmation. Use when the user asks to modify Agent behavior, install/uninstall skills, adjust config, roll back changes, or revise rules.
       body: ./SKILL.md
-      source_hash: sha256:a58c60b086945340
+      source_hash: sha256:a920af860d6f6a19
       translated_by: human
       translated_at: '2026-05-03'
 market:
@@ -200,6 +200,8 @@ diff_metadata:
 
 Apply the change by reading and writing files directly through AgentFS. **Do not call HTTP APIs, and do not operate Git directly** (version management is handled automatically by the backend).
 
+> **Renaming an Agent's display name — you MUST edit two files to keep them in sync.** If the user wants to change the Agent's **display name** (e.g. "rename X to Y"), use the Edit tool to update **both**: (1) the `name` field in `agent.json`, and (2) the first-line title heading (`# Name`) in `persona.md`. Editing only one leaves the display name and the persona title out of sync. **Never claim the rename is done without actually editing the files** — if no edit runs, nothing changes on disk and the Agent list will not refresh.
+
 **AgentFS root directory**: `${DESIRECORE_ROOT}/agents/<agentId>/`
 
 **Read file**: Use the `cat` command to read the current contents of the target file.
@@ -246,6 +248,7 @@ git show <commit>:persona.md
 
 | User Intent                  | Target File     | AgentFS Path                                   |
 | ---------------------------- | --------------- | ---------------------------------------------- |
+| **Rename (display name)**    | `agent.json` **+** `persona.md` | Edit BOTH: `name` in `agent.json` AND the `# Title` first line in `persona.md` |
 | Modify personality/style     | `persona.md`    | `${DESIRECORE_ROOT}/agents/<agentId>/persona.md`    |
 | Modify behavioral rules      | `principles.md` | `${DESIRECORE_ROOT}/agents/<agentId>/principles.md` |
 | Install/uninstall skills     | `skills/`       | `${DESIRECORE_ROOT}/agents/<agentId>/skills/`       |
