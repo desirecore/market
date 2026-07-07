@@ -57,7 +57,7 @@ jobs:
           # repo, so check out the PR merge ref instead (github.ref =
           # refs/pull/N/merge on pull_request events) — read-only checks still
           # run, write steps are skipped below. workflow_dispatch: github.ref.
-          ref: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref || github.ref }}
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref || github.ref }}
           token: ${{ secrets.DESIRECORE_BOT_TOKEN || secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
@@ -181,7 +181,7 @@ jobs:
           github.event_name == 'pull_request' &&
           github.event.pull_request.head.repo.full_name != github.repository
         run: |
-          echo "::error::This PR is missing i18n translations for the skills it touches, and the workflow cannot push auto-generated translations to a fork. Please run 'uv run scripts/i18n/translate.py' locally and commit the generated SKILL.<locale>.md files to your branch."
+          echo "::error::The i18n pre-check failed for this fork PR (stale/missing translations, or a check error — see the 'Check for stale translations' step logs above), and the workflow cannot push auto-generated translations to a fork. Please run 'uv run scripts/i18n/translate.py --check' locally to see what's wrong, then 'uv run scripts/i18n/translate.py' and commit the generated SKILL.<locale>.md files to your branch."
           exit 1
 
       - name: Translate stale locales
