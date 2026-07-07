@@ -59,6 +59,21 @@
       }
     }
   },
+  "design": {
+    "color": "#FF2D55",
+    "icon": "pen-tool",
+    "i18n": {
+      "default_locale": "en-US",
+      "en-US": {
+        "label": "Design",
+        "description": "Interface, visual, and product design skills for creating polished user experiences, layouts, and design systems."
+      },
+      "zh-CN": {
+        "label": "设计",
+        "description": "界面、视觉与产品设计技能，用于创建高质量用户体验、布局与设计系统"
+      }
+    }
+  },
   "media": {
     "color": "#AF52DE",
     "icon": "image",
@@ -86,6 +101,21 @@
       "zh-CN": {
         "label": "沟通",
         "description": "沟通协作工具，包括翻译、邮件管理、会议辅助、客服应答、跨文化交流等"
+      }
+    }
+  },
+  "research": {
+    "color": "#5AC8FA",
+    "icon": "search",
+    "i18n": {
+      "default_locale": "en-US",
+      "en-US": {
+        "label": "Research",
+        "description": "Information access, web research, source gathering, and synthesis skills for current or external knowledge."
+      },
+      "zh-CN": {
+        "label": "研究",
+        "description": "信息访问、联网调研、资料收集与综合分析技能，用于获取当前或外部知识"
       }
     }
   },

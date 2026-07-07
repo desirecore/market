@@ -8,7 +8,7 @@ description: >-
   换背景、换风格、图片编辑、以图生图、参考图、基于这张图、
   把这张图改成、在这张图上、image edit、img2img。
 license: Complete terms in LICENSE.txt
-version: 1.0.0
+version: 1.0.1
 type: procedural
 risk_level: low
 status: enabled
@@ -44,7 +44,7 @@ metadata:
       short_desc: AI image editing and transformation based on reference images
       description: "Use this skill when the user wants to edit, transform, or modify an existing image using AI. Supports image-to-image via gpt-image-2 model through the OpenAI-compatible images/generations API. Trigger keywords: image edit, img2img, modify image, transform image, change background, change style, based on this image, edit this image."
       body: ./SKILL.md
-      source_hash: sha256:b3d5e7f01a2c4e8f
+      source_hash: sha256:12ffa59804b9fc9a
       translated_by: human
 market:
   icon: >-

@@ -15,6 +15,9 @@ Checks:
   6. Frontmatter parses cleanly; heading count of locale body matches source body (+/- 0).
   7. categories.json's per-category i18n covers all locales declared in manifest.json.
   8. Top-level description is 1-1024 chars (spec); top-level name is 1-64 chars (spec).
+  9. Skill/Agent counts and builtin skill index match the repository contents.
+  10. Skill, Agent, and entry.json category references exist in categories.json.
+  11. entry.json pointers have the required marketplace fields and safe source URLs.
 
 Exit codes:
   0 = pass
@@ -24,6 +27,7 @@ Exit codes:
 Usage:
   python3 scripts/i18n/validate-i18n.py            # validate everything under repo root
   python3 scripts/i18n/validate-i18n.py skills/web-access  # validate single skill
+  python3 scripts/i18n/validate-i18n.py --online   # also check entry.json source URLs
   python3 scripts/i18n/validate-i18n.py --json     # machine-readable output
 """
 from __future__ import annotations
@@ -31,10 +35,13 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import ssl
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Iterable
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
 
 try:
     import yaml
@@ -50,6 +57,7 @@ LOCALE_PATTERN = re.compile(r"^[a-z]{2,3}(?:-[A-Z]{2})?$")
 LOCALE_HEADER_PATTERN = re.compile(r"^<!--\s*locale:\s*([a-zA-Z-]+)\s*-->")
 HEADING_PATTERN = re.compile(r"^(#{1,6})\s+\S", re.MULTILINE)
 FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n(.*)$", re.DOTALL)
+SAFE_URL_PATTERN = re.compile(r"^https://")
 
 
 @dataclass
@@ -100,7 +108,12 @@ def heading_count(text: str) -> int:
     return len(HEADING_PATTERN.findall(text or ""))
 
 
-def validate_skill(skill_dir: Path, report: Report, declared_locales: set[str] | None = None) -> None:
+def validate_skill(
+    skill_dir: Path,
+    report: Report,
+    declared_locales: set[str] | None = None,
+    category_ids: set[str] | None = None,
+) -> None:
     """Validate one skill directory (must contain SKILL.md)."""
     rel_dir = skill_dir.relative_to(REPO_ROOT).as_posix()
     skill_md = skill_dir / "SKILL.md"
@@ -117,6 +130,10 @@ def validate_skill(skill_dir: Path, report: Report, declared_locales: set[str] |
 
     name = fm.get("name", "")
     description = fm.get("description", "")
+    market = fm.get("market") or {}
+    category = market.get("category") if isinstance(market, dict) else None
+    if category is None:
+        category = fm.get("category")
 
     # Rule 1: name spec-compliance + matches dir
     if not isinstance(name, str) or not NAME_PATTERN.match(name) or len(name) > 64 or name in RESERVED_NAMES:
@@ -136,6 +153,15 @@ def validate_skill(skill_dir: Path, report: Report, declared_locales: set[str] |
             f"{rel_dir}/SKILL.md", "rule-8",
             f"description must be 1-1024 chars (got {len(description) if isinstance(description, str) else 'non-string'})"
         ))
+
+    if category_ids is not None:
+        if not isinstance(category, str) or not category.strip():
+            report.add(Issue(f"{rel_dir}/SKILL.md", "market-category", "market.category is missing"))
+        elif category not in category_ids:
+            report.add(Issue(
+                f"{rel_dir}/SKILL.md", "market-category",
+                f"category '{category}' is not declared in categories.json"
+            ))
 
     # Rule 2/3/4: i18n block
     metadata = fm.get("metadata") or {}
@@ -245,18 +271,31 @@ def validate_skill(skill_dir: Path, report: Report, declared_locales: set[str] |
                         ))
 
 
-def validate_market_root(report: Report) -> set[str]:
-    """Validate manifest.json + categories.json. Returns the declared locale set or empty."""
+def load_json(path: Path, report: Report, rule: str) -> dict[str, Any]:
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        report.add(Issue(path.relative_to(REPO_ROOT).as_posix(), rule, "file not found"))
+        return {}
+    except json.JSONDecodeError as e:
+        report.add(Issue(path.relative_to(REPO_ROOT).as_posix(), rule, f"JSON parse error: {e}"))
+        return {}
+    if not isinstance(value, dict):
+        report.add(Issue(path.relative_to(REPO_ROOT).as_posix(), rule, "JSON root must be an object"))
+        return {}
+    return value
+
+
+def validate_market_root(report: Report) -> tuple[set[str], set[str], dict[str, Any]]:
+    """Validate manifest.json + categories.json. Returns locales, categories, manifest."""
     manifest_path = REPO_ROOT / "manifest.json"
     categories_path = REPO_ROOT / "categories.json"
 
     declared: set[str] = set()
+    category_ids: set[str] = set()
+    manifest: dict[str, Any] = {}
     if manifest_path.is_file():
-        try:
-            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError as e:
-            report.add(Issue("manifest.json", "rule-7", f"JSON parse error: {e}"))
-            manifest = {}
+        manifest = load_json(manifest_path, report, "rule-7")
         supported = manifest.get("supportedLocales") or []
         if not isinstance(supported, list) or not all(isinstance(x, str) and LOCALE_PATTERN.match(x) for x in supported):
             report.add(Issue("manifest.json", "rule-7", "supportedLocales must be a list of BCP-47 tags"))
@@ -267,11 +306,8 @@ def validate_market_root(report: Report) -> set[str]:
             report.add(Issue("manifest.json", "rule-7", f"defaultLocale '{default}' not in supportedLocales"))
 
     if categories_path.is_file() and declared:
-        try:
-            categories = json.loads(categories_path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError as e:
-            report.add(Issue("categories.json", "rule-7", f"JSON parse error: {e}"))
-            return declared
+        categories = load_json(categories_path, report, "rule-7")
+        category_ids = set(categories)
         for cat_id, cat in categories.items():
             i18n = cat.get("i18n") if isinstance(cat, dict) else None
             if not isinstance(i18n, dict):
@@ -284,7 +320,155 @@ def validate_market_root(report: Report) -> set[str]:
                         "categories.json", "rule-7",
                         f"category '{cat_id}' missing i18n.{locale}.label"
                     ))
-    return declared
+    return declared, category_ids, manifest
+
+
+def count_publishable_skills() -> tuple[list[str], list[str]]:
+    skill_md_names = sorted(p.parent.name for p in (REPO_ROOT / "skills").glob("*/SKILL.md"))
+    entry_names = sorted(p.parent.name for p in (REPO_ROOT / "skills").glob("*/entry.json"))
+    return skill_md_names, entry_names
+
+
+def validate_builtin_skills(report: Report, skill_md_names: list[str]) -> None:
+    builtin_path = REPO_ROOT / "builtin-skills.json"
+    builtin = load_json(builtin_path, report, "builtin-skills")
+    skills = builtin.get("skills")
+    if not isinstance(skills, list) or not all(isinstance(x, str) for x in skills):
+        report.add(Issue("builtin-skills.json", "builtin-skills", "skills must be a list of strings"))
+        return
+
+    expected = sorted(skill_md_names)
+    actual = list(skills)
+    if actual != expected:
+        missing = sorted(set(expected) - set(actual))
+        extra = sorted(set(actual) - set(expected))
+        order_issue = not missing and not extra
+        parts = []
+        if missing:
+            parts.append(f"missing local SKILL.md skills {missing}")
+        if extra:
+            parts.append(f"contains non-local skills {extra}")
+        if order_issue:
+            parts.append("skills list is not sorted")
+        report.add(Issue("builtin-skills.json", "builtin-skills", "; ".join(parts)))
+
+
+def validate_agent_json(report: Report, agent_file: Path, category_ids: set[str]) -> None:
+    rel = agent_file.relative_to(REPO_ROOT).as_posix()
+    agent = load_json(agent_file, report, "agent-json")
+    if not agent:
+        return
+    if agent.get("id") != agent_file.parent.name:
+        report.add(Issue(rel, "agent-json", f"id must equal parent directory '{agent_file.parent.name}'"))
+    category = agent.get("category")
+    if not isinstance(category, str) or category not in category_ids:
+        report.add(Issue(rel, "agent-json", f"category '{category}' is not declared in categories.json"))
+
+
+def validate_entry_json(report: Report, entry_file: Path, category_ids: set[str], online: bool) -> None:
+    rel = entry_file.relative_to(REPO_ROOT).as_posix()
+    entry = load_json(entry_file, report, "entry-json")
+    if not entry:
+        return
+
+    required = ("id", "name", "category", "maintainer", "stewardship", "license", "redistribution", "source")
+    for key in required:
+        if key not in entry:
+            report.add(Issue(rel, "entry-json", f"missing required field '{key}'"))
+
+    if entry.get("id") != entry_file.parent.name:
+        report.add(Issue(rel, "entry-json", f"id must equal parent directory '{entry_file.parent.name}'"))
+
+    category = entry.get("category")
+    if not isinstance(category, str) or category not in category_ids:
+        report.add(Issue(rel, "entry-json", f"category '{category}' is not declared in categories.json"))
+
+    maintainer = entry.get("maintainer")
+    if not isinstance(maintainer, dict) or not isinstance(maintainer.get("name"), str):
+        report.add(Issue(rel, "entry-json", "maintainer.name is required"))
+
+    tags = entry.get("tags")
+    if tags is not None:
+        if not isinstance(tags, list) or not all(isinstance(x, str) for x in tags):
+            report.add(Issue(rel, "entry-json", "tags must be a list of strings"))
+        elif len(tags) != len(set(tags)):
+            report.add(Issue(rel, "entry-json", "tags must be unique"))
+
+    source = entry.get("source")
+    if not isinstance(source, dict):
+        report.add(Issue(rel, "entry-json", "source must be an object"))
+        return
+    kind = source.get("kind")
+    if kind not in {"git", "web", "zip"}:
+        report.add(Issue(rel, "entry-json", f"source.kind '{kind}' must be one of git/web/zip"))
+    repo_url = source.get("repoUrl")
+    if not isinstance(repo_url, str) or not repo_url.strip():
+        report.add(Issue(rel, "entry-json", "source.repoUrl is required"))
+    elif not SAFE_URL_PATTERN.match(repo_url):
+        report.add(Issue(rel, "entry-json", "source.repoUrl must use https://"))
+    elif online:
+        validate_url(report, rel, repo_url)
+
+
+def validate_url(report: Report, path: str, url: str) -> None:
+    context = ssl.create_default_context()
+    for method in ("HEAD", "GET"):
+        try:
+            req = Request(url, method=method, headers={"User-Agent": "desirecore-market-validator/1.0"})
+            with urlopen(req, timeout=12, context=context) as resp:
+                if 200 <= resp.status < 400:
+                    return
+                report.add(Issue(path, "entry-online", f"{url} returned HTTP {resp.status}"))
+                return
+        except HTTPError as e:
+            if method == "HEAD" and e.code in {403, 405}:
+                continue
+            report.add(Issue(path, "entry-online", f"{url} returned HTTP {e.code}"))
+            return
+        except (URLError, TimeoutError, OSError) as e:
+            report.add(Issue(path, "entry-online", f"{url} is not reachable: {e}"))
+            return
+
+
+def validate_market_catalog(report: Report, manifest: dict[str, Any], category_ids: set[str], online: bool) -> None:
+    agent_files = sorted((REPO_ROOT / "agents").glob("*/agent.json"))
+    skill_md_names, entry_names = count_publishable_skills()
+
+    stats = manifest.get("stats")
+    if not isinstance(stats, dict):
+        report.add(Issue("manifest.json", "market-stats", "stats must be an object"))
+    else:
+        expected_agents = len(agent_files)
+        expected_skills = len(skill_md_names) + len(entry_names)
+        if stats.get("totalAgents") != expected_agents:
+            report.add(Issue(
+                "manifest.json", "market-stats",
+                f"stats.totalAgents is {stats.get('totalAgents')}, expected {expected_agents}"
+            ))
+        if stats.get("totalSkills") != expected_skills:
+            report.add(Issue(
+                "manifest.json", "market-stats",
+                f"stats.totalSkills is {stats.get('totalSkills')}, expected {expected_skills}"
+            ))
+
+    features = manifest.get("features") or []
+    if isinstance(features, list) and "verified-only" in features:
+        for entry_file in sorted((REPO_ROOT / "skills").glob("*/entry.json")):
+            entry = load_json(entry_file, report, "entry-json")
+            maintainer = entry.get("maintainer") if isinstance(entry, dict) else None
+            verified = maintainer.get("verified") if isinstance(maintainer, dict) else None
+            if entry.get("stewardship") != "official" or verified is not True:
+                report.add(Issue(
+                    "manifest.json", "market-features",
+                    "features includes 'verified-only' but the market contains non-official or unverified entry.json pointers"
+                ))
+                break
+
+    validate_builtin_skills(report, skill_md_names)
+    for agent_file in agent_files:
+        validate_agent_json(report, agent_file, category_ids)
+    for entry_file in sorted((REPO_ROOT / "skills").glob("*/entry.json")):
+        validate_entry_json(report, entry_file, category_ids, online)
 
 
 def iter_skill_dirs(targets: Iterable[Path]) -> Iterable[Path]:
@@ -302,11 +486,13 @@ def iter_skill_dirs(targets: Iterable[Path]) -> Iterable[Path]:
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("paths", nargs="*", help="Skills or directories to validate (default: repo root)")
+    parser.add_argument("--online", action="store_true", help="Check entry.json source URLs with HEAD/GET requests")
     parser.add_argument("--json", action="store_true", help="Emit machine-readable JSON")
     args = parser.parse_args(argv)
 
     report = Report()
-    declared_locales = validate_market_root(report)
+    declared_locales, category_ids, manifest = validate_market_root(report)
+    validate_market_catalog(report, manifest, category_ids, online=args.online)
 
     if args.paths:
         targets = [Path(p).resolve() for p in args.paths]
@@ -314,7 +500,12 @@ def main(argv: list[str]) -> int:
         targets = [REPO_ROOT / "skills"]
 
     for skill_dir in iter_skill_dirs(targets):
-        validate_skill(skill_dir, report, declared_locales=declared_locales or None)
+        validate_skill(
+            skill_dir,
+            report,
+            declared_locales=declared_locales or None,
+            category_ids=category_ids or None,
+        )
 
     if args.json:
         json.dump([i.to_dict() for i in report.issues], sys.stdout, indent=2, ensure_ascii=False)

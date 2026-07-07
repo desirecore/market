@@ -5,7 +5,7 @@ description: >-
   （frontmatter 元数据 + L0/L1/L2 分层内容 + 脚本/参考/资产）和 Claude Code
   基础格式。Use when 用户要求创建新技能、更新已有技能、或将经验封装为可复用
   的技能包。
-version: 1.0.3
+version: 1.0.4
 type: meta
 risk_level: low
 status: enabled
@@ -39,7 +39,7 @@ metadata:
       description: >-
         Guides users to create and edit standards-compliant SKILL.md skill packages. Supports the DesireCore full format (frontmatter metadata + L0/L1/L2 layered content + scripts/references/assets) and the Claude Code basic format. Use when the user requests to create a new Skill, update an existing Skill, or package experience into a reusable Skill bundle.
       body: ./SKILL.md
-      source_hash: sha256:2e8b886dc0b77dd1
+      source_hash: sha256:e14a6879bb800455
       translated_by: human
 market:
   icon: >-

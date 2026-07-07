@@ -7,7 +7,7 @@ description: >-
   Use when 用户提到 生成视频、文生视频、AI 视频、创建视频、视频生成、
   动画生成、MiniMax 视频、海螺、Hailuo、图片变视频、图生视频。
 license: Complete terms in LICENSE.txt
-version: 1.3.0
+version: 1.3.1
 type: procedural
 risk_level: low
 status: enabled
@@ -45,7 +45,7 @@ metadata:
       description: >-
         Use this skill when the user wants to generate videos using MiniMax's Hailuo model. Supports text-to-video, image-to-video, and subject reference. The API is asynchronous — submit a task, poll for status, then download. Use when the user mentions generating videos, text-to-video, AI video, creating videos, video generation, animation generation, MiniMax video, Hailuo, image-to-video.
       body: ./SKILL.md
-      source_hash: sha256:3b2855b9ff2d0ef1
+      source_hash: sha256:47463799495b3fdf
       translated_by: human
 market:
   icon: >-

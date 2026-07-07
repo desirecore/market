@@ -68,7 +68,7 @@ market:
 |------|------|------|
 | `market.icon` | string | 内联 SVG 图标 |
 | `market.short_desc` | string | 一句话简介 |
-| `market.category` | string | 分类 slug（如 `productivity`、`knowledge`、`development`） |
+| `market.category` | string | 分类 slug（如 `productivity`、`design`、`research`、`development`） |
 | `market.maintainer.name` | string | 维护者名称 |
 | `market.maintainer.verified` | boolean | 是否官方认证 |
 | `market.compatible_agents` | string[] | 兼容的 Agent ID |

@@ -3,7 +3,7 @@ name: update-agent
 description: >-
   安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent
   行为、安装/卸载技能、调整配置、回滚变更或修订规则。
-version: 3.0.3
+version: 3.0.4
 type: meta
 risk_level: low
 status: enabled
@@ -35,7 +35,7 @@ metadata:
       description: >-
         Safely update an existing Agent's config, persona, principles, skills, and memory, producing reviewable diffs that are applied and committed only after confirmation. Use when the user asks to modify Agent behavior, install/uninstall skills, adjust config, roll back changes, or revise rules.
       body: ./SKILL.md
-      source_hash: sha256:a0fecd84f92204bd
+      source_hash: sha256:a58c60b086945340
       translated_by: human
       translated_at: '2026-05-03'
 market:

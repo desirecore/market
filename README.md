@@ -1,153 +1,152 @@
 # DesireCore Market
 
-DesireCore 官方市场仓库，存放经过官方验证的 Agent 和 Skill 定义。
+DesireCore 官方市场仓库，存放官方维护的 Agent/Skill 定义，以及经过整理的第三方 Skill 入口。
 
-## 目录结构
+## Repository Shape
 
 ```
 .
-├── manifest.json      # 仓库元数据
-├── categories.json    # 分类配置
-├── README.md          # 本文件
-├── agents/            # Agent 定义目录
-│   ├── task-master/
-│   │   └── agent.json
-│   ├── code-reviewer/
-│   │   └── agent.json
-│   ├── business-analyst/
-│   │   └── agent.json
-│   ├── writing-coach/
-│   │   └── agent.json
-│   ├── translator/
-│   │   └── agent.json
-│   └── data-analyst/
+├── manifest.json          # Market metadata, supported locales, aggregate stats
+├── categories.json        # Category registry and localized labels
+├── builtin-skills.json    # Built-in local SKILL.md skills
+├── agents/
+│   └── desirecore/
 │       └── agent.json
-└── skills/            # Skill 定义目录
-    ├── web-search/
-    │   └── skill.json
-    ├── file-manager/
-    │   └── skill.json
-    ├── calendar-sync/
-    │   └── skill.json
-    ├── doc-parser/
-    │   └── skill.json
-    └── email-client/
-        └── skill.json
+└── skills/
+    ├── <local-skill>/
+    │   ├── SKILL.md
+    │   └── SKILL.<locale>.md
+    └── <external-entry>/
+        └── entry.json
 ```
 
-## Agent 清单
+The market currently contains:
 
-| ID | 名称 | 分类 | 定位 |
-|----|------|------|------|
-| task-master | 任务管家 | 效率 | 智能任务规划与追踪专家 |
-| code-reviewer | 代码审查官 | 开发 | 资深代码审查与质量把控 |
-| business-analyst | 商业洞察师 | 商业 | 数据驱动的商业分析顾问 |
-| writing-coach | 写作教练 | 创意 | 从构思到润色的写作伙伴 |
-| translator | 译界通 | 沟通 | 跨文化沟通与专业翻译 |
-| data-analyst | 数据洞察师 | 数据 | 数据科学与业务洞察专家 |
+- `1` Agent: `desirecore`
+- `30` local built-in skills with `SKILL.md`
+- `15` external skill entries with `entry.json`
+- `45` publishable skills in total (`SKILL.md` + `entry.json`)
 
-## Skill 清单
+## Skill Sources
 
-| ID | 名称 | 分类 | 风险等级 | 功能概述 |
-|----|------|------|----------|----------|
-| web-search | 网络搜索 | 效率 | 中 | 智能搜索与信息聚合 |
-| file-manager | 文件管家 | 开发 | 高 | 本地文件系统管理 |
-| calendar-sync | 日历同步 | 商业 | 中 | 日历服务连接与调度 |
-| doc-parser | 文档解析器 | 数据 | 低 | 50+ 格式文档解析 |
-| email-client | 邮件助理 | 沟通 | 高 | 智能邮件管理与起草 |
+Local built-in skills are installable from this repository and must be listed in `builtin-skills.json`:
 
-## 数据格式
+```text
+configuring-compute, create-agent, dashscope-image-gen, delete-agent,
+dev-environment-setup, discover-agent, docx, frontend-design, guizang-ppt,
+image-to-image, mail-operations, manage-skills, manage-teams, markdown,
+minimax-music-gen, minimax-video-gen, nodejs-runtime, pdf, pptx,
+python-runtime, registering-services, s3-storage-operations, skill-creator,
+tech-diagram, update-agent, using-services, web-access, workflow,
+xiaomi-tts, xlsx
+```
 
-### Agent 定义 (agents/{id}/agent.json)
+External entries are marketplace pointers to Git/Web/ZIP sources:
+
+```text
+ai-news-radar, amap-jsapi-skill, dingtalk-api, flyai-skill,
+follow-builders, larksuite-cli, luckin-my-coffee, mattpocock-skills,
+minimax-image-gen, minimax-tts, mt-paotui-for-client, netease-skills,
+taste-skill, wechatpay-skills, wecom-cli
+```
+
+## Data Formats
+
+### Local Skill (`skills/<id>/SKILL.md`)
+
+Local skills use YAML frontmatter plus Markdown body. The top-level `name` must equal the directory slug. Display strings live in `metadata.i18n`.
+
+```yaml
+---
+name: web-access
+description: >-
+  Use this skill when ...
+version: 2.0.1
+type: procedural
+risk_level: low
+status: enabled
+metadata:
+  author: desirecore
+  updated_at: '2026-05-05'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales: [zh-CN, en-US]
+    zh-CN:
+      name: 联网访问
+      short_desc: 联网搜索、网页抓取、登录态浏览器访问
+      body: ./SKILL.zh-CN.md
+      translated_by: human
+    en-US:
+      name: Web Access
+      short_desc: Web search, page fetching, logged-in browser access
+      body: ./SKILL.md
+      source_hash: sha256:...
+      translated_by: human
+market:
+  category: research
+  channel: latest
+  maintainer:
+    name: DesireCore Official
+    verified: true
+---
+```
+
+### External Entry (`skills/<id>/entry.json`)
+
+External entries point to upstream packages or repositories. They are counted in `manifest.stats.totalSkills` but are not included in `builtin-skills.json`.
 
 ```json
 {
-  "id": "string",
-  "name": "string",
-  "avatar": { "t": "string", "bg": "string" },
-  "shortDesc": "string",
-  "fullDesc": "string",
-  "category": "productivity|development|business|creative|media|communication|data|management",
-  "tags": ["string"],
-  "version": "semver",
-  "latestVersion": "semver",
-  "updatedAt": "YYYY-MM-DD",
-  "maintainer": { "name": "string", "verified": boolean },
-  "downloads": number,
-  "rating": number,
-  "ratingCount": number,
-  "installStatus": "not_installed",
-  "persona": {
-    "role": "string",
-    "traits": ["string"],
-    "tools": ["string"]
+  "id": "example-skill",
+  "name": "Example Skill",
+  "category": "development",
+  "tags": ["example"],
+  "maintainer": {
+    "name": "Example",
+    "verified": false,
+    "account": "example",
+    "url": "https://github.com/example/example-skill"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/example/example-skill.git",
+    "repoBranch": "main"
   }
 }
 ```
 
-### Skill 定义 (skills/{id}/skill.json)
+## Categories
 
-```json
-{
-  "id": "string",
-  "name": "string",
-  "icon": "lucide-icon-name",
-  "shortDesc": "string",
-  "fullDesc": "string",
-  "category": "productivity|development|business|creative|media|communication|data|management",
-  "tags": ["string"],
-  "version": "semver",
-  "latestVersion": "semver",
-  "updatedAt": "YYYY-MM-DD",
-  "maintainer": { "name": "string", "verified": boolean },
-  "downloads": number,
-  "rating": number,
-  "ratingCount": number,
-  "installStatus": "not_installed",
-  "riskLevel": "low|medium|high",
-  "requires": {
-    "tools": ["string"],
-    "connections": ["string"]
-  },
-  "compatibleAgents": ["string"]
-}
+Valid category slugs are declared in `categories.json`:
+
+```text
+productivity, development, business, creative, design, media,
+communication, research, data, management
 ```
 
-## 设计令牌
+## Validation
 
-头像背景色使用 DesireCore 设计系统：
-
-- **Green (#34C759)**: 效率、商业类
-- **Blue (#007AFF)**: 开发、沟通类
-- **Purple (#AF52DE)**: 创意、数据类
-
-## 多语言（i18n）
-
-仓库支持多语言展示与多语言 SKILL.md 正文。当前覆盖 `zh-CN`（简体中文，源语言）与 `en-US`（英文，默认 fallback），由 `manifest.json#supportedLocales` 声明。
-
-- **作者只交一种语言**，CI 自动翻译为其余语言。CI 默认走 [GitHub Models](https://docs.github.com/en/github-models)（`openai/gpt-5-mini`，使用 repo 内置 `GITHUB_TOKEN` + `permissions: models: read`）；可切到 Anthropic Claude（设置 `vars.TRANSLATE_BACKEND=anthropic` 与 `secrets.ANTHROPIC_API_KEY`）。
-- **顶层 `name` 字段为 ASCII slug**（== 目录名），中文显示名安放在 `metadata.i18n.zh-CN.name`，符合 [agentskills.io 规范](https://agentskills.io/specification)。
-- **正文文件**：`SKILL.md`（默认语言）+ `SKILL.<locale>.md`（其他语言）兄弟文件。
-
-工具：
+Run these checks before submitting changes:
 
 ```bash
-# 校验 i18n 完整性
+# Full market + i18n validation
 uv run scripts/i18n/validate-i18n.py
 
-# 检查哪些 locale 缺翻译（不调 API）
+# Translation freshness check
 uv run scripts/i18n/translate.py --check
 
-# 本地翻译：默认 GitHub Models（需要 fine-grained PAT 含 Models: Read）
-GITHUB_TOKEN=ghp_... uv run scripts/i18n/translate.py
-
-# 切到 Anthropic Claude
-TRANSLATE_BACKEND=anthropic ANTHROPIC_API_KEY=sk-ant-... \
-  uv run scripts/i18n/translate.py
+# Optional network check for entry.json source URLs
+uv run scripts/i18n/validate-i18n.py --online
 ```
 
-详细规范见 [docs/I18N.md](docs/I18N.md)。
+The validator checks market stats, category references, `builtin-skills.json`, `entry.json` structure, i18n completeness, and translation freshness. Human-locked translations (`translated_by: human`) must keep `source_hash` aligned after manual review.
 
-## 许可证
+Detailed i18n guidance is in [docs/I18N.md](docs/I18N.md).
 
-MIT License - 详见 [LICENSE](LICENSE)
+## License
+
+MIT License. See [LICENSE](LICENSE).
