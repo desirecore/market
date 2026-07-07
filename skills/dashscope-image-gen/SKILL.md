@@ -8,7 +8,7 @@ description: >-
   Use when the user mentions: generate image, draw, text-to-image, create image,
   AI painting, illustration, design picture.
 license: Complete terms in LICENSE.txt
-version: 1.4.0
+version: 1.4.1
 type: procedural
 risk_level: low
 status: enabled
@@ -48,7 +48,7 @@ metadata:
       short_desc: AI text-to-image generation (GPT Image / Wan models)
       description: "Use this skill when the user wants to generate images. Supports multiple models: gpt-image-2 (default via DesireCore Cloud), wan2.7-image-pro / wan2.7-image (when user has DashScope configured). Uses the OpenAI-compatible /images/generations API. Trigger keywords: generate image, draw, text-to-image, create image, AI painting, illustration, design picture."
       body: ./SKILL.md
-      source_hash: sha256:b3d5f7a91c2e4068
+      source_hash: sha256:8398726504b70586
       translated_by: human
 market:
   icon: >-

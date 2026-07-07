@@ -4,7 +4,7 @@ description: >-
   引导 Agent 设计、编辑、测试和执行 Workflow 工作流。Use when
   用户要求创建工作流、编排多步骤自动化流程、设计审批流水线、
   或将重复性多节点任务编排成可复用的 DSL。
-version: 1.0.6
+version: 1.0.7
 type: procedural
 risk_level: low
 status: enabled
@@ -37,7 +37,7 @@ metadata:
       description: >-
         Guides the Agent to design, edit, test, and execute Workflow workflows. Use when the user asks to create a workflow, orchestrate multi-step automation, design an approval pipeline, or turn repetitive multi-node tasks into a reusable DSL.
       body: ./SKILL.md
-      source_hash: sha256:aa197c62ae8a33d7
+      source_hash: sha256:ef8c32dbcc87bc32
       translated_by: human
       translated_at: '2026-05-04'
 market:

@@ -429,9 +429,10 @@ def translate_skill(
     if target_block.get("translated_by") == "human":
         if target_block.get("source_hash") != current_hash:
             plan["actions"].append(
-                f"WARN: human-translated locale {target_locale} is stale "
-                f"(source_hash drift). Skipping; please update manually."
+                f"ERROR: human-translated locale {target_locale} is stale "
+                f"(source_hash drift). Skipping automatic translation; update it manually."
             )
+            plan["human_stale"] = True
         else:
             plan["actions"].append(f"locale {target_locale} is human-locked, skipping")
         return plan
@@ -604,6 +605,7 @@ def main(argv: list[str]) -> int:
                 })
 
     needs = [p for p in plans if p.get("needs_translation")]
+    human_stale = [p for p in plans if p.get("human_stale")]
     errs = [p for p in plans if p.get("errors")]
     if args.check:
         for p in plans:
@@ -612,7 +614,7 @@ def main(argv: list[str]) -> int:
         for p in errs:
             for e in p["errors"]:
                 print(f"  ERROR [{p['skill']}/{p['target']}]: {e}")
-        return 1 if (needs or errs) else 0
+        return 1 if (needs or human_stale or errs) else 0
 
     print(f"Backend: {backend}  Model: {model}  Endpoint: {endpoint}\n")
     for p in plans:
@@ -621,7 +623,7 @@ def main(argv: list[str]) -> int:
             print(f"  - {a}")
         for e in p.get("errors", []):
             print(f"  ✗ ERROR: {e}")
-    return 1 if errs else 0
+    return 1 if (human_stale or errs) else 0
 
 
 if __name__ == "__main__":

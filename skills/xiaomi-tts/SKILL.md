@@ -8,7 +8,7 @@ description: >-
   Use when 用户提到 语音合成、文字转语音、TTS、朗读、读出来、生成语音、
   生成音频、文本转音频、配音、念出来、小米语音、MiMo 语音、小米 TTS。
 license: Complete terms in LICENSE.txt
-version: 1.0.1
+version: 1.0.2
 type: procedural
 risk_level: low
 status: enabled
@@ -46,7 +46,7 @@ metadata:
       short_desc: Text-to-speech synthesis using Xiaomi MiMo models
       description: "Use this skill when the user wants to convert text to speech using Xiaomi MiMo's TTS models (mimo-v2.5-tts). Built on the OpenAI-compatible chat/completions API with audio response, supporting multiple preset voices and custom voice design. Trigger keywords: text-to-speech, TTS, read aloud, narrate, generate audio, voice synthesis, MiMo voice, Xiaomi TTS."
       body: ./SKILL.md
-      source_hash: sha256:afa1138c9b2cbd20
+      source_hash: sha256:aadc404fd75e8c1a
       translated_by: human
 market:
   icon: >-

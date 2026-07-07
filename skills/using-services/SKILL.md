@@ -5,7 +5,7 @@ description: >-
   catalog. Use when the user asks the Agent to call an API, search for an
   existing service, or query a backend that was registered via the
   registering-services skill. 调用某个 API、查找已有服务、访问已注册的后端服务时使用。
-version: 1.0.1
+version: 1.0.2
 type: meta
 risk_level: low
 status: enabled
@@ -39,6 +39,7 @@ metadata:
         Discover and invoke HTTP/MCP services already registered in the global catalog. Use when the user asks the Agent to call an API, search for an existing service, or query a backend that was registered via the registering-services skill.
       body: ./SKILL.md
       translated_by: human
+      source_hash: sha256:8a20b2835e5e54d1
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="6" height="6" rx="1.5"/><rect x="15" y="3" width="6" height="6" rx="1.5"/><rect x="15" y="15" width="6" height="6" rx="1.5"/><path d="M9 11.5h3.5V6H15"/><path d="M9 12.5h3.5V18H15"/></svg>

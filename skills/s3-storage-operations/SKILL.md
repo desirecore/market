@@ -1,7 +1,7 @@
 ---
 name: s3-storage-operations
 description: 操作 S3 兼容对象存储（上传、下载、列举、删除），通过 DesireCore HTTP API 调用。Use when 用户要求上传/下载/分享文件、需要生成下载链接、或工作流产出文件需要持久化存储与分发。
-version: 2.0.3
+version: 2.0.4
 type: procedural
 risk_level: medium
 status: enabled
@@ -36,7 +36,7 @@ metadata:
       description: >-
         Operate S3-compatible object storage (upload, download, list, delete) via the DesireCore HTTP API. Use when the user requests file upload/download/sharing, needs a download link, or when workflow outputs need persistent storage and distribution.
       body: ./SKILL.md
-      source_hash: sha256:6ea8e1375f12de72
+      source_hash: sha256:0182951808f5f831
       translated_by: human
       translated_at: '2026-05-03'
 market:

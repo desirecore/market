@@ -4,7 +4,7 @@ description: >-
   管理 Agent 的技能生命周期：通过 HTTP API 导入、安装、更新、删除技能，
   或通过 AgentFS 文件系统直接编写符合规范的 SKILL.md。Use when 用户要求
   安装技能、从 URL/Git 导入技能、编写新技能、或管理已有技能。
-version: 1.0.4
+version: 1.0.5
 type: meta
 risk_level: low
 status: enabled
@@ -38,7 +38,7 @@ metadata:
       description: >-
         Manage the Skill lifecycle of an Agent: import, install, update, and delete Skills via HTTP API, or directly author standards-compliant SKILL.md files via the AgentFS filesystem. Use when the user requests to install Skills, import Skills from URL/Git, author new Skills, or manage existing Skills.
       body: ./SKILL.md
-      source_hash: sha256:e67016840ba430ae
+      source_hash: sha256:eb098cb8c9bdf482
       translated_by: human
 market:
   icon: >-

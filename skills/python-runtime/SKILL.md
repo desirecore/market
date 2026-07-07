@@ -13,7 +13,7 @@ description: >-
   version", "pip command not found", or any Python-related runtime error.
   使用场景：用户需要 安装 Python、安装 pip、配置虚拟环境、管理多版本、
   解决 PEP 668、import 失败、PATH 问题、SSL 证书错误等。
-version: 1.0.2
+version: 1.0.3
 type: procedural
 risk_level: low
 status: enabled
@@ -51,7 +51,7 @@ metadata:
       description: >-
         Use this skill when the user needs to install, upgrade, or troubleshoot Python and pip environments. Covers four-tier fallback strategy: (1) DesireCore HTTP API for in-app installation, (2) DesireCore built-in Hatch CLI for Python version management, (3) system package managers (brew/apt/dnf/winget), (4) community pyenv as last resort. Also covers virtual environments (venv/pipx/conda), PEP 668 externally-managed errors, and import / PATH troubleshooting. Triggers include: "install python", "pip not found", "python not found", "PEP 668", "externally-managed", "venv", "virtualenv", "pipx", "conda", "miniconda", "pyenv", "hatch", "python version", "pip command not found", or any Python-related runtime error. Use when the user needs to install Python, install pip, configure virtual environments, manage multiple versions, resolve PEP 668, import failures, PATH issues, SSL certificate errors, etc.
       body: ./SKILL.md
-      source_hash: sha256:ea796e0282dc77af
+      source_hash: sha256:585a14843750b051
       translated_by: human
       translated_at: '2026-05-03'
 market:

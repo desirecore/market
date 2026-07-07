@@ -79,7 +79,21 @@
       "additionalProperties": true,
       "properties": {
         "icon": { "type": "string" },
-        "category": { "type": "string" },
+        "category": {
+          "type": "string",
+          "enum": [
+            "productivity",
+            "development",
+            "business",
+            "creative",
+            "design",
+            "media",
+            "communication",
+            "research",
+            "data",
+            "management"
+          ]
+        },
         "channel": {
           "type": "string",
           "enum": ["latest", "stable", "canary", "beta"]
