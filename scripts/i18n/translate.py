@@ -10,13 +10,18 @@ manifest.json/supportedLocales. When a target locale is missing or stale (its
 source_hash differs from the current source body+strings hash), translate from
 metadata.i18n.<source_locale>.body using an LLM.
 
-Backends (auto-selected, in this priority):
+Backends (selected via TRANSLATE_BACKEND):
   1. GitHub Models (default) — uses GITHUB_TOKEN with `models: read` permission,
      OpenAI-compatible chat-completions API at https://models.github.ai/inference.
      Model defaults to `openai/gpt-5-mini` (configure with TRANSLATE_MODEL).
   2. Anthropic API direct — used when ANTHROPIC_API_KEY is set AND
      TRANSLATE_BACKEND=anthropic. Endpoint https://api.anthropic.com/v1/messages.
      Model should be a Claude model id (e.g. claude-sonnet-4-6).
+  3. Generic OpenAI-compatible — TRANSLATE_BACKEND=openai. Any endpoint that
+     speaks the OpenAI chat-completions contract (OpenAI, DeepSeek, Qwen,
+     one-api/new-api gateways, vLLM, Ollama, ...). Set TRANSLATE_ENDPOINT (or
+     OPENAI_BASE_URL) to the API base ending in /v1 (or your gateway's
+     equivalent) and TRANSLATE_API_KEY (or OPENAI_API_KEY) for auth.
 
 Translations preserve:
   - Markdown structure (heading hierarchy, list ordering, tables, fences)
@@ -41,9 +46,10 @@ Usage:
 Env:
   GITHUB_TOKEN              required when backend=github (CI: provided automatically)
   ANTHROPIC_API_KEY         required when TRANSLATE_BACKEND=anthropic
-  TRANSLATE_BACKEND         'github' (default) | 'anthropic'
+  TRANSLATE_API_KEY         required when TRANSLATE_BACKEND=openai (or OPENAI_API_KEY)
+  TRANSLATE_BACKEND         'github' (default) | 'anthropic' | 'openai'
   TRANSLATE_MODEL           backend-specific model id; default depends on backend
-  TRANSLATE_ENDPOINT        override endpoint URL
+  TRANSLATE_ENDPOINT        override endpoint URL (openai backend: OPENAI_BASE_URL also works)
   TRANSLATE_MAX_RETRIES     default 3
 """
 from __future__ import annotations
@@ -71,10 +77,12 @@ DEFAULT_BACKEND = os.environ.get("TRANSLATE_BACKEND", "github").lower()
 DEFAULT_MODEL_BY_BACKEND = {
     "github": os.environ.get("TRANSLATE_MODEL", "openai/gpt-5-mini"),
     "anthropic": os.environ.get("TRANSLATE_MODEL", "claude-sonnet-4-6"),
+    "openai": os.environ.get("TRANSLATE_MODEL", "gpt-4o-mini"),
 }
 DEFAULT_ENDPOINT_BY_BACKEND = {
     "github": "https://models.github.ai/inference",
     "anthropic": "https://api.anthropic.com",
+    "openai": "https://api.openai.com/v1",
 }
 MAX_RETRIES = int(os.environ.get("TRANSLATE_MAX_RETRIES", "3"))
 HTTP_TIMEOUT = httpx.Timeout(connect=10, read=180, write=30, pool=10)
@@ -216,6 +224,47 @@ def call_github_models(system_prompt: str, user_payload: str, model: str, endpoi
     return _post_with_retries(url, headers, payload, extract=_extract_openai_text)
 
 
+def call_openai_compatible(system_prompt: str, user_payload: str, model: str, endpoint: str) -> str:
+    """Call any OpenAI-compatible chat-completions endpoint (OpenAI, DeepSeek,
+    Qwen, one-api/new-api gateways, vLLM, Ollama, ...).
+
+    Endpoint base: TRANSLATE_ENDPOINT / OPENAI_BASE_URL, ending in /v1 for most
+    providers (the request path appends /chat/completions).
+    Auth: Authorization: Bearer <TRANSLATE_API_KEY or OPENAI_API_KEY>.
+    """
+    api_key = os.environ.get("TRANSLATE_API_KEY") or os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        raise RuntimeError("TRANSLATE_API_KEY (or OPENAI_API_KEY) not set for backend='openai'")
+    url = f"{endpoint.rstrip('/')}/chat/completions"
+    payload: dict[str, Any] = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_payload},
+        ],
+    }
+    # GPT-5 / o-series require `max_completion_tokens` and reject non-default
+    # temperature; everything else (including most OpenAI-compatible providers)
+    # still expects the classic `max_tokens` + temperature contract.
+    if _is_new_openai_contract(model):
+        payload["max_completion_tokens"] = 8192
+    else:
+        payload["max_tokens"] = 8192
+        payload["temperature"] = 0.1
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+    return _post_with_retries(url, headers, payload, extract=_extract_openai_text)
+
+
+def _is_new_openai_contract(model: str) -> bool:
+    """True for OpenAI GPT-5 / o-series ids, with or without a publisher prefix
+    (e.g. 'gpt-5-mini', 'openai/gpt-5', 'o1-mini', 'openai/o3')."""
+    bare = model.lower().rsplit("/", 1)[-1]
+    return "gpt-5" in bare or bool(re.match(r"^o[134](-|$)", bare))
+
+
 def call_anthropic(system_prompt: str, user_payload: str, model: str, endpoint: str) -> str:
     """Call Anthropic Messages API directly."""
     api_key = os.environ.get("ANTHROPIC_API_KEY")
@@ -298,6 +347,8 @@ def call_llm(system_prompt: str, user_payload: str, *, backend: str, model: str,
         text = call_github_models(system_prompt, user_payload, model, endpoint)
     elif backend == "anthropic":
         text = call_anthropic(system_prompt, user_payload, model, endpoint)
+    elif backend == "openai":
+        text = call_openai_compatible(system_prompt, user_payload, model, endpoint)
     else:
         raise RuntimeError(f"Unknown backend: {backend}")
     return parse_json_response(text)
@@ -472,10 +523,14 @@ def get_target_locales(args: argparse.Namespace) -> list[str]:
 
 def resolve_backend(args: argparse.Namespace) -> tuple[str, str, str]:
     backend = (args.backend or DEFAULT_BACKEND).lower()
-    if backend not in ("github", "anthropic"):
-        raise SystemExit(f"Unknown backend '{backend}'; choose 'github' or 'anthropic'")
+    if backend not in ("github", "anthropic", "openai"):
+        raise SystemExit(f"Unknown backend '{backend}'; choose 'github', 'anthropic' or 'openai'")
     model = args.model or DEFAULT_MODEL_BY_BACKEND[backend]
-    endpoint = args.endpoint or os.environ.get("TRANSLATE_ENDPOINT") or DEFAULT_ENDPOINT_BY_BACKEND[backend]
+    endpoint = args.endpoint or os.environ.get("TRANSLATE_ENDPOINT")
+    if not endpoint and backend == "openai":
+        endpoint = os.environ.get("OPENAI_BASE_URL")
+    if not endpoint:
+        endpoint = DEFAULT_ENDPOINT_BY_BACKEND[backend]
     return backend, model, endpoint
 
 
@@ -499,7 +554,7 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--target", help="Single target locale (default: all manifest.supportedLocales)")
     parser.add_argument("--check", action="store_true", help="Report stale translations; exit 1 if any")
     parser.add_argument("--human", action="store_true", help="Mark new translations as 'human' (locks against re-translation)")
-    parser.add_argument("--backend", choices=("github", "anthropic"), help="Override backend (default: env TRANSLATE_BACKEND or 'github')")
+    parser.add_argument("--backend", choices=("github", "anthropic", "openai"), help="Override backend (default: env TRANSLATE_BACKEND or 'github')")
     parser.add_argument("--model", help="Override model id")
     parser.add_argument("--endpoint", help="Override API endpoint")
     parser.add_argument("--list-models", action="store_true", help="List models in GitHub Models catalog and exit")
@@ -516,6 +571,9 @@ def main(argv: list[str]) -> int:
             return 2
         if backend == "anthropic" and not os.environ.get("ANTHROPIC_API_KEY"):
             sys.stderr.write("ERROR: ANTHROPIC_API_KEY not set for backend='anthropic'\n")
+            return 2
+        if backend == "openai" and not (os.environ.get("TRANSLATE_API_KEY") or os.environ.get("OPENAI_API_KEY")):
+            sys.stderr.write("ERROR: TRANSLATE_API_KEY (or OPENAI_API_KEY) not set for backend='openai'\n")
             return 2
 
     if args.paths:

@@ -1,29 +1,38 @@
 name: i18n Auto-Translate
 
-# Uses GitHub Models inference API (https://models.github.ai/inference) with the
-# repository's GITHUB_TOKEN. Requires `models: read` permission. Default model is
-# openai/gpt-5-mini (a fast/cheap GPT-5 in the catalog); override via repository variable
-# TRANSLATE_MODEL (e.g. openai/gpt-5-nano for cheaper, openai/gpt-5 for flagship).
+# Backends (select with repository variable TRANSLATE_BACKEND):
+#   github (default) — GitHub Models inference API (https://models.github.ai/inference)
+#     with the repository's GITHUB_TOKEN. Requires `models: read`. Default model
+#     openai/gpt-5-mini; override via repository variable TRANSLATE_MODEL.
+#   anthropic — Anthropic API direct. Set secret ANTHROPIC_API_KEY and
+#     TRANSLATE_MODEL to a Claude model id (e.g. claude-sonnet-4-6).
+#   openai — any OpenAI-compatible endpoint (OpenAI, DeepSeek, Qwen, one-api/
+#     new-api gateways, vLLM, ...). Set secret TRANSLATE_API_KEY, secret or
+#     variable TRANSLATE_ENDPOINT (API base ending in /v1), and TRANSLATE_MODEL.
 #
-# Optional: to use Anthropic Claude directly, add a repo secret ANTHROPIC_API_KEY,
-# then set repository variable TRANSLATE_BACKEND=anthropic and TRANSLATE_MODEL to
-# a Claude model id (e.g. claude-sonnet-4-6). Claude is NOT in the GitHub Models
-# catalog as of 2026-05.
+# Trigger is `pull_request_target` (NOT `pull_request`) so that fork PRs also
+# get secrets and a write token — this is what allows auto-translating and
+# pushing translations back to fork branches ("Allow edits by maintainers").
 #
-# Scope: on pull_request events, only skills whose SKILL*.md files actually changed
-# in the PR are checked/translated — keeps token usage proportional to the PR. If
+# SECURITY MODEL — read before editing:
+#   pull_request_target runs with secrets in the BASE repo context, so this
+#   workflow must NEVER execute code from the PR head. We therefore:
+#     1. check out the trusted base branch (workflow + scripts/i18n/* run from it),
+#     2. fetch the PR *merge ref* and copy in DATA files only
+#        (skills/, manifest.json, categories.json), dropping symlinks,
+#     3. run the trusted scripts over that data,
+#     4. push resulting translations to the PR head branch with the bot token.
+#   Any value derived from the PR (branch name, repo name) is passed to shell
+#   steps via `env:` — never interpolated with ${{ }} inside `run:`.
+#
+# Scope: on PR events, only skills whose SKILL*.md files actually changed in
+# the PR are checked/translated — keeps token usage proportional to the PR. If
 # manifest.json or categories.json changed, falls back to full-repo scan (these
 # affect the i18n fallback chain globally). workflow_dispatch always does a full
 # scan unless `skill` input is supplied.
-#
-# Fork PRs: GITHUB_TOKEN is read-only and repo secrets are unavailable, so we
-# can't push translations, comment, or label. We check out the PR merge ref
-# (refs/pull/N/merge — the head branch only exists in the fork), run the same
-# stale-translation check, and fail with instructions for the contributor to
-# run scripts/i18n/translate.py locally if translations are missing.
 
 on:
-  pull_request:
+  pull_request_target:
   workflow_dispatch:
     inputs:
       target_locale:
@@ -36,71 +45,77 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  issues: write
   models: read
 
 concurrency:
-  group: i18n-translate-${{ github.ref }}
+  # Per-PR group (pull_request_target's github.ref is the base branch, which
+  # would otherwise serialize/cancel unrelated PRs).
+  group: i18n-translate-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
   translate:
-    # Don't run on bot's own commits to avoid loops
-    if: github.actor != 'desirecore-bot[bot]' && !contains(github.event.head_commit.message, '[skip ci]')
+    # Don't run on the bot's own translation pushes to avoid loops
+    if: github.actor != 'desirecore-bot' && github.actor != 'desirecore-bot[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Checkout PR branch
+      - name: Checkout trusted base
         uses: actions/checkout@v4
         with:
-          # Same-repo PR: check out the head branch so translations can be
-          # pushed back to it. Fork PR: the head branch doesn't exist in this
-          # repo, so check out the PR merge ref instead (github.ref =
-          # refs/pull/N/merge on pull_request events) — read-only checks still
-          # run, write steps are skipped below. workflow_dispatch: github.ref.
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref || github.ref }}
+          # No `ref:` on purpose — for pull_request_target this is the BASE
+          # branch (trusted scripts); for workflow_dispatch it's the chosen ref.
           token: ${{ secrets.DESIRECORE_BOT_TOKEN || secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
+      - name: Overlay PR content (data only)
+        if: github.event_name == 'pull_request_target'
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -e
+          # The merge ref is maintained by GitHub in the BASE repo (fork branches
+          # live elsewhere) and already contains PR + base merged.
+          if ! git fetch origin "refs/pull/${PR_NUMBER}/merge"; then
+            echo "::error::Could not fetch refs/pull/${PR_NUMBER}/merge — the PR likely has merge conflicts. Resolve them and the check will re-run."
+            exit 1
+          fi
+          # Replace data files with the PR's merged state. Trusted code
+          # (scripts/, .github/) intentionally stays at the base version.
+          rm -rf skills manifest.json categories.json
+          git checkout FETCH_HEAD -- skills manifest.json categories.json
+          # Defense in depth: a malicious PR could add a symlink named SKILL.md
+          # pointing outside the tree; translate.py would read through it and
+          # could leak runner file content into a committed "translation".
+          find skills -type l -print -delete
+          # The root data files are untrusted too — reject symlinked variants
+          # instead of letting trusted scripts read through them.
+          for f in manifest.json categories.json; do
+            if [ -L "$f" ]; then
+              echo "::error::$f in the PR is a symlink; refusing to process."
+              exit 1
+            fi
+          done
+          git add -A
+          git -c user.name=ci -c user.email=ci@invalid commit --allow-empty -m "overlay: PR #${PR_NUMBER} data files"
+
       - name: Detect relevant changes
         id: changes
-        env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           # GitHub Actions default shell already runs with -eo pipefail; we set
           # it explicitly so the `|| true` workaround on grep below is unambiguous.
           set -eo pipefail
           # workflow_dispatch: full scan (skill input handled later if provided)
-          if [ "${{ github.event_name }}" != "pull_request" ]; then
+          if [ "${{ github.event_name }}" != "pull_request_target" ]; then
             echo "relevant=true" >> "$GITHUB_OUTPUT"
             echo "skill_paths=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
-          # Ensure BASE_SHA is locally reachable; if we can't fetch it, fall back
-          # to a full scan rather than silently producing an empty diff that would
-          # mis-classify a real i18n PR as relevant=false.
-          if ! git cat-file -e "${BASE_SHA}^{commit}" 2>/dev/null; then
-            if ! git fetch --no-tags --depth=1 origin "$BASE_SHA" 2>/dev/null; then
-              echo "::warning::failed to fetch base SHA ${BASE_SHA}; falling back to full scan"
-              echo "relevant=true" >> "$GITHUB_OUTPUT"
-              echo "skill_paths=" >> "$GITHUB_OUTPUT"
-              exit 0
-            fi
-          fi
-
-          # `A...B` (triple-dot) needs merge-base(A,B) in history. With
-          # actions/checkout@v4 + fetch-depth: 0 it normally is, but if the base
-          # branch advanced after the PR was opened and the merge-base isn't
-          # locally reachable, fall back to a full scan instead of silently
-          # producing a wrong diff.
-          if ! merge_base=$(git merge-base "${BASE_SHA}" "${HEAD_SHA}" 2>/dev/null); then
-            echo "::warning::could not compute merge-base for ${BASE_SHA}...${HEAD_SHA}; falling back to full scan"
-            echo "relevant=true" >> "$GITHUB_OUTPUT"
-            echo "skill_paths=" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          changed=$(git diff --name-only "${merge_base}" "${HEAD_SHA}")
+          # The overlay commit (HEAD) contains exactly the PR's effective
+          # changes to skills/ + manifest.json + categories.json vs base.
+          changed=$(git diff --name-only HEAD~1 HEAD)
 
           # If manifest.json or categories.json changed, fall back to full scan
           # (these affect i18n fallback chain / supportedLocales globally).
@@ -157,8 +172,8 @@ jobs:
             # workflow_dispatch with explicit skill input takes precedence
             ARGS+=("$INPUT_SKILL")
           elif [ -n "$SKILL_PATHS" ]; then
-            # pull_request: read space-separated paths into an array to avoid
-            # word-splitting / glob expansion surprises.
+            # pull_request_target: read space-separated paths into an array to
+            # avoid word-splitting / glob expansion surprises.
             read -r -a SKILL_ARR <<<"$SKILL_PATHS"
             ARGS+=("${SKILL_ARR[@]}")
           fi
@@ -171,24 +186,13 @@ jobs:
           fi
           exit 0
 
-      - name: Fail fork PR with stale translations
-        # Fork PRs get a read-only GITHUB_TOKEN and no repo secrets, so the
-        # workflow can't push generated translations back to the PR branch.
-        # Fail here (before spending model tokens) with instructions instead.
-        if: >-
-          steps.changes.outputs.relevant == 'true' &&
-          steps.precheck.outputs.stale == 'true' &&
-          github.event_name == 'pull_request' &&
-          github.event.pull_request.head.repo.full_name != github.repository
-        run: |
-          echo "::error::The i18n pre-check failed for this fork PR (stale/missing translations, or a check error — see the 'Check for stale translations' step logs above), and the workflow cannot push auto-generated translations to a fork. Please run 'uv run scripts/i18n/translate.py --check' locally to see what's wrong, then 'uv run scripts/i18n/translate.py' and commit the generated SKILL.<locale>.md files to your branch."
-          exit 1
-
       - name: Translate stale locales
         if: steps.changes.outputs.relevant == 'true' && steps.precheck.outputs.stale == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TRANSLATE_API_KEY: ${{ secrets.TRANSLATE_API_KEY }}
+          TRANSLATE_ENDPOINT: ${{ secrets.TRANSLATE_ENDPOINT || vars.TRANSLATE_ENDPOINT }}
           TRANSLATE_BACKEND: ${{ vars.TRANSLATE_BACKEND || 'github' }}
           TRANSLATE_MODEL: ${{ vars.TRANSLATE_MODEL || 'openai/gpt-5-mini' }}
           SKILL_PATHS: ${{ steps.changes.outputs.skill_paths }}
@@ -201,7 +205,7 @@ jobs:
             # workflow_dispatch input takes precedence (single specific skill)
             ARGS+=("$INPUT_SKILL")
           elif [ -n "$SKILL_PATHS" ]; then
-            # pull_request: only translate skills touched by this PR
+            # pull_request_target: only translate skills touched by this PR
             read -r -a SKILL_ARR <<<"$SKILL_PATHS"
             ARGS+=("${SKILL_ARR[@]}")
           fi
@@ -225,11 +229,56 @@ jobs:
             git diff --stat
           fi
 
+      - name: Push translations to PR branch
+        if: steps.diff.outputs.changed == 'true' && github.event_name == 'pull_request_target'
+        env:
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          BOT_TOKEN: ${{ secrets.DESIRECORE_BOT_TOKEN || secrets.GITHUB_TOKEN }}
+          TRANSLATE_BACKEND: ${{ vars.TRANSLATE_BACKEND || 'github' }}
+          TRANSLATE_MODEL: ${{ vars.TRANSLATE_MODEL || 'openai/gpt-5-mini' }}
+        run: |
+          set -e
+          changed_files=$(git diff --name-only)
+          # Enforce the security model: translate.py only ever writes
+          # skills/<name>/SKILL*.md. Anything else in the diff means an
+          # unexpected write — abort rather than push it to a contributor branch.
+          unexpected=$(printf '%s\n' "$changed_files" \
+            | { grep -vE '^skills/[a-z0-9]([a-z0-9-]*[a-z0-9])?/SKILL(\.[a-z]{2,3}(-[A-Z]{2})?)?\.md$' || true; })
+          if [ -n "$unexpected" ]; then
+            echo "::error::Refusing to push non-translation changes to the PR branch:"
+            printf '%s\n' "$unexpected"
+            exit 1
+          fi
+          # The working tree is base + PR overlay + translations; the PR branch
+          # itself may live in a fork. Apply only the translation-generated
+          # files onto a checkout of the actual PR head and push that.
+          git remote add prhead "https://x-access-token:${BOT_TOKEN}@github.com/${HEAD_REPO}.git"
+          git fetch prhead "refs/heads/${HEAD_REF}"
+          if [ "$(git rev-parse FETCH_HEAD)" != "$HEAD_SHA" ]; then
+            echo "::notice::PR head moved since this run started; skipping push — the newer run will translate."
+            exit 0
+          fi
+          git worktree add --detach ../prpush FETCH_HEAD
+          while IFS= read -r f; do
+            mkdir -p "../prpush/$(dirname "$f")"
+            cp "$f" "../prpush/$f"
+          done <<<"$changed_files"
+          cd ../prpush
+          git config user.name "desirecore-bot"
+          git config user.email "bot@desirecore.net"
+          git add -A
+          git commit -m "chore(i18n): auto-translate skills [skip ci]" \
+                     -m "Generated by scripts/i18n/translate.py via i18n-translate workflow." \
+                     -m "Backend: ${TRANSLATE_BACKEND}  Model: ${TRANSLATE_MODEL}"
+          if ! git push prhead HEAD:"refs/heads/${HEAD_REF}"; then
+            echo "::error::Could not push translations to ${HEAD_REPO}:${HEAD_REF}. For fork PRs, enable 'Allow edits by maintainers' on the PR, or run 'uv run scripts/i18n/translate.py' locally and commit the generated SKILL.<locale>.md files."
+            exit 1
+          fi
+
       - name: Commit & push translations
-        if: >-
-          steps.diff.outputs.changed == 'true' &&
-          (github.event_name != 'pull_request' ||
-           github.event.pull_request.head.repo.full_name == github.repository)
+        if: steps.diff.outputs.changed == 'true' && github.event_name != 'pull_request_target'
         run: |
           git config user.name "desirecore-bot"
           git config user.email "bot@desirecore.net"
@@ -243,7 +292,7 @@ jobs:
           TRANSLATE_MODEL: ${{ vars.TRANSLATE_MODEL || 'openai/gpt-5-mini' }}
 
       - name: Comment on PR
-        if: steps.diff.outputs.changed == 'true' && github.event_name == 'pull_request'
+        if: steps.diff.outputs.changed == 'true' && github.event_name == 'pull_request_target'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.DESIRECORE_BOT_TOKEN || secrets.GITHUB_TOKEN }}
@@ -273,12 +322,7 @@ jobs:
           TRANSLATE_MODEL: ${{ vars.TRANSLATE_MODEL || 'openai/gpt-5-mini' }}
 
       - name: Label on translation failure
-        # Skip on fork PRs: GITHUB_TOKEN is read-only there and repo secrets
-        # are unavailable, so addLabels would 403 ("Resource not accessible
-        # by integration"). The failed check itself is the signal.
-        if: >-
-          failure() && github.event_name == 'pull_request' &&
-          github.event.pull_request.head.repo.full_name == github.repository
+        if: failure() && github.event_name == 'pull_request_target'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.DESIRECORE_BOT_TOKEN || secrets.GITHUB_TOKEN }}
