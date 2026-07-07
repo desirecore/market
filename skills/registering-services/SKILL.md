@@ -5,7 +5,7 @@ description: >-
   Catalog so that other Agents (and the human user) can discover and call it.
   Use when the user mentions adding a new service, registering an API, or
   publishing a backend you control to the team's catalog. 新增服务、注册 API、把后端发布到团队目录时使用。
-version: 1.0.1
+version: 1.0.2
 type: meta
 risk_level: medium
 status: enabled

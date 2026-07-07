@@ -5,7 +5,7 @@ description: >-
   （frontmatter 元数据 + L0/L1/L2 分层内容 + 脚本/参考/资产）和 Claude Code
   基础格式。Use when 用户要求创建新技能、更新已有技能、或将经验封装为可复用
   的技能包。
-version: 1.0.3
+version: 1.0.4
 type: meta
 risk_level: low
 status: enabled

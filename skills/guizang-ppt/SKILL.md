@@ -7,7 +7,7 @@ description: >-
   decks (web PPT) in two visual systems — editorial "magazine × e-ink" or
   "Swiss International". 当用户需要制作分享 / 演讲 / 发布会风格的网页 PPT，或提到 杂志风 PPT、瑞士风
   PPT、Swiss Style、horizontal swipe deck、网页 PPT 时使用。
-version: 1.0.0
+version: 1.0.1
 type: procedural
 risk_level: low
 status: enabled

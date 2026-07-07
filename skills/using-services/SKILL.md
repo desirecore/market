@@ -5,7 +5,7 @@ description: >-
   catalog. Use when the user asks the Agent to call an API, search for an
   existing service, or query a backend that was registered via the
   registering-services skill. 调用某个 API、查找已有服务、访问已注册的后端服务时使用。
-version: 1.0.1
+version: 1.0.2
 type: meta
 risk_level: low
 status: enabled

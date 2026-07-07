@@ -6,7 +6,7 @@ description: >-
   (write-only), verify them, and reload the configuration. Use when the user
   asks to add or configure a model provider, set an API key, or fix compute
   configuration. 用户要求配置算力、添加模型供应商或设置 API Key 时使用。
-version: 1.0.0
+version: 1.0.1
 type: meta
 risk_level: medium
 status: enabled

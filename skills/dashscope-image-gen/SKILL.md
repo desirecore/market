@@ -8,7 +8,7 @@ description: >-
   Use when the user mentions: generate image, draw, text-to-image, create image,
   AI painting, illustration, design picture.
 license: Complete terms in LICENSE.txt
-version: 1.4.0
+version: 1.4.1
 type: procedural
 risk_level: low
 status: enabled

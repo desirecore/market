@@ -8,7 +8,7 @@ description: >-
   换背景、换风格、图片编辑、以图生图、参考图、基于这张图、
   把这张图改成、在这张图上、image edit、img2img。
 license: Complete terms in LICENSE.txt
-version: 1.0.0
+version: 1.0.1
 type: procedural
 risk_level: low
 status: enabled
