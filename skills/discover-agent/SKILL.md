@@ -28,13 +28,13 @@ metadata:
       translated_by: human
     en-US:
       name: Discover Agent
-      short_desc: Intelligently recommend the best-matching Agent based on the user's needs and guide a quick selection
+      short_desc: Intelligently recommend the best-matching Agent based on the user’s need description, and guide quick selection
       description: >-
-        Recommend the best-matching Agent based on the user's needs, present a candidate list, and guide the user's selection. Use when the user describes a need but is unsure which Agent to ask, or wants to browse available Agents.
+        Recommend the best-matching Agent based on the user’s needs, show a candidate list, and guide selection. Use when the user describes a need but is unsure which Agent to ask for help, or wants to browse available Agents.
       body: ./SKILL.md
-      source_hash: sha256:28ecd07724adda9a
-      translated_by: ai:claude-opus-4-7
-      translated_at: '2026-05-03'
+      source_hash: sha256:4be238743dee6fc4
+      translated_by: ai:openai:gpt-5.4-mini
+      translated_at: '2026-07-07'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -55,34 +55,35 @@ market:
   channel: latest
 ---
 
-# discover-agent skill
+# discover-agent Skill
 
-## L0: One-Sentence Summary
+## L0: One-sentence summary
 
-Match and recommend the most suitable registered Agent based on the user's described needs.
+Match and recommend the most suitable Agent from the registered Agents based on the user’s needs.
 
-## L1: Overview and Use Cases
+## L1: Overview and use cases
 
-### Capability Description
+### Capability description
 
-discover-agent is a **Procedural Skill** that gives DesireCore the ability to discover and recommend a suitable Agent for the user. It understands the user's described needs, performs multi-dimensional matching across the registered Agent list, and presents a candidate list for the user to choose from.
+discover-agent is a **procedural Skill** that gives DesireCore the ability to discover and recommend suitable Agents for users. By understanding the user’s needs, it performs multi-dimensional matching across the registered Agent list and shows a candidate list for the user to choose from.
 
-### Use Cases
+### Use cases
 
-- The user describes a need but doesn't know which Agent to ask for help
-- The user wants to browse currently available Agents and their capabilities
-- The user needs to find the best specialist assistant for a specific task
-- A new user trying the system for the first time needs to learn which Agents are available
+- The user describes a need but does not know which Agent to ask for help
+- The user wants to browse the currently available Agents and their capabilities
+- The user needs to find the most suitable specialist assistant for a specific task
+- A new user is using the system for the first time and needs to know which Agents are available
+- The user is unhappy with the current Agent’s performance and wants a better alternative
 
-### Core Value
+### Core value
 
-- **Lower the barrier**: Users don't have to remember each Agent's name and capabilities
-- **Precise matching**: Smart recommendations based on the semantics of the need, not simple keyword search
-- **Smooth handoff**: When there's no match, automatically suggest creating a new Agent (handing off to the create-agent skill)
+- **Lower the barrier**: Users do not need to remember each Agent’s name and capabilities
+- **Precise matching**: Intelligent recommendations based on semantic needs, not simple keyword search
+- **Smooth handoff**: If no match is found, automatically suggest creating a new Agent (handoff to the create-agent Skill)
 
-## L2: Detailed Specification
+## L2: Detailed specification
 
-### Execution Flow
+### Execution flow
 
 ```
 ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
@@ -95,29 +96,29 @@ discover-agent is a **Procedural Skill** that gives DesireCore the ability to di
 └──────────────┘     └──────────────┘     └──────────────┘
 ```
 
-### Stage 1: Need Understanding
+### Stage 1: Needs understanding
 
-**Trigger conditions** (any one is sufficient):
+**Trigger conditions** (any one of the following):
 
-- The user says "find me a...", "is there a...", "who can help me..."
-- The user describes a task without specifying a particular Agent
-- The user says "what Agents are there?", "show me who's available"
-- The system detects that the user's need does not match the current Agent's capabilities
+- The user says "帮我找一个...", "有没有...", or "谁能帮我..."
+- The user describes a task but does not specify a particular Agent
+- The user says "有哪些智能体" or "看看都有谁"
+- The system detects that the user’s need does not match the current Agent’s capabilities
 
 **Need parsing**:
 
-Extract the following dimensions from the user's description:
+Extract the following dimensions from the user’s description:
 
-| Dimension   | Description       | Examples                                |
-| ----------- | ----------------- | --------------------------------------- |
-| `domain`    | Specialty domain  | Legal, finance, technology, education   |
-| `task_type` | Task type         | Consultation, review, analysis, writing |
-| `keywords`  | Keywords          | Contract, report, code, paper           |
-| `urgency`   | Urgency level     | Routine / urgent                        |
+| Dimension | Description | Example |
+| --------- | ----------- | ------- |
+| `domain`    | Professional domain | law, finance, technology, education |
+| `task_type` | Task type | consultation, review, analysis, creation |
+| `keywords`  | Keywords | contract, report, code, paper |
+| `urgency`   | Urgency | routine / urgent |
 
-### Stage 2: Agent Retrieval
+### Stage 2: Agent retrieval
 
-**Data source**: Call `GET /api/agents` to fetch the list of all registered Agents.
+**Data source**: Call `GET /api/agents` to get the list of all registered Agents.
 
 **API call**:
 
@@ -127,48 +128,48 @@ GET /api/agents
 
 **Key fields in the returned data**:
 
-- `id` — Unique Agent identifier
+- `id` — unique Agent identifier
 - `name` — Agent name
 - `description` — Agent description
 - `skills` — Skill list
-- `status` — Current status (online/offline/busy)
+- `status` — current status (online/offline/busy)
 
-**Filter rules**:
+**Filtering rules**:
 
-- By default, show only Agents with `status: online` or `status: offline`
-- Exclude system-internal Agents (e.g. DesireCore itself, unless the user explicitly requests them)
+- By default, only show Agents with `status: online` or `status: offline`
+- Exclude internal system Agents (such as DesireCore itself, unless explicitly requested by the user)
 
-### Stage 3: Match Evaluation
+### Stage 3: Matching evaluation
 
-Comprehensively judge match degree based on the following dimensions (using LLM semantic understanding rather than formula-based computation):
+Evaluate the match score based on the following dimensions (using LLM semantic understanding, not formula-based calculation):
 
-| Dimension              | Description                                                              |
-| ---------------------- | ------------------------------------------------------------------------ |
-| Description relevance  | Semantic relevance between Agent description / persona and user's need   |
-| Skill match            | Relevance of the Agent's skills to the task type                         |
-| Domain fit             | Fit between the Agent's specialty domain and the user's need domain      |
-| Status availability    | Agent's current status (online preferred over offline)                   |
+| Dimension | Description |
+| --------- | ----------- |
+| Description relevance | Semantic relevance between the Agent’s description / persona and the user’s need |
+| Skill match | Correlation between the Agent’s skills and the task type |
+| Domain fit | Degree of fit between the Agent’s professional domain and the user’s domain |
+| Status availability | The Agent’s current status (online takes priority over offline) |
 
 **Display rules**:
 
-- Highly matched (clearly suited to the task) → tag as "Recommended"
-- Partial match (may help) → tag as "Possibly relevant"
-- No clear relation → do not display
+- High match (clearly suitable for the task) → mark as "推荐"
+- Partial match (may be helpful) → mark as "可能相关"
+- No obvious relevance → do not display
 
-### Stage 4: Candidate Ranking
+### Stage 4: Candidate ranking
 
 **Ranking rules**:
 
 1. Sort by overall score in descending order
-2. On ties, online status takes precedence
+2. If scores are tied, prefer online status
 3. Show at most 5 candidates
 
-### Stage 5: Result Display
+### Stage 5: Result display
 
-**When matches are found**:
+**When there are matching results**:
 
 ```
-根据你的需求，我推荐以下智能体：
+Based on your needs, I recommend the following Agents:
 
 ┌─────────────────────────────────────────────────────┐
 │ 1. 法律顾问助手                          匹配度: 92% │
@@ -187,79 +188,79 @@ Comprehensively judge match degree based on the following dimensions (using LLM 
 │    状态：离线                                        │
 └─────────────────────────────────────────────────────┘
 
-请选择一个智能体，或告诉我更具体的需求。
+Please choose an Agent, or tell me more specific requirements.
 ```
 
-**When no matches are found**:
+**When there are no matching results**:
 
 ```
-目前没有找到完全匹配你需求的智能体。
+No fully matching Agent was found for your needs at the moment.
 
-你可以：
-1. 用更具体的描述再试一次
-2. 创建一个新的专业智能体（我可以帮你）
-3. 浏览所有可用的智能体
+You can:
+1. Try again with a more specific description
+2. Create a new specialist Agent (I can help you)
+3. Browse all available Agents
 
-你想怎么做？
+What would you like to do?
 ```
 
 **Browse mode** (when the user asks to view all):
 
 ```
-当前可用的智能体：
+Currently available Agents:
 
-在线：
+Online:
   - 法律顾问助手 — 合同审查和法律风险评估
   - AI 文书助手 — 专业文书撰写和格式优化
 
-离线：
+Offline:
   - 数据分析师 — 数据分析和可视化报告
   - 翻译助手 — 多语言翻译和本地化
 
-共 4 个智能体。需要了解某个智能体的详细信息吗？
+A total of 4 Agents. Do you need detailed information about any one Agent?
 ```
 
-### Stage 6: Guided Selection
+### Stage 6: Guidance and selection
 
-**Actions after the user selects**:
+**Actions after the user makes a choice**:
 
-| User Choice              | Follow-up Action                                                   |
-| ------------------------ | ------------------------------------------------------------------ |
-| Selected an Agent        | Switch to a conversation with that Agent and pass the need context |
-| Asked to learn more      | Call `GET /api/agents/:id` for details and present structured info (see below) |
-| Not satisfied with candidates | Guide the user to refine the need or suggest creating a new Agent |
-| Chose "create new"       | Invoke the create-agent skill, passing the need info already collected |
+| User choice | Follow-up action |
+| ----------- | ---------------- |
+| Chose an Agent | Switch to that Agent’s conversation and pass the user need context |
+| Asked for more details | Call `GET /api/agents/:id` to get details, then show structured information (see below) |
+| Unsatisfied with candidates | Guide the user to refine the need or suggest creating a new Agent |
+| Chose "create a new one" | Call the create-agent Skill and pass the collected need information |
 
 **Implementation of "learn more"**:
 
-Call `GET /api/agents/:id` for details, and optionally call structured endpoints for persona/principles:
+Call `GET /api/agents/:id` to get details, and optionally call the structured endpoint to get persona/rules:
 
 ```bash
-# 获取基本信息
+# Get basic information
 GET /api/agents/{agentId}
-# 返回: { id, name, description, skillsCount, toolsCount, status, config, persona, principles }
+# Return: { id, name, description, skillsCount, toolsCount, status, config, persona, principles }
 
-# 获取结构化 persona（可选，用于展示更丰富的信息）
+# Get structured persona (optional, used to show richer information)
 GET /api/agents/{agentId}/persona
-# 返回: { L0, L1: { role, personality, communication_style }, L2 }
+# Return: { L0, L1: { role, personality, communication_style }, L2 }
 ```
 
-When presenting to the user, render key information in natural language / table form:
+When presenting to the user, show key information in natural language/table format:
 
 ```
 「法律顾问助手」详细信息
 
 | 字段 | 内容 |
 |------|------|
-| 角色定位 | 专注合同审查和法律风险评估 |
-| 性格特征 | 专业、严谨、审慎 |
-| 技能数量 | 3 个 |
-| 当前状态 | 在线 |
+| Role positioning | 专注合同审查和法律风险评估 |
+| Personality traits | 专业、严谨、审慎 |
+| Skill count | 3 个 |
+| Current status | 在线 |
 
-需要与这个智能体对话吗？
+Need to talk with this Agent?
 ```
 
-**Context handoff on switch**:
+**Context handoff**:
 
 ```yaml
 context_handoff:
@@ -268,29 +269,29 @@ context_handoff:
   user_intent: '帮我审查这份合同的风险点'
 ```
 
-### Collaboration with Other Skills
+### Collaboration with other Skills
 
-| Collaborating Skill | How It Collaborates                                         |
-| ------------------- | ----------------------------------------------------------- |
-| create-agent        | When there's no match, suggest creating a new Agent and pass the user's need as initial info |
-| task-management     | After a successful match, optionally auto-create a task and assign it to the target Agent |
+| Collaboration Skill | Collaboration method |
+| ------------------- | -------------------- |
+| create-agent    | When there is no match, suggest creating a new Agent and pass the user need as initial information |
+| task-management | After a successful match, tasks can be created automatically and assigned to the target Agent |
 
-### Error Handling
+### Error handling
 
-| Error Scenario               | Handling                                                  |
-| ---------------------------- | --------------------------------------------------------- |
-| API call fails               | Indicate a network error and suggest retrying later       |
-| Agent list is empty          | Guide the user to create their first Agent                |
-| User description too vague   | Ask follow-up questions and offer domain options to guide |
-| Recommended Agent has bad status | Mark the status and suggest selecting another online Agent |
+| Error scenario | Handling method |
+| -------------- | --------------- |
+| API call failure | Prompt a network error and suggest trying again later |
+| Agent list is empty | Guide the user to create the first Agent |
+| User description is too vague | Ask follow-up questions and provide domain options as guidance |
+| Recommended Agent has an abnormal status | Mark the status and suggest choosing another online Agent |
 
-### Permission Requirements
+### Permission requirements
 
-- Prefer accessing the Agent Service HTTP API via the `Bash` tool with curl
-- The API base URL is already injected into the "Local API" section of the system prompt; reference it directly
-- Read-only operations; no risk
+- Prefer using the `Bash` Tool to call curl and access the Agent Service HTTP API to complete operations
+- The API base address is injected into the system prompt’s "本机 API" section, so reference it directly
+- Read-only operation, no risk
 
 ### Dependencies
 
 - Agent Service HTTP API (`GET /api/agents`)
-- The local API URL declaration in the system prompt
+- The local API address declaration in the system prompt
