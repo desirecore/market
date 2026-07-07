@@ -89,6 +89,14 @@ jobs:
           # pointing outside the tree; translate.py would read through it and
           # could leak runner file content into a committed "translation".
           find skills -type l -print -delete
+          # The root data files are untrusted too — reject symlinked variants
+          # instead of letting trusted scripts read through them.
+          for f in manifest.json categories.json; do
+            if [ -L "$f" ]; then
+              echo "::error::$f in the PR is a symlink; refusing to process."
+              exit 1
+            fi
+          done
           git add -A
           git -c user.name=ci -c user.email=ci@invalid commit --allow-empty -m "overlay: PR #${PR_NUMBER} data files"
 
@@ -233,6 +241,16 @@ jobs:
         run: |
           set -e
           changed_files=$(git diff --name-only)
+          # Enforce the security model: translate.py only ever writes
+          # skills/<name>/SKILL*.md. Anything else in the diff means an
+          # unexpected write — abort rather than push it to a contributor branch.
+          unexpected=$(printf '%s\n' "$changed_files" \
+            | { grep -vE '^skills/[a-z0-9]([a-z0-9-]*[a-z0-9])?/SKILL(\.[a-z]{2,3}(-[A-Z]{2})?)?\.md$' || true; })
+          if [ -n "$unexpected" ]; then
+            echo "::error::Refusing to push non-translation changes to the PR branch:"
+            printf '%s\n' "$unexpected"
+            exit 1
+          fi
           # The working tree is base + PR overlay + translations; the PR branch
           # itself may live in a fork. Apply only the translation-generated
           # files onto a checkout of the actual PR head and push that.
