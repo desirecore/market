@@ -1,0 +1,24 @@
+{
+  "id": "ai-news-radar",
+  "name": "AI News Radar",
+  "category": "productivity",
+  "tags": [
+    "ai-news",
+    "rss",
+    "learnprompt"
+  ],
+  "maintainer": {
+    "name": "LearnPrompt",
+    "verified": false,
+    "account": "LearnPrompt",
+    "url": "https://github.com/LearnPrompt/ai-news-radar"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/LearnPrompt/ai-news-radar.git",
+    "repoBranch": "master"
+  }
+}

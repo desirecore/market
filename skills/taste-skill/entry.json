@@ -1,0 +1,24 @@
+{
+  "id": "taste-skill",
+  "name": "Taste Skill",
+  "category": "creative",
+  "tags": [
+    "taste",
+    "design",
+    "creative"
+  ],
+  "maintainer": {
+    "name": "Leonxlnx",
+    "verified": false,
+    "account": "Leonxlnx",
+    "url": "https://github.com/Leonxlnx/taste-skill"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/Leonxlnx/taste-skill.git",
+    "repoBranch": "main"
+  }
+}
