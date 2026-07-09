@@ -1,0 +1,22 @@
+{
+  "id": "ian-xiaohei-illustrations",
+  "name": "Ian 小黑怪诞正文配图",
+  "category": "media",
+  "tags": ["illustration", "image-generation", "xiaohei", "design"],
+  "maintainer": {
+    "name": "helloianneo",
+    "verified": false,
+    "account": "helloianneo",
+    "url": "https://github.com/helloianneo/ian-xiaohei-illustrations"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/helloianneo/ian-xiaohei-illustrations.git",
+    "repoBranch": "main",
+    "path": "ian-xiaohei-illustrations",
+    "ref": "91b560849e8f883922cc2fa8a358a668caa94105"
+  }
+}

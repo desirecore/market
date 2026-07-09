@@ -1,0 +1,21 @@
+{
+  "id": "khazix-skills",
+  "name": "卡兹克 Skills",
+  "category": "productivity",
+  "tags": ["khazix", "ai-news", "writing", "analysis"],
+  "maintainer": {
+    "name": "KKKKhazix",
+    "verified": false,
+    "account": "KKKKhazix",
+    "url": "https://github.com/KKKKhazix/khazix-skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/KKKKhazix/khazix-skills.git",
+    "repoBranch": "main",
+    "ref": "d4e43c91f16dcd859748c1d71ec7d8aa1ebb4694"
+  }
+}
