@@ -10,6 +10,17 @@
     "hacker-news",
     "web"
   ],
+  "latestVersion": "3.11.1",
+  "i18n": {
+    "zh-CN": {
+      "name": "近 30 天研究",
+      "shortDesc": "调研任意话题近 30 天的真实讨论，聚合 Reddit、X、YouTube、HN、Polymarket、GitHub 等来源的热帖与观点"
+    },
+    "en-US": {
+      "name": "Last 30 Days",
+      "shortDesc": "Research what people actually say about any topic in the last 30 days across Reddit, X, YouTube, HN and more"
+    }
+  },
   "maintainer": {
     "name": "Matt Van Horn",
     "verified": false,
