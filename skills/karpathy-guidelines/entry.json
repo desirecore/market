@@ -8,6 +8,17 @@
     "coding",
     "karpathy"
   ],
+  "latestVersion": "1.0.0",
+  "i18n": {
+    "zh-CN": {
+      "name": "Karpathy 编码准则",
+      "shortDesc": "降低 LLM 常见编码错误的行为准则，源自 Andrej Karpathy 对 LLM 编码陷阱的观察"
+    },
+    "en-US": {
+      "name": "Karpathy Guidelines",
+      "shortDesc": "Behavioral guidelines to reduce common LLM coding mistakes, derived from Andrej Karpathy's observations"
+    }
+  },
   "maintainer": {
     "name": "forrestchang",
     "verified": false,
