@@ -1,0 +1,28 @@
+{
+  "id": "last30days",
+  "name": "Last 30 Days",
+  "category": "research",
+  "tags": [
+    "research",
+    "trends",
+    "reddit",
+    "youtube",
+    "hacker-news",
+    "web"
+  ],
+  "maintainer": {
+    "name": "Matt Van Horn",
+    "verified": false,
+    "account": "mvanhorn",
+    "url": "https://github.com/mvanhorn/last30days-skill"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/mvanhorn/last30days-skill.git",
+    "repoBranch": "main",
+    "path": "skills/last30days"
+  }
+}

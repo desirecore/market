@@ -1,0 +1,26 @@
+{
+  "id": "karpathy-guidelines",
+  "name": "Karpathy Guidelines",
+  "category": "development",
+  "tags": [
+    "guidelines",
+    "best-practices",
+    "coding",
+    "karpathy"
+  ],
+  "maintainer": {
+    "name": "forrestchang",
+    "verified": false,
+    "account": "multica-ai",
+    "url": "https://github.com/multica-ai/andrej-karpathy-skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/multica-ai/andrej-karpathy-skills.git",
+    "repoBranch": "main",
+    "path": "skills/karpathy-guidelines"
+  }
+}
