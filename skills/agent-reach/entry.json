@@ -1,0 +1,22 @@
+{
+  "id": "agent-reach",
+  "name": "Agent Reach",
+  "category": "research",
+  "tags": ["research", "web-search", "social-media", "twitter", "reddit", "youtube", "bilibili", "xiaohongshu"],
+  "maintainer": {
+    "name": "Panniantong",
+    "verified": false,
+    "account": "Panniantong",
+    "url": "https://github.com/Panniantong/agent-reach"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/Panniantong/agent-reach.git",
+    "repoBranch": "main",
+    "path": "agent_reach/skill",
+    "ref": "e825f6740d24c6c315c3b0dc41907e6c87ff39a5"
+  }
+}
