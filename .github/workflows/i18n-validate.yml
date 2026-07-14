@@ -58,6 +58,10 @@ jobs:
         if: steps.changes.outputs.relevant == 'true'
         uses: astral-sh/setup-uv@v3
 
+      - name: Run validator unit tests
+        if: steps.changes.outputs.relevant == 'true'
+        run: uv run --quiet scripts/i18n/test_validate_i18n.py
+
       - name: Validate i18n
         if: steps.changes.outputs.relevant == 'true'
         run: uv run --quiet scripts/i18n/validate-i18n.py

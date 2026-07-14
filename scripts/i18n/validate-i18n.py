@@ -18,6 +18,7 @@ Checks:
   9. Skill/Agent counts and builtin skill index match the repository contents.
   10. Skill, Agent, and entry.json category references exist in categories.json.
   11. entry.json pointers have the required marketplace fields and safe source URLs.
+  12. Market Skills set `disable-model-invocation` to true or omit it; false is prohibited.
 
 Exit codes:
   0 = pass
@@ -108,6 +109,21 @@ def heading_count(text: str) -> int:
     return len(HEADING_PATTERN.findall(text or ""))
 
 
+def validate_model_invocation_policy(
+    frontmatter: dict[str, Any],
+    path: str,
+    report: Report,
+) -> None:
+    """Reject market skills that request full-content system-prompt injection."""
+    value = frontmatter.get("disable-model-invocation")
+    if value is not None and value is not True:
+        report.add(Issue(
+            path,
+            "model-invocation-policy",
+            "disable-model-invocation must be true or omitted; automatic full-content injection is prohibited",
+        ))
+
+
 def validate_skill(
     skill_dir: Path,
     report: Report,
@@ -127,6 +143,8 @@ def validate_skill(
         report.add(Issue(f"{rel_dir}/SKILL.md", "rule-6", err))
         return
     assert fm is not None and body is not None
+
+    validate_model_invocation_policy(fm, f"{rel_dir}/SKILL.md", report)
 
     name = fm.get("name", "")
     description = fm.get("description", "")

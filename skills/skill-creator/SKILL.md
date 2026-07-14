@@ -5,7 +5,7 @@ description: >-
   （frontmatter 元数据 + L0/L1/L2 分层内容 + 脚本/参考/资产）和 Claude Code
   基础格式。Use when 用户要求创建新技能、更新已有技能、或将经验封装为可复用
   的技能包。
-version: 1.0.4
+version: 1.0.5
 type: meta
 risk_level: low
 status: enabled
@@ -18,7 +18,7 @@ tags:
   - authoring
 metadata:
   author: desirecore
-  updated_at: '2026-05-05'
+  updated_at: '2026-07-14'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -39,7 +39,7 @@ metadata:
       description: >-
         Guides users to create and edit standards-compliant SKILL.md skill packages. Supports the DesireCore full format (frontmatter metadata + L0/L1/L2 layered content + scripts/references/assets) and the Claude Code basic format. Use when the user requests to create a new Skill, update an existing Skill, or package experience into a reusable Skill bundle.
       body: ./SKILL.md
-      source_hash: sha256:e14a6879bb800455
+      source_hash: sha256:f6aa877d100a85e1
       translated_by: human
 market:
   icon: >-
@@ -160,7 +160,7 @@ A SKILL.md consists of two parts: **Frontmatter (YAML metadata)** and **Body (Ma
 
 | Field | Type | Default | Description |
 |------|------|------|------|
-| `disable-model-invocation` | boolean | `true` | `false` = opt-in auto-injection of full SKILL.md content into the system prompt (auto-loaded); `true` (or omitted) = no auto-injection, only loaded when an Agent explicitly invokes the Skill tool (aligned with Claude Skills: disabled by default, opt-in) |
+| `disable-model-invocation` | boolean | `true` | Must be `true` or omitted. Full SKILL.md auto-injection is prohibited; an Agent must explicitly invoke the Skill tool to load the instructions. |
 | `user-invocable` | boolean | `true` | `false` = does not appear in command completion; serves only as background knowledge |
 | `allowed-tools` | string[] | — | Restricts the list of tools available at execution time |
 | `requires` | object | — | Dependency declaration: `tools`, `optional_tools`, `connections` |

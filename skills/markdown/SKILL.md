@@ -16,11 +16,11 @@ description: >-
   月报、邮件、对比分析、会议记录、散文、文章、作文、md、markdown、report、
   summary、plan、outline、memo、table、list、draft、document、notes、
   write、create、organize。
-version: 1.0.0
+version: 1.0.1
 type: procedural
 risk_level: low
 status: enabled
-disable-model-invocation: false
+disable-model-invocation: true
 tags:
   - markdown
   - md
@@ -28,7 +28,7 @@ tags:
   - text
 metadata:
   author: desirecore
-  updated_at: '2026-05-11'
+  updated_at: '2026-07-14'
   i18n:
     default_locale: en-US
     source_locale: zh-CN

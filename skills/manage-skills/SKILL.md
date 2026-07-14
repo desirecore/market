@@ -4,7 +4,7 @@ description: >-
   管理 Agent 的技能生命周期：通过 HTTP API 导入、安装、更新、删除技能，
   或通过 AgentFS 文件系统直接编写符合规范的 SKILL.md。Use when 用户要求
   安装技能、从 URL/Git 导入技能、编写新技能、或管理已有技能。
-version: 1.0.5
+version: 1.0.6
 type: meta
 risk_level: low
 status: enabled
@@ -17,7 +17,7 @@ tags:
   - agentfs
 metadata:
   author: desirecore
-  updated_at: '2026-05-05'
+  updated_at: '2026-07-14'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -38,7 +38,7 @@ metadata:
       description: >-
         Manage the Skill lifecycle of an Agent: import, install, update, and delete Skills via HTTP API, or directly author standards-compliant SKILL.md files via the AgentFS filesystem. Use when the user requests to install Skills, import Skills from URL/Git, author new Skills, or manage existing Skills.
       body: ./SKILL.md
-      source_hash: sha256:eb098cb8c9bdf482
+      source_hash: sha256:57d9f0d8c351f884
       translated_by: human
 market:
   icon: >-
@@ -507,7 +507,7 @@ covering completed items, to-dos, and important decisions.
 | `risk_level`               | Recommended     | enum     | `low` / `medium` / `high`                          |
 | `status`                   | Recommended     | enum     | `enabled` / `disabled`                             |
 | `tags`                     | Optional     | string[] | List of tags, used for search and categorization                           |
-| `disable-model-invocation` | Optional     | boolean  | `false` = opt-in auto-injection of full content into the system prompt; `true` (or omitted) = no auto-injection, only loaded when explicitly invoked via the Skill tool; default `true` |
+| `disable-model-invocation` | Optional     | boolean  | Must be `true` or omitted. Full-content auto-injection is prohibited; skills are loaded only when explicitly invoked via the Skill tool. |
 | `requires`                 | Optional     | object   | Dependency declaration: `tools`, `optional_tools`, `connections` |
 | `metadata`                 | Optional     | object   | Meta information: `author`, `updated_at`                     |
 | `market`                   | Optional     | object   | Market display metadata (only required for Skills published to the Market)             |

@@ -12,11 +12,11 @@ description: >-
   Use when 用户提到 画架构图、架构图、流程图、时序图、序列图、状态图、状态机、
   ER图、类图、思维导图、出图、画图、可视化、画一张图、画个图、图表风格、
   暗色风格图、蓝图风格图、奶油风格图、draw diagram、architecture diagram、flowchart、sequence diagram。
-version: 1.1.0
+version: 1.1.1
 type: procedural
 risk_level: low
 status: enabled
-disable-model-invocation: false
+disable-model-invocation: true
 tags:
   - diagram
   - mermaid
@@ -25,7 +25,7 @@ tags:
   - visualization
 metadata:
   author: desirecore
-  updated_at: '2026-05-31'
+  updated_at: '2026-07-14'
   i18n:
     default_locale: en-US
     source_locale: zh-CN

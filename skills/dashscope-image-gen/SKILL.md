@@ -8,11 +8,11 @@ description: >-
   Use when the user mentions: generate image, draw, text-to-image, create image,
   AI painting, illustration, design picture.
 license: Complete terms in LICENSE.txt
-version: 1.4.1
+version: 1.4.2
 type: procedural
 risk_level: low
 status: enabled
-disable-model-invocation: false
+disable-model-invocation: true
 provider: auto
 tags:
   - media
@@ -25,7 +25,7 @@ requires:
     - Bash
 metadata:
   author: desirecore
-  updated_at: '2026-06-15'
+  updated_at: '2026-07-14'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
