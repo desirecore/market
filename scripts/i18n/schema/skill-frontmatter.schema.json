@@ -48,7 +48,10 @@
       "enum": ["enabled", "disabled", "deprecated", "experimental"]
     },
     "disable-model-invocation": {
-      "type": "boolean"
+      "description": "Must be true or omitted. Market skills may only load their full instructions on demand; automatic full-content injection is prohibited.",
+      "type": "boolean",
+      "const": true,
+      "default": true
     },
     "tags": {
       "type": "array",

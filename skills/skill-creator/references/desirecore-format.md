@@ -25,7 +25,7 @@
 
 | 字段 | 类型 | 默认 | 说明 |
 |------|------|------|------|
-| `disable-model-invocation` | boolean | `true` | `false`=opt-in 自动注入完整 SKILL.md 内容到 system prompt（自动加载）；`true` 或缺省=不自动注入，仅当 Agent 显式调用 Skill 工具时才加载（与 Claude Skills 对齐：默认禁用，需显式启用） |
+| `disable-model-invocation` | boolean | `true` | 必须为 `true` 或省略。禁止把完整 SKILL.md 自动注入 system prompt；Agent 必须显式调用 `Skill` 工具后才加载指令。 |
 | `user-invocable` | boolean | `true` | `false`=不出现在命令补全，仅作为背景知识 |
 | `allowed-tools` | string[] | 全部 | 限制执行时可用的工具列表（如 `["Edit", "Read", "Bash"]`） |
 | `model` | string | 继承 | 覆盖使用的模型 ID（如 `"claude-sonnet-4-20250514"`） |
@@ -127,10 +127,8 @@ json_output:
 
 L0/L1/L2 是 SKILL.md **内容组织约定**（Claude Skills 风格），帮助作者把摘要、原则、详细规范分层书写。**运行时并不在 L0/L1/L2 之间做"按需加载"**——一旦 skill 被加载，就是整篇 SKILL.md 内容（除 frontmatter）注入 system prompt。
 
-是否被自动加载由 `disable-model-invocation` 决定：
-
-- `disable-model-invocation: false` 时：skill 被加入自动加载列表，整篇内容随 system prompt 注入
-- `disable-model-invocation: true` 或缺省时：skill 不自动加载，仅当 Agent 显式调用 `Skill` 工具传入此 skill ID 时才加载
+市场技能不允许把全文自动注入 system prompt。`disable-model-invocation` 必须为 `true`
+或省略；skill 仅在 Agent 显式调用 `Skill` 工具并传入对应 skill ID 后加载。
 
 ## 完整示例
 
