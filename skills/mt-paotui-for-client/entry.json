@@ -2,6 +2,7 @@
   "id": "mt-paotui-for-client",
   "name": "Meituan Paotui Client",
   "category": "business",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M4 7h10v9H4zM14 10h3l3 3v3h-6z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><circle cx=\"8\" cy=\"18\" r=\"1.5\" fill=\"#2563EB\"/><circle cx=\"17\" cy=\"18\" r=\"1.5\" fill=\"#2563EB\"/></svg>",
   "tags": [
     "meituan"
   ],

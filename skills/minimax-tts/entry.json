@@ -2,6 +2,7 @@
   "id": "minimax-tts",
   "name": "MiniMax 语音合成",
   "category": "media",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"9\" y=\"4\" width=\"6\" height=\"10\" rx=\"3\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"M6.5 11a5.5 5.5 0 0 0 11 0M12 16.5V20m-3 0h6\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
   "tags": [
     "minimax",
     "media"

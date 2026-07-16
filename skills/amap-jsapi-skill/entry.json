@@ -2,6 +2,7 @@
   "id": "amap-jsapi-skill",
   "name": "AMap JSAPI Skill",
   "category": "development",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"m4 6 5-2 6 2 5-2v14l-5 2-6-2-5 2V6Z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M9 4v14m6-12v14\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"M12 8.25c-1.24 0-2.25.9-2.25 2.03 0 1.52 2.25 3.47 2.25 3.47s2.25-1.95 2.25-3.47C14.25 9.15 13.24 8.25 12 8.25Z\" fill=\"#2563EB\"/></svg>",
   "tags": [
     "lbs-amap"
   ],
