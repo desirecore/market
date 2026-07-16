@@ -24,8 +24,8 @@ The market currently contains:
 
 - `1` Agent: `desirecore`
 - `30` local built-in skills with `SKILL.md`
-- `18` external skill entries with `entry.json`
-- `48` publishable skills in total (`SKILL.md` + `entry.json`)
+- `20` external skill entries with `entry.json`
+- `50` publishable skills in total (`SKILL.md` + `entry.json`)
 
 ## Skill Sources
 
