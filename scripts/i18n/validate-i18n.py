@@ -17,7 +17,7 @@ Checks:
   8. Top-level description is 1-1024 chars (spec); top-level name is 1-64 chars (spec).
   9. Skill/Agent counts and builtin skill index match the repository contents.
   10. Skill, Agent, and entry.json category references exist in categories.json.
-  11. entry.json pointers have the required marketplace fields and safe source URLs.
+  11. entry.json pointers have the required marketplace fields, valid inline SVG icons, and safe source URLs.
   12. Market Skills set `disable-model-invocation` to true or omit it; false is prohibited.
 
 Exit codes:
@@ -38,6 +38,7 @@ import json
 import re
 import ssl
 import sys
+from xml.etree import ElementTree
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Iterable
@@ -389,7 +390,7 @@ def validate_entry_json(report: Report, entry_file: Path, category_ids: set[str]
     if not entry:
         return
 
-    required = ("id", "name", "category", "maintainer", "stewardship", "license", "redistribution", "source")
+    required = ("id", "name", "category", "icon", "maintainer", "stewardship", "license", "redistribution", "source")
     for key in required:
         if key not in entry:
             report.add(Issue(rel, "entry-json", f"missing required field '{key}'"))
@@ -400,6 +401,19 @@ def validate_entry_json(report: Report, entry_file: Path, category_ids: set[str]
     category = entry.get("category")
     if not isinstance(category, str) or category not in category_ids:
         report.add(Issue(rel, "entry-json", f"category '{category}' is not declared in categories.json"))
+
+    icon = entry.get("icon")
+    if not isinstance(icon, str) or not icon.strip():
+        report.add(Issue(rel, "entry-json", "icon must be a non-empty inline SVG string"))
+    else:
+        try:
+            root = ElementTree.fromstring(icon)
+            if root.tag != "{http://www.w3.org/2000/svg}svg":
+                report.add(Issue(rel, "entry-json", "icon root element must be svg in the SVG namespace"))
+            elif not root.get("viewBox"):
+                report.add(Issue(rel, "entry-json", "icon SVG must declare a viewBox"))
+        except ElementTree.ParseError as exc:
+            report.add(Issue(rel, "entry-json", f"icon must be valid SVG XML: {exc}"))
 
     maintainer = entry.get("maintainer")
     if not isinstance(maintainer, dict) or not isinstance(maintainer.get("name"), str):

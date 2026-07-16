@@ -2,6 +2,7 @@
   "id": "flyai-skill",
   "name": "FlyAI",
   "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"m4 12 15-7-5 14-3.5-5.5L4 12Z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"m10.5 13.5 3-3\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
   "tags": [
     "alibaba-flyai"
   ],

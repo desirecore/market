@@ -2,6 +2,7 @@
   "id": "taste-skill",
   "name": "Taste Skill",
   "category": "creative",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"m12 3 .9 3.1L16 7l-3.1.9L12 11l-.9-3.1L8 7l3.1-.9L12 3Zm5 9 .7 2.3L20 15l-2.3.7L17 18l-.7-2.3L14 15l2.3-.7L17 12ZM7 13l.8 2.7L10.5 17l-2.7.8L7 20.5l-.8-2.7L3.5 17l2.7-1.3L7 13Z\" stroke=\"#2563EB\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/></svg>",
   "tags": [
     "taste",
     "design",

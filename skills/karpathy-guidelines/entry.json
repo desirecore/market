@@ -2,6 +2,7 @@
   "id": "karpathy-guidelines",
   "name": "Karpathy Guidelines",
   "category": "development",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M8.5 5 5 12l3.5 7M15.5 5l3.5 7-3.5 7\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"m10 15 2 2 3-4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
   "tags": [
     "guidelines",
     "best-practices",

@@ -101,6 +101,7 @@ External entries point to upstream packages or repositories. They are counted in
   "id": "example-skill",
   "name": "Example Skill",
   "category": "development",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\">...</svg>",
   "tags": ["example"],
   "maintainer": {
     "name": "Example",

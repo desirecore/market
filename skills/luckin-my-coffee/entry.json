@@ -2,6 +2,7 @@
   "id": "luckin-my-coffee",
   "name": "Luckin My Coffee",
   "category": "business",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M6 8h10v8a4 4 0 0 1-4 4h-2a4 4 0 0 1-4-4V8Z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M16 10h1a2 2 0 0 1 0 4h-1M8 4c0 1 1 1 1 2m3-2c0 1 1 1 1 2\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
   "tags": [
     "luckin"
   ],

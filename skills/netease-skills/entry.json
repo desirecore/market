@@ -2,6 +2,7 @@
   "id": "netease-skills",
   "name": "NetEase Skills",
   "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M7 17h10a3.5 3.5 0 0 0 .5-6.96A5.5 5.5 0 0 0 7.1 8.7 4.2 4.2 0 0 0 7 17Z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"m10 14 2-2 2 2\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
   "tags": [
     "NetEase"
   ],

@@ -2,6 +2,7 @@
   "id": "follow-builders",
   "name": "Follow Builders",
   "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"9\" cy=\"8\" r=\"3\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"M3.5 19c.7-3 2.6-4.5 5.5-4.5s4.8 1.5 5.5 4.5\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M16 9h4m-2-2v4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
   "tags": [
     "zarazhangrui"
   ],
