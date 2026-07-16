@@ -2,6 +2,7 @@
   "id": "wechatpay-skills",
   "name": "WeChat Pay Skills",
   "category": "business",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"4\" y=\"6\" width=\"16\" height=\"12\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"M4 10h16m-8 4h4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><circle cx=\"8\" cy=\"14\" r=\"1.5\" fill=\"#2563EB\"/></svg>",
   "tags": [
     "wechatpay-apiv3"
   ],

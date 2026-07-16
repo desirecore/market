@@ -2,6 +2,7 @@
   "id": "minimax-image-gen",
   "name": "MiniMax 图像生成",
   "category": "media",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"3\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"m6.5 17 4-4 2.5 2.5 1.5-1.5 3 3\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"15.5\" cy=\"8.5\" r=\"1.5\" fill=\"#2563EB\"/></svg>",
   "tags": [
     "minimax",
     "media"
