@@ -1,9 +1,8 @@
 ---
 name: create-agent
 description: >-
-  通过多轮对话收集需求，调用 HTTP API 创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when
-  用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
-version: 2.4.2
+  通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
+version: 2.5.0
 type: meta
 risk_level: low
 status: enabled
@@ -14,7 +13,7 @@ tags:
   - meta
 metadata:
   author: desirecore
-  updated_at: '2026-02-28'
+  updated_at: '2026-07-18'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -25,19 +24,19 @@ metadata:
       name: 创建智能体
       short_desc: 通过自然语言对话收集需求，一键创建专业化数字智能体
       description: >-
-        通过多轮对话收集需求，调用 HTTP API 创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
+        通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:cf21692224334fce
+      source_hash: sha256:43425a25973ca933
       translated_by: human
     en-US:
       name: Create Agent
       short_desc: Collect requirements through natural-language conversation and create a specialized digital Agent in one step
       description: >-
-        Collect requirements through multi-turn conversation and call the HTTP API to create a new AgentFS v2 Agent, with customizable persona and principles. Use when the user asks to create a new Agent, raise a domain assistant, or quickly produce a governable Agent from a template.
+        Collect requirements through multi-turn conversation and call the ManageAgent builtin tool to create a new AgentFS v2 Agent, with customizable persona and principles. Use when the user asks to create a new Agent, raise a domain assistant, or quickly produce a governable Agent from a template.
       body: ./SKILL.md
-      source_hash: sha256:cf21692224334fce
-      translated_by: ai:claude-opus-4-7
-      translated_at: '2026-05-03'
+      source_hash: sha256:43425a25973ca933
+      translated_by: ai:claude-fable-5
+      translated_at: '2026-07-18'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -58,19 +57,20 @@ market:
     verified: true
   compatible_agents: []
   channel: latest
+  required_client_version: 10.0.90
 ---
 
 # create-agent skill
 
 ## L0: One-Sentence Summary
 
-Collect requirements through natural-language conversation and call the HTTP API to create a specialized digital Agent.
+Collect requirements through natural-language conversation and call the ManageAgent builtin tool to create a specialized digital Agent.
 
 ## L1: Overview and Use Cases
 
 ### Capability Description
 
-create-agent is a **Meta-Skill** that gives DesireCore the ability to create other Agents. It collects user requirements through multi-turn conversation, generates persona and principles content, and calls `POST /api/agents` to complete the creation.
+create-agent is a **Meta-Skill** that gives DesireCore the ability to create other Agents. It collects user requirements through multi-turn conversation, generates persona and principles content, and calls the `ManageAgent` builtin tool to complete the creation.
 
 ### Use Cases
 
@@ -95,7 +95,7 @@ create-agent is a **Meta-Skill** that gives DesireCore the ability to create oth
                                                   │
                                                   ↓
 ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│   回执生成    │ ←── │   API 创建   │ ←── │   用户确认    │
+│   回执生成    │ ←── │   工具创建   │ ←── │   用户确认    │
 └──────────────┘     └──────────────┘     └──────────────┘
 ```
 
@@ -210,69 +210,58 @@ When the user chooses "Modify":
 4. Update the corresponding field in the preview
 5. Show the full preview again → re-enter the confirmation flow
 
-### Stage 5: Call API to Create
+### Stage 5: Create via ManageAgent
 
-**API endpoint**: `POST /api/agents`
+**Tool call** (structured format):
 
-**Request body** (structured format):
-
-```json
-{
-  "name": "法律顾问小助手",
-  "description": "专注于合同审查和法律风险评估的数字智能体",
+```
+ManageAgent({
+  "action": "create",
+  "name": "Legal Advisor Assistant",
+  "description": "A digital Agent focused on contract review and legal risk assessment",
   "persona": {
-    "L0": "你是法律顾问小助手，专注于合同审查和法律风险评估的数字智能体。",
+    "L0": "You are Legal Advisor Assistant, a digital Agent focused on contract review and legal risk assessment.",
     "L1": {
-      "role": "专注于合同审查和法律风险评估的数字法律顾问",
-      "personality": ["专业", "严谨", "审慎"],
-      "communication_style": "准确使用法律术语，同时提供通俗解释"
+      "role": "A digital legal advisor focused on contract review and legal risk assessment",
+      "personality": ["Professional", "Rigorous", "Prudent"],
+      "communication_style": "Use legal terminology accurately while also providing plain-language explanations"
     }
   },
   "principles": {
-    "L0": "以用户利益为最高优先级，不替代正式法律意见。",
+    "L0": "User interest is the highest priority; not a substitute for formal legal advice.",
     "L1": {
-      "must_do": ["准确引用法律条文", "标注不确定性", "建议咨询专业律师"],
-      "must_not": ["提供诉讼代理", "替代正式法律意见", "泄露用户法律咨询内容"],
-      "priority": "用户安全 > 准确性 > 效率"
+      "must_do": ["Cite statutes accurately", "Mark uncertainty", "Recommend consulting a professional lawyer"],
+      "must_not": ["Provide litigation representation", "Substitute for formal legal advice", "Leak user consultations"],
+      "priority": "User safety > Accuracy > Efficiency"
     }
   }
-}
+})
 ```
 
 **Minimal create** (only `name`; the rest is auto-generated):
 
-```json
-{ "name": "我的助手" }
+```
+ManageAgent({ "action": "create", "name": "My Assistant" })
 ```
 
 **Basic create** (`name` + `description`; `description` auto-fills persona L0):
 
-```json
-{ "name": "法律顾问", "description": "专注合同审查" }
+```
+ManageAgent({ "action": "create", "name": "Legal Advisor", "description": "Focused on contract review" })
 ```
 
 Any unprovided fields are auto-filled with sensible defaults by the system. `persona` and `principles` also accept raw markdown strings (backward compatible).
 
-**Optional**: To specify a slug ID, generate a sensible kebab-case slug from `name` (e.g. "Legal Advisor" → "legal-advisor") and include `"id": "<slug>"` in the request body. If not specified, the system auto-generates one from `name`.
+**Optional parameters**:
 
-**Successful response** (`201 Created`):
+- `id`: specify a kebab-case slug ID (e.g. "Legal Advisor" → "legal-advisor"). If not specified, the system auto-generates one from `name`. Note that `core` / `desirecore` are reserved core-agent identifiers and cannot be used (including when the slug auto-generated from `name` collides with them).
+- `config`: an agent.json config delta. Only the `llm` field is allowed (model, temperature, etc.); sensitive fields such as `mcp_servers` / `tool_permissions` are rejected and must be adjusted via the settings UI after creation.
 
-```json
-{
-  "success": true,
-  "agentId": "fa-lv-gu-wen-xiao-zhu-shou",
-  "agent": {
-    "id": "fa-lv-gu-wen-xiao-zhu-shou",
-    "name": "法律顾问小助手",
-    "description": "专注于合同审查和法律风险评估的数字智能体",
-    "skillsCount": 0,
-    "toolsCount": 0,
-    "status": "offline"
-  }
-}
-```
+**Successful result**:
 
-The `agent` field in the response contains the full info of the newly created Agent and can be used directly in the receipt.
+> Agent "Legal Advisor Assistant" created (ID: legal-advisor-assistant), registered and ready. It can be used directly with ManageTeam or Delegate.
+
+The new Agent is registered online immediately after creation—no waiting or refresh needed; the returned ID can be used directly in subsequent ManageTeam / Delegate calls.
 
 ### Stage 6: Receipt Generation
 
@@ -294,19 +283,18 @@ After successful creation, present the receipt in a user-friendly way (do not ex
 
 ### Error Handling
 
-| Error Code | Scenario                              | Handling                          |
-| ---------- | ------------------------------------- | --------------------------------- |
-| 400        | Missing `name` or invalid ID format   | Ask user to check input           |
-| 409        | Agent ID already exists               | Suggest using another name        |
-| 500        | Internal server error                 | Ask user to try again later       |
+| Error Scenario                              | Handling                                    |
+| ------------------------------------------- | ------------------------------------------- |
+| Missing `name` or invalid ID format         | Ask user to check input                     |
+| Agent ID already exists                     | Suggest another name or an explicit `id`    |
+| ID hits a reserved core-agent identifier    | Change the name or provide another `id`     |
+| `config` contains non-whitelisted fields    | Retry with only the `llm` field             |
 
 ### Permission Requirements
 
-- Prefer accessing the Agent Service HTTP API via the `Bash` tool with curl
-- The API base URL is already injected into the "Local API" section of the system prompt; reference it directly
-- Creation requires user confirmation
+- Always create via the `ManageAgent` builtin tool. **Never** call the local HTTP API, curl, or write AgentFS directories directly
+- The `create` action is exempt from system approval, but this skill's conversation flow still requires showing the preview and getting user confirmation first (Stage 4)
 
 ### Dependencies
 
-- Agent Service HTTP API (`POST /api/agents`)
-- The local API URL declaration in the system prompt
+- `ManageAgent` builtin tool (client ≥ 10.0.90)

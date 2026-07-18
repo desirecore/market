@@ -3,7 +3,7 @@ name: update-agent
 description: >-
   安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent
   行为、安装/卸载技能、调整配置、回滚变更或修订规则。
-version: 3.0.5
+version: 3.1.0
 type: meta
 risk_level: low
 status: enabled
@@ -14,7 +14,7 @@ tags:
   - meta
 metadata:
   author: desirecore
-  updated_at: '2026-03-17'
+  updated_at: '2026-07-18'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -27,7 +27,7 @@ metadata:
       description: >-
         安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent 行为、安装/卸载技能、调整配置、回滚变更或修订规则。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:a0fecd84f92204bd
+      source_hash: sha256:eeb2187b0f08bc47
       translated_by: human
     en-US:
       name: Update Agent
@@ -35,9 +35,9 @@ metadata:
       description: >-
         Safely update an existing Agent's config, persona, principles, skills, and memory, producing reviewable diffs that are applied and committed only after confirmation. Use when the user asks to modify Agent behavior, install/uninstall skills, adjust config, roll back changes, or revise rules.
       body: ./SKILL.md
-      source_hash: sha256:a920af860d6f6a19
-      translated_by: human
-      translated_at: '2026-05-03'
+      source_hash: sha256:eeb2187b0f08bc47
+      translated_by: ai:claude-fable-5
+      translated_at: '2026-07-18'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -58,6 +58,7 @@ market:
     verified: true
   compatible_agents: []
   channel: latest
+  required_client_version: 10.0.90
 ---
 
 # update-agent skill
@@ -84,19 +85,24 @@ update-agent is a **Meta-Skill** that lets users modify various Agent configurat
 - **Safe and controllable**: All changes require user confirmation, with rollback support
 - **Transparent and visible**: Changes are presented as diffs, clear and obvious
 - **Version management**: Versions are managed via Git, with traceable history
+- **Validation backstop**: Structured fields (name/description/llm/persona/principles) go through the ManageAgent built-in tool's allowlist + schema validation; invalid config is never written to disk
 
 ## L2: Detailed Specification
 
 ### Supported Update Types
 
-| Update Type        | Target File     | Risk Level | Example                                |
-| ------------------ | --------------- | ---------- | -------------------------------------- |
-| Persona update     | `persona.md`    | Medium     | Modify communication style, values     |
-| Principles update  | `principles.md` | High       | Add/modify behavioral rules            |
-| Skills install     | `skills/`       | Medium     | Add new skill package                  |
-| Skills uninstall   | `skills/`       | Low        | Remove skill package                   |
-| Memory update      | `memory/`       | Low        | Add knowledge entry                    |
-| Tools config       | `tools/`        | High       | Modify tool permissions                |
+| Update Type       | Target              | Update Method       | Risk Level | Example                            |
+| ----------------- | ------------------- | ------------------- | ---------- | ---------------------------------- |
+| Name/Description  | `agent.json`        | ManageAgent update  | Low/Medium | Rename, edit summary               |
+| LLM config        | `agent.json` (llm)  | ManageAgent update  | Medium     | Switch model, adjust temperature   |
+| Persona update    | `persona.md`        | ManageAgent update  | Medium     | Modify communication style, values |
+| Principles update | `principles.md`     | ManageAgent update  | High       | Add/modify behavioral rules        |
+| Skills install    | `skills/`           | Read/Write          | Medium     | Add new skill package              |
+| Skills uninstall  | `skills/`           | Read/Write          | Low        | Remove skill package               |
+| Memory update     | `memory/`           | Read/Write          | Low        | Add knowledge entry                |
+| Tools config      | `tools/`            | Read/Write          | High       | Modify tool permissions            |
+
+**Two update paths**: Structured fields (name/description/llm/persona/principles) are always updated through the `update` action of the in-process built-in tool **ManageAgent** (allowlist + schema validation + merge semantics); free-form files such as memory, skills, and tools are still edited directly with Read/Write. See "Stage 5: Apply Changes".
 
 ### Conversation Flow
 
@@ -198,17 +204,70 @@ diff_metadata:
 
 ### Stage 5: Apply Changes
 
-Apply the change by reading and writing files directly through AgentFS. **Do not call HTTP APIs, and do not operate Git directly** (version management is handled automatically by the backend).
+Applying a change takes one of two paths, depending on whether the target is a **structured field** or a **free-form file**. **Do not call HTTP APIs** (after instance authentication, the Agent cannot reach the machine's local HTTP API), and **do not operate Git directly** (version management is handled automatically by the backend).
 
-> **Renaming an Agent's display name — you MUST edit two files to keep them in sync.** If the user wants to change the Agent's **display name** (e.g. "rename X to Y"), use the Edit tool to update **both**: (1) the `name` field in `agent.json`, and (2) the first-line title heading (`# Name`) in `persona.md`. Editing only one leaves the display name and the persona title out of sync. **Never claim the rename is done without actually editing the files** — if no edit runs, nothing changes on disk and the Agent list will not refresh.
+#### Path A: Structured fields → ManageAgent built-in tool (mandatory)
+
+The following fields **must** be updated through the `update` action of the in-process built-in tool `ManageAgent`. **Never** directly Write `agent.json` / `persona.md` / `principles.md`:
+
+| Field         | Constraint                                             | Storage location  |
+| ------------- | ----------------------------------------------------- | ----------------- |
+| `name`        | 1–50 characters                                       | `agent.json`      |
+| `description` | ≤200 characters                                       | `agent.json`      |
+| `config.llm`  | Incremental shallow merge; **config only allows `llm`** | `agent.json`      |
+| `persona`     | Structured object `{L0, L1:{...}, L2}` or markdown string | `persona.md`    |
+| `principles`  | Structured object `{L0, L1:{...}, L2}` or markdown string | `principles.md` |
+
+**Call forms**:
+
+```
+ManageAgent(action='update', id='<agent-id>', name='New name')
+ManageAgent(action='update', id='<agent-id>', description='One-line summary')
+ManageAgent(action='update', id='<agent-id>', config={ llm: { model: 'xxx', temperature: 0.7 } })
+ManageAgent(action='update', id='<agent-id>', persona={ L1: { personality: 'professional, rigorous' } })
+ManageAgent(action='update', id='<agent-id>', principles='...(full markdown)...')
+```
+
+**Merge semantics (important)**:
+
+- Structured `persona` / `principles` are **field-level merges**: omitted fields retain their original values (e.g. passing only `L1.personality` will not clear L0 / role)
+- A markdown string is a **whole replacement** (used to rewrite the entire document)
+- `config.llm` is an **incremental shallow merge**: only the keys you pass are overwritten
+- The merged `agent.json` is validated against the schema as a whole; invalid config is never written to disk
+
+**Confirmation behavior**:
+
+- Updating **yourself** requires no secondary confirmation
+- Updating **another Agent** triggers user confirmation (stacked on top of this skill's diff confirmation)
+- The core Agent (`desirecore` / `core`) refuses updates
+
+**Read before you write**: Before making a change, read the current values with `ManageAgent(action='get', id='<agent-id>')`, to generate the diff and verify field names (the actual field names of persona / principles follow the structure returned by `get`).
+
+**config allowlist**: `config` only accepts `llm`. Passing `mcp_servers` / `tool_permissions` / `version` / `id`, etc., is rejected with the field name indicated — runtime config other than `llm` does not go through ManageAgent; see "Stage 5 · Path B" and Error Handling.
+
+**Partial write failure**: The tool reports precisely "which fields took effect, which one failed"; on retry, **submit only the failed fields**, do not resend everything.
+
+> **Renaming is a single call.** When the user wants to change the **display name** (e.g. "rename X to Y"), just call `ManageAgent(action='update', id='<agent-id>', name='Y')` — `name` is written to `agent.json` and triggers the Agent list to refresh; no need to manually edit any other file. If the user also wants the persona document title synced, append one `persona` update in the same round. **Never claim the rename is done without actually calling ManageAgent.**
+
+#### Path B: Free-form files → edit directly with Read/Write
+
+Free-form files such as memory, skills, and tools are not in ManageAgent's scope and are still edited directly with the Read/Write tools:
+
+| Target       | AgentFS path |
+| ------------ | ------------ |
+| Memory entry | `memory/`    |
+| Skill package | `skills/`   |
+| Tools config | `tools/`     |
 
 **AgentFS root directory**: `${DESIRECORE_ROOT}/agents/<agentId>/`
 
-**Read file**: Use the `cat` command to read the current contents of the target file.
+**Read file**: Use the Read tool to read the current contents of the target file.
 
-**Write file**: Use a text-editing tool to write directly to the target file. After writing, re-read the file to verify the contents are correct.
+**Write file**: Use the Write / Edit tool to write directly to the target file. After writing, re-read the file to verify the contents are correct.
 
-**Note**: After writing the file directly, the backend file watcher automatically detects the change and triggers a Git commit; no manual git command is required.
+**Protected paths**: Before editing, cross-check `_protected-paths.yaml`; touching a protected path should be blocked with a prompt that owner permission is required.
+
+**Note**: After directly writing a free-form file, the backend file watcher automatically detects the change and triggers a Git commit; no manual git command is required.
 
 ### Stage 6: Receipt Generation
 
@@ -228,8 +287,12 @@ After a successful change, present a user-friendly receipt (do not expose intern
 
 1. Run `git log --oneline -10` in the Agent directory to view recent version history
 2. Use `git show <commit>:<file>` to fetch the file contents of the target version, and present them to the user for confirmation
-3. After user confirmation, write the target version's contents to the corresponding file
+3. After user confirmation, apply according to the target file type:
+   - **Structured fields** (`persona.md` / `principles.md` / the name/description/llm in `agent.json`) → write back with `ManageAgent(action='update', ...)` (persona / principles are **wholly replaced** with that historical content as a markdown string)
+   - **Free-form files** (`memory/` / `skills/`) → write back directly with the Write tool
 4. Show the change diff and confirm rollback success
+
+(`git log` / `git show` are only used to **read** history; write-back always goes through the two paths above — do not use git commands to directly rewrite working-tree files.)
 
 ```bash
 # 查看版本历史
@@ -246,24 +309,31 @@ git show <commit>:persona.md
 
 **Update operation reference table**:
 
-| User Intent                  | Target File     | AgentFS Path                                   |
-| ---------------------------- | --------------- | ---------------------------------------------- |
-| **Rename (display name)**    | `agent.json` **+** `persona.md` | Edit BOTH: `name` in `agent.json` AND the `# Title` first line in `persona.md` |
-| Modify personality/style     | `persona.md`    | `${DESIRECORE_ROOT}/agents/<agentId>/persona.md`    |
-| Modify behavioral rules      | `principles.md` | `${DESIRECORE_ROOT}/agents/<agentId>/principles.md` |
-| Install/uninstall skills     | `skills/`       | `${DESIRECORE_ROOT}/agents/<agentId>/skills/`       |
-| Modify tools config          | `tools/`        | `${DESIRECORE_ROOT}/agents/<agentId>/tools/`        |
-| Add memory                   | `memory/`       | `${DESIRECORE_ROOT}/agents/<agentId>/memory/`       |
-| Modify runtime config        | `agent.json`    | `${DESIRECORE_ROOT}/agents/<agentId>/agent.json`    |
+| User Intent                     | Update Method                                                            |
+| ------------------------------- | ----------------------------------------------------------------------- |
+| **Rename (display name)**       | `ManageAgent(action='update', id, name='...')`                          |
+| Edit summary                    | `ManageAgent(action='update', id, description='...')`                   |
+| Modify LLM config (model/temperature/etc.) | `ManageAgent(action='update', id, config={ llm: {...} })`    |
+| Modify personality/style        | `ManageAgent(action='update', id, persona={...} or markdown)`          |
+| Modify behavioral rules         | `ManageAgent(action='update', id, principles={...} or markdown)`       |
+| Install/uninstall skills        | Read/Write `skills/` (`${DESIRECORE_ROOT}/agents/<agentId>/skills/`)    |
+| Add memory                      | Read/Write `memory/` (`${DESIRECORE_ROOT}/agents/<agentId>/memory/`)    |
+| Modify tools config             | Read/Write `tools/` (`${DESIRECORE_ROOT}/agents/<agentId>/tools/`, mind protected paths) |
+
+> Runtime config in `agent.json` other than `llm` (`mcp_servers` / `tool_permissions`, etc.) is currently not in the ManageAgent allowlist, and should not be written to `agent.json` directly to bypass validation. When such a need arises, explain to the user that it must be handled through the corresponding mechanism for now.
 
 ### Error Handling
 
-| Error Scenario                      | Handling                                                 |
-| ----------------------------------- | -------------------------------------------------------- |
-| Attempt to modify a protected path  | Block the operation; prompt that owner permission is required |
-| File does not exist                 | The Agent or target file does not exist; ask user to check |
-| Insufficient permission             | Filesystem permission error; ask user to check directory permissions |
-| Rollback target version not found   | List available versions and ask the user to reselect     |
+| Error Scenario                        | Handling                                                            |
+| ------------------------------------- | ------------------------------------------------------------------- |
+| `config` contains a non-allowlisted field | ManageAgent rejects it and indicates the field name; switch to the corresponding mechanism or tell the user it is not yet supported |
+| Schema validation fails               | Invalid config is not written to disk; fix the fields per the tool's response and retry |
+| Updating the core Agent (desirecore/core) | ManageAgent refuses the update; tell the user the core Agent cannot be modified |
+| Partial field write failure           | The tool reports which fields took effect / failed; retry only the failed fields, do not resend everything |
+| Attempt to modify a protected path (free-form file) | Block the operation; prompt that owner permission is required |
+| File does not exist                   | The Agent or target file does not exist; ask the user to check      |
+| Insufficient permission               | Filesystem permission error; ask the user to check directory permissions |
+| Rollback target version not found     | List available versions and ask the user to reselect                |
 
 ### Permission Requirements
 
@@ -286,28 +356,26 @@ git show <commit>:persona.md
 
 **Operation flow**:
 
-```bash
-# 1. 读取当前 persona.md
-cat ${DESIRECORE_ROOT}/agents/legal-assistant/persona.md
+```
+# 1. 读取当前 persona，定位要改的字段（字段名以返回结构为准）
+ManageAgent(action='get', id='legal-assistant')
 
-# 输出示例:
-# # 法律顾问小助手
-# ## L0
-# 专业的法律咨询助手
-# ## L1
-# ### Role
-# 法律顾问
-# ### Personality
-# 友好、随和
-# ### Communication Style
-# 轻松幽默
+# 返回示例（persona 部分）:
+# L0: 专业的法律咨询助手
+# L1:
+#   role: 法律顾问
+#   personality: 友好、随和
+#   communicationStyle: 轻松幽默
 
 # 2. 分析需要修改的部分，生成 diff 展示给用户确认
 
-# 3. 用户确认后，直接编辑文件，将 Personality 和 Communication Style 修改为目标值
+# 3. 用户确认后，用 ManageAgent 字段级合并更新（只改这两个字段，L0/role 保留）
+ManageAgent(action='update', id='legal-assistant', persona={
+  L1: { personality: '专业、严谨', communicationStyle: '正式、克制' }
+})
 
-# 4. 验证写入结果
-cat ${DESIRECORE_ROOT}/agents/legal-assistant/persona.md
+# 4. 复核结果
+ManageAgent(action='get', id='legal-assistant')
 ```
 
 ---
@@ -333,6 +401,14 @@ cat ${DESIRECORE_ROOT}/agents/legal-assistant/persona.md
   ...
 ```
 
+**Apply after user confirmation**: First read the current principles with `ManageAgent(action='get', id)`, then replace the whole document (including the new rule) as a markdown string:
+
+```
+ManageAgent(action='update', id='legal-assistant', principles='...(full markdown, including the new rule)...')
+```
+
+(If you only change one field of the structured object, you can also use a field-level merge and pass `principles={ L1: { must: [...] } }` — the field names and structure follow what `get` returns.)
+
 ### Modify Existing Rule
 
 **User input**: "Don't remind me every time, it's too verbose"
@@ -347,3 +423,5 @@ cat ${DESIRECORE_ROOT}/agents/legal-assistant/persona.md
 - - 每次回答后都提醒用户检查内容
 + - 仅在重要决策时提醒用户检查内容
 ```
+
+**Apply after user confirmation**: Same as above — write the modified content back with `ManageAgent(action='update', id, principles=...)`.
