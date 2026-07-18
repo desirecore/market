@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.6.0] - 2026-07-18
+
+- HTTP API 调用改为 ManageAgent 内置工具（实例鉴权后 Agent 不再直接访问本机 API）
+- 声明 required_client_version 10.0.90
+
 ## [2.4.0] - 2026-02-28
 
 - 补充"了解更多"的具体 API 实现（GET /api/agents/:id + 结构化 persona 端点）

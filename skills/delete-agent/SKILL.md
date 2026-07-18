@@ -1,7 +1,7 @@
 ---
 name: delete-agent
 description: 安全删除指定的智能体及其关联数据。删除前会验证智能体状态，支持可选地删除所有会话历史。Use when 用户需要删除不再使用的智能体。
-version: 2.4.2
+version: 2.5.0
 type: meta
 risk_level: high
 status: enabled
@@ -12,7 +12,7 @@ tags:
   - meta
 metadata:
   author: desirecore
-  updated_at: '2026-02-28'
+  updated_at: '2026-07-18'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -24,16 +24,16 @@ metadata:
       short_desc: 安全删除智能体及其关联数据，支持多重确认与可选历史清理
       description: 安全删除指定的智能体及其关联数据。删除前会验证智能体状态，支持可选地删除所有会话历史。Use when 用户需要删除不再使用的智能体。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:148cd72a6808741e
+      source_hash: sha256:6b971559e1d4ccc0
       translated_by: human
     en-US:
       name: Delete Agent
       short_desc: Safely delete an Agent and its associated data, with multi-step confirmation and optional history cleanup
       description: Safely delete a specified Agent and its associated data. Verifies the Agent's state before deletion and optionally removes all session history. Use when the user needs to delete an Agent that is no longer in use.
       body: ./SKILL.md
-      source_hash: sha256:148cd72a6808741e
-      translated_by: ai:claude-opus-4-7
-      translated_at: '2026-05-03'
+      source_hash: sha256:6b971559e1d4ccc0
+      translated_by: ai:claude-fable-5
+      translated_at: '2026-07-18'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -52,6 +52,7 @@ market:
     verified: true
   compatible_agents: []
   channel: latest
+  required_client_version: 10.0.90
 ---
 
 # delete-agent Skill
@@ -64,7 +65,7 @@ Safely delete a specified Agent and its associated data, including filesystem, i
 
 ### Capability Description
 
-delete-agent is a **Meta-Skill** that empowers DesireCore to safely delete other Agents. It performs full pre-flight checks and state validation, and cleans up all associated data.
+delete-agent is a **Meta-Skill** that empowers DesireCore to safely delete other Agents. It runs full pre-flight checks and state validation through the in-process builtin tool **ManageAgent**, and cleans up all associated data.
 
 ### Use Cases
 
@@ -75,8 +76,8 @@ delete-agent is a **Meta-Skill** that empowers DesireCore to safely delete other
 
 ### Core Value
 
-- **Safety**: multiple checks ensure that active Agents are not accidentally deleted
-- **Completeness**: cleans up filesystem, in-memory state, message subscriptions, and all associated data
+- **Safety**: multiple rejection rules at the tool layer ensure that core Agents, the caller itself, or active Agents are never deleted by mistake
+- **Completeness**: cleans up filesystem, in-memory state, message subscriptions, and all associated data, and handles team cascading
 - **Recoverability**: session history is preserved by default, with the option to delete it
 
 ## L2: Detailed Specification
@@ -92,8 +93,9 @@ delete-agent is a **Meta-Skill** that empowers DesireCore to safely delete other
                                                   │
                                                   ↓
 ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│ Return result│ ←── │ Execute the  │ ←── │     Final    │
-│  and receipt │     │  delete API  │     │ confirmation │
+│ Return result│ ←── │   Execute    │ ←── │  Inform that │
+│  and receipt │     │  ManageAgent │     │  a popup will│
+│              │     │              │     │    appear    │
 └──────────────┘     └──────────────┘     └──────────────┘
 ```
 
@@ -103,9 +105,10 @@ delete-agent is a **Meta-Skill** that empowers DesireCore to safely delete other
 
 **Operation**:
 
-- Call `GET /api/agents` to fetch the list of all Agents
+- Call `ManageAgent(action='list')` to fetch the list of all Agents
 - Filter Agents whose status is `offline` or `error` (safe to delete)
-- Annotate Agents whose status is `online`/`busy`/`recovery` (must be stopped first)
+- Annotate Agents whose status is `online`/`busy`/`recovery` (must be stopped first, otherwise the tool will reject them)
+- To view detailed information about a specific Agent, call `ManageAgent(action='get', id='<agent-id>')`
 
 **Output example**:
 
@@ -150,57 +153,35 @@ Default option: No (keep history)
 **Parameter mapping**:
 
 - User chooses "Yes" → `deleteRuns=true`
-- User chooses "No" → `deleteRuns=false` (default)
+- User chooses "No" → `deleteRuns=false` (default, can be omitted)
 
-### Phase 4: Final Confirmation
+### Phase 4: Inform About the Tool-level Confirmation
 
-**Confirmation summary**:
+The delete action of `ManageAgent` **always triggers a user confirmation popup at the tool layer**, so there is no need to repeat a second confirmation prompt at the skill layer. However, before the call you should inform the user:
 
 ```
-Please confirm the deletion:
-- Target Agent: Legal Advisor Assistant (legal-assistant)
-- Scope: Agent + session history (if chosen by the user)
-- Risk level: High (irreversible)
-
-Confirm and execute deletion? (yes/no)
+About to delete the Agent "Legal Advisor Assistant" (legal-assistant), with a scope of the Agent + session history (if chosen by the user).
+The system will show a confirmation window; please confirm the execution in the popup.
 ```
 
-### Phase 5: Execute the Delete API Call
+### Phase 5: Execute the Deletion (ManageAgent tool)
 
-**API endpoint**: `DELETE /api/agents/{agentId}`
+**Tool call**:
 
-**Query parameters**:
-
-- `deleteRuns`: `'true'` or `'false'`
-
-**Request example**:
-
-```bash
-curl -X DELETE "{agentServiceUrl}/api/agents/legal-assistant?deleteRuns=true"
+```
+ManageAgent(action='delete', id='legal-assistant', deleteRuns=true)
 ```
 
-> `{agentServiceUrl}` is taken from the Agent Service address in the "Local API" section of the system prompt.
+**Parameters**:
+
+- `id`: the target Agent ID (required)
+- `deleteRuns`: `true` to also delete all session history; `false` (default) to keep history, can be omitted
+
+The tool shows a user confirmation popup before executing; once confirmed, it completes the deletion, including team cascading: a team where the target is the leader is automatically disbanded, and a target that is a member is automatically removed.
 
 ### Phase 6: Return the Operation Result
 
-**Successful response handling**:
-
-```json
-{
-  "deleted": true,
-  "cleanedPaths": [
-    "/Users/xxx/.desirecore/agents/legal-assistant",
-    "/Users/xxx/.desirecore/users/xxx/agents/legal-assistant"
-  ],
-  "deletedRunsCount": 5,
-  "memoryCleaned": {
-    "scheduler": true,
-    "queue": 0,
-    "messaging": 3,
-    "mcp": true
-  }
-}
-```
+**Successful receipt handling**: the tool returns the deletion result, including fields such as the cleaned paths, the number of deleted sessions, and in-memory state cleanup details. Generate the report from these.
 
 **Result report template**:
 
@@ -213,37 +194,32 @@ Cleanup details:
 - Message subscriptions: 3 subscriptions canceled
 - MCP connection: closed
 - Session history: 5 records deleted
+- Team cascading: the target's team has been disbanded / the target has been removed from its team (if applicable)
 ```
 
 ## State Validation and Error Handling
 
 ### Pre-deletion State Check
 
-When listing Agents in Phase 1, filter status via `GET /api/agents`:
+When listing Agents in Phase 1, filter by the status returned from `ManageAgent(action='list')`:
 
 | Status                         | Deletable?  | Phase 1 Display                |
 | ------------------------------ | ----------- | ------------------------------ |
 | `offline` / `error`            | ✅ Yes      | Listed under "Deletable"       |
 | `online` / `busy` / `recovery` | ❌ Stop first | Annotated "must be stopped"; not entered into the subsequent flow |
 
-**How to stop an active Agent**: send the `agent:shutdown` event via Socket.IO:
+> Agents in an active state (online/busy/recovery) are directly rejected by the delete action of `ManageAgent`. Prompt the user to stop the Agent manually in the UI, or wait until it finishes its current task before deleting.
 
-```yaml
-event: agent:shutdown
-data: { 'agentId': '<agent_id>' }
-effect: abort all active sessions → stop scheduled tasks → status becomes offline
-```
+### Error Semantics Returned by the Tool
 
-> The Agent cannot directly send Socket.IO events. If the target Agent is active, prompt the user to stop it manually in the UI, or wait until it finishes its current task before deleting.
+`ManageAgent(action='delete', ...)` returns a clear error in the following cases; use them to explain the situation to the user and suggest next steps:
 
-### API Error Codes
-
-| Code   | Scenario                                                                     | Handling                          |
-| ------ | ---------------------------------------------------------------------------- | --------------------------------- |
-| 400    | Invalid Agent ID format                                                      | Ask the user to check the Agent name |
-| 404    | Agent does not exist                                                         | Inform the user the Agent has already been deleted or the ID is wrong |
-| 409    | Agent is currently active (API returns `Cannot delete agent "xxx": currently online`) | Ask the user to stop the Agent in the UI first |
-| 500    | Internal server error                                                        | Ask the user to try again later   |
+| Rejection Scenario | Trigger Condition                                              | Handling                              |
+| ------------------ | ------------------------------------------------------------- | ------------------------------------- |
+| Core Agent rejected | The target is a core Agent (desirecore/core/bound UUID)       | Inform the user that core Agents cannot be deleted |
+| Self-deletion rejected | The target is the caller itself                            | Inform the user that an Agent cannot delete itself |
+| Active state rejected | The target is in `online`/`busy`/`recovery` state          | Prompt the user to stop the Agent in the UI first |
+| Not found          | No Agent exists for the target ID                             | Inform the user the Agent has already been deleted or the ID is wrong |
 
 ## Deletion Scope
 
@@ -251,15 +227,14 @@ effect: abort all active sessions → stop scheduled tasks → status becomes of
 | ------------ | -------------------------------------------------------------------------------------------------------------------------- | ----------------- |
 | **Always deleted** | AgentFS directory (config, persona, rules, skills, tools, memory), user preference data, in-memory state (scheduler, queue, message subscriptions, MCP connection), registry entries | Unconditional |
 | **Optionally deleted** | Session history, topic index                                                                                         | `deleteRuns=true` |
+| **Team cascading** | Target is the leader → its team is disbanded; target is a member → removed from the team                          | Automatic |
 | **Preserved** | Data of other Agents, user configuration, global settings, market cache                                                                                               | —                 |
 
 ## Permission Requirements
 
-- Prefer using the `Bash` tool to call curl against the Agent Service HTTP API to perform the operation
-- The API base address is injected into the "Local API" section of the system prompt; reference it directly
-- The delete operation requires explicit user confirmation (high-risk operation)
+- Uses the in-process builtin tool `ManageAgent` to list, query, and delete Agents
+- The delete action is a high-risk operation; the tool layer will force a user confirmation popup
 
 ## Dependencies
 
-- Agent Service HTTP API (`DELETE /api/agents/{agentId}`)
-- The Local API address declaration in the system prompt
+- The in-process builtin tool `ManageAgent` (`action='list' | 'get' | 'delete'`)

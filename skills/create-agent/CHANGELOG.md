@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.5.0] - 2026-07-18
+
+- 创建方式从 HTTP API（`POST /api/agents`）改为 `ManageAgent` 内置工具（实例鉴权上线后 Agent 不再直接访问本机 API）
+- 补充保留标识（core/desirecore）拒创、config 仅允许 llm 白名单的错误处理说明
+- 声明 `required_client_version: 10.0.90`
+
 ## [2.4.0] - 2026-02-28
 
 - 修复响应格式文档，与实际 API 返回对齐（`{ success, agentId, agent }`）

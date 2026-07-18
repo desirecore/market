@@ -63,25 +63,26 @@ discover-agent 是一个**流程型技能（Procedural Skill）**，赋予 Desir
 
 ### 阶段 2：Agent 检索
 
-**数据源**：调用 `GET /api/agents` 获取所有已注册的智能体列表。
+**数据源**：调用 `ManageAgent(action='list')` 获取所有已注册的智能体列表。
 
-**API 调用**：
+**工具调用**：
 
-```bash
-GET /api/agents
+```
+ManageAgent(action='list')
 ```
 
-**返回数据中的关键字段**：
+**返回内容**：一份紧凑列表，每行包含以下关键字段：
 
-- `id` — 智能体唯一标识
 - `name` — 智能体名称
+- `id` — 智能体唯一标识
+- `status` — 当前状态（online/busy/idle/offline）
 - `description` — 智能体描述
-- `skills` — 技能列表
-- `status` — 当前状态（online/offline/busy）
+
+> `list` 为只读查询，无需用户确认、免审批。
 
 **过滤规则**：
 
-- 默认只展示 `status: online` 或 `status: offline` 的智能体
+- 默认展示除 offline 之外的智能体，offline 智能体仅在无更优候选时作为补充展示
 - 排除系统内部智能体（如 DesireCore 自身，除非用户显式要求）
 
 ### 阶段 3：匹配评估
@@ -169,26 +170,29 @@ GET /api/agents
 
 **用户选择后的操作**：
 
-| 用户选择         | 后续操作                                                      |
-| ---------------- | ------------------------------------------------------------- |
-| 选择了某个智能体 | 切换到该智能体的对话，传递用户需求上下文                      |
-| 要求了解更多     | 调用 `GET /api/agents/:id` 获取详情，展示结构化信息（见下方） |
-| 不满意候选       | 引导用户细化需求或建议创建新 Agent                            |
-| 选择"创建新的"   | 调用 create-agent 技能，传递已收集的需求信息                  |
+| 用户选择         | 后续操作                                                          |
+| ---------------- | ----------------------------------------------------------------- |
+| 选择了某个智能体 | 切换到该智能体的对话，传递用户需求上下文                          |
+| 要求了解更多     | 调用 `ManageAgent(action='get', id='<agent-id>')` 获取详情，展示结构化信息（见下方） |
+| 不满意候选       | 引导用户细化需求或建议创建新 Agent                                |
+| 选择"创建新的"   | 调用 create-agent 技能，传递已收集的需求信息                      |
 
 **"了解更多"的实现**：
 
-调用 `GET /api/agents/:id` 获取详情，并可选调用结构化端点获取人格/规则：
+调用 `ManageAgent(action='get', id='<agent-id>')` 获取指定智能体的详情：
 
-```bash
-# 获取基本信息
-GET /api/agents/{agentId}
-# 返回: { id, name, description, skillsCount, toolsCount, status, config, persona, principles }
-
-# 获取结构化 persona（可选，用于展示更丰富的信息）
-GET /api/agents/{agentId}/persona
-# 返回: { L0, L1: { role, personality, communication_style }, L2 }
 ```
+ManageAgent(action='get', id='legal-assistant')
+```
+
+**返回内容中的关键字段**：
+
+- 名称、描述、状态
+- 版本
+- 技能数 / 工具数
+- Git 仓库状态
+
+> `get` 为只读查询，无需用户确认、免审批。目标不存在时返回错误「智能体不存在: <id>」。
 
 向用户展示时，以自然语言/表格形式呈现关键信息：
 
@@ -197,10 +201,11 @@ GET /api/agents/{agentId}/persona
 
 | 字段 | 内容 |
 |------|------|
-| 角色定位 | 专注合同审查和法律风险评估 |
-| 性格特征 | 专业、严谨、审慎 |
-| 技能数量 | 3 个 |
+| 描述 | 专注合同审查和法律风险评估 |
 | 当前状态 | 在线 |
+| 版本 | 1.2.0 |
+| 技能 / 工具 | 3 个技能，5 个工具 |
+| Git 仓库 | 干净（无未提交变更） |
 
 需要与这个智能体对话吗？
 ```
@@ -225,18 +230,17 @@ context_handoff:
 
 | 错误场景              | 处理方式                         |
 | --------------------- | -------------------------------- |
-| API 调用失败          | 提示网络错误，建议稍后重试       |
+| 工具调用失败          | 提示错误信息，建议稍后重试       |
 | Agent 列表为空        | 引导用户创建第一个智能体         |
 | 用户描述过于模糊      | 追问具体需求，提供领域选项引导   |
+| 目标智能体不存在      | `get` 返回「智能体不存在: <id>」时，回退到 `list` 重新确认可用智能体 |
 | 推荐的 Agent 状态异常 | 标注状态，建议选择其他在线 Agent |
 
 ### 权限要求
 
-- 建议优先通过 `Bash` 工具调用 curl 访问 Agent Service HTTP API 完成操作
-- API 基础地址已注入到 system prompt 的「本机 API」小节，直接引用即可
-- 只读操作，无风险
+- 通过内置工具 `ManageAgent` 完成智能体检索与详情查询
+- `list` / `get` 均为只读查询，无需用户确认、免审批，无风险
 
 ### 依赖
 
-- Agent Service HTTP API（`GET /api/agents`）
-- System prompt 中的本机 API 地址声明
+- 内置工具 `ManageAgent`（`action='list'` 检索列表、`action='get'` 查询详情）
