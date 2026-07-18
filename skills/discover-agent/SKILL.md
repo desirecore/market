@@ -1,7 +1,7 @@
 ---
 name: discover-agent
 description: 根据用户需求推荐最匹配的智能体，展示候选列表并引导选择。Use when 用户描述需求但不确定该找哪个智能体帮忙，或想浏览可用的智能体。
-version: 2.5.2
+version: 2.6.0
 type: procedural
 risk_level: low
 status: enabled
@@ -12,7 +12,7 @@ tags:
   - recommendation
 metadata:
   author: desirecore
-  updated_at: '2026-02-28'
+  updated_at: '2026-07-18'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -24,7 +24,7 @@ metadata:
       short_desc: 根据需求描述智能推荐最匹配的智能体，引导快速选择
       description: 根据用户需求推荐最匹配的智能体，展示候选列表并引导选择。Use when 用户描述需求但不确定该找哪个智能体帮忙，或想浏览可用的智能体。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:28ecd07724adda9a
+      source_hash: sha256:99bddbbaea15b194
       translated_by: human
     en-US:
       name: Discover Agent
@@ -32,9 +32,9 @@ metadata:
       description: >-
         Recommend the best-matching Agent based on the user’s needs, show a candidate list, and guide selection. Use when the user describes a need but is unsure which Agent to ask for help, or wants to browse available Agents.
       body: ./SKILL.md
-      source_hash: sha256:4be238743dee6fc4
-      translated_by: ai:openai:gpt-5.4-mini
-      translated_at: '2026-07-07'
+      source_hash: sha256:99bddbbaea15b194
+      translated_by: ai:claude-fable-5
+      translated_at: '2026-07-18'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -53,6 +53,7 @@ market:
     verified: true
   compatible_agents: []
   channel: latest
+  required_client_version: 10.0.90
 ---
 
 # discover-agent Skill
@@ -118,25 +119,26 @@ Extract the following dimensions from the user’s description:
 
 ### Stage 2: Agent retrieval
 
-**Data source**: Call `GET /api/agents` to get the list of all registered Agents.
+**Data source**: Call `ManageAgent(action='list')` to get the list of all registered Agents.
 
-**API call**:
+**Tool call**:
 
-```bash
-GET /api/agents
+```
+ManageAgent(action='list')
 ```
 
-**Key fields in the returned data**:
+**Returned content**: a compact list where each line contains the following key fields:
 
-- `id` — unique Agent identifier
 - `name` — Agent name
+- `id` — unique Agent identifier
+- `status` — current status (online/busy/idle/offline)
 - `description` — Agent description
-- `skills` — Skill list
-- `status` — current status (online/offline/busy)
+
+> `list` is a read-only query; no user confirmation is required and it is approval-free.
 
 **Filtering rules**:
 
-- By default, only show Agents with `status: online` or `status: offline`
+- By default, show Agents other than offline ones; offline Agents are shown only as a supplement when no better candidate is available
 - Exclude internal system Agents (such as DesireCore itself, unless explicitly requested by the user)
 
 ### Stage 3: Matching evaluation
@@ -227,23 +229,26 @@ A total of 4 Agents. Do you need detailed information about any one Agent?
 | User choice | Follow-up action |
 | ----------- | ---------------- |
 | Chose an Agent | Switch to that Agent’s conversation and pass the user need context |
-| Asked for more details | Call `GET /api/agents/:id` to get details, then show structured information (see below) |
+| Asked for more details | Call `ManageAgent(action='get', id='<agent-id>')` to get details, then show structured information (see below) |
 | Unsatisfied with candidates | Guide the user to refine the need or suggest creating a new Agent |
 | Chose "create a new one" | Call the create-agent Skill and pass the collected need information |
 
 **Implementation of "learn more"**:
 
-Call `GET /api/agents/:id` to get details, and optionally call the structured endpoint to get persona/rules:
+Call `ManageAgent(action='get', id='<agent-id>')` to get details of the specified Agent:
 
-```bash
-# Get basic information
-GET /api/agents/{agentId}
-# Return: { id, name, description, skillsCount, toolsCount, status, config, persona, principles }
-
-# Get structured persona (optional, used to show richer information)
-GET /api/agents/{agentId}/persona
-# Return: { L0, L1: { role, personality, communication_style }, L2 }
 ```
+ManageAgent(action='get', id='legal-assistant')
+```
+
+**Key fields in the returned content**:
+
+- name, description, status
+- version
+- skill count / tool count
+- Git repository status
+
+> `get` is a read-only query; no user confirmation is required and it is approval-free. If the target does not exist, it returns the error "智能体不存在: <id>".
 
 When presenting to the user, show key information in natural language/table format:
 
@@ -252,10 +257,11 @@ When presenting to the user, show key information in natural language/table form
 
 | 字段 | 内容 |
 |------|------|
-| Role positioning | 专注合同审查和法律风险评估 |
-| Personality traits | 专业、严谨、审慎 |
-| Skill count | 3 个 |
-| Current status | 在线 |
+| 描述 | 专注合同审查和法律风险评估 |
+| 当前状态 | 在线 |
+| 版本 | 1.2.0 |
+| 技能 / 工具 | 3 个技能，5 个工具 |
+| Git 仓库 | 干净（无未提交变更） |
 
 Need to talk with this Agent?
 ```
@@ -280,18 +286,17 @@ context_handoff:
 
 | Error scenario | Handling method |
 | -------------- | --------------- |
-| API call failure | Prompt a network error and suggest trying again later |
+| Tool call failure | Prompt the error message and suggest trying again later |
 | Agent list is empty | Guide the user to create the first Agent |
 | User description is too vague | Ask follow-up questions and provide domain options as guidance |
+| Target Agent does not exist | When `get` returns "智能体不存在: <id>", fall back to `list` to re-confirm available Agents |
 | Recommended Agent has an abnormal status | Mark the status and suggest choosing another online Agent |
 
 ### Permission requirements
 
-- Prefer using the `Bash` Tool to call curl and access the Agent Service HTTP API to complete operations
-- The API base address is injected into the system prompt’s "本机 API" section, so reference it directly
-- Read-only operation, no risk
+- Complete Agent retrieval and detail lookup via the built-in tool `ManageAgent`
+- Both `list` and `get` are read-only queries; no user confirmation is required, they are approval-free, and carry no risk
 
 ### Dependencies
 
-- Agent Service HTTP API (`GET /api/agents`)
-- The local API address declaration in the system prompt
+- Built-in tool `ManageAgent` (`action='list'` to retrieve the list, `action='get'` to query details)

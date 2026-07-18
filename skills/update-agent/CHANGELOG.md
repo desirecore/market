@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.1.0] - 2026-07-18
+
+- 结构化字段（name/description/llm/persona/principles）改经进程内内置工具 **ManageAgent** 的 `update` 动作更新（白名单 + schema 校验 + 合并语义），移除对 `agent.json` / `persona.md` / `principles.md` 的直接 Write 指引
+- 补充合并语义说明：结构化 persona/principles 为字段级合并（省略字段保留原值）、markdown 字符串为整体替换、config.llm 为增量浅合并；非法配置不落盘
+- 补充确认行为：更新自身免确认、更新其他智能体触发用户确认、核心智能体（desirecore/core）拒绝更新
+- 补充错误处理：config 非白名单字段被拒、schema 校验失败、部分字段写入失败仅重试失败字段
+- 记忆、技能、工具等自由格式文件仍用 Read/Write 直接编辑（注意 `_protected-paths.yaml` 受保护路径），版本回滚按目标类型分流（结构化走 ManageAgent、自由文件直接写回）
+- 声明 `required_client_version: 10.0.90`
+
 ## [3.0.0] - 2026-03-17
 
 - **Breaking**：从 HTTP API 迁移到 AgentFS 直接文件操作
