@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.1.1] - 2026-07-18
+
+- 修正示例字段名：`communicationStyle` → `communication_style`、`must` → `must_do`；`personality` 示例改为字符串数组
+- `get` 返回示例对齐真实输出格式（`## persona.md` / `## principles.md` 段落含分层 markdown 原文，客户端 ≥ 10.0.90）
+- 附录补充结构化字段名固定清单（persona L1.role/personality/communication_style；principles L1.must_do/must_not/priority）
+
 ## [3.1.0] - 2026-07-18
 
 - 结构化字段（name/description/llm/persona/principles）改经进程内内置工具 **ManageAgent** 的 `update` 动作更新（白名单 + schema 校验 + 合并语义），移除对 `agent.json` / `persona.md` / `principles.md` 的直接 Write 指引
