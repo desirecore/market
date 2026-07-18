@@ -163,7 +163,7 @@ diff_metadata:
 ManageAgent(action='update', id='<agent-id>', name='新名称')
 ManageAgent(action='update', id='<agent-id>', description='一句话简介')
 ManageAgent(action='update', id='<agent-id>', config={ llm: { model: 'xxx', temperature: 0.7 } })
-ManageAgent(action='update', id='<agent-id>', persona={ L1: { personality: '专业、严谨' } })
+ManageAgent(action='update', id='<agent-id>', persona={ L1: { personality: ["专业", "严谨"] } })
 ManageAgent(action='update', id='<agent-id>', principles='...（完整 markdown）...')
 ```
 
@@ -299,18 +299,24 @@ git show <commit>:persona.md
 # 1. 读取当前 persona，定位要改的字段（字段名以返回结构为准）
 ManageAgent(action='get', id='legal-assistant')
 
-# 返回示例（persona 部分）:
-# L0: 专业的法律咨询助手
-# L1:
-#   role: 法律顾问
-#   personality: 友好、随和
-#   communicationStyle: 轻松幽默
+# 返回中的 "## persona.md" 段落即当前 persona 原文（L0/L1/L2 分层 markdown），例如:
+# ## persona.md
+# # L0
+# 专业的法律咨询助手
+# # L1
+# ## role
+# 法律顾问
+# ## personality
+# - 友好
+# - 随和
+# ## communication_style
+# 轻松幽默
 
 # 2. 分析需要修改的部分，生成 diff 展示给用户确认
 
 # 3. 用户确认后，用 ManageAgent 字段级合并更新（只改这两个字段，L0/role 保留）
 ManageAgent(action='update', id='legal-assistant', persona={
-  L1: { personality: '专业、严谨', communicationStyle: '正式、克制' }
+  L1: { personality: ["专业", "严谨"], communication_style: '正式、克制' }
 })
 
 # 4. 复核结果
@@ -346,7 +352,7 @@ ManageAgent(action='get', id='legal-assistant')
 ManageAgent(action='update', id='legal-assistant', principles='...（整篇 markdown，含新增规则）...')
 ```
 
-（若只改结构化对象的某个字段，也可用字段级合并传 `principles={ L1: { must: [...] } }`——字段名与结构以 `get` 返回为准。）
+（若只改结构化对象的某个字段，也可用字段级合并传 `principles={ L1: { must_do: [...] } }`。结构化字段名固定为：persona 的 `L1.role` / `L1.personality`（字符串数组）/ `L1.communication_style`，principles 的 `L1.must_do` / `L1.must_not`（均为字符串数组）/ `L1.priority`，另有顶层 `L0` / `L2` 字符串。）
 
 ### 修改现有规则
 

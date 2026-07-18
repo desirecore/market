@@ -3,7 +3,7 @@ name: update-agent
 description: >-
   安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent
   行为、安装/卸载技能、调整配置、回滚变更或修订规则。
-version: 3.1.0
+version: 3.1.1
 type: meta
 risk_level: low
 status: enabled
@@ -27,7 +27,7 @@ metadata:
       description: >-
         安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent 行为、安装/卸载技能、调整配置、回滚变更或修订规则。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:eeb2187b0f08bc47
+      source_hash: sha256:15eafc7363a40986
       translated_by: human
     en-US:
       name: Update Agent
@@ -35,7 +35,7 @@ metadata:
       description: >-
         Safely update an existing Agent's config, persona, principles, skills, and memory, producing reviewable diffs that are applied and committed only after confirmation. Use when the user asks to modify Agent behavior, install/uninstall skills, adjust config, roll back changes, or revise rules.
       body: ./SKILL.md
-      source_hash: sha256:eeb2187b0f08bc47
+      source_hash: sha256:15eafc7363a40986
       translated_by: ai:claude-fable-5
       translated_at: '2026-07-18'
 market:
@@ -224,7 +224,7 @@ The following fields **must** be updated through the `update` action of the in-p
 ManageAgent(action='update', id='<agent-id>', name='New name')
 ManageAgent(action='update', id='<agent-id>', description='One-line summary')
 ManageAgent(action='update', id='<agent-id>', config={ llm: { model: 'xxx', temperature: 0.7 } })
-ManageAgent(action='update', id='<agent-id>', persona={ L1: { personality: 'professional, rigorous' } })
+ManageAgent(action='update', id='<agent-id>', persona={ L1: { personality: ["professional", "rigorous"] } })
 ManageAgent(action='update', id='<agent-id>', principles='...(full markdown)...')
 ```
 
@@ -360,18 +360,24 @@ git show <commit>:persona.md
 # 1. 读取当前 persona，定位要改的字段（字段名以返回结构为准）
 ManageAgent(action='get', id='legal-assistant')
 
-# 返回示例（persona 部分）:
-# L0: 专业的法律咨询助手
-# L1:
-#   role: 法律顾问
-#   personality: 友好、随和
-#   communicationStyle: 轻松幽默
+# 返回中的 "## persona.md" 段落即当前 persona 原文（L0/L1/L2 分层 markdown），例如:
+# ## persona.md
+# # L0
+# 专业的法律咨询助手
+# # L1
+# ## role
+# 法律顾问
+# ## personality
+# - 友好
+# - 随和
+# ## communication_style
+# 轻松幽默
 
 # 2. 分析需要修改的部分，生成 diff 展示给用户确认
 
 # 3. 用户确认后，用 ManageAgent 字段级合并更新（只改这两个字段，L0/role 保留）
 ManageAgent(action='update', id='legal-assistant', persona={
-  L1: { personality: '专业、严谨', communicationStyle: '正式、克制' }
+  L1: { personality: ["专业", "严谨"], communication_style: '正式、克制' }
 })
 
 # 4. 复核结果
@@ -407,7 +413,7 @@ ManageAgent(action='get', id='legal-assistant')
 ManageAgent(action='update', id='legal-assistant', principles='...(full markdown, including the new rule)...')
 ```
 
-(If you only change one field of the structured object, you can also use a field-level merge and pass `principles={ L1: { must: [...] } }` — the field names and structure follow what `get` returns.)
+(To change just one structured field, you can also pass a field-level merge such as `principles={ L1: { must_do: [...] } }`. The structured field names are fixed: persona uses `L1.role` / `L1.personality` (string array) / `L1.communication_style`; principles uses `L1.must_do` / `L1.must_not` (both string arrays) / `L1.priority`; plus top-level `L0` / `L2` strings.)
 
 ### Modify Existing Rule
 
