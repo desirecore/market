@@ -6,6 +6,17 @@
   "tags": [
     "alibaba-flyai"
   ],
+  "latestVersion": "1.0.15",
+  "i18n": {
+    "zh-CN": {
+      "name": "FlyAI",
+      "shortDesc": "通过自然语言搜索并预订机票、酒店、门票等出行服务，基于飞猪 MCP 实时查询与预订"
+    },
+    "en-US": {
+      "name": "FlyAI",
+      "shortDesc": "Search and book flights, hotels, attractions and travel deals in natural language via Fliggy MCP"
+    }
+  },
   "maintainer": {
     "name": "alibaba-flyai",
     "verified": false,
@@ -19,6 +30,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/alibaba-flyai/flyai-skill.git",
     "repoBranch": "main",
-    "ref": "54277b27b68e53741954c08541faedba1d45cc7b"
+    "ref": "54277b27b68e53741954c08541faedba1d45cc7b",
+    "path": "skills/flyai"
   }
 }
