@@ -1,7 +1,7 @@
 ---
 name: delete-agent
 description: 安全删除指定的智能体及其关联数据。删除前会验证智能体状态，支持可选地删除所有会话历史。Use when 用户需要删除不再使用的智能体。
-version: 2.5.1
+version: 2.5.2
 type: meta
 risk_level: high
 status: enabled
@@ -24,14 +24,14 @@ metadata:
       short_desc: 安全删除智能体及其关联数据，支持多重确认与可选历史清理
       description: 安全删除指定的智能体及其关联数据。删除前会验证智能体状态，支持可选地删除所有会话历史。Use when 用户需要删除不再使用的智能体。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:7037971bb67e0953
+      source_hash: sha256:d5eb268aa5209e88
       translated_by: human
     en-US:
       name: Delete Agent
       short_desc: Safely delete an Agent and its associated data, with multi-step confirmation and optional history cleanup
       description: Safely delete a specified Agent and its associated data. Verifies the Agent's state before deletion and optionally removes all session history. Use when the user needs to delete an Agent that is no longer in use.
       body: ./SKILL.md
-      source_hash: sha256:7037971bb67e0953
+      source_hash: sha256:d5eb268aa5209e88
       translated_by: ai:claude-fable-5
       translated_at: '2026-07-19'
 market:
@@ -63,7 +63,7 @@ Safely delete a specified Agent and its associated data (filesystem, in-memory s
 
 ## L1: Overview
 
-Meta-skill: list candidates → confirm intent (irreversible) → ask whether to delete history → execute via `ManageAgent(action='delete')`. Its value is what the tool can't give: candidate filtering with status guidance, and intent confirmation before deletion. The tool guarantees the multi-way refusals (core agent / self / active state) and team cascading.
+Meta-skill: list candidates → confirm intent (irreversible) → ask whether to delete history → execute via `ManageAgent(action='delete')`. Use it to clean up Agents that are no longer used, test/experimental, or need storage reclaimed. Its value is what the tool can't give: candidate filtering with status guidance, and intent confirmation before deletion. The tool guarantees the multi-way refusals (core agent / self / active state) and team cascading.
 
 ## L2: Detailed Spec
 

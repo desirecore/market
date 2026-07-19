@@ -1,7 +1,7 @@
 ---
 name: discover-agent
 description: 根据用户需求推荐最匹配的智能体，展示候选列表并引导选择。Use when 用户描述需求但不确定该找哪个智能体帮忙，或想浏览可用的智能体。
-version: 2.6.1
+version: 2.6.2
 type: procedural
 risk_level: low
 status: enabled
@@ -24,7 +24,7 @@ metadata:
       short_desc: 根据需求描述智能推荐最匹配的智能体，引导快速选择
       description: 根据用户需求推荐最匹配的智能体，展示候选列表并引导选择。Use when 用户描述需求但不确定该找哪个智能体帮忙，或想浏览可用的智能体。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:671b1b159567a5a3
+      source_hash: sha256:0a1c7b0b1b60e399
       translated_by: human
     en-US:
       name: Discover Agent
@@ -32,7 +32,7 @@ metadata:
       description: >-
         Recommend the best-matching Agent based on the user’s needs, show a candidate list, and guide selection. Use when the user describes a need but is unsure which Agent to ask for help, or wants to browse available Agents.
       body: ./SKILL.md
-      source_hash: sha256:671b1b159567a5a3
+      source_hash: sha256:0a1c7b0b1b60e399
       translated_by: ai:claude-fable-5
       translated_at: '2026-07-19'
 market:
@@ -64,7 +64,7 @@ Match and recommend the most suitable Agent among registered Agents based on the
 
 ## L1: Overview
 
-Procedural skill: understand the need → retrieve with `ManageAgent(action='list')` → semantic match scoring → rank and present → guide selection; on no match, hand off to create-agent automatically. Its value is what the tool can't give: semantic need matching, candidate ranking and presentation, and the create hand-off on no match. `list` / `get` are read-only, approval-free.
+Procedural skill: understand the need → retrieve with `ManageAgent(action='list')` → semantic match scoring → rank and present → guide selection; on no match, hand off to create-agent automatically. Applies when the user doesn't know which Agent to pick, wants to browse available Agents, is a new user getting oriented, or is unhappy with the current Agent and wants an alternative. Its value is what the tool can't give: semantic need matching (not keyword search), candidate ranking and presentation, and the create hand-off on no match. `list` / `get` are read-only, approval-free.
 
 ## L2: Detailed Spec
 
