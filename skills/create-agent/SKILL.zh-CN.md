@@ -8,7 +8,7 @@
 
 ## L1：概述
 
-元技能：多轮对话收集需求 → 生成 persona/principles → `ManageAgent(action='create')` 落地。用于为用户培养某专业领域的数字助手（法律顾问、财务分析师等）。价值在工具给不了的部分：领域化的人格/原则生成 + 创建前的预览确认。
+元技能：多轮对话收集需求 → 生成 persona/principles → `ManageAgent(action='create')` 落地。用于为用户培养专业领域数字助手（法律顾问、财务分析师）、企业快速部署定制业务 Agent、或基于模板快速创建原型。创建的仓库符合 AgentFS v2 规范、由 git 管理版本（可治理、可追溯）。价值在工具给不了的部分：领域化的人格/原则生成 + 创建前的预览确认。
 
 ## L2：详细规范
 
@@ -20,7 +20,7 @@
 
 ### 阶段 2：需求收集
 
-- 必填：`name`（名称）、`role`（核心职责）、`target_users`（目标用户）、`domain`（专业领域）。
+- 必填（括号内为引导问题示例）：`name`（"起什么名字？"）、`role`（"主要负责什么工作？"）、`target_users`（"谁会使用它？"）、`domain`（"需要哪些专业知识？"）。
 - 选填：`style`（沟通风格）、`boundaries`（禁区/红线）、`language`（默认中文）——缺省由领域模板决定。
 - 策略：优先从用户自然描述推断，只追问未提及的必填项，每轮最多问 2 个。
 
@@ -66,6 +66,7 @@ ManageAgent({
 ```
 
 - 最简创建只需 `{ "action": "create", "name": "我的助手" }`（其余全自动生成）。
+- 基础创建 `{ "action": "create", "name": "法律顾问", "description": "专注合同审查" }`——只给 name + description，description 会自动填充 persona 的 L0。
 - 可选 `id`（kebab-case slug；`core` / `desirecore` 为核心保留标识不可用，含 name 自动生成命中的情况）、`config.llm`（仅 llm 增量；mcp_servers 等敏感字段会被拒，需创建后经界面调整）。
 - 创建后智能体立即在线可用，返回 ID 可直接用于 ManageTeam / Delegate。若工具报错（已存在 / 命中保留标识 / config 非白名单字段等），向用户说明原因并按提示调整后重试。
 
