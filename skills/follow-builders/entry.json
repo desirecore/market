@@ -6,6 +6,16 @@
   "tags": [
     "zarazhangrui"
   ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Follow Builders",
+      "shortDesc": "追踪 AI 领域真正在造东西的开发者、研究者与创始人，把播客、X/Twitter 与官方博客的动态汇成每日/每周摘要推送"
+    },
+    "en-US": {
+      "name": "Follow Builders",
+      "shortDesc": "Tracks top AI builders across podcasts, X/Twitter and company blogs, delivering curated daily or weekly digests"
+    }
+  },
   "maintainer": {
     "name": "zarazhangrui",
     "verified": false,

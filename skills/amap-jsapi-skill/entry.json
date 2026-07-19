@@ -6,6 +6,16 @@
   "tags": [
     "lbs-amap"
   ],
+  "i18n": {
+    "zh-CN": {
+      "name": "高德地图 JSAPI 技能",
+      "shortDesc": "高德地图 JSAPI v2.0（WebGL）开发技能，涵盖地图生命周期、安全配置、3D 视图、覆盖物绘制与 LBS 服务集成"
+    },
+    "en-US": {
+      "name": "AMap JSAPI Skill",
+      "shortDesc": "AMap JSAPI v2.0 (WebGL) development skill covering map lifecycle, security config, 3D views, overlays and LBS services"
+    }
+  },
   "maintainer": {
     "name": "lbs-amap",
     "verified": false,

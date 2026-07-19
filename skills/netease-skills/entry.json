@@ -6,6 +6,16 @@
   "tags": [
     "NetEase"
   ],
+  "i18n": {
+    "zh-CN": {
+      "name": "网易云音乐 Skills",
+      "shortDesc": "基于 ncm-cli 的网易云音乐 AI Agent 技能包，支持音乐搜索、播放与账号配置等操作"
+    },
+    "en-US": {
+      "name": "NetEase Skills",
+      "shortDesc": "NetEase Cloud Music agent skills built on ncm-cli, for music search, playback and account setup"
+    }
+  },
   "maintainer": {
     "name": "NetEase",
     "verified": false,

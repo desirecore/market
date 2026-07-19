@@ -4,6 +4,16 @@
   "category": "media",
   "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"3\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"m6.5 16 3.5-3.5 2.5 2.5 2-2 3 3\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"15.5\" cy=\"8.5\" r=\"1.5\" fill=\"#2563EB\"/></svg>",
   "tags": ["illustration", "image-generation", "xiaohei", "design"],
+  "i18n": {
+    "zh-CN": {
+      "name": "Ian 小黑怪诞正文配图",
+      "shortDesc": "生成 Ian「小黑」风格的中文正文配图，把文章观点、流程与隐喻转成清爽怪诞的 16:9 手绘解释图"
+    },
+    "en-US": {
+      "name": "Ian Xiaohei Illustrations",
+      "shortDesc": "Generate Ian \"Xiaohei\" style illustrations for Chinese articles, turning ideas and processes into clean, whimsical 16:9 hand-drawn visuals"
+    }
+  },
   "maintainer": {
     "name": "helloianneo",
     "verified": false,
