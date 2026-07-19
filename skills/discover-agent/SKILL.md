@@ -1,7 +1,7 @@
 ---
 name: discover-agent
 description: 根据用户需求推荐最匹配的智能体，展示候选列表并引导选择。Use when 用户描述需求但不确定该找哪个智能体帮忙，或想浏览可用的智能体。
-version: 2.6.3
+version: 2.6.4
 type: procedural
 risk_level: low
 status: enabled
@@ -24,7 +24,7 @@ metadata:
       short_desc: 根据需求描述智能推荐最匹配的智能体，引导快速选择
       description: 根据用户需求推荐最匹配的智能体，展示候选列表并引导选择。Use when 用户描述需求但不确定该找哪个智能体帮忙，或想浏览可用的智能体。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:72159b331107dfb6
+      source_hash: sha256:bf81bef8caa89cc5
       translated_by: human
     en-US:
       name: Discover Agent
@@ -32,7 +32,7 @@ metadata:
       description: >-
         Recommend the best-matching Agent based on the user’s needs, show a candidate list, and guide selection. Use when the user describes a need but is unsure which Agent to ask for help, or wants to browse available Agents.
       body: ./SKILL.md
-      source_hash: sha256:72159b331107dfb6
+      source_hash: sha256:bf81bef8caa89cc5
       translated_by: ai:claude-fable-5
       translated_at: '2026-07-19'
 market:
@@ -84,7 +84,7 @@ Judge match with LLM semantic understanding (not a formula): relevance of descri
 
 ### Stage 4: Ranking
 
-Descending by overall score; ties broken by online status; show the most relevant few — you decide how many by relevance, avoiding flooding the screen.
+Descending by overall score; ties broken by online status; show the most relevant ones — you decide how many by relevance.
 
 ### Stage 5: Presentation
 
