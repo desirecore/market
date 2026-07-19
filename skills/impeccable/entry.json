@@ -1,0 +1,37 @@
+{
+  "id": "impeccable",
+  "name": "Impeccable",
+  "category": "design",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M12 3 4 7v5c0 4.5 3.2 7.9 8 9 4.8-1.1 8-4.5 8-9V7l-8-4Z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"m9 12 2 2 4-4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "design",
+    "frontend",
+    "ui",
+    "pbakaus"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Impeccable",
+      "shortDesc": "让 AI 更懂设计的前端设计语言：覆盖 UX 审查、视觉层级、可访问性、排版、配色、动效与可复用设计系统，把界面打磨到生产级"
+    },
+    "en-US": {
+      "name": "Impeccable",
+      "shortDesc": "A design language that makes AI better at frontend: UX review, visual hierarchy, accessibility, typography, color, motion and reusable design systems"
+    }
+  },
+  "maintainer": {
+    "name": "Paul Bakaus",
+    "verified": false,
+    "account": "pbakaus",
+    "url": "https://github.com/pbakaus/impeccable"
+  },
+  "stewardship": "community",
+  "license": "Apache-2.0",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/pbakaus/impeccable.git",
+    "repoBranch": "main",
+    "ref": "e4ab5e24bdf5321b72163d2fbcbe6fa985c848ba"
+  }
+}

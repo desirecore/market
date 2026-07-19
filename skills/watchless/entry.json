@@ -1,0 +1,37 @@
+{
+  "id": "watchless",
+  "name": "Watchless",
+  "category": "media",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"m10 9 5 3-5 3V9Z\" fill=\"#2563EB\"/><path d=\"M3 17h18\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
+  "tags": [
+    "video",
+    "transcript",
+    "notes",
+    "chenzixin1"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Watchless",
+      "shortDesc": "把视频转成以关键帧截图为主线的完整视觉文档：转写为事实来源、截图保留画面证据，输出 HTML/PDF/ZIP，读者无需再看原视频"
+    },
+    "en-US": {
+      "name": "Watchless",
+      "shortDesc": "Turns a video into a complete keyframe-led visual document with faithful transcript-based notes, exported as HTML, PDF or a shareable ZIP"
+    }
+  },
+  "maintainer": {
+    "name": "chenzixin1",
+    "verified": false,
+    "account": "chenzixin1",
+    "url": "https://github.com/chenzixin1/watchless"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/chenzixin1/watchless.git",
+    "repoBranch": "main",
+    "ref": "a09c0edc6c3121c05e9824ef556256441d291d4f"
+  }
+}
