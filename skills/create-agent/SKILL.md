@@ -2,7 +2,7 @@
 name: create-agent
 description: >-
   通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
-version: 2.5.1
+version: 2.5.2
 type: meta
 risk_level: low
 status: enabled
@@ -26,7 +26,7 @@ metadata:
       description: >-
         通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:a119427bed3bcd72
+      source_hash: sha256:fa447cd4d5a5b336
       translated_by: human
     en-US:
       name: Create Agent
@@ -34,7 +34,7 @@ metadata:
       description: >-
         Collect requirements through multi-turn conversation and call the ManageAgent builtin tool to create a new AgentFS v2 Agent, with customizable persona and principles. Use when the user asks to create a new Agent, raise a domain assistant, or quickly produce a governable Agent from a template.
       body: ./SKILL.md
-      source_hash: sha256:a119427bed3bcd72
+      source_hash: sha256:fa447cd4d5a5b336
       translated_by: ai:claude-fable-5
       translated_at: '2026-07-19'
 market:
@@ -68,7 +68,7 @@ Collect requirements through natural-language conversation and call the ManageAg
 
 ## L1: Overview
 
-Meta-skill: gather requirements over multi-turn conversation → generate persona/principles → land via `ManageAgent(action='create')`. Use it to raise a domain specialist for the user (legal advisor, financial analyst, etc.). Its value is what the tool can't give: domain-tailored persona/principles generation + a pre-create preview confirmation.
+Meta-skill: gather requirements over multi-turn conversation → generate persona/principles → land via `ManageAgent(action='create')`. Use it to raise a domain specialist (legal advisor, financial analyst), deploy a customized business Agent quickly, or produce a prototype from a template. The created repo conforms to the AgentFS v2 spec and is version-managed by git (governable, traceable). Its value is what the tool can't give: domain-tailored persona/principles generation + a pre-create preview confirmation.
 
 ## L2: Detailed Spec
 
@@ -80,7 +80,7 @@ Trigger (any): user explicitly says "create an Agent / make me an assistant"; de
 
 ### Stage 2: Requirement Gathering
 
-- Required: `name`, `role` (core responsibility), `target_users`, `domain` (specialty).
+- Required (parenthesized = example prompt question): `name` ("what to name it?"), `role` ("what does it mainly do?"), `target_users` ("who will use it?"), `domain` ("what expertise does it need?").
 - Optional: `style` (communication tone), `boundaries` (red lines), `language` (default Chinese) — defaults derived from the domain template.
 - Strategy: prefer inferring from the user's natural description; only ask for missing required fields; at most 2 questions per turn.
 
@@ -126,6 +126,7 @@ ManageAgent({
 ```
 
 - Minimal create needs only `{ "action": "create", "name": "My Assistant" }` (everything else auto-generated).
+- Basic create `{ "action": "create", "name": "Legal Advisor", "description": "contract review" }` — with just name + description, the description auto-fills persona's L0.
 - Optional `id` (kebab-case slug; `core` / `desirecore` are reserved core identifiers and cannot be used, including when the slug auto-generated from `name` collides), `config.llm` (llm delta only; sensitive fields like mcp_servers are rejected and must be adjusted via the UI after creation).
 - The Agent is registered and usable immediately; the returned ID works directly with ManageTeam / Delegate. If the tool errors (already exists / reserved identifier / non-whitelisted config field, etc.), explain the reason and retry after adjusting per the hint.
 

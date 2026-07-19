@@ -3,7 +3,7 @@ name: update-agent
 description: >-
   安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent
   行为、安装/卸载技能、调整配置、回滚变更或修订规则。
-version: 3.1.2
+version: 3.1.3
 type: meta
 risk_level: low
 status: enabled
@@ -27,7 +27,7 @@ metadata:
       description: >-
         安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent 行为、安装/卸载技能、调整配置、回滚变更或修订规则。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:ceab26ea93a41898
+      source_hash: sha256:d33f63306685168e
       translated_by: human
     en-US:
       name: Update Agent
@@ -35,7 +35,7 @@ metadata:
       description: >-
         Safely update an existing Agent's config, persona, principles, skills, and memory, producing reviewable diffs that are applied and committed only after confirmation. Use when the user asks to modify Agent behavior, install/uninstall skills, adjust config, roll back changes, or revise rules.
       body: ./SKILL.md
-      source_hash: sha256:ceab26ea93a41898
+      source_hash: sha256:d33f63306685168e
       translated_by: ai:claude-fable-5
       translated_at: '2026-07-19'
 market:
@@ -69,7 +69,7 @@ Safely modify an Agent's configuration, persona, rules, and skills through natur
 
 ## L1: Overview
 
-Meta-skill: recognize the edit intent → generate a reviewable diff → user confirmation → apply (structured fields via ManageAgent, free-form files via Read/Write) → receipt, with version rollback. Its value is what the tool can't give: diff preview confirmation, two-path orchestration, rollback; structured fields go through ManageAgent's whitelist + schema validation so invalid config never lands.
+Meta-skill: recognize the edit intent → generate a reviewable diff → user confirmation → apply (structured fields via ManageAgent, free-form files via Read/Write) → receipt. Use it to adjust communication style, add/change behavior rules, install/uninstall skills, or batch-upgrade config. The agent directory is version-managed by git with a traceable history, so rollback is supported. Its value is what the tool can't give: diff preview confirmation, two-path orchestration, version rollback; structured fields go through ManageAgent's whitelist + schema validation so invalid config never lands.
 
 ## L2: Detailed Spec
 
