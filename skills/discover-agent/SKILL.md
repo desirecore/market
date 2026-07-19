@@ -1,7 +1,7 @@
 ---
 name: discover-agent
 description: 根据用户需求推荐最匹配的智能体，展示候选列表并引导选择。Use when 用户描述需求但不确定该找哪个智能体帮忙，或想浏览可用的智能体。
-version: 2.6.0
+version: 2.6.1
 type: procedural
 risk_level: low
 status: enabled
@@ -12,7 +12,7 @@ tags:
   - recommendation
 metadata:
   author: desirecore
-  updated_at: '2026-07-18'
+  updated_at: '2026-07-19'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -24,7 +24,7 @@ metadata:
       short_desc: 根据需求描述智能推荐最匹配的智能体，引导快速选择
       description: 根据用户需求推荐最匹配的智能体，展示候选列表并引导选择。Use when 用户描述需求但不确定该找哪个智能体帮忙，或想浏览可用的智能体。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:99bddbbaea15b194
+      source_hash: sha256:671b1b159567a5a3
       translated_by: human
     en-US:
       name: Discover Agent
@@ -32,9 +32,9 @@ metadata:
       description: >-
         Recommend the best-matching Agent based on the user’s needs, show a candidate list, and guide selection. Use when the user describes a need but is unsure which Agent to ask for help, or wants to browse available Agents.
       body: ./SKILL.md
-      source_hash: sha256:99bddbbaea15b194
+      source_hash: sha256:671b1b159567a5a3
       translated_by: ai:claude-fable-5
-      translated_at: '2026-07-18'
+      translated_at: '2026-07-19'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -56,247 +56,51 @@ market:
   required_client_version: 10.0.90
 ---
 
-# discover-agent Skill
+# discover-agent skill
 
-## L0: One-sentence summary
+## L0: One-Sentence Summary
 
-Match and recommend the most suitable Agent from the registered Agents based on the user’s needs.
+Match and recommend the most suitable Agent among registered Agents based on the user's need description.
 
-## L1: Overview and use cases
+## L1: Overview
 
-### Capability description
+Procedural skill: understand the need → retrieve with `ManageAgent(action='list')` → semantic match scoring → rank and present → guide selection; on no match, hand off to create-agent automatically. Its value is what the tool can't give: semantic need matching, candidate ranking and presentation, and the create hand-off on no match. `list` / `get` are read-only, approval-free.
 
-discover-agent is a **procedural Skill** that gives DesireCore the ability to discover and recommend suitable Agents for users. By understanding the user’s needs, it performs multi-dimensional matching across the registered Agent list and shows a candidate list for the user to choose from.
+## L2: Detailed Spec
 
-### Use cases
+Flow: need understanding → retrieval → match evaluation → ranking → presentation → guided selection.
 
-- The user describes a need but does not know which Agent to ask for help
-- The user wants to browse the currently available Agents and their capabilities
-- The user needs to find the most suitable specialist assistant for a specific task
-- A new user is using the system for the first time and needs to know which Agents are available
-- The user is unhappy with the current Agent’s performance and wants a better alternative
+### Stage 1: Need Understanding
 
-### Core value
+Trigger (any): user says "find me a… / is there a… / who can help me…", describes a task without naming an Agent, "which Agents are there", or the system detects a need that mismatches the current Agent. Extract dimensions from the description: `domain` (legal/finance/tech/education), `task_type` (consult/review/analyze/create), `keywords` (contract/report/code/paper…), `urgency` (routine/urgent).
 
-- **Lower the barrier**: Users do not need to remember each Agent’s name and capabilities
-- **Precise matching**: Intelligent recommendations based on semantic needs, not simple keyword search
-- **Smooth handoff**: If no match is found, automatically suggest creating a new Agent (handoff to the create-agent Skill)
+### Stage 2: Retrieval
 
-## L2: Detailed specification
+`ManageAgent(action='list')` fetches all registered Agents (returns a compact list with name / id / status / description). Filtering: by default show non-offline Agents; offline ones appear only as a fallback when there's no better candidate; exclude internal system Agents (e.g. DesireCore itself) unless the user explicitly asks.
 
-### Execution flow
+### Stage 3: Match Evaluation
 
-```
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│   需求理解    │ ──→ │   Agent 检索  │ ──→ │   匹配评分    │
-└──────────────┘     └──────────────┘     └──────────────┘
-                                                  │
-                                                  ↓
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│   引导选择    │ ←── │   结果展示    │ ←── │   候选排序    │
-└──────────────┘     └──────────────┘     └──────────────┘
-```
+Judge match with LLM semantic understanding (not a formula): relevance of description / persona to the need, association of skills to the task type, domain fit, status availability (online preferred). Presentation tiers: strong match → mark "recommended", partial → "possibly relevant", no clear relation → don't show.
 
-### Stage 1: Needs understanding
+### Stage 4: Ranking
 
-**Trigger conditions** (any one of the following):
+Descending by overall score; ties broken by online status; show at most 5 candidates.
 
-- The user says "帮我找一个...", "有没有...", or "谁能帮我..."
-- The user describes a task but does not specify a particular Agent
-- The user says "有哪些智能体" or "看看都有谁"
-- The system detects that the user’s need does not match the current Agent’s capabilities
+### Stage 5: Presentation
 
-**Need parsing**:
+- **With matches**: list candidates, each with name, description, key skills, status, and match score; ask the user to choose or refine the need. E.g. "1. Legal Advisor (92%) — contract review and legal risk assessment; skills: contract review / risk assessment / legal research; online".
+- **No match**: report that none were found and offer three options — retry with a more specific description / create a new specialized Agent (hand off to create-agent) / browse all.
+- **Browse mode** (user wants to see all): list name + description grouped by online / offline, and ask whether to view details of any.
 
-Extract the following dimensions from the user’s description:
+### Stage 6: Guided Selection
 
-| Dimension | Description | Example |
-| --------- | ----------- | ------- |
-| `domain`    | Professional domain | law, finance, technology, education |
-| `task_type` | Task type | consultation, review, analysis, creation |
-| `keywords`  | Keywords | contract, report, code, paper |
-| `urgency`   | Urgency | routine / urgent |
+- Chose an Agent → switch to that Agent's conversation, passing the user's need context (source / target / user_intent).
+- Wants more detail → `ManageAgent(action='get', id)` for details (name / description / status / version / skill count / tool count / Git status); present the key info in natural language or a table and ask whether to chat.
+- Unhappy with candidates → guide the user to refine the need or suggest creating a new Agent.
+- Chose "create new" → invoke the create-agent skill, passing the gathered requirements.
 
-### Stage 2: Agent retrieval
+### Collaboration and Error Handling
 
-**Data source**: Call `ManageAgent(action='list')` to get the list of all registered Agents.
-
-**Tool call**:
-
-```
-ManageAgent(action='list')
-```
-
-**Returned content**: a compact list where each line contains the following key fields:
-
-- `name` — Agent name
-- `id` — unique Agent identifier
-- `status` — current status (online/busy/idle/offline)
-- `description` — Agent description
-
-> `list` is a read-only query; no user confirmation is required and it is approval-free.
-
-**Filtering rules**:
-
-- By default, show Agents other than offline ones; offline Agents are shown only as a supplement when no better candidate is available
-- Exclude internal system Agents (such as DesireCore itself, unless explicitly requested by the user)
-
-### Stage 3: Matching evaluation
-
-Evaluate the match score based on the following dimensions (using LLM semantic understanding, not formula-based calculation):
-
-| Dimension | Description |
-| --------- | ----------- |
-| Description relevance | Semantic relevance between the Agent’s description / persona and the user’s need |
-| Skill match | Correlation between the Agent’s skills and the task type |
-| Domain fit | Degree of fit between the Agent’s professional domain and the user’s domain |
-| Status availability | The Agent’s current status (online takes priority over offline) |
-
-**Display rules**:
-
-- High match (clearly suitable for the task) → mark as "推荐"
-- Partial match (may be helpful) → mark as "可能相关"
-- No obvious relevance → do not display
-
-### Stage 4: Candidate ranking
-
-**Ranking rules**:
-
-1. Sort by overall score in descending order
-2. If scores are tied, prefer online status
-3. Show at most 5 candidates
-
-### Stage 5: Result display
-
-**When there are matching results**:
-
-```
-Based on your needs, I recommend the following Agents:
-
-┌─────────────────────────────────────────────────────┐
-│ 1. 法律顾问助手                          匹配度: 92% │
-│    专注合同审查和法律风险评估                          │
-│    技能：合同审查、风险评估、法律研究                   │
-│    状态：在线                                        │
-├─────────────────────────────────────────────────────┤
-│ 2. AI 文书助手                           匹配度: 71% │
-│    专业文书撰写和格式优化                              │
-│    技能：文书撰写、格式排版、合规检查                   │
-│    状态：在线                                        │
-├─────────────────────────────────────────────────────┤
-│ 3. 数据分析师                            匹配度: 45% │
-│    数据分析和可视化报告                                │
-│    技能：数据分析、报表生成、趋势预测                   │
-│    状态：离线                                        │
-└─────────────────────────────────────────────────────┘
-
-Please choose an Agent, or tell me more specific requirements.
-```
-
-**When there are no matching results**:
-
-```
-No fully matching Agent was found for your needs at the moment.
-
-You can:
-1. Try again with a more specific description
-2. Create a new specialist Agent (I can help you)
-3. Browse all available Agents
-
-What would you like to do?
-```
-
-**Browse mode** (when the user asks to view all):
-
-```
-Currently available Agents:
-
-Online:
-  - 法律顾问助手 — 合同审查和法律风险评估
-  - AI 文书助手 — 专业文书撰写和格式优化
-
-Offline:
-  - 数据分析师 — 数据分析和可视化报告
-  - 翻译助手 — 多语言翻译和本地化
-
-A total of 4 Agents. Do you need detailed information about any one Agent?
-```
-
-### Stage 6: Guidance and selection
-
-**Actions after the user makes a choice**:
-
-| User choice | Follow-up action |
-| ----------- | ---------------- |
-| Chose an Agent | Switch to that Agent’s conversation and pass the user need context |
-| Asked for more details | Call `ManageAgent(action='get', id='<agent-id>')` to get details, then show structured information (see below) |
-| Unsatisfied with candidates | Guide the user to refine the need or suggest creating a new Agent |
-| Chose "create a new one" | Call the create-agent Skill and pass the collected need information |
-
-**Implementation of "learn more"**:
-
-Call `ManageAgent(action='get', id='<agent-id>')` to get details of the specified Agent:
-
-```
-ManageAgent(action='get', id='legal-assistant')
-```
-
-**Key fields in the returned content**:
-
-- name, description, status
-- version
-- skill count / tool count
-- Git repository status
-
-> `get` is a read-only query; no user confirmation is required and it is approval-free. If the target does not exist, it returns the error "智能体不存在: <id>".
-
-When presenting to the user, show key information in natural language/table format:
-
-```
-「法律顾问助手」详细信息
-
-| 字段 | 内容 |
-|------|------|
-| 描述 | 专注合同审查和法律风险评估 |
-| 当前状态 | 在线 |
-| 版本 | 1.2.0 |
-| 技能 / 工具 | 3 个技能，5 个工具 |
-| Git 仓库 | 干净（无未提交变更） |
-
-Need to talk with this Agent?
-```
-
-**Context handoff**:
-
-```yaml
-context_handoff:
-  source_agent: desirecore
-  target_agent: legal-assistant
-  user_intent: '帮我审查这份合同的风险点'
-```
-
-### Collaboration with other Skills
-
-| Collaboration Skill | Collaboration method |
-| ------------------- | -------------------- |
-| create-agent    | When there is no match, suggest creating a new Agent and pass the user need as initial information |
-| task-management | After a successful match, tasks can be created automatically and assigned to the target Agent |
-
-### Error handling
-
-| Error scenario | Handling method |
-| -------------- | --------------- |
-| Tool call failure | Prompt the error message and suggest trying again later |
-| Agent list is empty | Guide the user to create the first Agent |
-| User description is too vague | Ask follow-up questions and provide domain options as guidance |
-| Target Agent does not exist | When `get` returns "智能体不存在: <id>", fall back to `list` to re-confirm available Agents |
-| Recommended Agent has an abnormal status | Mark the status and suggest choosing another online Agent |
-
-### Permission requirements
-
-- Complete Agent retrieval and detail lookup via the built-in tool `ManageAgent`
-- Both `list` and `get` are read-only queries; no user confirmation is required, they are approval-free, and carry no risk
-
-### Dependencies
-
-- Built-in tool `ManageAgent` (`action='list'` to retrieve the list, `action='get'` to query details)
+- Collaboration: on no match, hand off to create-agent (pass the need as initial info); on a successful match, optionally create a task and assign it to the target Agent.
+- Errors: tool call fails → report error and suggest retry; empty Agent list → guide the user to create the first Agent; overly vague need → ask follow-ups and offer domain options; `get` returns "Agent not found: <id>" → fall back to `list` to reconfirm available Agents; recommended Agent in an abnormal state → mark the status and suggest picking an online one.
+- `list` / `get` are read-only, approval-free, and risk-free; always done via `ManageAgent`.
