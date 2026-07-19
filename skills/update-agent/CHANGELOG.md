@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.1.2] - 2026-07-19
+
+- 提示词改写压缩，功能不变——与 ManageAgent 工具契约重复的说明、装饰框图、重复表改写融入流程，示例就地精简；不外置、不净删，意图全保留。
+
 ## [3.1.1] - 2026-07-18
 
 - 修正示例字段名：`communicationStyle` → `communication_style`、`must` → `must_do`；`personality` 示例改为字符串数组

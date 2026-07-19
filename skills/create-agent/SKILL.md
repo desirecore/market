@@ -2,7 +2,7 @@
 name: create-agent
 description: >-
   通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
-version: 2.5.0
+version: 2.5.1
 type: meta
 risk_level: low
 status: enabled
@@ -13,7 +13,7 @@ tags:
   - meta
 metadata:
   author: desirecore
-  updated_at: '2026-07-18'
+  updated_at: '2026-07-19'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -26,7 +26,7 @@ metadata:
       description: >-
         通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:43425a25973ca933
+      source_hash: sha256:a119427bed3bcd72
       translated_by: human
     en-US:
       name: Create Agent
@@ -34,9 +34,9 @@ metadata:
       description: >-
         Collect requirements through multi-turn conversation and call the ManageAgent builtin tool to create a new AgentFS v2 Agent, with customizable persona and principles. Use when the user asks to create a new Agent, raise a domain assistant, or quickly produce a governable Agent from a template.
       body: ./SKILL.md
-      source_hash: sha256:43425a25973ca933
+      source_hash: sha256:a119427bed3bcd72
       translated_by: ai:claude-fable-5
-      translated_at: '2026-07-18'
+      translated_at: '2026-07-19'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -66,235 +66,74 @@ market:
 
 Collect requirements through natural-language conversation and call the ManageAgent builtin tool to create a specialized digital Agent.
 
-## L1: Overview and Use Cases
+## L1: Overview
 
-### Capability Description
+Meta-skill: gather requirements over multi-turn conversation → generate persona/principles → land via `ManageAgent(action='create')`. Use it to raise a domain specialist for the user (legal advisor, financial analyst, etc.). Its value is what the tool can't give: domain-tailored persona/principles generation + a pre-create preview confirmation.
 
-create-agent is a **Meta-Skill** that gives DesireCore the ability to create other Agents. It collects user requirements through multi-turn conversation, generates persona and principles content, and calls the `ManageAgent` builtin tool to complete the creation.
+## L2: Detailed Spec
 
-### Use Cases
-
-- The user wants a digital assistant for a specialty domain (e.g. legal advisor, financial analyst)
-- An enterprise needs to quickly deploy a customized business Agent
-- A developer needs to quickly produce an Agent prototype from a template
-
-### Core Value
-
-- **Lower the barrier**: No programming knowledge required; create an Agent through conversation
-- **Specialization**: Generate appropriate persona and principles based on a domain template
-- **Governable**: The created repository conforms to the AgentFS v2 spec and supports version management
-
-## L2: Detailed Specification
-
-### Conversation Flow
-
-```
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│   意图识别    │ ──→ │   需求收集    │ ──→ │   内容生成    │
-└──────────────┘     └──────────────┘     └──────────────┘
-                                                  │
-                                                  ↓
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│   回执生成    │ ←── │   工具创建   │ ←── │   用户确认    │
-└──────────────┘     └──────────────┘     └──────────────┘
-```
+Flow: intent recognition → requirement gathering → content generation → user confirmation → creation → receipt.
 
 ### Stage 1: Intent Recognition
 
-**Trigger conditions** (any one is sufficient):
+Trigger (any): user explicitly says "create an Agent / make me an assistant"; describes a domain-specific need the current Agent lacks; asks "can you raise a …". Confirm intent, then move to requirement gathering.
 
-- The user explicitly says "create an Agent" or "build me an assistant"
-- The user describes needing professional help in some domain that the current Agent doesn't have
-- The user asks "can you help me grow a..."
+### Stage 2: Requirement Gathering
 
-**Output**: Confirm the user's create intent and proceed to requirement collection.
-
-### Stage 2: Requirement Collection
-
-**Required information**:
-
-| Field          | Description    | Example Probing Question                       |
-| -------------- | -------------- | ---------------------------------------------- |
-| `name`         | Agent name     | "What name would you like to give this Agent?" |
-| `role`         | Core duty      | "What's its main responsibility?"              |
-| `target_users` | Target users   | "Who will use this Agent?"                     |
-| `domain`       | Specialty area | "What expertise does it need?"                 |
-
-**Optional information**:
-
-| Field        | Description           | Default                          |
-| ------------ | --------------------- | -------------------------------- |
-| `style`      | Communication style   | Determined by domain template    |
-| `boundaries` | Off-limits / red lines| Determined by domain template    |
-| `language`   | Primary language      | Chinese                          |
-
-**Collection strategy**:
-
-- Prefer to infer information from the user's natural description
-- Only probe for required fields the user hasn't mentioned
-- Ask at most 2 follow-up questions per turn
+- Required: `name`, `role` (core responsibility), `target_users`, `domain` (specialty).
+- Optional: `style` (communication tone), `boundaries` (red lines), `language` (default Chinese) — defaults derived from the domain template.
+- Strategy: prefer inferring from the user's natural description; only ask for missing required fields; at most 2 questions per turn.
 
 ### Stage 3: Content Generation
 
-Based on the collected requirements, assemble structured persona and principles data. **Do not output raw markdown**; instead, organize by field and present to the user.
+Organize persona and principles as structured fields (do not emit raw markdown; present field-by-field). Leave uncollected fields empty for the system to fill with defaults:
 
-**Persona fields** (all fields optional; missing ones are auto-filled by the system):
+- **persona**: L0 one-sentence core identity; L1 `role` / `personality` (array of trait tags) / `communication_style`; L2 specialty, values, decision preferences (free-form).
+- **principles**: L0 one-sentence top principle; L1 `must_do` / `must_not` (safety red lines) / `priority`; L2 governance principles, escalation rules (free-form).
 
-| Layer | Field                 | Description                                                  |
-| ----- | --------------------- | ------------------------------------------------------------ |
-| L0    | —                     | One-sentence core identity                                   |
-| L1    | `role`                | Role positioning                                             |
-| L1    | `personality`         | Personality trait tags                                       |
-| L1    | `communication_style` | Communication style                                          |
-| L2    | —                     | Specialty domain, core values, decision preferences (free-form) |
+**Domain matching reference** (recommend personality and red lines by domain):
 
-**Principles fields** (all also optional):
-
-| Layer | Field      | Description                                  |
-| ----- | ---------- | -------------------------------------------- |
-| L0    | —          | One-sentence top-level principle             |
-| L1    | `must_do`  | Things the Agent must do                     |
-| L1    | `must_not` | Things the Agent must never do (safety red lines) |
-| L1    | `priority` | Priority ordering                            |
-| L2    | —          | Governance principles, escalation rules (free-form) |
-
-**Domain matching reference**:
-
-| Domain Keywords                  | Recommended personality          | Default must_not                                |
-| -------------------------------- | -------------------------------- | ----------------------------------------------- |
-| Legal, contract, legal affairs   | Professional, rigorous, prudent  | No litigation representation; not a substitute for formal legal advice |
-| Finance, accounting, investment  | Precise, analytical, conservative | No investment advice; do not handle real transactions |
-| Code, development, architecture  | Logical, pragmatic, direct       | No direct production access; do not store credentials |
-| General / other                  | Friendly, helpful                | Standard safety norms                           |
+| Domain | Recommended personality | Default must_not |
+| --- | --- | --- |
+| Legal / contract | Professional, rigorous, prudent | No litigation representation; not a substitute for formal legal advice |
+| Finance / accounting / investment | Precise, analytical, conservative | No investment advice; no real transactions |
+| Code / development / architecture | Logical, pragmatic, direct | No direct production access; no credential storage |
+| General / other | Friendly, helpful | Standard safety norms |
 
 ### Stage 4: User Confirmation
 
-When showing the preview to the user, present each field in natural language / table form. **Do not show raw markdown source**:
+Present the preview in natural language / tables (name, description, persona, principles; **no raw markdown source**), e.g.:
 
-> About to create Agent:
->
-> **Name**: Legal Advisor Assistant
-> **Description**: A digital Agent focused on contract review and legal risk assessment
->
-> ---
->
-> **Persona**
->
-> | Field                 | Content                                                                  |
-> | --------------------- | ------------------------------------------------------------------------ |
-> | Core identity         | You are Legal Advisor Assistant, focused on contract review and legal risk assessment |
-> | Role positioning      | A digital legal advisor focused on contract review and legal risk assessment |
-> | Personality           | Professional, rigorous, prudent                                          |
-> | Communication style   | Use legal terminology accurately while also providing plain-language explanations |
->
-> **Principles**
->
-> | Field             | Content                                                              |
-> | ----------------- | -------------------------------------------------------------------- |
-> | Top principle     | User interest is the highest priority; not a substitute for formal legal advice |
-> | Must do           | Cite statutes accurately, mark uncertainty, recommend consulting a professional lawyer |
-> | Must not          | Provide litigation representation, substitute for formal legal advice, leak user consultations |
-> | Priority          | User safety > Accuracy > Efficiency                                  |
->
-> ---
->
+> About to create "Legal Advisor Assistant" — focused on contract review and legal risk assessment.
+> **Persona**: digital legal advisor; professional, rigorous, prudent; uses legal terms accurately with plain-language explanations.
+> **Principles**: user interest first, not a substitute for formal legal advice; must — cite statutes / mark uncertainty / recommend consulting a lawyer; must not — litigation representation / leaking consultations; priority: user safety > accuracy > efficiency.
 > Confirm creation? (Confirm / Modify / Cancel)
 
-**"Modify" branch handling**:
-
-When the user chooses "Modify":
-
-1. Ask the user which field to modify (e.g. "Which one do you want to modify?")
-2. The user identifies the field to modify (e.g. "change personality to something more lively")
-3. The Agent re-collects content for that field
-4. Update the corresponding field in the preview
-5. Show the full preview again → re-enter the confirmation flow
+If the user picks "Modify": ask which field → re-collect that field → update the preview → show and confirm again.
 
 ### Stage 5: Create via ManageAgent
 
-**Tool call** (structured format):
+Structured call (persona/principles also accept markdown strings; unprovided fields are auto-filled):
 
 ```
 ManageAgent({
   "action": "create",
   "name": "Legal Advisor Assistant",
   "description": "A digital Agent focused on contract review and legal risk assessment",
-  "persona": {
-    "L0": "You are Legal Advisor Assistant, a digital Agent focused on contract review and legal risk assessment.",
-    "L1": {
-      "role": "A digital legal advisor focused on contract review and legal risk assessment",
-      "personality": ["Professional", "Rigorous", "Prudent"],
-      "communication_style": "Use legal terminology accurately while also providing plain-language explanations"
-    }
-  },
-  "principles": {
-    "L0": "User interest is the highest priority; not a substitute for formal legal advice.",
-    "L1": {
-      "must_do": ["Cite statutes accurately", "Mark uncertainty", "Recommend consulting a professional lawyer"],
-      "must_not": ["Provide litigation representation", "Substitute for formal legal advice", "Leak user consultations"],
-      "priority": "User safety > Accuracy > Efficiency"
-    }
-  }
+  "persona": { "L0": "…", "L1": { "role": "…", "personality": ["professional","rigorous","prudent"], "communication_style": "…" } },
+  "principles": { "L0": "…", "L1": { "must_do": ["…"], "must_not": ["…"], "priority": "user safety > accuracy > efficiency" } }
 })
 ```
 
-**Minimal create** (only `name`; the rest is auto-generated):
+- Minimal create needs only `{ "action": "create", "name": "My Assistant" }` (everything else auto-generated).
+- Optional `id` (kebab-case slug; `core` / `desirecore` are reserved core identifiers and cannot be used, including when the slug auto-generated from `name` collides), `config.llm` (llm delta only; sensitive fields like mcp_servers are rejected and must be adjusted via the UI after creation).
+- The Agent is registered and usable immediately; the returned ID works directly with ManageTeam / Delegate. If the tool errors (already exists / reserved identifier / non-whitelisted config field, etc.), explain the reason and retry after adjusting per the hint.
 
-```
-ManageAgent({ "action": "create", "name": "My Assistant" })
-```
+### Stage 6: Receipt
 
-**Basic create** (`name` + `description`; `description` auto-fills persona L0):
+Present in a user-friendly way (no internal paths / technical details): confirm success and suggest next steps — start chatting, add skills, adjust persona or rules.
 
-```
-ManageAgent({ "action": "create", "name": "Legal Advisor", "description": "Focused on contract review" })
-```
+### Background and Constraints
 
-Any unprovided fields are auto-filled with sensible defaults by the system. `persona` and `principles` also accept raw markdown strings (backward compatible).
-
-**Optional parameters**:
-
-- `id`: specify a kebab-case slug ID (e.g. "Legal Advisor" → "legal-advisor"). If not specified, the system auto-generates one from `name`. Note that `core` / `desirecore` are reserved core-agent identifiers and cannot be used (including when the slug auto-generated from `name` collides with them).
-- `config`: an agent.json config delta. Only the `llm` field is allowed (model, temperature, etc.); sensitive fields such as `mcp_servers` / `tool_permissions` are rejected and must be adjusted via the settings UI after creation.
-
-**Successful result**:
-
-> Agent "Legal Advisor Assistant" created (ID: legal-advisor-assistant), registered and ready. It can be used directly with ManageTeam or Delegate.
-
-The new Agent is registered online immediately after creation—no waiting or refresh needed; the returned ID can be used directly in subsequent ManageTeam / Delegate calls.
-
-### Stage 6: Receipt Generation
-
-**Receipt report**:
-
-After successful creation, present the receipt in a user-friendly way (do not expose internal paths or technical details):
-
-> Agent "Legal Advisor Assistant" has been created!
->
-> **Next steps**:
->
-> - Start a conversation right away
-> - Add skills to make it more powerful
-> - Adjust its personality or behavior rules
-
-### Background Knowledge
-
-> AgentFS repository structure, troubleshooting points, and protected paths are detailed in `_agentfs-background.md` and `_protected-paths.yaml`.
-
-### Error Handling
-
-| Error Scenario                              | Handling                                    |
-| ------------------------------------------- | ------------------------------------------- |
-| Missing `name` or invalid ID format         | Ask user to check input                     |
-| Agent ID already exists                     | Suggest another name or an explicit `id`    |
-| ID hits a reserved core-agent identifier    | Change the name or provide another `id`     |
-| `config` contains non-whitelisted fields    | Retry with only the `llm` field             |
-
-### Permission Requirements
-
-- Always create via the `ManageAgent` builtin tool. **Never** call the local HTTP API, curl, or write AgentFS directories directly
-- The `create` action is exempt from system approval, but this skill's conversation flow still requires showing the preview and getting user confirmation first (Stage 4)
-
-### Dependencies
-
-- `ManageAgent` builtin tool (client ≥ 10.0.90)
+- AgentFS structure, troubleshooting, and protected paths: see `_agentfs-background.md` and `_protected-paths.yaml`.
+- Always create via `ManageAgent`; never use curl / HTTP or write AgentFS directories directly. Requires client ≥ 10.0.90.
