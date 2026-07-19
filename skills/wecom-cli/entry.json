@@ -6,6 +6,16 @@
   "tags": [
     "WecomTeam"
   ],
+  "i18n": {
+    "zh-CN": {
+      "name": "企业微信 CLI",
+      "shortDesc": "企业微信官方命令行工具，让人与 AI Agent 在终端操作企业微信文档、智能表格、消息等核心业务"
+    },
+    "en-US": {
+      "name": "WeCom CLI",
+      "shortDesc": "Official WeCom (Enterprise WeChat) CLI for humans and AI agents to operate docs, smart sheets and messaging in the terminal"
+    }
+  },
   "maintainer": {
     "name": "WecomTeam",
     "verified": false,

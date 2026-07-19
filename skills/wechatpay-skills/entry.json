@@ -6,6 +6,16 @@
   "tags": [
     "wechatpay-apiv3"
   ],
+  "i18n": {
+    "zh-CN": {
+      "name": "微信支付 Skills",
+      "shortDesc": "微信支付官方接入技能包：产品选型、官方示例代码、接入质量评估与答疑排障"
+    },
+    "en-US": {
+      "name": "WeChat Pay Skills",
+      "shortDesc": "Official WeChat Pay integration skills: product selection, sample code, integration quality review and troubleshooting"
+    }
+  },
   "maintainer": {
     "name": "wechatpay-apiv3",
     "verified": false,
