@@ -8,6 +8,16 @@
     "design",
     "creative"
   ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Taste Skill",
+      "shortDesc": "面向 AI Agent 的“抗平庸”前端框架，帮智能体产出有品味的高级感前端而非千篇一律的模板"
+    },
+    "en-US": {
+      "name": "Taste Skill",
+      "shortDesc": "Anti-slop frontend framework for AI agents to build premium, tasteful UIs instead of generic output"
+    }
+  },
   "maintainer": {
     "name": "Leonxlnx",
     "verified": false,

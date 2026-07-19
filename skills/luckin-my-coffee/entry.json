@@ -6,6 +6,16 @@
   "tags": [
     "luckin"
   ],
+  "i18n": {
+    "zh-CN": {
+      "name": "瑞幸下单助手",
+      "shortDesc": "瑞幸咖啡下单助手：用自然语言查询菜单、选品下单与管理瑞幸咖啡订单"
+    },
+    "en-US": {
+      "name": "Luckin My Coffee",
+      "shortDesc": "Luckin Coffee ordering assistant to browse the menu, place and manage Luckin orders in natural language"
+    }
+  },
   "maintainer": {
     "name": "luckin",
     "verified": false,

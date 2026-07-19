@@ -6,6 +6,16 @@
   "tags": [
     "larksuite"
   ],
+  "i18n": {
+    "zh-CN": {
+      "name": "飞书 CLI",
+      "shortDesc": "飞书/Lark 官方命令行工具，面向人与 AI Agent，覆盖消息、文档、多维表格、日历、邮件等 18 个业务域、200+ 命令"
+    },
+    "en-US": {
+      "name": "Lark Suite CLI",
+      "shortDesc": "Official Lark/Feishu CLI for humans and AI agents, spanning Messenger, Docs, Base, Calendar and 18 domains with 200+ commands"
+    }
+  },
   "maintainer": {
     "name": "larksuite",
     "verified": false,

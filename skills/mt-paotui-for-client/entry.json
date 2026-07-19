@@ -6,6 +6,16 @@
   "tags": [
     "meituan"
   ],
+  "i18n": {
+    "zh-CN": {
+      "name": "美团跑腿下单助手",
+      "shortDesc": "美团跑腿下单助手：帮取送、帮忙（取号/搬装）、帮买全流程下单，含地址搜索与两步费用确认"
+    },
+    "en-US": {
+      "name": "Meituan Paotui Client",
+      "shortDesc": "Meituan Paotui ordering assistant for pickup-delivery, errands and shopping, with address search and two-step cost confirmation"
+    }
+  },
   "maintainer": {
     "name": "meituan",
     "verified": false,

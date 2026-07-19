@@ -6,6 +6,16 @@
   "tags": [
     "ogenes"
   ],
+  "i18n": {
+    "zh-CN": {
+      "name": "钉钉 API 技能",
+      "shortDesc": "调用钉钉开放平台 API：用户与部门查询、机器人单聊/群聊消息发送、群机器人列表、离职记录查询等"
+    },
+    "en-US": {
+      "name": "DingTalk API Skill",
+      "shortDesc": "Call DingTalk Open Platform APIs: user/department lookup, bot messaging in chats and groups, and HR records"
+    }
+  },
   "maintainer": {
     "name": "ogenes",
     "verified": false,

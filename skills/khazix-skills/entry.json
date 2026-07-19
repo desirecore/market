@@ -4,6 +4,16 @@
   "category": "productivity",
   "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"6\" cy=\"12\" r=\"2\" fill=\"#2563EB\"/><circle cx=\"18\" cy=\"6\" r=\"2\" fill=\"#2563EB\"/><circle cx=\"18\" cy=\"18\" r=\"2\" fill=\"#2563EB\"/><path d=\"m7.8 11.1 8.4-4.2M7.8 12.9l8.4 4.2\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
   "tags": ["khazix", "ai-news", "writing", "analysis"],
+  "i18n": {
+    "zh-CN": {
+      "name": "卡兹克 Skills",
+      "shortDesc": "卡兹克日常在用的开源 AI Skill 合集，遵循 AgentSkills 标准，适配 Claude Code、Codex、OpenCode 等"
+    },
+    "en-US": {
+      "name": "Khazix Skills",
+      "shortDesc": "Khazix's open-source collection of daily-use AI skills following the AgentSkills standard, working with Claude Code, Codex and OpenCode"
+    }
+  },
   "maintainer": {
     "name": "KKKKhazix",
     "verified": false,

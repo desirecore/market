@@ -8,6 +8,16 @@
     "rss",
     "learnprompt"
   ],
+  "i18n": {
+    "zh-CN": {
+      "name": "AI 资讯雷达",
+      "shortDesc": "24 小时 AI 资讯雷达：从多信源筛选要闻、合并成故事线，并用三种口味锐评每日头条"
+    },
+    "en-US": {
+      "name": "AI News Radar",
+      "shortDesc": "24/7 AI news radar that curates multiple sources into storylines and delivers daily headlines with three flavors of commentary"
+    }
+  },
   "maintainer": {
     "name": "LearnPrompt",
     "verified": false,

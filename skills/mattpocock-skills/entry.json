@@ -8,6 +8,16 @@
     "tdd",
     "mattpocock"
   ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Matt Pocock Skills",
+      "shortDesc": "Matt Pocock 的真实工程 AI Skill 合集，小巧、易改、可组合，适配任意模型做实际开发而非 vibe coding"
+    },
+    "en-US": {
+      "name": "Matt Pocock Skills",
+      "shortDesc": "Matt Pocock's collection of small, composable engineering skills for real application development across any model"
+    }
+  },
   "maintainer": {
     "name": "Matt Pocock",
     "verified": false,
