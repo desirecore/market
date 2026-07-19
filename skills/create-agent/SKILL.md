@@ -2,7 +2,7 @@
 name: create-agent
 description: >-
   通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
-version: 2.5.2
+version: 2.5.3
 type: meta
 risk_level: low
 status: enabled
@@ -26,7 +26,7 @@ metadata:
       description: >-
         通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:fa447cd4d5a5b336
+      source_hash: sha256:72090265f12a8da0
       translated_by: human
     en-US:
       name: Create Agent
@@ -34,7 +34,7 @@ metadata:
       description: >-
         Collect requirements through multi-turn conversation and call the ManageAgent builtin tool to create a new AgentFS v2 Agent, with customizable persona and principles. Use when the user asks to create a new Agent, raise a domain assistant, or quickly produce a governable Agent from a template.
       body: ./SKILL.md
-      source_hash: sha256:fa447cd4d5a5b336
+      source_hash: sha256:72090265f12a8da0
       translated_by: ai:claude-fable-5
       translated_at: '2026-07-19'
 market:
@@ -82,7 +82,7 @@ Trigger (any): user explicitly says "create an Agent / make me an assistant"; de
 
 - Required (parenthesized = example prompt question): `name` ("what to name it?"), `role` ("what does it mainly do?"), `target_users` ("who will use it?"), `domain` ("what expertise does it need?").
 - Optional: `style` (communication tone), `boundaries` (red lines), `language` (default Chinese) — defaults derived from the domain template.
-- Strategy: prefer inferring from the user's natural description; only ask for missing required fields; at most 2 questions per turn.
+- Strategy: prefer inferring from the user's natural description; only ask for missing required fields; you decide how many to ask and the pacing — don't ask too many at once so as not to burden the user.
 
 ### Stage 3: Content Generation
 
