@@ -5,7 +5,7 @@ description: >-
   Catalog so that other Agents (and the human user) can discover and call it.
   Use when the user mentions adding a new service, registering an API, or
   publishing a backend you control to the team's catalog. 新增服务、注册 API、把后端发布到团队目录时使用。
-version: 1.0.2
+version: 1.0.3
 type: meta
 risk_level: medium
 status: enabled
@@ -17,7 +17,7 @@ tags:
   - meta
 metadata:
   author: desirecore
-  updated_at: '2026-06-29'
+  updated_at: '2026-07-29'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -42,7 +42,7 @@ metadata:
       source_hash: sha256:dcd8732ac76f009f
 market:
   icon: >-
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#34C759" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="12" height="6" rx="1.5"/><rect x="3" y="14" width="12" height="6" rx="1.5"/><circle cx="6.5" cy="7" r="0.5" fill="#34C759"/><circle cx="6.5" cy="17" r="0.5" fill="#34C759"/><line x1="19.5" y1="5" x2="19.5" y2="11"/><line x1="16.5" y1="8" x2="22.5" y2="8"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="12" height="6" rx="1.5"/><rect x="3" y="14" width="12" height="6" rx="1.5"/><circle cx="6.5" cy="7" r="0.5" fill="#FFFFFF"/><circle cx="6.5" cy="17" r="0.5" fill="#FFFFFF"/><line x1="19.5" y1="5" x2="19.5" y2="11"/><line x1="16.5" y1="8" x2="22.5" y2="8"/></svg>
   category: productivity
   maintainer:
     name: DesireCore Official
