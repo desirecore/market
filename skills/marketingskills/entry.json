@@ -1,0 +1,38 @@
+{
+  "id": "marketingskills",
+  "name": "Marketing Skills",
+  "category": "business",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M4 19V5\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M4 19h16\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"m6.5 14 3.5-4 3 2.5L20 6\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M20 10V6h-4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "marketing",
+    "cro",
+    "copywriting",
+    "seo",
+    "growth"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Marketing Skills",
+      "shortDesc": "面向技术型营销人与创始人的 AI Agent 营销技能集，涵盖转化率优化、文案、SEO、数据分析与增长工程，适配 Claude Code、Codex、Cursor 等"
+    },
+    "en-US": {
+      "name": "Marketing Skills",
+      "shortDesc": "A collection of AI agent marketing skills for technical marketers and founders — conversion optimization, copywriting, SEO, analytics and growth engineering, working with Claude Code, Codex, Cursor and more"
+    }
+  },
+  "maintainer": {
+    "name": "Corey Haines",
+    "verified": false,
+    "account": "coreyhaines31",
+    "url": "https://github.com/coreyhaines31/marketingskills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/coreyhaines31/marketingskills.git",
+    "repoBranch": "main",
+    "ref": "7868cb9251fad80a73d26e488a5ad5f6c4a9f335"
+  }
+}
