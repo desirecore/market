@@ -2,7 +2,7 @@
 name: beike-wings-workforce-optimization
 description: >-
   Structure, predict, compile, solve, independently validate, and recover Beike Wings workforce-efficiency optimization through versioned multi-agent artifacts and a governed MindOpt connector. Use for brokerage territory design, store/building/opportunity allocation, performance targets, centralized customer-service task scheduling, staffing, shifts, or general LP/MILP. 用户提到贝壳、Wings、人效、辖区、资源划分、绩效目标、客服调度、排班、运筹优化或 MindOpt 时使用。
-version: 2.1.0
+version: 2.2.0
 type: procedural
 risk_level: medium
 status: enabled
@@ -43,7 +43,7 @@ metadata:
       description: >-
         将贝壳经纪人辖区、资源划分、绩效目标、客服调度、排班和通用 LP/MILP 需求转成可恢复的场景、预测、模型、MindOpt 求解与独立验收制品。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:e6ebeeb78c92587e
+      source_hash: sha256:a4d3dc23dfe0f152
       translated_by: human
     en-US:
       name: Beike Wings Workforce Optimization
@@ -51,7 +51,7 @@ metadata:
       description: >-
         Turn Beike territory, resource, performance, customer-service scheduling, staffing, and general LP/MILP requests into recoverable scene, prediction, model, MindOpt solve, and independent validation artifacts.
       body: ./SKILL.md
-      source_hash: sha256:e6ebeeb78c92587e
+      source_hash: sha256:a4d3dc23dfe0f152
       translated_by: human
 market:
   icon: >-
@@ -73,6 +73,8 @@ Turn natural-language workforce-efficiency requests into reviewable and recovera
 
 ## L1
 
+- Before routing or modeling, the natural-language entry Agent must read `references/requirement-elicitation-decision-tree.md` in full and follow its real-decision, mandatory-question, and conditional-question branches.
+- Maintain a fact ledger with `fact_state`, source, and model impact. Only confirmed user facts, confirmed data, deterministic rules, or confirmed non-applicability may enter a model.
 - Use one entry Agent for routing, consolidated questions, and final delivery. Assign one owner to each stage.
 - For the full path, publish `SceneSpec`, `DataContract`, `PredictionArtifact`, `OptimizationSpec`, `SolveResult`, `ValidationReport`, and `DeliveryBundle` in dependency order through `TeamArtifact`.
 - When training data exists, call `OptimizationPredict`; use ordered holdout, train-only imputation, tuning, metrics, baseline comparison, and explicit fallback rules.
@@ -82,6 +84,8 @@ Turn natural-language workforce-efficiency requests into reviewable and recovera
 
 ## L2
 
+- Until the fact-confirmation gate passes, clarify only: do not publish modeling artifacts, call a solver, delegate a solver-capable Agent, or fill hidden conditions with defaults, simulations, or industry convention.
+- If the user cannot confirm an item, deliver the gap, model impact, required owner/data, and optional reduced scope. Never interpret an omitted answer as absent, false, zero, or unlimited.
 - Use the fast path only when the user supplied a complete `OptimizationSpec`: one solve delegation, one validation delegation, then an entry-owned `DeliveryBundle`.
 - Use the full path when objectives, constraints, data definitions, or predictive inputs still need modeling. Never advance a stage before its declared dependencies are complete.
 - Do not invent unknown business weights, relax hard constraints silently, treat missing values as zero, or describe an unvalidated solution as executable.

@@ -8,6 +8,8 @@
 
 ## L1
 
+- 自然语言入口在路由或建模前必须完整读取 `references/requirement-elicitation-decision-tree.zh-CN.md`，按决策树识别真实决策、六场景必问项和条件触发项。
+- 维护带 `fact_state`、来源和模型影响的事实台账；只有用户事实、数据事实、确定性规则或已确认不适用项能进入模型。
 - 用户只与入口 Agent 交互；入口负责路由、集中追问和最终交付，每个阶段只有一个 Owner。
 - 完整路径必须按依赖顺序通过 `TeamArtifact` 发布 `SceneSpec`、`DataContract`、`PredictionArtifact`、`OptimizationSpec`、`SolveResult`、`ValidationReport` 和 `DeliveryBundle`。
 - 有训练数据时必须调用 `OptimizationPredict`，执行有序留出、仅训练集插补、调参、指标、基线比较和明确降级规则。
@@ -17,6 +19,8 @@
 
 ## L2
 
+- 事实确认门未通过时只允许反向追问：不得发布建模工件、调用求解器、委派 solver-capable Agent，或用默认值、模拟情况、行业惯例补全隐形条件。
+- 用户无法确认时交付待确认项、模型影响、所需责任方/数据和可选降级范围；不得把未回答解释为不存在、否、零或不限制。
 - 用户已经提供完整 `OptimizationSpec` 时才走快速路径：一次求解委派、一次验证委派，然后由入口发布 `DeliveryBundle`。
 - 目标、约束、数据口径或预测输入仍需建模时走完整路径；依赖阶段未完成不得越级。
 - 不得替业务编造未知权重、静默放松硬约束、把缺失值当零，或把未经独立验算的方案称为可执行策略。
