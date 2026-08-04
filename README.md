@@ -23,16 +23,16 @@ DesireCore 官方市场仓库，存放官方维护的 Agent/Skill 定义，以�
 The market currently contains:
 
 - `1` Agent: `desirecore`
-- `31` local built-in skills with `SKILL.md`
+- `32` local built-in skills with `SKILL.md`
 - `22` external skill entries with `entry.json`
-- `53` publishable skills in total (`SKILL.md` + `entry.json`)
+- `54` publishable skills in total (`SKILL.md` + `entry.json`)
 
 ## Skill Sources
 
 Local built-in skills are installable from this repository and must be listed in `builtin-skills.json`:
 
 ```text
-code-intelligence, configuring-compute, create-agent, dashscope-image-gen, delete-agent,
+beike-wings-workforce-optimization, code-intelligence, configuring-compute, create-agent, dashscope-image-gen, delete-agent,
 dev-environment-setup, discover-agent, docx, frontend-design, guizang-ppt,
 image-to-image, mail-operations, manage-skills, manage-teams, markdown,
 minimax-music-gen, minimax-video-gen, nodejs-runtime, pdf, pptx,
