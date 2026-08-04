@@ -8,7 +8,7 @@ Maintain `fact_state`, `value`, `source`, and `model_impact` for every modeling 
 
 | State | Meaning | May enter a model? |
 |---|---|---|
-| `confirmed_user` | Explicitly confirmed by the user | Yes, with the message reference |
+| `confirmed_user` | Stated in the current request, or explicitly carried forward by the user in the current request | Yes, with the current message or carry-forward confirmation reference |
 | `confirmed_data` | Directly supplied by a trusted source with field, definition, version, and owner | Yes, with source reference |
 | `deterministic_rule` | Confirmed facts and rules permit exactly one derivation | Yes, with derivation chain |
 | `pending_confirmation` | Multiple model-changing cases remain possible | No; ask the user |
