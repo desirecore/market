@@ -24,6 +24,15 @@ Mandatory rules:
 5. If the user cannot answer, report the gap, its impact, the needed owner/data, and optional reduced scope. Do not select a case for them.
 6. Do not publish a `SceneSpec`, `DataContract`, or `OptimizationSpec` while any model-changing item remains `pending_confirmation`.
 7. Before the gate passes, do not call a solver or delegate any solver-capable Agent, and do not claim feasibility, optimality, benefit, or an executable plan.
+8. Isolate every new conversation/request from historical contamination. Facts from another conversation, Plan, artifact, memory, demo, or prior team result remain `pending_confirmation`. Do not read and promote them into the fact ledger, or use a semantically similar old Plan to complete the first response, unless the user explicitly carries forward a named version in the current request.
+9. If the file-based Plan primitive requires a Plan on the first turn, create a fresh micro-Plan for the current conversation containing only the current request, pending questions, and stop gate. Do not search for or reuse another scenario Plan. Read historical material only after the user explicitly requests inheritance, then translate it back for item-by-item confirmation.
+
+### Cross-conversation contamination isolation
+
+- **Directly usable:** the current user message, data explicitly uploaded or referenced in the current request, rules confirmed in the current request, and uniquely determined system facts such as the current date/timezone.
+- **Must be reconfirmed:** cities, stores, people, baselines, weights, protected relationships, data versions, forecasts, and acceptance thresholds from prior conversations—even when names match.
+- **Forbidden as first-response fact sources:** old Plans, artifacts, memories, solver results, test fixtures, or templates from another city.
+- **Response rule:** if historical material may be relevant, ask which named version/fields to carry forward. Until confirmation, do not display historical values under confirmed facts.
 
 ## 1. Top-level tree
 
