@@ -9,6 +9,7 @@
 ## L1
 
 - 自然语言入口在路由或建模前必须完整读取 `references/requirement-elicitation-decision-tree.zh-CN.md`，按决策树识别真实决策、六场景必问项和条件触发项。
+- 首轮必须用普通文本公开已确认事实、完整待确认问题地图和停止状态，不得先调用 `AskUserQuestion` 把其余模型影响项藏在分批问题卡之后。
 - 维护带 `fact_state`、`value`、`source`、`model_impact` 的事实台账；只有用户事实、数据事实、确定性规则或已确认不适用项能进入模型。
 - 用户只与入口 Agent 交互；入口负责路由、集中追问和最终交付，每个阶段只有一个 Owner。
 - 完整路径必须按依赖顺序通过 `TeamArtifact` 发布 `SceneSpec`、`DataContract`、`PredictionArtifact`、`OptimizationSpec`、`SolveResult`、`ValidationReport` 和 `DeliveryBundle`。
