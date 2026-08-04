@@ -2,7 +2,7 @@
 name: beike-wings-workforce-optimization
 description: >-
   Structure, predict, compile, solve, independently validate, and recover Beike Wings workforce-efficiency optimization through versioned multi-agent artifacts and a governed MindOpt connector. Use for brokerage territory design, store/building/opportunity allocation, performance targets, centralized customer-service task scheduling, staffing, shifts, or general LP/MILP. 用户提到贝壳、Wings、人效、辖区、资源划分、绩效目标、客服调度、排班、运筹优化或 MindOpt 时使用。
-version: 2.2.2
+version: 2.2.3
 type: procedural
 risk_level: medium
 status: enabled
@@ -75,6 +75,7 @@ Turn natural-language workforce-efficiency requests into reviewable and recovera
 
 - Before routing or modeling, the natural-language entry Agent must read `references/requirement-elicitation-decision-tree.md` in full and follow its real-decision, mandatory-question, and conditional-question branches.
 - The first response must use ordinary text to expose confirmed facts, the complete pending-question map, and the stop status. Do not call `AskUserQuestion` first and hide other model-changing items behind a sequence of small cards.
+- End every first response with the two verbatim gate commitments defined by the decision tree. Do not paraphrase, shorten, or omit either commitment.
 - Maintain a fact ledger with `fact_state`, `value`, `source`, and `model_impact`. Only confirmed user facts, confirmed data, deterministic rules, or confirmed non-applicability may enter a model.
 - Isolate every new request from historical contamination. Facts from another conversation, Plan, artifact, memory, or sample remain `pending_confirmation` until the user explicitly carries them into the current request; do not search for or reuse a semantically similar Plan as evidence for the first response.
 - Use one entry Agent for routing, consolidated questions, and final delivery. Assign one owner to each stage.

@@ -184,7 +184,11 @@ The first response must be **ordinary text** that exposes the fact ledger and th
 3. Confirmed facts only, with sources.
 4. Grouped questions: scope, objectives/baseline, hard constraints, competition/coupling, data, acceptance. Explain model impact and give options where helpful.
 5. Conditional questions phrased as “If X applies, provide Y; otherwise explicitly confirm not applicable.”
-6. Stop status: “I will not model or call a solver until these model-changing items are confirmed.”
+6. **Fixed fact-gate footer:** end the first response with both sentences below exactly as written. They are a stable, human-reviewable safety boundary; do not paraphrase, shorten, or merge them:
+
+   > Unconfirmed items will remain gaps; I will not fill them with defaults, simulations, or industry conventions.
+   >
+   > Until every model-changing item is confirmed, I will not model, publish modeling artifacts, delegate solving, or call a solver.
 
 Ask only the selected branch's mandatory and triggered conditional questions. If the full set is too large, ask the 5–8 highest-impact groups first and retain the rest in the queue.
 
