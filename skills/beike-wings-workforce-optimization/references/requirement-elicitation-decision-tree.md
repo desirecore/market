@@ -168,6 +168,8 @@ Stop if variable domains, objective coefficients, constraint direction/bounds, d
 
 Respond to the user without exposing internal reasoning:
 
+The first response must be **ordinary text** that exposes the fact ledger and the complete question map for the matched branch. Do not call `AskUserQuestion` on the first response. A structured card can carry only a few choices; showing it first would hide the remaining model-changing questions in an invisible queue. From the second response onward, after ordinary text has exposed the complete pending list, `AskUserQuestion` may focus on one to four high-impact choices. Anything not displayed or answered remains `pending_confirmation`.
+
 1. Surface understanding, without claiming completeness.
 2. Two to four possible real decisions/deliverables for selection.
 3. Confirmed facts only, with sources.
@@ -180,4 +182,3 @@ Ask only the selected branch's mandatory and triggered conditional questions. If
 ## 11. Review after each user answer
 
 Update the ledger; list newly confirmed, still pending, confirmed-not-applicable, and conflicting items; follow newly triggered branches; translate all values, policies, weights, forecasts, and exceptions back to the user. When the gate passes, present a modeling-confirmation summary—variables, objectives, hard/soft constraints, data versions, baseline, competition/coupling, infeasibility, and acceptance—and obtain confirmation before solving.
-
