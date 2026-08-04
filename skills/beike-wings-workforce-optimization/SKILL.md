@@ -43,7 +43,7 @@ metadata:
       description: >-
         将贝壳经纪人辖区、资源划分、绩效目标、客服调度、排班和通用 LP/MILP 需求转成可恢复的场景、预测、模型、MindOpt 求解与独立验收制品。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:a4d3dc23dfe0f152
+      source_hash: sha256:bd7ccd7ff91edf03
       translated_by: human
     en-US:
       name: Beike Wings Workforce Optimization
@@ -51,7 +51,7 @@ metadata:
       description: >-
         Turn Beike territory, resource, performance, customer-service scheduling, staffing, and general LP/MILP requests into recoverable scene, prediction, model, MindOpt solve, and independent validation artifacts.
       body: ./SKILL.md
-      source_hash: sha256:a4d3dc23dfe0f152
+      source_hash: sha256:bd7ccd7ff91edf03
       translated_by: human
 market:
   icon: >-
@@ -74,7 +74,7 @@ Turn natural-language workforce-efficiency requests into reviewable and recovera
 ## L1
 
 - Before routing or modeling, the natural-language entry Agent must read `references/requirement-elicitation-decision-tree.md` in full and follow its real-decision, mandatory-question, and conditional-question branches.
-- Maintain a fact ledger with `fact_state`, source, and model impact. Only confirmed user facts, confirmed data, deterministic rules, or confirmed non-applicability may enter a model.
+- Maintain a fact ledger with `fact_state`, `value`, `source`, and `model_impact`. Only confirmed user facts, confirmed data, deterministic rules, or confirmed non-applicability may enter a model.
 - Use one entry Agent for routing, consolidated questions, and final delivery. Assign one owner to each stage.
 - For the full path, publish `SceneSpec`, `DataContract`, `PredictionArtifact`, `OptimizationSpec`, `SolveResult`, `ValidationReport`, and `DeliveryBundle` in dependency order through `TeamArtifact`.
 - When training data exists, call `OptimizationPredict`; use ordered holdout, train-only imputation, tuning, metrics, baseline comparison, and explicit fallback rules.
