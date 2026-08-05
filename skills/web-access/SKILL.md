@@ -5,11 +5,12 @@ description: >-
   — searching for current information, fetching public web pages, browsing
   login-gated sites (微博/小红书/B站/飞书/Twitter), comparing products,
   researching topics, gathering documentation, or summarizing news.
-  This skill orchestrates three complementary layers: (1) WebSearch + WebFetch
+  This skill orchestrates four complementary layers: (1) WebSearch + WebFetch
   for public pages, (2) Jina Reader as the default token-optimization layer for
-  heavy/JS-rendered pages, and (3) the governed built-in browser (isolated
-  BrowserSpace + Cookie import) for login-gated sites, with Chrome DevTools
-  Protocol via Python Playwright as the fallback. Always cite source URLs.
+  heavy/JS-rendered pages, (3) the governed built-in browser (isolated
+  BrowserSpace + Cookie import) to reach and interact with login-gated sites,
+  and (4) Chrome DevTools Protocol via Python Playwright as the fallback for
+  bulk text extraction and complex automation. Always cite source URLs.
   Use when 用户提到 联网搜索、上网查、
   查资料、抓取网页、研究、调研、最新资讯、文档查询、对比、竞品、技术文档、
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
@@ -52,14 +53,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问、研究调研工作流
       description: 四层联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器登录态访问、Python Playwright CDP 兜底。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:fef3d4a17afcd123
+      source_hash: sha256:2e6753fc05142e9a
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A four-layer web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach logged-in sites through the governed built-in browser, and fall back to Chrome CDP.
       body: ./SKILL.md
-      source_hash: sha256:fef3d4a17afcd123
+      source_hash: sha256:2e6753fc05142e9a
       translated_by: human
 market:
   icon: >-
@@ -205,10 +206,11 @@ User intent
   │          (Jina Reader = default for JS-rendered content, saves tokens)
   │
   ├─ "Read this login-gated page" (Xiaohongshu/Bilibili/Weibo/Feishu/Twitter/Zhihu/WeChat)
-  │     ├─→ Default: BrowserManage(create_space/start_session) → BrowserImport(cookies for that
-  │     │            domain) → BrowserAct(tab.navigate) → BrowserSnapshot(semantic)
-  │     └─→ Fallback: verify CDP ready, then python3 playwright.connect_over_cdp()
-  │                   → extract content → Jina Reader / BeautifulSoup
+  │     ├─→ Reach it: BrowserManage(create_space/start_session) → BrowserImport(cookies for
+  │     │              that domain) → BrowserAct(tab.navigate) → tab.activate + page.screenshot
+  │     │              to confirm you landed on the content (semantic snapshot has no body text)
+  │     └─→ Extract the text: verify CDP ready, then python3 playwright.connect_over_cdp()
+  │                   → page.content() → Jina Reader / BeautifulSoup
   │
   ├─ "API documentation / GitHub / npm package info"
   │     └─→ Prefer official API endpoints over scraping HTML:
@@ -385,7 +387,9 @@ Full API and edge cases: see [references/browser-tools.md](references/browser-to
 2. BrowserManage({ action: 'start_session', spaceId, capabilities: [...] })
 3. BrowserImport({ action: 'discover' }) → plan → apply for xiaohongshu.com  ← reuse login
 4. BrowserAct({ action: 'tab.navigate', params: { url: 'https://www.xiaohongshu.com/explore/abc123' } })
-5. BrowserSnapshot({ mode: 'semantic' })   ← read content and element refs
+5. BrowserSnapshot({ mode: 'semantic' })   ← element refs for interaction (no body text)
+   tab.activate + page.screenshot           ← confirm the note actually rendered
+   → extract the note text via L3-fallback Playwright
 6. SitePatternRead({ domain: 'xiaohongshu.com' })  ← read accumulated experience
 7. At task end → BrowserManage({ action: 'close_session', sessionId })
 8. If you find a new pitfall → SitePatternWrite({ domain, scope: 'agent', mode: 'merge', content })

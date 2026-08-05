@@ -121,10 +121,11 @@ User intent
   │          (Jina Reader = default for JS-rendered content, saves tokens)
   │
   ├─ "Read this login-gated page" (小红书/B站/微博/飞书/Twitter/知乎/公众号)
-  │     ├─→ 默认：BrowserManage(create_space/start_session) → BrowserImport(按域导入 Cookie)
-  │     │        → BrowserAct(tab.navigate) → BrowserSnapshot(semantic)
-  │     └─→ 兜底：确认 CDP 就绪后 python3 playwright.connect_over_cdp()
-  │              → 提取内容 → Jina Reader / BeautifulSoup
+  │     ├─→ 到达：BrowserManage(create_space/start_session) → BrowserImport(按域导入 Cookie)
+  │     │        → BrowserAct(tab.navigate) → tab.activate + page.screenshot 确认落到正文页
+  │     │          （semantic 快照不含正文，不能用来读内容）
+  │     └─→ 取正文：确认 CDP 就绪后 python3 playwright.connect_over_cdp()
+  │              → page.content() → Jina Reader / BeautifulSoup
   │
   ├─ "API documentation / GitHub / npm package info"
   │     └─→ Prefer official API endpoints over scraping HTML:
@@ -301,7 +302,9 @@ See [references/cdp-browser.md](references/cdp-browser.md) for:
 2. BrowserManage({ action: 'start_session', spaceId, capabilities: [...] })
 3. BrowserImport({ action: 'discover' }) → plan → apply 授权 xiaohongshu.com  ← 复用登录态
 4. BrowserAct({ action: 'tab.navigate', params: { url: 'https://www.xiaohongshu.com/explore/abc123' } })
-5. BrowserSnapshot({ mode: 'semantic' })   ← 读内容与元素 ref
+5. BrowserSnapshot({ mode: 'semantic' })   ← 只拿交互用的元素 ref（不含正文）
+   tab.activate + page.screenshot           ← 确认确实渲染出了笔记
+   → 正文抽取走 L3-fallback Playwright
 6. SitePatternRead({ domain: 'xiaohongshu.com' })  ← 读累积经验
 7. 任务结束 → BrowserManage({ action: 'close_session', sessionId })
 8. 如发现新陷阱 → SitePatternWrite({ domain, scope: 'agent', mode: 'merge', content })
