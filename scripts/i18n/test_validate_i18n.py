@@ -48,5 +48,33 @@ class ModelInvocationPolicyTests(unittest.TestCase):
         self.assertEqual("model-invocation-policy", issues[0].rule)
 
 
+class BuiltinSkillManifestTests(unittest.TestCase):
+    def validate(self, payload: dict[str, object], skills: list[str]) -> list[object]:
+        report = VALIDATOR.Report()
+        VALIDATOR.validate_builtin_manifest(report, payload, skills)
+        return report.issues
+
+    def test_allows_disjoint_sorted_retired_ids(self) -> None:
+        self.assertEqual([], self.validate(
+            {"skills": ["new-skill"], "retired": ["old-skill"]},
+            ["new-skill"],
+        ))
+
+    def test_rejects_active_retired_overlap(self) -> None:
+        issues = self.validate(
+            {"skills": ["same-skill"], "retired": ["same-skill"]},
+            ["same-skill"],
+        )
+        self.assertTrue(any("overlap" in issue.message for issue in issues))
+
+    def test_rejects_unknown_fields_and_invalid_ids(self) -> None:
+        issues = self.validate(
+            {"skills": ["Invalid_ID"], "retired": [], "unknown": True},
+            ["Invalid_ID"],
+        )
+        self.assertTrue(any("unknown top-level" in issue.message for issue in issues))
+        self.assertTrue(any("invalid Skill IDs" in issue.message for issue in issues))
+
+
 if __name__ == "__main__":
     unittest.main()

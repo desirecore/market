@@ -32,7 +32,7 @@ The market currently contains:
 Local built-in skills are installable from this repository and must be listed in `builtin-skills.json`:
 
 ```text
-beike-wings-workforce-optimization, code-intelligence, configuring-compute, create-agent, dashscope-image-gen, delete-agent,
+beike-workforce-optimization, code-intelligence, configuring-compute, create-agent, dashscope-image-gen, delete-agent,
 dev-environment-setup, discover-agent, docx, frontend-design, guizang-ppt,
 image-to-image, mail-operations, manage-skills, manage-teams, markdown,
 minimax-music-gen, minimax-video-gen, nodejs-runtime, pdf, pptx,
@@ -40,6 +40,11 @@ python-runtime, registering-services, s3-storage-operations, skill-creator,
 tech-diagram, update-agent, using-services, web-access, workflow,
 xiaomi-tts, xlsx
 ```
+
+`builtin-skills.json#retired` lists old built-in Skill IDs that clients may safely retire during
+startup. Clients only remove copies tracked in `skills.lock` as market/bundled content whose
+`SKILL.md` hash still matches the installed record; manually installed or locally modified copies
+are preserved. An ID must not appear in both `skills` and `retired`.
 
 External entries are marketplace pointers to Git/Web/ZIP sources:
 
