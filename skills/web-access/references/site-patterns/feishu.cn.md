@@ -19,7 +19,7 @@ updated_at: '2026-08-06'
 
 ## 推荐流程
 1. 公开文档（companion 页面/官方文档站点 `feishu.cn/hc/...`）→ WebFetch / Jina
-2. 用户文档 → 内置浏览器 BrowserImport 导入 Cookie + BrowserAct(tab.navigate) 到达，正文抽取回落 Playwright
+2. 用户文档 → 内置浏览器 BrowserAct(tab.navigate) 到达（登录态：已授予 `browser.import.*` 才用 BrowserImport，否则直接回落），正文抽取回落 Playwright
 3. 长期程序化访问 → 申请 OpenAPI access_token，走 HTTP，避免 CDP
 
 ## 推荐选择器
