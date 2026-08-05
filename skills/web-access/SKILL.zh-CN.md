@@ -26,7 +26,7 @@ web-access 是一个**流程型技能（Procedural Skill）**，提供四层互�
 | BrowserManage | 建/销隔离 BrowserSpace、启动会话、管理标签页 |
 | BrowserSnapshot | `semantic` / `accessibility` / `visual` 快照——读页面的主通道 |
 | BrowserAct | 一次调用一个受管动作：导航、点击、输入、滚动、截图…… |
-| BrowserImport | 从用户 Chrome/Edge/Firefox/Safari 配置导入 Cookie（需人工审批） |
+| BrowserImport | 从用户 Chrome/Edge/Firefox/Safari 配置导入 Cookie（需人工审批；**还需 Host 授予 `browser.import.*`，普通 `create_space` 会话拿不到**） |
 | BrowserShare | 把 Space/Session 委派给其他 Agent（隔离 / 快照 / 写时复制 / 实时共享） |
 | SitePatternRead / SitePatternWrite | 按域名累积"站点经验"（AgentFS 三层） |
 | LocalBookmarks | 检索本地 Chrome 书签 / 历史 |
@@ -46,7 +46,7 @@ web-access 是一个**流程型技能（Procedural Skill）**，提供四层互�
 
 - **四层递进**：从轻量搜索到重度 JS 渲染到登录态访问，按需选择
 - **Token 优化**：Jina Reader 默认减少 50-80% Token 消耗
-- **登录态复用**：用 BrowserImport 把用户已有 Cookie 导入隔离 Space（兜底层仍可 CDP 连用户 Chrome），无需重复登录
+- **登录态复用**：兜底层 CDP 连用户 Chrome，或在 Host 已授予 `browser.import.*` 时用 BrowserImport 把 Cookie 导入隔离 Space；两条路都不必重新登录
 
 ## L2：详细规范
 
@@ -62,7 +62,7 @@ If any fetch fails, explicitly tell the user which URL failed and which fallback
 
 ## Prerequisites: Chrome CDP Setup (for login-gated sites)
 
-**Only required for the L3-fallback layer**（Python Playwright）。L3-fast 内置浏览器不需要——用 `BrowserImport` 复用登录态即可。
+**L3-fallback 层（Python Playwright）必需**，实际上也仍是复用登录态最稳的一条路。L3-fast 内置浏览器只有在 Host 已授予 `browser.import.*`、`BrowserImport` 真能用的前提下才可以跳过这一步；否则照样要配。
 
 ### One-time setup
 
@@ -121,9 +121,10 @@ User intent
   │          (Jina Reader = default for JS-rendered content, saves tokens)
   │
   ├─ "Read this login-gated page" (小红书/B站/微博/飞书/Twitter/知乎/公众号)
-  │     ├─→ 到达：BrowserManage(create_space/start_session) → BrowserImport(按域导入 Cookie)
-  │     │        → BrowserAct(tab.navigate) → tab.activate + page.screenshot 确认落到正文页
+  │     ├─→ 到达：BrowserManage(create_space/start_session) → BrowserAct(tab.navigate)
+  │     │        → tab.activate + page.screenshot 确认落到正文页
   │     │          （semantic 快照不含正文，不能用来读内容）
+  │     │          要登录态：仅在已授予 browser.import.* 时用 BrowserImport，否则走下面的 CDP
   │     └─→ 取正文：确认 CDP 就绪后 python3 playwright.connect_over_cdp()
   │              → page.content() → Jina Reader / BeautifulSoup
   │
@@ -278,9 +279,9 @@ See [references/cdp-browser.md](references/cdp-browser.md) for:
 | `BrowserSnapshot({ mode: 'semantic' })` | 读页面：可交互元素 + `ref` 句柄 |
 | `BrowserAct({ action: 'input.click', params: { ref } })` | 按快照 `ref` 点击，不要用裸 x/y |
 | `BrowserAct({ action: 'input.text', params: { text } })` | 向聚焦元素输入文本 |
-| `BrowserAct({ action: 'input.wheel', params: { deltaX: 0, deltaY: 720 } })` | 滚动触发懒加载 |
+| `BrowserAct({ action: 'input.wheel', params: { x: 640, y: 400, deltaX: 0, deltaY: 720 } })` | 滚动触发懒加载 —— `x`/`y`（或 `ref`）**必填**，且会话要带 `browser.input.pointer.wheel` |
 | `BrowserAct({ action: 'tab.activate', params: { bounds } })` → `page.screenshot` | **先 activate 再截图** |
-| `BrowserImport({ action: 'discover' \| 'plan' \| 'apply' })` | 复用用户登录态 Cookie（需人工审批） |
+| `BrowserImport({ action: 'discover' \| 'create_plan' \| 'dry_run' \| 'apply' \| 'rollback' \| 'list_plans' })` | 复用用户登录态 Cookie —— 这 6 个就是**全部**动作，主流程走 `discover → create_plan → dry_run → apply`。**需要 `browser.import.*`，而 `create_space` 不会授予**（见下） |
 
 完整 API 与边界条件见 [references/browser-tools.md](references/browser-tools.md)。
 
@@ -300,7 +301,10 @@ See [references/cdp-browser.md](references/cdp-browser.md) for:
 ```
 1. BrowserManage({ action: 'create_space', name: 'xhs-note', persistence: 'ephemeral' })
 2. BrowserManage({ action: 'start_session', spaceId, capabilities: [...] })
-3. BrowserImport({ action: 'discover' }) → plan → apply 授权 xiaohongshu.com  ← 复用登录态
+   ← 显式列表是做减法；要滚动就必须把 browser.input.pointer.wheel 列进去
+3. 复用登录态：默认走 L3-fallback Playwright 连用户自己的 Chrome。
+   BrowserImport({ action: 'discover' → 'create_plan' → 'dry_run' → 'apply' }) 只有在 Host 另行
+   授予 browser.import.* 时才走得通 —— 光靠 create_space 拿不到；被拒就直接回落。
 4. BrowserAct({ action: 'tab.navigate', params: { url: 'https://www.xiaohongshu.com/explore/abc123' } })
 5. BrowserSnapshot({ mode: 'semantic' })   ← 只拿交互用的元素 ref（不含正文）
    tab.activate + page.screenshot           ← 确认确实渲染出了笔记
