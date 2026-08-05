@@ -1,0 +1,38 @@
+{
+  "id": "baoyu-skills",
+  "name": "宝玉 Skills",
+  "category": "creative",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M4 5a1 1 0 0 1 1-1h9l6 6v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M14 4v6h6\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"m9.5 13.5 1.6 1.6 3.4-3.4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "baoyu",
+    "content-creation",
+    "wechat",
+    "illustration",
+    "productivity"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "宝玉 Skills",
+      "shortDesc": "宝玉分享的 AI Agent 技能集，20+ 技能覆盖封面图、插图、公众号发布、翻译、幻灯片等，适配 Claude Code、Codex 等"
+    },
+    "en-US": {
+      "name": "Baoyu Skills",
+      "shortDesc": "Baoyu's 20+ content-creation skills — cover images, illustrations, WeChat publishing, translation and slide decks, for Claude Code and Codex"
+    }
+  },
+  "maintainer": {
+    "name": "Baoyu (JimLiu)",
+    "verified": false,
+    "account": "JimLiu",
+    "url": "https://github.com/JimLiu/baoyu-skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/JimLiu/baoyu-skills.git",
+    "repoBranch": "main",
+    "ref": "6b7a2e417500561a5ecdd0b168332f4142584617"
+  }
+}
