@@ -5,7 +5,7 @@ type: site-pattern
 pinned: true
 confidence: medium
 learned_at: '2026-05-05'
-updated_at: '2026-05-05'
+updated_at: '2026-08-06'
 ---
 
 ## L0
@@ -18,8 +18,8 @@ updated_at: '2026-05-05'
 
 ## 推荐流程
 1. 专栏文章 → WebFetch / Jina Reader 优先
-2. 问答详情 → BrowserNavigate + BrowserEval；批量回答用 `[...document.querySelectorAll('.AnswerItem')].map(...)`
-3. 评论 → 必须登录，BrowserClick 展开，BrowserScroll 加载更多
+2. 问答详情 → 内置浏览器 BrowserAct(tab.navigate) 到达；批量回答的正文抽取回落 Playwright（`.AnswerItem`）
+3. 评论 → 必须登录，BrowserAct(input.click ref) 展开，BrowserAct(input.wheel) 加载更多
 
 ## 推荐选择器
 - 文章标题：`h1.Post-Title` / `h1[class*='Title']`
