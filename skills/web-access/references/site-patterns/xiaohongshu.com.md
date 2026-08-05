@@ -18,7 +18,8 @@ updated_at: '2026-08-06'
 - xsec_token：详情页 URL 包含 `xsec_token=...`，**通过站内交互生成**——直接拼 URL 容易失败
 
 ## 推荐流程
-1. BrowserManage(create_space/start_session) → BrowserImport 按域导入 xiaohongshu.com 的 Cookie
+1. BrowserManage(create_space/start_session)；登录态若已授予 `browser.import.*`，用
+   BrowserImport(discover → create_plan[domains: xiaohongshu.com] → dry_run → apply)，否则回落 CDP
 2. BrowserAct(tab.navigate) 打开笔记；列表页用 BrowserSnapshot(semantic) 收 `.note-card` 链接的 ref
 3. 正文抽取回落 L3-fallback Playwright（内置浏览器的 semantic 快照不含正文，accessibility 在本站会超限）
 4. 收尾 BrowserManage(close_session)；ephemeral Space 不留 Profile

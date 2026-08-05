@@ -16,7 +16,7 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: Complete terms in LICENSE.txt
-version: 2.1.0
+version: 2.1.1
 type: procedural
 risk_level: low
 status: enabled
@@ -53,14 +53,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问、研究调研工作流
       description: 四层联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器登录态访问、Python Playwright CDP 兜底。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:2e6753fc05142e9a
+      source_hash: sha256:ce46e1982de8cd65
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A four-layer web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach logged-in sites through the governed built-in browser, and fall back to Chrome CDP.
       body: ./SKILL.md
-      source_hash: sha256:2e6753fc05142e9a
+      source_hash: sha256:ce46e1982de8cd65
       translated_by: human
 market:
   icon: >-
@@ -79,6 +79,7 @@ market:
     fill-opacity="0.12"/><path d="M20.5 20.5l2 2" stroke="#34C759"
     stroke-width="1.8" stroke-linecap="round"/></svg>
   category: research
+  required_client_version: 10.0.98
   maintainer:
     name: DesireCore Official
     verified: true
@@ -111,7 +112,7 @@ When you call `Skill('web-access')`, the following 8 tools are injected into the
 | BrowserManage | Create/destroy isolated BrowserSpace, start sessions, manage tabs |
 | BrowserSnapshot | `semantic` / `accessibility` / `visual` page snapshots — the primary way to read a page |
 | BrowserAct | One governed action per call: navigate, click, type, scroll, screenshot, … |
-| BrowserImport | Import Cookies from the user's Chrome/Edge/Firefox/Safari profile (human-approved) |
+| BrowserImport | Import Cookies from the user's Chrome/Edge/Firefox/Safari profile (human-approved; **needs `browser.import.*` granted by the Host — not available to a plain `create_space` session**) |
 | BrowserShare | Delegate a Space/Session to another Agent (isolated / snapshot / copy-on-write / live) |
 | SitePatternRead / SitePatternWrite | Per-domain "site experience" (AgentFS three-layer) |
 | LocalBookmarks | Search local Chrome bookmarks / history |
@@ -131,7 +132,7 @@ When you call `Skill('web-access')`, the following 8 tools are injected into the
 
 - **Four-layer progression**: from lightweight search to heavy JS rendering to logged-in access — pick on demand
 - **Token optimization**: Jina Reader cuts token usage by 50–80% by default
-- **Logged-in session reuse**: import the user's existing Cookies into an isolated Space via BrowserImport (or attach to their Chrome via CDP in the fallback layer) — no re-login required
+- **Logged-in session reuse**: attach to the user's Chrome via CDP in the fallback layer, or — where the Host has granted `browser.import.*` — import their Cookies into an isolated Space via BrowserImport; either way, no re-login required
 
 ## L2: Detailed Specification
 
@@ -147,7 +148,7 @@ If any fetch fails, explicitly tell the user which URL failed and which fallback
 
 ## Prerequisites: Chrome CDP Setup (for login-gated sites)
 
-**Only required for the L3-fallback layer** (Python Playwright). The L3-fast built-in browser does not need this — use `BrowserImport` to reuse the user's login instead.
+**Required for the L3-fallback layer** (Python Playwright) — and, in practice, still the reliable way to reuse a login. The L3-fast built-in browser can skip it only when the Host has granted `browser.import.*` so that `BrowserImport` actually works; otherwise set this up.
 
 ### One-time setup
 
@@ -206,9 +207,10 @@ User intent
   │          (Jina Reader = default for JS-rendered content, saves tokens)
   │
   ├─ "Read this login-gated page" (Xiaohongshu/Bilibili/Weibo/Feishu/Twitter/Zhihu/WeChat)
-  │     ├─→ Reach it: BrowserManage(create_space/start_session) → BrowserImport(cookies for
-  │     │              that domain) → BrowserAct(tab.navigate) → tab.activate + page.screenshot
-  │     │              to confirm you landed on the content (semantic snapshot has no body text)
+  │     ├─→ Reach it: BrowserManage(create_space/start_session) → BrowserAct(tab.navigate)
+  │     │              → tab.activate + page.screenshot to confirm you landed on the content
+  │     │              (semantic snapshot has no body text). Logged-in? BrowserImport only if
+  │     │              browser.import.* was granted — otherwise reuse the login via CDP below.
   │     └─→ Extract the text: verify CDP ready, then python3 playwright.connect_over_cdp()
   │                   → page.content() → Jina Reader / BeautifulSoup
   │
@@ -363,9 +365,9 @@ See [references/cdp-browser.md](references/cdp-browser.md) for:
 | `BrowserSnapshot({ mode: 'semantic' })` | Read the page: interactive elements + `ref` handles |
 | `BrowserAct({ action: 'input.click', params: { ref } })` | Click by snapshot `ref`, never by raw x/y |
 | `BrowserAct({ action: 'input.text', params: { text } })` | Type into the focused element |
-| `BrowserAct({ action: 'input.wheel', params: { deltaX: 0, deltaY: 720 } })` | Scroll to trigger lazy loading |
+| `BrowserAct({ action: 'input.wheel', params: { x: 640, y: 400, deltaX: 0, deltaY: 720 } })` | Scroll to trigger lazy loading — `x`/`y` (or `ref`) is **required**, and the session needs `browser.input.pointer.wheel` |
 | `BrowserAct({ action: 'tab.activate', params: { bounds } })` → `page.screenshot` | **activate first, then screenshot** |
-| `BrowserImport({ action: 'discover' \| 'plan' \| 'apply' })` | Reuse the user's login cookies (human-approved) |
+| `BrowserImport({ action: 'discover' \| 'create_plan' \| 'dry_run' \| 'apply' \| 'rollback' \| 'list_plans' })` | Reuse the user's login cookies — those 6 are the **complete** action set; happy path is `discover → create_plan → dry_run → apply`. **Needs `browser.import.*`, which `create_space` does not grant** (see below) |
 
 Full API and edge cases: see [references/browser-tools.md](references/browser-tools.md).
 
@@ -385,7 +387,10 @@ Full API and edge cases: see [references/browser-tools.md](references/browser-to
 ```
 1. BrowserManage({ action: 'create_space', name: 'xhs-note', persistence: 'ephemeral' })
 2. BrowserManage({ action: 'start_session', spaceId, capabilities: [...] })
-3. BrowserImport({ action: 'discover' }) → plan → apply for xiaohongshu.com  ← reuse login
+   ← an explicit list *narrows* the lease; include browser.input.pointer.wheel if you will scroll
+3. Reuse the login: L3-fallback Playwright against the user's own Chrome is the default path.
+   BrowserImport({ action: 'discover' → 'create_plan' → 'dry_run' → 'apply' }) only works if the
+   Host granted browser.import.* separately — create_space alone does not. If it is denied, fall back.
 4. BrowserAct({ action: 'tab.navigate', params: { url: 'https://www.xiaohongshu.com/explore/abc123' } })
 5. BrowserSnapshot({ mode: 'semantic' })   ← element refs for interaction (no body text)
    tab.activate + page.screenshot           ← confirm the note actually rendered
