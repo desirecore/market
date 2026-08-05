@@ -4,7 +4,7 @@
 
 ## L0：一句话摘要
 
-四层联网访问工具包——搜索公开页面、Jina 优化抓取、BrowserXxx 内置工具家族（v2.0）、Python Playwright CDP 兜底。
+四层联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器登录态访问（v2.1）、Python Playwright CDP 兜底。
 
 ## L1：概述与使用场景
 
@@ -14,24 +14,26 @@ web-access 是一个**流程型技能（Procedural Skill）**，提供四层互�
 
 - **L1**（WebSearch + WebFetch）：公开页面，轻量
 - **L2**（Jina Reader）：JS 渲染的重页面，默认节省 Token
-- **L3-fast**（BrowserXxx 内置工具家族，**v2.0 新增**）：登录态站点首选——零 Python 依赖、内置 cdp-proxy 子进程、支持 CDP 真实鼠标事件
+- **L3-fast**（内置受管浏览器，**v2.1 重写**）：到达并*操作*登录态/交互站点——每个任务独立 BrowserSpace 隔离、零 Python 依赖、每次动作都有可审计回执。**抽取长正文仍归 L2 / L3-fallback**，见下方取文说明
 - **L3-fallback**（Chrome CDP + Python Playwright）：复杂自动化场景兜底（长等待、特殊 race condition 等）
 
-### v2.0 新增：BrowserXxx 工具家族（默认隐藏，激活后才暴露）
+### v2.1 重写：内置受管浏览器（默认隐藏，激活后才暴露）
 
-调用 `Skill('web-access')` 加载本技能时，以下 11 个工具被注入到当前会话，让 LLM 直接驱动浏览器：
+调用 `Skill('web-access')` 加载本技能时，以下 8 个工具被注入到当前会话，让 LLM 直接驱动内置浏览器：
 
 | 工具 | 用途 |
 |------|------|
-| BrowserListTabs / BrowserNavigate / BrowserCloseTab | tab 管理 |
-| BrowserEval | 执行 JS 提取数据 |
-| BrowserClick (`mode: js \| real-mouse`) | 点击元素，real-mouse 反爬更强 |
-| BrowserScreenshot / BrowserScroll | 截图、滚动触发懒加载 |
-| BrowserSetFiles | 上传本地文件（需用户确认） |
+| BrowserManage | 建/销隔离 BrowserSpace、启动会话、管理标签页 |
+| BrowserSnapshot | `semantic` / `accessibility` / `visual` 快照——读页面的主通道 |
+| BrowserAct | 一次调用一个受管动作：导航、点击、输入、滚动、截图…… |
+| BrowserImport | 从用户 Chrome/Edge/Firefox/Safari 配置导入 Cookie（需人工审批） |
+| BrowserShare | 把 Space/Session 委派给其他 Agent（隔离 / 快照 / 写时复制 / 实时共享） |
 | SitePatternRead / SitePatternWrite | 按域名累积"站点经验"（AgentFS 三层） |
 | LocalBookmarks | 检索本地 Chrome 书签 / 历史 |
 
 > **重要**：未调用 Skill('web-access') 之前，这些工具**不会**出现在 LLM 的 tools 列表里——默认对话不消耗其 token。详见 [references/browser-tools.md](references/browser-tools.md)。
+>
+> **v2.1 已移除**：`BrowserListTabs` / `BrowserNavigate` / `BrowserEval` / `BrowserClick` / `BrowserScreenshot` / `BrowserScroll` / `BrowserSetFiles` / `BrowserCloseTab` 及其背后的 cdp-proxy 已停用，调用会返回「该旧 BrowserXxx/cdp-proxy 入口已停用」。本版要求客户端 v10.0.98+。
 
 ### 使用场景
 
@@ -44,7 +46,7 @@ web-access 是一个**流程型技能（Procedural Skill）**，提供四层互�
 
 - **四层递进**：从轻量搜索到重度 JS 渲染到登录态访问，按需选择
 - **Token 优化**：Jina Reader 默认减少 50-80% Token 消耗
-- **登录态复用**：通过 CDP 连接用户已登录的 Chrome，无需重复登录
+- **登录态复用**：用 BrowserImport 把用户已有 Cookie 导入隔离 Space（兜底层仍可 CDP 连用户 Chrome），无需重复登录
 
 ## L2：详细规范
 
@@ -60,7 +62,7 @@ If any fetch fails, explicitly tell the user which URL failed and which fallback
 
 ## Prerequisites: Chrome CDP Setup (for login-gated sites)
 
-**Only required when accessing sites that need the user's login session** (小红书/B站/微博/飞书/Twitter/知乎/公众号).
+**Only required for the L3-fallback layer**（Python Playwright）。L3-fast 内置浏览器不需要——用 `BrowserImport` 复用登录态即可。
 
 ### One-time setup
 
@@ -119,10 +121,11 @@ User intent
   │          (Jina Reader = default for JS-rendered content, saves tokens)
   │
   ├─ "Read this login-gated page" (小红书/B站/微博/飞书/Twitter/知乎/公众号)
-  │     └─→ 1. Verify CDP ready (curl http://localhost:9222/json/version)
-  │          2. Bash: python3 script with playwright.connect_over_cdp()
-  │          3. Extract content → feed to Jina Reader for clean Markdown
-  │             (or use BeautifulSoup directly on the raw HTML)
+  │     ├─→ 到达：BrowserManage(create_space/start_session) → BrowserImport(按域导入 Cookie)
+  │     │        → BrowserAct(tab.navigate) → tab.activate + page.screenshot 确认落到正文页
+  │     │          （semantic 快照不含正文，不能用来读内容）
+  │     └─→ 取正文：确认 CDP 就绪后 python3 playwright.connect_over_cdp()
+  │              → page.content() → Jina Reader / BeautifulSoup
   │
   ├─ "API documentation / GitHub / npm package info"
   │     └─→ Prefer official API endpoints over scraping HTML:
@@ -131,9 +134,9 @@ User intent
   │          - PyPI:   curl https://pypi.org/pypi/<pkg>/json
   │
   └─ "Real-time interactive task" (click, fill form, scroll, screenshot)
-        ├─→ **Default: BrowserXxx tools** (BrowserNavigate / BrowserEval / BrowserClick / BrowserScreenshot —
+        ├─→ **Default: 内置受管浏览器** (BrowserManage → BrowserAct → BrowserSnapshot —
         │     see references/browser-tools.md, no Python needed)
-        └─→ Fallback: CDP + Python Playwright (references/cdp-browser.md) when BrowserXxx is insufficient
+        └─→ Fallback: CDP + Python Playwright (references/cdp-browser.md) when 内置浏览器 is insufficient
             (e.g., complex race conditions, multi-event waits, long-running in-browser scripts)
 ```
 
@@ -143,10 +146,10 @@ User intent
 |-------|----------|--------------|------------|
 | L1 | Public, static | `WebFetch` | Low |
 | L2 | JS-heavy, long articles, token savings | `Bash curl r.jina.ai` | **Lowest** (Markdown pre-cleaned) |
-| **L3-fast** | **Login-gated, interactive (PRIMARY)** | **BrowserXxx 工具家族** | Medium |
+| **L3-fast** | **登录态导航与交互 (PRIMARY)** | **内置受管浏览器（BrowserManage / BrowserAct / BrowserSnapshot）** | Medium |
 | L3-fallback | 复杂自动化（race / long-wait / 自定义脚本） | `Bash + Python Playwright CDP` | Medium |
 
-**Default priority**: L1 for simple public pages → L2 for heavy → **L3-fast for login-gated** → L3-fallback only when BrowserXxx 不够用。
+**Default priority**: L1 for simple public pages → L2 for heavy → **L3-fast for login-gated** → L3-fallback only when 内置浏览器不够用。
 
 ---
 
@@ -262,33 +265,49 @@ See [references/cdp-browser.md](references/cdp-browser.md) for:
 
 ---
 
-## L3-fast: BrowserXxx 工具速查（v2.0 推荐）
+## L3-fast: 内置受管浏览器速查（v2.1）
 
 **只在你调用 `Skill('web-access')` 加载本技能后，下面这组工具才会出现在 tools[] 里。**
 
 | 工具 | 一行示例 |
 |------|---------|
-| `BrowserListTabs()` | 列出所有打开 tab |
-| `BrowserNavigate({ url })` | 在新 tab 打开 URL |
-| `BrowserNavigate({ target, url })` | 在指定 tab 跳转 |
-| `BrowserEval({ target, expression })` | 在 tab 内跑 JS，提取结构化数据 |
-| `BrowserClick({ target, selector, mode: 'real-mouse' })` | 反爬严格站点用真实鼠标事件 |
-| `BrowserScreenshot({ target })` | 写入 ${DESIRECORE_ROOT}/screenshots/ |
-| `BrowserScroll({ target, direction: 'bottom' })` | 触发懒加载 |
-| `BrowserSetFiles({ target, selector, files })` | 上传本地文件（**需用户确认**） |
-| `BrowserCloseTab({ target })` | 任务收尾清理临时 tab |
+| `BrowserManage({ action: 'create_space', name, persistence: 'ephemeral' })` | 每个任务一个隔离 Space |
+| `BrowserManage({ action: 'start_session', spaceId, capabilities })` | 启动会话，返回 sessionId 与首个标签页 |
+| `BrowserManage({ action: 'list_tabs' \| 'create_tab' \| 'close_session' })` | 标签页与生命周期管理 |
+| `BrowserAct({ action: 'tab.navigate', params: { url } })` | 当前标签页导航 |
+| `BrowserSnapshot({ mode: 'semantic' })` | 读页面：可交互元素 + `ref` 句柄 |
+| `BrowserAct({ action: 'input.click', params: { ref } })` | 按快照 `ref` 点击，不要用裸 x/y |
+| `BrowserAct({ action: 'input.text', params: { text } })` | 向聚焦元素输入文本 |
+| `BrowserAct({ action: 'input.wheel', params: { deltaX: 0, deltaY: 720 } })` | 滚动触发懒加载 |
+| `BrowserAct({ action: 'tab.activate', params: { bounds } })` → `page.screenshot` | **先 activate 再截图** |
+| `BrowserImport({ action: 'discover' \| 'plan' \| 'apply' })` | 复用用户登录态 Cookie（需人工审批） |
 
 完整 API 与边界条件见 [references/browser-tools.md](references/browser-tools.md)。
+
+**怎么读页面** —— 按需求选通道：
+
+| 你要什么 | 用什么 | 说明 |
+|----------|--------|------|
+| 可交互元素 + `ref` 句柄 | `BrowserSnapshot({ mode: 'semantic' })` | 只有按钮/输入框/链接，**不含正文文本** |
+| 小页面的正文 | `BrowserSnapshot({ mode: 'accessibility' })` | 返回 StaticText 节点；真实内容页会报 `BROWSER_RESULT_TOO_LARGE`（结果上限 2 MB，且 `depth` 参数当前被宿主忽略） |
+| 真实页面的正文 | L2 Jina Reader（公开页）或 L3-fallback Playwright（登录态） | 内置浏览器目前没有可用的批量取文通道 |
+| 页面长什么样 | `tab.activate` → `BrowserAct({ action: 'page.screenshot' })` | 只有整页截图，靠看图读 |
+
+`page.evaluate` **不是**取文通道：每次调用需人工审批，且字符串/对象返回值会被替换成 `[REDACTED:browser-runtime-value]`。
 
 ### 推荐流程（小红书示例）
 
 ```
-1. BrowserListTabs() → 看是否已有登录态 tab
-2. 没有 → BrowserNavigate({ url: "https://www.xiaohongshu.com/explore/abc123" })
-3. BrowserEval({ target, expression: "(...)JSON.stringify({title, content})" })
-4. SitePatternRead({ domain: "xiaohongshu.com" })  ← 读累积经验
-5. 任务结束 → BrowserCloseTab({ target })
-6. 如发现新陷阱 → SitePatternWrite({ domain, scope: "agent", mode: "merge", content })
+1. BrowserManage({ action: 'create_space', name: 'xhs-note', persistence: 'ephemeral' })
+2. BrowserManage({ action: 'start_session', spaceId, capabilities: [...] })
+3. BrowserImport({ action: 'discover' }) → plan → apply 授权 xiaohongshu.com  ← 复用登录态
+4. BrowserAct({ action: 'tab.navigate', params: { url: 'https://www.xiaohongshu.com/explore/abc123' } })
+5. BrowserSnapshot({ mode: 'semantic' })   ← 只拿交互用的元素 ref（不含正文）
+   tab.activate + page.screenshot           ← 确认确实渲染出了笔记
+   → 正文抽取走 L3-fallback Playwright
+6. SitePatternRead({ domain: 'xiaohongshu.com' })  ← 读累积经验
+7. 任务结束 → BrowserManage({ action: 'close_session', sessionId })
+8. 如发现新陷阱 → SitePatternWrite({ domain, scope: 'agent', mode: 'merge', content })
 ```
 
 ---
@@ -360,9 +379,11 @@ Read [references/jina-reader.md](references/jina-reader.md) for Jina Reader posi
 - ❌ **Forgetting the year in time-sensitive queries** — "best AI models" returns 2023 results; "best AI models 2026" returns current.
 - ❌ **Hardcoding login credentials in scripts** — always rely on the user's pre-logged CDP session.
 - ❌ **Citing only after the fact** — collect URLs as you fetch, not from memory afterwards.
-- ❌ **(v2.0) 在能用 BrowserXxx 时仍写 Python heredoc** — 慢、依赖 Python+Playwright 安装、上下文体积大。优先 L3-fast；只在 BrowserXxx 不够（race / 长等待 / 自定义脚本）时才回退。
-- ❌ **(v2.0) 任务结束发现新陷阱却不写 site-pattern** — 下次同 Agent 再做相同任务会重复踩坑。任何"花了 2+ 步才搞清楚的细节"都值得 `SitePatternWrite(scope='agent', mode='merge')`。
-- ❌ **(v2.0) 把含 cookie / 手机号的内容写到 scope='agent'** — 这层会被 Git 提交、可能发布到市场。SitePatternWrite 会自动降级，但你不该故意往 agent 层写敏感信息。
+- ❌ **(v2.1) 在能用内置浏览器时仍写 Python heredoc** — 慢、依赖 Python+Playwright 安装、上下文体积大。优先 L3-fast；只在内置浏览器不够（race / 长等待 / 自定义脚本）时才回退。
+- ❌ **(v2.1) 没 `tab.activate` 就直接 `page.screenshot`** — 标签页默认停在窗口外 `(-10000,-10000,1x1)`，没有合成表面，截图会卡满 30 秒 deadline **并把标签页宿主打掉**，之后所有调用都报 `BROWSER_TAB_HOST_NOT_FOUND`。务必先用真实 bounds `tab.activate`。
+- ❌ **(v2.1) 用 `page.evaluate` 读页面** — 每次调用都需人工审批，返回的字符串/对象会被治理策略替换为 `[REDACTED:browser-runtime-value]`（只有 number/boolean/null 能穿透），且反调试站点会把它挂起几十秒。读页面请用 `BrowserSnapshot`。
+- ❌ **(v2.1) 任务结束发现新陷阱却不写 site-pattern** — 下次同 Agent 再做相同任务会重复踩坑。任何"花了 2+ 步才搞清楚的细节"都值得 `SitePatternWrite(scope='agent', mode='merge')`。
+- ❌ **(v2.1) 把含 cookie / 手机号的内容写到 scope='agent'** — 这层会被 Git 提交、可能发布到市场。SitePatternWrite 会自动降级，但你不该故意往 agent 层写敏感信息。
 
 ---
 

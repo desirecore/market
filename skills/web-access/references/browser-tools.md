@@ -1,113 +1,163 @@
-# BrowserXxx 工具速查（L3-fast）
+# 内置受管浏览器工具速查（L3-fast）
 
-> 适配自 [eze-is/web-access](https://github.com/eze-is/web-access) 的 `references/cdp-api.md`（MIT，作者 一泽 Eze）。
-> DesireCore 把 cdp-proxy 内嵌为子进程，并通过这组 BuiltinTool 调用——比直接 curl 更安全（不暴露端口给 prompt 注入）、比 Python heredoc 更轻（无 Python/Playwright 依赖）。
+> v2.1 起，本层从「cdp-proxy 驱动用户自己的 Chrome」改为「DesireCore 内置受管浏览器」。
+> 每个任务跑在独立 BrowserSpace 里（Cookie / Storage / 缓存互不串扰），每个动作都经过
+> Capability → Grant → Lease → Origin → Host fencing 校验并留下可审计回执。
+>
+> 要求客户端 **v10.0.98+**。旧的 `BrowserListTabs` / `BrowserNavigate` / `BrowserEval` /
+> `BrowserClick` / `BrowserScreenshot` / `BrowserScroll` / `BrowserSetFiles` /
+> `BrowserCloseTab` 与其背后的 cdp-proxy 已停用，调用会直接返回
+> 「该旧 BrowserXxx/cdp-proxy 入口已停用；请改用 BrowserManage、BrowserSnapshot 或 BrowserAct」。
 
-## 何时用 BrowserXxx vs Python Playwright
+## 何时用内置浏览器 vs Python Playwright
 
 | 场景 | 推荐 |
 |------|------|
-| 抓取登录态站点（小红书 / B站 / 微博 / 飞书 / 知乎） | **BrowserXxx**（fast，零 Python） |
-| 简单点击 / 滚动 / 截图 / 上传文件 | **BrowserXxx** |
-| 需要复杂等待逻辑（page.wait_for_selector + race condition） | Python Playwright（cdp-browser.md） |
-| 需要在浏览器内运行长时间脚本（>30 s） | Python Playwright |
+| 到达并操作登录态站点（小红书 / B站 / 微博 / 飞书 / 知乎） | **内置浏览器**（配合 BrowserImport 导入 Cookie） |
+| 抽取登录态站点的长正文 | Python Playwright（内置浏览器没有批量取文通道，见下） |
+| 简单点击 / 滚动 / 截图 | **内置浏览器** |
+| 多个任务要互不串扰地并行 | **内置浏览器**（一任务一 Space） |
+| 需要复杂等待逻辑（wait_for_selector + race condition） | Python Playwright（cdp-browser.md） |
+| 需要在浏览器内运行长时间脚本（>30 s） | Python Playwright（内置浏览器单条命令 30 s deadline） |
+| 需要对元素做放大裁剪截图 | Python Playwright（内置浏览器只有整页截图） |
 
 ## 前置条件
 
-1. 用户已启动调试模式 Chrome（端口 9222；见 SKILL.md 的 Prerequisites 部分）
-2. cdp-proxy 子进程会在首次工具调用时由 agent-service lazy spawn
+1. 客户端 v10.0.98+，`~/.desirecore/config/browser.json` 里 `electron-embedded` 或
+   `standalone-managed` Provider 处于 `enabled`（默认即开启）
+2. 无需用户手工启动调试 Chrome，也无需 Python / Playwright
 
 ## 工具一览
 
 每个工具默认 `hidden: true`，**只有 web-access 技能被激活后才暴露给 LLM**。
 
-### BrowserListTabs
+### BrowserManage
 
-列出已打开 tab。返回每行 `[targetId] title — url`。
+Space / Session / Tab 的生命周期。
 
 ```yaml
-BrowserListTabs:
-  # 无参数
+BrowserManage:
+  action: create_space          # list_spaces | create_space | start_session | join_session
+                                # | leave_session | list_sessions | list_tabs | create_tab
+                                # | freeze_session | resume_session | close_session
+  name: xhs-note                # create_space 用
+  persistence: ephemeral        # ephemeral=查完即弃，不落 Profile；persistent=保留登录态
+  providerPreference: [electron-embedded]
 ```
 
-### BrowserNavigate
-
-打开 URL；省略 `target` 时新开 tab。
-
 ```yaml
-BrowserNavigate:
-  url: https://www.xiaohongshu.com/explore/...
-  target: <可选 targetId>
+BrowserManage:
+  action: start_session
+  spaceId: bsp_xxx
+  capabilities:                 # 只申请你真正要用的，最小权限
+    - browser.observe.tabs
+    - browser.observe.snapshot
+    - browser.observe.screenshot
+    - browser.navigate.create-tab
+    - browser.navigate.url
+    - browser.navigate.activate-tab
+    - browser.input.pointer.click
+    - browser.input.keyboard
 ```
 
-### BrowserEval
+`create_space` 会触发一次用户确认。任务收尾用 `close_session` 释放。
 
-在指定 tab 内执行 JS（`returnByValue: true` + `awaitPromise: true`）。
+### BrowserSnapshot
+
+读页面的**主通道**。返回可交互元素及其 `ref` 句柄、`rect`、`disabled` 状态。
 
 ```yaml
-BrowserEval:
-  target: <targetId>
-  expression: |
-    (() => {
-      const t = document.querySelector('h1.video-title')?.textContent || ''
-      const d = document.querySelector('.video-desc')?.textContent || ''
-      return JSON.stringify({ title: t.trim(), desc: d.trim() })
-    })()
+BrowserSnapshot:
+  mode: semantic        # semantic（默认）| accessibility | visual
+  sessionId: bss_xxx    # 当前 Agent 有多个会话时用于消歧
+  tabId: btab_xxx
 ```
 
 提示：
-- DOM 节点不能直接返回，要提取属性
-- 大量数据用 `JSON.stringify()` 包裹返回字符串
-- 风险等级 medium：是任意 JS 入口，不要执行不可信代码
+- `semantic` 只列 button / input / a 等可交互元素，**不含图片和正文文本节点**
+- 元素 `name` 往往是 placeholder（如「请输入」），无标签时只能靠 `rect.y` 排序定位
+- 页面重排后旧 `ref` 会失效——**每次交互前重新取快照**
+- `accessibility` 能拿到 StaticText 正文，但**只在很简单的页面上可用**：实测
+  example.com 正常返回，维基百科条目一律 `BROWSER_RESULT_TOO_LARGE`（回执上限 2 MB），
+  且 schema 里的 `depth` 参数目前被宿主忽略（硬编码 depth=50），调小也没用
+- 因此**取真实页面正文仍要靠 L2 Jina Reader（公开页）或 L3-fallback Playwright（登录态）**
 
-### BrowserClick
+### BrowserAct
 
-```yaml
-BrowserClick:
-  target: <targetId>
-  selector: button.submit
-  mode: real-mouse   # 默认 js；登录态站点反爬严格时建议 real-mouse
-```
-
-`mode: real-mouse` 走 CDP `Input.dispatchMouseEvent` 派发真实鼠标事件——能触发文件对话框、绕过部分反自动化检测。
-
-### BrowserScreenshot
+一次调用一个受管动作。完整 `action` 见工具 schema，常用的：
 
 ```yaml
-BrowserScreenshot:
-  target: <targetId>
-  filename: 自定义文件名.png  # 可选；写入 ${DESIRECORE_ROOT}/screenshots/
+BrowserAct:
+  action: tab.navigate
+  params: { url: https://www.xiaohongshu.com/explore/... }
 ```
-
-### BrowserScroll
 
 ```yaml
-BrowserScroll:
-  target: <targetId>
-  direction: bottom    # 或 top；与 y 二选一
-  # y: 3000           # 按像素滚动
+BrowserAct:
+  action: input.click
+  params: { ref: bref_xxx }     # 用快照 ref；坐标会因页面重排失效
 ```
-
-### BrowserSetFiles（**需用户确认**）
-
-为 input[type=file] 设置本地文件，绕过文件对话框。涉及上传，必须经 user confirmation。
 
 ```yaml
-BrowserSetFiles:
-  target: <targetId>
-  selector: input[type=file]
-  files:
-    - /Users/me/Pictures/photo.png
+BrowserAct:
+  action: input.text
+  params: { text: 搜索关键词 }
 ```
-
-### BrowserCloseTab
 
 ```yaml
-BrowserCloseTab:
-  target: <targetId>
+BrowserAct:
+  action: input.wheel
+  params: { deltaX: 0, deltaY: 720, x: 640, y: 400 }
 ```
 
-任务收尾建议清理你创建的临时 tab，避免 cdp-proxy 的 tab 池堆积（15 min 后会自动 GC，但显式关更整洁）。
+```yaml
+BrowserAct:
+  action: tab.activate          # 截图前必须先做这一步
+  params: { bounds: { x: 0, y: 0, width: 1280, height: 900 } }
+```
+
+```yaml
+BrowserAct:
+  action: page.screenshot
+  params: { format: png }       # 结果落 artifact store，回执给 artifact.id / sha256 / bytes
+```
+
+### BrowserImport（**需人工审批**）
+
+把用户浏览器里的登录态 Cookie 导入当前 Space，替代旧版「attach 用户已登录的 Chrome」。
+
+```yaml
+BrowserImport:
+  action: discover              # discover | plan | apply | ...
+```
+
+```yaml
+BrowserImport:
+  action: apply
+  planId: bip_xxx
+  domains: [xiaohongshu.com]    # 必须逐域显式授权
+  conflictStrategy: newer-wins
+```
+
+解密与过滤全在 Host 侧完成，**Cookie 值不会进入 Agent 上下文或审计日志**。
+
+### BrowserShare
+
+把 Space / Session 委派给另一个 Agent，`shareMode` 可选 `snapshot`（只读副本）、
+`copy-on-write`（写时复制）、`live-shared`（实时共享）、`handoff`（移交控制权）。
+
+## 已知边界（照做，别试探）
+
+| 边界 | 说明 |
+|------|------|
+| **截图前必须 `tab.activate`** | 标签页默认停在 `(-10000,-10000,1x1)`，没有合成表面。直接截图会卡满 30 s deadline，**并把标签页宿主打掉**，之后全部报 `BROWSER_TAB_HOST_NOT_FOUND` |
+| **同时只有一个可见标签页** | `tab.activate` 绑定主窗口、全局互斥。多 Space 可以并发导航/快照/输入，但截图必须逐个 activate 串行 |
+| **`page.evaluate` 基本不可用** | 每次调用需人工审批；返回的字符串/对象被替换为 `[REDACTED:browser-runtime-value]`（只有 number/boolean/null 穿透）；反调试站点会把它挂起几十秒。读页面用 `BrowserSnapshot` |
+| **`cdp.raw` 需人工审批** | `browser.raw_cdp.*` 属于永远人工闸门的能力，无人值守流程用不了（元素级裁剪截图因此不可用） |
+| **没有批量取文通道** | `semantic` 不含正文，`accessibility` 在真实页面上超限，`page.evaluate` 被审批+脱敏。要正文请回落 Jina / Playwright |
+| **单条命令 30 s deadline** | 超时即判 `browser.host.gone`，会话作废 |
+| **用户真实鼠标会抢控制权** | 鼠标划过可见标签页会触发 `trusted-user-input` 并递增 control epoch，可能打断 Agent 的租约 |
+| **artifact 不要走 `/save`** | 该接口会弹系统「另存为」对话框等人点。artifact 文件在 `${DESIRECORE_ROOT}/browser/artifacts/<bart_id>/`，直接读即可，默认保留 24 小时 |
 
 ## SitePatternRead / SitePatternWrite
 
@@ -120,7 +170,7 @@ SitePatternWrite:
   mode: merge            # 默认 merge 追加；replace 覆盖
   content: |
     ## 已知陷阱
-    - 2026-05: ...
+    - 2026-08: ...
 ```
 
 含 cookie/token/手机号/邮箱时会自动降级 scope='user'。
@@ -129,14 +179,18 @@ SitePatternWrite:
 
 | 错误 | 原因 | 解决 |
 |------|------|------|
-| `Chrome 未开启远程调试端口` | 用户没启动调试 Chrome | 引导用户跑 SKILL.md 中的启动命令 |
-| `attach 失败` | targetId 无效或 tab 已关闭 | 重新 `BrowserListTabs` |
-| `CDP 命令超时` | 页面长时间未响应 | 检查页面状态，必要时 `BrowserCloseTab` 后重开 |
-| `CDP proxy 请求被中止或超时` | 代理子进程异常或网络故障 | 等待 ProxyController 自动重启（最多 3 次） |
+| `该旧 BrowserXxx/cdp-proxy 入口已停用` | 还在调 v2.0 的旧工具 | 改用 BrowserManage / BrowserSnapshot / BrowserAct |
+| `BROWSER_TAB_HOST_NOT_FOUND` | 标签页宿主已销毁（多因上一条命令超时） | 重建 Session；检查是否漏了 `tab.activate` |
+| `BROWSER_COMMAND_DEADLINE_EXCEEDED` | 单条命令超 30 s | 截图先 activate；避免 `page.evaluate` |
+| `BROWSER_TOOL_SESSION_FORBIDDEN` | 会话已关闭/崩溃，或不属于当前 Agent | 重新 `list_sessions`，必要时重建 |
+| `BROWSER_TOOL_SESSION_AMBIGUOUS` | 当前 Agent 有多个会话且未传 sessionId | 显式传 `sessionId` |
+| `BROWSER_HUMAN_APPROVAL_REQUIRED` | 触到人工闸门能力（evaluate / raw_cdp / 上传下载 / Cookie 导入等） | 向用户说明用途并等待审批，或换用无需审批的路径 |
+| `BROWSER_RESULT_TOO_LARGE` | 回执超过 2 MB（`accessibility` 快照最常见） | 改用 `semantic` 快照 + 截图；取正文回落 Jina / Playwright |
 
 ## 调用链路
 
 ```
-Agent → BrowserXxx 工具 → proxy-client → cdp-proxy 子进程 → Chrome (DevTools Protocol)
-                          ↑ 首次调用 lazy spawn 子进程
+Agent → BrowserManage/Snapshot/Act → browser-use service（Capability/Grant/Lease/Policy 校验）
+      → BrowserHost（electron-embedded 或 standalone-managed）→ Chromium
+                                    ↑ 每步产出带 digest 的回执，写入审计事件流
 ```
