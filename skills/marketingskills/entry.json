@@ -13,11 +13,11 @@
   "i18n": {
     "zh-CN": {
       "name": "Marketing Skills",
-      "shortDesc": "面向技术型营销人与创始人的 AI Agent 营销技能集，涵盖转化率优化、文案、SEO、数据分析与增长工程，适配 Claude Code、Codex、Cursor 等"
+      "shortDesc": "面向技术型营销人与创始人的 AI Agent 技能集，涵盖转化率优化、文案、SEO、数据分析与增长工程，适配 Claude Code、Cursor 等"
     },
     "en-US": {
       "name": "Marketing Skills",
-      "shortDesc": "A collection of AI agent marketing skills for technical marketers and founders — conversion optimization, copywriting, SEO, analytics and growth engineering, working with Claude Code, Codex, Cursor and more"
+      "shortDesc": "Marketing skills for technical marketers and founders — CRO, copywriting, SEO, analytics and growth engineering, for Claude Code and Cursor"
     }
   },
   "maintainer": {
