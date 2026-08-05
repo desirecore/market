@@ -281,7 +281,7 @@ See [references/cdp-browser.md](references/cdp-browser.md) for:
 | `BrowserAct({ action: 'input.text', params: { text } })` | 向聚焦元素输入文本 |
 | `BrowserAct({ action: 'input.wheel', params: { x: 640, y: 400, deltaX: 0, deltaY: 720 } })` | 滚动触发懒加载 —— `x`/`y`（或 `ref`）**必填**，且会话要带 `browser.input.pointer.wheel` |
 | `BrowserAct({ action: 'tab.activate', params: { bounds } })` → `page.screenshot` | **先 activate 再截图** |
-| `BrowserImport({ action: 'discover' \| 'create_plan' \| 'dry_run' \| 'apply' })` | 复用用户登录态 Cookie —— **需要 `browser.import.*`，而 `create_space` 不会授予**（见下） |
+| `BrowserImport({ action: 'discover' \| 'create_plan' \| 'dry_run' \| 'apply' \| 'rollback' \| 'list_plans' })` | 复用用户登录态 Cookie —— 这 6 个就是**全部**动作，主流程走 `discover → create_plan → dry_run → apply`。**需要 `browser.import.*`，而 `create_space` 不会授予**（见下） |
 
 完整 API 与边界条件见 [references/browser-tools.md](references/browser-tools.md)。
 

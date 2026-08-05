@@ -53,14 +53,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问、研究调研工作流
       description: 四层联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器登录态访问、Python Playwright CDP 兜底。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:2a4d42bd0b47af9e
+      source_hash: sha256:ce46e1982de8cd65
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A four-layer web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach logged-in sites through the governed built-in browser, and fall back to Chrome CDP.
       body: ./SKILL.md
-      source_hash: sha256:2a4d42bd0b47af9e
+      source_hash: sha256:ce46e1982de8cd65
       translated_by: human
 market:
   icon: >-
@@ -367,7 +367,7 @@ See [references/cdp-browser.md](references/cdp-browser.md) for:
 | `BrowserAct({ action: 'input.text', params: { text } })` | Type into the focused element |
 | `BrowserAct({ action: 'input.wheel', params: { x: 640, y: 400, deltaX: 0, deltaY: 720 } })` | Scroll to trigger lazy loading — `x`/`y` (or `ref`) is **required**, and the session needs `browser.input.pointer.wheel` |
 | `BrowserAct({ action: 'tab.activate', params: { bounds } })` → `page.screenshot` | **activate first, then screenshot** |
-| `BrowserImport({ action: 'discover' \| 'create_plan' \| 'dry_run' \| 'apply' })` | Reuse the user's login cookies — **needs `browser.import.*`, which `create_space` does not grant** (see below) |
+| `BrowserImport({ action: 'discover' \| 'create_plan' \| 'dry_run' \| 'apply' \| 'rollback' \| 'list_plans' })` | Reuse the user's login cookies — those 6 are the **complete** action set; happy path is `discover → create_plan → dry_run → apply`. **Needs `browser.import.*`, which `create_space` does not grant** (see below) |
 
 Full API and edge cases: see [references/browser-tools.md](references/browser-tools.md).
 
