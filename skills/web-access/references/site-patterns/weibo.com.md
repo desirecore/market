@@ -5,7 +5,7 @@ type: site-pattern
 pinned: true
 confidence: medium
 learned_at: '2026-05-05'
-updated_at: '2026-05-05'
+updated_at: '2026-08-06'
 ---
 
 ## L0
@@ -18,8 +18,8 @@ updated_at: '2026-05-05'
 
 ## 推荐流程
 1. 单条公开微博 → 优先尝试 `https://m.weibo.cn/status/<id>`，WebFetch 看是否拿到正文
-2. 拿不到 → BrowserNavigate（已登录态 Chrome）+ BrowserClick 点"展开" + BrowserEval 取正文
-3. 用户主页时间线：必须登录，BrowserScroll 触发懒加载
+2. 拿不到 → 内置浏览器 BrowserImport 导入 Cookie + BrowserAct(tab.navigate) + BrowserAct(input.click ref) 点"展开"，正文抽取回落 Playwright
+3. 用户主页时间线：必须登录，BrowserAct(input.wheel) 触发懒加载
 
 ## 推荐选择器
 - 单条详情：`.weibo-text` / `[class*='WB_text']`

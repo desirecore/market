@@ -5,7 +5,7 @@ type: site-pattern
 pinned: true
 confidence: medium
 learned_at: '2026-05-05'
-updated_at: '2026-05-05'
+updated_at: '2026-08-06'
 ---
 
 ## L0
@@ -18,7 +18,7 @@ updated_at: '2026-05-05'
 
 ## 推荐流程
 - 仅取标题/UP 主/播放数 → WebFetch 即可
-- 取完整简介 / 评论 → BrowserNavigate + BrowserEval
+- 取完整简介 / 评论 → 内置浏览器 BrowserAct(tab.navigate) 到达页面，正文抽取回落 L3-fallback Playwright
 - 批量数据 → 优先尝试 `api.bilibili.com` 公开接口（有专门的 wbi 签名机制）
 
 ## 推荐选择器
