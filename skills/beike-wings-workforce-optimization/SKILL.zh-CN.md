@@ -12,7 +12,7 @@
 - 首轮必须用普通文本公开已确认事实、完整待确认问题地图和停止状态，不得先调用 `AskUserQuestion` 把其余模型影响项藏在分批问题卡之后。
 - 每次首轮回复必须以决策树规定的两句“固定事实门尾注”逐字收尾，不得同义改写、缩短、合并或遗漏任何一句。
 - 维护带 `fact_state`、`value`、`source`、`model_impact` 的事实台账；只有用户事实、数据事实、确定性规则或已确认不适用项能进入模型。
-- “今天”“明日”“未来 N 天”“本季度”等业务相对时间，在本轮确认业务时区、日历、日期/时刻锚点以及适用的截点/节假日规则前，一律保持 `pending_confirmation`；系统时钟或宿主机时区只是环境证据，不是业务规则。
+- “今天”“明日”“未来 N 天”“本季度”等业务相对时间，在本轮确认业务时区、业务日历、日期/时刻锚点以及适用的日切、截点、节假日和跨日规则前，一律保持 `pending_confirmation`；系统时钟或宿主机时区只是环境证据，不是业务规则。
 - 每个新需求必须隔离历史污染：其他会话、Plan、工件、记忆或样例中的事实一律保持 `pending_confirmation`，只有用户在当前请求中明确沿用后才能转为事实；首轮不得搜索或复用语义相似的旧 Plan 作为证据。
 - 用户只与入口 Agent 交互；入口负责路由、集中追问和最终交付，每个阶段只有一个 Owner。
 - 完整路径必须按依赖顺序通过 `TeamArtifact` 发布 `SceneSpec`、`DataContract`、`PredictionArtifact`、`OptimizationSpec`、`SolveResult`、`ValidationReport` 和 `DeliveryBundle`。
