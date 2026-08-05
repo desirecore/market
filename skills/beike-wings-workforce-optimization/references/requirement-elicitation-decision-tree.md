@@ -20,7 +20,7 @@ Mandatory rules:
 1. Never interpret a missing answer as absent, false, zero, unlimited, or industry standard.
 2. Never replace confirmation with a reasonable default or a simulated possible situation.
 3. If a factor has two or more model-changing values, mark it `pending_confirmation` and ask.
-4. Deterministic conversions are allowed only with visible sources and a unique derivation. Weights, priorities, policies, and forecasts are never deterministic by default.
+4. Deterministic conversions are allowed only when they are uniquely derived and confirmed to apply to the current business request, with visible sources. Weights, priorities, policies, forecasts, and relative time under unconfirmed business definitions are never deterministic by default.
 5. If the user cannot answer, report the gap, its impact, the needed owner/data, and optional reduced scope. Do not select a case for them.
 6. Do not publish a `SceneSpec`, `DataContract`, or `OptimizationSpec` while any model-changing item remains `pending_confirmation`.
 7. Before the gate passes, do not call a solver or delegate any solver-capable Agent, and do not claim feasibility, optimality, benefit, or an executable plan.
@@ -29,10 +29,17 @@ Mandatory rules:
 
 ### Cross-conversation contamination isolation
 
-- **Directly usable:** the current user message, data explicitly uploaded or referenced in the current request, rules confirmed in the current request, and uniquely determined system facts such as the current date/timezone.
+- **Directly usable:** the current user message, data explicitly uploaded or referenced in the current request, and business rules whose scope and version are confirmed in the current request. The system clock/timezone is environment evidence only; it cannot replace the business timezone, business calendar, or date anchor.
 - **Must be reconfirmed:** cities, stores, people, baselines, weights, protected relationships, data versions, forecasts, and acceptance thresholds from prior conversations—even when names match.
 - **Forbidden as first-response fact sources:** old Plans, artifacts, memories, solver results, test fixtures, or templates from another city.
 - **Response rule:** if historical material may be relevant, ask which named version/fields to carry forward. Until confirmation, do not display historical values under confirmed facts.
+
+### Confirm relative business time
+
+- When the user says today, tomorrow, the next seven days, this week, or this quarter, confirm the business timezone, business calendar, date/time anchor, and applicable day-boundary, cutoff, holiday, and overnight rules.
+- Until those definitions are confirmed, keep the relative time as `pending_confirmation`. Never write the host's current date or system timezone as a `deterministic_rule`, and never convert the relative phrase into a concrete modeling date.
+- The entry Agent may show the current system date/timezone as environment evidence for the user to verify, but it becomes usable only after the user confirms in the current request that it is the applicable business definition.
+- Even with an absolute date, ask for the business timezone when staffing, SLA, freeze windows, or overnight shifts can change with timezone. If timezone truly does not affect the model, obtain explicit non-applicability confirmation.
 
 ## 1. Top-level tree
 
