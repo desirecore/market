@@ -18,7 +18,7 @@ updated_at: '2026-08-06'
 
 ## 推荐流程
 1. 单条公开微博 → 优先尝试 `https://m.weibo.cn/status/<id>`，WebFetch 看是否拿到正文
-2. 拿不到 → 内置浏览器 BrowserImport 导入 Cookie + BrowserAct(tab.navigate) + BrowserAct(input.click ref) 点"展开"，正文抽取回落 Playwright
+2. 拿不到 → 内置浏览器 BrowserAct(tab.navigate) + BrowserAct(input.click ref) 点"展开"（登录态：已授予 `browser.import.*` 才用 BrowserImport，否则直接回落），正文抽取回落 Playwright
 3. 用户主页时间线：必须登录，BrowserAct(input.wheel) 触发懒加载
 
 ## 推荐选择器
