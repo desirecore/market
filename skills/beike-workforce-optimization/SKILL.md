@@ -2,7 +2,7 @@
 name: beike-workforce-optimization
 description: >-
   Structure, predict, compile, solve, independently validate, and recover Beike workforce-efficiency optimization through versioned multi-agent artifacts and a governed MindOpt connector. Use for brokerage territory design, store/building/opportunity allocation, performance targets, centralized customer-service task scheduling, staffing, shifts, or general LP/MILP. 用户提到贝壳、人效、辖区、资源划分、绩效目标、客服调度、排班、运筹优化或 MindOpt 时使用。
-version: 2.3.0
+version: 2.3.1
 type: procedural
 risk_level: medium
 status: enabled
@@ -62,7 +62,7 @@ market:
     verified: true
   compatible_agents: []
   channel: latest
-  required_client_version: 10.0.100
+  required_client_version: 10.0.99
 ---
 
 # Beike Workforce Optimization
