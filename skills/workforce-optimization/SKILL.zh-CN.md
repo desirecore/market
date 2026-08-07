@@ -4,10 +4,15 @@
 
 ## L0
 
-把自然语言人效需求转成可审阅、可恢复的版本化制品，只通过受治理的 MindOpt Connector 执行已确认的 LP/MILP，并在交付前独立重算验收。
+把自然语言人效需求转成可审阅、可恢复的版本化制品，只通过使用方自备且已获有效许可的 MindOpt 部署及受治理 Connector 执行已确认的 LP/MILP，并在交付前独立重算验收。
+
+> **外部依赖——安装前必读：** MindOpt 是需要独立安装或部署，并按[官方 MindOpt 许可证条款](https://opt.aliyun.com/doc/mindopt/latest/cn/html/installation/license.html)取得有效许可证的第三方求解器软件。适用商业许可的场景需另行购买，社区许可是否适用以官方条款为准。客户端、本技能和 `MindOptSolve` 均不包含 MindOpt 软件、许可证、算力托管、采购或运行费用。
 
 ## L1
 
+- `MindOptSolve` 只能视为连接使用方或运维方所提供 MindOpt 服务的受治理 Connector/Adapter；不得把 MindOpt 求解器本体描述为客户端已包含或内置的 Tool。
+- 在承诺或发起真实求解前，必须验证外部 Connector 已配置且 ready、所需 capabilities 可用，并确认该部署具备当前用途所需的有效许可证。仅发现 `MindOptSolve` Tool 名称，不能证明求解器已经安装、授权、可达或完成付费。
+- 外部依赖不可用时，必须说明具体缺少的前置条件并在调用求解器前停止。仍可完成需求澄清，并交付供后续执行的 `SceneSpec`、`DataContract` 和 `OptimizationSpec`，但不得伪造 `SolveResult`，也不得宣称可行、最优或收益。
 - 自然语言入口在路由或建模前必须完整读取 `references/requirement-clarification-framework.zh-CN.md`，按业务澄清框架识别真实决策、六场景必问项和条件触发项。
 - 先读取当前上下文已注入的 AgentFS 用户画像、偏好和关系记忆，按其中已由用户确认、仍有效且无冲突的专业熟悉度或沟通偏好选择专业、业务引导或证据不足时的自适应表达；岗位名称、公司归属、单次术语使用和模型猜测不是充分证据。
 - 专业表达可以一次公开结构化完整信息契约并接受批量回答；业务引导表达用白话按影响顺序分组、允许任意必要轮次；证据不足时先给中性覆盖范围并询问用户偏好。任何表达都必须维护同一完整问题地图，不得以减少轮次、问题数量或认知负担为由跳过模型影响项。

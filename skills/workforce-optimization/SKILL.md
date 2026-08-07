@@ -1,8 +1,10 @@
 ---
 name: workforce-optimization
 description: >-
-  Structure, predict, compile, solve, independently validate, and recover workforce-efficiency optimization through versioned multi-agent artifacts and a governed solver connector. Use for service-coverage design, hierarchical resource allocation, performance targets, centralized task scheduling, staffing, shifts, or general LP/MILP. 用户提到人效、服务范围、资源划分、绩效目标、任务调度、排班、运筹优化或 LP/MILP 时使用。
-version: 2.3.2
+  Structure, predict, compile, solve, independently validate, and recover workforce-efficiency optimization through versioned multi-agent artifacts and a governed solver connector. MindOptSolve is only a connector Tool: the MindOpt solver software, applicable license, separate deployment, and related fees are external and not bundled. Use for service-coverage design, hierarchical resource allocation, performance targets, centralized task scheduling, staffing, shifts, or general LP/MILP. 用户提到人效、服务范围、资源划分、绩效目标、任务调度、排班、运筹优化或 LP/MILP 时使用；MindOpt 软件、适用许可证、独立部署及费用不随本技能或客户端提供。
+compatibility: >-
+  Requires a separately installed or deployed MindOpt solver, a valid license obtained under the official terms, and configured solver.mindopt connections; commercial licenses and operating costs are purchased separately when applicable. 需要外部安装或部署 MindOpt、按官方条款取得有效许可证并配置 solver.mindopt 连接；适用的商业许可及运行费用需另行采购承担。
+version: 2.3.3
 type: procedural
 risk_level: medium
 status: enabled
@@ -29,7 +31,7 @@ requires:
     - solver.mindopt.client-key
 metadata:
   author: workforce-optimization-team
-  updated_at: '2026-08-07'
+  updated_at: '2026-08-08'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -38,19 +40,19 @@ metadata:
       - en-US
     zh-CN:
       name: 人效与资源优化
-      short_desc: 用版本化多智能体流水线梳理、预测、求解并独立验收人效优化
+      short_desc: 梳理、求解并验收人效优化；实际求解需外部授权部署 MindOpt
       description: >-
-        将服务范围、分层资源分配、绩效目标、集中任务调度、人员配置、排班和通用 LP/MILP 需求转成可恢复的场景、预测、模型、求解与独立验收制品。
+        将服务范围、分层资源分配、绩效目标、集中任务调度、人员配置、排班和通用 LP/MILP 需求转成可恢复的场景、预测、模型、求解与独立验收制品。实际求解依赖使用方另行取得适用许可证、部署并接入 MindOpt；客户端和本技能不包含求解器软件、许可证、算力托管或相关费用。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:0157b807fc76aeb8
+      source_hash: sha256:2f741e8223a8c203
       translated_by: human
     en-US:
       name: Workforce and Resource Optimization
-      short_desc: Structure, solve, and independently validate workforce optimization with versioned multi-agent artifacts
+      short_desc: Structure and validate workforce optimization; solving requires externally licensed MindOpt
       description: >-
-        Turn requests for service coverage, hierarchical resource allocation, performance targets, centralized task scheduling, staffing, shift planning, and general LP/MILP into recoverable scenario, prediction, model, solution, and independent-validation artifacts.
+        Turn requests for service coverage, hierarchical resource allocation, performance targets, centralized task scheduling, staffing, shift planning, and general LP/MILP into recoverable scenario, prediction, model, solution, and independent-validation artifacts. Actual solving requires the user to obtain an applicable license, deploy MindOpt, and configure the connector; the client and this Skill do not include the solver, license, hosted compute, or related fees.
       body: ./SKILL.md
-      source_hash: sha256:0157b807fc76aeb8
+      source_hash: sha256:2f741e8223a8c203
       translated_by: human
 market:
   icon: >-
@@ -68,10 +70,15 @@ market:
 
 ## L0
 
-Turn natural-language workforce-efficiency requests into reviewable and recoverable artifacts, execute approved LP/MILP only through the governed MindOpt connector, and independently recompute every result before delivery.
+Turn natural-language workforce-efficiency requests into reviewable and recoverable artifacts, execute approved LP/MILP only through a user-provided, licensed MindOpt deployment and the governed connector, and independently recompute every result before delivery.
+
+> **External dependency — read before installation:** MindOpt is third-party solver software that must be installed or deployed separately and activated with a valid license under the [official MindOpt license terms](https://opt.aliyun.com/doc/latest/en/html/installation/license.html). Commercial licenses and operating costs must be purchased separately when applicable; community-license eligibility remains subject to those official terms. The client, this Skill, and `MindOptSolve` do not bundle the MindOpt software, a license, hosted compute, procurement, or operating fees.
 
 ## L1
 
+- Treat `MindOptSolve` only as a governed connector/adapter to a MindOpt service supplied by the user or operator. Never describe MindOpt itself as an included or built-in Tool.
+- Before promising or requesting an actual solve, verify that the external connector is configured and ready, required capabilities are available, and the deployment has a valid applicable license. A registered Tool name alone is not evidence that the solver is installed, licensed, reachable, or paid for.
+- If the external dependency is unavailable, state which prerequisite is missing and stop before the solver call. You may still finish requirement clarification and produce reviewable `SceneSpec`, `DataContract`, and `OptimizationSpec` artifacts for later execution, but must not fabricate a `SolveResult`, feasibility, optimality, or benefit claim.
 - Before routing or modeling, the natural-language entry Agent must read the [requirement-clarification framework](references/requirement-clarification-framework.md) in full and follow its real-decision, mandatory-question, and conditional-question branches.
 - First read the AgentFS user profile, preferences, and relationship memories already injected into the current context. Choose professional, business-guided, or evidence-insufficient adaptive language only from user-confirmed, current, non-conflicting evidence about expertise or communication preference. Employer, job title, one use of jargon, or model inference is not sufficient evidence.
 - Professional language may expose the complete structured information contract at once and accept a batch answer. Business-guided language uses plain-language groups in impact order for as many turns as needed. When evidence is insufficient, show a neutral coverage outline and ask the user's preference. Every mode maintains the same complete question map; never omit a model-changing item merely to reduce turns, question count, or cognitive load.
