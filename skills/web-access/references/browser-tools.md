@@ -201,7 +201,7 @@ image 块**直接放进工具结果**——视觉模型当场就能看，不必�
 | **`cdp.raw` 需人工审批** | `browser.raw_cdp.*` 属于永远人工闸门的能力，无人值守流程用不了。**元素级裁剪不必走它**——`BrowserSnapshot` 的 `options.clip={x,y,width,height,scale}` 直接支持（`scale` 最大 4）：先用 `semantic` 快照拿到元素坐标，再截那一块并放大。验证码、小按钮在整页截图里只有几十像素，看不清时用它 |
 | **没有批量取文通道** | `semantic` 不含正文，`accessibility` 在真实页面上超限，`page.evaluate` 被审批+脱敏。要正文请回落 Jina / Playwright |
 | **单条命令 30 s deadline** | 超时即判 `browser.host.gone`，会话作废 |
-| **用户真实鼠标会抢控制权** | 鼠标划过可见标签页会触发 `trusted-user-input` 并递增 control epoch，可能打断 Agent 的租约 |
+| **用户真实操作会抢控制权** | 在可见标签页上**点击、按键、滚轮、触摸**会触发 `trusted-user-input` 并递增 control epoch，打断 Agent 的租约。**鼠标只是划过不会**（默认策略 `intentional-input`），所以用户看着页面移动光标是安全的 |
 | **artifact 不要走 `/save`** | 该接口会弹系统「另存为」对话框等人点。**用回执里的 `result.artifact.absolutePath`**（工具会把它登记进本次会话的可读白名单），不要自己拼路径——`${DESIRECORE_ROOT}` 这类变量在路径展开里不认（只认 `~` / `$HOME` / `$USERPROFILE`），拼出来是相对路径、`Read` 会报「文件不存在」。默认保留 24 小时 |
 
 ## SitePatternRead / SitePatternWrite
