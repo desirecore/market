@@ -24,8 +24,8 @@ The market currently contains:
 
 - `1` Agent: `desirecore`
 - `31` local built-in skills with `SKILL.md`
-- `24` external skill entries with `entry.json`
-- `55` publishable skills in total (`SKILL.md` + `entry.json`)
+- `25` external skill entries with `entry.json`
+- `56` publishable skills in total (`SKILL.md` + `entry.json`)
 
 ## Skill Sources
 
@@ -48,7 +48,7 @@ agent-reach, ai-news-radar, amap-jsapi-skill, baoyu-skills, dingtalk-api,
 flyai-skill, follow-builders, ian-xiaohei-illustrations, impeccable,
 karpathy-guidelines, khazix-skills, larksuite-cli, last30days,
 luckin-my-coffee, marketingskills, mattpocock-skills, minimax-image-gen,
-minimax-tts, mt-paotui-for-client, netease-skills, taste-skill, watchless,
+minimax-tts, mt-paotui-for-client, netease-skills, taste-skill, watch, watchless,
 wechatpay-skills, wecom-cli
 ```
 
