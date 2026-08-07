@@ -178,8 +178,8 @@ BrowserImport:
 
 ## 截图：像素直接给你，通常不需要再 Read
 
-> **需要客户端 10.0.100+。** 更老的版本上截图只回元数据，
-> 得按下面「artifact 不要走 `/save`」那条走文件路径。
+> **需要客户端 10.0.100+。** 更老的版本上截图只回元数据；
+> 若需要画面信息请改用 `semantic` / `accessibility` 快照，或回落 Jina / Playwright。
 
 `BrowserSnapshot` `mode: visual` 与 `BrowserAct` `page.screenshot` 会把截图像素作为
 image 块**直接放进工具结果**——视觉模型当场就能看，不必再调 `Read`。
