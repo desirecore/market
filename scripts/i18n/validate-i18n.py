@@ -351,10 +351,60 @@ def count_publishable_skills() -> tuple[list[str], list[str]]:
 def validate_builtin_skills(report: Report, skill_md_names: list[str]) -> None:
     builtin_path = REPO_ROOT / "builtin-skills.json"
     builtin = load_json(builtin_path, report, "builtin-skills")
+    validate_builtin_manifest(report, builtin, skill_md_names)
+
+
+def validate_builtin_manifest(
+    report: Report,
+    builtin: dict[str, Any],
+    skill_md_names: list[str],
+) -> None:
+    unknown = sorted(set(builtin) - {"skills", "retired"})
+    if unknown:
+        report.add(Issue(
+            "builtin-skills.json",
+            "builtin-skills",
+            f"unknown top-level fields {unknown}",
+        ))
+
     skills = builtin.get("skills")
     if not isinstance(skills, list) or not all(isinstance(x, str) for x in skills):
         report.add(Issue("builtin-skills.json", "builtin-skills", "skills must be a list of strings"))
         return
+
+    retired = builtin.get("retired", [])
+    if not isinstance(retired, list) or not all(isinstance(x, str) for x in retired):
+        report.add(Issue("builtin-skills.json", "builtin-skills", "retired must be a list of strings"))
+        return
+
+    for field, values in (("skills", skills), ("retired", retired)):
+        invalid = sorted({value for value in values if not NAME_PATTERN.fullmatch(value)})
+        if invalid:
+            report.add(Issue(
+                "builtin-skills.json",
+                "builtin-skills",
+                f"{field} contains invalid Skill IDs {invalid}",
+            ))
+        if len(values) != len(set(values)):
+            report.add(Issue(
+                "builtin-skills.json",
+                "builtin-skills",
+                f"{field} contains duplicate Skill IDs",
+            ))
+        if field == "retired" and values != sorted(values):
+            report.add(Issue(
+                "builtin-skills.json",
+                "builtin-skills",
+                f"{field} list is not sorted",
+            ))
+
+    overlap = sorted(set(skills) & set(retired))
+    if overlap:
+        report.add(Issue(
+            "builtin-skills.json",
+            "builtin-skills",
+            f"active and retired Skill IDs overlap {overlap}",
+        ))
 
     expected = sorted(skill_md_names)
     actual = list(skills)

@@ -23,9 +23,9 @@ DesireCore 官方市场仓库，存放官方维护的 Agent/Skill 定义，以�
 The market currently contains:
 
 - `1` Agent: `desirecore`
-- `31` local built-in skills with `SKILL.md`
+- `32` local built-in skills with `SKILL.md`
 - `25` external skill entries with `entry.json`
-- `56` publishable skills in total (`SKILL.md` + `entry.json`)
+- `57` publishable skills in total (`SKILL.md` + `entry.json`)
 
 ## Skill Sources
 
@@ -37,9 +37,14 @@ dev-environment-setup, discover-agent, docx, frontend-design, guizang-ppt,
 image-to-image, mail-operations, manage-skills, manage-teams, markdown,
 minimax-music-gen, minimax-video-gen, nodejs-runtime, pdf, pptx,
 python-runtime, registering-services, s3-storage-operations, skill-creator,
-tech-diagram, update-agent, using-services, web-access, workflow,
+tech-diagram, update-agent, using-services, web-access, workflow, workforce-optimization,
 xiaomi-tts, xlsx
 ```
+
+`builtin-skills.json#retired` lists old built-in Skill IDs that clients may safely retire during
+startup. Clients only remove copies tracked in `skills.lock` as market/bundled content whose
+`SKILL.md` hash still matches the installed record; manually installed or locally modified copies
+are preserved. An ID must not appear in both `skills` and `retired`.
 
 External entries are marketplace pointers to Git/Web/ZIP sources:
 

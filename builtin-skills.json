@@ -29,7 +29,9 @@
     "using-services",
     "web-access",
     "workflow",
+    "workforce-optimization",
     "xiaomi-tts",
     "xlsx"
-  ]
+  ],
+  "retired": []
 }
