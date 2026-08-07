@@ -73,7 +73,7 @@ Turn natural-language workforce-efficiency requests into reviewable and recovera
 
 ## L1
 
-- Before routing or modeling, the natural-language entry Agent must read `references/requirement-elicitation-decision-tree.md` in full and follow its real-decision, mandatory-question, and conditional-question branches.
+- Before routing or modeling, the natural-language entry Agent must read the [requirement-clarification framework](references/requirement-elicitation-decision-tree.md) in full and follow its real-decision, mandatory-question, and conditional-question branches.
 - First read the AgentFS user profile, preferences, and relationship memories already injected into the current context. Choose professional, business-guided, or evidence-insufficient adaptive language only from user-confirmed, current, non-conflicting evidence about expertise or communication preference. Employer, job title, one use of jargon, or model inference is not sufficient evidence.
 - Professional language may expose the complete structured information contract at once and accept a batch answer. Business-guided language uses plain-language groups in impact order for as many turns as needed. When evidence is insufficient, show a neutral coverage outline and ask the user's preference. Every mode maintains the same complete question map; never omit a model-changing item merely to reduce turns, question count, or cognitive load.
 - End every first response with the two-sentence fixed fact-gate footer defined by the requirement-clarification framework. Do not paraphrase, shorten, merge, or omit either sentence.

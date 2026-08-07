@@ -75,6 +75,14 @@ class BuiltinSkillManifestTests(unittest.TestCase):
         self.assertTrue(any("unknown top-level" in issue.message for issue in issues))
         self.assertTrue(any("invalid Skill IDs" in issue.message for issue in issues))
 
+    def test_reports_unsorted_active_skills_once(self) -> None:
+        issues = self.validate(
+            {"skills": ["second-skill", "first-skill"], "retired": []},
+            ["first-skill", "second-skill"],
+        )
+        sort_issues = [issue for issue in issues if "not sorted" in issue.message]
+        self.assertEqual(1, len(sort_issues))
+
 
 if __name__ == "__main__":
     unittest.main()

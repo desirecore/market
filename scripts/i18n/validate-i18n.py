@@ -391,7 +391,7 @@ def validate_builtin_manifest(
                 "builtin-skills",
                 f"{field} contains duplicate Skill IDs",
             ))
-        if values != sorted(values):
+        if field == "retired" and values != sorted(values):
             report.add(Issue(
                 "builtin-skills.json",
                 "builtin-skills",
