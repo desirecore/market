@@ -1,6 +1,5 @@
 {
   "skills": [
-    "beike-workforce-optimization",
     "code-intelligence",
     "configuring-compute",
     "create-agent",
@@ -30,10 +29,9 @@
     "using-services",
     "web-access",
     "workflow",
+    "workforce-optimization",
     "xiaomi-tts",
     "xlsx"
   ],
-  "retired": [
-    "beike-wings-workforce-optimization"
-  ]
+  "retired": []
 }

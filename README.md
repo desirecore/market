@@ -32,12 +32,12 @@ The market currently contains:
 Local built-in skills are installable from this repository and must be listed in `builtin-skills.json`:
 
 ```text
-beike-workforce-optimization, code-intelligence, configuring-compute, create-agent, dashscope-image-gen, delete-agent,
+code-intelligence, configuring-compute, create-agent, dashscope-image-gen, delete-agent,
 dev-environment-setup, discover-agent, docx, frontend-design, guizang-ppt,
 image-to-image, mail-operations, manage-skills, manage-teams, markdown,
 minimax-music-gen, minimax-video-gen, nodejs-runtime, pdf, pptx,
 python-runtime, registering-services, s3-storage-operations, skill-creator,
-tech-diagram, update-agent, using-services, web-access, workflow,
+tech-diagram, update-agent, using-services, web-access, workflow, workforce-optimization,
 xiaomi-tts, xlsx
 ```
 
