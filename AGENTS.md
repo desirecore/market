@@ -17,6 +17,20 @@ customer-neutral, and safe to index publicly.
 - Do not add a real confidential token to a denylist, test fixture, documentation,
   or example. A literal denylist in a public repository creates a second leak.
 
+## External dependency disclosure
+
+- A Skill or Agent that relies on separately licensed, purchased, hosted, or
+  deployed third-party software must disclose that dependency in its discovery
+  description, `compatibility` field, localized marketplace text, and execution
+  instructions.
+- Distinguish an included connector or adapter Tool from the external product it
+  accesses. Never imply that registering a Tool bundles, licenses, installs, pays
+  for, or operates the third-party product.
+- State the operator prerequisites, applicable licensing or usage terms, separate
+  costs when relevant, connection readiness checks, and safe degraded behavior.
+  If the dependency is unavailable, stop before the external call and never
+  fabricate a successful result.
+
 ## Required pre-publication check
 
 Before committing or opening/updating a PR:
