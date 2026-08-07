@@ -34,7 +34,7 @@ Mandatory rules:
 
 - **Directly usable:** the current user message, data explicitly uploaded or referenced in the current request, and business rules whose scope and version are confirmed in the current request. User-confirmed expertise or communication preference in AgentFS may select presentation only. The system clock/timezone is environment evidence only; it cannot replace the business timezone, business calendar, or date anchor.
 - **Must be reconfirmed:** regions, business units, people, baselines, weights, protected relationships, data versions, forecasts, and acceptance thresholds from prior conversations—even when names match.
-- **Forbidden as first-response fact sources:** old Plans, artifacts, memories, solver results, test fixtures, or templates from another city.
+- **Forbidden as first-response fact sources:** old Plans, artifacts, memories, solver results, test fixtures, or templates from another business scope.
 - **Response rule:** if historical material may be relevant, ask which named version/fields to carry forward. Until confirmation, do not display historical values under confirmed facts.
 
 ### Confirm relative business time
@@ -183,11 +183,11 @@ Stop if deliverable scope, hierarchy, metric, total nature, history, potential, 
 
 ## 7. Centralized task-scheduling branch
 
-Mandatory: batch/rolling/ranking decision; task IDs, arrivals, channels, dedup key, skill, priority, SLA, duration, and must-serve status; agent IDs, skills, online shift, breaks, concurrency, current work, and forbidden relationships; horizon and freeze window; SLA start/end definition; objective order; duration source; uncovered-task behavior.
+Mandatory: batch/rolling/ranking decision; task IDs, arrivals, channels, dedup key, skill, priority, SLA, duration, and must-serve status; worker IDs, skills, online shift, breaks, concurrency, current work, and forbidden relationships; horizon and freeze window; SLA start/end definition; objective order; duration source; uncovered-task behavior.
 
 Conditional: duplicate customer tasks; preemption and reassignment; multi-skill substitution; model-derived intent labels; task precedence/grouping; published staffing versus joint staffing-scheduling.
 
-Stop if task/agent list, online periods, eligibility, duration, SLA definition, deduplication, objective order, or uncovered policy is unconfirmed.
+Stop if task/worker list, online periods, eligibility, duration, SLA definition, deduplication, objective order, or uncovered policy is unconfirmed.
 
 ## 8. Staffing and shift branch
 
