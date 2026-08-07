@@ -1,0 +1,41 @@
+{
+  "id": "watch",
+  "name": "Watch Video",
+  "category": "media",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"m10 9 5 3-5 3V9Z\" fill=\"#2563EB\"/><path d=\"M3 17h18\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M7 3v2m10-2v2\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
+  "tags": [
+    "video",
+    "transcription",
+    "scene-analysis",
+    "ffmpeg",
+    "yt-dlp",
+    "whisper"
+  ],
+  "latestVersion": "1.1.0",
+  "i18n": {
+    "zh-CN": {
+      "name": "视频观看与场景分析",
+      "shortDesc": "结合字幕、Whisper 与场景变化帧分析视频中的语音和画面"
+    },
+    "en-US": {
+      "name": "Watch Video",
+      "shortDesc": "Analyze video speech and scene changes together"
+    }
+  },
+  "maintainer": {
+    "name": "DesireCore Agent",
+    "verified": true,
+    "account": "desirecore-agent",
+    "url": "https://github.com/desirecore-agent"
+  },
+  "stewardship": "official",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/desirecore-agent/codex-watch-video-skill.git",
+    "repoBranch": "main",
+    "path": "skills/watch",
+    "ref": "0fd13b73b7b37318cada0562ba2263d648c8505f"
+  }
+}
