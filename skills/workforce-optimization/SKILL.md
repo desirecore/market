@@ -48,7 +48,7 @@ metadata:
       name: Workforce and Resource Optimization
       short_desc: Structure, solve, and independently validate workforce optimization with versioned multi-agent artifacts
       description: >-
-        Turn service-coverage, hierarchical resource-allocation, performance-target, centralized task-scheduling, staffing, shift, and general LP/MILP requests into recoverable scene, prediction, model, solve, and independent-validation artifacts.
+        Turn requests for service coverage, hierarchical resource allocation, performance targets, centralized task scheduling, staffing, shift planning, and general LP/MILP into recoverable scenario, prediction, model, solution, and independent-validation artifacts.
       body: ./SKILL.md
       source_hash: sha256:0157b807fc76aeb8
       translated_by: human

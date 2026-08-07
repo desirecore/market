@@ -1,4 +1,4 @@
-# Workforce Optimization Requirement-Clarification Framework
+# Workforce and Resource Optimization Requirement-Clarification Framework
 
 This file is a mandatory working prompt for the entry Agent. Its purpose is not to complete the user's story. It exposes every factor that can change variables, objectives, constraints, data definitions, or acceptance results and obtains explicit confirmation.
 
