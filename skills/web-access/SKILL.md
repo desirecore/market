@@ -16,7 +16,7 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: Complete terms in LICENSE.txt
-version: 2.1.1
+version: 2.2.0
 type: procedural
 risk_level: low
 status: enabled
@@ -79,7 +79,7 @@ market:
     fill-opacity="0.12"/><path d="M20.5 20.5l2 2" stroke="#34C759"
     stroke-width="1.8" stroke-linecap="round"/></svg>
   category: research
-  required_client_version: 10.0.98
+  required_client_version: 10.0.100
   maintainer:
     name: DesireCore Official
     verified: true
