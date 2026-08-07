@@ -73,7 +73,7 @@ Natural-language request
 │  ├─ Allocation/schedule/target → confirm objects, granularity, cadence, executor, and output
 │  ├─ Policy design → distinguish policy parameters, individual outcomes, incentives, and authority
 │  └─ Multiple decisions → decompose dependencies and confirm order
-├─ B. Route to territory, resource allocation, performance, task scheduling, shifts, or general LP/MILP
+├─ B. Route to service coverage, resource allocation, performance, task scheduling, shifts, or general LP/MILP
 ├─ C. Confirm shared facts: scope, time, entities, objectives, baselines, constraints,
 │    interactions, competition, data definitions, uncertainty, infeasibility, and acceptance
 ├─ D. Run the selected scenario branch and its conditional questions
@@ -136,14 +136,14 @@ When decisions interact, confirm their dependency order—for example, potential
 - Required feasibility answer, detail list, policy parameters, explanations, sensitivity, IIS, or model service.
 - Acceptance metrics, thresholds, baseline, backtest interval, fairness groups, failure rule, rollup levels, reason codes, and rollback.
 
-## 4. Territory and operating-area branch
+## 4. Service-coverage and operating-area branch
 
 Mandatory: actual decision; region and spatial IDs; boundaries/adjacency/travel source; worker/site roster and cross-area eligibility; current ownership and protected assets; capacity unit and horizon; objective priority and units; value/conversion source and baseline; fairness and change limits.
 
 Conditional:
 
 - Overlapping sites → confirm competition, sharing, referral, first-contact ownership, duplicate-contact, and revenue sharing.
-- Connected territories → strict graph connectivity versus adjacency reward, anchors, enclaves, and transport barriers.
+- Connected service areas → strict graph connectivity versus adjacency reward, anchors, enclaves, and transport barriers.
 - Cross-area work → candidate edges, distance limit, cost, skill, and approval.
 - Protected assets → business-unit versus person owner, expiry, and inheritance.
 - Workforce/site changes → effective date and explicit scenarios.
@@ -152,7 +152,7 @@ Stop if scope, candidates, protection, capacity, objective priority, competition
 
 ## 5. Business-unit, asset, and opportunity resource-allocation branch
 
-Mandatory: first/rolling allocation or ranking; resource IDs/types/lifecycle; recipient roster, hierarchy, skills, territory, availability, and capacity; eligible/forbidden pairs; uniqueness, collaboration, and unassigned policy; workload; value/conversion source; fairness metric and peer group.
+Mandatory: first/rolling allocation or ranking; resource IDs/types/lifecycle; recipient roster, hierarchy, skills, service coverage, availability, and capacity; eligible/forbidden pairs; uniqueness, collaboration, and unassigned policy; workload; value/conversion source; fairness metric and peer group.
 
 Conditional:
 
