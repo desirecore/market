@@ -33,7 +33,7 @@
   "redistribution": "allowed",
   "source": {
     "kind": "git",
-    "repoUrl": "https://github.com/desirecore-agent/codex-watch-video-skill.git",
+    "repoUrl": "https://github.com/desirecore-agent/watch-video-skill.git",
     "repoBranch": "main",
     "path": "skills/watch",
     "ref": "0fd13b73b7b37318cada0562ba2263d648c8505f"
