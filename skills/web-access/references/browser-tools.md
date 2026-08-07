@@ -178,6 +178,9 @@ BrowserImport:
 
 ## 截图：像素直接给你，通常不需要再 Read
 
+> **需要客户端 10.0.100+。** 更老的版本上截图只回元数据；
+> 若需要画面信息请改用 `semantic` / `accessibility` 快照，或回落 Jina / Playwright。
+
 `BrowserSnapshot` `mode: visual` 与 `BrowserAct` `page.screenshot` 会把截图像素作为
 image 块**直接放进工具结果**——视觉模型当场就能看，不必再调 `Read`。
 
@@ -198,11 +201,11 @@ image 块**直接放进工具结果**——视觉模型当场就能看，不必�
 | **截图前必须 `tab.activate`** | 标签页默认停在 `(-10000,-10000,1x1)`，没有合成表面。直接截图会卡满 30 s deadline，**并把标签页宿主打掉**，之后全部报 `BROWSER_TAB_HOST_NOT_FOUND` |
 | **同时只有一个可见标签页** | `tab.activate` 绑定主窗口、全局互斥。多 Space 可以并发导航/快照/输入，但截图必须逐个 activate 串行 |
 | **`page.evaluate` 基本不可用** | 每次调用需人工审批；返回的字符串/对象被替换为 `[REDACTED:browser-runtime-value]`（只有 number/boolean/null 穿透）；反调试站点会把它挂起几十秒。读页面用 `BrowserSnapshot` |
-| **`cdp.raw` 需人工审批** | `browser.raw_cdp.*` 属于永远人工闸门的能力，无人值守流程用不了。**元素级裁剪不必走它**——`BrowserSnapshot` 的 `options.clip={x,y,width,height,scale}` 直接支持（`scale` 最大 4）：先用 `semantic` 快照拿到元素坐标，再截那一块并放大。验证码、小按钮在整页截图里只有几十像素，看不清时用它 |
+| **`cdp.raw` 需人工审批** | `browser.raw_cdp.*` 属于永远人工闸门的能力，无人值守流程用不了。**元素级裁剪不必走它**（需 10.0.100+）——`BrowserSnapshot` 的 `options.clip={x,y,width,height,scale}` 直接支持（`scale` 最大 4）：先用 `semantic` 快照拿到元素坐标，再截那一块并放大。验证码、小按钮在整页截图里只有几十像素，看不清时用它 |
 | **没有批量取文通道** | `semantic` 不含正文，`accessibility` 在真实页面上超限，`page.evaluate` 被审批+脱敏。要正文请回落 Jina / Playwright |
 | **单条命令 30 s deadline** | 超时即判 `browser.host.gone`，会话作废 |
-| **用户真实操作会抢控制权** | 在可见标签页上**点击、按键、滚轮、触摸**会触发 `trusted-user-input` 并递增 control epoch，打断 Agent 的租约。**鼠标只是划过不会**（默认策略 `intentional-input`），所以用户看着页面移动光标是安全的 |
-| **artifact 不要走 `/save`** | 该接口会弹系统「另存为」对话框等人点。**用回执里的 `result.artifact.absolutePath`**（工具会把它登记进本次会话的可读白名单），不要自己拼路径——`${DESIRECORE_ROOT}` 这类变量在路径展开里不认（只认 `~` / `$HOME` / `$USERPROFILE`），拼出来是相对路径、`Read` 会报「文件不存在」。默认保留 24 小时 |
+| **用户真实操作会抢控制权** | 在可见标签页上**点击、按键、滚轮、触摸**会触发 `trusted-user-input` 并递增 control epoch，打断 Agent 的租约。**鼠标只是划过不会**（默认策略 `intentional-input`，需 10.0.100+；更老版本上划过也会打断），所以用户看着页面移动光标是安全的 |
+| **artifact 不要走 `/save`** | 该接口会弹系统「另存为」对话框等人点。**用回执里的 `result.artifact.absolutePath`**（需 10.0.100+；更老版本没有这个字段，只能放弃直接读，改用页面内提取）（工具会把它登记进本次会话的可读白名单），不要自己拼路径——`${DESIRECORE_ROOT}` 这类变量在路径展开里不认（只认 `~` / `$HOME` / `$USERPROFILE`），拼出来是相对路径、`Read` 会报「文件不存在」。默认保留 24 小时 |
 
 ## SitePatternRead / SitePatternWrite
 
