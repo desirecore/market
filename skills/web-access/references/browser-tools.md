@@ -178,7 +178,7 @@ BrowserImport:
 
 ## 截图：像素直接给你，通常不需要再 Read
 
-`BrowserSnapshot` `mode:"visual"` 与 `BrowserAct` `page.screenshot` 会把截图像素作为
+`BrowserSnapshot` `mode: visual` 与 `BrowserAct` `page.screenshot` 会把截图像素作为
 image 块**直接放进工具结果**——视觉模型当场就能看，不必再调 `Read`。
 
 只有这几种情况才需要走 `result.artifact.absolutePath` 再 `Read` 一次：
