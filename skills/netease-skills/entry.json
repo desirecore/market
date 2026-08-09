@@ -28,6 +28,44 @@
   "source": {
     "kind": "git",
     "repoUrl": "https://github.com/NetEase/skills.git",
-    "repoBranch": "main"
-  }
+    "repoBranch": "master"
+  },
+  "children": [
+    {
+      "id": "ncm-cli-setup",
+      "path": "ncm-cli-setup",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "安装和配置 ncm-cli（网易云音乐 CLI 工具）。当用户需要安装 ncm-cli、配置 API Key、安装 mpv 播放器，或排查安装问题时，使用此 skill。"
+        },
+        "en-US": {
+          "shortDesc": "安装和配置 ncm-cli（网易云音乐 CLI 工具）。当用户需要安装 ncm-cli、配置 API Key、安装 mpv 播放器，或排查安装问题时，使用此 skill。"
+        }
+      }
+    },
+    {
+      "id": "netease-music-assistant",
+      "path": "netease-music-assistant",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "网易云音乐智能助手，以模型判断为核心，通过 ncm-cli 执行操作。"
+        },
+        "en-US": {
+          "shortDesc": "网易云音乐智能助手，以模型判断为核心，通过 ncm-cli 执行操作。"
+        }
+      }
+    },
+    {
+      "id": "netease-music-cli",
+      "path": "netease-music-cli",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "使用 ncm-cli 操作网易云音乐。当用户想播放歌曲、搜索歌曲、控制播放（暂停、下一首、上一首、调音量）、管理播放队列、查看播放状态、播放歌单时，使用此 skill。"
+        },
+        "en-US": {
+          "shortDesc": "使用 ncm-cli 操作网易云音乐。当用户想播放歌曲、搜索歌曲、控制播放（暂停、下一首、上一首、调音量）、管理播放队列、查看播放状态、播放歌单时，使用此 skill。"
+        }
+      }
+    }
+  ]
 }
