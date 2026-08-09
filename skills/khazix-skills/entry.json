@@ -3,7 +3,12 @@
   "name": "卡兹克 Skills",
   "category": "productivity",
   "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"6\" cy=\"12\" r=\"2\" fill=\"#2563EB\"/><circle cx=\"18\" cy=\"6\" r=\"2\" fill=\"#2563EB\"/><circle cx=\"18\" cy=\"18\" r=\"2\" fill=\"#2563EB\"/><path d=\"m7.8 11.1 8.4-4.2M7.8 12.9l8.4 4.2\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
-  "tags": ["khazix", "ai-news", "writing", "analysis"],
+  "tags": [
+    "khazix",
+    "ai-news",
+    "writing",
+    "analysis"
+  ],
   "i18n": {
     "zh-CN": {
       "name": "卡兹克 Skills",
@@ -28,5 +33,67 @@
     "repoUrl": "https://github.com/KKKKhazix/khazix-skills.git",
     "repoBranch": "main",
     "ref": "d4e43c91f16dcd859748c1d71ec7d8aa1ebb4694"
-  }
+  },
+  "children": [
+    {
+      "id": "aihot",
+      "path": "aihot",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "AI HOT (aihot.virxact.com) 中文 AI 资讯查询 Skill。当用户想知道\"今天 AI 圈有什么\"、\"AI 日报\"、\"AI HOT\"、\"AI 资讯\"、\"AI 热点\"、\"最近 AI\"、\"OpenAI/Anthropic/Google 最近发布了什么\"、\"AI hot today\"、\"AI new…"
+        },
+        "en-US": {
+          "shortDesc": "AI HOT (aihot.virxact.com) 中文 AI 资讯查询 Skill。当用户想知道\"今天 AI 圈有什么\"、\"AI 日报\"、\"AI HOT\"、\"AI 资讯\"、\"AI 热点\"、\"最近 AI\"、\"OpenAI/Anthropic/Google 最近发布了什么\"、\"AI hot today\"、\"AI new…"
+        }
+      }
+    },
+    {
+      "id": "hv-analysis",
+      "path": "hv-analysis",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "横纵分析法（Horizontal-Vertical Analysis）深度研究Skill。由数字生命卡兹克提出，融合了索绪尔的历时-共时分析、社会科学的纵向-横截面研究设计、商学院案例研究法与竞争战略分析的核心思想。"
+        },
+        "en-US": {
+          "shortDesc": "横纵分析法（Horizontal-Vertical Analysis）深度研究Skill。由数字生命卡兹克提出，融合了索绪尔的历时-共时分析、社会科学的纵向-横截面研究设计、商学院案例研究法与竞争战略分析的核心思想。"
+        }
+      }
+    },
+    {
+      "id": "khazix-writer",
+      "path": "khazix-writer",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "数字生命卡兹克（Khazix）的公众号长文写作skill。当用户需要撰写公众号文章、写稿子、续写文章、根据素材产出长文时使用。触发词包括但不限于：写文章、写稿子、帮我写、续写、扩写、公众号文章、长文、出稿、按我的风格写。即使用户只是说\"帮我把这个写成文章\"或\"用我的风格写一下\"，只要上下文涉及内容创作和公众号输出，都应…"
+        },
+        "en-US": {
+          "shortDesc": "数字生命卡兹克（Khazix）的公众号长文写作skill。当用户需要撰写公众号文章、写稿子、续写文章、根据素材产出长文时使用。触发词包括但不限于：写文章、写稿子、帮我写、续写、扩写、公众号文章、长文、出稿、按我的风格写。即使用户只是说\"帮我把这个写成文章\"或\"用我的风格写一下\"，只要上下文涉及内容创作和公众号输出，都应…"
+        }
+      }
+    },
+    {
+      "id": "neat-freak",
+      "path": "neat-freak",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "End-of-session knowledge cleanup with OCD-level rigor — reconciles project docs (CLAUDE.md, README.md, docs/) and agent memory against the code, and audits whet…"
+        },
+        "en-US": {
+          "shortDesc": "End-of-session knowledge cleanup with OCD-level rigor — reconciles project docs (CLAUDE.md, README.md, docs/) and agent memory against the code, and audits whet…"
+        }
+      }
+    },
+    {
+      "id": "storage-analyzer",
+      "path": "storage-analyzer",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "macOS / Windows 只读存储分析助手（自动识别系统）。扫描整机磁盘占用，找出 占空间大户，把每一项分成 🟢可自动清理 / 🟡需人工判断 / 🔴谨慎清理 三级并给出 可执行处置方案，生成排版精美、可折叠、命令可一键复制的交互式 HTML 报告，并可 起本地服务在网页上一键删除（移废纸篓/直接删）。扫描全程只读…"
+        },
+        "en-US": {
+          "shortDesc": "macOS / Windows 只读存储分析助手（自动识别系统）。扫描整机磁盘占用，找出 占空间大户，把每一项分成 🟢可自动清理 / 🟡需人工判断 / 🔴谨慎清理 三级并给出 可执行处置方案，生成排版精美、可折叠、命令可一键复制的交互式 HTML 报告，并可 起本地服务在网页上一键删除（移废纸篓/直接删）。扫描全程只读…"
+        }
+      }
+    }
+  ]
 }

@@ -31,5 +31,427 @@
     "kind": "git",
     "repoUrl": "https://github.com/mattpocock/skills.git",
     "repoBranch": "main"
-  }
+  },
+  "children": [
+    {
+      "id": "ask-matt",
+      "path": "skills/engineering/ask-matt",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Ask which skill or flow fits your situation."
+        },
+        "en-US": {
+          "shortDesc": "Ask which skill or flow fits your situation."
+        }
+      }
+    },
+    {
+      "id": "code-review",
+      "path": "skills/engineering/code-review",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Standards (does the code follow this repo's documented coding stand…"
+        },
+        "en-US": {
+          "shortDesc": "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Standards (does the code follow this repo's documented coding stand…"
+        }
+      }
+    },
+    {
+      "id": "codebase-design",
+      "path": "skills/engineering/codebase-design",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Shared vocabulary for designing deep modules."
+        },
+        "en-US": {
+          "shortDesc": "Shared vocabulary for designing deep modules."
+        }
+      }
+    },
+    {
+      "id": "diagnosing-bugs",
+      "path": "skills/engineering/diagnosing-bugs",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Diagnosis loop for hard bugs and performance regressions."
+        },
+        "en-US": {
+          "shortDesc": "Diagnosis loop for hard bugs and performance regressions."
+        }
+      }
+    },
+    {
+      "id": "domain-modeling",
+      "path": "skills/engineering/domain-modeling",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Build and sharpen a project's domain model."
+        },
+        "en-US": {
+          "shortDesc": "Build and sharpen a project's domain model."
+        }
+      }
+    },
+    {
+      "id": "grill-with-docs",
+      "path": "skills/engineering/grill-with-docs",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go."
+        },
+        "en-US": {
+          "shortDesc": "A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go."
+        }
+      }
+    },
+    {
+      "id": "implement",
+      "path": "skills/engineering/implement",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Implement a piece of work based on a spec or set of tickets."
+        },
+        "en-US": {
+          "shortDesc": "Implement a piece of work based on a spec or set of tickets."
+        }
+      }
+    },
+    {
+      "id": "improve-codebase-architecture",
+      "path": "skills/engineering/improve-codebase-architecture",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick."
+        },
+        "en-US": {
+          "shortDesc": "Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick."
+        }
+      }
+    },
+    {
+      "id": "prototype",
+      "path": "skills/engineering/prototype",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Build a throwaway prototype to answer a design question."
+        },
+        "en-US": {
+          "shortDesc": "Build a throwaway prototype to answer a design question."
+        }
+      }
+    },
+    {
+      "id": "research",
+      "path": "skills/engineering/research",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Investigate a question against high-trust primary sources and capture the findings as a Markdown file in the repo."
+        },
+        "en-US": {
+          "shortDesc": "Investigate a question against high-trust primary sources and capture the findings as a Markdown file in the repo."
+        }
+      }
+    },
+    {
+      "id": "resolving-merge-conflicts",
+      "path": "skills/engineering/resolving-merge-conflicts",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Use when you need to resolve an in-progress git merge/rebase conflict."
+        },
+        "en-US": {
+          "shortDesc": "Use when you need to resolve an in-progress git merge/rebase conflict."
+        }
+      }
+    },
+    {
+      "id": "setup-matt-pocock-skills",
+      "path": "skills/engineering/setup-matt-pocock-skills",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Configure this repo for the engineering skills — set up its issue tracker, triage label vocabulary, and domain doc layout."
+        },
+        "en-US": {
+          "shortDesc": "Configure this repo for the engineering skills — set up its issue tracker, triage label vocabulary, and domain doc layout."
+        }
+      }
+    },
+    {
+      "id": "tdd",
+      "path": "skills/engineering/tdd",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Test-driven development."
+        },
+        "en-US": {
+          "shortDesc": "Test-driven development."
+        }
+      }
+    },
+    {
+      "id": "to-spec",
+      "path": "skills/engineering/to-spec",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Turn the current conversation into a spec and publish it to the project issue tracker — no interview, just synthesis of what you've already discussed."
+        },
+        "en-US": {
+          "shortDesc": "Turn the current conversation into a spec and publish it to the project issue tracker — no interview, just synthesis of what you've already discussed."
+        }
+      }
+    },
+    {
+      "id": "to-tickets",
+      "path": "skills/engineering/to-tickets",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker — ed…"
+        },
+        "en-US": {
+          "shortDesc": "Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker — ed…"
+        }
+      }
+    },
+    {
+      "id": "triage",
+      "path": "skills/engineering/triage",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Move issues and external PRs through a state machine of triage roles — categorise, verify, grill if needed, and write agent-ready briefs."
+        },
+        "en-US": {
+          "shortDesc": "Move issues and external PRs through a state machine of triage roles — categorise, verify, grill if needed, and write agent-ready briefs."
+        }
+      }
+    },
+    {
+      "id": "wayfinder",
+      "path": "skills/engineering/wayfinder",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Plan a huge chunk of work — more than one agent session can hold — as a shared map of decision tickets on your issue tracker, and resolve them one at a time unt…"
+        },
+        "en-US": {
+          "shortDesc": "Plan a huge chunk of work — more than one agent session can hold — as a shared map of decision tickets on your issue tracker, and resolve them one at a time unt…"
+        }
+      }
+    },
+    {
+      "id": "wizard",
+      "path": "skills/engineering/wizard",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Generate an interactive bash wizard that walks a human through steps only they can perform."
+        },
+        "en-US": {
+          "shortDesc": "Generate an interactive bash wizard that walks a human through steps only they can perform."
+        }
+      }
+    },
+    {
+      "id": "claude-handoff",
+      "path": "skills/in-progress/claude-handoff",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Hand the current conversation off to a fresh background agent that picks up the work immediately."
+        },
+        "en-US": {
+          "shortDesc": "Hand the current conversation off to a fresh background agent that picks up the work immediately."
+        }
+      }
+    },
+    {
+      "id": "loop-me",
+      "path": "skills/in-progress/loop-me",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Grill me about specs for the workflows I want to build, within this workspace."
+        },
+        "en-US": {
+          "shortDesc": "Grill me about specs for the workflows I want to build, within this workspace."
+        }
+      }
+    },
+    {
+      "id": "setup-ts-deep-modules",
+      "path": "skills/in-progress/setup-ts-deep-modules",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Wire dependency-cruiser into a TypeScript repo so each package is a deep module — implementation hidden in subfolders, reachable only through its entry-point fi…"
+        },
+        "en-US": {
+          "shortDesc": "Wire dependency-cruiser into a TypeScript repo so each package is a deep module — implementation hidden in subfolders, reachable only through its entry-point fi…"
+        }
+      }
+    },
+    {
+      "id": "writing-beats",
+      "path": "skills/in-progress/writing-beats",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Writing, exploit — assemble raw material into a journey of beats, grounding each term before a beat leans on it."
+        },
+        "en-US": {
+          "shortDesc": "Writing, exploit — assemble raw material into a journey of beats, grounding each term before a beat leans on it."
+        }
+      }
+    },
+    {
+      "id": "writing-fragments",
+      "path": "skills/in-progress/writing-fragments",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Writing, explore — mine raw fragments, no structure yet."
+        },
+        "en-US": {
+          "shortDesc": "Writing, explore — mine raw fragments, no structure yet."
+        }
+      }
+    },
+    {
+      "id": "writing-shape",
+      "path": "skills/in-progress/writing-shape",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Writing, exploit — shape raw material into an article, paragraph by paragraph."
+        },
+        "en-US": {
+          "shortDesc": "Writing, exploit — shape raw material into an article, paragraph by paragraph."
+        }
+      }
+    },
+    {
+      "id": "git-guardrails-claude-code",
+      "path": "skills/misc/git-guardrails-claude-code",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, branch -D, etc.) before they execute."
+        },
+        "en-US": {
+          "shortDesc": "Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, branch -D, etc.) before they execute."
+        }
+      }
+    },
+    {
+      "id": "migrate-to-shoehorn",
+      "path": "skills/misc/migrate-to-shoehorn",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Migrate test files from `as` type assertions to @total-typescript/shoehorn."
+        },
+        "en-US": {
+          "shortDesc": "Migrate test files from `as` type assertions to @total-typescript/shoehorn."
+        }
+      }
+    },
+    {
+      "id": "scaffold-exercises",
+      "path": "skills/misc/scaffold-exercises",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Create exercise directory structures with sections, problems, solutions, and explainers that pass linting."
+        },
+        "en-US": {
+          "shortDesc": "Create exercise directory structures with sections, problems, solutions, and explainers that pass linting."
+        }
+      }
+    },
+    {
+      "id": "setup-pre-commit",
+      "path": "skills/misc/setup-pre-commit",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Set up Husky pre-commit hooks with lint-staged (Prettier), type checking, and tests in the current repo."
+        },
+        "en-US": {
+          "shortDesc": "Set up Husky pre-commit hooks with lint-staged (Prettier), type checking, and tests in the current repo."
+        }
+      }
+    },
+    {
+      "id": "grill-me",
+      "path": "skills/productivity/grill-me",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "A relentless interview to sharpen a plan or design."
+        },
+        "en-US": {
+          "shortDesc": "A relentless interview to sharpen a plan or design."
+        }
+      }
+    },
+    {
+      "id": "grilling",
+      "path": "skills/productivity/grilling",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Grill the user relentlessly about a plan, decision, or idea."
+        },
+        "en-US": {
+          "shortDesc": "Grill the user relentlessly about a plan, decision, or idea."
+        }
+      }
+    },
+    {
+      "id": "handoff",
+      "path": "skills/productivity/handoff",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Compact the current conversation into a handoff document for another agent to pick up."
+        },
+        "en-US": {
+          "shortDesc": "Compact the current conversation into a handoff document for another agent to pick up."
+        }
+      }
+    },
+    {
+      "id": "teach",
+      "path": "skills/productivity/teach",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Teach the user a new skill or concept, within this workspace."
+        },
+        "en-US": {
+          "shortDesc": "Teach the user a new skill or concept, within this workspace."
+        }
+      }
+    },
+    {
+      "id": "to-questionnaire",
+      "path": "skills/productivity/to-questionnaire",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Turn a decision you can't fully answer into a questionnaire for someone else to fill in."
+        },
+        "en-US": {
+          "shortDesc": "Turn a decision you can't fully answer into a questionnaire for someone else to fill in."
+        }
+      }
+    },
+    {
+      "id": "wait-what",
+      "path": "skills/productivity/wait-what",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Stop."
+        },
+        "en-US": {
+          "shortDesc": "Stop."
+        }
+      }
+    },
+    {
+      "id": "writing-for-agents",
+      "path": "skills/productivity/writing-for-agents",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Writing documents for agents."
+        },
+        "en-US": {
+          "shortDesc": "Writing documents for agents."
+        }
+      }
+    }
+  ]
 }

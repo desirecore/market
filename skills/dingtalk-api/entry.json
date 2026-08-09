@@ -26,7 +26,9 @@
   "license": "MIT-0",
   "redistribution": "allowed",
   "source": {
-    "kind": "web",
-    "repoUrl": "https://clawhub.ai/ogenes/skills/dingtalk-api"
+    "kind": "git",
+    "repoUrl": "https://github.com/ogenes/dingtalk-api.git",
+    "repoBranch": "main",
+    "ref": "83465bf60b522ad19f7822d167489c3c4f79b302"
   }
 }
