@@ -1,0 +1,32 @@
+{
+  "id": "humanizer",
+  "name": "Humanizer",
+  "category": "creative",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M3.5 6h8M3.5 11h6M3.5 16h9\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"m20 5.6-6.6 6.6-2.6.6.6-2.6L18 3.6a1.4 1.4 0 0 1 2 2Z\" stroke=\"#2563EB\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/></svg>",
+  "tags": ["writing", "editing", "ai-detection", "humanize", "prose"],
+  "i18n": {
+    "zh-CN": {
+      "name": "Humanizer",
+      "shortDesc": "基于维基百科「AI 写作特征」指南去除文本中的 AI 痕迹，识别并修复夸大象征、宣传腔、破折号滥用、三段式、否定式排比等模式，纯 Markdown 可跨 agent 运行"
+    },
+    "en-US": {
+      "name": "Humanizer",
+      "shortDesc": "Strips signs of AI-generated writing using Wikipedia's \"Signs of AI writing\" guide, fixing inflated symbolism, promotional tone, em dash overuse, rule of three and negative parallelisms; plain Markdown, runs in any harness"
+    }
+  },
+  "maintainer": {
+    "name": "blader",
+    "verified": false,
+    "account": "blader",
+    "url": "https://github.com/blader/humanizer"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/blader/humanizer.git",
+    "repoBranch": "main",
+    "ref": "523374dee72d67c7b2b5f858ea0094ffda49c3ac"
+  }
+}
