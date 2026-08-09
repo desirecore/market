@@ -1,0 +1,32 @@
+{
+  "id": "nuwa-skill",
+  "name": "女娲.skill",
+  "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M3.5 4h14l-5.2 6.4v6.6l-3.6 1.8v-8.4L3.5 4Z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"m18.6 14.2.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2Z\" stroke=\"#2563EB\" stroke-width=\"1.3\" stroke-linejoin=\"round\"/></svg>",
+  "tags": ["nuwa", "skill-creator", "thinking", "research", "distillation"],
+  "i18n": {
+    "zh-CN": {
+      "name": "女娲.skill",
+      "shortDesc": "输入一个名字即自动完成调研、提炼、验证，把任何人的心智模型、决策启发式与表达 DNA 蒸馏成可运行的人物 Skill，适配 Claude Code、Codex、Cursor 等"
+    },
+    "en-US": {
+      "name": "Nuwa Skill",
+      "shortDesc": "Give it a name and it researches, distills and validates automatically, turning anyone's mental models, decision heuristics and voice into a runnable persona skill for Claude Code, Codex and Cursor"
+    }
+  },
+  "maintainer": {
+    "name": "花生 (alchaincyf)",
+    "verified": false,
+    "account": "alchaincyf",
+    "url": "https://github.com/alchaincyf/nuwa-skill"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/alchaincyf/nuwa-skill.git",
+    "repoBranch": "main",
+    "ref": "27642f5bfed2dc1bbf8ee59a2c1ee602a626bbd7"
+  }
+}
