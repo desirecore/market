@@ -29,6 +29,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/wechatpay-apiv3/wechatpay-skills.git",
     "repoBranch": "main",
+    "path": "wechatpay-payment-integration",
     "ref": "8573bdc38b86fa67a42acfc422d6b4dbca4ada21"
   }
 }

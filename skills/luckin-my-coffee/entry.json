@@ -27,6 +27,7 @@
   "redistribution": "verify-package-terms",
   "source": {
     "kind": "zip",
-    "repoUrl": "https://unpkg.luckincoffeecdn.com/@luckin/my-coffee-skill@latest/dist/my-coffee-skill.zip"
+    "repoUrl": "https://unpkg.luckincoffeecdn.com/@luckin/my-coffee-skill@latest/dist/my-coffee-skill.zip",
+    "path": "my-coffee"
   }
 }
