@@ -68,10 +68,15 @@ def clone_pinned(repo_url: str, branch: str, ref: str | None, dest: Path) -> Non
         return
 
     # Pinned commit fell outside the shallow window — fetch that object alone.
-    if run(["git", "fetch", "--quiet", "origin", ref, "--depth", "1"], cwd=dest).returncode != 0:
-        raise RuntimeError(f"cannot fetch pinned ref {ref}")
-    if run(["git", "checkout", "--quiet", ref], cwd=dest).returncode != 0:
-        raise RuntimeError(f"cannot check out pinned ref {ref}")
+    # Both failures carry stderr: "cannot fetch pinned ref <sha>" alone cannot
+    # tell a missing commit object from a permissions or network problem.
+    fetched = run(["git", "fetch", "--quiet", "origin", ref, "--depth", "1"], cwd=dest)
+    if fetched.returncode != 0:
+        raise RuntimeError(f"cannot fetch pinned ref {ref}: {fetched.stderr.strip()[:300]}")
+
+    checked_out = run(["git", "checkout", "--quiet", ref], cwd=dest)
+    if checked_out.returncode != 0:
+        raise RuntimeError(f"cannot check out pinned ref {ref}: {checked_out.stderr.strip()[:300]}")
 
 
 def parse_frontmatter(path: Path) -> dict:
