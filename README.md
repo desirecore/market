@@ -24,8 +24,8 @@ The market currently contains:
 
 - `1` Agent: `desirecore`
 - `32` local built-in skills with `SKILL.md`
-- `28` external skill entries with `entry.json`
-- `60` publishable skills in total (`SKILL.md` + `entry.json`)
+- `29` external skill entries with `entry.json`
+- `61` publishable skills in total (`SKILL.md` + `entry.json`)
 
 ## Skill Sources
 
@@ -54,8 +54,8 @@ flyai-skill, follow-builders, humanizer, humanizer-zh,
 ian-xiaohei-illustrations, impeccable, karpathy-guidelines, khazix-skills,
 larksuite-cli, last30days, luckin-my-coffee, marketingskills,
 mattpocock-skills, minimax-image-gen, minimax-tts, mt-paotui-for-client,
-netease-skills, nuwa-skill, taste-skill, watch, watchless,
-wechatpay-skills, wecom-cli
+netease-skills, nuwa-skill, presentation-forge, taste-skill, watch,
+watchless, wechatpay-skills, wecom-cli
 ```
 
 ## Data Formats

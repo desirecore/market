@@ -1,0 +1,38 @@
+{
+  "id": "presentation-forge",
+  "name": "Presentation Forge",
+  "category": "creative",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"12\" rx=\"1.5\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"M12 16v4M8.5 20h7\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"m6.5 12 3-3 2.2 2.2L16 7\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "ppt",
+    "pptx",
+    "svg",
+    "presentation",
+    "slides"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Presentation Forge",
+      "shortDesc": "面向中文 toB 商业汇报的 PPT 工作流，支持整页生图、图片页重建为可编辑 PPTX/SVG、原生模板填充。制作售前方案、项目汇报、产品介绍、行业分析、培训材料或图片页转可编辑 PowerPoint 时使用，适配 Codex、Claude Code"
+    },
+    "en-US": {
+      "name": "Presentation Forge",
+      "shortDesc": "Chinese toB business-presentation workflow: full-page image decks, rebuilding image/screenshot slides into editable PPTX/SVG, and native template filling. Use for pre-sales decks, project reports, product intros, training material or image-to-editable-PowerPoint. Works with Codex and Claude Code"
+    }
+  },
+  "maintainer": {
+    "name": "Ronnie2025",
+    "verified": false,
+    "account": "Ronnie2025",
+    "url": "https://github.com/Ronnie2025/codex-ppt-skill"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/Ronnie2025/codex-ppt-skill.git",
+    "repoBranch": "main",
+    "ref": "51903526258e2d1d36e5d3bccd94aa03ba68005b"
+  }
+}
