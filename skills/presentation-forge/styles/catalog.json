@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "styles": [
+    {"id": "enterprise-tech-dark", "name": "企业科技深蓝", "best_for": ["AI 方案", "技术架构", "数字化转型", "售前提案"], "avoid_for": ["政府公文式汇报", "儿童培训"], "default_smoke_layout": "content-structured"},
+    {"id": "consulting-blue-white", "name": "蓝白咨询商务", "best_for": ["咨询建议", "管理层汇报", "方案说明", "轻数据页面"], "avoid_for": ["潮流品牌发布", "沉浸式暗色大屏"], "default_smoke_layout": "content-structured"},
+    {"id": "industrial-business", "name": "制造工业", "best_for": ["制造业", "能源与工程", "供应链", "生产运营"], "avoid_for": ["生活方式品牌", "轻松培训"], "default_smoke_layout": "process-flow"},
+    {"id": "government-formal", "name": "政府正式", "best_for": ["政府与国企", "政策解读", "专项汇报", "领导汇报"], "avoid_for": ["娱乐品牌", "高饱和创意发布"], "default_smoke_layout": "content-structured"},
+    {"id": "executive-minimal", "name": "极简高管汇报", "best_for": ["董事会", "经营决策", "一页一结论", "行动建议"], "avoid_for": ["详细培训", "复杂技术教程"], "default_smoke_layout": "data-callouts"},
+    {"id": "data-consulting", "name": "数据咨询", "best_for": ["数据战略", "指标体系", "分析洞察", "技术咨询"], "avoid_for": ["政府公文", "情感型品牌故事"], "default_smoke_layout": "data-callouts"},
+    {"id": "brand-launch", "name": "品牌发布", "best_for": ["新品发布", "品牌升级", "创意提案", "市场传播"], "avoid_for": ["严肃政策汇报", "密集财务数据"], "default_smoke_layout": "cover-hero"},
+    {"id": "training-illustration", "name": "培训插画", "best_for": ["内部培训", "课程讲解", "流程科普", "文化宣导"], "avoid_for": ["董事会财务汇报", "严肃监管材料"], "default_smoke_layout": "process-flow"}
+  ]
+}

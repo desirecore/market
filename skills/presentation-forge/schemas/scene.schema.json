@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.codex/presentation-forge/scene.schema.json",
+  "title": "PPT Page Scene",
+  "type": "object",
+  "required": ["schema_version", "slide_id", "slide_number", "revision", "page_type", "canvas", "content", "elements", "dependencies"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "slide_id": {"type": "string", "pattern": "^slide-[0-9]{3}$"},
+    "slide_number": {"type": "integer", "minimum": 1},
+    "revision": {"type": "integer", "minimum": 1},
+    "page_type": {"type": "string"},
+    "style_id": {"type": ["string", "null"]},
+    "layout_id": {"type": ["string", "null"]},
+    "canvas": {
+      "type": "object",
+      "required": ["width", "height"],
+      "properties": {"width": {"type": "integer", "minimum": 1}, "height": {"type": "integer", "minimum": 1}}
+    },
+    "content": {
+      "type": "object",
+      "required": ["title"],
+      "properties": {"title": {"type": "string"}, "message": {"type": "string"}, "facts": {"type": "array"}}
+    },
+    "generation": {"type": "object"},
+    "elements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "bbox"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "type": {"enum": ["text", "layout_native", "line_native", "connector_native", "semantic_visual", "imagegen_asset", "provided_asset", "unresolved"]},
+          "editable": {"type": "boolean"},
+          "bbox": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "number"}}
+        }
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "required": ["scene_hash", "prompt_hash", "asset_hashes"],
+      "properties": {
+        "scene_hash": {"type": "string"},
+        "prompt_hash": {"type": "string"},
+        "asset_hashes": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}
