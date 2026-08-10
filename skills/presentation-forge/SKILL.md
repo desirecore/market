@@ -40,6 +40,7 @@ metadata:
         intentionally falls back to the shared body and is locked as
         human-maintained.
       translated_by: human
+      source_hash: 'sha256:a26759f688238248'
       body: ./SKILL.md
 market:
   icon: >-
