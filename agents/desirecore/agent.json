@@ -3,11 +3,12 @@
   "name": "DesireCore",
   "avatar": {
     "t": "D",
-    "bg": "linear-gradient(135deg, #007AFF, #005ECB)"
+    "bg": "linear-gradient(135deg, #007AFF, #005ECB)",
+    "image": { "path": "assets/avatar.webp" }
   },
   "category": "management",
-  "version": "1.1.0",
-  "updatedAt": "2026-05-03",
+  "version": "1.2.0",
+  "updatedAt": "2026-08-13",
   "maintainer": {
     "name": "DesireCore Official",
     "verified": true
@@ -44,6 +45,14 @@
     "tools": []
   },
   "changelog": [
+    {
+      "version": "1.2.0",
+      "date": "2026-08-13",
+      "changes": {
+        "zh-CN": ["新增图片头像（assets/avatar.webp）"],
+        "en-US": ["Added image avatar (assets/avatar.webp)"]
+      }
+    },
     {
       "version": "1.1.0",
       "date": "2026-05-03",
