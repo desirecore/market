@@ -11,6 +11,20 @@ from pathlib import Path
 
 
 HEADING = re.compile(r"^##\s+(\d+)\.\s+\[([^]]+)]\s+(.+?)\s*$")
+ROOT = Path(__file__).resolve().parents[1]
+TYPE_MIGRATION = {"layout_native": "shape", "line_native": "line", "connector_native": "connector", "semantic_visual": "image", "imagegen_asset": "image", "provided_asset": "image"}
+
+
+def upgrade_element(element: dict, index: int) -> dict:
+    upgraded = dict(element)
+    upgraded["type"] = TYPE_MIGRATION.get(str(upgraded.get("type")), upgraded.get("type", "unresolved"))
+    upgraded.setdefault("rotation", 0)
+    upgraded.setdefault("z_index", index)
+    upgraded.setdefault("editable", True)
+    upgraded.setdefault("locked", False)
+    upgraded.setdefault("style", {})
+    upgraded.setdefault("capabilities", ["text", "geometry", "style", "rotation", "z-order"] if upgraded["type"] == "text" else ["geometry", "style", "rotation", "z-order"])
+    return upgraded
 
 
 def canonical_hash(value: object) -> str:
@@ -34,14 +48,26 @@ def parse_plan(path: Path) -> dict[int, dict[str, str]]:
 
 def upgrade_metadata(path: Path, prompts: dict) -> dict:
     metadata = json.loads(path.read_text(encoding="utf-8"))
-    metadata["schema_version"] = 2
+    metadata["schema_version"] = max(int(metadata.get("schema_version", 1)), 4)
     metadata.setdefault("current_revision", None)
     metadata.setdefault("style_id", prompts.get("style_id"))
+    style_id = metadata.get("style_id")
+    if style_id and (not metadata.get("style_variant") or not metadata.get("typography_profile") or not metadata.get("table_profile")):
+        catalog = json.loads((ROOT / "styles" / "catalog.json").read_text(encoding="utf-8"))
+        style = next((row for row in catalog.get("styles", []) if row.get("id") == style_id), {})
+        if not metadata.get("style_variant"):
+            metadata["style_variant"] = prompts.get("style_variant") or style.get("default_variant")
+        if not metadata.get("typography_profile"):
+            metadata["typography_profile"] = style.get("typography_profile")
+        if not metadata.get("table_profile"):
+            metadata["table_profile"] = style.get("table_profile")
     metadata.setdefault("variants", {
         "image": {"status": "not_built", "artifact": None, "slides": {}},
         "editable": {"status": "not_built", "artifact": None, "slides": {}},
     })
     metadata.setdefault("environment", {"preflight_report": None, "status": "pending"})
+    metadata.setdefault("gui_validation_mode", "final-only")
+    metadata.setdefault("final_powerpoint_validation", "pending")
     path.write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return metadata
 
@@ -84,22 +110,28 @@ def main() -> None:
             "asset_reference_images": prompt.get("asset_reference_images", old.get("generation", {}).get("asset_reference_images", [])),
         }
         prompt_hash = canonical_hash(generation)
+        old_canvas = old.get("canvas", {"width": 1920, "height": 1080})
+        canvas = {"width": int(old_canvas.get("width", 1920)), "height": int(old_canvas.get("height", 1080)), "unit": "px"}
         scene = {
-            "schema_version": 1,
+            "schema_version": 2,
             "slide_id": f"slide-{number:03d}",
             "slide_number": number,
             "revision": int(old.get("revision", 1)),
             "page_type": prompt.get("page_type") or info.get("page_type") or old.get("page_type", "other"),
             "style_id": prompt.get("style_id") or prompts.get("style_id") or metadata.get("style_id"),
+            "style_variant": prompt.get("style_variant") or prompts.get("style_variant") or metadata.get("style_variant"),
             "layout_id": prompt.get("layout_id") or info.get("layout_id") or old.get("layout_id") or None,
-            "canvas": old.get("canvas", {"width": 1920, "height": 1080}),
+            "typography_profile": metadata.get("typography_profile"),
+            "table_profile": metadata.get("table_profile"),
+            "visual_asset_policy": metadata.get("visual_asset_policy"),
+            "canvas": canvas,
             "content": {
                 "title": info.get("title") or old.get("content", {}).get("title", ""),
                 "message": old.get("content", {}).get("message", ""),
                 "facts": old.get("content", {}).get("facts", []),
             },
             "generation": generation,
-            "elements": old.get("elements", []),
+            "elements": [upgrade_element(element, index) for index, element in enumerate(old.get("elements", []))],
             "dependencies": {"scene_hash": "", "prompt_hash": prompt_hash, "asset_hashes": old.get("dependencies", {}).get("asset_hashes", [])},
         }
         hashable = dict(scene)
@@ -129,6 +161,10 @@ def main() -> None:
             "source": "scene-derived",
             "slide_size_px": [compiled_scenes[0]["canvas"]["width"], compiled_scenes[0]["canvas"]["height"]],
             "font_face": metadata.get("environment", {}).get("selected_font"),
+            "style_id": metadata.get("style_id"),
+            "typography_profile": metadata.get("typography_profile"),
+            "table_profile": metadata.get("table_profile"),
+            "visual_asset_policy": metadata.get("visual_asset_policy"),
             "items": items,
         }
         inventory_path = session / "cache" / "editable" / "visual_inventory.json"

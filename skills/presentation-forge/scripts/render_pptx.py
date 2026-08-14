@@ -117,6 +117,8 @@ def main() -> None:
     parser.add_argument("--input", required=True)
     parser.add_argument("--out-dir", required=True)
     parser.add_argument("--backend", choices=("auto", "powerpoint", "libreoffice"), default="auto")
+    parser.add_argument("--validation-stage", choices=("intermediate", "final"), default="final")
+    parser.add_argument("--gui-validation-mode", choices=("final-only", "eager", "never"), default="final-only")
     parser.add_argument("--allow-approximate", action="store_true", help="Allow LibreOffice output to pass instead of remaining QA-only.")
     parser.add_argument("--report")
     args = parser.parse_args()
@@ -124,6 +126,22 @@ def main() -> None:
     if not source.is_file():
         raise SystemExit(f"input PPTX not found: {source}")
     output = Path(args.out_dir).resolve() / source.with_suffix(".pdf").name
+    if args.gui_validation_mode == "never" or (args.gui_validation_mode == "final-only" and args.validation_stage == "intermediate"):
+        status = "SKIPPED" if args.gui_validation_mode == "never" else "DEFERRED"
+        report = {
+            "status": status,
+            "input": str(source),
+            "output": None,
+            "selected_backend": None,
+            "attempts": [],
+            "validation_stage": args.validation_stage,
+            "gui_validation_mode": args.gui_validation_mode,
+        }
+        if args.report:
+            report_path = Path(args.report); report_path.parent.mkdir(parents=True, exist_ok=True)
+            report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(json.dumps(report, ensure_ascii=False))
+        return
     attempts: list[dict[str, object]] = []
     if args.backend in {"auto", "powerpoint"}:
         if powerpoint_available():
@@ -136,7 +154,15 @@ def main() -> None:
     status = "FAIL"
     if selected:
         status = "PASS" if selected["fidelity"] == "target" else "APPROXIMATE"
-    report = {"status": status, "input": str(source), "output": str(output) if selected else None, "selected_backend": selected["backend"] if selected else None, "attempts": attempts}
+    report = {
+        "status": status,
+        "input": str(source),
+        "output": str(output) if selected else None,
+        "selected_backend": selected["backend"] if selected else None,
+        "attempts": attempts,
+        "validation_stage": args.validation_stage,
+        "gui_validation_mode": args.gui_validation_mode,
+    }
     if args.report:
         report_path = Path(args.report); report_path.parent.mkdir(parents=True, exist_ok=True)
         report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

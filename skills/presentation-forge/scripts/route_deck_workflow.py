@@ -11,6 +11,7 @@ from pathlib import Path
 
 ROUTES = {
     "image-generation": "references/planning-workflow.md",
+    "native-editable-deck": "references/native-editable-workflow.md",
     "element-rebuild": "references/semantic-replica-workflow.md",
     "svg-redraw": "SKILL.md#路径-csvg-拆解",
     "native-template-fill": "references/native-template-fill-workflow.md",
@@ -20,6 +21,7 @@ VALID_VALUES = {
     "operation": {"create", "fill", "rebuild", "enhance"},
     "input_kind": {"topic", "document", "pptx-template", "pptx-finished", "slide-images", "mixed"},
     "editability": {"image", "editable", "unspecified"},
+    "visual_asset_policy": {"native-only", "native-image-assisted", "image-led-editable"},
 }
 
 
@@ -32,6 +34,7 @@ def decide(request: dict[str, object]) -> dict[str, object]:
     operation = str(request.get("operation") or "create")
     input_kind = str(request.get("input_kind") or "topic")
     editability = str(request.get("editability") or "unspecified")
+    visual_asset_policy = str(request.get("visual_asset_policy") or "native-image-assisted")
     has_source_pptx = truthy(request.get("has_source_pptx")) or input_kind in {"pptx-template", "pptx-finished"}
     has_new_content = truthy(request.get("has_new_content"))
     has_reference_slides = truthy(request.get("has_reference_slides")) or input_kind == "slide-images"
@@ -41,7 +44,7 @@ def decide(request: dict[str, object]) -> dict[str, object]:
     invalid_fields = {
         field: value
         for field, allowed in VALID_VALUES.items()
-        if (value := str(request.get(field) or {"delivery_type": "unspecified", "operation": "create", "input_kind": "topic", "editability": "unspecified"}[field])) not in allowed
+        if (value := str(request.get(field) or {"delivery_type": "unspecified", "operation": "create", "input_kind": "topic", "editability": "unspecified", "visual_asset_policy": "native-image-assisted"}[field])) not in allowed
     }
     if invalid_fields:
         return {
@@ -82,10 +85,14 @@ def decide(request: dict[str, object]) -> dict[str, object]:
         if not has_reference_slides:
             missing.append("reference_slide_image")
     elif editability == "editable" or delivery == "editable-pptx":
-        route = "element-rebuild"
-        reasons.append("object_editability_required")
-        if not has_reference_slides and operation != "create":
-            missing.append("reference_slide_image")
+        if operation == "create" and not has_reference_slides:
+            route = "native-editable-deck"
+            reasons.append("new_native_editable_deck_requested")
+        else:
+            route = "element-rebuild"
+            reasons.append("reference_driven_object_editability_required")
+            if not has_reference_slides:
+                missing.append("reference_slide_image")
     elif editability == "image" or delivery in {"image-pptx", "pdf", "png"}:
         route = "image-generation"
         reasons.append("visual_delivery_without_object_editability")
@@ -108,6 +115,7 @@ def decide(request: dict[str, object]) -> dict[str, object]:
         "reason_codes": reasons,
         "missing_prerequisites": missing,
         "blocking_question": question,
+        "visual_asset_policy": visual_asset_policy if route == "native-editable-deck" else None,
     }
 
 
@@ -143,6 +151,8 @@ def main() -> None:
         metadata["route"] = result["route"]
         metadata["route_status"] = result["status"]
         metadata["route_report"] = str(out.relative_to(session))
+        if result.get("visual_asset_policy"):
+            metadata["visual_asset_policy"] = result["visual_asset_policy"]
         metadata_path.write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     print(json.dumps(result, ensure_ascii=False))

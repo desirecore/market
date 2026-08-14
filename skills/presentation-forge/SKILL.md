@@ -1,6 +1,6 @@
 ---
 name: presentation-forge
-description: "创建中文商业汇报，把截图或图片型幻灯片重建为可编辑 PPTX/SVG，或用原生 PPTX 模板直接填充新内容。用户要求制作售前方案、项目汇报、产品介绍、行业分析、培训材料、套用 PowerPoint 模板、图片页转可编辑 PowerPoint、重建幻灯片、拆分图标与装饰元素或输出 SVG 时使用。"
+description: "创建中文商业汇报，从主题或文档生成原生可编辑 PPTX，使用 image-2 辅助生成独立视觉资产，把截图或图片型幻灯片重建为可编辑 PPTX/SVG，或用原生 PPTX 模板填充新内容。用户要求制作售前方案、项目汇报、产品介绍、行业分析、培训材料、AIPPT 式可编辑演示、套用 PowerPoint 模板、图片页转可编辑 PowerPoint、重建幻灯片或输出 SVG 时使用。"
 version: 0.1.0
 type: procedural
 risk_level: low
@@ -40,7 +40,7 @@ metadata:
         intentionally falls back to the shared body and is locked as
         human-maintained.
       translated_by: human
-      source_hash: 'sha256:a26759f688238248'
+      source_hash: 'sha256:0a4b6ad9df5da705'
       body: ./SKILL.md
 market:
   icon: >-
@@ -57,6 +57,7 @@ market:
     verified: false
   channel: latest
 ---
+
 # Presentation Forge
 
 本文件是给执行体使用的路由和操作规程。面向用户的项目说明、效果图和安装命令见上游仓库 <https://github.com/mashagua/presentation-forge>。
@@ -68,8 +69,9 @@ market:
 3. **要 PowerPoint 内继续改字、移元素、换图标**：走元素重组。
 4. **只要 SVG、网页/文档复用，或低成本看结构**：走 SVG 拆解。
 5. **提供原生 PPTX 模板和新内容，要求保留模板设计直接填充**：走原生 PPTX 模板填充。
+6. **从主题或文档新做可编辑 PPTX**：走原生可编辑 Deck；默认使用 `native-image-assisted`，让 image-2 生成独立视觉资产，文字、结构、表格和图表保持原生。
 
-路径可以串联：先用整页生图 PPT 形成视觉页；如果后续需要编辑或复用，再把单页 PNG 交给元素重组或 SVG 拆解继续处理。只要目标是可编辑 PPTX，默认优先元素重组；SVG 拆解不是默认的 PPT 可编辑路线。
+路径可以串联：先用整页生图 PPT 形成视觉页；如果后续需要编辑或复用，再把单页 PNG 交给元素重组或 SVG 拆解继续处理。从零新做可编辑 PPTX 时默认走原生可编辑 Deck；已有图片页要求可编辑时走元素重组。SVG 拆解不是默认的 PPT 可编辑路线。
 
 ## 路由判断
 
@@ -100,7 +102,9 @@ market:
 
 新做 PPT 时，读取 [references/planning-workflow.md](references/planning-workflow.md)，并把确认后的编辑要求写入 session 的 `metadata.json`。禁止使用含义模糊的 `pptx` 作为交付类型；只能记录 `image-pptx` 或 `editable-pptx`。
 
-如果缺少“材料、汇报类型、受众、沟通目标”中的任意两项，先提出不超过 3 个关键问题，不要直接生成页面。若用户授权自行判断，列出假设并先交付逐页大纲；只有在用户明确要求直接制作时才跳过大纲确认。
+如果缺少“材料、汇报类型、受众、沟通目标”中的任意两项，先提出不超过 3 个关键问题，不要直接生成页面。若用户授权自行判断，列出明确假设后继续规划。
+
+逐页大纲始终写入 `slides_plan.md`，但默认采用连续执行：生成大纲后直接进入后续制作，不因大纲暂停，也不把“请先判断缺失信息”“使用明确假设”视为等待确认。只有用户明确表达“先输出大纲”“等我确认”“确认后再生成”“暂时不要制作”等审阅意图时，才展示大纲并等待；将 `outline_review_mode` 记录为 `explicit`、`outline_approval` 记录为 `pending`。其他情况记录 `outline_review_mode: continuous`、`outline_approval: auto-proceed`。用户明确要求审阅时不得静默越过确认门。
 
 不得仅凭宽泛的行业或风格描述虚构客户背景、业务数据、产品能力、案例或收益。
 
@@ -117,11 +121,12 @@ market:
 
 - 用户只说要 `PPTX`、未说明可编辑性：暂停路线选择，先询问需要“图片型 PPTX”还是“可编辑 PPTX”。
 - 用户要新做汇报，内容偏观点表达、概念框架或方案展示，且视觉完成度优先：选择 **整页生图 PPT**。
-- 用户要新做汇报，但包含密集数据、财务表格、需频繁更新的数字、大量脚注或长期协作模板：说明本 Skill 不适合图片化生成，建议改走原生可编辑 PPT 工作流。
+- 用户要从主题或文档新做可编辑 PPTX：选择 **原生可编辑 Deck**。默认 `native-image-assisted`；用户明确不生图时使用 `native-only`，强视觉且仍要求可编辑时使用 `image-led-editable`。
+- 用户要新做汇报，包含密集数据、财务表格、需频繁更新的数字、大量脚注或长期协作模板：选择原生可编辑 Deck 的 `native-only`，不要走整页生图。
 - 用户已有图片页，且明确要可编辑 PPTX、PowerPoint 内改字、移动元素、替换图标、元素化重建或图片页转可编辑：强制选择 **元素重组**。
 - 用户已有图片页，且明确要 SVG、网页/文档复用，或明确接受低成本结构样板：选择 **SVG 拆解**。
 - 用户提供原生 PPTX 模板和新内容，并要求保留模板设计、直接替换文字：选择 **原生 PPTX 模板填充**；不要先转成 SVG 或整页图片。
-- 用户既想先看效果又可能后续编辑：先生成图片型 PPT；确认后再把页图作为拆解输入。
+- 用户既重视视觉又要求后续编辑：优先原生可编辑 Deck 的 `native-image-assisted`；只有明确接受图片主导并需要参考页重建时才先整页生图再元素重组。
 
 成本提示：元素重组通常更耗时、token 更高，但 PPTX 可编辑性更强；SVG 拆解通常更快更省，但复杂视觉会被简化，导入 PowerPoint 后不承诺对象级稳定可编辑。
 
@@ -141,9 +146,9 @@ Session 必须至少包含 `slides_plan.md`、`prompts.json`、`metadata.json`�
 
 生产构建前必须：
 
-1. 用 `scripts/compile_scenes.py` 从确认后的计划和 prompts 编译或更新 scene。
+1. 用 `scripts/compile_scenes.py` 从当前有效计划和 prompts 编译或更新 scene；`explicit` 模式下必须先获得大纲批准。
 2. 用 `scripts/validate_scene.py` 校验所有 scene。
-3. 用 `scripts/preflight_ppt_environment.py` 检查字体、构建依赖和渲染后端；`BLOCKED` 时不得宣称完成生产 QA。
+3. 用 `scripts/preflight_ppt_environment.py` 检查字体、构建依赖和渲染后端；默认 `gui_validation_mode: final-only`，中间预检不得启动 PowerPoint；`BLOCKED` 时不得宣称完成生产 QA。
 4. 用 `scripts/revision_session.py snapshot` 建立 revision 后再进行正式生成或局部修改。
 
 只改一页时使用 `scripts/rebuild_slide.py prepare` 判断该页是否失效；只重新生成目标页的昂贵资产，再用 `commit` 登记新产物。其他页必须保持原 hash 和缓存。最终 PPTX 可以整套快速重新封装，不直接修改脆弱的 OOXML 单页关系。
@@ -162,11 +167,13 @@ Session 必须至少包含 `slides_plan.md`、`prompts.json`、`metadata.json`�
 
 ### 字体与渲染后端
 
+- 新做可编辑 PPTX、原生模板填充或正式中文汇报时，完整读取 [references/typography-workflow.md](references/typography-workflow.md)。从 `styles/catalog.json` 继承 `typography_profile` 与 `table_profile`，并写入 `metadata.json`；用户模板或品牌规范优先。
 - 图片型 PPT 的 PDF 必须由最终页 PNG 直接合并；禁止再经 LibreOffice 或 PowerPoint 转换。
 - 可编辑 PPTX 的每个中文文本 run 必须显式写入 DrawingML `latin`、`ea`、`cs` 字体，并同步 Theme major/minor 东亚字体；构建后运行 `scripts/validate_pptx_fonts.py`。
-- `scripts/preflight_ppt_environment.py` 对可编辑 PPTX/PDF 默认执行一页中文真实导出探测；不能只因应用存在就判定后端可用。
+- 可编辑 PPTX 构建后运行 `scripts/validate_pptx_typography.py`，检查语义字号 token、`0.5pt` 网格、段落设置和表格对齐；将结果写入 `reports/typography-validation.json`。`WARN` 必须说明，`NOT_CHECKED` 不得算作通过。
+- `scripts/preflight_ppt_environment.py` 默认只做静态环境检查并把真实渲染推迟到最终 artifact。只有 `gui_validation_mode: eager` 才在中间执行中文真实导出探测。
 - macOS PowerPoint 自动化需要系统 Automation/Apple Events 权限。代理运行真实探测时应申请 GUI/自动化执行权限；被系统拒绝时记录为 `BLOCKED`，不要循环重试或临时改写 AppleScript。
-- 用 `scripts/render_pptx.py` 统一导出。PowerPoint 成功标记 `PASS`；LibreOffice 只能标记 `APPROXIMATE`，除非用户明确接受近似渲染，否则不得作为正式 PDF 交付。
+- 用 `scripts/render_pptx.py` 统一导出。默认中间调用使用 `--validation-stage intermediate --gui-validation-mode final-only` 并返回 `DEFERRED`；最终构建完成后仅调用一次 `--validation-stage final`。PowerPoint 成功标记 `PASS`；LibreOffice 只能标记 `APPROXIMATE`，不得作为正式中文可编辑 PPTX 的最终视觉证据。
 - 可编辑 PPTX 的正式视觉验收以目标 PowerPoint 后端为准；LibreOffice 仅用于发现明显结构问题。
 - 原生模板填充禁止用 `xml.etree.ElementTree` round-trip OOXML；必须保留 `p14`、`a14` 等原始前缀，并在交付前运行 `scripts/validate_ooxml_namespaces.py`。
 - 用户指定宋体等字体时，在 `fill_plan.json.font_policy` 记录字体与作用域。默认只作用于替换文字；只有用户明确要求全局统一时才使用 `all-selected-text` 或 `theme-and-replaced`。
@@ -175,13 +182,22 @@ Session 必须至少包含 `slides_plan.md`、`prompts.json`、`metadata.json`�
 
 新做 PPT 时读取 [references/style-library.md](references/style-library.md) 和 `styles/catalog.json`，根据受众、行业、目标和场合推荐 1–2 套风格。用户未指定且风格选择不影响内容方向时，可以采用最匹配的一套，但必须在大纲中明确标注为假设。
 
+用户要求画布、可视化编辑、先编辑后导出或样式选择器时，强制使用 `canvas-first`：展示 24 个预设，不自动把推荐第一项确认为最终风格。AI、科技、售前等关键词只能影响推荐排序，不能强制选择深蓝。
+
+canvas-first 必须展示用户要求的完整页数并逐页可切换：用户说 10 页，就先从 manifest 动态渲染 10 个缩略图和 10 页 scene。禁止交付固定 4 页的界面示意，禁止点击缩略图只改变边框而不载入该页对象。导出必须提交全量 scene，并从同一 scene 原生构建 PPTX，使页面数量、文字、对象、坐标、样式和层级与画布一致；不要在导出后另起一套布局或只后处理封面。完整合同见 [references/editor-ui-integration.md](references/editor-ui-integration.md)。
+
 选定后完整读取 `styles/<style_id>/STYLE.md` 与 `layouts.json`，并执行：
 
-- 将 `style_id` 写入 `slides_plan.md` frontmatter、`prompts.json` 和 `metadata.json`。
+- 将 `style_id` 与 `style_variant` 写入 `slides_plan.md` frontmatter、`prompts.json` 和 `metadata.json`。风格库提供 8 个家族、24 个可选预设。
+- 将风格绑定的 `typography_profile` 与 `table_profile` 写入同一组文件；字号由语义 token 取得，不在页面代码中临时发明任意小数档位。
 - 每页选择一个 `layout_id`，写入逐页计划与结构化 prompt；不得超过该布局的 `content_capacity`，超出时拆页。
 - 冒烟页使用正式风格和正式布局。用户确认的是该风格方向，不代表允许虚构图片、案例或数字。
 - 连续页面避免完全相同的构图；优先复用标记为 `reuse_friendly: true` 的内容布局。
 - 用户提供真实品牌模板或品牌规范时，以用户材料为准；内置风格只补足未定义部分。
+
+### 通过构建前设计门
+
+所有新生成路线在正式构建或全量生图前完整读取 [references/design-quality-workflow.md](references/design-quality-workflow.md)，并运行 `scripts/validate_design_quality.py --session <session>`。禁止无意义卡片化、过量圆角矩形、无理由窄边强调条、默认阴影或渐变、形状上叠独立文本框、整页可移动图片背景，以及把设计说明或讲者提示写入正文。硬错误必须先修复；启发式警告只有在 spec 中记录页码、规则代码和明确理由后才能豁免。最终统一质量门必须读取 `reports/design-quality.json`。
 
 ## 路径 A：整页生图 PPT
 
@@ -191,8 +207,8 @@ Session 必须至少包含 `slides_plan.md`、`prompts.json`、`metadata.json`�
 
 1. 按“最低可执行简报”确认材料、汇报类型、受众、沟通目标、使用场合、篇幅、风格、品牌、输出格式和禁止内容。
 2. 建立 session；选择或确认商业风格；读取用户材料，按 [references/planning-workflow.md](references/planning-workflow.md) 写 `slides_plan.md`。它是内容 source of truth，必须包含 `style_id`、页面类型、`layout_id`、标题、页面目标、核心信息、事实边界、素材和布局意图。
-3. 将 `slides_plan.md` 交给用户确认。需要修改文案时只修改 Markdown；任何 JSON 都是派生产物，不作为人工编辑源。
-4. 按 [references/prompt-patterns.md](references/prompt-patterns.md) 将确认后的计划编译为结构化 `prompts.json`。每页记录 `slide_number`、`page_type`、`style_id`、`layout_id`、`layout_intent`、完整 `prompt`、参考图和生成状态；禁止只保存无法映射回页码的散装 prompt 文本。
+3. 根据 `outline_review_mode` 处理计划：`continuous` 直接继续；`explicit` 将 `slides_plan.md` 交给用户并等待确认。需要修改文案时只修改 Markdown；任何 JSON 都是派生产物，不作为人工编辑源。
+4. 按 [references/prompt-patterns.md](references/prompt-patterns.md) 将计划编译为结构化 `prompts.json`。每页记录 `slide_number`、`page_type`、`style_id`、`layout_id`、`layout_intent`、完整 `prompt`、参考图和生成状态；禁止只保存无法映射回页码的散装 prompt 文本。
 5. 先生成 1 页视觉冒烟：默认封面；如果封面信息简单而其他页面风险更高，选择架构页、数据页或信息最密集的代表页。向用户展示样张并等待确认后再生成全量。只有用户明确要求跳过、或整套只有 1 页时，才可跳过确认。
 6. 用户确认冒烟页后，调用 imagegen 生成其余 16:9 整页图。中文少而大，避免密集表格和小字号脚注；已通过的页面不要因局部问题一起重生。
 7. 可以使用用户提供或明确授权的真实公司 Logo。用透明 PNG 或 SVG 原文件在后处理阶段叠加，不交给 imagegen 生成或仿造；未提供 Logo 时只预留位置。
@@ -302,11 +318,32 @@ Session 必须至少包含 `slides_plan.md`、`prompts.json`、`metadata.json`�
 
 v1 不支持重复克隆同一源页、替换图片、编辑图表/SmartArt、改写对象级动画；不得把保留原对象说成已经编辑这些对象。
 
+## 路径 E：原生可编辑 Deck
+
+适合从主题、文档或逐页计划新建可编辑 PPTX，提供类似 AIPPT 的组件化生成体验。进入后完整读取 [references/native-editable-workflow.md](references/native-editable-workflow.md)。
+
+1. 建立 session，确认 `visual_asset_policy`：默认 `native-image-assisted`，可选 `native-only` 或 `image-led-editable`。
+2. 按 `outline_review_mode` 处理 `slides_plan.md`；连续模式直接建立 `analysis/native_deck_spec.json`，显式审阅模式等待确认后再建立。每页选择一个 v1 原型并登记原生组件和可选 `visual_slot`。
+3. 需要视觉资产时，调用 Codex `imagegen` 技能使用 image-2 生成独立图片；禁止让 image-2 生成整页、正文、真实数字、表格、Logo 或页码。
+4. 先通过 Anti-AI-slop 设计门，再用 `scripts/build_native_editable_deck.py` 生成原生文本、形状、流程、表格、Office 图表和独立图片对象。首次构建后运行 `scripts/sync_canvas_scene.py`，把原生对象同步为 scene element v2。
+5. 依次完成字体、排版、可编辑性、渲染预览和人工视觉检查，再进入统一质量门。
+
+`native-image-assisted` 不等于每页强制生图：封面、章节和概念页优先使用 image-2；流程、表格和数据页默认优先原生对象。`image-led-editable` 必须至少包含一个有 prompt 记录的 image-2 资产，但仍不得用整页图片冒充可编辑页面。
+
+## 可视化编辑器接入
+
+用户要开发可视化 PPTX 编辑 UI、浏览器内修改页面或接入类似 Codex 的任务界面时，完整读取 [references/editor-ui-integration.md](references/editor-ui-integration.md)。以 scene element v2 和 `scripts/editor_bridge.py export/apply` 作为唯一 editor seam：UI 读取 v3 manifest，提供“整套风格 / 本页变体 / 对象样式”，通过受保护的 `apply-style` 或 element capability 修改画布；Skill 负责 snapshot、冲突检测、scene/spec 同步、页面缓存失效，并用 `build_native_editable_deck.py --scene-dir` 把覆盖值写回原生 PPTX。禁止让 UI 直接修改 OOXML 或自行猜测可编辑字段。
+
+用户明确要求“先显示画布，每张可编辑，之后再输出 PPTX”时，建立 `canvas-first` session。最终导出前只写 scene、manifest、缩略图和 `cache/editable/` 预览；不得提前写入 `final/`。画布中确认样式并完成编辑后，运行 `editor_bridge.py approve-export`，再构建和验证最终 PPTX。
+
 ## 输出纪律
 
 - 先确定输入来源：新做汇报先生成；已有图片页或生成后的页图再拆解。
 - 再确定路径和交付承诺，不把生成、元素重组和 SVG 拆解混成同一种能力。
 - 新做 PPT 必须以 `slides_plan.md` 作为内容源、以 `prompts.json` 作为逐页生成记录，并在独立 session 内工作。
+- 大纲默认连续执行；只有用户明确要求审阅或等待确认时才展示并暂停。必须在 metadata 记录 `outline_review_mode` 与 `outline_approval`，不得把没有要求确认的用户默认拦在大纲阶段。
+- 新做可编辑 PPTX 必须记录 `visual_asset_policy`；image-2 资产必须登记为独立 `visual_slot` 并保留 prompt 记录。
+- 可编辑 PPTX 默认记录 `gui_validation_mode: final-only`；中间只输出 PNG 预览和静态报告，最终 artifact 完成后才允许一次 PowerPoint 真实渲染。用户明确要求逐轮渲染时才使用 `eager`；`never` 必须在交付中说明未做真实 PowerPoint 验收。
 - 全量生图前必须完成单页视觉冒烟并获得确认，除非用户明确要求跳过或整套只有 1 页。
 - 每次交付都说明最终文件、可编辑范围、已知限制和 QA 结果。
 - 每次正式交付必须附带 `reports/quality-gate.json` 的最终状态；没有统一质量门 PASS 不得宣称完成。
@@ -324,4 +361,5 @@ python scripts/audit_public_skill.py --root .
 - 不把图片型 PPT 说成可编辑 PPT。
 - 不把 SVG 嵌入说成 PowerPoint 对象级可编辑。
 - 不让 imagegen 生成真实 Logo、二维码、证书、印章或品牌标识。
+- 原生可编辑模式下，不让 image-2 生成整页 PPT、中文正文、表格和可追责数据；image-2 只作为独立视觉资产后端。
 - 元素重组模式下，原图 crop 只能是中间参考，不是最终资产。

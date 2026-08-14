@@ -8,15 +8,16 @@
 确认 PPTX 可编辑性与最低简报
 -> 建立 session
 -> 运行确定性路由并锁定唯一 authority
--> 编写并确认 slides_plan.md
+-> 编写 slides_plan.md
+-> 按 outline_review_mode 连续执行或显式等待确认
 -> 编译 prompts.json
 -> 生成单页视觉冒烟
--> 用户确认
+-> 用户确认视觉冒烟
 -> 生成全量
 -> 打包与 QA
 ```
 
-用户明确要求跳过大纲或冒烟时，在 `metadata.json` 记录 `outline_approval: waived` 或 `smoke_approval: waived`。不要静默跳过。
+大纲默认不构成阻塞门：没有明确审阅意图时记录 `outline_review_mode: continuous` 和 `outline_approval: auto-proceed`，写完计划后直接继续。用户明确说“先输出大纲”“等我确认”“确认后再生成”“暂时不要制作”等表达时，记录 `outline_review_mode: explicit` 和 `outline_approval: pending`，展示大纲并暂停；确认后改为 `approved`。用户明确要求跳过已经触发的确认门时记录 `outline_approval: waived`。冒烟仍是独立确认门；用户明确要求跳过时记录 `smoke_approval: waived`。
 
 ## Session 目录
 
@@ -26,6 +27,8 @@
 python scripts/init_deck_session.py \
   --title "企业 AI 知识库解决方案" \
   --delivery-type image-pptx \
+  --outline-review-mode continuous \
+  --gui-validation-mode final-only \
   --style-id enterprise-tech-dark \
   --out-root ./outputs
 ```
@@ -35,7 +38,7 @@ python scripts/init_deck_session.py \
 ```text
 outputs/<session-id>/
 ├── slides_plan.md
-├── slides_plan.json       # 可选；确认 Markdown 后再派生
+├── slides_plan.json       # 可选；Markdown 计划稳定后再派生
 ├── prompts.json
 ├── metadata.json
 ├── sources/
@@ -57,7 +60,7 @@ outputs/<session-id>/
 
 建立 session 后按 [routing-workflow.md](routing-workflow.md) 生成 `reports/route-decision.json`。路线未达到 `PASS` 前，不得编译 scene、生成图片或填充 PPTX。
 
-确认 `slides_plan.md` 和 `prompts.json` 后，运行 `scripts/compile_scenes.py` 生成 `scenes/`。后续图片版与可编辑版都使用这些 scene；详细规则见 [scene-workflow.md](scene-workflow.md)。
+`continuous` 模式写完 `slides_plan.md` 和 `prompts.json` 后直接运行 `scripts/compile_scenes.py`；`explicit` 模式等待大纲批准后再运行。后续图片版与可编辑版都使用这些 scene；详细规则见 [scene-workflow.md](scene-workflow.md)。
 
 ## slides_plan.md
 
@@ -68,6 +71,9 @@ Markdown 是内容 source of truth。推荐格式：
 title: 企业 AI 知识库解决方案
 delivery_type: image-pptx
 style_id: enterprise-tech-dark
+typography_profile: zh-business-present
+table_profile: presentation-data-table
+visual_asset_policy: native-image-assisted
 audience: CIO、IT 负责人、知识管理负责人
 goal: 同意开展四周 PoC
 ---
@@ -110,6 +116,9 @@ goal: 同意开展四周 PoC
   "session_id": "20260809-083000-enterprise-ai-knowledge-base",
   "delivery_type": "image-pptx",
   "style_id": "enterprise-tech-dark",
+  "typography_profile": "zh-business-present",
+  "table_profile": "presentation-data-table",
+  "visual_asset_policy": "native-image-assisted",
   "slides": [
     {
       "slide_number": 1,
@@ -151,11 +160,17 @@ goal: 同意开展四周 PoC
   "title": "...",
   "delivery_type": "image-pptx",
   "style_id": "enterprise-tech-dark",
+  "typography_profile": "zh-business-present",
+  "table_profile": "presentation-data-table",
+  "visual_asset_policy": "native-image-assisted",
   "editability_confirmed": true,
   "route": "image-generation",
   "route_status": "PASS",
   "status": "planning",
-  "outline_approval": "pending",
+  "outline_review_mode": "continuous",
+  "outline_approval": "auto-proceed",
+  "gui_validation_mode": "final-only",
+  "final_powerpoint_validation": "pending",
   "smoke_slide": null,
   "smoke_approval": "pending",
   "final_qa": "pending"

@@ -27,12 +27,30 @@ DEFAULT_SLIDE_H = 7.5
 VALID_ASSET_SOURCES = {"imagegen_asset", "api_generated_asset", "provided_asset"}
 TEXT_WIDTH_FACTOR = 1.08
 NO_WRAP_DEFAULT_ROLES = {"title", "subtitle", "header", "micro_label"}
+ROOT = Path(__file__).resolve().parents[1]
+ROLE_SIZE_KEY = {
+    "hero": "hero",
+    "section_title": "section_title",
+    "title": "page_title",
+    "subtitle": "subtitle",
+    "header": "minor_title",
+    "body": "body",
+    "label": "label",
+    "micro_label": "caption",
+    "caption": "caption",
+    "table": "table",
+}
 
 
-def set_run_typefaces(run, font_face: str) -> None:
+def set_run_typefaces(run, east_asia_font: str, latin_font: str | None = None, complex_script_font: str | None = None) -> None:
     """Write explicit Latin, East Asian, and complex-script typefaces on a text run."""
     r_pr = run._r.get_or_add_rPr()
-    for tag in ("a:latin", "a:ea", "a:cs"):
+    faces = {
+        "a:latin": latin_font or east_asia_font,
+        "a:ea": east_asia_font,
+        "a:cs": complex_script_font or latin_font or east_asia_font,
+    }
+    for tag, font_face in faces.items():
         node = r_pr.find(qn(tag))
         if node is None:
             node = OxmlElement(tag)
@@ -40,7 +58,7 @@ def set_run_typefaces(run, font_face: str) -> None:
         node.set("typeface", font_face)
 
 
-def patch_theme_east_asian_fonts(pptx_path: Path, font_face: str) -> None:
+def patch_theme_east_asian_fonts(pptx_path: Path, heading_font: str, body_font: str | None = None) -> None:
     """Set major/minor theme East Asian and complex-script defaults without changing Latin theme fonts."""
     from lxml import etree
 
@@ -54,7 +72,7 @@ def patch_theme_east_asian_fonts(pptx_path: Path, font_face: str) -> None:
                 data = source.read(info.filename)
                 if info.filename.startswith("ppt/theme/theme") and info.filename.endswith(".xml"):
                     root = etree.fromstring(data)
-                    for branch in ("majorFont", "minorFont"):
+                    for branch, font_face in (("majorFont", heading_font), ("minorFont", body_font or heading_font)):
                         for leaf in ("ea", "cs"):
                             nodes = root.xpath(f".//a:fontScheme/a:{branch}/a:{leaf}", namespaces=namespaces)
                             for node in nodes:
@@ -87,6 +105,41 @@ def parse_args() -> argparse.Namespace:
 
 def read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def resolve_typography_profile(inventory: dict[str, Any], layout_rules: dict[str, Any]) -> tuple[str | None, dict[str, Any] | None]:
+    profile_id = layout_rules.get("typography_profile") or inventory.get("typography_profile")
+    style_id = layout_rules.get("style_id") or inventory.get("style_id")
+    if not profile_id and style_id:
+        catalog = read_json(ROOT / "styles" / "catalog.json")
+        style = next((row for row in catalog.get("styles", []) if row.get("id") == style_id), {})
+        profile_id = style.get("typography_profile")
+    if not profile_id:
+        return None, None
+    profiles = read_json(ROOT / "styles" / "typography-profiles.json")
+    profile = next((row for row in profiles.get("typography_profiles", []) if row.get("id") == profile_id), None)
+    if profile is None:
+        raise ValueError(f"unknown typography_profile: {profile_id}")
+    return str(profile_id), profile
+
+
+def typography_defaults(item: dict[str, Any], role: str, profile: dict[str, Any] | None) -> dict[str, Any]:
+    styled = dict(item)
+    if not profile:
+        return styled
+    size_key = ROLE_SIZE_KEY.get(role, "label")
+    styled.setdefault("font_size", profile["tokens"][size_key])
+    paragraph_group = "title" if size_key in {"hero", "section_title", "page_title", "subtitle", "minor_title"} else "caption" if size_key in {"label", "caption"} else "body"
+    paragraph = profile.get("paragraph", {}).get(paragraph_group, {})
+    styled.setdefault("line_spacing", paragraph.get("line_spacing_multiple", 1.0))
+    styled.setdefault("space_before_lines", paragraph.get("space_before_lines", 0))
+    styled.setdefault("space_after_lines", paragraph.get("space_after_lines", 0))
+    fonts = profile.get("fonts", {})
+    styled.setdefault("font_east_asia", fonts.get("heading_east_asia") if paragraph_group == "title" else fonts.get("body_east_asia"))
+    styled.setdefault("font_latin", fonts.get("latin"))
+    styled.setdefault("font_complex_script", fonts.get("complex_script") or fonts.get("latin"))
+    styled.setdefault("typography_token", size_key)
+    return styled
 
 
 def hex_to_rgb(value: str | None, default: str = "FFFFFF") -> RGBColor:
@@ -297,31 +350,42 @@ def choose_effective_font(
     return round(size, 2), layout, role
 
 
-def add_text(slide, item: dict[str, Any], box: tuple[float, float, float, float], default_font: str, args: argparse.Namespace) -> dict[str, Any]:
+def add_text(
+    slide,
+    item: dict[str, Any],
+    box: tuple[float, float, float, float],
+    default_font: str,
+    args: argparse.Namespace,
+    typography_profile: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     x, y, w, h = box
     shape = slide.shapes.add_textbox(Inches(x), Inches(y), Inches(w), Inches(h))
-    effective_font, layout, role = choose_effective_font(item, box, args)
-    vertical = str(item.get("vertical_anchor", "middle")).lower()
+    initial_role = infer_text_role(item)
+    styled_item = typography_defaults(item, initial_role, typography_profile)
+    styled_item["text_role"] = initial_role
+    effective_font, layout, role = choose_effective_font(styled_item, box, args)
+    c_nv_pr = shape._element.nvSpPr.cNvPr
+    c_nv_pr.set("name", f"{item.get('id') or shape.name} [pf-role={role}]")
+    vertical = str(styled_item.get("vertical_anchor", "middle")).lower()
     shape.vertical_anchor = {
         "top": MSO_ANCHOR.TOP,
         "middle": MSO_ANCHOR.MIDDLE,
         "bottom": MSO_ANCHOR.BOTTOM,
     }.get(vertical, MSO_ANCHOR.MIDDLE)
-    if item.get("rotation") is not None:
-        shape.rotation = float(item.get("rotation"))
+    if styled_item.get("rotation") is not None:
+        shape.rotation = float(styled_item.get("rotation"))
     tf = shape.text_frame
     tf.clear()
-    role = infer_text_role(item)
-    tf.word_wrap = bool(item.get("word_wrap", role not in NO_WRAP_DEFAULT_ROLES))
-    ml, mr, mt, mb = text_margins_in(item, box)
+    tf.word_wrap = bool(styled_item.get("word_wrap", role not in NO_WRAP_DEFAULT_ROLES))
+    ml, mr, mt, mb = text_margins_in(styled_item, box)
     tf.margin_left = Inches(ml)
     tf.margin_right = Inches(mr)
     tf.margin_top = Inches(mt)
     tf.margin_bottom = Inches(mb)
-    lines = str(item.get("text", "")).split("\n")
+    lines = str(styled_item.get("text", "")).split("\n")
     p = tf.paragraphs[0]
     p.text = lines[0] if lines else ""
-    align = str(item.get("align", "left")).lower()
+    align = str(styled_item.get("align", "left")).lower()
     p.alignment = {
         "left": PP_ALIGN.LEFT,
         "center": PP_ALIGN.CENTER,
@@ -332,33 +396,38 @@ def add_text(slide, item: dict[str, Any], box: tuple[float, float, float, float]
         next_p.text = line
         next_p.alignment = p.alignment
     for para in tf.paragraphs:
-        para.space_before = Pt(0)
-        para.space_after = Pt(0)
-        if item.get("line_spacing_pt") is not None:
-            para.line_spacing = Pt(float(item.get("line_spacing_pt")))
-        elif item.get("line_spacing") is not None:
-            raw_spacing = float(item.get("line_spacing"))
+        para.space_before = Pt(effective_font * float(styled_item.get("space_before_lines", 0)))
+        para.space_after = Pt(effective_font * float(styled_item.get("space_after_lines", 0)))
+        if styled_item.get("line_spacing_pt") is not None:
+            para.line_spacing = Pt(float(styled_item.get("line_spacing_pt")))
+        elif styled_item.get("line_spacing") is not None:
+            raw_spacing = float(styled_item.get("line_spacing"))
             para.line_spacing = Pt(raw_spacing) if raw_spacing > 3 else raw_spacing
         for run in para.runs:
-            font_face = item.get("font_face", default_font)
-            run.font.name = font_face
-            set_run_typefaces(run, font_face)
+            east_asia_font = styled_item.get("font_east_asia") or styled_item.get("font_face") or default_font
+            latin_font = styled_item.get("font_latin") or east_asia_font
+            complex_script_font = styled_item.get("font_complex_script") or latin_font
+            run.font.name = latin_font
+            set_run_typefaces(run, east_asia_font, latin_font, complex_script_font)
             run.font.size = Pt(effective_font)
-            run.font.bold = bool(item.get("bold", False))
-            run.font.italic = bool(item.get("italic", False))
-            run.font.color.rgb = hex_to_rgb(item.get("color"), "003B7A")
+            run.font.bold = bool(styled_item.get("bold", False))
+            run.font.italic = bool(styled_item.get("italic", False))
+            run.font.color.rgb = hex_to_rgb(styled_item.get("color"), "003B7A")
     return {
         "id": item.get("id"),
         "slide": int(item.get("slide", 1)),
         "z_index": float(item.get("z_index", item.get("z", 0))),
-        "text": str(item.get("text", "")),
+        "text": str(styled_item.get("text", "")),
         "text_role": role,
+        "typography_token": styled_item.get("typography_token"),
         "bbox_in": [round(v, 4) for v in box],
-        "font_size": float(item.get("font_size", 14)),
+        "font_size": float(styled_item.get("font_size", 14)),
         "effective_font_size": effective_font,
-        "fit_mode": str(item.get("fit_mode", "shrink")).lower(),
-        "min_font_size": role_min_font(role, item, args),
-        "align": str(item.get("align", "left")).lower(),
+        "fit_mode": str(styled_item.get("fit_mode", "shrink")).lower(),
+        "min_font_size": role_min_font(role, styled_item, args),
+        "align": str(styled_item.get("align", "left")).lower(),
+        "font_east_asia": styled_item.get("font_east_asia") or styled_item.get("font_face") or default_font,
+        "font_latin": styled_item.get("font_latin") or styled_item.get("font_east_asia") or styled_item.get("font_face") or default_font,
         "vertical_anchor": vertical,
         "margins_in": [round(v, 4) for v in (ml, mr, mt, mb)],
         "parent_id": item.get("parent_id"),
@@ -585,11 +654,19 @@ def main() -> None:
     layout_rules = read_json(Path(args.layout_rules)) if args.layout_rules else {}
     manifest_by_id = {item["semantic_unit_id"]: item for item in manifest}
     slide_size_px = inventory.get("slide_size_px") or inventory.get("canvas_px") or [1920, 1080]
-    default_font = (
+    typography_profile_id, typography_profile = resolve_typography_profile(inventory, layout_rules)
+    font_override = (
         layout_rules.get("font_policy", {}).get("default_font_face")
         or inventory.get("font_face")
-        or "Arial Unicode MS"
     )
+    if typography_profile and font_override:
+        typography_profile = dict(typography_profile)
+        typography_profile["fonts"] = dict(typography_profile.get("fonts", {}))
+        typography_profile["fonts"]["heading_east_asia"] = font_override
+        typography_profile["fonts"]["body_east_asia"] = font_override
+    profile_fonts = (typography_profile or {}).get("fonts", {})
+    default_font = font_override or profile_fonts.get("body_east_asia") or "Arial Unicode MS"
+    heading_font = font_override or profile_fonts.get("heading_east_asia") or default_font
 
     prs = Presentation()
     prs.slide_width = Inches(args.slide_width)
@@ -617,7 +694,7 @@ def main() -> None:
             raise ValueError(f"item {item.get('id')} missing bbox_px")
         box = px_box_to_inches(bbox, slide_size_px, args.slide_width, args.slide_height)
         if cls == "text":
-            text_report = add_text(slide, item, box, default_font, args)
+            text_report = add_text(slide, item, box, default_font, args, typography_profile)
             report["text_placements"].append(text_report)
             report["text_objects"] += 1
         elif cls == "layout_native":
@@ -665,12 +742,15 @@ def main() -> None:
     out_pptx = Path(args.out_pptx)
     out_pptx.parent.mkdir(parents=True, exist_ok=True)
     prs.save(out_pptx)
-    patch_theme_east_asian_fonts(out_pptx, default_font)
+    patch_theme_east_asian_fonts(out_pptx, heading_font, default_font)
     report["pptx"] = str(out_pptx)
     report["slide_count"] = len(slides)
     report["layout_qa"] = qa_layout(records, report["text_placements"], args, args.slide_width, args.slide_height)
     report["layout_policy"] = {
         "default_font_face": default_font,
+        "heading_east_asia_font": heading_font,
+        "typography_profile": typography_profile_id,
+        "typography_tokens": (typography_profile or {}).get("tokens"),
         "min_body_font": args.min_body_font,
         "min_title_font": args.min_title_font,
         "max_overflow_ratio": args.max_overflow_ratio,

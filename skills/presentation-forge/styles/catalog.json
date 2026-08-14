@@ -1,13 +1,69 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "styles": [
-    {"id": "enterprise-tech-dark", "name": "企业科技深蓝", "best_for": ["AI 方案", "技术架构", "数字化转型", "售前提案"], "avoid_for": ["政府公文式汇报", "儿童培训"], "default_smoke_layout": "content-structured"},
-    {"id": "consulting-blue-white", "name": "蓝白咨询商务", "best_for": ["咨询建议", "管理层汇报", "方案说明", "轻数据页面"], "avoid_for": ["潮流品牌发布", "沉浸式暗色大屏"], "default_smoke_layout": "content-structured"},
-    {"id": "industrial-business", "name": "制造工业", "best_for": ["制造业", "能源与工程", "供应链", "生产运营"], "avoid_for": ["生活方式品牌", "轻松培训"], "default_smoke_layout": "process-flow"},
-    {"id": "government-formal", "name": "政府正式", "best_for": ["政府与国企", "政策解读", "专项汇报", "领导汇报"], "avoid_for": ["娱乐品牌", "高饱和创意发布"], "default_smoke_layout": "content-structured"},
-    {"id": "executive-minimal", "name": "极简高管汇报", "best_for": ["董事会", "经营决策", "一页一结论", "行动建议"], "avoid_for": ["详细培训", "复杂技术教程"], "default_smoke_layout": "data-callouts"},
-    {"id": "data-consulting", "name": "数据咨询", "best_for": ["数据战略", "指标体系", "分析洞察", "技术咨询"], "avoid_for": ["政府公文", "情感型品牌故事"], "default_smoke_layout": "data-callouts"},
-    {"id": "brand-launch", "name": "品牌发布", "best_for": ["新品发布", "品牌升级", "创意提案", "市场传播"], "avoid_for": ["严肃政策汇报", "密集财务数据"], "default_smoke_layout": "cover-hero"},
-    {"id": "training-illustration", "name": "培训插画", "best_for": ["内部培训", "课程讲解", "流程科普", "文化宣导"], "avoid_for": ["董事会财务汇报", "严肃监管材料"], "default_smoke_layout": "process-flow"}
+    {
+      "id": "enterprise-tech-dark", "name": "企业科技深蓝", "best_for": ["AI 方案", "技术架构", "数字化转型", "售前提案"], "avoid_for": ["政府公文式汇报", "儿童培训"], "default_smoke_layout": "content-structured", "typography_profile": "zh-business-present", "table_profile": "presentation-data-table", "default_variant": "tech-blue",
+      "variants": [
+        {"id": "tech-blue", "name": "科技蓝", "description": "深空蓝底与克制亮蓝强调", "design_tokens": {"background": ["#0A0F1E", "#111A33"], "primary": "#4F7CFF", "secondary": ["#25D0D8", "#8C6CFF"], "text": ["#F7F9FF", "#AAB5CE"]}},
+        {"id": "indigo-grid", "name": "靛青网格", "description": "靛青背景与青绿信息层级", "design_tokens": {"background": ["#11142B", "#191D3D"], "primary": "#6D7CFF", "secondary": ["#35D6B4", "#A78BFA"], "text": ["#F7F7FF", "#B9BFDA"]}},
+        {"id": "black-gold-tech", "name": "黑金科技", "description": "近黑背景与低饱和金色技术感", "design_tokens": {"background": ["#111111", "#1C1B18"], "primary": "#D7B45A", "secondary": ["#7AA7A1", "#8E7CB8"], "text": ["#FAF8F1", "#BDB7A8"]}}
+      ]
+    },
+    {
+      "id": "consulting-blue-white", "name": "蓝白咨询商务", "best_for": ["咨询建议", "管理层汇报", "方案说明", "轻数据页面"], "avoid_for": ["潮流品牌发布", "沉浸式暗色大屏"], "default_smoke_layout": "content-structured", "typography_profile": "zh-business-present", "table_profile": "presentation-data-table", "default_variant": "clean-blue-white",
+      "variants": [
+        {"id": "clean-blue-white", "name": "纯净蓝白", "description": "白底、冰蓝层次和清晰网格", "design_tokens": {"background": ["#FFFFFF", "#F4F7FF"], "primary": "#315EFB", "secondary": ["#DCE7FF", "#4DB7C5"], "text": ["#13213C", "#61708F"]}},
+        {"id": "purple-blue-consulting", "name": "紫蓝咨询", "description": "使用紫蓝色阶表达层级，不启用默认渐变", "design_tokens": {"background": ["#FBFAFF", "#F2F0FF"], "primary": "#6554D9", "secondary": ["#DCD6FF", "#5CA8A8"], "text": ["#211E3A", "#696582"]}},
+        {"id": "warm-gray-business", "name": "暖灰商务", "description": "暖白、石墨灰和克制蓝色强调", "design_tokens": {"background": ["#FBFAF7", "#F1EFEA"], "primary": "#355C7D", "secondary": ["#DCE3E8", "#A8835A"], "text": ["#25282B", "#6C7074"]}}
+      ]
+    },
+    {
+      "id": "industrial-business", "name": "制造工业", "best_for": ["制造业", "能源与工程", "供应链", "生产运营"], "avoid_for": ["生活方式品牌", "轻松培训"], "default_smoke_layout": "process-flow", "typography_profile": "zh-business-present", "table_profile": "presentation-data-table", "default_variant": "steel-blue",
+      "variants": [
+        {"id": "steel-blue", "name": "钢铁蓝", "description": "钢蓝、冷灰与工程橙", "design_tokens": {"background": ["#F4F6F7", "#E7ECEF"], "primary": "#315B73", "secondary": ["#F28C45", "#7D929E"], "text": ["#1F2D35", "#5F7079"]}},
+        {"id": "factory-charcoal", "name": "厂务炭灰", "description": "炭灰底与安全黄强调", "design_tokens": {"background": ["#20262B", "#2B3339"], "primary": "#E0B43C", "secondary": ["#6FA9B7", "#858F96"], "text": ["#F5F7F7", "#B8C0C5"]}},
+        {"id": "energy-green", "name": "能源绿", "description": "深绿、砂岩与能源蓝", "design_tokens": {"background": ["#F5F7F2", "#E8EEE5"], "primary": "#28634A", "secondary": ["#C4975B", "#4D7C91"], "text": ["#203129", "#65736B"]}}
+      ]
+    },
+    {
+      "id": "government-formal", "name": "政府正式", "best_for": ["政府与国企", "政策解读", "专项汇报", "领导汇报"], "avoid_for": ["娱乐品牌", "高饱和创意发布"], "default_smoke_layout": "content-structured", "typography_profile": "zh-formal-reading", "table_profile": "formal-data-table", "default_variant": "formal-red",
+      "variants": [
+        {"id": "formal-red", "name": "政务红", "description": "米白底与克制政务红", "design_tokens": {"background": ["#FFFDF8", "#F5F0E6"], "primary": "#9D2A2A", "secondary": ["#D8C6A3", "#5B6C7D"], "text": ["#2A2522", "#6E625B"]}},
+        {"id": "state-blue", "name": "国企蓝", "description": "正式蓝、浅灰和低饱和红", "design_tokens": {"background": ["#F7F9FC", "#EAF0F6"], "primary": "#214F7A", "secondary": ["#B23B3B", "#8297A8"], "text": ["#202B35", "#5F6C77"]}},
+        {"id": "ink-gold", "name": "墨金正式", "description": "墨色、宣纸白与小面积金色", "design_tokens": {"background": ["#FBFAF5", "#EEEAE0"], "primary": "#2F3437", "secondary": ["#A88949", "#7A302E"], "text": ["#242524", "#696965"]}}
+      ]
+    },
+    {
+      "id": "executive-minimal", "name": "极简高管汇报", "best_for": ["董事会", "经营决策", "一页一结论", "行动建议"], "avoid_for": ["详细培训", "复杂技术教程"], "default_smoke_layout": "data-callouts", "typography_profile": "zh-executive-stage", "table_profile": "presentation-data-table", "default_variant": "black-white",
+      "variants": [
+        {"id": "black-white", "name": "黑白极简", "description": "暖白、炭黑与大量留白", "design_tokens": {"background": ["#FAFAF7", "#2C2F33"], "primary": "#202327", "secondary": ["#C8A842", "#73777E"], "text": ["#202327", "#666A70"]}},
+        {"id": "ivory-red", "name": "象牙白红", "description": "象牙白与低饱和暗红", "design_tokens": {"background": ["#FFFCF4", "#F2EDE1"], "primary": "#8F2D2D", "secondary": ["#C8A56A", "#7A7A74"], "text": ["#282421", "#6D655E"]}},
+        {"id": "charcoal-gold", "name": "深灰金", "description": "深灰底与克制金色焦点", "design_tokens": {"background": ["#242629", "#303338"], "primary": "#D0B268", "secondary": ["#8C969E", "#B38A72"], "text": ["#FAF9F5", "#C0C1BE"]}}
+      ]
+    },
+    {
+      "id": "data-consulting", "name": "数据咨询", "best_for": ["数据战略", "指标体系", "分析洞察", "技术咨询"], "avoid_for": ["政府公文", "情感型品牌故事"], "default_smoke_layout": "data-callouts", "typography_profile": "zh-business-present", "table_profile": "presentation-data-table", "default_variant": "navy-dashboard",
+      "variants": [
+        {"id": "navy-dashboard", "name": "深海数据", "description": "海军蓝底与青蓝数据焦点", "design_tokens": {"background": ["#0C1830", "#142542"], "primary": "#38C6D9", "secondary": ["#F0A58F", "#A995E8"], "text": ["#F5F7FC", "#AAB7CC"]}},
+        {"id": "light-analytics", "name": "浅色分析", "description": "浅灰蓝底与高可读分析色", "design_tokens": {"background": ["#F8FAFD", "#ECF2F8"], "primary": "#176B87", "secondary": ["#E8876A", "#7967B7"], "text": ["#172A38", "#607584"]}},
+        {"id": "editorial-data", "name": "杂志数据", "description": "纸白、墨黑和编辑化强调色", "design_tokens": {"background": ["#FCFBF7", "#EEECE5"], "primary": "#22252A", "secondary": ["#C95D3F", "#3A7D78"], "text": ["#22252A", "#686A68"]}}
+      ]
+    },
+    {
+      "id": "brand-launch", "name": "品牌发布", "best_for": ["新品发布", "品牌升级", "创意提案", "市场传播"], "avoid_for": ["严肃政策汇报", "密集财务数据"], "default_smoke_layout": "cover-hero", "typography_profile": "zh-executive-stage", "table_profile": "presentation-data-table", "default_variant": "coral-purple",
+      "variants": [
+        {"id": "coral-purple", "name": "珊瑚紫", "description": "珊瑚橙与深紫双色", "design_tokens": {"background": ["#FFFFFF", "#4E365C"], "primary": "#FF765F", "secondary": ["#654A72", "#FFE4DD"], "text": ["#221F26", "#6D6270"]}},
+        {"id": "electric-blue", "name": "电光蓝", "description": "亮蓝、酸橙与深靛色", "design_tokens": {"background": ["#F7F8FF", "#1D2453"], "primary": "#3366FF", "secondary": ["#B7E34B", "#7D65E8"], "text": ["#161A2D", "#68708E"]}},
+        {"id": "fashion-monochrome", "name": "时尚黑白", "description": "高对比黑白与单一洋红强调", "design_tokens": {"background": ["#FFFFFF", "#171717"], "primary": "#D94076", "secondary": ["#D7D7D7", "#665D63"], "text": ["#171717", "#6B6669"]}}
+      ]
+    },
+    {
+      "id": "training-illustration", "name": "培训插画", "best_for": ["内部培训", "课程讲解", "流程科普", "文化宣导"], "avoid_for": ["董事会财务汇报", "严肃监管材料"], "default_smoke_layout": "process-flow", "typography_profile": "zh-business-present", "table_profile": "presentation-data-table", "default_variant": "friendly-blue",
+      "variants": [
+        {"id": "friendly-blue", "name": "亲和蓝", "description": "明快蓝色与柔和绿色辅助", "design_tokens": {"background": ["#FAFCFF", "#EDF5FF"], "primary": "#3978D4", "secondary": ["#65B894", "#F0B45E"], "text": ["#24344A", "#66778A"]}},
+        {"id": "warm-classroom", "name": "暖色课堂", "description": "奶油白、陶土橙与鼠尾草绿", "design_tokens": {"background": ["#FFF9EF", "#F5ECDD"], "primary": "#D36B47", "secondary": ["#7DA38C", "#D9A84E"], "text": ["#3B302A", "#75685F"]}},
+        {"id": "playful-purple", "name": "活力紫", "description": "低饱和紫、蓝和珊瑚色", "design_tokens": {"background": ["#FBF9FF", "#F0ECFA"], "primary": "#7357B8", "secondary": ["#4F9EB1", "#E68170"], "text": ["#302842", "#71677F"]}}
+      ]
+    }
   ]
 }

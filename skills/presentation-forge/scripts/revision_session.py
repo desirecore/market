@@ -12,6 +12,7 @@ from pathlib import Path
 
 
 TRACKED_ROOT_FILES = ("metadata.json", "slides_plan.md", "prompts.json", "visual_inventory.json", "asset_manifest.json", "asset_anchors.json", "layout_rules.json")
+TRACKED_RELATIVE_FILES = ("analysis/native_deck_spec.json", "analysis/fill_plan.json")
 
 
 def sha256(path: Path) -> str:
@@ -25,6 +26,7 @@ def next_revision(versions: Path) -> str:
 
 def tracked_files(session: Path) -> list[Path]:
     files = [session / name for name in TRACKED_ROOT_FILES if (session / name).is_file()]
+    files.extend(session / name for name in TRACKED_RELATIVE_FILES if (session / name).is_file())
     files.extend(sorted((session / "scenes").glob("*.scene.json")))
     return files
 
