@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
-TRACKED_ROOT_FILES = ("metadata.json", "slides_plan.md", "prompts.json", "visual_inventory.json", "asset_manifest.json", "asset_anchors.json", "layout_rules.json")
+TRACKED_ROOT_FILES = ("metadata.json", "slides.md", "slides_plan.md", "prompts.json", "visual_inventory.json", "asset_manifest.json", "asset_anchors.json", "layout_rules.json")
 TRACKED_RELATIVE_FILES = ("analysis/native_deck_spec.json", "analysis/fill_plan.json")
 
 

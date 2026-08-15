@@ -58,6 +58,8 @@ outputs/<session-id>/
 
 `slides_plan.json` 是可选派生文件；只有脚本明确需要时才生成。不要手改派生 JSON。
 
+用户选择 Markdown-first Canvas 时，session 额外包含 `slides.md`，并将 `metadata.authoring_mode` 设为 `markdown-canvas`、`metadata.content_source` 设为 `slides.md`。此时 `slides_plan.md` 与 `prompts.json` 都由 `compile_slides_markdown.py` 派生；人工只编辑 `slides.md`。完整规则见 [markdown-canvas-workflow.md](markdown-canvas-workflow.md)。
+
 建立 session 后按 [routing-workflow.md](routing-workflow.md) 生成 `reports/route-decision.json`。路线未达到 `PASS` 前，不得编译 scene、生成图片或填充 PPTX。
 
 `continuous` 模式写完 `slides_plan.md` 和 `prompts.json` 后直接运行 `scripts/compile_scenes.py`；`explicit` 模式等待大纲批准后再运行。后续图片版与可编辑版都使用这些 scene；详细规则见 [scene-workflow.md](scene-workflow.md)。

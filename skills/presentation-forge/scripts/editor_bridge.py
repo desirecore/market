@@ -12,6 +12,7 @@ from pathlib import Path
 
 from revision_session import snapshot
 from style_presets import flattened_presets, resolve_style
+from compile_slides_markdown import render_markdown, split_frontmatter
 
 
 PROTECTED_KEYS = {
@@ -135,6 +136,8 @@ def build_manifest(session: Path) -> dict:
             "elements": scene.get("elements", []),
         })
     validate_slide_contract(session, document, slides)
+    markdown_path = session / "slides.md"
+    markdown_source = markdown_path.read_text(encoding="utf-8") if markdown_path.is_file() else None
     return {
         "schema_version": 3,
         "protocol": "presentation-forge-editor.v3",
@@ -149,6 +152,13 @@ def build_manifest(session: Path) -> dict:
         },
         "document_kind": document_kind,
         "editable_document": str(document_path.relative_to(session)),
+        "authoring": {
+            "mode": metadata.get("authoring_mode", "slides-plan"),
+            "source": metadata.get("content_source", "slides_plan.md"),
+            "markdown": markdown_source,
+            "markdown_sha256": hashlib.sha256(markdown_source.encode()).hexdigest() if markdown_source is not None else None,
+            "round_trip": markdown_source is not None,
+        },
         "document_sha256": canonical_hash(document),
         "canvas_sha256": canonical_hash(canvas_state),
         "global_editable_paths": sorted(path for path in allowed if not path.startswith("/slides/")),
@@ -171,6 +181,8 @@ def build_manifest(session: Path) -> dict:
             "slide_variant_switch": True,
             "style_switch_modes": ["replace-theme", "preserve-layout"],
             "explicit_export_approval": metadata.get("editor_workflow_mode") == "canvas-first",
+            "markdown_source_edit": markdown_source is not None,
+            "markdown_round_trip": markdown_source is not None,
             "asset_replace": False,
             "direct_ooxml_edit": False,
         },
@@ -458,6 +470,10 @@ def apply_patch(session: Path, patch_path: Path) -> dict:
         save(prompts_path, prompts)
     if plan_path.is_file():
         plan_path.write_text(plan_text, encoding="utf-8")
+    markdown_path = session / "slides.md"
+    if metadata.get("authoring_mode") == "markdown-canvas" or markdown_path.is_file():
+        existing_frontmatter = split_frontmatter(markdown_path.read_text(encoding="utf-8"))[0] if markdown_path.is_file() else {}
+        markdown_path.write_text(render_markdown(document, existing_frontmatter), encoding="utf-8")
     for _, (scene_path, scene) in changed_scene_docs.items():
         scene["revision"] = int(scene.get("revision", 1)) + 1
         refresh_scene_hash(scene)

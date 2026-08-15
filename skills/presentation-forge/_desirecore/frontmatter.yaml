@@ -1,5 +1,5 @@
 name: presentation-forge
-description: "创建中文商业汇报，把截图或图片型幻灯片重建为可编辑 PPTX/SVG，或用原生 PPTX 模板直接填充新内容。用户要求制作售前方案、项目汇报、产品介绍、行业分析、培训材料、套用 PowerPoint 模板、图片页转可编辑 PowerPoint、重建幻灯片、拆分图标与装饰元素或输出 SVG 时使用。"
+description: "创建中文商业汇报，从主题、文档或 slides.md 生成原生可编辑 PPTX，提供 Markdown-first 实时画布、样式切换和同版导出，使用 image-2 辅助生成独立视觉资产，把截图或图片型幻灯片重建为可编辑 PPTX/SVG，或用原生 PPTX 模板填充新内容。用户要求制作售前方案、项目汇报、产品介绍、行业分析、培训材料、像 Markdown 一样编辑并导出、AIPPT 式可编辑演示、套用 PowerPoint 模板、图片页转可编辑 PowerPoint、重建幻灯片或输出 SVG 时使用。"
 version: 0.1.0
 type: procedural
 risk_level: low
@@ -39,7 +39,7 @@ metadata:
         intentionally falls back to the shared body and is locked as
         human-maintained.
       translated_by: human
-      source_hash: 'sha256:0a4b6ad9df5da705'
+      source_hash: 'sha256:49a6a6b6867b2d1b'
       body: ./SKILL.md
 market:
   icon: >-

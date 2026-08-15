@@ -50,8 +50,12 @@ def main() -> None:
     parser.add_argument(
         "--editor-workflow-mode",
         choices=("direct-build", "canvas-first"),
-        default="direct-build",
-        help="canvas-first keeps editable previews in cache until the user explicitly approves PPTX export.",
+        help="Default: canvas-first for editable-pptx, direct-build for other deliveries.",
+    )
+    parser.add_argument(
+        "--authoring-mode",
+        choices=("slides-plan", "markdown-canvas"),
+        help="Default: markdown-canvas for editable-pptx, slides-plan for other deliveries.",
     )
     parser.add_argument(
         "--outline-review-mode",
@@ -66,6 +70,8 @@ def main() -> None:
         help="Control when PowerPoint/GUI rendering may run. Default: final artifact only.",
     )
     args = parser.parse_args()
+    editor_workflow_mode = args.editor_workflow_mode or ("canvas-first" if args.delivery_type == "editable-pptx" else "direct-build")
+    authoring_mode = args.authoring_mode or ("markdown-canvas" if args.delivery_type == "editable-pptx" else "slides-plan")
     typography_profile, table_profile, style_variant = style_policies(args.style_id)
     visual_asset_policy = args.visual_asset_policy or ("native-image-assisted" if args.delivery_type == "editable-pptx" else None)
 
@@ -115,9 +121,11 @@ goal: 待确认
         "typography_profile": typography_profile,
         "table_profile": table_profile,
         "visual_asset_policy": visual_asset_policy,
-        "editor_workflow_mode": args.editor_workflow_mode,
-        "style_selection_status": "pending" if args.editor_workflow_mode == "canvas-first" else "auto-selected",
-        "editor_export_approval": "pending" if args.editor_workflow_mode == "canvas-first" else "auto-proceed",
+        "authoring_mode": authoring_mode,
+        "content_source": "slides.md" if authoring_mode == "markdown-canvas" else "slides_plan.md",
+        "editor_workflow_mode": editor_workflow_mode,
+        "style_selection_status": "pending" if editor_workflow_mode == "canvas-first" else "auto-selected",
+        "editor_export_approval": "pending" if editor_workflow_mode == "canvas-first" else "auto-proceed",
         "current_revision": None,
         "editability_confirmed": True,
         "status": "planning",
@@ -140,6 +148,23 @@ goal: 待确认
     }
 
     (session / "slides_plan.md").write_text(plan, encoding="utf-8")
+    if authoring_mode == "markdown-canvas":
+        slides_markdown = f"""---
+title: {args.title}
+style: {args.style_id or 'consulting-blue-white'}
+variant: {style_variant or 'default'}
+ratio: 16:9
+fontCN: 微软雅黑
+visualAssetPolicy: {visual_asset_policy or 'native-only'}
+---
+
+# {args.title}
+
+> 在这里编辑副标题
+
+::layout{{type="cover"}}
+"""
+        (session / "slides.md").write_text(slides_markdown, encoding="utf-8")
     (session / "prompts.json").write_text(json.dumps(prompts, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (session / "metadata.json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"session_id": session_id, "path": str(session)}, ensure_ascii=False))

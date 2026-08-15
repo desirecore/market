@@ -1,6 +1,6 @@
 ---
 name: presentation-forge
-description: "创建中文商业汇报，从主题或文档生成原生可编辑 PPTX，使用 image-2 辅助生成独立视觉资产，把截图或图片型幻灯片重建为可编辑 PPTX/SVG，或用原生 PPTX 模板填充新内容。用户要求制作售前方案、项目汇报、产品介绍、行业分析、培训材料、AIPPT 式可编辑演示、套用 PowerPoint 模板、图片页转可编辑 PowerPoint、重建幻灯片或输出 SVG 时使用。"
+description: "创建中文商业汇报，从主题、文档或 slides.md 生成原生可编辑 PPTX，提供 Markdown-first 实时画布、样式切换和同版导出，使用 image-2 辅助生成独立视觉资产，把截图或图片型幻灯片重建为可编辑 PPTX/SVG，或用原生 PPTX 模板填充新内容。用户要求制作售前方案、项目汇报、产品介绍、行业分析、培训材料、像 Markdown 一样编辑并导出、AIPPT 式可编辑演示、套用 PowerPoint 模板、图片页转可编辑 PowerPoint、重建幻灯片或输出 SVG 时使用。"
 version: 0.1.0
 type: procedural
 risk_level: low
@@ -40,7 +40,7 @@ metadata:
         intentionally falls back to the shared body and is locked as
         human-maintained.
       translated_by: human
-      source_hash: 'sha256:0a4b6ad9df5da705'
+      source_hash: 'sha256:49a6a6b6867b2d1b'
       body: ./SKILL.md
 market:
   icon: >-
@@ -69,9 +69,10 @@ market:
 3. **要 PowerPoint 内继续改字、移元素、换图标**：走元素重组。
 4. **只要 SVG、网页/文档复用，或低成本看结构**：走 SVG 拆解。
 5. **提供原生 PPTX 模板和新内容，要求保留模板设计直接填充**：走原生 PPTX 模板填充。
-6. **从主题或文档新做可编辑 PPTX**：走原生可编辑 Deck；默认使用 `native-image-assisted`，让 image-2 生成独立视觉资产，文字、结构、表格和图表保持原生。
+6. **从主题或文档新做演示或可编辑 PPTX**：默认走 Markdown-first Canvas，以 `slides.md` 为人工内容源，先展示完整可编辑画布；确认后使用原生可编辑 Deck 导出 PPTX。
+7. **用户明确要求直接导出、不要画布或跳过预览**：走原生可编辑 Deck 的 `direct-build`；默认使用 `native-image-assisted`，文字、结构、表格和图表保持原生。
 
-路径可以串联：先用整页生图 PPT 形成视觉页；如果后续需要编辑或复用，再把单页 PNG 交给元素重组或 SVG 拆解继续处理。从零新做可编辑 PPTX 时默认走原生可编辑 Deck；已有图片页要求可编辑时走元素重组。SVG 拆解不是默认的 PPT 可编辑路线。
+路径可以串联：先用整页生图 PPT 形成视觉页；如果后续需要编辑或复用，再把单页 PNG 交给元素重组或 SVG 拆解继续处理。从零新做演示时默认进入 Markdown-first Canvas；已有图片页要求可编辑时走元素重组。SVG 拆解不是默认的 PPT 可编辑路线。
 
 ## 路由判断
 
@@ -121,7 +122,8 @@ market:
 
 - 用户只说要 `PPTX`、未说明可编辑性：暂停路线选择，先询问需要“图片型 PPTX”还是“可编辑 PPTX”。
 - 用户要新做汇报，内容偏观点表达、概念框架或方案展示，且视觉完成度优先：选择 **整页生图 PPT**。
-- 用户要从主题或文档新做可编辑 PPTX：选择 **原生可编辑 Deck**。默认 `native-image-assisted`；用户明确不生图时使用 `native-only`，强视觉且仍要求可编辑时使用 `image-led-editable`。
+- 用户要从主题或文档新做演示或可编辑 PPTX，且没有明确要求跳过画布：默认选择 **Markdown-first Canvas**，设置 `authoring_mode=markdown-canvas`、`editor_workflow_mode=canvas-first`，并锁定 `native-editable-deck` 构建 authority。
+- 用户明确说“直接导出”“不要画布”“跳过预览”：选择 **原生可编辑 Deck** 的 `slides-plan + direct-build`。默认 `native-image-assisted`；用户明确不生图时使用 `native-only`，强视觉且仍要求可编辑时使用 `image-led-editable`。
 - 用户要新做汇报，包含密集数据、财务表格、需频繁更新的数字、大量脚注或长期协作模板：选择原生可编辑 Deck 的 `native-only`，不要走整页生图。
 - 用户已有图片页，且明确要可编辑 PPTX、PowerPoint 内改字、移动元素、替换图标、元素化重建或图片页转可编辑：强制选择 **元素重组**。
 - 用户已有图片页，且明确要 SVG、网页/文档复用，或明确接受低成本结构样板：选择 **SVG 拆解**。
@@ -334,13 +336,28 @@ v1 不支持重复克隆同一源页、替换图片、编辑图表/SmartArt、�
 
 用户要开发可视化 PPTX 编辑 UI、浏览器内修改页面或接入类似 Codex 的任务界面时，完整读取 [references/editor-ui-integration.md](references/editor-ui-integration.md)。以 scene element v2 和 `scripts/editor_bridge.py export/apply` 作为唯一 editor seam：UI 读取 v3 manifest，提供“整套风格 / 本页变体 / 对象样式”，通过受保护的 `apply-style` 或 element capability 修改画布；Skill 负责 snapshot、冲突检测、scene/spec 同步、页面缓存失效，并用 `build_native_editable_deck.py --scene-dir` 把覆盖值写回原生 PPTX。禁止让 UI 直接修改 OOXML 或自行猜测可编辑字段。
 
-用户明确要求“先显示画布，每张可编辑，之后再输出 PPTX”时，建立 `canvas-first` session。最终导出前只写 scene、manifest、缩略图和 `cache/editable/` 预览；不得提前写入 `final/`。画布中确认样式并完成编辑后，运行 `editor_bridge.py approve-export`，再构建和验证最终 PPTX。
+新建演示默认建立 `canvas-first` session，不要求用户额外写“先显示画布”。最终导出前只写 `slides.md`、scene、manifest、缩略图和 `cache/editable/` 预览；不得提前写入 `final/`。只有用户明确要求直接导出、不要画布或跳过预览时才使用 `direct-build`。画布中确认样式并完成编辑后，运行 `editor_bridge.py approve-export`，再构建和验证最终 PPTX。
+
+### Markdown-first Canvas
+
+从主题或文档新建演示时默认完整读取 [references/markdown-canvas-workflow.md](references/markdown-canvas-workflow.md)，并强制使用；无需用户额外声明 Markdown-first：
+
+```bash
+python scripts/init_deck_session.py ... \
+  --delivery-type editable-pptx \
+  --editor-workflow-mode canvas-first \
+  --authoring-mode markdown-canvas
+python scripts/compile_slides_markdown.py --session <session> --build-preview --render-canvas
+```
+
+`slides.md` 是人工编辑源，`native_deck_spec.json`、`slides_plan.md`、`prompts.json` 和 scene 是派生产物。画布修改文字后必须回写 Markdown；自由拖拽只写 scene 几何覆盖。对话中展示 `reports/editor-canvas.html`，不得用静态示意代替。最终只在用户点击导出后批准并构建 `final/*.pptx`。
 
 ## 输出纪律
 
 - 先确定输入来源：新做汇报先生成；已有图片页或生成后的页图再拆解。
 - 再确定路径和交付承诺，不把生成、元素重组和 SVG 拆解混成同一种能力。
 - 新做 PPT 必须以 `slides_plan.md` 作为内容源、以 `prompts.json` 作为逐页生成记录，并在独立 session 内工作。
+- Markdown-first Canvas 例外：`slides.md` 是人工内容源，`slides_plan.md` 与 `prompts.json` 由编译器派生，禁止同时手工维护三份内容。
 - 大纲默认连续执行；只有用户明确要求审阅或等待确认时才展示并暂停。必须在 metadata 记录 `outline_review_mode` 与 `outline_approval`，不得把没有要求确认的用户默认拦在大纲阶段。
 - 新做可编辑 PPTX 必须记录 `visual_asset_policy`；image-2 资产必须登记为独立 `visual_slot` 并保留 prompt 记录。
 - 可编辑 PPTX 默认记录 `gui_validation_mode: final-only`；中间只输出 PNG 预览和静态报告，最终 artifact 完成后才允许一次 PowerPoint 真实渲染。用户明确要求逐轮渲染时才使用 `eager`；`never` 必须在交付中说明未做真实 PowerPoint 验收。

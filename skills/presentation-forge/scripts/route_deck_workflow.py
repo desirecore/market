@@ -22,6 +22,18 @@ VALID_VALUES = {
     "input_kind": {"topic", "document", "pptx-template", "pptx-finished", "slide-images", "mixed"},
     "editability": {"image", "editable", "unspecified"},
     "visual_asset_policy": {"native-only", "native-image-assisted", "image-led-editable"},
+    "authoring_mode": {"slides-plan", "markdown-canvas"},
+    "editor_workflow_mode": {"direct-build", "canvas-first"},
+}
+
+DEFAULT_VALUES = {
+    "delivery_type": "unspecified",
+    "operation": "create",
+    "input_kind": "topic",
+    "editability": "unspecified",
+    "visual_asset_policy": "native-image-assisted",
+    "authoring_mode": "markdown-canvas",
+    "editor_workflow_mode": "canvas-first",
 }
 
 
@@ -35,6 +47,8 @@ def decide(request: dict[str, object]) -> dict[str, object]:
     input_kind = str(request.get("input_kind") or "topic")
     editability = str(request.get("editability") or "unspecified")
     visual_asset_policy = str(request.get("visual_asset_policy") or "native-image-assisted")
+    authoring_mode = str(request.get("authoring_mode") or "markdown-canvas")
+    editor_workflow_mode = str(request.get("editor_workflow_mode") or "canvas-first")
     has_source_pptx = truthy(request.get("has_source_pptx")) or input_kind in {"pptx-template", "pptx-finished"}
     has_new_content = truthy(request.get("has_new_content"))
     has_reference_slides = truthy(request.get("has_reference_slides")) or input_kind == "slide-images"
@@ -44,7 +58,7 @@ def decide(request: dict[str, object]) -> dict[str, object]:
     invalid_fields = {
         field: value
         for field, allowed in VALID_VALUES.items()
-        if (value := str(request.get(field) or {"delivery_type": "unspecified", "operation": "create", "input_kind": "topic", "editability": "unspecified", "visual_asset_policy": "native-image-assisted"}[field])) not in allowed
+        if (value := str(request.get(field) or DEFAULT_VALUES[field])) not in allowed
     }
     if invalid_fields:
         return {
@@ -100,6 +114,9 @@ def decide(request: dict[str, object]) -> dict[str, object]:
         status = "NEEDS_INPUT"
         reasons.append("rebuild_delivery_ambiguous")
         question = "重建后需要可编辑 PPTX，还是 SVG？"
+    elif operation == "create" and input_kind in {"topic", "document", "mixed"} and delivery == "unspecified":
+        route = "native-editable-deck"
+        reasons.append("new_presentation_defaults_to_markdown_canvas")
     else:
         status = "NEEDS_INPUT"
         reasons.append("delivery_not_resolved")
@@ -116,6 +133,8 @@ def decide(request: dict[str, object]) -> dict[str, object]:
         "missing_prerequisites": missing,
         "blocking_question": question,
         "visual_asset_policy": visual_asset_policy if route == "native-editable-deck" else None,
+        "authoring_mode": authoring_mode if route == "native-editable-deck" else None,
+        "editor_workflow_mode": editor_workflow_mode if route == "native-editable-deck" else None,
     }
 
 
@@ -153,6 +172,13 @@ def main() -> None:
         metadata["route_report"] = str(out.relative_to(session))
         if result.get("visual_asset_policy"):
             metadata["visual_asset_policy"] = result["visual_asset_policy"]
+        if result.get("authoring_mode"):
+            metadata["authoring_mode"] = result["authoring_mode"]
+            metadata["content_source"] = "slides.md" if result["authoring_mode"] == "markdown-canvas" else "slides_plan.md"
+        if result.get("editor_workflow_mode"):
+            metadata["editor_workflow_mode"] = result["editor_workflow_mode"]
+            metadata["style_selection_status"] = "pending" if result["editor_workflow_mode"] == "canvas-first" else "auto-selected"
+            metadata["editor_export_approval"] = "pending" if result["editor_workflow_mode"] == "canvas-first" else "auto-proceed"
         metadata_path.write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     print(json.dumps(result, ensure_ascii=False))

@@ -71,7 +71,7 @@ python scripts/init_deck_session.py ... --editor-workflow-mode canvas-first
 
 在 `editor_export_approval=approved` 之前，构建器会拒绝把文件写进 session 的 `final/`。UI 可以直接按 scene element 渲染画布，不需要先创建临时 PPTX；需要核对 PowerPoint 排版时，预览 PPTX 只能写到 `cache/editable/preview.pptx`。
 
-画布建议采用三栏结构：左侧页面缩略图，中间 16:9 可编辑 scene，右侧属性与样式面板。右侧样式面板优先展示 24 个预设；不能只显示当前深蓝主题。用户没有选定样式时，应显示“待选择”，不能把推荐样式冒充用户选择。
+画布采用“主画布优先”的可折叠三栏结构：左侧页面缩略图默认窄栏，中间 16:9 可编辑 scene 占据主要可用空间，右侧对象属性与样式面板默认收起。当前页面不得因展示 24 个预设而缩小到文字不可读；页面显示尺寸不得小于约 `746×420` CSS 像素，空间不足时让中间区域滚动。顶部必须提供页面列表、对象编辑和专注画布开关，不显示 Markdown 按钮、标签页或编辑框。点击页面中的文字对象时展开右侧面板，宽度约 `320px`；样式预设在面板内滚动，不能永久挤占主画布，也不能只显示当前深蓝主题。用户没有选定样式时，应显示“待选择”，不能把推荐样式冒充用户选择。Markdown 仅保留为内部内容源和导出回写数据。
 
 首次打开画布前，先从已构建的原生 PPTX 同步 element：
 
@@ -96,6 +96,8 @@ python scripts/sync_canvas_scene.py --session <session> --pptx <session>/final/d
 ```
 
 UI 可以轮询或 tail `reports/editor-events.jsonl` 展示 `planning`、`generating`、`rebuild_required`、`rendering`、`validated` 等状态。未来接入 WebSocket 时，只需写一个读取同一事件和 manifest 的 adapter，不改变 Skill interface。
+
+Markdown-first session 的 manifest 额外提供 `authoring.markdown`、`authoring.markdown_sha256` 和 round-trip capability。UI 必须把完整 Markdown 源显示在可编辑面板中；导出时同时提交完整 Markdown 和完整 scene。浏览器无法直接写本地文件时，由 follow-up 请求交给 Skill 写回并重新编译，不得只保存在页面内存。
 
 ## Patch 示例
 

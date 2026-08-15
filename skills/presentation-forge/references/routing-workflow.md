@@ -7,7 +7,7 @@
 | 路线 | 触发条件 | 必要输入 | 输出承诺 |
 |---|---|---|---|
 | `image-generation` | 图片型 PPTX、PDF、PNG，且不要求对象级编辑 | 内容简报 | 整页图片、图片型 PPTX/PDF |
-| `native-editable-deck` | 从主题或文档新建可编辑 PPTX | 内容简报、逐页计划 | 原生文本/形状/表格/Office 图表与可选 image-2 视觉资产 |
+| `native-editable-deck` | 从主题或文档新建演示；默认先进入 Markdown 可编辑画布 | 内容简报 | `slides.md`、完整画布、原生文本/形状/表格/Office 图表与可选 image-2 视觉资产 |
 | `element-rebuild` | 把已有图片页或截图重建为可编辑对象 | 参考页图片 | 原生文本/形状与独立视觉资产组成的 PPTX |
 | `svg-redraw` | 明确要求 SVG | 参考页图片 | SVG 与预览，不承诺 PowerPoint 对象级编辑 |
 | `native-template-fill` | 原生 PPTX 模板加新内容，要求保留模板设计并填充 | 源 PPTX、新内容 | 直接修改 OOXML 的新 PPTX，不经过整页生图或 SVG |
@@ -22,6 +22,8 @@
   "operation": "fill",
   "input_kind": "pptx-template",
   "editability": "editable",
+  "authoring_mode": "markdown-canvas",
+  "editor_workflow_mode": "canvas-first",
   "has_source_pptx": true,
   "has_new_content": true,
   "has_reference_slides": false,
@@ -37,10 +39,14 @@
 - `input_kind`: `topic`、`document`、`pptx-template`、`pptx-finished`、`slide-images`、`mixed`
 - `editability`: `image`、`editable`、`unspecified`
 - `visual_asset_policy`: `native-only`、`native-image-assisted`、`image-led-editable`
+- `authoring_mode`: `markdown-canvas`、`slides-plan`
+- `editor_workflow_mode`: `canvas-first`、`direct-build`
 
-从零创建可编辑 PPTX 时默认 `native-image-assisted`；已有图片页重建仍走 `element-rebuild`。`native-image-assisted` 允许按页调用 image-2 生成独立视觉资产，不允许把整页生图当成可编辑页。
+从零创建演示或可编辑 PPTX 时，默认 `authoring_mode=markdown-canvas`、`editor_workflow_mode=canvas-first`、`visual_asset_policy=native-image-assisted`。先生成并展示完整画布，不写入 `final/`；用户批准导出后再构建 PPTX。只有用户明确要求直接导出、不要画布或跳过预览时，才使用 `slides-plan + direct-build`。已有图片页重建仍走 `element-rebuild`。
 
 用户只说 `PPTX` 时保留 `delivery_type=pptx`，脚本会返回 `NEEDS_INPUT` 和唯一问题。不要在脚本外自行猜测。
+
+用户只说“制作演示”“根据文档做汇报”而没有指定交付格式时，记录 `delivery_type=unspecified`、`operation=create`；默认路由到 `native-editable-deck + markdown-canvas + canvas-first`。这与只说 `PPTX` 不同：后者仍需确认图片型还是可编辑型。
 
 ## 命令
 

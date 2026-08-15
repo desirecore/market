@@ -1,6 +1,6 @@
 # Scene、局部重建与版本工作流
 
-Scene 是每页唯一的结构化事实源。`slides_plan.md` 决定内容，scene 固化页面语义和对象，图片版与可编辑版都从 scene 派生，不再各自维护一套页面描述。
+Scene 是每页唯一的结构化渲染事实源。普通模式由 `slides_plan.md` 决定内容；Markdown-first 模式由 `slides.md` 决定内容。scene 固化页面语义、对象和几何，图片版、画布和可编辑版都从 scene 派生，不再各自维护一套页面描述。
 
 ## Session v2
 

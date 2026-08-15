@@ -98,6 +98,8 @@ python scripts/build_native_editable_deck.py \
 
 用户要求先画布后 PPTX 时使用 `editor_workflow_mode=canvas-first`。此时不要先把初稿写入 `final/`：直接从 scene manifest 渲染页面；需要构建中间预览时写入 `cache/editable/preview.pptx`。只有收到画布导出动作、风格已确认且 `editor_bridge.py approve-export` 成功后，才能执行最终构建和质量门。
 
+用户同时要求 Markdown 编辑时，设置 `authoring_mode=markdown-canvas` 并读取 [markdown-canvas-workflow.md](markdown-canvas-workflow.md)。先编译 `slides.md`，再在 `cache/editable/preview.pptx` 建立一次原生结构预览并同步对象 ID；后续画布和最终 PPTX 都使用同一 scene，不再从 Markdown 或 archetype 单独重算第二套布局。
+
 画布导出后不得重新解释布局。必须把画布提交的全部页面 scene 写回 session，再用同一 scene 构建 PPTX。禁止只读取 `cover` 字段、用临时脚本后处理封面，或让未在画布出现的模板布局覆盖画布对象。页数按用户要求建立；例如用户要求 10 页，画布必须先显示并可切换 10 页，然后才能批准导出 10 页 PPTX。
 
 `reports/native-editable-build.json` 必须记录原生形状、connector、表格、Office 图表、图片对象和 image-2 资产数量。`image-led-editable` 没有 image-2 资产时构建必须失败。
