@@ -53,14 +53,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 三层联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问、交互与取文。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:2c5d65a0fb80cf6d
+      source_hash: sha256:20c98f047378220a
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A three-layer web-access toolkit — search public pages, fetch heavy pages via Jina Reader, and reach, interact with, and read logged-in sites through the governed built-in browser.
       body: ./SKILL.md
-      source_hash: sha256:2c5d65a0fb80cf6d
+      source_hash: sha256:20c98f047378220a
       translated_by: human
 market:
   icon: >-
