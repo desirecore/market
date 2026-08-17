@@ -116,7 +116,9 @@ BrowserAct:
 ```yaml
 BrowserAct:
   action: input.click
-  params: { ref: bref_xxx }     # 用快照 ref（同时给 snapshotId）；不要裸 x/y
+  params:
+    ref: e12                    # 语义快照签发的短号 ref（不要裸 x/y）
+    snapshotId: snap-xxx        # 签发该 ref 的快照回执里的 snapshotId，必带
 ```
 
 ```yaml
