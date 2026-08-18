@@ -5,7 +5,7 @@ type: site-pattern
 pinned: true
 confidence: high
 learned_at: '2026-05-05'
-updated_at: '2026-08-06'
+updated_at: '2026-08-18'
 ---
 
 ## L0
@@ -19,9 +19,12 @@ updated_at: '2026-08-06'
 
 ## 推荐流程
 1. BrowserManage(create_space/start_session)；登录态若已授予 `browser.import.*`，用
-   BrowserImport(discover → create_plan[domains: xiaohongshu.com] → dry_run → apply)，否则回落 CDP
+   BrowserImport(discover → create_plan[domains: xiaohongshu.com] → dry_run → apply)，否则如实
+   告知用户无法复用登录态，按未登录继续或放弃
 2. BrowserAct(tab.navigate) 打开笔记；列表页用 BrowserSnapshot(semantic) 收 `.note-card` 链接的 ref
-3. 正文抽取回落 L3-fallback Playwright（内置浏览器的 semantic 快照不含正文，accessibility 在本站会超限）
+3. 正文抽取用 BrowserAct(page.extract-text)（format: markdown，超出 maxBytes 用返回的 nextCursor
+   续读）——semantic 快照本就不含正文，这是两者的正常分工，不是回落；accessibility 在本站超限时会
+   截断分页而非整体失败
 4. 收尾 BrowserManage(close_session)；ephemeral Space 不留 Profile
 
 ## 推荐选择器
@@ -46,3 +49,5 @@ updated_at: '2026-08-06'
 
 ## 历史更新
 - 2026-05-05：初版基线（基于公开经验整理，待 Agent 实际验证升级 confidence）
+- 2026-08-18：同步 web-access v3.0 内置浏览器能力面，正文抽取由"回落 Playwright"改为
+  `page.extract-text`；登录态缺失时的处置由"回落 CDP"改为如实告知用户（issue #2074）
