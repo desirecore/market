@@ -5,7 +5,7 @@ type: site-pattern
 pinned: true
 confidence: high
 learned_at: '2026-05-05'
-updated_at: '2026-08-06'
+updated_at: '2026-08-18'
 ---
 
 ## L0
@@ -19,7 +19,7 @@ updated_at: '2026-08-06'
 
 ## 推荐流程
 1. 公开文档（companion 页面/官方文档站点 `feishu.cn/hc/...`）→ WebFetch / Jina
-2. 用户文档 → 内置浏览器 BrowserAct(tab.navigate) 到达（登录态：已授予 `browser.import.*` 才用 BrowserImport，否则直接回落），正文抽取回落 Playwright
+2. 用户文档 → 内置浏览器 BrowserAct(tab.navigate) 到达（登录态：已授予 `browser.import，否则如实告知用户无法复用登录态，按未登录继续或放弃），正文用 BrowserAct(page.extract-text)
 3. 长期程序化访问 → 申请 OpenAPI access_token，走 HTTP，避免 CDP
 
 ## 推荐选择器
@@ -38,3 +38,5 @@ updated_at: '2026-08-06'
 
 ## 历史更新
 - 2026-05-05：初版基线
+- 2026-08-18：同步 web-access v3.0 内置浏览器能力面，正文抽取由"回落 Playwright"改为
+  `page.extract-text`；登录态缺失时的处置由"直接回落"改为如实告知用户（issue #2074）
