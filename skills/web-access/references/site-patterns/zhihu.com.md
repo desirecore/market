@@ -5,7 +5,7 @@ type: site-pattern
 pinned: true
 confidence: medium
 learned_at: '2026-05-05'
-updated_at: '2026-08-06'
+updated_at: '2026-08-18'
 ---
 
 ## L0
@@ -18,7 +18,7 @@ updated_at: '2026-08-06'
 
 ## 推荐流程
 1. 专栏文章 → WebFetch / Jina Reader 优先
-2. 问答详情 → 内置浏览器 BrowserAct(tab.navigate) 到达；批量回答的正文抽取回落 Playwright（`.AnswerItem`）
+2. 问答详情 → 内置浏览器 BrowserAct(tab.navigate) 到达；单条回答正文用 BrowserAct(page.extract-text)，批量回答正文用 BrowserAct(page.element, op: all-inner-texts, selector: loc=css:.AnswerItem) 一次取出全部回答文本
 3. 评论 → 必须登录，BrowserAct(input.click ref) 展开，BrowserAct(input.wheel) 加载更多
 
 ## 推荐选择器
@@ -33,9 +33,11 @@ updated_at: '2026-08-06'
 - ⚠️ 长回答有"展开"按钮，触发前 DOM 不完整
 - ⚠️ 知乎付费内容（盐选）即使登录也需会员
 
-## 反爬细节
+## 千爬细节
 - d_c0、z_c0 等 cookie 决定登录态
 - 风控：异常 UA / 短时高频 → 触发滑动验证码
 
 ## 历史更新
 - 2026-05-05：初版基线
+- 2026-08-18：同步 web-access v3.0 内置浏览器能力面，正文抽取由"回落 Playwright"改为
+  `page.extract-text` / `page.element(op: all-inner-texts)`（issue #2074）
