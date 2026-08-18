@@ -29,7 +29,7 @@ updated_at: '2026-08-18'
 
 ## 已知陷阱
 - ❌ 桌面版未登录抓取：HTML 几乎是空壳
-- ❌ JS 关闭：m.weibo.cn 仍依赖 JS 渲染锿内容
+- ❌ JS 关闭：m.weibo.cn 仍依赖 JS 渲染长内容
 - ⚠️ 视频微博：流地址有 referer / token 校验，直接 yt-dlp 可能失败
 
 ## 反爬细节
