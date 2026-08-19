@@ -5,7 +5,7 @@ type: site-pattern
 pinned: true
 confidence: medium
 learned_at: '2026-05-05'
-updated_at: '2026-08-06'
+updated_at: '2026-08-18'
 ---
 
 ## L0
@@ -18,7 +18,7 @@ updated_at: '2026-08-06'
 
 ## 推荐流程
 - 仅取标题/UP 主/播放数 → WebFetch 即可
-- 取完整简介 / 评论 → 内置浏览器 BrowserAct(tab.navigate) 到达页面，正文抽取回落 L3-fallback Playwright
+- 取完整简介 / 评论 → 内置浏览器 BrowserAct(tab.navigate) 到达页面，正文用 BrowserAct(page.extract-text)；批量评论文本可用 BrowserAct(page.element, op: all-inner-texts, selector: loc=css:.reply-item .content)
 - 批量数据 → 优先尝试 `api.bilibili.com` 公开接口（有专门的 wbi 签名机制）
 
 ## 推荐选择器
@@ -39,3 +39,5 @@ updated_at: '2026-08-06'
 
 ## 历史更新
 - 2026-05-05：初版基线，待实际验证调整
+- 2026-08-18：同步 web-access v3.0 内置浏览器能力面，正文抽取由"回落 Playwright"改为
+  `page.extract-text` / `page.element(op: all-inner-texts)`（issue #2074）

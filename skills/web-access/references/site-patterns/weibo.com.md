@@ -5,7 +5,7 @@ type: site-pattern
 pinned: true
 confidence: medium
 learned_at: '2026-05-05'
-updated_at: '2026-08-06'
+updated_at: '2026-08-18'
 ---
 
 ## L0
@@ -18,7 +18,7 @@ updated_at: '2026-08-06'
 
 ## 推荐流程
 1. 单条公开微博 → 优先尝试 `https://m.weibo.cn/status/<id>`，WebFetch 看是否拿到正文
-2. 拿不到 → 内置浏览器 BrowserAct(tab.navigate) + BrowserAct(input.click ref) 点"展开"（登录态：已授予 `browser.import.*` 才用 BrowserImport，否则直接回落），正文抽取回落 Playwright
+2. 拿不到 → 内置浏览器 BrowserAct(tab.navigate) + BrowserAct(input.click ref) 点"展开"（登录态：已授予 `browser.import.*` 才用 BrowserImport，否则如实告知用户无法复用登录态，按未登录继续或放弃），正文用 BrowserAct(page.extract-text)
 3. 用户主页时间线：必须登录，BrowserAct(input.wheel) 触发懒加载
 
 ## 推荐选择器
@@ -38,3 +38,5 @@ updated_at: '2026-08-06'
 
 ## 历史更新
 - 2026-05-05：初版基线
+- 2026-08-18：同步 web-access v3.0 内置浏览器能力面，正文抽取由"回落 Playwright"改为
+  `page.extract-text`；登录态缺失时的处置由"直接回落"改为如实告知用户（issue #2074）
