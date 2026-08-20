@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.codex/presentation-forge/editor-manifest.schema.json",
+  "title": "Presentation Forge Editor Manifest",
+  "type": "object",
+  "required": ["schema_version", "protocol", "session_id", "document_kind", "editable_document", "document_sha256", "canvas_sha256", "workflow", "current_style", "style_catalog", "slides", "slide_count", "capabilities"],
+  "properties": {
+    "schema_version": {"const": 3},
+    "protocol": {"const": "presentation-forge-editor.v3"},
+    "session_id": {"type": "string"},
+    "base_revision": {"type": ["string", "null"]},
+    "route": {"type": ["string", "null"]},
+    "document_kind": {"const": "native-editable-deck"},
+    "editable_document": {"type": "string"},
+    "document_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "canvas_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "workflow": {
+      "type": "object",
+      "required": ["mode", "style_selection_status", "export_approval", "final_pptx_ready"],
+      "properties": {
+        "mode": {"enum": ["direct-build", "canvas-first"]},
+        "style_selection_status": {"enum": ["pending", "auto-selected", "confirmed"]},
+        "export_approval": {"enum": ["pending", "auto-proceed", "approved"]},
+        "final_pptx_ready": {"type": "boolean"}
+      }
+    },
+    "global_editable_paths": {"type": "array", "items": {"type": "string"}},
+    "current_style": {"type": "object", "required": ["style_id", "variant_id", "family_name", "name"]},
+    "style_catalog": {"type": "array", "minItems": 24, "items": {"type": "object", "required": ["preset_id", "style_id", "variant_id", "family_name", "name", "design_tokens"]}},
+    "slide_count": {"type": "integer", "minimum": 1},
+    "slides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["slide_number", "title", "scene", "editable_paths", "canvas", "elements"],
+        "properties": {
+          "slide_number": {"type": "integer", "minimum": 1},
+          "title": {"type": "string"},
+          "archetype": {"type": ["string", "null"]},
+          "style": {"type": "object", "required": ["style_id", "variant_id"]},
+          "scene": {"type": "string"},
+          "thumbnail": {"type": ["string", "null"]},
+          "editable_paths": {"type": "array", "items": {"type": "string"}},
+          "canvas": {"type": "object"},
+          "elements": {"type": "array"}
+        }
+      }
+    },
+    "capabilities": {"type": "object"},
+    "events": {"type": "string"}
+  }
+}
