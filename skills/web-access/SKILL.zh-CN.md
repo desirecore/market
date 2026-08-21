@@ -92,9 +92,29 @@ User intent
   │          - PyPI:   curl https://pypi.org/pypi/<pkg>/json
   │
   └─ "Real-time interactive task" (click, fill form, scroll, screenshot)
-        └─→ 内置受管浏览器 (BrowserManage → BrowserAct → BrowserSnapshot —
+        ├─→ **用户点名了「我本机的 / 我自己的 / 外部的浏览器」？** → 见下方「用户点名外部浏览器时」
+        └─→ 其余情况：内置受管浏览器 (BrowserManage → BrowserAct → BrowserSnapshot —
              see references/browser-tools.md, no Python needed)
 ```
+
+### 用户点名外部浏览器时
+
+**这条做不到，必须直说，不许拿内置浏览器顶替。**
+
+`Browser*` 驱动的是 DesireCore **应用内**的浏览器实例，它碰不到用户机器上装的
+Chrome/Edge/Safari：看不见那边的窗口和标签页，也复用不了用户在那边已登录的会话。
+v2.x 曾有第四层（用户手工启动调试 Chrome + Python Playwright CDP）能做到这件事，
+**v3.0 已移除**，现在没有任何替代通道。
+
+用户说「用我本机的浏览器 / 外部浏览器 / 我自己的 Chrome」时：
+
+1. 明确告诉他这条现在做不到，以及为什么（上面那两句，别绕）
+2. 说明内置浏览器能做什么：一样能打开网站、点击填表、读正文；登录态在 Host 已授予
+   `browser.import.*` 时可用 `BrowserImport` 从他的 Chrome/Edge/Firefox/Safari 导入 Cookie
+3. 问他是否接受用内置浏览器继续，由他决定——**不要替他决定后继续往下做**
+
+⚠️ 尤其不要用「本地浏览器」「本机的受管浏览器」「已启动本地浏览器」这类说法描述内置浏览器。
+用户要的和你给的不是一回事时，措辞必须让他能一眼分辨，否则他会以为需求已被满足。
 
 ### 三层策略总结
 

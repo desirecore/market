@@ -15,7 +15,7 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: Complete terms in LICENSE.txt
-version: 3.0.1
+version: 3.1.0
 type: procedural
 risk_level: low
 status: enabled
@@ -41,7 +41,7 @@ provides:
     - LocalBookmarks
 metadata:
   author: desirecore
-  updated_at: '2026-08-18'
+  updated_at: '2026-08-21'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -53,14 +53,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 三层联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问、交互与取文。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:20c98f047378220a
+      source_hash: sha256:e4f9d382dcc08957
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A three-layer web-access toolkit — search public pages, fetch heavy pages via Jina Reader, and reach, interact with, and read logged-in sites through the governed built-in browser.
       body: ./SKILL.md
-      source_hash: sha256:20c98f047378220a
+      source_hash: sha256:e4f9d382dcc08957
       translated_by: human
 market:
   icon: >-
@@ -177,9 +177,33 @@ User intent
   │          - PyPI:   curl https://pypi.org/pypi/<pkg>/json
   │
   └─ "Real-time interactive task" (click, fill form, scroll, screenshot)
-        └─→ built-in browser (BrowserManage → BrowserAct → BrowserSnapshot —
+        ├─→ **Did the user name "my own / my machine's / the external browser"?**
+        │     → see "When the user asks for their own browser" below
+        └─→ Otherwise: built-in browser (BrowserManage → BrowserAct → BrowserSnapshot —
              see references/browser-tools.md, no Python needed)
 ```
+
+### When the user asks for their own browser
+
+**This cannot be done. Say so plainly; never substitute the built-in browser.**
+
+`Browser*` drives a browser instance **inside** the DesireCore app. It cannot touch the
+Chrome/Edge/Safari installed on the user's machine: it can't see those windows or tabs, and
+it can't reuse the sessions they're logged into there. v2.x had a fourth layer (user manually
+launches a debug Chrome + Python Playwright CDP) that could do this; **v3.0 removed it**, and
+there is no replacement channel.
+
+When the user says "use my own browser / the external browser / the Chrome on my machine":
+
+1. Tell them plainly that this isn't possible now, and why (the two sentences above — don't hedge)
+2. Explain what the built-in browser *can* do: open sites, click, fill forms, read text all the
+   same; for logged-in state, `BrowserImport` can pull cookies from their Chrome/Edge/Firefox/Safari
+   when the Host has granted `browser.import.*`
+3. Ask whether they want to proceed with the built-in browser — **don't decide for them and carry on**
+
+⚠️ Above all, never describe the built-in browser as "the local browser", "the managed browser on
+your machine", or "your local browser is now open". When what they asked for and what you're giving
+differ, the wording has to make that visible — otherwise they'll assume the request was satisfied.
 
 ### Three-layer strategy summary
 
