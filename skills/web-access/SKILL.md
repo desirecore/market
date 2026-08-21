@@ -5,17 +5,17 @@ description: >-
   — searching for current information, fetching public web pages, browsing
   login-gated sites (微博/小红书/B站/飞书/Twitter), comparing products,
   researching topics, gathering documentation, or summarizing news.
-  This skill orchestrates three complementary layers: (1) WebSearch + WebFetch
+  This skill orchestrates four complementary layers: (1) WebSearch + WebFetch
   for public pages, (2) Jina Reader as the default token-optimization layer for
   heavy/JS-rendered pages, and (3) the governed built-in browser (isolated
   BrowserSpace + Cookie import + bulk text extraction + waits + code mode) to
-  reach, interact with, and read login-gated sites. Always cite source URLs.
+  reach, interact with, and read login-gated sites, and (4) the user's own Chrome over CDP when they ask for it by name. Always cite source URLs.
   Use when 用户提到 联网搜索、上网查、
   查资料、抓取网页、研究、调研、最新资讯、文档查询、对比、竞品、技术文档、
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: Complete terms in LICENSE.txt
-version: 3.1.0
+version: 3.2.0
 type: procedural
 risk_level: low
 status: enabled
@@ -51,16 +51,16 @@ metadata:
     zh-CN:
       name: 联网访问
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
-      description: 三层联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问、交互与取文。
+      description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:e4f9d382dcc08957
+      source_hash: sha256:1881c266d01ad2b4
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
-      description: A three-layer web-access toolkit — search public pages, fetch heavy pages via Jina Reader, and reach, interact with, and read logged-in sites through the governed built-in browser.
+      description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's own Chrome over CDP on request.
       body: ./SKILL.md
-      source_hash: sha256:e4f9d382dcc08957
+      source_hash: sha256:1881c266d01ad2b4
       translated_by: human
 market:
   icon: >-
@@ -89,19 +89,21 @@ market:
 
 ## L0: One-line Summary
 
-A three-layer web-access toolkit — search public pages, optimize fetches via Jina Reader, and reach, interact with, and read login-gated sites through the governed built-in browser (v3.0 ships bulk text extraction, waits, and code mode in-browser; the Python Playwright fallback is gone).
+A web-access toolkit — search public pages, optimize fetches via Jina Reader, reach/interact with/read login-gated sites through the governed built-in browser, and drive the user's own Chrome over CDP when they ask for it by name.
 
 ## L1: Overview & Use Cases
 
 ### Capability
 
-web-access is a **procedural skill** that provides three complementary layers of web access:
+web-access is a **procedural skill** that provides four complementary layers of web access:
 
 - **L1** (WebSearch + WebFetch): public, static pages
 - **L2** (Jina Reader): JS-rendered heavy pages, saving tokens by default
 - **L3** (governed built-in browser, capability surface completed in v3.0): reach, *interact with*, and **read** logged-in / interactive sites — isolated BrowserSpace per task, zero Python dependency, every action carries a signed receipt. Bulk text extraction (`page.extract-text`), discriminated waits (`page.wait`), and code mode (`BrowserScript`) all close the loop inside this layer
 
-The v2.x fourth layer — "user manually launches a debug Chrome + Python Playwright CDP" — was removed in v3.0: every reason it existed for (no bulk text channel, evaluate unusable, screenshots must activate-serialize) is now covered by the built-in browser, see the cheatsheet below.
+- **L3-external** (the user's own Chrome, attached via CDP + Python Playwright): **take this route when the user names their own browser** — their login state, their window, visible to them the whole time and theirs to take over at any moment
+
+A note of history on L3-external: v3.0 deleted it outright, on the grounds that "every technical reason it existed for (no bulk text channel, evaluate unusable, screenshots must activate-serialize) is now covered by the built-in browser". That technical judgement was correct — **as a fallback for when the built-in browser isn't enough, it genuinely isn't needed any more**. But the deletion took with it a completely different use case: the user wanting *their own* browser. That has nothing to do with capability, and the built-in browser cannot stand in for it, so v3.2 restores it as a peer option **triggered by user intent**. Note it is no longer a fallback; see "Two browsers — pick by user intent" below.
 
 ### v3.0: governed built-in browser (default-hidden, exposed only after Skill activation)
 
@@ -132,10 +134,10 @@ When you call `Skill('web-access')`, the following 9 tools are injected into the
 
 ### Core Value
 
-- **Three-layer progression**: from lightweight search to heavy JS rendering to logged-in access — pick on demand
+- **Layered progression**: from lightweight search to heavy JS rendering to logged-in access — pick on demand; plus the user's own browser whenever they name it
 - **Token optimization**: Jina Reader cuts token usage by 50–80% by default; `page.extract-text`'s maxBytes/cursor paging keeps even long logged-in articles under control
 - **Logged-in session reuse**: where the Host has granted `browser.import.*`, BrowserImport brings the user's Cookies into an isolated Space — no re-login required
-- **Zero external dependencies**: no Python/Playwright install, no manually launched debug Chrome
+- **Zero external dependencies by default**: the built-in browser needs no Python/Playwright install and no manually launched debug Chrome (L3-external does, and only when the user asks for it)
 
 ## L2: Detailed Specification
 
@@ -146,6 +148,55 @@ When you complete a research task, you **MUST** cite all source URLs in your res
 - **Inferences**: your synthesis or analysis → mark as "(analysis/inference)"
 
 If any fetch fails, explicitly tell the user which URL failed and which fallback you used.
+
+## Prerequisites: Chrome CDP Setup (L3-external only)
+
+**Only needed when taking the L3-external route** (the user named their own browser). The built-in
+browser has no prerequisites.
+
+### One-time setup
+
+Have the user launch Chrome with remote debugging enabled:
+
+**macOS**:
+```bash
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
+  --remote-debugging-port=9222 \
+  --user-data-dir="${DESIRECORE_ROOT}/chrome-profile"
+```
+
+**Linux**:
+```bash
+google-chrome \
+  --remote-debugging-port=9222 \
+  --user-data-dir="${DESIRECORE_ROOT}/chrome-profile"
+```
+
+**Windows (PowerShell)**:
+```powershell
+& "C:\Program Files\Google\Chrome\Application\chrome.exe" `
+  --remote-debugging-port=9222 `
+  --user-data-dir="$env:USERPROFILE\.desirecore\chrome-profile"
+```
+
+After launch:
+1. The user logs in manually to the sites they need
+2. That Chrome window stays open
+3. Verify the debug endpoint: `curl -s http://localhost:9222/json/version` should return JSON
+
+### Verify readiness before every operation
+
+```bash
+curl -s http://localhost:9222/json/version | python3 -c "import sys,json; d=json.load(sys.stdin); print('CDP ready:', d.get('Browser'))"
+```
+
+If it fails, tell the user: "请先启动 Chrome 并开启远程调试端口（见 web-access 技能的 Prerequisites 部分）"
+— **then wait for them.** Don't switch to the built-in browser just because it could also do the job.
+
+⚠️ When attached over CDP, **never call `browser.close()`** — that would close the user's own Chrome.
+Only close the page you opened. Full recipes in [references/cdp-browser.md](references/cdp-browser.md).
+
+---
 
 ## Tool Selection Decision Tree
 
@@ -177,44 +228,58 @@ User intent
   │          - PyPI:   curl https://pypi.org/pypi/<pkg>/json
   │
   └─ "Real-time interactive task" (click, fill form, scroll, screenshot)
-        ├─→ **Did the user name "my own / my machine's / the external browser"?**
-        │     → see "When the user asks for their own browser" below
-        └─→ Otherwise: built-in browser (BrowserManage → BrowserAct → BrowserSnapshot —
+        ├─→ **User named "my own / my machine's / the external browser"** → L3-external:
+        │     verify CDP is ready (see Prerequisites), then python3 playwright.connect_over_cdp()
+        │     If it isn't ready, give them the launch command and wait — don't quietly switch to the built-in one
+        └─→ **Otherwise (default)**: built-in browser (BrowserManage → BrowserAct → BrowserSnapshot —
              see references/browser-tools.md, no Python needed)
 ```
 
-### When the user asks for their own browser
+### Two browsers — pick by user intent, not by difficulty
 
-**This cannot be done. Say so plainly; never substitute the built-in browser.**
+DesireCore can drive **two** browsers. They are peer options:
 
-`Browser*` drives a browser instance **inside** the DesireCore app. It cannot touch the
-Chrome/Edge/Safari installed on the user's machine: it can't see those windows or tabs, and
-it can't reuse the sessions they're logged into there. v2.x had a fourth layer (user manually
-launches a debug Chrome + Python Playwright CDP) that could do this; **v3.0 removed it**, and
-there is no replacement channel.
+| | L3 built-in governed browser | L3-external — the user's own browser |
+|---|---|---|
+| What it is | A browser instance inside the app (the `Browser*` tools) | The Chrome installed on the user's machine, attached via CDP + Python Playwright |
+| Login state | Isolated; needs `browser.import.*` granted by the Host before `BrowserImport` can pull cookies | **Literally the user's own session** — nothing to import |
+| Can the user see it | Agent tabs are offscreen by default; must be presented to the workbench | **It's their own window** — visible throughout, theirs to take over |
+| Prerequisite | None | User must launch Chrome with `--remote-debugging-port=9222` (see Prerequisites) |
+| Default | ✅ yes | When the user names it |
 
-When the user says "use my own browser / the external browser / the Chrome on my machine":
+**The layer is chosen by user intent, not by technical difficulty.** v3.0 deleted this layer as
+"a fallback for when the built-in browser isn't enough" — and as a fallback, it really isn't needed
+any more. But that deletion also removed a **different** use case: the user wanting *their own*
+browser. That has nothing to do with capability — their login state lives in their Chrome, and they
+want to watch it happen and take over when they choose. The built-in browser cannot stand in for that.
 
-1. Tell them plainly that this isn't possible now, and why (the two sentences above — don't hedge)
-2. Explain what the built-in browser *can* do: open sites, click, fill forms, read text all the
-   same; for logged-in state, `BrowserImport` can pull cookies from their Chrome/Edge/Firefox/Safari
-   when the Host has granted `browser.import.*`
-3. Ask whether they want to proceed with the built-in browser — **don't decide for them and carry on**
+**If the user named one, use the one they named:**
 
-⚠️ Above all, never describe the built-in browser as "the local browser", "the managed browser on
-your machine", or "your local browser is now open". When what they asked for and what you're giving
-differ, the wording has to make that visible — otherwise they'll assume the request was satisfied.
+- "my own / my machine's / the external browser / my Chrome" → **L3-external**. Verify CDP readiness
+  per Prerequisites first; if it isn't ready, give them the launch command and wait. **Do not switch
+  to the built-in browser just because it could also do the job**
+- "the built-in browser", or nothing named → **L3 built-in** (default, no prerequisites)
+- Genuinely unclear which they mean → ask, don't guess
 
-### Three-layer strategy summary
+⚠️ Either way, the user must be able to tell which one you actually used. Never use wording that fits
+both — "the local browser", "the managed browser on your machine", "your local browser is now open".
+When what they asked for and what you're giving differ, the wording has to make that visible.
+
+### Layer strategy summary
 
 | Layer | Use case | Primary tool | Token cost |
 |-------|----------|--------------|------------|
 | L1 | Public, static | `WebFetch` | Low |
 | L2 | JS-heavy, long articles, token savings | `Bash curl r.jina.ai` | **Lowest** (Markdown pre-cleaned) |
 | **L3** | **Login-gated navigation, interaction & extraction (PRIMARY)** | **built-in browser (BrowserManage / BrowserAct / BrowserSnapshot / BrowserScript)** | Medium |
+| L3-external | **User named their own browser**; or their personal login state is needed and `BrowserImport` is unavailable | `Bash + Python Playwright connect_over_cdp` (see references/cdp-browser.md) | Medium |
 
 **Default priority**: L1 for simple public pages → L2 for heavy → **L3 for login-gated (body text and in-site API data included)**.
 
+
+> L3-external is deliberately absent from this ordering: it isn't chosen by "is the layer capable
+> enough" but by **the user naming it**. When the user wants their own browser, go there directly —
+> even if the built-in browser could do the job. See "Two browsers — pick by user intent" above.
 ## Supported Sites Matrix
 
 | Site | Recommended Layer | Notes |
