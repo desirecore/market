@@ -95,19 +95,8 @@ curl -sL "https://r.jina.ai/$URL" > /tmp/jina-cache.md
 ### Handle very long articles
 Jina returns the full article in one response. For articles > 50K chars, pipe through `head` or extract specific sections with Python/awk before feeding back to the model context.
 
-### Combine with CDP
-When you use L3 CDP to fetch a login-gated page, you can pipe the resulting HTML through Jina for clean Markdown instead of parsing with BeautifulSoup:
-
-```python
-html = fetch_with_cdp(url)  # from references/cdp-browser.md
-# Now convert via Jina (note: Jina fetches the URL itself, not your HTML)
-# So this only works if the content is already visible without login:
-import subprocess
-md = subprocess.run(["curl", "-sL", f"https://r.jina.ai/{url}"],
-                    capture_output=True, text=True).stdout
-```
-
-For truly login-gated content, you must parse the HTML directly (BeautifulSoup) since Jina can't log in on your behalf.
+### Combine with the built-in browser
+For login-gated pages, the built-in browser already has its own extraction channel with paged budgets — `BrowserAct({ action: 'page.extract-text', params: { format: 'markdown', maxBytes: 65536 } })` returns clean Markdown directly (beyond maxBytes it truncates and hands back a nextCursor). Jina can't log in on your behalf, so use Jina for public pages and `page.extract-text` for logged-in ones; there is no need to round-trip HTML through Jina anymore.
 
 ---
 
