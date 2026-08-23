@@ -23,9 +23,9 @@ DesireCore 官方市场仓库，存放官方维护的 Agent/Skill 定义，以�
 The market currently contains:
 
 - `1` Agent: `desirecore`
-- `32` local built-in skills with `SKILL.md`
+- `33` local built-in skills with `SKILL.md`
 - `28` external skill entries with `entry.json`
-- `60` publishable skills in total (`SKILL.md` + `entry.json`)
+- `61` publishable skills in total (`SKILL.md` + `entry.json`)
 
 ## Skill Sources
 
@@ -36,7 +36,7 @@ code-intelligence, configuring-compute, create-agent, dashscope-image-gen, delet
 dev-environment-setup, discover-agent, docx, frontend-design, guizang-ppt,
 image-to-image, mail-operations, manage-skills, manage-teams, markdown,
 minimax-music-gen, minimax-video-gen, nodejs-runtime, pdf, pptx,
-python-runtime, registering-services, s3-storage-operations, skill-creator,
+presentation-forge, python-runtime, registering-services, s3-storage-operations, skill-creator,
 tech-diagram, update-agent, using-services, web-access, workflow, workforce-optimization,
 xiaomi-tts, xlsx
 ```

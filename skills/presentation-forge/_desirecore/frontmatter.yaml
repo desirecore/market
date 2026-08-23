@@ -1,0 +1,57 @@
+name: presentation-forge
+description: "创建中文商业汇报，从主题、文档或 slides.md 生成原生可编辑 PPTX，提供 Markdown-first 实时画布、样式切换和同版导出，使用 image-2 辅助生成独立视觉资产，把截图或图片型幻灯片重建为可编辑 PPTX/SVG，或用原生 PPTX 模板填充新内容。用户要求制作售前方案、项目汇报、产品介绍、行业分析、培训材料、像 Markdown 一样编辑并导出、AIPPT 式可编辑演示、套用 PowerPoint 模板、图片页转可编辑 PowerPoint、重建幻灯片或输出 SVG 时使用。"
+version: 0.1.0
+type: procedural
+risk_level: low
+status: enabled
+tags:
+  - ppt
+  - pptx
+  - svg
+  - presentation
+  - slides
+metadata:
+  author: Ronnie2025
+  updated_at: '2026-08-10'
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales:
+      - zh-CN
+      - en-US
+    zh-CN:
+      name: Presentation Forge
+      short_desc: 中文 toB 商业汇报 PPT 工作流：整页生图、图片页重建为可编辑 PPTX/SVG、原生模板填充，适配 Codex/Claude Code
+      description: >-
+        面向中文 toB 商业汇报的 PPT 工作流，支持整页生图、把截图或图片型幻灯片重建为可编辑 PPTX/SVG，或用原生 PPTX
+        模板直接填充新内容。制作售前方案、项目汇报、产品介绍、行业分析、培训材料，或图片页转可编辑 PowerPoint 时使用。
+      body: ./SKILL.zh-CN.md
+      translated_by: human
+    en-US:
+      name: Presentation Forge
+      short_desc: Chinese toB business-presentation workflow — image decks, rebuild slides into editable PPTX/SVG, native template filling
+      description: >-
+        Chinese toB business-presentation workflow: full-page image decks,
+        rebuilding image/screenshot slides into editable PPTX/SVG, and native
+        PPTX template filling. Use for pre-sales decks, project reports, product
+        intros, industry analysis, training material, or image-to-editable
+        PowerPoint. The skill body is authored in Chinese, so the en-US locale
+        intentionally falls back to the shared body and is locked as
+        human-maintained.
+      translated_by: human
+      source_hash: 'sha256:49a6a6b6867b2d1b'
+      body: ./SKILL.md
+market:
+  icon: >-
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
+    24 24" fill="none"><rect x="3" y="4" width="18" height="12" rx="1.5"
+    stroke="#2563EB" stroke-width="1.7"/><path d="M12 16v4M8.5 20h7"
+    stroke="#2563EB" stroke-width="1.7" stroke-linecap="round"/><path d="m6.5 12
+    3-3 2.2 2.2L16 7" stroke="#2563EB" stroke-width="1.7" stroke-linecap="round"
+    stroke-linejoin="round"/></svg>
+  short_desc: Chinese toB business-presentation workflow — image decks, editable PPTX/SVG rebuild, native template filling
+  category: creative
+  maintainer:
+    name: Ronnie2025
+    verified: false
+  channel: latest

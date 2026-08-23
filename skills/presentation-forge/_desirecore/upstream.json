@@ -1,0 +1,10 @@
+{
+  "skillId": "presentation-forge",
+  "repoUrl": "https://github.com/mashagua/presentation-forge.git",
+  "branch": "main",
+  "ref": "main",
+  "commit": "3c8e6ffa5fa97d0c14c6af8fec4beb440802b9a0",
+  "license": "MIT",
+  "author": "Ronnie2025",
+  "vendoredAt": "2026-08-10T13:30:00.000Z"
+}

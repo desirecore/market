@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.codex/presentation-forge/native-editable-deck.schema.json",
+  "title": "Native Editable Deck Spec",
+  "type": "object",
+  "required": ["schema_version", "title", "style_id", "visual_asset_policy", "slides"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "title": {"type": "string", "minLength": 1},
+    "style_id": {"type": "string", "minLength": 1},
+    "style_variant": {"type": ["string", "null"]},
+    "typography_profile": {"type": ["string", "null"]},
+    "table_profile": {"type": ["string", "null"]},
+    "visual_asset_policy": {"enum": ["native-only", "native-image-assisted", "image-led-editable"]},
+    "design_exceptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "slide_number", "reason"],
+        "properties": {
+          "code": {"type": "string", "minLength": 1},
+          "slide_number": {"type": "integer", "minimum": 1},
+          "reason": {"type": "string", "minLength": 8}
+        }
+      }
+    },
+    "slides": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["slide_number", "archetype", "title"],
+        "properties": {
+          "slide_number": {"type": "integer", "minimum": 1},
+          "archetype": {"enum": ["cover", "content-structured", "process-flow", "comparison-two-zone", "data-callouts", "table", "architecture", "closing-action"]},
+          "title": {"type": "string", "minLength": 1},
+          "style_id": {"type": "string", "minLength": 1},
+          "style_variant": {"type": "string", "minLength": 1},
+          "key_message": {"type": "string"},
+          "visual_slot": {
+            "type": "object",
+            "required": ["backend", "source_type", "status", "asset_path"],
+            "properties": {
+              "backend": {"enum": ["image-2", "provided"]},
+              "source_type": {"enum": ["imagegen_asset", "provided_asset"]},
+              "status": {"enum": ["planned", "pending_user_generation", "generated", "validated", "blocked"]},
+              "asset_path": {"type": "string"},
+              "prompt_record": {"type": ["string", "null"]},
+              "bbox_in": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "number"}}
+            }
+          }
+        }
+      }
+    }
+  }
+}
