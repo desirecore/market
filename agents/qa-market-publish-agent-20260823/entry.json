@@ -1,0 +1,36 @@
+{
+  "id": "qa-market-publish-agent-20260823",
+  "name": "QA Market Publish Agent 20260823",
+  "category": "development",
+  "tags": ["qa", "market", "lifecycle"],
+  "latestVersion": "1.0.0",
+  "i18n": {
+    "en-US": {
+      "name": "QA Market Publish Agent 20260823",
+      "shortDesc": "Temporary Agent for verifying the real publish, install, and delist lifecycle."
+    },
+    "zh-CN": {
+      "name": "QA 市场发布测试 Agent 20260823",
+      "shortDesc": "用于验证真实上架、安装与下架闭环的一次性 Agent。"
+    }
+  },
+  "maintainer": {
+    "name": "yi-ge",
+    "verified": false,
+    "account": "yi-ge",
+    "url": "https://github.com/yi-ge/qa-market-publish-agent-20260823"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/yi-ge/qa-market-publish-agent-20260823.git",
+    "repoBranch": "main",
+    "ref": "dd4abbe342f25d0569dba152ce1be3fb867c3474"
+  },
+  "avatar": {
+    "t": "QA",
+    "bg": "linear-gradient(135deg, #FF9500, #FF6B00)"
+  }
+}
