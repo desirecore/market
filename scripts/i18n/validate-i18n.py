@@ -348,6 +348,13 @@ def count_publishable_skills() -> tuple[list[str], list[str]]:
     return skill_md_names, entry_names
 
 
+def count_publishable_agents() -> tuple[list[str], list[str]]:
+    """Return inline and pointer Agent IDs represented by the Market catalog."""
+    agent_json_names = sorted(p.parent.name for p in (REPO_ROOT / "agents").glob("*/agent.json"))
+    entry_names = sorted(p.parent.name for p in (REPO_ROOT / "agents").glob("*/entry.json"))
+    return agent_json_names, entry_names
+
+
 def validate_builtin_skills(report: Report, skill_md_names: list[str]) -> None:
     builtin_path = REPO_ROOT / "builtin-skills.json"
     builtin = load_json(builtin_path, report, "builtin-skills")
@@ -513,14 +520,17 @@ def validate_url(report: Report, path: str, url: str) -> None:
 
 
 def validate_market_catalog(report: Report, manifest: dict[str, Any], category_ids: set[str], online: bool) -> None:
-    agent_files = sorted((REPO_ROOT / "agents").glob("*/agent.json"))
+    agent_json_names, agent_entry_names = count_publishable_agents()
+    agent_files = [REPO_ROOT / "agents" / name / "agent.json" for name in agent_json_names]
+    agent_entry_files = [REPO_ROOT / "agents" / name / "entry.json" for name in agent_entry_names]
     skill_md_names, entry_names = count_publishable_skills()
+    skill_entry_files = sorted((REPO_ROOT / "skills").glob("*/entry.json"))
 
     stats = manifest.get("stats")
     if not isinstance(stats, dict):
         report.add(Issue("manifest.json", "market-stats", "stats must be an object"))
     else:
-        expected_agents = len(agent_files)
+        expected_agents = len(agent_json_names) + len(agent_entry_names)
         expected_skills = len(skill_md_names) + len(entry_names)
         if stats.get("totalAgents") != expected_agents:
             report.add(Issue(
@@ -535,7 +545,7 @@ def validate_market_catalog(report: Report, manifest: dict[str, Any], category_i
 
     features = manifest.get("features") or []
     if isinstance(features, list) and "verified-only" in features:
-        for entry_file in sorted((REPO_ROOT / "skills").glob("*/entry.json")):
+        for entry_file in [*agent_entry_files, *skill_entry_files]:
             entry = load_json(entry_file, report, "entry-json")
             maintainer = entry.get("maintainer") if isinstance(entry, dict) else None
             verified = maintainer.get("verified") if isinstance(maintainer, dict) else None
@@ -549,7 +559,7 @@ def validate_market_catalog(report: Report, manifest: dict[str, Any], category_i
     validate_builtin_skills(report, skill_md_names)
     for agent_file in agent_files:
         validate_agent_json(report, agent_file, category_ids)
-    for entry_file in sorted((REPO_ROOT / "skills").glob("*/entry.json")):
+    for entry_file in [*agent_entry_files, *skill_entry_files]:
         validate_entry_json(report, entry_file, category_ids, online)
 
 

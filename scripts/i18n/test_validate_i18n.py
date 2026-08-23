@@ -9,8 +9,10 @@ from __future__ import annotations
 
 import importlib.util
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 VALIDATOR_PATH = Path(__file__).with_name("validate-i18n.py")
@@ -82,6 +84,22 @@ class BuiltinSkillManifestTests(unittest.TestCase):
         )
         sort_issues = [issue for issue in issues if "not sorted" in issue.message]
         self.assertEqual(1, len(sort_issues))
+
+
+class PublishableAgentCatalogTests(unittest.TestCase):
+    def test_counts_inline_and_pointer_agents(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "agents" / "inline-agent").mkdir(parents=True)
+            (root / "agents" / "inline-agent" / "agent.json").write_text("{}")
+            (root / "agents" / "pointer-agent").mkdir(parents=True)
+            (root / "agents" / "pointer-agent" / "entry.json").write_text("{}")
+
+            with patch.object(VALIDATOR, "REPO_ROOT", root):
+                inline, pointers = VALIDATOR.count_publishable_agents()
+
+            self.assertEqual(["inline-agent"], inline)
+            self.assertEqual(["pointer-agent"], pointers)
 
 
 if __name__ == "__main__":
