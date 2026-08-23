@@ -1,6 +1,6 @@
 {
   "name": "DesireCore Official Market",
-  "version": "1.2.26",
+  "version": "1.2.28",
   "schemaVersion": "1.1.0",
   "supportedLocales": ["zh-CN", "en-US"],
   "defaultLocale": "en-US",
@@ -28,7 +28,7 @@
   "stats": {
     "totalAgents": 1,
     "totalSkills": 60,
-    "lastUpdated": "2026-08-09"
+    "lastUpdated": "2026-08-23"
   },
   "features": [
     "curated-index",
