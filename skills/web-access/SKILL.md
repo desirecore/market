@@ -53,14 +53,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:1881c266d01ad2b4
+      source_hash: sha256:4d3bc4221b2d6b09
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's own Chrome over CDP on request.
       body: ./SKILL.md
-      source_hash: sha256:1881c266d01ad2b4
+      source_hash: sha256:4d3bc4221b2d6b09
       translated_by: human
 market:
   icon: >-
@@ -246,6 +246,14 @@ DesireCore can drive **two** browsers. They are peer options:
 | Can the user see it | Agent tabs are offscreen by default; must be presented to the workbench | **It's their own window** — visible throughout, theirs to take over |
 | Prerequisite | None | User must launch Chrome with `--remote-debugging-port=9222` (see Prerequisites) |
 | Default | ✅ yes | When the user names it |
+
+> The login-state row is easy to misread as "the built-in browser can't reuse the user's login
+> state" — that isn't what it says. Precisely: it **can't reuse it directly**. `Browser*` cannot see
+> the windows or tabs of the user's external browser and cannot read its live session; but once the
+> Host grants `browser.import.*`, `BrowserImport` can carry that login state into an isolated Space
+> **by importing cookies**. The distinction is "take over that live session" (not possible) versus
+> "import a copy of the cookies" (possible, once authorized). Only without that grant is the login
+> state genuinely unreusable — and then you say so plainly.
 
 **The layer is chosen by user intent, not by technical difficulty.** v3.0 deleted this layer as
 "a fallback for when the built-in browser isn't enough" — and as a fallback, it really isn't needed
