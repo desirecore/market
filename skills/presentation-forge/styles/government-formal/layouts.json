@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "style_id": "government-formal",
+  "display_name": "政府正式",
+  "global_prompt": "政府正式汇报，白色与浅灰蓝背景，政务深蓝，克制朱红重点，严格栅格，权威清晰的中文排版",
+  "design_tokens": {
+    "background": [
+      "#FFFFFF",
+      "#F3F6FA"
+    ],
+    "primary": "#163A66",
+    "secondary": [
+      "#3F6D9B",
+      "#B83A3A"
+    ],
+    "text": [
+      "#162435",
+      "#627083"
+    ],
+    "shape": "直角或极小圆角的规范模块"
+  },
+  "production_notes": [
+    "朱红只用于重点和序号",
+    "不得仿造印章与官方标识"
+  ],
+  "layouts": [
+    {
+      "id": "cover-hero",
+      "page_type": "cover",
+      "summary": "主标题与单一视觉焦点建立主题。",
+      "content_capacity": {
+        "title": "6–18 个中文字符",
+        "subtitle": "1 行",
+        "meta": "0–2 项"
+      },
+      "best_for": "开场、主题发布",
+      "avoid_for": "密集背景说明",
+      "reuse_friendly": false,
+      "composition": "左侧或中心标题，另一侧为单一主视觉；保留品牌区和呼吸空间。"
+    },
+    {
+      "id": "content-structured",
+      "page_type": "content",
+      "summary": "用 2–4 个模块解释一个核心观点。",
+      "content_capacity": {
+        "sections": "2–4 组",
+        "points_per_section": "1–3 条"
+      },
+      "best_for": "价值、能力、问题、原则",
+      "avoid_for": "超过 4 个同级模块",
+      "reuse_friendly": true,
+      "composition": "标题区固定，主体使用二至四栏或不对称卡片网格，阅读顺序明确。"
+    },
+    {
+      "id": "process-flow",
+      "page_type": "process",
+      "summary": "按 3–5 个步骤呈现过程、阶段或链路。",
+      "content_capacity": {
+        "steps": "3–5 步",
+        "text_per_step": "标题加 1 句"
+      },
+      "best_for": "流程、路线图、实施路径",
+      "avoid_for": "复杂并行泳道",
+      "reuse_friendly": true,
+      "composition": "步骤沿横向、纵向或折线路径推进，编号、连接和方向统一。"
+    },
+    {
+      "id": "comparison-two-zone",
+      "page_type": "content",
+      "summary": "左右两个区域做对比、现状与目标或选择。",
+      "content_capacity": {
+        "groups": "2 组",
+        "points_per_group": "2–4 条"
+      },
+      "best_for": "前后对比、方案比较",
+      "avoid_for": "三方以上比较",
+      "reuse_friendly": true,
+      "composition": "左右等权或六四分区，中轴或色块明确分隔，比较维度对齐。"
+    },
+    {
+      "id": "data-callouts",
+      "page_type": "data",
+      "summary": "用 2–5 个指标或图形证据支撑一个结论。",
+      "content_capacity": {
+        "metrics": "2–5 项",
+        "charts": "0–2 个"
+      },
+      "best_for": "指标、洞察、使用分析",
+      "avoid_for": "无来源的虚构数字",
+      "reuse_friendly": true,
+      "composition": "一个主结论配大数字、简化图表或结构图，标签直接贴近证据。"
+    },
+    {
+      "id": "closing-action",
+      "page_type": "closing",
+      "summary": "总结核心价值并提出明确下一步。",
+      "content_capacity": {
+        "headline": "1 条",
+        "actions": "1–3 项",
+        "contact": "0–3 项"
+      },
+      "best_for": "PoC 邀请、行动清单、结束页",
+      "avoid_for": "新增复杂论证",
+      "reuse_friendly": false,
+      "composition": "用一句结论收束，行动项位于视觉终点，联系方式保持次级。"
+    }
+  ]
+}

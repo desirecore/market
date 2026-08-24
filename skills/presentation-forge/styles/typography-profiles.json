@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "typography_profiles": [
+    {
+      "id": "zh-formal-reading",
+      "description": "面向研报、政府专项材料和邮件阅读型正式汇报。",
+      "fonts": {
+        "heading_east_asia": "黑体",
+        "body_east_asia": "宋体",
+        "latin": "Times New Roman",
+        "complex_script": "Times New Roman"
+      },
+      "tokens": {
+        "hero": 36,
+        "section_title": 28,
+        "page_title": 24,
+        "subtitle": 16,
+        "minor_title": 14,
+        "body": 12,
+        "label": 10.5,
+        "caption": 9,
+        "table": 10.5
+      },
+      "paragraph": {
+        "title": {"line_spacing_multiple": 1.0, "space_before_lines": 0, "space_after_lines": 0.5},
+        "body": {"line_spacing_multiple": 1.5, "space_before_lines": 0, "space_after_lines": 0.5},
+        "caption": {"line_spacing_multiple": 1.0, "space_before_lines": 0, "space_after_lines": 0},
+        "table": {"line_spacing_multiple": 1.0, "space_before_lines": 0, "space_after_lines": 0}
+      },
+      "font_size_grid": 0.5
+    },
+    {
+      "id": "zh-business-present",
+      "description": "面向售前、项目汇报、技术说明和会议投屏。",
+      "fonts": {
+        "heading_east_asia": "微软雅黑",
+        "body_east_asia": "微软雅黑",
+        "latin": "Arial",
+        "complex_script": "Arial"
+      },
+      "tokens": {
+        "hero": 40,
+        "section_title": 30,
+        "page_title": 24,
+        "subtitle": 18,
+        "minor_title": 16,
+        "body": 18,
+        "label": 13.5,
+        "caption": 10.5,
+        "table": 13.5
+      },
+      "paragraph": {
+        "title": {"line_spacing_multiple": 1.0, "space_before_lines": 0, "space_after_lines": 0.25},
+        "body": {"line_spacing_multiple": 1.15, "space_before_lines": 0, "space_after_lines": 0.25},
+        "caption": {"line_spacing_multiple": 1.0, "space_before_lines": 0, "space_after_lines": 0},
+        "table": {"line_spacing_multiple": 1.0, "space_before_lines": 0, "space_after_lines": 0}
+      },
+      "font_size_grid": 0.5
+    },
+    {
+      "id": "zh-executive-stage",
+      "description": "面向高管演讲、董事会重点页和发布会式低密度表达。",
+      "fonts": {
+        "heading_east_asia": "微软雅黑",
+        "body_east_asia": "微软雅黑",
+        "latin": "Arial",
+        "complex_script": "Arial"
+      },
+      "tokens": {
+        "hero": 44,
+        "section_title": 34,
+        "page_title": 28,
+        "subtitle": 20,
+        "minor_title": 18,
+        "body": 20,
+        "label": 14,
+        "caption": 11,
+        "table": 14
+      },
+      "paragraph": {
+        "title": {"line_spacing_multiple": 1.0, "space_before_lines": 0, "space_after_lines": 0.25},
+        "body": {"line_spacing_multiple": 1.1, "space_before_lines": 0, "space_after_lines": 0.25},
+        "caption": {"line_spacing_multiple": 1.0, "space_before_lines": 0, "space_after_lines": 0},
+        "table": {"line_spacing_multiple": 1.0, "space_before_lines": 0, "space_after_lines": 0}
+      },
+      "font_size_grid": 0.5
+    }
+  ],
+  "table_profiles": [
+    {
+      "id": "formal-data-table",
+      "font_token": "table",
+      "vertical_alignment": "middle",
+      "header_alignment": "center",
+      "index_alignment": "left",
+      "text_alignment": "left",
+      "numeric_alignment": "right",
+      "line_spacing_multiple": 1.0,
+      "paragraph_space_lines": 0,
+      "first_line_indent_chars": 0
+    },
+    {
+      "id": "presentation-data-table",
+      "font_token": "table",
+      "vertical_alignment": "middle",
+      "header_alignment": "center",
+      "index_alignment": "left",
+      "text_alignment": "left",
+      "numeric_alignment": "right",
+      "line_spacing_multiple": 1.0,
+      "paragraph_space_lines": 0,
+      "first_line_indent_chars": 0
+    }
+  ]
+}
