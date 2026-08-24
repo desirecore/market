@@ -4,19 +4,21 @@
 
 ## L0：一句话摘要
 
-三层联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与交互（v3.0 起取文/等待/脚本全部内置，不再需要 Python Playwright 兜底）。
+联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与交互，以及用户点名时接管他自己的 Chrome。
 
 ## L1：概述与使用场景
 
 ### 能力描述
 
-web-access 是一个**流程型技能（Procedural Skill）**，提供三层互补的联网访问能力：
+web-access 是一个**流程型技能（Procedural Skill）**，提供四层互补的联网访问能力：
 
 - **L1**（WebSearch + WebFetch）：公开页面，轻量
 - **L2**（Jina Reader）：JS 渲染的重页面，默认节省 Token
 - **L3**（内置受管浏览器，v3.0 能力面补全）：到达、操作并**读取**登录态/交互站点——每个任务独立 BrowserSpace 隔离、零 Python 依赖、每次动作都有可审计回执。批量取文（`page.extract-text`）、判别式等待（`page.wait`）、代码模式（`BrowserScript`）都在本层内闭环
 
-v2.x 时代的第四层「用户手工启动调试 Chrome + Python Playwright CDP」已在 v3.0 移除：它依赖的每一条理由（无批量取文通道、evaluate 不可用、截图必须串行 activate）都被内置浏览器的新能力覆盖，见下方速查。
+- **L3-external**（用户自己的 Chrome，经 CDP + Python Playwright 接管）：**用户点名要用他自己那个浏览器时走这条**——他的登录态、他的窗口、他能全程看着并随时接管
+
+关于 L3-external 的一段历史：v3.0 曾把它整个删掉，理由是「它存在的每一条技术理由（无批量取文通道、evaluate 不可用、截图必须串行 activate）都已被内置浏览器覆盖」。那个技术判断没错，**作为「内置浏览器不够用时的兜底」它确实不再需要**。但删除时顺带丢掉了一个完全不同的用例：用户想用**他自己那个**浏览器。这跟能力够不够无关，内置浏览器替代不了，所以 v3.2 把它作为一条**由用户意图触发**的平级选择恢复回来——注意它不再是 fallback，判据见下方「两个浏览器，按用户意图选」。
 
 ### v3.0：内置受管浏览器（默认隐藏，激活后才暴露）
 
@@ -47,10 +49,10 @@ v2.x 时代的第四层「用户手工启动调试 Chrome + Python Playwright CD
 
 ### 核心价值
 
-- **三层递进**：从轻量搜索到重度 JS 渲染到登录态访问，按需选择
+- **分层递进**：从轻量搜索到重度 JS 渲染到登录态访问，按需选择；用户点名时还可直接用他自己的浏览器
 - **Token 优化**：Jina Reader 默认减少 50-80% Token 消耗；`page.extract-text` 的 maxBytes/cursor 分页让登录态长文也可控
 - **登录态复用**：Host 授予 `browser.import.*` 时用 BrowserImport 把 Cookie 导入隔离 Space，不必重新登录
-- **零外部依赖**：不再要求 Python/Playwright 安装，也不再要求用户手工启动调试 Chrome
+- **默认零外部依赖**：内置浏览器不要求 Python/Playwright，也不要求用户手工启动调试 Chrome（L3-external 需要，且仅在用户点名时才用）
 
 ## L2：详细规范
 
@@ -61,6 +63,54 @@ When you complete a research task, you **MUST** cite all source URLs in your res
 - **Inferences**: your synthesis or analysis → mark as "(分析/推断)"
 
 If any fetch fails, explicitly tell the user which URL failed and which fallback you used.
+
+## Prerequisites: Chrome CDP Setup（仅 L3-external 需要）
+
+**只有走 L3-external（用户点名要用他自己的浏览器）时才需要这一步。** 内置浏览器零前置条件。
+
+### One-time setup
+
+让用户带远程调试端口启动 Chrome：
+
+**macOS**:
+```bash
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
+  --remote-debugging-port=9222 \
+  --user-data-dir="${DESIRECORE_ROOT}/chrome-profile"
+```
+
+**Linux**:
+```bash
+google-chrome \
+  --remote-debugging-port=9222 \
+  --user-data-dir="${DESIRECORE_ROOT}/chrome-profile"
+```
+
+**Windows (PowerShell)**:
+```powershell
+& "C:\Program Files\Google\Chrome\Application\chrome.exe" `
+  --remote-debugging-port=9222 `
+  --user-data-dir="$env:USERPROFILE\.desirecore\chrome-profile"
+```
+
+启动后：
+1. 用户在这个 Chrome 里手工登录需要的站点
+2. 这个 Chrome 窗口保持开着
+3. 验证调试端点：`curl -s http://localhost:9222/json/version` 应返回 JSON
+
+### 每次操作前先验就绪
+
+```bash
+curl -s http://localhost:9222/json/version | python3 -c "import sys,json; d=json.load(sys.stdin); print('CDP ready:', d.get('Browser'))"
+```
+
+失败就告诉用户：「请先启动 Chrome 并开启远程调试端口（见 web-access 技能的 Prerequisites 部分）」，
+**然后等他**——不要因为内置浏览器也能做就擅自改用内置的。
+
+⚠️ 用 CDP attach 时**绝不能调 `browser.close()`**，那会关掉用户自己的 Chrome；只关你开的 page。
+完整配方见 [references/cdp-browser.md](references/cdp-browser.md)。
+
+---
 
 ## Tool Selection Decision Tree
 
@@ -92,19 +142,61 @@ User intent
   │          - PyPI:   curl https://pypi.org/pypi/<pkg>/json
   │
   └─ "Real-time interactive task" (click, fill form, scroll, screenshot)
-        └─→ 内置受管浏览器 (BrowserManage → BrowserAct → BrowserSnapshot —
+        ├─→ **用户点名「我本机的 / 我自己的 / 外部的浏览器」** → L3-external：
+        │     先验 CDP 就绪（见 Prerequisites），再 python3 playwright.connect_over_cdp()
+        │     没就绪就给启动命令并等他，不要擅自改用内置浏览器
+        └─→ **其余情况（默认）**：内置受管浏览器 (BrowserManage → BrowserAct → BrowserSnapshot —
              see references/browser-tools.md, no Python needed)
 ```
 
-### 三层策略总结
+### 两个浏览器，按用户意图选，不按能力难度选
+
+DesireCore 能驱动**两个**浏览器，它们是平级的选项：
+
+| | L3 内置受管浏览器 | L3-external 用户自己的浏览器 |
+|---|---|---|
+| 是什么 | 应用内的浏览器实例（`Browser*` 工具族） | 用户机器上装的 Chrome，经 CDP + Python Playwright 接管 |
+| 登录态 | 独立隔离；需 Host 授予 `browser.import.*` 才能用 `BrowserImport` 导 Cookie | **就是用户本人的登录态**，无需导入 |
+| 用户能看到吗 | Agent 开的标签页默认离屏，需展示到工作台 | **就在用户自己的窗口里**，他能全程看着、随时接管 |
+| 前置条件 | 无 | 用户需先带 `--remote-debugging-port=9222` 启动 Chrome（见 Prerequisites） |
+| 默认 | ✅ 是 | 用户点名时 |
+
+> 登录态那一栏容易读成「内置浏览器复用不了用户的登录态」——不是那个意思。准确说法是
+> **不能直接复用**：`Browser*` 看不见用户外部浏览器的窗口与标签页，也读不到它的活动会话；
+> 但 Host 授予 `browser.import.*` 后，`BrowserImport` 可以**以导入 Cookie 的方式**把那边的
+> 登录态搬进隔离 Space。区别在于「直接接管那个会话」（做不到）与「导入一份 Cookie」
+> （授权后可以）。没有这层授权时才是真的复用不了——那时如实告诉用户。
+
+**选层判据是用户意图，不是技术难度。** v3.0 把这一层当作「内置浏览器不够用时的兜底」删掉过，
+那个技术判断本身没错（取文、evaluate、截图这些内置浏览器现在都能做），但它顺带删掉的是一个
+**完全不同的用例**：用户想用**他自己那个**浏览器。那跟能力够不够无关——他的登录态在他自己的
+Chrome 里，他想亲眼看着操作、随时接管。这个需求内置浏览器替代不了。
+
+**用户点名了就按点名的来：**
+
+- 说「我本机的 / 我自己的 / 外部浏览器 / 我的 Chrome」→ 走 **L3-external**。先按
+  Prerequisites 验 CDP 就绪；没就绪就告诉他启动命令并等他，**不要因为「内置浏览器也能做」
+  就擅自改用内置的**
+- 说「内置浏览器」或没点名 → 走 **L3 内置浏览器**（默认，零前置条件）
+- 拿不准他指哪个 → 问一句，别猜
+
+⚠️ 无论走哪条，都要让用户能分辨你实际用了哪个。不要用「本地浏览器」「本机的受管浏览器」
+「已启动本地浏览器」这种两边都像的说法——用户要的和你给的不是一回事时，措辞必须让他一眼看出来。
+
+### 分层策略总结
 
 | Layer | Use case | Primary tool | Token cost |
 |-------|----------|--------------|------------|
 | L1 | Public, static | `WebFetch` | Low |
 | L2 | JS-heavy, long articles, token savings | `Bash curl r.jina.ai` | **Lowest** (Markdown pre-cleaned) |
 | **L3** | **登录态导航、交互与取文 (PRIMARY)** | **内置受管浏览器（BrowserManage / BrowserAct / BrowserSnapshot / BrowserScript）** | Medium |
+| L3-external | **用户点名要用他自己的浏览器**；或需要他本人的登录态而 `BrowserImport` 不可用 | `Bash + Python Playwright connect_over_cdp`（见 references/cdp-browser.md） | Medium |
 
 **Default priority**: L1 for simple public pages → L2 for heavy → **L3 for login-gated（含正文与站内接口取数）**。
+
+> L3-external 不在这条默认排序里，因为它不由「能力够不够」决定，而由**用户点名**决定：
+> 用户要他自己那个浏览器时直接走它，哪怕内置浏览器也做得到。判据见上方
+> 「两个浏览器，按用户意图选」。
 
 ## Supported Sites Matrix
 
