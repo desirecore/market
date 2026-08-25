@@ -1,7 +1,7 @@
 ---
 name: discover-agent
 description: 根据用户需求推荐最匹配的智能体，展示候选列表并引导选择。Use when 用户描述需求但不确定该找哪个智能体帮忙，或想浏览可用的智能体。
-version: 2.6.4
+version: 2.7.0
 type: procedural
 risk_level: low
 status: enabled
@@ -12,7 +12,7 @@ tags:
   - recommendation
 metadata:
   author: desirecore
-  updated_at: '2026-07-19'
+  updated_at: '2026-08-25'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -24,7 +24,7 @@ metadata:
       short_desc: 根据需求描述智能推荐最匹配的智能体，引导快速选择
       description: 根据用户需求推荐最匹配的智能体，展示候选列表并引导选择。Use when 用户描述需求但不确定该找哪个智能体帮忙，或想浏览可用的智能体。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:bf81bef8caa89cc5
+      source_hash: sha256:302e6a516b1415e0
       translated_by: human
     en-US:
       name: Discover Agent
@@ -32,9 +32,8 @@ metadata:
       description: >-
         Recommend the best-matching Agent based on the user’s needs, show a candidate list, and guide selection. Use when the user describes a need but is unsure which Agent to ask for help, or wants to browse available Agents.
       body: ./SKILL.md
-      source_hash: sha256:bf81bef8caa89cc5
-      translated_by: ai:claude-fable-5
-      translated_at: '2026-07-19'
+      source_hash: sha256:302e6a516b1415e0
+      translated_by: human
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -76,7 +75,7 @@ Trigger (any): user says "find me a… / is there a… / who can help me…", de
 
 ### Stage 2: Retrieval
 
-`ManageAgent(action='list')` fetches all registered Agents (returns a compact list with name / id / status / description). Filtering: by default show non-offline Agents; offline ones appear only as a fallback when there's no better candidate; exclude internal system Agents (e.g. DesireCore itself) unless the user explicitly asks.
+`ManageAgent(action='list')` fetches all registered Agents (returns a compact list with name / id / status / description). `list/get` are read-only ManageAgent operations and can be called directly; they do not require loading create, update, clone, or delete skills first. Filtering: by default show non-offline Agents; offline ones appear only as a fallback when there's no better candidate; exclude internal system Agents (e.g. DesireCore itself) unless the user explicitly asks.
 
 ### Stage 3: Match Evaluation
 

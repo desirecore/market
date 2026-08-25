@@ -20,7 +20,7 @@
 
 ### 阶段 2：检索
 
-`ManageAgent(action='list')` 取全部已注册智能体（返回 name / id / status / description 的紧凑列表）。过滤：默认展示 offline 之外的，offline 仅在无更优候选时补充；排除系统内部智能体（如 DesireCore 自身，除非用户显式要求）。
+`ManageAgent(action='list')` 取全部已注册智能体（返回 name / id / status / description 的紧凑列表）。`list/get` 是 ManageAgent 的只读能力，可直接调用，不要求先加载创建、更新、克隆或删除技能。过滤：默认展示 offline 之外的，offline 仅在无更优候选时补充；排除系统内部智能体（如 DesireCore 自身，除非用户显式要求）。
 
 ### 阶段 3：匹配评估
 

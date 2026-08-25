@@ -3,7 +3,7 @@ name: update-agent
 description: >-
   安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent
   行为、安装/卸载技能、调整配置、回滚变更或修订规则。
-version: 3.1.3
+version: 3.2.0
 type: meta
 risk_level: low
 status: enabled
@@ -14,7 +14,7 @@ tags:
   - meta
 metadata:
   author: desirecore
-  updated_at: '2026-07-19'
+  updated_at: '2026-08-25'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -27,7 +27,7 @@ metadata:
       description: >-
         安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent 行为、安装/卸载技能、调整配置、回滚变更或修订规则。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:d33f63306685168e
+      source_hash: sha256:6ba1c3ba7a6dd36e
       translated_by: human
     en-US:
       name: Update Agent
@@ -35,9 +35,8 @@ metadata:
       description: >-
         Safely update an existing Agent's config, persona, principles, skills, and memory, producing reviewable diffs that are applied and committed only after confirmation. Use when the user asks to modify Agent behavior, install/uninstall skills, adjust config, roll back changes, or revise rules.
       body: ./SKILL.md
-      source_hash: sha256:d33f63306685168e
-      translated_by: ai:claude-fable-5
-      translated_at: '2026-07-19'
+      source_hash: sha256:6ba1c3ba7a6dd36e
+      translated_by: human
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -81,7 +80,9 @@ Structured fields always go through `ManageAgent(action='update')` (whitelist + 
 | --- | --- | --- |
 | Rename (display name) | `ManageAgent(update, name=...)` | agent.json (med) |
 | Change description | `ManageAgent(update, description=...)` | agent.json (low) |
-| LLM config (model/temperature) | `ManageAgent(update, config={llm:{...}})` | agent.json (med) |
+| Default reasoning/retry config | `ManageAgent(update, config={llm:{...}})` | agent.json (med) |
+| Declarative avatar | `ManageAgent(update, config={avatar:{...}})` | agent.json (low) |
+| Image avatar | `ManageAgent(update, avatarImage={...})` | avatar (med) |
 | Personality/style | `ManageAgent(update, persona=... or markdown)` | persona.md (med) |
 | Behavior rules | `ManageAgent(update, principles=... or markdown)` | principles.md (high) |
 | Install/uninstall skill | Read/Write | `skills/` (low/med) |
@@ -123,12 +124,14 @@ Do not call the HTTP API (unreachable under instance auth), do not operate git d
 
 **Path A · Structured fields → ManageAgent (mandatory; never Write `agent.json` / `persona.md` / `principles.md` directly)**
 
-Fields and constraints: `name` (1–50 chars), `description` (≤200), `config.llm` (shallow-merge delta, **config allows llm only**), `persona` / `principles` (structured object `{L0, L1:{...}, L2}` or markdown string). Calls:
+Fields and constraints: `name` (1–50 chars), `description` (≤200), `config.llm` / `config.avatar` (shallow-merge deltas), `avatarImage`, `smartRouting`, and `persona` / `principles` (structured object `{L0, L1:{...}, L2}` or markdown string). Calls:
 
 ```
 ManageAgent(action='update', id='<agent-id>', name='New Name')
 ManageAgent(action='update', id='<agent-id>', persona={ L1: { personality: ["professional","rigorous"] } })
 ManageAgent(action='update', id='<agent-id>', principles='…full markdown…')
+ManageAgent(action='update', id='<agent-id>', config={ llm: { reasoning: "high" } })
+ManageAgent(action='update', id='<agent-id>', avatarImage={ source: "dc-media://<mediaId>" })
 ```
 
 **Merge semantics**: structured persona/principles are **field-level merges** (omitted fields keep their original values — passing only `L1.personality` won't clear L0/role); a markdown string is a **full replacement** (whole-file rewrite); `config.llm` is a **shallow-merge delta**. The merged result is validated against the whole schema; invalid config never lands.
@@ -137,7 +140,10 @@ Key points:
 
 - **Read before write**: first `ManageAgent(action='get', id)` to fetch current values, for diff generation and field-name checking. Structured field names are fixed: persona's `L1.role` / `personality` (string array) / `communication_style`; principles' `L1.must_do` / `must_not` (string arrays) / `priority`; plus top-level `L0` / `L2`.
 - **Confirmation and boundaries**: updating self skips the extra confirmation; updating another agent triggers user confirmation (on top of this skill's diff confirmation); the core agent (`desirecore` / `core`) is refused.
-- **config whitelist**: `config` accepts only `llm`; `mcp_servers` / `tool_permissions` / `version` / `id` etc. are rejected with the field named — such runtime config does not go through ManageAgent; tell the user it currently needs the corresponding mechanism.
+- **config whitelist**: `config` accepts only `llm` and `avatar`. `config.llm` currently exposes `reasoning`, `thinkingBudgets`, and `maxRetryDelayMs`; `config.avatar` exposes only `char` and `color`. `mcp_servers`, `tool_permissions`, `version`, `id`, and other fields are rejected with the field named.
+- **model governance**: concrete `model`, `provider`, `providerId`, and Smart/fixed selection are governed only by the human model selector and cannot be changed through ManageAgent. Adjust Smart workload, required capabilities, and reasoning intent through `smartRouting`.
+- **reasoning levels**: natural-language requests such as “deepest/highest/max it out” normally map to `xhigh`; use `max` only when explicitly requested and supported. `auto` is an explicit value; use `config.llm.reasoning=null` when the user wants to restore the global default.
+- **avatars**: character/color settings use `config.avatar`; image avatars use `avatarImage.source`, accepting a current-turn media ID or a PNG/JPEG/WebP file inside the working directory. URLs and base64 are rejected. `avatarImage.remove=true` removes the image and falls back to the declarative avatar.
 - **Partial write failure**: the tool reports exactly which fields landed / which failed; retry only the failed fields, don't resend everything.
 - **Rename in one call**: to change the display name, call `ManageAgent(action='update', id, name='Y')` directly (writes agent.json and refreshes the list); if the persona doc title should match, append a persona update in the same turn. **Never claim a rename happened without actually calling ManageAgent.**
 

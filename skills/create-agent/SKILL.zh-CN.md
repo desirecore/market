@@ -67,8 +67,50 @@ ManageAgent({
 
 - 最简创建只需 `{ "action": "create", "name": "我的助手" }`（其余全自动生成）。
 - 基础创建 `{ "action": "create", "name": "法律顾问", "description": "专注合同审查" }`——只给 name + description，description 会自动填充 persona 的 L0。
-- 可选 `id`（kebab-case slug；`core` / `desirecore` 为核心保留标识不可用，含 name 自动生成命中的情况）、`config.llm`（仅 llm 增量；mcp_servers 等敏感字段会被拒，需创建后经界面调整）。
+- 可选 `id`（kebab-case slug；`core` / `desirecore` 为核心保留标识不可用，含 name 自动生成命中的情况）、`config`、`smartRouting` 与 `avatarImage`。详细契约见下方；`mcp_servers`、`tool_permissions` 等敏感字段会被拒，需创建后经界面调整。
 - 创建后智能体立即在线可用，返回 ID 可直接用于 ManageTeam / Delegate。若工具报错（已存在 / 命中保留标识 / config 非白名单字段等），向用户说明原因并按提示调整后重试。
+
+#### 创建参数说明
+
+**智能路由**：新建 Agent 默认使用 Smart 旗舰量级。需要按职责控制量级时传 `smartRouting`：
+
+```json
+{
+  "tier": "balanced",
+  "requiredCapabilities": ["vision", "tool_use"],
+  "reasoning": "high"
+}
+```
+
+- `tier` 可选 `lightweight`、`balanced`、`flagship`；`reasoning` 可选 `auto`、`off`、`minimal`、`low`、`medium`、`high`、`xhigh`、`max`。
+- `tier` 未传时默认 `flagship`；只表达任务量级和能力需求，不绑定具体 Provider 或模型。
+- 固定模型、Provider、Smart/fixed 模式由人类模型选择器管理，不能通过 ManageAgent 修改。
+- 用户说“最深/最高/拉满”通常对应 `xhigh`；只有用户明确点名 `max` 且模型支持时才使用 `max`。
+
+**配置增量**：`config` 只支持 `llm` 与声明头像 `avatar`。创建时通常无需传；确需调整默认推理行为时可用：
+
+```json
+{
+  "llm": {
+    "reasoning": "high",
+    "maxRetryDelayMs": 30000
+  },
+  "avatar": {
+    "char": "法",
+    "color": "purple"
+  }
+}
+```
+
+`config.llm` 当前只开放 `reasoning`、`thinkingBudgets`、`maxRetryDelayMs`。不要传 `model`、`provider`、`providerId` 或 `routingMode`。
+
+**图片头像**：使用独立的 `avatarImage`，不要把图片写进 `config`：
+
+```json
+{ "source": "dc-media://<mediaId>" }
+```
+
+`source` 可以是本轮媒体 ID 或工作目录内的 PNG/JPEG/WebP 文件；不接受 URL 或 base64。服务端会自动裁成 512×512 WebP 并移除 EXIF。头像失败不会回滚已经成功创建的 Agent，需根据工具回执单独重试头像设置。
 
 ### 阶段 6：回执
 

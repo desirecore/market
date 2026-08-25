@@ -1,7 +1,7 @@
 ---
 name: delete-agent
 description: 安全删除指定的智能体及其关联数据。删除前会验证智能体状态，支持可选地删除所有会话历史。Use when 用户需要删除不再使用的智能体。
-version: 2.5.2
+version: 2.6.0
 type: meta
 risk_level: high
 status: enabled
@@ -12,7 +12,7 @@ tags:
   - meta
 metadata:
   author: desirecore
-  updated_at: '2026-07-19'
+  updated_at: '2026-08-25'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -24,16 +24,15 @@ metadata:
       short_desc: 安全删除智能体及其关联数据，支持多重确认与可选历史清理
       description: 安全删除指定的智能体及其关联数据。删除前会验证智能体状态，支持可选地删除所有会话历史。Use when 用户需要删除不再使用的智能体。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:d5eb268aa5209e88
+      source_hash: sha256:b401869e91222236
       translated_by: human
     en-US:
       name: Delete Agent
       short_desc: Safely delete an Agent and its associated data, with multi-step confirmation and optional history cleanup
       description: Safely delete a specified Agent and its associated data. Verifies the Agent's state before deletion and optionally removes all session history. Use when the user needs to delete an Agent that is no longer in use.
       body: ./SKILL.md
-      source_hash: sha256:d5eb268aa5209e88
-      translated_by: ai:claude-fable-5
-      translated_at: '2026-07-19'
+      source_hash: sha256:b401869e91222236
+      translated_by: human
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -88,7 +87,7 @@ Ask whether to also delete all of the Agent's conversation history: yes → `del
 
 ### Stage 4: Execute Deletion
 
-Before the call, tell the user "the system will pop up a confirmation window; please confirm there" (delete is force-confirmed at the tool layer). Execute:
+Before the call, reconfirm the target and the `deleteRuns` choice. The tool submits deletion to the current approval chain; whether an additional dialog appears depends on the caller's approval mode. Do not promise that a dialog will appear unless an approval event is actually shown. Execute:
 
 ```
 ManageAgent(action='delete', id='legal-assistant', deleteRuns=true)
@@ -104,4 +103,4 @@ From the tool's return (cleaned paths, deleted run count, memory-cleanup details
 
 - **Always deleted**: AgentFS directory (config/persona/rules/skills/tools/memory), user preference data, in-memory state (scheduler/queue/message subscriptions/MCP connections), registry entry. **Optionally deleted** (`deleteRuns=true`): conversation history and topic index. **Team cascade** (automatic): supervisor → disband team, member → remove. **Kept**: other Agents, user config, global settings, market cache.
 - Explain tool refusals to the user with a next step: the core agent (desirecore / core / bound UUID) cannot be deleted; the caller can't delete itself; active state (online/busy/recovery) needs stopping in the UI first or waiting until idle; a non-existent ID means the Agent is already gone or the ID is wrong.
-- Always done via `ManageAgent` (`action='list' | 'get' | 'delete'`); delete is a high-risk operation and is force-confirmed at the tool layer.
+- Always done via `ManageAgent` (`action='list' | 'get' | 'delete'`). Deletion is high risk: complete this skill's explicit intent confirmation first, then follow the approval result returned by the tool.

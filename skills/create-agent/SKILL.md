@@ -2,7 +2,7 @@
 name: create-agent
 description: >-
   通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
-version: 2.5.4
+version: 2.6.0
 type: meta
 risk_level: low
 status: enabled
@@ -13,7 +13,7 @@ tags:
   - meta
 metadata:
   author: desirecore
-  updated_at: '2026-07-19'
+  updated_at: '2026-08-25'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -26,7 +26,7 @@ metadata:
       description: >-
         通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:52972ee5408bc49f
+      source_hash: sha256:14e8755703784086
       translated_by: human
     en-US:
       name: Create Agent
@@ -34,9 +34,8 @@ metadata:
       description: >-
         Collect requirements through multi-turn conversation and call the ManageAgent builtin tool to create a new AgentFS v2 Agent, with customizable persona and principles. Use when the user asks to create a new Agent, raise a domain assistant, or quickly produce a governable Agent from a template.
       body: ./SKILL.md
-      source_hash: sha256:52972ee5408bc49f
-      translated_by: ai:claude-fable-5
-      translated_at: '2026-07-19'
+      source_hash: sha256:14e8755703784086
+      translated_by: human
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -127,8 +126,50 @@ ManageAgent({
 
 - Minimal create needs only `{ "action": "create", "name": "My Assistant" }` (everything else auto-generated).
 - Basic create `{ "action": "create", "name": "Legal Advisor", "description": "contract review" }` — with just name + description, the description auto-fills persona's L0.
-- Optional `id` (kebab-case slug; `core` / `desirecore` are reserved core identifiers and cannot be used, including when the slug auto-generated from `name` collides), `config.llm` (llm delta only; sensitive fields like mcp_servers are rejected and must be adjusted via the UI after creation).
+- Optional `id` (kebab-case slug; `core` / `desirecore` are reserved core identifiers and cannot be used, including when the slug auto-generated from `name` collides), `config`, `smartRouting`, and `avatarImage`. See the contracts below. Sensitive fields such as `mcp_servers` and `tool_permissions` are rejected and must be adjusted through the UI after creation.
 - The Agent is registered and usable immediately; the returned ID works directly with ManageTeam / Delegate. If the tool errors (already exists / reserved identifier / non-whitelisted config field, etc.), explain the reason and retry after adjusting per the hint.
+
+#### Creation Parameter Guide
+
+**Smart routing**: new Agents default to the Smart flagship tier. When responsibilities require an explicit tier, pass `smartRouting`:
+
+```json
+{
+  "tier": "balanced",
+  "requiredCapabilities": ["vision", "tool_use"],
+  "reasoning": "high"
+}
+```
+
+- `tier` accepts `lightweight`, `balanced`, or `flagship`; `reasoning` accepts `auto`, `off`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`.
+- Omitting `tier` defaults to `flagship`. This expresses workload and capability intent, not a concrete Provider or model.
+- Fixed model, Provider, and Smart/fixed selection are governed by the human model selector and cannot be changed through ManageAgent.
+- Natural-language requests such as "deepest/highest/max it out" normally map to `xhigh`; use `max` only when the user explicitly names it and the model supports it.
+
+**Configuration patch**: `config` supports only `llm` and declarative avatar settings. It is normally unnecessary during creation; use it only when the Agent needs a different default reasoning behavior:
+
+```json
+{
+  "llm": {
+    "reasoning": "high",
+    "maxRetryDelayMs": 30000
+  },
+  "avatar": {
+    "char": "L",
+    "color": "purple"
+  }
+}
+```
+
+`config.llm` currently exposes only `reasoning`, `thinkingBudgets`, and `maxRetryDelayMs`. Do not pass `model`, `provider`, `providerId`, or `routingMode`.
+
+**Image avatar**: use the separate `avatarImage` parameter; do not place image data in `config`:
+
+```json
+{ "source": "dc-media://<mediaId>" }
+```
+
+`source` may be a media ID from the current turn or a PNG/JPEG/WebP file inside the working directory. URLs and base64 are rejected. The service crops to 512×512 WebP and removes EXIF automatically. Avatar failure does not roll back an otherwise successful Agent creation; retry only the avatar operation according to the receipt.
 
 ### Stage 6: Receipt
 
