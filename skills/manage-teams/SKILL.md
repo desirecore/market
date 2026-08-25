@@ -191,7 +191,7 @@ For local Git work:
 2. run `status/log/diff/add/commit/tag` with Bash in that directory;
 3. after the local commit is complete, call `ManageTeam(action="push")`.
 
-Remote `fork_team/push/pull` must go through `ManageTeam` because it enforces team Schema validation, roster consistency, the core-Agent supervisor prohibition, workspace types, out-of-bound symlink checks, and approval. Do not bypass those controls with raw `git push/pull`. This rule is not based on an assumption that Agents can never access credentials.
+Remote `fork_team/push/pull` must go through `ManageTeam` because it enforces team Schema validation, roster consistency, the core-Agent supervisor prohibition, workspace types, out-of-bounds symlink checks, and approval. Do not bypass those controls with raw `git push/pull`. This rule is not based on an assumption that Agents can never access credentials.
 
 - `push/pull` require a remote connected through the client. If none is configured, ask the user to connect or publish the team in team settings.
 - Locally created and forked teams do not inherit a directly pushable remote configuration by default.
