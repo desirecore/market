@@ -3,7 +3,7 @@ name: update-agent
 description: >-
   安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent
   行为、安装/卸载技能、调整配置、回滚变更或修订规则。
-version: 3.2.0
+version: 3.2.1
 type: meta
 risk_level: low
 status: enabled
@@ -57,7 +57,7 @@ market:
     verified: true
   compatible_agents: []
   channel: latest
-  required_client_version: 10.0.90
+  required_client_version: 10.0.108
 ---
 
 # update-agent skill
