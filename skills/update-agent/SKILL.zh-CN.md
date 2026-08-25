@@ -20,7 +20,9 @@
 | --- | --- | --- |
 | 改名（显示名称） | `ManageAgent(update, name=...)` | agent.json（中） |
 | 改简介 | `ManageAgent(update, description=...)` | agent.json（低） |
-| LLM 配置（模型/温度） | `ManageAgent(update, config={llm:{...}})` | agent.json（中） |
+| 默认推理与重试配置 | `ManageAgent(update, config={llm:{...}})` | agent.json（中） |
+| 声明头像 | `ManageAgent(update, config={avatar:{...}})` | agent.json（低） |
+| 图片头像 | `ManageAgent(update, avatarImage={...})` | avatar（中） |
 | 性格/风格 | `ManageAgent(update, persona=... 或 markdown)` | persona.md（中） |
 | 行为规则 | `ManageAgent(update, principles=... 或 markdown)` | principles.md（高） |
 | 安装/卸载技能 | Read/Write | `skills/`（低/中） |
@@ -62,12 +64,14 @@
 
 **路径 A · 结构化字段 → ManageAgent（强制；禁止直接 Write `agent.json` / `persona.md` / `principles.md`）**
 
-字段与约束：`name`（1–50 字符）、`description`（≤200）、`config.llm`（增量浅合并，**config 仅允许 llm**）、`persona` / `principles`（结构化对象 `{L0, L1:{...}, L2}` 或 markdown 字符串）。调用：
+字段与约束：`name`（1–50 字符）、`description`（≤200）、`config.llm` / `config.avatar`（增量浅合并）、`avatarImage`、`smartRouting`、`persona` / `principles`（结构化对象 `{L0, L1:{...}, L2}` 或 markdown 字符串）。调用：
 
 ```
 ManageAgent(action='update', id='<agent-id>', name='新名称')
 ManageAgent(action='update', id='<agent-id>', persona={ L1: { personality: ["专业","严谨"] } })
 ManageAgent(action='update', id='<agent-id>', principles='…完整 markdown…')
+ManageAgent(action='update', id='<agent-id>', config={ llm: { reasoning: "high" } })
+ManageAgent(action='update', id='<agent-id>', avatarImage={ source: "dc-media://<mediaId>" })
 ```
 
 **合并语义**：结构化 persona/principles 为**字段级合并**（省略字段保留原值，如只传 `L1.personality` 不会清掉 L0/role）；markdown 字符串为**整体替换**（整篇重写）；`config.llm` 为**增量浅合并**。合并结果整体过 schema 校验，非法配置不落盘。
@@ -76,7 +80,10 @@ ManageAgent(action='update', id='<agent-id>', principles='…完整 markdown…'
 
 - **改前先读**：先 `ManageAgent(action='get', id)` 取现值，用于生成 diff、校对字段名。结构化字段名固定：persona 的 `L1.role` / `personality`（字符串数组）/ `communication_style`，principles 的 `L1.must_do` / `must_not`（字符串数组）/ `priority`，加顶层 `L0` / `L2`。
 - **确认与边界**：更新自身免二次确认；更新其他智能体触发用户确认（与本技能 diff 确认叠加）；核心智能体（`desirecore` / `core`）拒绝更新。
-- **config 白名单**：`config` 仅接受 `llm`；`mcp_servers` / `tool_permissions` / `version` / `id` 等会被拒并指明字段名——这类运行时配置不走 ManageAgent，向用户说明暂需经对应机制处理。
+- **config 白名单**：`config` 只接受 `llm` 与 `avatar`。`config.llm` 当前开放 `reasoning`、`thinkingBudgets`、`maxRetryDelayMs`；`config.avatar` 只开放 `char` 与 `color`。`mcp_servers` / `tool_permissions` / `version` / `id` 等会被拒并指明字段名。
+- **模型治理**：具体 `model`、`provider`、`providerId` 与 Smart/fixed 模式只由人类模型选择器管理，不能通过 ManageAgent 修改。Smart Agent 的量级、能力与推理意图用 `smartRouting` 更新。
+- **推理档位**：用户说“最深/最高/拉满”通常对应 `xhigh`；只有明确点名 `max` 且模型支持时才用 `max`。`auto` 是显式值；用户要求恢复全局默认时传 `config.llm.reasoning=null` 清除字段。
+- **头像**：字符与色系走 `config.avatar`；图片走 `avatarImage.source`，接受本轮媒体 ID 或工作目录内 PNG/JPEG/WebP，不接受 URL/base64。`avatarImage.remove=true` 删除图片头像并回落到字符头像。
 - **部分写入失败**：工具精确报告已生效/失败字段，仅重试失败字段，不整体重发。
 - **改名一次调用完成**：用户要改显示名称时直接 `ManageAgent(action='update', id, name='Y')`（写 agent.json 并刷新列表），如需人格文档标题同步可同轮追加 persona 更新。**绝不在未实际调用 ManageAgent 时声称已改名。**
 

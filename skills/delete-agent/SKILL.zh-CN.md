@@ -33,7 +33,7 @@
 
 ### 阶段 4：执行删除
 
-调用前告知用户"系统会弹确认窗，请在弹窗中确认"（delete 由工具层强制弹确认）。执行：
+调用前再次确认目标和 `deleteRuns` 选择。工具会把删除提交到当前审批链；是否出现额外弹窗取决于调用方的审批模式，不要在没有看到审批事件时声称“一定会弹窗”。执行：
 
 ```
 ManageAgent(action='delete', id='legal-assistant', deleteRuns=true)
@@ -49,4 +49,4 @@ ManageAgent(action='delete', id='legal-assistant', deleteRuns=true)
 
 - **始终删**：AgentFS 目录（配置/人格/规则/技能/工具/记忆）、用户偏好数据、内存状态（调度器/队列/消息订阅/MCP 连接）、注册表条目。**可选删**（`deleteRuns=true`）：会话历史与话题索引。**团队级联**（自动）：组长 → 解散团队、成员 → 移除。**保留不删**：其他智能体、用户配置、全局设置、市场缓存。
 - 工具拒绝场景据此向用户解释并给下一步：核心智能体（desirecore / core / 绑定 UUID）不可删；不能删调用方自身；活跃态（online/busy/recovery）需先在 UI 停止或等其空闲；ID 不存在则智能体已删或 ID 有误。
-- 一律经 `ManageAgent`（`action='list' | 'get' | 'delete'`）完成；delete 为高风险操作，工具层强制弹确认。
+- 一律经 `ManageAgent`（`action='list' | 'get' | 'delete'`）完成；delete 为高风险操作，必须先完成本技能的明确意图确认，并遵循工具返回的审批结果。
