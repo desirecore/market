@@ -26,7 +26,7 @@ metadata:
       description: >-
         通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:c39b5a48a03e8e20
+      source_hash: sha256:14e8755703784086
       translated_by: human
     en-US:
       name: Create Agent
@@ -34,7 +34,7 @@ metadata:
       description: >-
         Collect requirements through multi-turn conversation and call the ManageAgent builtin tool to create a new AgentFS v2 Agent, with customizable persona and principles. Use when the user asks to create a new Agent, raise a domain assistant, or quickly produce a governable Agent from a template.
       body: ./SKILL.md
-      source_hash: sha256:c39b5a48a03e8e20
+      source_hash: sha256:14e8755703784086
       translated_by: human
 market:
   icon: >-
@@ -135,12 +135,13 @@ ManageAgent({
 
 ```json
 {
-  "tier": "lightweight | balanced | flagship",
+  "tier": "balanced",
   "requiredCapabilities": ["vision", "tool_use"],
-  "reasoning": "auto | off | minimal | low | medium | high | xhigh | max"
+  "reasoning": "high"
 }
 ```
 
+- `tier` accepts `lightweight`, `balanced`, or `flagship`; `reasoning` accepts `auto`, `off`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`.
 - Omitting `tier` defaults to `flagship`. This expresses workload and capability intent, not a concrete Provider or model.
 - Fixed model, Provider, and Smart/fixed selection are governed by the human model selector and cannot be changed through ManageAgent.
 - Natural-language requests such as "deepest/highest/max it out" normally map to `xhigh`; use `max` only when the user explicitly names it and the model supports it.

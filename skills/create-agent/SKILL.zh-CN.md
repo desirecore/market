@@ -76,12 +76,13 @@ ManageAgent({
 
 ```json
 {
-  "tier": "lightweight | balanced | flagship",
+  "tier": "balanced",
   "requiredCapabilities": ["vision", "tool_use"],
-  "reasoning": "auto | off | minimal | low | medium | high | xhigh | max"
+  "reasoning": "high"
 }
 ```
 
+- `tier` 可选 `lightweight`、`balanced`、`flagship`；`reasoning` 可选 `auto`、`off`、`minimal`、`low`、`medium`、`high`、`xhigh`、`max`。
 - `tier` 未传时默认 `flagship`；只表达任务量级和能力需求，不绑定具体 Provider 或模型。
 - 固定模型、Provider、Smart/fixed 模式由人类模型选择器管理，不能通过 ManageAgent 修改。
 - 用户说“最深/最高/拉满”通常对应 `xhigh`；只有用户明确点名 `max` 且模型支持时才使用 `max`。
