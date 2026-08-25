@@ -1,7 +1,7 @@
 ---
 name: manage-teams
-description: 创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 围绕同一任务协作、需要建立组织架构、或需要组长统一调度分派任务时。
-version: 1.2.3
+description: 创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 持续协作、建立组织架构，或发布、安装和同步团队仓库时。
+version: 1.3.0
 type: procedural
 risk_level: medium
 status: enabled
@@ -12,7 +12,7 @@ tags:
   - organization
 metadata:
   author: desirecore
-  updated_at: '2026-05-04'
+  updated_at: '2026-08-25'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -23,19 +23,18 @@ metadata:
       name: 团队管理
       short_desc: 创建团队、管理成员、组织多 Agent 协作
       description: >-
-        创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 围绕同一任务协作、需要建立组织架构、或需要组长统一调度分派任务时。
+        创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 持续协作、建立组织架构，或发布、安装和同步团队仓库时。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:2aad4d237ca4bc7a
+      source_hash: sha256:d781d4d2d18667aa
       translated_by: human
     en-US:
       name: Team Management
       short_desc: Create teams, manage members, and organize multi-Agent collaboration
       description: >-
-        Create and manage Agent teams to organize multi-Agent collaboration. Use when multiple Agents need to collaborate on the same task, when organizational structure is required, or when a team leader needs to orchestrate and dispatch tasks.
+        Create and govern Agent teams. Use when multiple Agents need sustained collaboration, an organizational hierarchy, or a team repository must be published, installed, or synchronized.
       body: ./SKILL.md
-      source_hash: sha256:2aad4d237ca4bc7a
-      translated_by: ai:claude-opus-4-7
-      translated_at: '2026-05-03'
+      source_hash: sha256:d781d4d2d18667aa
+      translated_by: human
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -55,140 +54,165 @@ market:
     fill-opacity="0.7"/><circle cx="21.5" cy="4" r="0.9" fill="#34C759"
     fill-opacity="0.7"/></svg>
   category: productivity
+  required_client_version: 10.0.108
 ---
 
 # manage-teams Skill
 
 ## L0: One-line Summary
 
-Create and manage Agent teams to organize multiple Agents collaborating around a shared task.
+Use `ManageTeam` to inspect, create, and govern Agent teams, with the required checks before organizational changes or remote synchronization.
 
-## L1: Overview and Use Cases
+## L1: When to Use
 
-### Capability Description
+Use a team when:
 
-manage-teams is a **Procedural Skill** that gives DesireCore the ability to create and manage Agent teams. A team is an organizational unit in which multiple Agents collaborate around a shared task; each team has a supervisor responsible for receiving requirements, decomposing tasks, dispatching work to members, and consolidating results.
+- multiple Agents need sustained collaboration around one task and a shared team workdir;
+- a stable supervisor, membership, or parent-child organizational structure is required;
+- a team repository must be published, installed, or synchronized.
 
-### Use Cases
+Do not create a team when:
 
-- Multiple Agents need to collaborate continuously on the same task (e.g., a project group)
-- An organizational hierarchy is required (departments / team levels)
-- A supervisor is needed to centrally orchestrate, decompose, and dispatch tasks
-- Simple one-off delegation is insufficient and long-term collaboration with shared context is required
+- one expert is needed once: use `Delegate(mode="sync" | "async")`;
+- several experts only need to provide one-off opinions: use `Delegate(mode="fan-out")`;
+- the work is temporary file exploration: use a Worker instead of creating a lasting organization.
 
-### Core Value
+A team defines organization, shared directories, and governance. Actual work is still dispatched to members with `Delegate`.
 
-- **Organized collaboration**: upgrade from point-to-point delegation to a team collaboration model
-- **Flexible management**: supports both ephemeral and persistent team modes
-- **Dynamic adjustment**: members can be added/removed and supervisors swapped at runtime
+## L2: Execution Specification
 
-## L2: Detailed Specification
+### 1. Inspect Before Mutating
 
-## Core Concepts
+- If `teamId` is unknown, call `ManageTeam(action="list")` first.
+- Before modifying, disbanding, or synchronizing a team, call `ManageTeam(action="get", teamId=...)` and verify its name, type, supervisor, members, local repository directory, and remote state.
+- Never guess a path under `~/.desirecore`; use only the absolute repository path returned by `get`.
+- `list` can filter by `parentTeamId`. With `tree=true`, `teamId` selects the subtree root and `parentTeamId` is ignored.
 
-### Teams vs. Single-point Delegation
+### 2. Action Reference
 
-| Scenario | Recommended Approach | Rationale |
-|------|---------|------|
-| One-off simple problem | `Delegate(target, mode='sync')` | No need for organizational overhead |
-| Need a single expert to handle | `Delegate(target, mode='sync/async')` | One-to-one is sufficient |
-| Need multiple experts to weigh in | `Delegate(targets, mode='fan-out')` | Parallel dispatch without creating a team |
-| Continuous collaboration + shared context | **Create a team** | Teams provide a shared workdir and structure |
-| Organizational hierarchy management | **Create nested teams** | Department / team hierarchy relationships |
+| action | Purpose | Key parameters and notes |
+|---|---|---|
+| `list` | List teams or an organization tree | `parentTeamId?`, `tree?`, `teamId?` |
+| `get` | Inspect one team and its repository path | `teamId` |
+| `create` | Create an ephemeral team | `name` or `task`; `supervisor?`, `members?`, `memberRouting?`, `parentTeamId?`, `workdirMode?` |
+| `add_member` | Add one member | `teamId`, `agentId` |
+| `add_members` | Add members in a batch | `teamId`, `members` |
+| `remove_member` | Remove one member | `teamId`, `agentId` |
+| `remove_members` | Remove members in a batch | `teamId`, `members` |
+| `set_supervisor` | Replace the supervisor | `teamId`, `agentId` |
+| `update` | Partially update team configuration | `teamId`; supports `name/type/isolation/parentTeamId/description/avatar/avatarImage` |
+| `promote` | Promote an ephemeral team to persistent | `teamId`; one-way and never implicit |
+| `disband` | Disband a team | `teamId`; explain impact and confirm unless explicitly requested |
+| `fork_team` | Install a team from a remote repository | `url`; `name?`, `installMembers?`; enters approval |
+| `push` | Push a local team to its connected remote | `teamId`; enters approval |
+| `pull` | Pull and validate a team from its connected remote | `teamId`; enters approval |
 
-### Team Types
+### 3. Create a Team
 
-- **Ephemeral team**: task-driven, can be disbanded after completion. Suitable for project-based collaboration.
-- **Persistent team**: long-lived, suitable for departments / teams. Ephemeral teams can be promoted to persistent.
+Before creation:
 
-### Supervisor Uniqueness Constraint
+1. Every Agent in `supervisor` and `members` must already exist. Verify IDs with `ManageAgent(action="list" | "get")`; create or install a missing Agent through its corresponding Agent Skill before creating the team.
+2. The DesireCore core Agent, `desirecore`, cannot be a supervisor. When the core Agent initiates creation, it must explicitly choose a regular Agent as `supervisor`.
+3. Normally do not add `desirecore` as a member. Reach core capabilities through `Delegate` instead.
+4. One Agent may supervise only one team. If the intended supervisor already leads another team, assign a successor there first.
 
-**An Agent can only serve as the supervisor (TL) of a single team.** This is a hard constraint of the organizational structure:
+Choose the workdir mode deliberately:
 
-- When creating a team, if the caller is already a supervisor of another team, they must first step down from the original team (use `set_supervisor` to designate a successor) before creating the new team
-- Do not assign an Agent who already serves as supervisor to be the supervisor of another team
-- An Agent can simultaneously be the supervisor of one team and a regular member of another, but cannot be supervisor of two teams at once
+- `merged` (default): the shared team directory is primary while member and global workdirs remain available;
+- `team_only`: exposes only the shared team directory, for high-reliability work where every member must operate on the same project. It does not delete member workdir configuration.
 
-### Supervisor Responsibilities
+Use `memberRouting` to express routing intent without pinning a Provider or model:
 
-1. Receive user requirements and analyze task complexity
-2. Decompose subtasks and decide which members are needed
-3. Use the `Delegate` tool to dispatch tasks (single-point or fan-out)
-4. Consolidate results from members and produce an integrated answer
-5. Dynamically adjust members (add/remove) as needed
-
-## Operations Guide
-
-### Create a Team
-
-```
-ManageTeam({
-  action: 'create',
-  name: '房产评估项目组',
-  members: ['legal-advisor', 'finance-advisor', 'real-estate'],
-  task: '综合评估目标房产'
-})
-```
-
-The supervisor defaults to the caller (you). After creation, you are the supervisor of this team.
-
-### Dispatch Tasks to Team Members
-
-**Single-point delegation** (one member handles it):
-```
-Delegate({
-  target: 'legal-advisor',
-  task: '检查该房产的产权状况和法律风险',
-  mode: 'sync'
-})
+```json
+{
+  "supervisor-agent": {
+    "tier": "flagship",
+    "requiredCapabilities": ["reasoning"],
+    "reasoning": "high"
+  },
+  "member-agent": {
+    "tier": "balanced"
+  }
+}
 ```
 
-**Fan-out delegation** (multiple members in parallel):
-```
-Delegate({
-  targets: ['legal-advisor', 'finance-advisor', 'real-estate'],
-  task: '从各自专业角度评估这套房产',
-  mode: 'fan-out',
-  strategy: 'parallel'
-})
-```
+- keys must belong to the selected `supervisor` or `members`;
+- Agents using a fixed model must not appear in `memberRouting`;
+- omitted Smart members retain their current routing profile; the concrete Provider/model is resolved when that member executes work.
 
-### Manage Members
+Example:
 
-```
-// 添加成员
-ManageTeam({ action: 'add_member', teamId: '...', agentId: 'new-agent' })
-
-// 批量添加成员
-ManageTeam({ action: 'add_members', teamId: '...', members: ['agent-a', 'agent-b'] })
-
-// 移除成员
-ManageTeam({ action: 'remove_member', teamId: '...', agentId: 'old-agent' })
-
-// 批量移除成员
-ManageTeam({ action: 'remove_members', teamId: '...', members: ['agent-a', 'agent-b'] })
-
-// 更换组长
-ManageTeam({ action: 'set_supervisor', teamId: '...', agentId: 'new-leader' })
+```json
+{
+  "action": "create",
+  "name": "Contract Review Project",
+  "supervisor": "legal-lead",
+  "members": ["contract-reviewer", "risk-analyst"],
+  "task": "Review contracts continuously and consolidate risks",
+  "workdirMode": "team_only"
+}
 ```
 
-### Team Lifecycle
+### 4. Change Organization and Configuration
 
+- Prefer batch member actions to avoid observable intermediate states.
+- `set_supervisor` uses `agentId`; first verify that the Agent does not already supervise another team.
+- `update` is a patch: omitted fields remain unchanged.
+- `parentTeamId: null` detaches the team and makes it top-level; an empty string is invalid.
+- `type` only allows `ephemeral → persistent`. Repeating the current value is idempotent; use `promote` for an explicit upgrade.
+- `isolation`: `soft` uses shared session isolation; `hard` uses independent Agent copies.
+- `description` is the marketplace-facing team description, not the `task` supplied at creation.
+
+Use a declared avatar with:
+
+```json
+{
+  "action": "update",
+  "teamId": "team-id",
+  "avatar": { "char": "CR", "color": "purple" }
+}
 ```
-// 任务完成，解散临时团队
-ManageTeam({ action: 'disband', teamId: '...' })
 
-// 或升级为持久团队（长期使用）
-ManageTeam({ action: 'promote', teamId: '...' })
-```
+For an image avatar, use `avatarImage.source` with `dc-media://<mediaId>`, a bare `mediaId`, or an image path inside the workdir. PNG/JPEG/WebP are supported. Do not pass an HTTP(S) URL or base64. Remove the image with `{ "remove": true }`; `remove` and `source` are mutually exclusive.
 
-## Best Practices
+### 5. Team Lifecycle
 
-1. **Evaluate before creating a team**: simple tasks should be delegated directly without over-organizing
-2. **Keep membership lean**: only bring in the experts truly needed to avoid information overload
-3. **Prefer in-team members**: within a team, prefer delegating to its members. For one-off opinions from outside experts, ad-hoc `Delegate` consultation is fine without joining the team; if needed repeatedly, formally bring them in via `add_member`
-4. **Clear task descriptions**: provide a clear task description and background information when dispatching
-5. **Consolidate promptly**: synthesize member results promptly — do not keep the user waiting
-6. **Adjust dynamically**: when missing a domain expert, supplement with `add_member`
-7. **Disband after use**: disband ephemeral teams promptly when their task is done to keep the organization tidy
-8. **One supervisor per Agent**: an Agent should only serve as supervisor of one team to avoid management chaos from divided responsibilities
+- Disband an ephemeral team after its project is complete so the organization does not accumulate stale teams.
+- Use `promote` only for an explicit long-term collaboration requirement; promotion is one-way.
+- `disband` removes the team organization and repository. Execute directly when the user explicitly requested it; otherwise show the `get` result and confirm the intended target first.
+
+### 6. Team Repository and Remote Synchronization
+
+The team directory is a Git repository containing governance data such as `team.json`, member locks, and `shared/rules.md`.
+
+For local Git work:
+
+1. obtain the absolute repository path with `get`;
+2. run `status/log/diff/add/commit/tag` with Bash in that directory;
+3. after the local commit is complete, call `ManageTeam(action="push")`.
+
+Remote `fork_team/push/pull` must go through `ManageTeam` because it enforces team Schema validation, roster consistency, the core-Agent supervisor prohibition, workspace types, out-of-bound symlink checks, and approval. Do not bypass those controls with raw `git push/pull`. This rule is not based on an assumption that Agents can never access credentials.
+
+- `push/pull` require a remote connected through the client. If none is configured, ask the user to connect or publish the team in team settings.
+- Locally created and forked teams do not inherit a directly pushable remote configuration by default.
+- `fork_team` defaults to `installMembers=true`; a same-ID local Agent that has diverged from its lock is protected and skipped rather than overwritten.
+- `pull` may replace local team configuration. Inspect local state first and identify the target remote in the approval card.
+
+### 7. Dispatch and Finish
+
+After team creation, dispatch work to the supervisor or members with `Delegate`:
+
+- one member: `Delegate(target=..., mode="sync" | "async", teamId=...)`;
+- several members: `Delegate(targets=[...], mode="fan-out", teamId=...)`;
+- prefer team members for sustained collaboration; a one-off outside opinion does not require membership.
+
+Report the team name and ID, type, supervisor and members, workdir mode, organizational changes, and whether remote operations completed. Never expose credentials or a remote URL containing a token.
+
+### 8. Failure Recovery
+
+- `Agent does not exist`: verify the ID; create or install the Agent, then retry.
+- `Core Agent cannot supervise`: explicitly choose a regular Agent as `supervisor`.
+- `Supervisor already leads another team`: run `set_supervisor` on the existing team before retrying.
+- `Remote not configured`: ask the user to connect a remote in client team settings; do not guess a hidden API.
+- Local content changed or conflicts exist: obtain the directory with `get`, inspect Git state, preserve user changes, and only then decide whether to commit, pull, or retry.
+- If this Skill is missing or disabled, the minimal operation may still be executed from the `ManageTeam` action/parameter Schema and tool error messages. Never bypass the tool by editing AgentFS directly.
