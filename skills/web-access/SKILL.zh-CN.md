@@ -264,9 +264,35 @@ See [references/jina-reader.md](references/jina-reader.md) for advanced endpoint
 4. `BrowserSnapshot(semantic)` 拿可交互元素 `ref`（跨源 iframe 的元素也在同一棵树里，ref 全局连续编号）
 5. 交互用 `input.*`（拟真轨迹）或 `page.element`（表单批量写）；等结果用 `page.wait` 或内联 wait 块
 6. 取正文用 `BrowserSnapshot(text)` 或 `BrowserAct(page.extract-text)`；取接口数据用 fetch.browser 配方
-7. 任务收尾 `BrowserManage(close_session)`
+7. 收尾：**先确认、再决定关不关**，见下方「收尾：汇报之前与关闭之前」
 
 多动作连续编排（导航→快照→点击→等待→取文）可用 `BrowserScript` 一段脚本完成，省去逐动作 IPC 往返。
+
+### 收尾：汇报之前与关闭之前
+
+**一、向用户汇报浏览器结果之前，先用一次快照确认页面仍在。**
+
+不要拿上一次成功的导航结果直接汇报。会话可能在那之后被系统终止——最常见的是页面持续占用
+过多资源触发配额保护（`BROWSER_RESOURCE_QUOTA_EXCEEDED`），重 JS 站点很容易命中。真机发生过：
+Agent 导航成功后直接汇报「✅ 已打开，页面已可在内置浏览器面板中查看」，而会话早已 crashed，
+用户看到的是一片空白。
+
+汇报前补一次 `BrowserSnapshot`（`text` 或 `visual` 均可）即可暴露这类情况：会话若已终止，
+工具会返回 `BROWSER_TOOL_SESSION_TERMINATED` 并说明原因。此时**如实告诉用户会话中断了**，
+再决定是重试、换更轻量的页面，还是交由用户处理——绝不能把先前的成功当作现状。
+
+**二、不要无条件 `close_session`。判据是「用户还需不需要看」。**
+
+| 任务性质 | 收尾 |
+|---|---|
+| 演示 / 交互 / 用户要看结果 | **保留会话**，并告诉用户页面停在哪、可以直接接管 |
+| 纯数据抓取，正文已取回 | 关闭，释放资源 |
+| 用户明确说「用完关掉」 | 关闭 |
+
+内置浏览器的画面要展示给用户，靠的是工作台把会话呈现出来；会话一关，用户就什么都看不到了。
+真机发生过：Agent 用两分钟做完演示随即 `close_session`，用户回头去看只剩空白面板——它做的事
+没错，只是没留给用户任何查看的机会。拿不准时**保留**：留着最多占一点资源，关早了用户就得
+从头再来一遍。
 
 ## L3 速查（v3.0）
 
@@ -336,8 +362,9 @@ BrowserAct:
    ← 正文直接读出；太长就传上一页返回的 nextCursor 续读
 7. 需要确认渲染效果 → BrowserSnapshot({ mode: 'visual' })（像素直接可看）
 8. SitePatternRead({ domain: 'xiaohongshu.com' })  ← 读累积经验
-9. 任务结束 → BrowserManage({ action: 'close_session', sessionId })
-10. 如发现新陷阱 → SitePatternWrite({ domain, scope: 'agent', mode: 'merge', content })
+9. 汇报前 → 再来一次 BrowserSnapshot 确认页面仍在（会话可能已被配额终止）
+10. 任务结束 → 用户还要看就**保留会话**并告知页面位置；纯抓取才 close_session
+11. 如发现新陷阱 → SitePatternWrite({ domain, scope: 'agent', mode: 'merge', content })
 ```
 
 ## 站点经验积累
