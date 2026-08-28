@@ -15,7 +15,7 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: Complete terms in LICENSE.txt
-version: 3.2.0
+version: 3.3.0
 type: procedural
 risk_level: low
 status: enabled
@@ -41,7 +41,7 @@ provides:
     - LocalBookmarks
 metadata:
   author: desirecore
-  updated_at: '2026-08-21'
+  updated_at: '2026-08-28'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -53,14 +53,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:4d3bc4221b2d6b09
+      source_hash: sha256:3988a0abf7573385
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's own Chrome over CDP on request.
       body: ./SKILL.md
-      source_hash: sha256:4d3bc4221b2d6b09
+      source_hash: sha256:3988a0abf7573385
       translated_by: human
 market:
   icon: >-
@@ -354,7 +354,36 @@ The full command surface, capability tiers, and boundaries are in [references/br
 4. `BrowserSnapshot(semantic)` for interactive-element `ref` handles (cross-origin iframe elements are in the same tree with globally sequential refs)
 5. Interact via `input.*` (humanized trajectories) or `page.element` (bulk form writes); wait for results via `page.wait` or inline wait blocks
 6. Read body text via `BrowserSnapshot(text)` or `BrowserAct(page.extract-text)`; pull API data via the fetch.browser recipe
-7. `BrowserManage(close_session)` when done
+7. Wrap up: **confirm first, then decide whether to close** — see "Wrapping up: before you report, before you close" below
+
+### Wrapping up: before you report, before you close
+
+**1. Before reporting a browser result to the user, take one more snapshot to confirm the page is still there.**
+
+Never report based on an earlier successful navigation. The session may have been terminated since —
+most often by the resource quota guard (`BROWSER_RESOURCE_QUOTA_EXCEEDED`), which heavy JS sites hit
+easily. This happened in the field: the agent navigated successfully, reported "✅ opened, the page is
+visible in the built-in browser panel", while the session had already crashed and the user was staring
+at a blank panel.
+
+One `BrowserSnapshot` (`text` or `visual`) before reporting surfaces this: if the session is gone, the
+tool returns `BROWSER_TOOL_SESSION_TERMINATED` with the reason. When that happens, **tell the user the
+session was interrupted**, then decide whether to retry, switch to a lighter page, or hand it back —
+never present the earlier success as the current state.
+
+**2. Do not close the session unconditionally. The test is whether the user still needs to look at it.**
+
+| Task nature | Wrap-up |
+|---|---|
+| Demo / interactive / user wants to see the result | **Keep the session** and tell them where the page is, so they can take over |
+| Pure data extraction, text already retrieved | Close it and free the resources |
+| User explicitly said "close it when done" | Close it |
+
+Showing the built-in browser to the user depends on the workbench presenting that session; close it and
+there is nothing left to show. This happened in the field: the agent finished a two-minute demo and
+immediately called `close_session`, leaving the user with an empty panel — nothing it did was wrong, it
+just left no chance to look. **When in doubt, keep it**: keeping costs a little resource, closing too
+early costs the user the whole run.
 
 Multi-step sequences (navigate→snapshot→click→wait→extract) can be done in one `BrowserScript` run, skipping the per-action IPC round trips.
 
@@ -427,7 +456,8 @@ Notes:
    ← body text read out directly; if too long, pass back the returned nextCursor to continue
 7. Need to confirm rendering → BrowserSnapshot({ mode: 'visual' }) (pixels readable in place)
 8. SitePatternRead({ domain: 'xiaohongshu.com' })  ← read accumulated experience
-9. At task end → BrowserManage({ action: 'close_session', sessionId })
+9. Before reporting → one more BrowserSnapshot to confirm the page is still there (the session may have been quota-terminated)
+10. At task end → if the user still wants to look, **keep the session** and say where the page is; close only for pure extraction
 10. If you find a new pitfall → SitePatternWrite({ domain, scope: 'agent', mode: 'merge', content })
 ```
 
