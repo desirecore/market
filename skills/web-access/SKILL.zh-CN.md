@@ -16,18 +16,19 @@ web-access 是一个**流程型技能（Procedural Skill）**，提供四层互�
 - **L2**（Jina Reader）：JS 渲染的重页面，默认节省 Token
 - **L3**（内置受管浏览器，v3.0 能力面补全）：到达、操作并**读取**登录态/交互站点——每个任务独立 BrowserSpace 隔离、零 Python 依赖、每次动作都有可审计回执。批量取文（`page.extract-text`）、判别式等待（`page.wait`）、代码模式（`BrowserScript`）都在本层内闭环
 
-- **L3-external**（用户点名的 Chrome/Edge/Chromium，经 CDP + Python Playwright 接管）：**仅在用户点名，或 Agent 解释原因后用户明确同意时走这条**——DesireCore 隔离外部 Profile 中由用户手工登录形成的状态、可见窗口，以及用户随时接管的能力
+- **L3-external**（用户点名的 Chrome/Edge/Chromium；简单打开由受治理 CDP 工具完成，只有高级交互才经隔离 Python Playwright 接管）：**仅在用户点名，或 Agent 解释原因后用户明确同意时走这条**——DesireCore 隔离外部 Profile 中由用户手工登录形成的状态、可见窗口，以及用户随时接管的能力
 
 关于 L3-external 的一段历史：v3.0 曾把它整个删掉，理由是「它存在的每一条技术理由（无批量取文通道、evaluate 不可用、截图必须串行 activate）都已被内置浏览器覆盖」。那个技术判断没错，**作为「内置浏览器不够用时的兜底」它确实不再需要**。但删除时顺带丢掉了一个完全不同的用例：用户想用**他自己那个**浏览器。这跟能力够不够无关，内置浏览器替代不了，所以 v3.2 把它作为一条**由用户意图触发**的平级选择恢复回来——注意它不再是 fallback，判据见下方「两个浏览器，按用户意图选」。
 
 ### v3.0：内置受管浏览器（默认隐藏，激活后才暴露）
 
-调用 `Skill('web-access')` 加载本技能时会注入以下工具。`Browser*` 工具驱动内置浏览器；`BrowserExternalProbe` 只检查外部浏览器前置条件：
+调用 `Skill('web-access')` 加载本技能时会注入以下工具。大多数 `Browser*` 工具驱动内置浏览器；`BrowserExternalProbe` 与 `BrowserExternalOpen` 是名称明确的外部浏览器例外：
 
 | 工具 | 用途 |
 |------|------|
 | BrowserManage | 建/销隔离 BrowserSpace、启动会话、管理标签页 |
 | BrowserExternalProbe | 只读检查 Chrome/Edge/Chromium 安装与 loopback CDP 就绪状态；绝不启动浏览器或读取 Profile |
+| BrowserExternalOpen | 同一 session 的 probe 返回 `ready` 后，在精确外部浏览器中可见打开一个 HTTP(S) URL；不使用 shell、Python 或 Playwright |
 | BrowserSnapshot | `semantic` / `text` / `accessibility` / `visual` 四种快照——读页面的主通道 |
 | BrowserAct | 一次调用一个受管动作：导航、输入、取文、等待、元素操作、截图…… |
 | BrowserScript | **代码模式**：一段异步 JS 连续下发浏览器命令，消除逐动作往返（信任级别等同 Bash） |
@@ -82,7 +83,7 @@ If any fetch fails, explicitly tell the user which URL failed and which fallback
 
 | status | 必须采取的动作 |
 |---|---|
-| `ready` | 才能继续 Playwright `connect_over_cdp`，并如实说出检测到的外部浏览器；`any` 已有 ready 端口时，即使还安装了其他产品，也以该端口作为用户已准备的选择 |
+| `ready` | 简单打开/导航调用 `BrowserExternalOpen`，参数使用返回的精确浏览器 id 与端口；点击、读取、提取等高级交互才继续隔离 Playwright `connect_over_cdp`。如实说出检测到的外部浏览器；`any` 已有 ready 端口时，即使还安装了其他产品，也以该端口作为用户已准备的选择 |
 | `browser_not_installed` | 明确说未检测到用户点名的浏览器；若有 `alternatives`，询问是否改用其中之一，**绝不自动替换** |
 | `debug_port_closed` | 展示返回的 `launchCommand`，请用户启动并手工登录，然后等待并重新 probe |
 | `browser_choice_required` | 没有 ready 端口且检测到多个外部浏览器；只列 id/name 并询问用户选哪个，再 probe 精确选择 |
@@ -94,7 +95,7 @@ If any fetch fails, explicitly tell the user which URL failed and which fallback
 
 1. 用户在该外部浏览器里手工登录所需站点。
 2. 外部浏览器窗口保持打开。
-3. 再调用一次 `BrowserExternalProbe`；只有 `ready` 才允许尝试 CDP attach。
+3. 再调用一次 `BrowserExternalProbe`；只有 `ready` 才允许调用 `BrowserExternalOpen` 或尝试高级 CDP attach。
 
 不得用 `curl` 替代本探测：连接拒绝无法区分「未安装浏览器」与「已安装但没开调试」，普通 HTTP 服务也不能冒充 CDP。
 
@@ -103,9 +104,21 @@ If any fetch fails, explicitly tell the user which URL failed and which fallback
 ⚠️ 用 CDP attach 时**绝不能调 `browser.close()`**，那会关掉用户自己的外部浏览器；只关你开的 page。
 完整配方见 [references/cdp-browser.md](references/cdp-browser.md)。
 
+### 简单外部打开/导航：使用专用工具
+
+当用户只要求在点名的外部浏览器中打开或导航到一个 HTTP(S) URL：
+
+1. 调用 `BrowserExternalProbe`，且必须得到 `ready`。
+2. 在同一 runtime session 调用 `BrowserExternalOpen`，传入 `browser: detectedBrowser.id`、probe 的精确 `port` 与 URL。
+3. 这个简单动作不得调用 Bash、PowerShell、Python、pip 或 Playwright。
+
+ready grant 有短时、一次性、精确 browser+port 绑定。宿主会在同一 CDP WebSocket 上重新验证
+`Browser.getVersion`，匹配后才创建标签页。如果 open 报告端口关闭、无效或产品不匹配，重新 probe
+并按结构化状态处理；不得改用 shell 重试。
+
 ### 按平台安全执行 Playwright
 
-probe 返回 `ready` 后，创建或执行 attach 脚本前**必须先确认当前操作系统**：
+仅在 probe 返回 `ready` 后需要高级交互时，创建或执行 attach 脚本前**必须先确认当前操作系统**：
 
 1. **必须先创建或选择 DesireCore 拥有的隔离 venv**，不得先用全局解释器探测 Playwright。venv 不存在时，系统/引导 Python 只能用于执行 `-m venv`。
 2. 此后 import、固定版本安装、重新 import 与 attach 全部只能调用 venv 解释器；严禁裸 `python`、裸 `pip`、`pip --user`、全局安装或 `playwright install`。依赖缺失与浏览器 ready 是两件事：明确报告缺失，暂不 attach。
@@ -124,7 +137,9 @@ User intent
   │
   ├─ **任何点名「我自己的 / 我本机的 / 外部 Chrome、Edge、Chromium」的请求**
   │     └─→ 不论动词是搜索、读取、打开还是点击，都优先走 L3-external：
-  │          BrowserExternalProbe（精确点名产品），仅 `ready` 后 connect_over_cdp()
+  │          BrowserExternalProbe（精确点名产品），仅 `ready` 后：
+  │            简单打开/导航 → BrowserExternalOpen（精确 detected browser + port + URL）
+  │            高级搜索/读取/点击/提取 → 隔离 Playwright connect_over_cdp()
   │          否则按状态提示并等待；绝不能改走 WebSearch、WebFetch、Jina 或内置浏览器
   │
   ├─ 只说「本地浏览器」，没有说明内置还是外部
@@ -169,7 +184,7 @@ DesireCore 能驱动**两个**浏览器，它们是平级的选项：
 
 | | L3 内置受管浏览器 | L3-external 用户自己的浏览器 |
 |---|---|---|
-| 是什么 | 应用内的浏览器实例（`Browser*` 工具族） | 用户点名的 Chrome/Edge/Chromium，经 CDP + Python Playwright 接管 |
+| 是什么 | 应用内的浏览器实例（内置受管浏览器工具） | 用户点名的 Chrome/Edge/Chromium；简单打开走受治理 CDP 工具，高级交互才经隔离 Python Playwright 接管 |
 | 登录态 | 独立隔离；需 Host 授予 `browser.import.*` 才能用 `BrowserImport` 导 Cookie | **就是用户本人的登录态**，无需导入 |
 | 用户能看到吗 | Agent 开的标签页默认离屏，需展示到工作台 | **就在用户自己的窗口里**，他能全程看着、随时接管 |
 | 前置条件 | 无 | `BrowserExternalProbe` 必须返回 `ready`；否则严格按结构化状态处理 |
@@ -204,7 +219,7 @@ DesireCore 能驱动**两个**浏览器，它们是平级的选项：
 | L1 | Public, static | `WebFetch` | Low |
 | L2 | JS-heavy, long articles, token savings | `Bash curl r.jina.ai` | **Lowest** (Markdown pre-cleaned) |
 | **L3** | **登录态导航、交互与取文 (PRIMARY)** | **内置受管浏览器（BrowserManage / BrowserAct / BrowserSnapshot / BrowserScript）** | Medium |
-| L3-external | **用户点名要用他自己的浏览器**，或 Agent 解释原因后用户明确同意改走此路径 | `BrowserExternalProbe` → 平台原生 shell（Windows 必须 PowerShell）+ DesireCore 隔离 venv + Playwright `connect_over_cdp`（见 references/cdp-browser.md） | Medium |
+| L3-external | **用户点名要用他自己的浏览器**，或 Agent 解释原因后用户明确同意改走此路径 | 简单打开/导航：`BrowserExternalProbe` → `BrowserExternalOpen`；高级交互：ready probe → 平台原生 shell（Windows 必须 PowerShell）+ DesireCore 隔离 venv + Playwright `connect_over_cdp`（见 references/cdp-browser.md） | Medium |
 
 **Default priority**: L1 for simple public pages → L2 for heavy → **L3 for login-gated（含正文与站内接口取数）**。
 
