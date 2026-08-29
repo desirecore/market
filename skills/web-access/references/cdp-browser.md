@@ -39,10 +39,10 @@ Every CDP script follows this shape. `PROBE_PORT` must be the numeric `port` fro
 ```python
 from playwright.sync_api import sync_playwright
 
-PROBE_PORT = 9222  # Replace with BrowserExternalProbe.result.port.
+PROBE_PORT: int | None = None  # Assign the exact BrowserExternalProbe ready result port.
 
-def cdp_url(port: int) -> str:
-    if not 1 <= port <= 65535:
+def cdp_url(port: int | None) -> str:
+    if not isinstance(port, int) or not 1 <= port <= 65535:
         raise ValueError("invalid CDP port")
     return f"http://127.0.0.1:{port}"
 

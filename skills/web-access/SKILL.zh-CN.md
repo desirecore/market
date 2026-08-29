@@ -38,7 +38,7 @@ web-access 是一个**流程型技能（Procedural Skill）**，提供四层互�
 
 > **重要**：未调用 Skill('web-access') 之前，这些工具**不会**出现在 LLM 的 tools 列表里——默认对话不消耗其 token。详见 [references/browser-tools.md](references/browser-tools.md)。
 >
-> **v2.1 已移除**：`BrowserListTabs` / `BrowserNavigate` / `BrowserEval` / `BrowserClick` / `BrowserScreenshot` / `BrowserScroll` / `BrowserSetFiles` / `BrowserCloseTab` 及其背后的 cdp-proxy 已停用，调用会返回「该旧 BrowserXxx/cdp-proxy 入口已停用」。本版要求客户端 v10.0.98+；`page.extract-text` / `page.element` / `page.wait` / 内联 wait 块 / 跨源 iframe 快照需 v10.0.112+，`BrowserScript` 需包含 S17/S18 的更新版本。
+> **v2.1 已移除**：`BrowserListTabs` / `BrowserNavigate` / `BrowserEval` / `BrowserClick` / `BrowserScreenshot` / `BrowserScroll` / `BrowserSetFiles` / `BrowserCloseTab` 及其背后的 cdp-proxy 已停用，调用会返回「该旧 BrowserXxx/cdp-proxy 入口已停用」。本技能版本要求客户端 v10.0.128+；`page.extract-text` / `page.element` / `page.wait` / 内联 wait 块 / 跨源 iframe 快照自 v10.0.112 起可用，`BrowserScript` 需包含 S17/S18 的更新版本。
 
 ### 使用场景
 

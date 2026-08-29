@@ -54,14 +54,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:15855c96de2eaa7d
+      source_hash: sha256:1704b973e3a90e89
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request.
       body: ./SKILL.md
-      source_hash: sha256:15855c96de2eaa7d
+      source_hash: sha256:1704b973e3a90e89
       translated_by: human
 market:
   icon: >-
@@ -124,7 +124,7 @@ When you call `Skill('web-access')`, the following tools are injected into the c
 
 > **Important**: before `Skill('web-access')` is called, none of these tools appear in the LLM tools list — default conversations don't pay their token cost. See [references/browser-tools.md](references/browser-tools.md).
 >
-> **Removed in v2.1**: `BrowserListTabs` / `BrowserNavigate` / `BrowserEval` / `BrowserClick` / `BrowserScreenshot` / `BrowserScroll` / `BrowserSetFiles` / `BrowserCloseTab` and the cdp-proxy behind them are retired. Calling them now returns "该旧 BrowserXxx/cdp-proxy 入口已停用". Requires client v10.0.98+; `page.extract-text` / `page.element` / `page.wait` / inline wait blocks / cross-origin iframe snapshots need v10.0.112+, and `BrowserScript` needs a build containing S17/S18.
+> **Removed in v2.1**: `BrowserListTabs` / `BrowserNavigate` / `BrowserEval` / `BrowserClick` / `BrowserScreenshot` / `BrowserScroll` / `BrowserSetFiles` / `BrowserCloseTab` and the cdp-proxy behind them are retired. Calling them now returns "该旧 BrowserXxx/cdp-proxy 入口已停用". This skill version requires client v10.0.128+; `page.extract-text` / `page.element` / `page.wait` / inline wait blocks / cross-origin iframe snapshots were introduced in v10.0.112+, and `BrowserScript` needs a build containing S17/S18.
 
 ### Use Cases
 
