@@ -103,6 +103,18 @@ If any fetch fails, explicitly tell the user which URL failed and which fallback
 ⚠️ 用 CDP attach 时**绝不能调 `browser.close()`**，那会关掉用户自己的外部浏览器；只关你开的 page。
 完整配方见 [references/cdp-browser.md](references/cdp-browser.md)。
 
+### 按平台安全执行 Playwright
+
+probe 返回 `ready` 后，创建或执行 attach 脚本前**必须先确认当前操作系统**：
+
+1. 先检查选定的 Python 能否 import Playwright。依赖缺失与浏览器 ready 是两件事：明确报告缺失，暂不 attach。
+2. Playwright 只能装进 DesireCore 拥有的隔离 venv；不得全局安装，也不得运行 `playwright install`，因为 CDP attach 复用已运行浏览器。
+3. Unix-like 主机使用 Bash 路径和语法；Windows 必须使用 `PowerShell` 工具，以 PowerShell here-string 和
+   `[IO.File]::WriteAllText(...)` 创建临时 `.py`。**绝不能把 `cat <<EOF`、`/tmp/...` 或其他 POSIX heredoc 交给 PowerShell。**
+4. 调用 venv 对应平台的 Python（Unix 为 `bin/python`，Windows 为 `Scripts\python.exe`），只删除本轮创建的临时脚本，外部浏览器保持运行。
+
+无法判断平台或无法安全创建隔离运行时时，停止并报告缺失前置；不得即兴混用 shell，也不得回落 BrowserManage。
+
 ---
 
 ## Tool Selection Decision Tree
@@ -110,8 +122,20 @@ If any fetch fails, explicitly tell the user which URL failed and which fallback
 ```
 User intent
   │
+  ├─ **任何点名「我自己的 / 我本机的 / 外部 Chrome、Edge、Chromium」的请求**
+  │     └─→ 不论动词是搜索、读取、打开还是点击，都优先走 L3-external：
+  │          BrowserExternalProbe（精确点名产品），仅 `ready` 后 connect_over_cdp()
+  │          否则按状态提示并等待；绝不能改走 WebSearch、WebFetch、Jina 或内置浏览器
+  │
+  ├─ 只说「本地浏览器」，没有说明内置还是外部
+  │     └─→ 选择任何路线/工具前先澄清浏览器身份
+  │
   ├─ "Search for information about X" (no specific URL)
   │     └─→ WebSearch → pick top 3-5 results → fetch each (see next branches)
+  │
+  ├─ 「打开 / 导航到这个 URL」（没有点名自己的/外部浏览器）
+  │     └─→ BrowserManage(create_space/start_session) → BrowserAct(tab.navigate)
+  │          保持内置浏览器可见。「打开」是交互请求，不等同于 WebFetch。
   │
   ├─ "Read this public page" (static HTML, docs, news)
   │     └─→ WebFetch(url) directly
@@ -134,12 +158,9 @@ User intent
   │          - npm:    curl https://registry.npmjs.org/<pkg>
   │          - PyPI:   curl https://pypi.org/pypi/<pkg>/json
   │
-  └─ "Real-time interactive task" (click, fill form, scroll, screenshot)
-        ├─→ **用户点名「我本机的 / 我自己的 / 外部的浏览器」** → L3-external：
-        │     BrowserExternalProbe（精确点名的浏览器），仅 `ready` 后 connect_over_cdp()
-        │     其余状态按表处理并等待，不要擅自改用内置浏览器
-        └─→ **其余情况（默认）**：内置受管浏览器 (BrowserManage → BrowserAct → BrowserSnapshot —
-             see references/browser-tools.md, no Python needed)
+  └─ "Real-time interactive task"（点击、填表、滚动、截图；没有外部限定）
+        └─→ 默认使用内置浏览器（BrowserManage → BrowserAct → BrowserSnapshot —
+             见 references/browser-tools.md，零 Python 依赖）
 ```
 
 ### 两个浏览器，按用户意图选，不按能力难度选

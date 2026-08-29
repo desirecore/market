@@ -15,7 +15,7 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: Complete terms in LICENSE.txt
-version: 3.4.0
+version: 3.4.1
 type: procedural
 risk_level: low
 status: enabled
@@ -54,14 +54,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:1704b973e3a90e89
+      source_hash: sha256:efcfd466dd6026a0
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request.
       body: ./SKILL.md
-      source_hash: sha256:1704b973e3a90e89
+      source_hash: sha256:efcfd466dd6026a0
       translated_by: human
 market:
   icon: >-
@@ -188,6 +188,24 @@ from “browser installed but debugging disabled”, and a random HTTP service m
 ⚠️ When attached over CDP, **never call `browser.close()`** — that would close the user's own external browser.
 Only close the page you opened. Full recipes in [references/cdp-browser.md](references/cdp-browser.md).
 
+### Platform-safe Playwright execution
+
+After a `ready` probe, identify the current OS **before** creating or running an attach script:
+
+1. Check whether the selected Python interpreter can import Playwright. A missing dependency is
+   separate from browser readiness: report it explicitly and do not attach yet.
+2. Keep Playwright in a DesireCore-owned isolated virtual environment. Never install it globally and
+   never run `playwright install`; CDP attach reuses the browser that is already running.
+3. On Unix-like hosts, use Bash paths and shell syntax. On Windows, use the `PowerShell` tool and a
+   PowerShell here-string plus `[IO.File]::WriteAllText(...)` to create the temporary `.py` file.
+   **Never send `cat <<EOF`, `/tmp/...`, or another POSIX heredoc to PowerShell.**
+4. Invoke the virtual environment's platform-specific Python (`bin/python` on Unix,
+   `Scripts\python.exe` on Windows), remove only the temporary script you created, and leave the
+   external browser running.
+
+If the platform cannot be determined or no isolated runtime can be created safely, stop and report
+the missing prerequisite. Do not improvise a cross-shell command and do not fall back to BrowserManage.
+
 ---
 
 ## Tool Selection Decision Tree
@@ -195,8 +213,20 @@ Only close the page you opened. Full recipes in [references/cdp-browser.md](refe
 ```
 User intent
   │
+  ├─ **Any request that names "my own / my machine's / external Chrome/Edge/Chromium"**
+  │     └─→ L3-external first, whether the verb is search/read/open/click:
+  │          BrowserExternalProbe(exact requested browser), then connect_over_cdp() only on `ready`
+  │          Otherwise follow the status guidance and wait; never route to WebSearch/WebFetch/Jina/built-in browser
+  │
+  ├─ "Local browser" without saying built-in or external
+  │     └─→ Ask which browser identity the user means before selecting any route or tool
+  │
   ├─ "Search for information about X" (no specific URL)
   │     └─→ WebSearch → pick top 3-5 results → fetch each (see next branches)
+  │
+  ├─ "Open / go to this URL" (no external/own-browser qualifier)
+  │     └─→ BrowserManage(create_space/start_session) → BrowserAct(tab.navigate)
+  │          Keep the built-in browser visible. "Open" is an interaction request, not a synonym for WebFetch.
   │
   ├─ "Read this public page" (static HTML, docs, news)
   │     └─→ WebFetch(url) directly
@@ -219,11 +249,8 @@ User intent
   │          - npm:    curl https://registry.npmjs.org/<pkg>
   │          - PyPI:   curl https://pypi.org/pypi/<pkg>/json
   │
-  └─ "Real-time interactive task" (click, fill form, scroll, screenshot)
-        ├─→ **User named "my own / my machine's / the external browser"** → L3-external:
-        │     BrowserExternalProbe(exact requested browser), then connect_over_cdp() only on `ready`
-        │     Otherwise follow the status guidance and wait — don't quietly switch to the built-in one
-        └─→ **Otherwise (default)**: built-in browser (BrowserManage → BrowserAct → BrowserSnapshot —
+  └─ "Real-time interactive task" (click, fill form, scroll, screenshot; no external qualifier)
+        └─→ Built-in browser by default (BrowserManage → BrowserAct → BrowserSnapshot —
              see references/browser-tools.md, no Python needed)
 ```
 
