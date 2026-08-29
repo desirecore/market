@@ -1,8 +1,19 @@
 # CDP Browser Access — Login-Gated Sites Manual
 
-Detailed recipes for accessing sites that require the user's login session, via Chrome DevTools Protocol (CDP) + Python Playwright.
+Detailed recipes for accessing sites through the user-approved external Chromium browser, via Chrome DevTools Protocol (CDP) + Python Playwright.
 
-**Precondition**: Chrome is already running with `--remote-debugging-port=9222` and the user has manually logged in to the target sites. See the main SKILL.md `Prerequisites` section for the launch command.
+**Precondition**: `BrowserExternalProbe` has returned `ready` for the exact browser the user requested, that browser is running with its DesireCore-isolated profile, and the user has manually logged in to the target sites. Never infer readiness from a failed/successful `curl`; see the main SKILL.md status table.
+
+The probe distinguishes these cases before Playwright is involved:
+
+- requested browser not installed (`browser_not_installed`)
+- browser installed but debug port closed (`debug_port_closed`)
+- multiple browsers installed with no ready endpoint (`browser_choice_required`)
+- a different browser owns the port (`browser_mismatch`)
+- a non-CDP service owns the port (`invalid_cdp_endpoint`)
+- desktop host cannot be inspected (`host_unavailable`)
+
+Only `ready` permits `connect_over_cdp`. An alternative browser is a suggestion requiring user approval, never an automatic fallback.
 
 ---
 
@@ -12,24 +23,34 @@ Detailed recipes for accessing sites that require the user's login session, via 
 |----------|-------------|----------|-------|------|
 | Headless Playwright (new context) | ❌ Empty cookies | ❌ Flagged as bot | Slow cold start | Re-login pain |
 | `playwright.chromium.launch(headless=False)` | ❌ Fresh profile | ⚠ Sometimes flagged | Slow | Same |
-| **CDP attach (`connect_over_cdp`)** | ✅ User's real cookies | ✅ Looks human | Instant | Zero friction |
+| **CDP attach (`connect_over_cdp`)** | ✅ Cookies from the DesireCore-isolated external profile where the user logged in manually | ✅ Looks human | Instant | Zero friction |
 
-**Rule**: For any login-gated site, always attach to the user's running Chrome.
+**Rule**: Attach only when the user named the external browser or explicitly accepted this route after
+you explained why. BrowserImport being unavailable does not itself authorize switching to the user's
+external browser.
 
 ---
 
 ## Core Template
 
-Every CDP script follows this shape:
+Every CDP script follows this shape. `PROBE_PORT` must be the numeric `port` from the latest `ready`
+`BrowserExternalProbe` result; never silently fall back to 9222 after probing another port.
 
 ```python
 from playwright.sync_api import sync_playwright
 
-def fetch_with_cdp(url: str, wait_selector: str | None = None) -> str:
-    """Attach to user's Chrome via CDP, fetch URL, return HTML."""
+PROBE_PORT = 9222  # Replace with BrowserExternalProbe.result.port.
+
+def cdp_url(port: int) -> str:
+    if not 1 <= port <= 65535:
+        raise ValueError("invalid CDP port")
+    return f"http://127.0.0.1:{port}"
+
+def fetch_with_cdp(url: str, cdp_port: int, wait_selector: str | None = None) -> str:
+    """Attach to the user-approved external Chromium profile, fetch URL, return HTML."""
     with sync_playwright() as p:
-        browser = p.chromium.connect_over_cdp("http://localhost:9222")
-        # browser.contexts[0] is the user's default context (with cookies)
+        browser = p.chromium.connect_over_cdp(cdp_url(cdp_port))
+        # contexts[0] is the DesireCore-isolated external profile where the user logged in manually.
         context = browser.contexts[0]
         page = context.new_page()
         try:
@@ -41,14 +62,14 @@ def fetch_with_cdp(url: str, wait_selector: str | None = None) -> str:
             return page.content()
         finally:
             page.close()
-            # DO NOT call browser.close() — that would close the user's Chrome!
+            # DO NOT call browser.close() — that would close the user's external browser!
 
 if __name__ == "__main__":
-    html = fetch_with_cdp("https://example.com")
+    html = fetch_with_cdp("https://example.com", PROBE_PORT)
     print(html[:1000])
 ```
 
-**Critical**: Never call `browser.close()` when using CDP attach — you'd kill the user's Chrome. Only close the page you opened.
+**Critical**: Never call `browser.close()` when using CDP attach — you'd kill the user's external browser. Only close the page you opened.
 
 ---
 
@@ -63,7 +84,7 @@ from bs4 import BeautifulSoup
 NOTE_URL = "https://www.xiaohongshu.com/explore/XXXXXXXX"
 
 with sync_playwright() as p:
-    browser = p.chromium.connect_over_cdp("http://localhost:9222")
+    browser = p.chromium.connect_over_cdp(cdp_url(PROBE_PORT))
     page = browser.contexts[0].new_page()
     page.goto(NOTE_URL, wait_until="domcontentloaded")
     page.wait_for_selector("#detail-title", timeout=10000)
@@ -96,7 +117,7 @@ from bs4 import BeautifulSoup
 VIDEO_URL = "https://www.bilibili.com/video/BVxxxxxxxxx"
 
 with sync_playwright() as p:
-    browser = p.chromium.connect_over_cdp("http://localhost:9222")
+    browser = p.chromium.connect_over_cdp(cdp_url(PROBE_PORT))
     page = browser.contexts[0].new_page()
     page.goto(VIDEO_URL, wait_until="networkidle")
     page.wait_for_timeout(2000)
@@ -109,7 +130,7 @@ print("UP:",    soup.select_one(".up-name").get_text(strip=True) if soup.select_
 print("Desc:",  soup.select_one(".desc-info-text").get_text(" ", strip=True) if soup.select_one(".desc-info-text") else None)
 ```
 
-**Tip**: For B站 evaluations, the [公开 API](https://api.bilibili.com/x/web-interface/view?bvid=XXXX) often returns JSON without needing CDP. Try it first:
+**Tip**: When the user did not require a specific browser, the [公开 API](https://api.bilibili.com/x/web-interface/view?bvid=XXXX) often returns JSON without needing CDP. Try it first. For an explicit external-browser request, ask before replacing that route with the API.
 
 ```bash
 curl -s "https://api.bilibili.com/x/web-interface/view?bvid=BVxxxxxxxxx" | python3 -m json.tool
@@ -127,10 +148,10 @@ WEIBO_URL = "https://weibo.com/u/1234567890"  # or /detail/xxx
 #   article[aria-label="微博"]                 — each feed item
 ```
 
-**Note**: Weibo uses React + heavy obfuscation. Selectors change frequently. If selectors fail, pipe the HTML through Jina for clean Markdown:
+**Note**: Weibo uses React + heavy obfuscation. If the user did not require a specific browser and selectors fail, Jina can clean the page. For an explicit external-browser request, ask before changing the execution route:
 
 ```python
-html = fetch_with_cdp(WEIBO_URL)
+html = fetch_with_cdp(WEIBO_URL, PROBE_PORT)
 # Save to temp file, then:
 import subprocess
 result = subprocess.run(
@@ -157,7 +178,7 @@ Zhihu works with CDP but often also renders enough metadata server-side for Jina
 curl -sL "https://r.jina.ai/https://www.zhihu.com/question/123/answer/456"
 ```
 
-Try Jina first, fall back to CDP if content is truncated.
+When no browser was specified, try Jina first and fall back to the built-in browser if content is truncated. For an explicit external-browser request, do not replace that route without user approval.
 
 ### 飞书文档 (feishu.cn / larksuite.com)
 
@@ -170,7 +191,7 @@ DOC_URL = "https://xxx.feishu.cn/docs/xxx"
 from playwright.sync_api import sync_playwright
 
 with sync_playwright() as p:
-    browser = p.chromium.connect_over_cdp("http://localhost:9222")
+    browser = p.chromium.connect_over_cdp(cdp_url(PROBE_PORT))
     page = browser.contexts[0].new_page()
     page.goto(DOC_URL, wait_until="domcontentloaded")
     page.wait_for_selector(".docs-render-unit", timeout=15000)
@@ -259,7 +280,8 @@ page.wait_for_load_state("networkidle")
 
 ### Pattern 5: Clean HTML via Jina after extraction
 
-When selectors are unreliable, dump the full page HTML and let Jina do the cleaning:
+When no browser was specified and selectors are unreliable, dump the full page HTML and let Jina do
+the cleaning. For an explicit external-browser request, ask before replacing that route:
 
 ```python
 html = page.content()
@@ -276,27 +298,35 @@ print(clean_md)
 
 ## Troubleshooting
 
-### `connect_over_cdp` fails with `ECONNREFUSED`
+### `connect_over_cdp` fails after a `ready` probe
 
-Chrome is not running with remote debugging. Tell the user:
-> "请先用下面的命令启动 Chrome：
-> `/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --remote-debugging-port=9222 --user-data-dir=\"${DESIRECORE_ROOT}/chrome-profile\"`
-> 然后手动登录需要抓取的网站，再让我继续。"
+Do not guess that the browser is merely closed. Call `BrowserExternalProbe` again:
+
+- `debug_port_closed` → show its current `launchCommand` and wait for the user
+- `browser_mismatch` → report the actual/requested products and ask the user to correct or approve the change
+- `browser_not_installed` → report that exact installation fact; alternatives require explicit approval
+- `invalid_cdp_endpoint` → tell the user the port is not a valid CDP endpoint
+- still `ready` → report the Playwright attach failure separately; do not switch to the built-in browser
 
 ### `browser.contexts[0]` is empty
 
-Chrome was launched but no windows are open. Ask the user to open at least one tab and navigate anywhere.
+The approved external Chromium browser is running but no windows are open. Ask the user to open at least one tab and navigate anywhere.
 
 ### Playwright not installed
 
 ```bash
-pip3 install playwright beautifulsoup4
-# No need for `playwright install` — we're attaching to existing Chrome, not downloading a new browser
+python3 -m venv "${DESIRECORE_ROOT}/runtime/external-browser-playwright"
+"${DESIRECORE_ROOT}/runtime/external-browser-playwright/bin/pip" install 'playwright==1.55.0' beautifulsoup4
+# No need for `playwright install` — we're attaching to an existing browser, not downloading one
 ```
+
+Keep the environment isolated to DesireCore; do not install Playwright globally. A missing Playwright
+dependency does not change a `ready` browser/CDP result and never authorizes fallback to BrowserManage.
 
 ### Site detects automation
 
-Despite CDP attach, some sites (Cloudflare-protected, Instagram) may still detect automation. Options:
+Despite CDP attach, some sites (Cloudflare-protected, Instagram) may still detect automation. If the
+user explicitly requested their external browser, ask before changing routes. Otherwise, options are:
 1. Use Jina Reader instead (`curl -sL https://r.jina.ai/<url>`) — often succeeds where Playwright fails
 2. Ask the user to manually copy the visible content
 3. Use the site's public API if available
@@ -307,7 +337,9 @@ The page uses virtualization or lazy loading. Apply Pattern 1 (scroll to bottom)
 
 ### `page.wait_for_selector` times out
 
-The selector is stale — the site updated its DOM. Dump `page.content()[:5000]` and inspect manually, or fall back to Jina Reader.
+The selector is stale — the site updated its DOM. Dump `page.content()[:5000]` and inspect manually.
+Only fall back to Jina Reader when no browser was specified; for an explicit external-browser request,
+ask before changing the execution route.
 
 ---
 
@@ -316,8 +348,8 @@ The selector is stale — the site updated its DOM. Dump `page.content()[:5000]`
 - **Never log or print cookies** from `context.cookies()` even during debugging
 - **Never extract and store** the user's session tokens to files
 - **Never use the CDP session** to perform writes (post, comment, like) unless the user explicitly requested it
-- The `${DESIRECORE_ROOT}/chrome-profile` directory contains the user's credentials — treat it as sensitive
-- If the user asks to "log in automatically", refuse and explain they must log in manually in the Chrome window; the skill only reads already-authenticated sessions
+- `${DESIRECORE_ROOT}/browser/external-profiles/<browser-id>` contains the manually established isolated login state — treat it as sensitive
+- If the user asks to "log in automatically", refuse and explain they must log in manually in the approved external browser window; the skill only reads already-authenticated sessions
 
 ---
 

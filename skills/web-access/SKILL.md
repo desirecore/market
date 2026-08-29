@@ -9,13 +9,13 @@ description: >-
   for public pages, (2) Jina Reader as the default token-optimization layer for
   heavy/JS-rendered pages, and (3) the governed built-in browser (isolated
   BrowserSpace + Cookie import + bulk text extraction + waits + code mode) to
-  reach, interact with, and read login-gated sites, and (4) the user's own Chrome over CDP when they ask for it by name. Always cite source URLs.
+  reach, interact with, and read login-gated sites, and (4) the user's named external Chromium browser (Chrome/Edge/Chromium) over CDP when requested. Always cite source URLs.
   Use when 用户提到 联网搜索、上网查、
   查资料、抓取网页、研究、调研、最新资讯、文档查询、对比、竞品、技术文档、
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: Complete terms in LICENSE.txt
-version: 3.3.0
+version: 3.4.0
 type: procedural
 risk_level: low
 status: enabled
@@ -31,6 +31,7 @@ tags:
 provides:
   tools:
     - BrowserManage
+    - BrowserExternalProbe
     - BrowserSnapshot
     - BrowserAct
     - BrowserScript
@@ -41,7 +42,7 @@ provides:
     - LocalBookmarks
 metadata:
   author: desirecore
-  updated_at: '2026-08-28'
+  updated_at: '2026-08-29'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -51,16 +52,16 @@ metadata:
     zh-CN:
       name: 联网访问
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
-      description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome。
+      description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:3988a0abf7573385
+      source_hash: sha256:15855c96de2eaa7d
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
-      description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's own Chrome over CDP on request.
+      description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request.
       body: ./SKILL.md
-      source_hash: sha256:3988a0abf7573385
+      source_hash: sha256:15855c96de2eaa7d
       translated_by: human
 market:
   icon: >-
@@ -78,7 +79,7 @@ market:
     fill-opacity="0.12"/><path d="M20.5 20.5l2 2" stroke="#34C759"
     stroke-width="1.8" stroke-linecap="round"/></svg>
   category: research
-  required_client_version: 10.0.98
+  required_client_version: 10.0.128
   maintainer:
     name: DesireCore Official
     verified: true
@@ -89,7 +90,7 @@ market:
 
 ## L0: One-line Summary
 
-A web-access toolkit — search public pages, optimize fetches via Jina Reader, reach/interact with/read login-gated sites through the governed built-in browser, and drive the user's own Chrome over CDP when they ask for it by name.
+A web-access toolkit — search public pages, optimize fetches via Jina Reader, reach/interact with/read login-gated sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP when requested.
 
 ## L1: Overview & Use Cases
 
@@ -101,17 +102,18 @@ web-access is a **procedural skill** that provides four complementary layers of 
 - **L2** (Jina Reader): JS-rendered heavy pages, saving tokens by default
 - **L3** (governed built-in browser, capability surface completed in v3.0): reach, *interact with*, and **read** logged-in / interactive sites — isolated BrowserSpace per task, zero Python dependency, every action carries a signed receipt. Bulk text extraction (`page.extract-text`), discriminated waits (`page.wait`), and code mode (`BrowserScript`) all close the loop inside this layer
 
-- **L3-external** (the user's own Chrome, attached via CDP + Python Playwright): **take this route when the user names their own browser** — their login state, their window, visible to them the whole time and theirs to take over at any moment
+- **L3-external** (the user's named Chrome/Edge/Chromium, attached via CDP + Python Playwright): **take this route only when the user names their own browser or explicitly accepts it after you explain why** — its isolated DesireCore profile login state, its visible window, and the user's ability to take over at any moment
 
 A note of history on L3-external: v3.0 deleted it outright, on the grounds that "every technical reason it existed for (no bulk text channel, evaluate unusable, screenshots must activate-serialize) is now covered by the built-in browser". That technical judgement was correct — **as a fallback for when the built-in browser isn't enough, it genuinely isn't needed any more**. But the deletion took with it a completely different use case: the user wanting *their own* browser. That has nothing to do with capability, and the built-in browser cannot stand in for it, so v3.2 restores it as a peer option **triggered by user intent**. Note it is no longer a fallback; see "Two browsers — pick by user intent" below.
 
 ### v3.0: governed built-in browser (default-hidden, exposed only after Skill activation)
 
-When you call `Skill('web-access')`, the following 9 tools are injected into the current session so the LLM can drive the built-in browser directly:
+When you call `Skill('web-access')`, the following tools are injected into the current session. The `Browser*` tools drive the built-in browser; `BrowserExternalProbe` only inspects external-browser prerequisites:
 
 | Tool | Purpose |
 |------|---------|
 | BrowserManage | Create/destroy isolated BrowserSpace, start sessions, manage tabs |
+| BrowserExternalProbe | Read-only check for installed Chrome/Edge/Chromium and loopback CDP readiness; never launches or reads a profile |
 | BrowserSnapshot | `semantic` / `text` / `accessibility` / `visual` snapshots — the primary way to read a page |
 | BrowserAct | One governed action per call: navigate, input, extract text, wait, element ops, screenshot, … |
 | BrowserScript | **Code mode**: one async JS script issues browser commands back-to-back, eliminating per-action round trips (trust level equals Bash) |
@@ -137,7 +139,7 @@ When you call `Skill('web-access')`, the following 9 tools are injected into the
 - **Layered progression**: from lightweight search to heavy JS rendering to logged-in access — pick on demand; plus the user's own browser whenever they name it
 - **Token optimization**: Jina Reader cuts token usage by 50–80% by default; `page.extract-text`'s maxBytes/cursor paging keeps even long logged-in articles under control
 - **Logged-in session reuse**: where the Host has granted `browser.import.*`, BrowserImport brings the user's Cookies into an isolated Space — no re-login required
-- **Zero external dependencies by default**: the built-in browser needs no Python/Playwright install and no manually launched debug Chrome (L3-external does, and only when the user asks for it)
+- **Zero external dependencies by default**: the built-in browser needs no Python/Playwright install and no manually launched external Chromium browser (L3-external does, and only after explicit user intent)
 
 ## L2: Detailed Specification
 
@@ -149,51 +151,41 @@ When you complete a research task, you **MUST** cite all source URLs in your res
 
 If any fetch fails, explicitly tell the user which URL failed and which fallback you used.
 
-## Prerequisites: Chrome CDP Setup (L3-external only)
+## Prerequisites: external browser + CDP (L3-external only)
 
-**Only needed when taking the L3-external route** (the user named their own browser). The built-in
-browser has no prerequisites.
+**Only needed when taking the L3-external route.** The built-in browser has no prerequisites.
 
-### One-time setup
+### Always probe before attaching
 
-Have the user launch Chrome with remote debugging enabled:
+Map the user's words to an exact probe request:
 
-**macOS**:
-```bash
-/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
-  --remote-debugging-port=9222 \
-  --user-data-dir="${DESIRECORE_ROOT}/chrome-profile"
-```
+- “my Chrome” → `BrowserExternalProbe({ requestedBrowser: 'chrome' })`
+- “my Edge” → `BrowserExternalProbe({ requestedBrowser: 'edge' })`
+- “my external/system browser” without a product name → `BrowserExternalProbe({ requestedBrowser: 'any' })`
+- “local browser” is ambiguous → ask whether they mean the built-in browser or their external browser before probing
 
-**Linux**:
-```bash
-google-chrome \
-  --remote-debugging-port=9222 \
-  --user-data-dir="${DESIRECORE_ROOT}/chrome-profile"
-```
+Handle the structured result exactly:
 
-**Windows (PowerShell)**:
-```powershell
-& "C:\Program Files\Google\Chrome\Application\chrome.exe" `
-  --remote-debugging-port=9222 `
-  --user-data-dir="$env:USERPROFILE\.desirecore\chrome-profile"
-```
+| status | Required response |
+|---|---|
+| `ready` | Continue with Playwright `connect_over_cdp`; name the detected external browser honestly. For `any`, the already-ready endpoint is the prepared choice even if other products are installed |
+| `browser_not_installed` | Say the requested browser was not detected. If `alternatives` is non-empty, ask whether the user wants one of them; **never switch automatically** |
+| `debug_port_closed` | Show the returned `launchCommand`, ask the user to launch it and log in manually, then wait and probe again |
+| `browser_choice_required` | No endpoint is ready and multiple external browsers are installed. List id/name only and ask which one the user wants; probe that exact choice next |
+| `browser_mismatch` | Say which browser is actually on the port and which one was requested; ask the user to correct the port or explicitly approve the other browser |
+| `invalid_cdp_endpoint` | Explain that something is listening on the port but it is not a valid Chrome DevTools endpoint; do not attach |
+| `host_unavailable` | Explain that this Agent Service cannot inspect the user's desktop host; do not assume a browser is installed or silently use the built-in browser |
 
-After launch:
-1. The user logs in manually to the sites they need
-2. That Chrome window stays open
-3. Verify the debug endpoint: `curl -s http://localhost:9222/json/version` should return JSON
+`launchCommand` uses an isolated DesireCore profile. After launch:
 
-### Verify readiness before every operation
+1. The user logs in manually to the sites they need.
+2. That external browser window stays open.
+3. Call `BrowserExternalProbe` again. Only `ready` authorizes the CDP attach attempt.
 
-```bash
-curl -s http://localhost:9222/json/version | python3 -c "import sys,json; d=json.load(sys.stdin); print('CDP ready:', d.get('Browser'))"
-```
+Do not replace this probe with `curl`: a refused connection cannot distinguish “browser not installed”
+from “browser installed but debugging disabled”, and a random HTTP service must not be accepted as CDP.
 
-If it fails, tell the user: "请先启动 Chrome 并开启远程调试端口（见 web-access 技能的 Prerequisites 部分）"
-— **then wait for them.** Don't switch to the built-in browser just because it could also do the job.
-
-⚠️ When attached over CDP, **never call `browser.close()`** — that would close the user's own Chrome.
+⚠️ When attached over CDP, **never call `browser.close()`** — that would close the user's own external browser.
 Only close the page you opened. Full recipes in [references/cdp-browser.md](references/cdp-browser.md).
 
 ---
@@ -229,8 +221,8 @@ User intent
   │
   └─ "Real-time interactive task" (click, fill form, scroll, screenshot)
         ├─→ **User named "my own / my machine's / the external browser"** → L3-external:
-        │     verify CDP is ready (see Prerequisites), then python3 playwright.connect_over_cdp()
-        │     If it isn't ready, give them the launch command and wait — don't quietly switch to the built-in one
+        │     BrowserExternalProbe(exact requested browser), then connect_over_cdp() only on `ready`
+        │     Otherwise follow the status guidance and wait — don't quietly switch to the built-in one
         └─→ **Otherwise (default)**: built-in browser (BrowserManage → BrowserAct → BrowserSnapshot —
              see references/browser-tools.md, no Python needed)
 ```
@@ -241,10 +233,10 @@ DesireCore can drive **two** browsers. They are peer options:
 
 | | L3 built-in governed browser | L3-external — the user's own browser |
 |---|---|---|
-| What it is | A browser instance inside the app (the `Browser*` tools) | The Chrome installed on the user's machine, attached via CDP + Python Playwright |
+| What it is | A browser instance inside the app (the `Browser*` tools) | The user-named Chrome/Edge/Chromium on their machine, attached via CDP + Python Playwright |
 | Login state | Isolated; needs `browser.import.*` granted by the Host before `BrowserImport` can pull cookies | **Literally the user's own session** — nothing to import |
 | Can the user see it | Agent tabs are offscreen by default; must be presented to the workbench | **It's their own window** — visible throughout, theirs to take over |
-| Prerequisite | None | User must launch Chrome with `--remote-debugging-port=9222` (see Prerequisites) |
+| Prerequisite | None | `BrowserExternalProbe` must report `ready`; otherwise follow its exact status guidance |
 | Default | ✅ yes | When the user names it |
 
 > The login-state row is easy to misread as "the built-in browser can't reuse the user's login
@@ -258,13 +250,13 @@ DesireCore can drive **two** browsers. They are peer options:
 **The layer is chosen by user intent, not by technical difficulty.** v3.0 deleted this layer as
 "a fallback for when the built-in browser isn't enough" — and as a fallback, it really isn't needed
 any more. But that deletion also removed a **different** use case: the user wanting *their own*
-browser. That has nothing to do with capability — their login state lives in their Chrome, and they
+browser. That has nothing to do with capability — the login state they establish lives in their named external browser, and they
 want to watch it happen and take over when they choose. The built-in browser cannot stand in for that.
 
 **If the user named one, use the one they named:**
 
-- "my own / my machine's / the external browser / my Chrome" → **L3-external**. Verify CDP readiness
-  per Prerequisites first; if it isn't ready, give them the launch command and wait. **Do not switch
+- "my own / my machine's / the external browser / my Chrome" → **L3-external**. Probe the exact
+  requested browser first; if it isn't ready, follow the structured status and wait. **Do not switch
   to the built-in browser just because it could also do the job**
 - "the built-in browser", or nothing named → **L3 built-in** (default, no prerequisites)
 - Genuinely unclear which they mean → ask, don't guess
@@ -280,7 +272,7 @@ When what they asked for and what you're giving differ, the wording has to make 
 | L1 | Public, static | `WebFetch` | Low |
 | L2 | JS-heavy, long articles, token savings | `Bash curl r.jina.ai` | **Lowest** (Markdown pre-cleaned) |
 | **L3** | **Login-gated navigation, interaction & extraction (PRIMARY)** | **built-in browser (BrowserManage / BrowserAct / BrowserSnapshot / BrowserScript)** | Medium |
-| L3-external | **User named their own browser**; or their personal login state is needed and `BrowserImport` is unavailable | `Bash + Python Playwright connect_over_cdp` (see references/cdp-browser.md) | Medium |
+| L3-external | **User named their own browser**, or explicitly accepted this route after you explained why it is needed | `BrowserExternalProbe` → `Bash + Python Playwright connect_over_cdp` (see references/cdp-browser.md) | Medium |
 
 **Default priority**: L1 for simple public pages → L2 for heavy → **L3 for login-gated (body text and in-site API data included)**.
 
@@ -458,7 +450,7 @@ Notes:
 8. SitePatternRead({ domain: 'xiaohongshu.com' })  ← read accumulated experience
 9. Before reporting → one more BrowserSnapshot to confirm the page is still there (the session may have been quota-terminated)
 10. At task end → if the user still wants to look, **keep the session** and say where the page is; close only for pure extraction
-10. If you find a new pitfall → SitePatternWrite({ domain, scope: 'agent', mode: 'merge', content })
+11. If you find a new pitfall → SitePatternWrite({ domain, scope: 'agent', mode: 'merge', content })
 ```
 
 ## Site Experience Accumulation
