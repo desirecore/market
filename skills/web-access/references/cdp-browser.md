@@ -329,6 +329,10 @@ test -x "<DESIRECORE_HOME>/runtime/external-browser-playwright/bin/python" || \
 if ! "<DESIRECORE_HOME>/runtime/external-browser-playwright/bin/python" -c 'import playwright'; then
   "<DESIRECORE_HOME>/runtime/external-browser-playwright/bin/python" -m pip install 'playwright==1.55.0' beautifulsoup4
 fi
+"<DESIRECORE_HOME>/runtime/external-browser-playwright/bin/python" -c 'import playwright' || {
+  echo 'Playwright is still unavailable in the isolated venv' >&2
+  exit 1
+}
 # No need for `playwright install` — we're attaching to an existing browser, not downloading one
 ```
 
@@ -342,11 +346,15 @@ $venv = Join-Path '<DESIRECORE_HOME>' 'runtime\external-browser-playwright'
 $python = Join-Path $venv 'Scripts\python.exe'
 if (-not (Test-Path -LiteralPath $python)) {
     python -m venv $venv
+    if ($LASTEXITCODE -ne 0) { throw 'Failed to create the isolated Playwright venv.' }
 }
 & $python -c "import playwright"
 if ($LASTEXITCODE -ne 0) {
     # Explain the missing dependency and obtain any required install approval first.
     & $python -m pip install 'playwright==1.55.0' beautifulsoup4
+    if ($LASTEXITCODE -ne 0) { throw 'Failed to install Playwright in the isolated venv.' }
+    & $python -c "import playwright"
+    if ($LASTEXITCODE -ne 0) { throw 'Playwright is still unavailable in the isolated venv.' }
 }
 # Do NOT run `playwright install`; CDP attach uses the already-running external browser.
 ```
@@ -355,13 +363,17 @@ To run an attach script on Windows, do not send a Bash heredoc to PowerShell. Us
 PowerShell here-string and explicit UTF-8 write:
 
 ```powershell
-$scriptPath = Join-Path $env:TEMP 'desirecore-external-cdp.py'
+$scriptPath = Join-Path $env:TEMP ("desirecore-external-cdp-{0}.py" -f [guid]::NewGuid().ToString('N'))
 $script = @'
 # Paste the reviewed Python attach script here.
 '@
-[IO.File]::WriteAllText($scriptPath, $script, (New-Object Text.UTF8Encoding($false)))
-& $python $scriptPath
-Remove-Item -LiteralPath $scriptPath
+try {
+    [IO.File]::WriteAllText($scriptPath, $script, (New-Object Text.UTF8Encoding($false)))
+    & $python $scriptPath
+    if ($LASTEXITCODE -ne 0) { throw "Playwright attach failed with exit code $LASTEXITCODE." }
+} finally {
+    Remove-Item -LiteralPath $scriptPath -ErrorAction SilentlyContinue
+}
 ```
 
 Keep the environment isolated to DesireCore; do not install Playwright globally. A missing Playwright

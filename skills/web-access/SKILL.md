@@ -54,14 +54,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:e0b2827ca95be081
+      source_hash: sha256:efcfd466dd6026a0
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request.
       body: ./SKILL.md
-      source_hash: sha256:e0b2827ca95be081
+      source_hash: sha256:efcfd466dd6026a0
       translated_by: human
 market:
   icon: >-
@@ -213,6 +213,14 @@ the missing prerequisite. Do not improvise a cross-shell command and do not fall
 ```
 User intent
   │
+  ├─ **Any request that names "my own / my machine's / external Chrome/Edge/Chromium"**
+  │     └─→ L3-external first, whether the verb is search/read/open/click:
+  │          BrowserExternalProbe(exact requested browser), then connect_over_cdp() only on `ready`
+  │          Otherwise follow the status guidance and wait; never route to WebSearch/WebFetch/Jina/built-in browser
+  │
+  ├─ "Local browser" without saying built-in or external
+  │     └─→ Ask which browser identity the user means before selecting any route or tool
+  │
   ├─ "Search for information about X" (no specific URL)
   │     └─→ WebSearch → pick top 3-5 results → fetch each (see next branches)
   │
@@ -241,11 +249,8 @@ User intent
   │          - npm:    curl https://registry.npmjs.org/<pkg>
   │          - PyPI:   curl https://pypi.org/pypi/<pkg>/json
   │
-  └─ "Real-time interactive task" (click, fill form, scroll, screenshot)
-        ├─→ **User named "my own / my machine's / the external browser"** → L3-external:
-        │     BrowserExternalProbe(exact requested browser), then connect_over_cdp() only on `ready`
-        │     Otherwise follow the status guidance and wait — don't quietly switch to the built-in one
-        └─→ **Otherwise (default)**: built-in browser (BrowserManage → BrowserAct → BrowserSnapshot —
+  └─ "Real-time interactive task" (click, fill form, scroll, screenshot; no external qualifier)
+        └─→ Built-in browser by default (BrowserManage → BrowserAct → BrowserSnapshot —
              see references/browser-tools.md, no Python needed)
 ```
 

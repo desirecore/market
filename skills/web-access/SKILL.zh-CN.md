@@ -122,6 +122,14 @@ probe 返回 `ready` 后，创建或执行 attach 脚本前**必须先确认当�
 ```
 User intent
   │
+  ├─ **任何点名「我自己的 / 我本机的 / 外部 Chrome、Edge、Chromium」的请求**
+  │     └─→ 不论动词是搜索、读取、打开还是点击，都优先走 L3-external：
+  │          BrowserExternalProbe（精确点名产品），仅 `ready` 后 connect_over_cdp()
+  │          否则按状态提示并等待；绝不能改走 WebSearch、WebFetch、Jina 或内置浏览器
+  │
+  ├─ 只说「本地浏览器」，没有说明内置还是外部
+  │     └─→ 选择任何路线/工具前先澄清浏览器身份
+  │
   ├─ "Search for information about X" (no specific URL)
   │     └─→ WebSearch → pick top 3-5 results → fetch each (see next branches)
   │
@@ -150,12 +158,9 @@ User intent
   │          - npm:    curl https://registry.npmjs.org/<pkg>
   │          - PyPI:   curl https://pypi.org/pypi/<pkg>/json
   │
-  └─ "Real-time interactive task" (click, fill form, scroll, screenshot)
-        ├─→ **用户点名「我本机的 / 我自己的 / 外部的浏览器」** → L3-external：
-        │     BrowserExternalProbe（精确点名的浏览器），仅 `ready` 后 connect_over_cdp()
-        │     其余状态按表处理并等待，不要擅自改用内置浏览器
-        └─→ **其余情况（默认）**：内置受管浏览器 (BrowserManage → BrowserAct → BrowserSnapshot —
-             see references/browser-tools.md, no Python needed)
+  └─ "Real-time interactive task"（点击、填表、滚动、截图；没有外部限定）
+        └─→ 默认使用内置浏览器（BrowserManage → BrowserAct → BrowserSnapshot —
+             见 references/browser-tools.md，零 Python 依赖）
 ```
 
 ### 两个浏览器，按用户意图选，不按能力难度选
