@@ -38,15 +38,15 @@ metadata:
       description: >-
         当用户自然提出服务范围、分层资源分配、绩效目标、集中任务调度、人员配置、排班或通用 LP/MILP 需求时，通过 DecisionWorkspace 的人机确认、精确版本制品、入口 Agent 绑定、同伴审阅、执行门禁、独立验收和真人批准形成可恢复治理链。选择 MindOpt 引擎时，实际求解仍依赖使用方另行取得适用许可证、部署并接入 MindOpt；客户端和本技能不包含求解器软件、许可证、算力托管或相关费用。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:ce2258330f6df550
+      source_hash: sha256:63c40f1123d9fc31
       translated_by: human
     en-US:
       name: Workforce and Resource Optimization
       short_desc: Co-manage workforce models, guarded solving, and independent validation; MindOpt is externally licensed
       description: >-
-        When users naturally request service coverage, hierarchical resource allocation, performance targets, centralized task scheduling, staffing, shift planning, or general LP/MILP, use DecisionWorkspace human confirmation, exact-version artifacts, entry-Agent binding, peer review, execution guards, independent validation, and human approval to create a recoverable governance chain. When MindOpt is selected, actual solving still requires the user to obtain an applicable license, deploy MindOpt, and configure its connector; the client and this Skill do not include the solver, license, hosted compute, or related fees.
+        When users naturally request service coverage, hierarchical resource allocation, performance targets, centralized task scheduling, staffing, shift planning, or general LP/MILP, use DecisionWorkspace human confirmation, exact-version artifacts, entry Agent binding, peer review, execution guards, independent validation, and human approval to create a recoverable governance chain. When MindOpt is selected, actual solving still requires the user to obtain an applicable license, deploy MindOpt, and configure its connector; the client and this Skill do not include the solver, license, hosted compute, or related fees.
       body: ./SKILL.md
-      source_hash: sha256:ce2258330f6df550
+      source_hash: sha256:63c40f1123d9fc31
       translated_by: human
 market:
   icon: >-

@@ -26,13 +26,13 @@
   1. 入口 Agent 在构造写入前，按需读取 `DecisionWorkspace(action="schema")` 的对应 section，以及每类 `TeamArtifact(action="schema")` 契约。
   2. 入口 Agent 创建团队 DecisionWorkspace，或用 CAS 提交业务语言提议；提议绝不得伪造真人回执。
   3. 用户只能通过平台专用真人控件确认或驳回阻断事实；驳回项保留为可审计的非活跃 tombstone。所有 Agent 必须等待权威结果。
-  4. 只有顶层入口 Agent 可以对已验证的当前 workspace revision 与 model-input hash 调用 `DecisionWorkspace(action="bind_workspace")`；specialist 不得绑定、替换或绕过。
+  4. 只有顶层入口 Agent 可以对已验证的当前 workspace revision 与 model-input hash 调用 `DecisionWorkspace(action="bind_workspace")`；Specialist 不得绑定、替换或绕过。
   5. 指定阶段 Owner 按依赖顺序通过 `TeamArtifact` 发布 `SceneSpec`、`DataContract`、可选 `PredictionArtifact`、`OptimizationSpec`、`SolveResult`、`ValidationReport` 和 `DeliveryBundle`，并保留返回的精确 artifact revision 与 DecisionWorkspace snapshot。
   6. 入口 Agent 使用精确 artifact ID、精确 revision 和语义绑定调用 `DecisionWorkspace(action="link_artifact")`；受治理证据禁止解析到可变 `latest`。
   7. 将已链接 revision 提交同伴审阅；独立 reviewer 在执行前检查业务到模型覆盖、单位、变量族、可行性逻辑、来源证据、缺口以及 stale/rejected 排除。
   8. 依次调用 `OptimizationCompile` 和 `OptimizationSolve`；两者产生副作用前都必须通过平台 DecisionWorkspace execution guard。`MindOptSolve` 只保留兼容 Connector 名称，不得被直接调用来绕过受保护求解路径。
   9. 与求解 Owner 不同的验证 Owner 调用 `OptimizationValidate`，基于原始变量独立重算变量域、硬约束、目标值、基线差和 IIS 可追溯性。
-  10. 精确链接链通过审阅和独立验收后，用户只能通过平台专用真人批准控件批准；任何 Agent 或 specialist 都不得生成该批准。
+  10. 精确链接链通过审阅和独立验收后，用户只能通过平台专用真人批准控件批准；任何 Agent 或 Specialist 都不得生成该批准。
 - 有训练数据时必须调用 `OptimizationPredict`，执行有序留出、仅训练集插补、调参、指标、基线比较和明确降级规则。
 - 通用模型先用 `OptimizationCompile` 严格编译，再通过受保护的 `OptimizationSolve` 求解一次；保留真实 status、原始变量、objective、request/job ID、HTTPS transport、所选引擎证据和不可行时的 IIS。
 - 验证 Owner 必须调用 `OptimizationValidate`，基于原始变量独立重算变量域、硬约束、目标值、基线差和 IIS 可追溯性。
