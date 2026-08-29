@@ -339,13 +339,17 @@ fi
 #### Windows hosts
 
 Use the `PowerShell` tool. Resolve `<DESIRECORE_HOME>` from the current DesireCore instance; do not
-guess another instance's directory.
+guess another instance's directory. The only permitted system/bootstrap `python.exe` use is running
+`-m venv` when the isolated venv is missing. Never use the `Bash` tool, bare `python`, bare `pip`,
+`pip --user`, or a global interpreter for any Playwright import, install, re-check, or attach step;
+all of those steps must use the venv's `Scripts\python.exe`.
 
 ```powershell
 $venv = Join-Path '<DESIRECORE_HOME>' 'runtime\external-browser-playwright'
 $python = Join-Path $venv 'Scripts\python.exe'
 if (-not (Test-Path -LiteralPath $python)) {
-    python -m venv $venv
+    $bootstrapPython = (Get-Command python.exe -ErrorAction Stop).Source
+    & $bootstrapPython -m venv $venv
     if ($LASTEXITCODE -ne 0) { throw 'Failed to create the isolated Playwright venv.' }
 }
 & $python -c "import playwright"

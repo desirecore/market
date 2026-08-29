@@ -15,7 +15,7 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: Complete terms in LICENSE.txt
-version: 3.4.1
+version: 3.4.2
 type: procedural
 risk_level: low
 status: enabled
@@ -54,14 +54,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:efcfd466dd6026a0
+      source_hash: sha256:b12669d544fe2c7e
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request.
       body: ./SKILL.md
-      source_hash: sha256:efcfd466dd6026a0
+      source_hash: sha256:b12669d544fe2c7e
       translated_by: human
 market:
   icon: >-
@@ -192,11 +192,13 @@ Only close the page you opened. Full recipes in [references/cdp-browser.md](refe
 
 After a `ready` probe, identify the current OS **before** creating or running an attach script:
 
-1. Check whether the selected Python interpreter can import Playwright. A missing dependency is
-   separate from browser readiness: report it explicitly and do not attach yet.
-2. Keep Playwright in a DesireCore-owned isolated virtual environment. Never install it globally and
-   never run `playwright install`; CDP attach reuses the browser that is already running.
-3. On Unix-like hosts, use Bash paths and shell syntax. On Windows, use the `PowerShell` tool and a
+1. **Create or select the DesireCore-owned isolated venv first.** Do not probe a global interpreter
+   for Playwright. A system/bootstrap Python may only run `-m venv` when the venv does not exist.
+2. From that point onward, use only the venv interpreter for import, pinned install, re-import, and
+   attach. Never use bare `python`, bare `pip`, `pip --user`, a global install, or `playwright install`.
+   A missing dependency is separate from browser readiness: report it explicitly and do not attach yet.
+3. On Unix-like hosts, use Bash paths and shell syntax. On Windows, every command in this flow must use
+   the `PowerShell` tool and the venv's `Scripts\python.exe`; do not call the `Bash` tool. Use a
    PowerShell here-string plus `[IO.File]::WriteAllText(...)` to create the temporary `.py` file.
    **Never send `cat <<EOF`, `/tmp/...`, or another POSIX heredoc to PowerShell.**
 4. Invoke the virtual environment's platform-specific Python (`bin/python` on Unix,
@@ -299,7 +301,7 @@ When what they asked for and what you're giving differ, the wording has to make 
 | L1 | Public, static | `WebFetch` | Low |
 | L2 | JS-heavy, long articles, token savings | `Bash curl r.jina.ai` | **Lowest** (Markdown pre-cleaned) |
 | **L3** | **Login-gated navigation, interaction & extraction (PRIMARY)** | **built-in browser (BrowserManage / BrowserAct / BrowserSnapshot / BrowserScript)** | Medium |
-| L3-external | **User named their own browser**, or explicitly accepted this route after you explained why it is needed | `BrowserExternalProbe` → `Bash + Python Playwright connect_over_cdp` (see references/cdp-browser.md) | Medium |
+| L3-external | **User named their own browser**, or explicitly accepted this route after you explained why it is needed | `BrowserExternalProbe` → platform-native shell (`PowerShell` on Windows) + DesireCore isolated venv + Playwright `connect_over_cdp` (see references/cdp-browser.md) | Medium |
 
 **Default priority**: L1 for simple public pages → L2 for heavy → **L3 for login-gated (body text and in-site API data included)**.
 
