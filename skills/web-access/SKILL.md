@@ -15,7 +15,7 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: Complete terms in LICENSE.txt
-version: 3.4.2
+version: 3.4.3
 type: procedural
 risk_level: low
 status: enabled
@@ -32,6 +32,7 @@ provides:
   tools:
     - BrowserManage
     - BrowserExternalProbe
+    - BrowserExternalOpen
     - BrowserSnapshot
     - BrowserAct
     - BrowserScript
@@ -54,14 +55,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:b12669d544fe2c7e
+      source_hash: sha256:78082a20359f730f
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request.
       body: ./SKILL.md
-      source_hash: sha256:b12669d544fe2c7e
+      source_hash: sha256:78082a20359f730f
       translated_by: human
 market:
   icon: >-
@@ -102,18 +103,19 @@ web-access is a **procedural skill** that provides four complementary layers of 
 - **L2** (Jina Reader): JS-rendered heavy pages, saving tokens by default
 - **L3** (governed built-in browser, capability surface completed in v3.0): reach, *interact with*, and **read** logged-in / interactive sites — isolated BrowserSpace per task, zero Python dependency, every action carries a signed receipt. Bulk text extraction (`page.extract-text`), discriminated waits (`page.wait`), and code mode (`BrowserScript`) all close the loop inside this layer
 
-- **L3-external** (the user's named Chrome/Edge/Chromium, attached via CDP + Python Playwright): **take this route only when the user names their own browser or explicitly accepts it after you explain why** — its isolated DesireCore profile login state, its visible window, and the user's ability to take over at any moment
+- **L3-external** (the user's named Chrome/Edge/Chromium, opened through governed CDP tools and attached via isolated Python Playwright only for advanced interaction): **take this route only when the user names their own browser or explicitly accepts it after you explain why** — the login state the user established manually in the DesireCore-isolated external profile, the visible window, and the user's ability to take over at any moment
 
 A note of history on L3-external: v3.0 deleted it outright, on the grounds that "every technical reason it existed for (no bulk text channel, evaluate unusable, screenshots must activate-serialize) is now covered by the built-in browser". That technical judgement was correct — **as a fallback for when the built-in browser isn't enough, it genuinely isn't needed any more**. But the deletion took with it a completely different use case: the user wanting *their own* browser. That has nothing to do with capability, and the built-in browser cannot stand in for it, so v3.2 restores it as a peer option **triggered by user intent**. Note it is no longer a fallback; see "Two browsers — pick by user intent" below.
 
 ### v3.0: governed built-in browser (default-hidden, exposed only after Skill activation)
 
-When you call `Skill('web-access')`, the following tools are injected into the current session. The `Browser*` tools drive the built-in browser; `BrowserExternalProbe` only inspects external-browser prerequisites:
+When you call `Skill('web-access')`, the following tools are injected into the current session. Most `Browser*` tools drive the built-in browser; `BrowserExternalProbe` and `BrowserExternalOpen` are the explicitly named external-browser exceptions:
 
 | Tool | Purpose |
 |------|---------|
 | BrowserManage | Create/destroy isolated BrowserSpace, start sessions, manage tabs |
 | BrowserExternalProbe | Read-only check for installed Chrome/Edge/Chromium and loopback CDP readiness; never launches or reads a profile |
+| BrowserExternalOpen | After `BrowserExternalProbe` returns `ready` in the same runtime session, visibly open one HTTP(S) URL in the exact external browser; no shell, Python, or Playwright |
 | BrowserSnapshot | `semantic` / `text` / `accessibility` / `visual` snapshots — the primary way to read a page |
 | BrowserAct | One governed action per call: navigate, input, extract text, wait, element ops, screenshot, … |
 | BrowserScript | **Code mode**: one async JS script issues browser commands back-to-back, eliminating per-action round trips (trust level equals Bash) |
@@ -168,7 +170,7 @@ Handle the structured result exactly:
 
 | status | Required response |
 |---|---|
-| `ready` | Continue with Playwright `connect_over_cdp`; name the detected external browser honestly. For `any`, the already-ready endpoint is the prepared choice even if other products are installed |
+| `ready` | For a simple open/navigation, call `BrowserExternalOpen` with the returned exact browser id and port. For advanced click/read/extract interaction, continue with isolated Playwright `connect_over_cdp`. Name the detected external browser honestly. For `any`, the already-ready endpoint is the prepared choice even if other products are installed |
 | `browser_not_installed` | Say the requested browser was not detected. If `alternatives` is non-empty, ask whether the user wants one of them; **never switch automatically** |
 | `debug_port_closed` | Show the returned `launchCommand`, ask the user to launch it and log in manually, then wait and probe again |
 | `browser_choice_required` | No endpoint is ready and multiple external browsers are installed. List id/name only and ask which one the user wants; probe that exact choice next |
@@ -180,7 +182,7 @@ Handle the structured result exactly:
 
 1. The user logs in manually to the sites they need.
 2. That external browser window stays open.
-3. Call `BrowserExternalProbe` again. Only `ready` authorizes the CDP attach attempt.
+3. Call `BrowserExternalProbe` again. Only `ready` authorizes `BrowserExternalOpen` or an advanced CDP attach attempt.
 
 Do not replace this probe with `curl`: a refused connection cannot distinguish “browser not installed”
 from “browser installed but debugging disabled”, and a random HTTP service must not be accepted as CDP.
@@ -188,9 +190,21 @@ from “browser installed but debugging disabled”, and a random HTTP service m
 ⚠️ When attached over CDP, **never call `browser.close()`** — that would close the user's own external browser.
 Only close the page you opened. Full recipes in [references/cdp-browser.md](references/cdp-browser.md).
 
+### Simple external open/navigation: use the dedicated tool
+
+When the user's requested action is only to open or navigate to an HTTP(S) URL in their named external browser:
+
+1. Call `BrowserExternalProbe` and require `ready`.
+2. In the same runtime session, call `BrowserExternalOpen` with `browser: detectedBrowser.id`, the exact probe `port`, and the URL.
+3. Do not call Bash, PowerShell, Python, pip, or Playwright for this simple action.
+
+The ready grant is short-lived, one-time, and bound to the exact browser and port. The host revalidates
+`Browser.getVersion` on the same CDP WebSocket before creating the target. If open reports a closed,
+invalid, or mismatched endpoint, call the probe again and follow its status guidance; do not retry with shell.
+
 ### Platform-safe Playwright execution
 
-After a `ready` probe, identify the current OS **before** creating or running an attach script:
+Only for advanced interaction after a `ready` probe, identify the current OS **before** creating or running an attach script:
 
 1. **Create or select the DesireCore-owned isolated venv first.** Do not probe a global interpreter
    for Playwright. A system/bootstrap Python may only run `-m venv` when the venv does not exist.
@@ -217,7 +231,9 @@ User intent
   │
   ├─ **Any request that names "my own / my machine's / external Chrome/Edge/Chromium"**
   │     └─→ L3-external first, whether the verb is search/read/open/click:
-  │          BrowserExternalProbe(exact requested browser), then connect_over_cdp() only on `ready`
+  │          BrowserExternalProbe(exact requested browser), then only on `ready`:
+  │            simple open/navigation → BrowserExternalOpen(exact detected browser + port + URL)
+  │            advanced search/read/click/extract → isolated Playwright connect_over_cdp()
   │          Otherwise follow the status guidance and wait; never route to WebSearch/WebFetch/Jina/built-in browser
   │
   ├─ "Local browser" without saying built-in or external
@@ -262,7 +278,7 @@ DesireCore can drive **two** browsers. They are peer options:
 
 | | L3 built-in governed browser | L3-external — the user's own browser |
 |---|---|---|
-| What it is | A browser instance inside the app (the `Browser*` tools) | The user-named Chrome/Edge/Chromium on their machine, attached via CDP + Python Playwright |
+| What it is | A browser instance inside the app (the governed built-in browser tools) | The user-named Chrome/Edge/Chromium on their machine, opened through governed CDP tools and attached via isolated Python Playwright only for advanced interaction |
 | Login state | Isolated; needs `browser.import.*` granted by the Host before `BrowserImport` can pull cookies | **Literally the user's own session** — nothing to import |
 | Can the user see it | Agent tabs are offscreen by default; must be presented to the workbench | **It's their own window** — visible throughout, theirs to take over |
 | Prerequisite | None | `BrowserExternalProbe` must report `ready`; otherwise follow its exact status guidance |
@@ -301,7 +317,7 @@ When what they asked for and what you're giving differ, the wording has to make 
 | L1 | Public, static | `WebFetch` | Low |
 | L2 | JS-heavy, long articles, token savings | `Bash curl r.jina.ai` | **Lowest** (Markdown pre-cleaned) |
 | **L3** | **Login-gated navigation, interaction & extraction (PRIMARY)** | **built-in browser (BrowserManage / BrowserAct / BrowserSnapshot / BrowserScript)** | Medium |
-| L3-external | **User named their own browser**, or explicitly accepted this route after you explained why it is needed | `BrowserExternalProbe` → platform-native shell (`PowerShell` on Windows) + DesireCore isolated venv + Playwright `connect_over_cdp` (see references/cdp-browser.md) | Medium |
+| L3-external | **User named their own browser**, or explicitly accepted this route after you explained why it is needed | Simple open/navigation: `BrowserExternalProbe` → `BrowserExternalOpen`; advanced interaction: ready probe → platform-native shell (`PowerShell` on Windows) + DesireCore isolated venv + Playwright `connect_over_cdp` (see references/cdp-browser.md) | Medium |
 
 **Default priority**: L1 for simple public pages → L2 for heavy → **L3 for login-gated (body text and in-site API data included)**.
 

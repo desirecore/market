@@ -2,7 +2,9 @@
 
 Detailed recipes for accessing sites through the user-approved external Chromium browser, via Chrome DevTools Protocol (CDP) + Python Playwright.
 
-**Precondition**: `BrowserExternalProbe` has returned `ready` for the exact browser the user requested, that browser is running with its DesireCore-isolated profile, and the user has manually logged in to the target sites. Never infer readiness from a failed/successful `curl`; see the main SKILL.md status table.
+**Scope**: this manual is only for advanced external-browser interaction such as clicking, reading dynamic content, extraction, or form work. A simple open/navigation must use `BrowserExternalProbe` → `BrowserExternalOpen` and must not invoke shell, Python, pip, or Playwright.
+
+**Precondition for advanced interaction**: `BrowserExternalProbe` has returned `ready` for the exact browser the user requested, that browser is running with its DesireCore-isolated profile, and the user has manually logged in to the target sites. Never infer readiness from a failed/successful `curl`; see the main SKILL.md status table.
 
 The probe distinguishes these cases before Playwright is involved:
 
@@ -13,7 +15,7 @@ The probe distinguishes these cases before Playwright is involved:
 - a non-CDP service owns the port (`invalid_cdp_endpoint`)
 - desktop host cannot be inspected (`host_unavailable`)
 
-Only `ready` permits `connect_over_cdp`. An alternative browser is a suggestion requiring user approval, never an automatic fallback.
+Only `ready` permits `BrowserExternalOpen` or advanced `connect_over_cdp`. An alternative browser is a suggestion requiring user approval, never an automatic fallback.
 
 ---
 
