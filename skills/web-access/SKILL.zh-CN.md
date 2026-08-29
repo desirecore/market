@@ -107,9 +107,9 @@ If any fetch fails, explicitly tell the user which URL failed and which fallback
 
 probe 返回 `ready` 后，创建或执行 attach 脚本前**必须先确认当前操作系统**：
 
-1. 先检查选定的 Python 能否 import Playwright。依赖缺失与浏览器 ready 是两件事：明确报告缺失，暂不 attach。
-2. Playwright 只能装进 DesireCore 拥有的隔离 venv；不得全局安装，也不得运行 `playwright install`，因为 CDP attach 复用已运行浏览器。
-3. Unix-like 主机使用 Bash 路径和语法；Windows 必须使用 `PowerShell` 工具，以 PowerShell here-string 和
+1. **必须先创建或选择 DesireCore 拥有的隔离 venv**，不得先用全局解释器探测 Playwright。venv 不存在时，系统/引导 Python 只能用于执行 `-m venv`。
+2. 此后 import、固定版本安装、重新 import 与 attach 全部只能调用 venv 解释器；严禁裸 `python`、裸 `pip`、`pip --user`、全局安装或 `playwright install`。依赖缺失与浏览器 ready 是两件事：明确报告缺失，暂不 attach。
+3. Unix-like 主机使用 Bash 路径和语法；Windows 的整个流程必须使用 `PowerShell` 工具和 venv 的 `Scripts\python.exe`，不得调用 `Bash` 工具。以 PowerShell here-string 和
    `[IO.File]::WriteAllText(...)` 创建临时 `.py`。**绝不能把 `cat <<EOF`、`/tmp/...` 或其他 POSIX heredoc 交给 PowerShell。**
 4. 调用 venv 对应平台的 Python（Unix 为 `bin/python`，Windows 为 `Scripts\python.exe`），只删除本轮创建的临时脚本，外部浏览器保持运行。
 
@@ -204,7 +204,7 @@ DesireCore 能驱动**两个**浏览器，它们是平级的选项：
 | L1 | Public, static | `WebFetch` | Low |
 | L2 | JS-heavy, long articles, token savings | `Bash curl r.jina.ai` | **Lowest** (Markdown pre-cleaned) |
 | **L3** | **登录态导航、交互与取文 (PRIMARY)** | **内置受管浏览器（BrowserManage / BrowserAct / BrowserSnapshot / BrowserScript）** | Medium |
-| L3-external | **用户点名要用他自己的浏览器**，或 Agent 解释原因后用户明确同意改走此路径 | `BrowserExternalProbe` → `Bash + Python Playwright connect_over_cdp`（见 references/cdp-browser.md） | Medium |
+| L3-external | **用户点名要用他自己的浏览器**，或 Agent 解释原因后用户明确同意改走此路径 | `BrowserExternalProbe` → 平台原生 shell（Windows 必须 PowerShell）+ DesireCore 隔离 venv + Playwright `connect_over_cdp`（见 references/cdp-browser.md） | Medium |
 
 **Default priority**: L1 for simple public pages → L2 for heavy → **L3 for login-gated（含正文与站内接口取数）**。
 
