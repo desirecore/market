@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0] - 2026-08-30
+
+- 改用 `ManageCompute` 与 `ComputeCredential(action='set')` 完成受治理的 Provider 启停、模型同步和密钥只写
+- 补充 `ControlDesireCoreGui` 的 control 模式回退及旧客户端升级路径
+- 禁止 Agent 绕过 renderer Origin/token 边界调用本机算力管理 HTTP 端点
+- 明确敏感输入在审批、事件、回执和会话持久化中的统一脱敏契约
+
 ## [1.0.3] - 2026-07-29
 
 - 市场图标统一为纯白，确保各市场消费端视觉一致
