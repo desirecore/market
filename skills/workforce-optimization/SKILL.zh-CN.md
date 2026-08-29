@@ -11,6 +11,7 @@
 ## L1
 
 - `MindOptSolve` 只能视为连接使用方或运维方所提供 MindOpt 服务的受治理 Connector/Adapter；不得把 MindOpt 求解器本体描述为客户端已包含或内置的 Tool。
+- 平台保留个人会话直接调用 `MindOptSolve` 和 compile 临时覆盖参数，只是本技能团队治理流程之外的向后兼容、非 decision-grade 专家路径。不得把未绑定的个人调用描述成已审阅、已由真人确认、可恢复或 decision-grade；团队运行必须使用受保护的 `OptimizationSolve`，并把求解限制写入 committed specification。
 - 在承诺或发起真实求解前，必须验证外部 Connector 已配置且 ready、所需 capabilities 可用，并确认该部署具备当前用途所需的有效许可证。仅发现 `MindOptSolve` Tool 名称，不能证明求解器已经安装、授权、可达或完成付费。
 - 外部依赖不可用时，必须说明具体缺少的前置条件并在调用求解器前停止。仍可完成需求澄清，并交付供后续执行的 `SceneSpec`、`DataContract` 和 `OptimizationSpec`，但不得伪造 `SolveResult`，也不得宣称可行、最优或收益。
 - 自然语言入口在路由或建模前必须完整读取 `references/requirement-clarification-framework.zh-CN.md`，按业务澄清框架识别真实决策、六场景必问项和条件触发项。
@@ -45,7 +46,7 @@
 - 只有用户已经提供完整 `OptimizationSpec` 时才走快速路径。快速路径可以省略不必要的场景、预测或数据编写，但仍必须创建/提议受治理的 DecisionWorkspace 表达、取得所有必要的专用真人确认、绑定当前 revision、发布并链接精确 revision、通过同伴审阅和 execution guard、执行一次求解委派和一次独立验证，并等待专用真人批准后，入口发布的 `DeliveryBundle` 才能成为 decision-grade 交付。
 - 目标、约束、数据口径或预测输入仍需建模时走完整路径；依赖阶段未完成不得越级。
 - 不得替业务编造未知权重、静默放松硬约束、把缺失值当零，或把未经独立验算的方案称为可执行策略。
-- 非入口 Agent 把数据缺口写入团队问题队列，只有入口能向用户提问。
+- 非入口 Agent 把数据缺口写入团队问题队列；该队列只是一种协调信号，不能承载真人答案或回执。只有入口能向用户提问，任何影响模型的答案都只有通过 DecisionWorkspace 专用真人确认控件才成为权威事实。
 - Specialist 不得直接向用户追问、绑定工作区、伪造 confirm/reject/approve 回执、跨出自身阶段发布、链接可变 `latest`、绕过 compile/solve guard、自验自己的求解结果或静默重试副作用。它们只向入口 Agent 报告缺口与证据，由入口统一负责用户问题和汇总交付。
-- Connector 凭证只从声明的 connection refs 获取；不得索取、回显或把 token、CA、客户端证书、私钥、endpoint、SSH 命令或隧道写入制品。
+- SolverConnector 只在内部从已配置的 secret references 解引用连接凭证。本技能刻意不声明 `requires.connections`，因此 solver token、CA、客户端证书和私钥不会被注入 Bash。不得索取、回显、持久化，或通过 shell 命令、制品、endpoint、SSH 命令或隧道传递这些内容。
 - 求解不可行时保留并解释 IIS；独立验收失败时交付失败事实和违规项，不得修改变量或重新求解。

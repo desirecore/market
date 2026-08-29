@@ -23,14 +23,6 @@ provides:
     - OptimizationSolve
     - MindOptSolve
     - OptimizationValidate
-requires:
-  connections:
-    - solver.mindopt.endpoint
-    - solver.mindopt.server-name
-    - solver.mindopt.token
-    - solver.mindopt.ca
-    - solver.mindopt.client-cert
-    - solver.mindopt.client-key
 metadata:
   author: workforce-optimization-team
   updated_at: '2026-08-29'
@@ -46,7 +38,7 @@ metadata:
       description: >-
         当用户自然提出服务范围、分层资源分配、绩效目标、集中任务调度、人员配置、排班或通用 LP/MILP 需求时，通过 DecisionWorkspace 的人机确认、精确版本制品、入口 Agent 绑定、同伴审阅、执行门禁、独立验收和真人批准形成可恢复治理链。选择 MindOpt 引擎时，实际求解仍依赖使用方另行取得适用许可证、部署并接入 MindOpt；客户端和本技能不包含求解器软件、许可证、算力托管或相关费用。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:fe28056c1e8dd3a0
+      source_hash: sha256:ce2258330f6df550
       translated_by: human
     en-US:
       name: Workforce and Resource Optimization
@@ -54,7 +46,7 @@ metadata:
       description: >-
         When users naturally request service coverage, hierarchical resource allocation, performance targets, centralized task scheduling, staffing, shift planning, or general LP/MILP, use DecisionWorkspace human confirmation, exact-version artifacts, entry-Agent binding, peer review, execution guards, independent validation, and human approval to create a recoverable governance chain. When MindOpt is selected, actual solving still requires the user to obtain an applicable license, deploy MindOpt, and configure its connector; the client and this Skill do not include the solver, license, hosted compute, or related fees.
       body: ./SKILL.md
-      source_hash: sha256:fe28056c1e8dd3a0
+      source_hash: sha256:ce2258330f6df550
       translated_by: human
 market:
   icon: >-
@@ -79,6 +71,7 @@ Turn natural-language workforce-efficiency requests into reviewable and recovera
 ## L1
 
 - Treat `MindOptSolve` only as a governed connector/adapter to a MindOpt service supplied by the user or operator. Never describe MindOpt itself as an included or built-in Tool.
+- The platform retains direct personal `MindOptSolve` and compile-option overrides only as a backward-compatible, non-decision-grade expert path outside this Skill's governed team workflow. Never present an unbound personal call as reviewed, human-confirmed, recoverable, or decision-grade; team runs must use the guarded `OptimizationSolve` path and solver limits recorded in the committed specification.
 - Before promising or requesting an actual solve, verify that the external connector is configured and ready, required capabilities are available, and the deployment has a valid applicable license. A registered Tool name alone is not evidence that the solver is installed, licensed, reachable, or paid for.
 - If the external dependency is unavailable, state which prerequisite is missing and stop before the solver call. You may still finish requirement clarification and produce reviewable `SceneSpec`, `DataContract`, and `OptimizationSpec` artifacts for later execution, but must not fabricate a `SolveResult`, feasibility, optimality, or benefit claim.
 - Before routing or modeling, the natural-language entry Agent must read the [requirement-clarification framework](references/requirement-clarification-framework.md) in full and follow its real-decision, mandatory-question, and conditional-question branches.
@@ -113,7 +106,7 @@ Turn natural-language workforce-efficiency requests into reviewable and recovera
 - Use the fast path only when the user supplied a complete `OptimizationSpec`. It may omit unnecessary scene, prediction, or data-authoring work, but it must still create/propose the governed DecisionWorkspace representation, obtain every required dedicated human confirmation, bind the current revision, publish and link exact revisions, pass peer review and execution guards, delegate one solve and one independent validation, and wait for dedicated human approval before an entry-owned `DeliveryBundle` is decision-grade.
 - Use the full path when objectives, constraints, data definitions, or predictive inputs still need modeling. Never advance a stage before its declared dependencies are complete.
 - Do not invent unknown business weights, relax hard constraints silently, treat missing values as zero, or describe an unvalidated solution as executable.
-- Non-entry Agents place missing information in the team question queue. Only the entry Agent asks the user.
+- Non-entry Agents place missing information in the team question queue. The queue is only a coordination signal: it cannot carry a human answer or receipt. Only the entry Agent asks the user, and model-changing answers become authoritative only through the dedicated DecisionWorkspace human confirmation controls.
 - Specialists must not ask the user directly, bind a workspace, forge confirm/reject/approval receipts, publish outside their owned stage, link a mutable `latest`, bypass compile/solve guards, validate their own solve, or silently retry side effects. They report gaps and evidence to the entry Agent, which owns all user-facing questions and consolidated delivery.
-- Obtain connector secrets only from declared connection references. Never request, reveal, or persist tokens, CA material, client certificates, private keys, endpoints, SSH commands, or tunnels in artifacts.
+- Connector credentials are resolved internally by SolverConnector from configured secret references. This Skill deliberately declares no `requires.connections`, so solver tokens, CA material, client certificates, and private keys are never injected into Bash. Never request, reveal, persist, or pass them through shell commands, artifacts, endpoints, SSH commands, or tunnels.
 - If the solver reports infeasible, preserve and explain its IIS; if validation fails, deliver the failure and violated checks instead of modifying variables or re-solving.
