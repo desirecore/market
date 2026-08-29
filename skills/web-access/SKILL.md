@@ -54,14 +54,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:31e3891c7fa7881f
+      source_hash: sha256:e0b2827ca95be081
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request.
       body: ./SKILL.md
-      source_hash: sha256:31e3891c7fa7881f
+      source_hash: sha256:e0b2827ca95be081
       translated_by: human
 market:
   icon: >-
@@ -215,6 +215,10 @@ User intent
   │
   ├─ "Search for information about X" (no specific URL)
   │     └─→ WebSearch → pick top 3-5 results → fetch each (see next branches)
+  │
+  ├─ "Open / go to this URL" (no external/own-browser qualifier)
+  │     └─→ BrowserManage(create_space/start_session) → BrowserAct(tab.navigate)
+  │          Keep the built-in browser visible. "Open" is an interaction request, not a synonym for WebFetch.
   │
   ├─ "Read this public page" (static HTML, docs, news)
   │     └─→ WebFetch(url) directly

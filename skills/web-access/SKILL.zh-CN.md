@@ -125,6 +125,10 @@ User intent
   ├─ "Search for information about X" (no specific URL)
   │     └─→ WebSearch → pick top 3-5 results → fetch each (see next branches)
   │
+  ├─ 「打开 / 导航到这个 URL」（没有点名自己的/外部浏览器）
+  │     └─→ BrowserManage(create_space/start_session) → BrowserAct(tab.navigate)
+  │          保持内置浏览器可见。「打开」是交互请求，不等同于 WebFetch。
+  │
   ├─ "Read this public page" (static HTML, docs, news)
   │     └─→ WebFetch(url) directly
   │
