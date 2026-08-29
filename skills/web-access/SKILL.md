@@ -103,7 +103,7 @@ web-access is a **procedural skill** that provides four complementary layers of 
 - **L2** (Jina Reader): JS-rendered heavy pages, saving tokens by default
 - **L3** (governed built-in browser, capability surface completed in v3.0): reach, *interact with*, and **read** logged-in / interactive sites — isolated BrowserSpace per task, zero Python dependency, every action carries a signed receipt. Bulk text extraction (`page.extract-text`), discriminated waits (`page.wait`), and code mode (`BrowserScript`) all close the loop inside this layer
 
-- **L3-external** (the user's named Chrome/Edge/Chromium, opened through governed CDP tools and attached via isolated Python Playwright only for advanced interaction): **take this route only when the user names their own browser or explicitly accepts it after you explain why** — its isolated DesireCore profile login state, its visible window, and the user's ability to take over at any moment
+- **L3-external** (the user's named Chrome/Edge/Chromium, opened through governed CDP tools and attached via isolated Python Playwright only for advanced interaction): **take this route only when the user names their own browser or explicitly accepts it after you explain why** — the login state the user established manually in the DesireCore-isolated external profile, the visible window, and the user's ability to take over at any moment
 
 A note of history on L3-external: v3.0 deleted it outright, on the grounds that "every technical reason it existed for (no bulk text channel, evaluate unusable, screenshots must activate-serialize) is now covered by the built-in browser". That technical judgement was correct — **as a fallback for when the built-in browser isn't enough, it genuinely isn't needed any more**. But the deletion took with it a completely different use case: the user wanting *their own* browser. That has nothing to do with capability, and the built-in browser cannot stand in for it, so v3.2 restores it as a peer option **triggered by user intent**. Note it is no longer a fallback; see "Two browsers — pick by user intent" below.
 
@@ -115,7 +115,7 @@ When you call `Skill('web-access')`, the following tools are injected into the c
 |------|---------|
 | BrowserManage | Create/destroy isolated BrowserSpace, start sessions, manage tabs |
 | BrowserExternalProbe | Read-only check for installed Chrome/Edge/Chromium and loopback CDP readiness; never launches or reads a profile |
-| BrowserExternalOpen | After a same-session `ready` probe, visibly open one HTTP(S) URL in the exact external browser; no shell, Python, or Playwright |
+| BrowserExternalOpen | After `BrowserExternalProbe` returns `ready` in the same runtime session, visibly open one HTTP(S) URL in the exact external browser; no shell, Python, or Playwright |
 | BrowserSnapshot | `semantic` / `text` / `accessibility` / `visual` snapshots — the primary way to read a page |
 | BrowserAct | One governed action per call: navigate, input, extract text, wait, element ops, screenshot, … |
 | BrowserScript | **Code mode**: one async JS script issues browser commands back-to-back, eliminating per-action round trips (trust level equals Bash) |
