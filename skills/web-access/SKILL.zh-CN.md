@@ -111,7 +111,7 @@ probe 返回 `ready` 后，创建或执行 attach 脚本前**必须先确认当�
 2. Playwright 只能装进 DesireCore 拥有的隔离 venv；不得全局安装，也不得运行 `playwright install`，因为 CDP attach 复用已运行浏览器。
 3. Unix-like 主机使用 Bash 路径和语法；Windows 必须使用 `PowerShell` 工具，以 PowerShell here-string 和
    `[IO.File]::WriteAllText(...)` 创建临时 `.py`。**绝不能把 `cat <<EOF`、`/tmp/...` 或其他 POSIX heredoc 交给 PowerShell。**
-4. 调用 venv 对应平台的 Python（Unix 为 `bin/python`，Windows 为 `Scripts\\python.exe`），只删除本轮创建的临时脚本，外部浏览器保持运行。
+4. 调用 venv 对应平台的 Python（Unix 为 `bin/python`，Windows 为 `Scripts\python.exe`），只删除本轮创建的临时脚本，外部浏览器保持运行。
 
 无法判断平台或无法安全创建隔离运行时时，停止并报告缺失前置；不得即兴混用 shell，也不得回落 BrowserManage。
 

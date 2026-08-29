@@ -54,14 +54,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:939a4fe1c3a33e2e
+      source_hash: sha256:31e3891c7fa7881f
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request.
       body: ./SKILL.md
-      source_hash: sha256:939a4fe1c3a33e2e
+      source_hash: sha256:31e3891c7fa7881f
       translated_by: human
 market:
   icon: >-
@@ -200,7 +200,7 @@ After a `ready` probe, identify the current OS **before** creating or running an
    PowerShell here-string plus `[IO.File]::WriteAllText(...)` to create the temporary `.py` file.
    **Never send `cat <<EOF`, `/tmp/...`, or another POSIX heredoc to PowerShell.**
 4. Invoke the virtual environment's platform-specific Python (`bin/python` on Unix,
-   `Scripts\\python.exe` on Windows), remove only the temporary script you created, and leave the
+   `Scripts\python.exe` on Windows), remove only the temporary script you created, and leave the
    external browser running.
 
 If the platform cannot be determined or no isolated runtime can be created safely, stop and report

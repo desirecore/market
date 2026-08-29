@@ -318,15 +318,17 @@ The approved external Chromium browser is running but no windows are open. Ask t
 
 ### Playwright not installed
 
-First run an import-only check with the Python interpreter you intend to use. Do not generate or
-execute the attach script until this succeeds.
+First ensure the isolated venv exists, then run the import-only check with **that venv's interpreter**.
+Do not generate or execute the attach script until this succeeds.
 
 #### Unix-like hosts
 
 ```bash
-python3 -c 'import playwright'
-python3 -m venv "<DESIRECORE_HOME>/runtime/external-browser-playwright"
-"<DESIRECORE_HOME>/runtime/external-browser-playwright/bin/python" -m pip install 'playwright==1.55.0' beautifulsoup4
+test -x "<DESIRECORE_HOME>/runtime/external-browser-playwright/bin/python" || \
+  python3 -m venv "<DESIRECORE_HOME>/runtime/external-browser-playwright"
+if ! "<DESIRECORE_HOME>/runtime/external-browser-playwright/bin/python" -c 'import playwright'; then
+  "<DESIRECORE_HOME>/runtime/external-browser-playwright/bin/python" -m pip install 'playwright==1.55.0' beautifulsoup4
+fi
 # No need for `playwright install` — we're attaching to an existing browser, not downloading one
 ```
 
@@ -338,10 +340,14 @@ guess another instance's directory.
 ```powershell
 $venv = Join-Path '<DESIRECORE_HOME>' 'runtime\external-browser-playwright'
 $python = Join-Path $venv 'Scripts\python.exe'
-python -c "import playwright"
-# If the import fails, explain the missing dependency and obtain any required install approval first:
-python -m venv $venv
-& $python -m pip install 'playwright==1.55.0' beautifulsoup4
+if (-not (Test-Path -LiteralPath $python)) {
+    python -m venv $venv
+}
+& $python -c "import playwright"
+if ($LASTEXITCODE -ne 0) {
+    # Explain the missing dependency and obtain any required install approval first.
+    & $python -m pip install 'playwright==1.55.0' beautifulsoup4
+}
 # Do NOT run `playwright install`; CDP attach uses the already-running external browser.
 ```
 
