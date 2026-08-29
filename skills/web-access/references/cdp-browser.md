@@ -65,6 +65,10 @@ def fetch_with_cdp(url: str, cdp_port: int, wait_selector: str | None = None) ->
             # DO NOT call browser.close() — that would close the user's external browser!
 
 if __name__ == "__main__":
+    if PROBE_PORT is None:
+        raise RuntimeError(
+            "Run BrowserExternalProbe first and assign the port from its ready result to PROBE_PORT."
+        )
     html = fetch_with_cdp("https://example.com", PROBE_PORT)
     print(html[:1000])
 ```
