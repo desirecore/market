@@ -15,7 +15,7 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: Complete terms in LICENSE.txt
-version: 3.4.3
+version: 3.4.4
 type: procedural
 risk_level: low
 status: enabled
@@ -55,14 +55,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:78082a20359f730f
+      source_hash: sha256:c8c7be6cf577d445
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request.
       body: ./SKILL.md
-      source_hash: sha256:78082a20359f730f
+      source_hash: sha256:c8c7be6cf577d445
       translated_by: human
 market:
   icon: >-
@@ -114,7 +114,7 @@ When you call `Skill('web-access')`, the following tools are injected into the c
 | Tool | Purpose |
 |------|---------|
 | BrowserManage | Create/destroy isolated BrowserSpace, start sessions, manage tabs |
-| BrowserExternalProbe | Read-only check for installed Chrome/Edge/Chromium and loopback CDP readiness; never launches or reads a profile |
+| BrowserExternalProbe | Read-only check for installed Chrome/Edge/Chromium and loopback CDP readiness; never launches or reads a profile; any returned manual command is display-only |
 | BrowserExternalOpen | After `BrowserExternalProbe` returns `ready` in the same runtime session, visibly open one HTTP(S) URL in the exact external browser; no shell, Python, or Playwright |
 | BrowserSnapshot | `semantic` / `text` / `accessibility` / `visual` snapshots — the primary way to read a page |
 | BrowserAct | One governed action per call: navigate, input, extract text, wait, element ops, screenshot, … |
@@ -172,13 +172,26 @@ Handle the structured result exactly:
 |---|---|
 | `ready` | For a simple open/navigation, call `BrowserExternalOpen` with the returned exact browser id and port. For advanced click/read/extract interaction, continue with isolated Playwright `connect_over_cdp`. Name the detected external browser honestly. For `any`, the already-ready endpoint is the prepared choice even if other products are installed |
 | `browser_not_installed` | Say the requested browser was not detected. If `alternatives` is non-empty, ask whether the user wants one of them; **never switch automatically** |
-| `debug_port_closed` | Show the returned `launchCommand`, ask the user to launch it and log in manually, then wait and probe again |
+| `debug_port_closed` | Show the returned `launchCommand`, end the turn, and wait for the user to launch it and log in manually; never execute it with a tool |
 | `browser_choice_required` | No endpoint is ready and multiple external browsers are installed. List id/name only and ask which one the user wants; probe that exact choice next |
 | `browser_mismatch` | Say which browser is actually on the port and which one was requested; ask the user to correct the port or explicitly approve the other browser |
 | `invalid_cdp_endpoint` | Explain that something is listening on the port but it is not a valid Chrome DevTools endpoint; do not attach |
 | `host_unavailable` | Explain that this Agent Service cannot inspect the user's desktop host; do not assume a browser is installed or silently use the built-in browser |
 
-`launchCommand` uses an isolated DesireCore profile. After launch:
+Compatibility rule for released 10.0.128 clients: they may include `launchCommand` in statuses other
+than `debug_port_closed`. **Never execute `launchCommand` from any status.** Only show it and end the
+turn for `debug_port_closed`; for every other status, ignore that field and follow the status row above.
+
+`launchCommand` uses an isolated DesireCore profile. On clients that return the adjacent fields, they are normative:
+`requiredAction: wait_for_user_to_launch_browser` means **end the current turn**, and
+`commandPolicy: display_only_never_execute` means **never pass the command to Bash, PowerShell,
+a terminal, a script, or any other execution tool**. This remains true when the user's earlier wording
+said “continue”, “open it for me”, or otherwise sounded like permission to proceed. Only the user may
+manually run this suggestion; a future dedicated browser-launch capability would require its own contract.
+New clients deliver this display-only notice directly and terminate the turn before the model can call
+another tool; do not add a second paraphrase or continue execution after the tool result.
+
+After the user launches it:
 
 1. The user logs in manually to the sites they need.
 2. That external browser window stays open.

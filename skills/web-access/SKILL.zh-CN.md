@@ -27,7 +27,7 @@ web-access 是一个**流程型技能（Procedural Skill）**，提供四层互�
 | 工具 | 用途 |
 |------|------|
 | BrowserManage | 建/销隔离 BrowserSpace、启动会话、管理标签页 |
-| BrowserExternalProbe | 只读检查 Chrome/Edge/Chromium 安装与 loopback CDP 就绪状态；绝不启动浏览器或读取 Profile |
+| BrowserExternalProbe | 只读检查 Chrome/Edge/Chromium 安装与 loopback CDP 就绪状态；绝不启动浏览器或读取 Profile；返回的手工命令只能展示 |
 | BrowserExternalOpen | 同一 session 的 probe 返回 `ready` 后，在精确外部浏览器中可见打开一个 HTTP(S) URL；不使用 shell、Python 或 Playwright |
 | BrowserSnapshot | `semantic` / `text` / `accessibility` / `visual` 四种快照——读页面的主通道 |
 | BrowserAct | 一次调用一个受管动作：导航、输入、取文、等待、元素操作、截图…… |
@@ -85,13 +85,24 @@ If any fetch fails, explicitly tell the user which URL failed and which fallback
 |---|---|
 | `ready` | 简单打开/导航调用 `BrowserExternalOpen`，参数使用返回的精确浏览器 id 与端口；点击、读取、提取等高级交互才继续隔离 Playwright `connect_over_cdp`。如实说出检测到的外部浏览器；`any` 已有 ready 端口时，即使还安装了其他产品，也以该端口作为用户已准备的选择 |
 | `browser_not_installed` | 明确说未检测到用户点名的浏览器；若有 `alternatives`，询问是否改用其中之一，**绝不自动替换** |
-| `debug_port_closed` | 展示返回的 `launchCommand`，请用户启动并手工登录，然后等待并重新 probe |
+| `debug_port_closed` | 展示返回的 `launchCommand`，结束当前回合，等待用户手工启动并登录；绝不能用工具执行它 |
 | `browser_choice_required` | 没有 ready 端口且检测到多个外部浏览器；只列 id/name 并询问用户选哪个，再 probe 精确选择 |
 | `browser_mismatch` | 说明端口上实际是什么、用户点名的是什么；让用户修正端口或明确同意改用实际浏览器 |
 | `invalid_cdp_endpoint` | 说明端口虽有服务但不是合法 Chrome DevTools 端点；不得连接 |
 | `host_unavailable` | 说明当前 Agent Service 无法探测用户桌面宿主；不得猜已安装浏览器，也不得静默改用内置浏览器 |
 
-`launchCommand` 使用 DesireCore 专属隔离 Profile。启动后：
+已发布的 10.0.128 客户端可能在 `debug_port_closed` 以外的状态中也带上 `launchCommand`。
+**任何状态的 `launchCommand` 都绝不能执行。**只有 `debug_port_closed` 可以展示后结束回合；
+其他状态必须忽略该字段，严格按上表对应状态处理。
+
+`launchCommand` 使用 DesireCore 专属隔离 Profile；支持相邻字段的客户端必须把它们视为强制契约：
+`requiredAction: wait_for_user_to_launch_browser` 表示**必须结束当前回合**，
+`commandPolicy: display_only_never_execute` 表示**绝不能把命令传给 Bash、PowerShell、终端、脚本或任何其他执行工具**。
+即使用户此前说过「继续」「帮我打开」或其他看似授权继续的表述，这条规则也不改变。当前只能由用户手工运行该建议；
+未来若增加专用浏览器启动能力，必须另行定义并审批其契约。
+新客户端会直接投递这条只展示提示并在模型能调用其他工具前终止本轮；工具返回后不要再追加改写或继续执行。
+
+用户启动后：
 
 1. 用户在该外部浏览器里手工登录所需站点。
 2. 外部浏览器窗口保持打开。
