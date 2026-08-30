@@ -129,11 +129,91 @@ class CatalogMetadataValidatorTests(unittest.TestCase):
         mutate(payload)
         self.write_json(self.sidecar_path, payload)
 
+    def write_agent_case(self, install_policy: str | None, update_policy: str | None, availability: str) -> None:
+        agent_dir = self.root / "agents" / "system-agent"
+        agent_dir.mkdir()
+        self.write_json(
+            agent_dir / "agent.json",
+            {
+                "id": "system-agent",
+                "category": "development",
+                "i18n": {
+                    "default_locale": "en-US",
+                    "source_locale": "zh-CN",
+                    "locales": ["zh-CN", "en-US"],
+                    "zh-CN": {"name": "系统智能体", "shortDesc": "系统智能体简介"},
+                    "en-US": {"name": "System Agent", "shortDesc": "System agent summary"},
+                },
+            },
+        )
+        sidecar = valid_sidecar()
+        sidecar["identity"] = {"kind": "agent", "id": "system-agent"}
+        sidecar["presentation"] = {
+            "defaultLocale": "en-US",
+            "i18n": {
+                "zh-CN": {"name": "系统智能体", "summary": "系统智能体简介"},
+                "en-US": {"name": "System Agent", "summary": "System agent summary"},
+            },
+            "category": "development",
+            "tags": [],
+        }
+        sidecar["provenance"] = {}
+        sidecar["governance"] = {
+            "availability": availability,
+            "license": unknown(),
+            "redistribution": "verify-package-terms",
+        }
+        spec = {"kind": "agent"}
+        if install_policy is not None:
+            spec["installPolicy"] = install_policy
+        if update_policy is not None:
+            spec["updatePolicy"] = update_policy
+        sidecar["spec"] = spec
+        self.write_json(agent_dir / VALIDATOR.SIDECAR_NAME, sidecar)
+        manifest = json.loads((self.root / "manifest.json").read_text(encoding="utf-8"))
+        manifest["stats"]["totalAgents"] = 1
+        self.write_json(self.root / "manifest.json", manifest)
+
     def test_accepts_valid_listing_only_pointer(self) -> None:
         report = self.validate(require_complete=True)
         self.assertFalse(report.has_errors, report.issues)
         self.assertEqual(1, report.stats["sidecars"])
         self.assertEqual(1, report.stats["publishableSkills"])
+
+    def test_accepts_system_repository_listing_only_agent_policy(self) -> None:
+        self.write_agent_case("system", "repository", "listing-only")
+        report = self.validate()
+        self.assertFalse(report.has_errors, report.issues)
+
+    def test_accepts_market_market_listing_only_agent_policy(self) -> None:
+        self.write_agent_case("market", "market", "listing-only")
+        report = self.validate()
+        self.assertFalse(report.has_errors, report.issues)
+
+    def test_rejects_invalid_agent_policy_combinations(self) -> None:
+        cases = [
+            ("system", "market", "listing-only"),
+            ("system", "repository", "installable"),
+            ("market", "repository", "listing-only"),
+            ("system", None, "listing-only"),
+            (None, "repository", "listing-only"),
+        ]
+        for index, (install_policy, update_policy, availability) in enumerate(cases):
+            with self.subTest(
+                installPolicy=install_policy,
+                updatePolicy=update_policy,
+                availability=availability,
+            ):
+                if index:
+                    shutil.rmtree(self.root / "agents" / "system-agent")
+                self.write_agent_case(install_policy, update_policy, availability)
+                self.assertTrue(any(issue.rule == "catalog-schema" for issue in self.validate().issues))
+
+    def test_market_agent_installable_still_requires_governance_evidence(self) -> None:
+        self.write_agent_case("market", "market", "installable")
+        issues = self.validate().issues
+        evidence = [issue for issue in issues if issue.rule == "installable-evidence"]
+        self.assertGreaterEqual(len(evidence), 4)
 
     def test_rejects_provider_identity_catalog_trust_and_runtime_fields(self) -> None:
         def mutate(payload):

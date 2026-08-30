@@ -85,6 +85,54 @@
           "spec": { "$ref": "#/$defs/skillSpec" }
         }
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "spec": {
+            "properties": {
+              "kind": { "const": "agent" },
+              "installPolicy": { "const": "system" }
+            },
+            "required": ["kind", "installPolicy"]
+          }
+        },
+        "required": ["spec"]
+      },
+      "then": {
+        "properties": {
+          "spec": {
+            "properties": { "updatePolicy": { "const": "repository" } },
+            "required": ["updatePolicy"]
+          },
+          "governance": {
+            "properties": { "availability": { "const": "listing-only" } },
+            "required": ["availability"]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "spec": {
+            "properties": {
+              "kind": { "const": "agent" },
+              "installPolicy": { "const": "market" }
+            },
+            "required": ["kind", "installPolicy"]
+          }
+        },
+        "required": ["spec"]
+      },
+      "then": {
+        "properties": {
+          "spec": {
+            "properties": { "updatePolicy": { "const": "market" } },
+            "required": ["updatePolicy"]
+          }
+        }
+      }
     }
   ],
   "$defs": {
@@ -462,6 +510,10 @@
           },
           "additionalProperties": false
         }
+      },
+      "dependencies": {
+        "installPolicy": ["updatePolicy"],
+        "updatePolicy": ["installPolicy"]
       },
       "additionalProperties": false
     },

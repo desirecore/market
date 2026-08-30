@@ -54,7 +54,7 @@
   "provenance": {},
   "governance": {
     "stewardship": "official",
-    "availability": "installable",
+    "availability": "listing-only",
     "license": {
       "state": "unknown"
     },
@@ -72,7 +72,7 @@
   "spec": {
     "kind": "agent",
     "installPolicy": "system",
-    "updatePolicy": "market",
+    "updatePolicy": "repository",
     "persona": {
       "role": "System central orchestrator",
       "traits": [

@@ -583,10 +583,12 @@ def validate_sidecar(
         compliance = governance.get("compliance")
         maintainer = governance.get("listingMaintainer")
 
-        # Builtin Skills and the system Agent are already delivered by the trusted
-        # Market bootstrap. Missing governance evidence must remain visible, but it
-        # must not silently disable the existing installation/bootstrap path.
-        if legacy.source_type in {"builtin", "agent"}:
+        # Builtin Skills are already delivered by the trusted Market bootstrap.
+        # Missing governance evidence must remain visible, but it must not silently
+        # disable their existing installation path. A Market-installed Agent still
+        # uses the strict evidence gate below; a system Agent is schema-locked to
+        # listing-only and therefore never enters this installable branch.
+        if legacy.source_type == "builtin":
             if not isinstance(license_fact, dict) or license_fact.get("state") != "known" or not license_fact.get("evidencePath"):
                 report.add(
                     rel,
