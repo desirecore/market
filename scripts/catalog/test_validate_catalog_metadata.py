@@ -179,6 +179,60 @@ class CatalogMetadataValidatorTests(unittest.TestCase):
         self.assertTrue(any("known reviewedAt" in message for message in evidence))
         self.assertTrue(any("compliance" in message for message in evidence))
 
+    def test_allows_builtin_installation_with_stable_incomplete_governance_warnings(self) -> None:
+        self.entry_path.unlink()
+        skill_path = self.entry_path.with_name("SKILL.md")
+        skill_path.write_text(
+            """---
+name: example-skill
+description: Example builtin skill.
+type: procedural
+risk_level: low
+tags: [example]
+metadata:
+  author: example
+  i18n:
+    default_locale: en-US
+    source_locale: zh-CN
+    locales: [zh-CN, en-US]
+    zh-CN:
+      name: 示例技能
+      short_desc: 中文简介
+    en-US:
+      name: Example Skill
+      short_desc: English summary
+market:
+  category: development
+---
+Body.
+""",
+            encoding="utf-8",
+        )
+
+        def mutate(payload):
+            payload["provenance"] = {}
+            payload["governance"] = {
+                "stewardship": "community",
+                "availability": "installable",
+                "license": unknown(),
+                "redistribution": "verify-package-terms",
+                "listingMaintainer": {"name": "Candidate", "verified": False},
+            }
+            payload["spec"] = {"kind": "skill", "riskLevel": "low", "skillType": "procedural"}
+
+        self.rewrite_sidecar(mutate)
+        report = self.validate()
+        self.assertFalse(report.has_errors, report.issues)
+        warning_rules = {issue.rule for issue in report.issues if issue.severity == "warning"}
+        self.assertTrue(
+            {
+                "missing-license-evidence",
+                "missing-review-evidence",
+                "missing-maintainer-evidence",
+                "missing-content-evidence",
+            }.issubset(warning_rules)
+        )
+
     def test_validates_collection_identity_and_does_not_invent_child_version(self) -> None:
         entry = valid_entry()
         entry["children"] = [

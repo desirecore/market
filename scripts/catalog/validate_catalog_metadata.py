@@ -573,15 +573,51 @@ def validate_sidecar(
     timestamps = sidecar.get("timestamps")
     if isinstance(governance, dict) and governance.get("availability") == "installable":
         content = provenance.get("content") if isinstance(provenance, dict) else None
+        license_fact = governance.get("license")
+        reviewed_at = timestamps.get("reviewedAt") if isinstance(timestamps, dict) else None
+        compliance = governance.get("compliance")
+        maintainer = governance.get("listingMaintainer")
+
+        # Builtin Skills and the system Agent are already delivered by the trusted
+        # Market bootstrap. Missing governance evidence must remain visible, but it
+        # must not silently disable the existing installation/bootstrap path.
+        if legacy.source_type in {"builtin", "agent"}:
+            if not isinstance(license_fact, dict) or license_fact.get("state") != "known" or not license_fact.get("evidencePath"):
+                report.add(
+                    rel,
+                    "missing-license-evidence",
+                    "installable builtin content has no verified per-item license evidence",
+                    severity="warning",
+                )
+            if _known_timestamp_value(reviewed_at) is None or not isinstance(compliance, dict):
+                report.add(
+                    rel,
+                    "missing-review-evidence",
+                    "installable builtin content has no ref-bound governance review",
+                    severity="warning",
+                )
+            if not isinstance(maintainer, dict) or maintainer.get("verified") is not True:
+                report.add(
+                    rel,
+                    "missing-maintainer-evidence",
+                    "installable builtin content has no verified listing maintainer",
+                    severity="warning",
+                )
+            if governance.get("stewardship") != "official" and not isinstance(content, dict):
+                report.add(
+                    rel,
+                    "missing-content-evidence",
+                    "vendored builtin content has no explicit upstream content provenance",
+                    severity="warning",
+                )
+            return
+
         if not _content_is_immutable(content):
             report.add(rel, "installable-evidence", "installable content must have an immutable ref or SHA-256 digest")
-        license_fact = governance.get("license")
         if not isinstance(license_fact, dict) or license_fact.get("state") != "known":
             report.add(rel, "installable-evidence", "installable content must have a known license")
-        reviewed_at = timestamps.get("reviewedAt") if isinstance(timestamps, dict) else None
         if _known_timestamp_value(reviewed_at) is None:
             report.add(rel, "installable-evidence", "installable content must have a known reviewedAt timestamp")
-        compliance = governance.get("compliance")
         if not isinstance(compliance, dict):
             report.add(rel, "installable-evidence", "installable content must include compliance evidence")
         else:
