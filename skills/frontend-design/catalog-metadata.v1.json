@@ -1,0 +1,80 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "frontend-design"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "前端设计",
+        "summary": "创建有品味、避免 AI 烂大街审美的前端界面与组件",
+        "description": "Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics. Use when 用户提到 前端设计、网页设计、UI 设计、 界面设计、组件、海报、Landing Page、落地页、React 组件、Vue 组件、 CSS 样式、美化界面、设计一个、做一个网页、官网、仪表盘、Dashboard。"
+      },
+      "en-US": {
+        "name": "Frontend Design",
+        "summary": "Create tasteful frontend interfaces and components that avoid generic AI aesthetics",
+        "description": "Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics. Use when the user mentions frontend design, web design, UI design, interface design, components, posters, landing pages, React components, Vue components, CSS styling, polishing the UI, designing something, building a webpage, official site, or dashboard."
+      }
+    },
+    "category": "design",
+    "tags": [
+      "frontend",
+      "design",
+      "ui",
+      "css",
+      "react",
+      "html"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.2",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-05-04T16:26:33Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    },
+    "upstreamMaintainer": {
+      "name": "anthropic",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low",
+    "skillType": "procedural"
+  }
+}

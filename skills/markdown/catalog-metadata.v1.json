@@ -1,0 +1,74 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "markdown"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "Markdown 文档处理",
+        "summary": "创建、编辑 Markdown 文档（.md），默认文本文档格式",
+        "description": "当用户要求创建、撰写、整理任何书面产物且未指定特定格式时，使用此技能。 确保使用 Write 工具写入文件、告知绝对路径、并通过 SendUserMessage 发送附件。"
+      },
+      "en-US": {
+        "name": "Markdown Document Processing",
+        "summary": "Create and edit Markdown documents (.md), the default text format",
+        "description": "Use when the user requests any written deliverable without specifying a particular format. Ensures files are written via Write tool, absolute path is reported, and attachment is sent via SendUserMessage."
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "markdown",
+      "md",
+      "document",
+      "text"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.1",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-14T03:55:22Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low",
+    "skillType": "procedural"
+  }
+}

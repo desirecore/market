@@ -1,0 +1,75 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "configuring-compute"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "配置算力",
+        "summary": "帮用户配置模型供应商与 API Key（密钥只写不读）",
+        "description": "通过受治理工具配置 DesireCore 算力：查看和启停 provider、同步模型、只写 API Key； ManageCompute 尚未覆盖的字段使用专用 DesireCore GUI 工具。禁止从 Bash 或 HttpRequest 调用仅供可信渲染器使用的 /api/compute 管理端点。"
+      },
+      "en-US": {
+        "name": "Configure Compute",
+        "summary": "Configure model providers and API keys for the user (keys are write-only)",
+        "description": "Configure DesireCore compute through governed tools: inspect and enable providers, sync models, and write API keys without reading them back. Use the dedicated DesireCore GUI tool for fields not covered by ManageCompute; never call renderer-only /api/compute management endpoints from Bash or HttpRequest."
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "compute",
+      "provider",
+      "configuration",
+      "meta"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.1.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-29T18:26:24Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "known",
+      "value": "2026-08-30",
+      "precision": "day"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "medium"
+  }
+}

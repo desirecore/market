@@ -1,0 +1,73 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "delete-agent"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "删除智能体",
+        "summary": "安全删除智能体及其关联数据，支持多重确认与可选历史清理",
+        "description": "安全删除指定的智能体及其关联数据。删除前会验证智能体状态，支持可选地删除所有会话历史。Use when 用户需要删除不再使用的智能体。"
+      },
+      "en-US": {
+        "name": "Delete Agent",
+        "summary": "Safely delete an Agent and its associated data, with multi-step confirmation and optional history cleanup",
+        "description": "Safely delete a specified Agent and its associated data. Verifies the Agent's state before deletion and optionally removes all session history. Use when the user needs to delete an Agent that is no longer in use."
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "agent",
+      "deletion",
+      "meta"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "2.6.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-25T08:13:09Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requiredClientVersion": "10.0.90"
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "high"
+  }
+}

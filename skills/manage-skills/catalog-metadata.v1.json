@@ -1,0 +1,74 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "manage-skills"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "管理技能",
+        "summary": "导入、编写、安装与管理 Agent 技能的完整工具箱",
+        "description": "管理 Agent 的技能生命周期：通过 HTTP API 导入、安装、更新、删除技能， 或通过 AgentFS 文件系统直接编写符合规范的 SKILL.md。Use when 用户要求 安装技能、从 URL/Git 导入技能、编写新技能、或管理已有技能。"
+      },
+      "en-US": {
+        "name": "Manage Skills",
+        "summary": "Complete toolbox for importing, authoring, installing, and managing Agent Skills",
+        "description": "Manage the Skill lifecycle of an Agent: import, install, update, and delete Skills via HTTP API, or directly author standards-compliant SKILL.md files via the AgentFS filesystem. Use when the user requests to install Skills, import Skills from URL/Git, author new Skills, or manage existing Skills."
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "skill",
+      "import",
+      "management",
+      "meta",
+      "agentfs"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.6",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-14T03:55:22Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low"
+  }
+}

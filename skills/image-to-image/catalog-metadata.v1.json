@@ -1,0 +1,80 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "image-to-image"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "图生图",
+        "summary": "基于参考图片的 AI 图像编辑与变换技能",
+        "description": "当用户希望基于已有图片进行编辑、变换或修改时使用此技能。支持通过 gpt-image-2 模型进行图生图，使用 OpenAI 兼容的 images/generations API。用户提到 图生图、修改图片、编辑图片、图片变换、改图、换背景、换风格、图片编辑、以图生图、参考图、基于这张图、把这张图改成、在这张图上。"
+      },
+      "en-US": {
+        "name": "Image-to-Image",
+        "summary": "AI image editing and transformation based on reference images",
+        "description": "Use this skill when the user wants to edit, transform, or modify an existing image using AI. Supports image-to-image via gpt-image-2 model through the OpenAI-compatible images/generations API. Trigger keywords: image edit, img2img, modify image, transform image, change background, change style, based on this image, edit this image."
+      }
+    },
+    "category": "media",
+    "tags": [
+      "media",
+      "image",
+      "editing",
+      "img2img"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.2",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-14T03:55:22Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low",
+    "skillType": "procedural",
+    "requires": {
+      "tools": [
+        "Bash"
+      ],
+      "connections": []
+    }
+  }
+}

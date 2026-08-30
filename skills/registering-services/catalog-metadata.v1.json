@@ -1,0 +1,73 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "registering-services"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "注册服务",
+        "summary": "把外部 HTTP/MCP 服务登记到全局应用与服务目录",
+        "description": "把外部 HTTP/MCP 服务登记到全局应用与服务目录，让其他 Agent 与人类用户都能发现并调用。 Use when 用户提到要新增服务、注册 API 或把你掌握的后端发布到团队目录。"
+      },
+      "en-US": {
+        "name": "Register Services",
+        "summary": "Register external HTTP/MCP services into the global catalog",
+        "description": "Register an external HTTP/MCP service to the global Application & Service Catalog so that other Agents (and the human user) can discover and call it. Use when the user mentions adding a new service, registering an API, or publishing a backend you control to the team's catalog."
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "service",
+      "registration",
+      "catalog",
+      "meta"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.3",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-29T09:48:28Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "medium"
+  }
+}

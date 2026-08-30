@@ -1,0 +1,75 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "tech-diagram"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "技术架构图生成",
+        "summary": "用 Mermaid 画品牌一致的架构图/流程图/时序图，对话内即时渲染",
+        "description": "当用户希望把描述转成技术图时使用此技能——架构图、流程图、时序图、状态机、ER 图、类图或思维导图。生成带语义形状/箭头词汇表的 Mermaid，对话内即时渲染为 SVG，并提供 6 套可选视觉风格（brand-light/brand-dark/terminal/blueprint/cream/mono）。用于结构、流程或关系类图，而非写实摄影/插画类图片（后者请用文生图技能）。用户提到 画架构图、架构图、流程图、时序图、序列图、状态图、状态机、ER图、类图、思维导图、出图、画图、可视化、画一张图、画个图、图表风格、暗色风格图、蓝图风格图、奶油风格图。"
+      },
+      "en-US": {
+        "name": "Tech Diagram Generator",
+        "summary": "Draw brand-consistent architecture/flow/sequence diagrams with Mermaid, rendered inline in chat",
+        "description": "Use this skill when the user wants to turn a description into a technical diagram — architecture diagrams, flowcharts, sequence diagrams, state machines, ER diagrams, class diagrams, or mind maps. Generates Mermaid with a semantic shape/arrow vocabulary that the DesireCore chat renders inline as SVG, with 6 selectable visual styles (brand-light/brand-dark/terminal/blueprint/cream/mono). Use this for diagrams of structure, flow, or relationships — not for photographic or illustrative images."
+      }
+    },
+    "category": "development",
+    "tags": [
+      "diagram",
+      "mermaid",
+      "architecture",
+      "flowchart",
+      "visualization"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.1.1",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-14T03:55:22Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low",
+    "skillType": "procedural"
+  }
+}
