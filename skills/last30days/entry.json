@@ -35,6 +35,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/mvanhorn/last30days-skill.git",
     "repoBranch": "main",
-    "path": "skills/last30days"
+    "path": "skills/last30days",
+    "ref": "a218edadbc3361672f5e5e2cd72a8212b0b3fbb8"
   }
 }

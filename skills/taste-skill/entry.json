@@ -31,6 +31,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/Leonxlnx/taste-skill.git",
     "repoBranch": "main",
-    "path": "skills/taste-skill"
+    "path": "skills/taste-skill",
+    "ref": "ccbc15639c97057cbfcf32ecebc38ef716e4bb37"
   }
 }

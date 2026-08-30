@@ -31,6 +31,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/LearnPrompt/ai-news-radar.git",
     "repoBranch": "master",
-    "path": "skills/ai-news-radar"
+    "path": "skills/ai-news-radar",
+    "ref": "f23ce289695aaf8808f4c19b0b815b51b20730a9"
   }
 }

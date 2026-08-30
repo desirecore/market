@@ -28,6 +28,7 @@
   "source": {
     "kind": "git",
     "repoUrl": "https://github.com/zarazhangrui/follow-builders.git",
-    "repoBranch": "main"
+    "repoBranch": "main",
+    "ref": "239227ddea46dfb9db6ed23e5864a5fabb9cee83"
   }
 }

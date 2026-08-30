@@ -28,7 +28,8 @@
   "source": {
     "kind": "git",
     "repoUrl": "https://github.com/NetEase/skills.git",
-    "repoBranch": "master"
+    "repoBranch": "master",
+    "ref": "58ff0771d6977feb847d6bfe322280eec4bec004"
   },
   "children": [
     {
