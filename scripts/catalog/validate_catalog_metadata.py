@@ -359,7 +359,12 @@ def _validate_governance_consistency(
     license_fact = governance.get("license")
     if license_value is not None and isinstance(license_fact, dict):
         if license_fact.get("state") != "known":
-            report.add(rel, "legacy-consistency", "governance.license must preserve the known legacy license")
+            report.add(
+                rel,
+                "legacy-license-unverified",
+                "legacy license text has no sidecar evidence and remains unknown",
+                severity="warning",
+            )
         else:
             _compare(report, rel, "governance.license.value", license_fact.get("value"), license_value)
 

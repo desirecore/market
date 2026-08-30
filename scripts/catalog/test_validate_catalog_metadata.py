@@ -162,6 +162,15 @@ class CatalogMetadataValidatorTests(unittest.TestCase):
         issues = self.validate().issues
         self.assertTrue(any(issue.rule == "legacy-consistency" for issue in issues))
 
+    def test_keeps_unverified_legacy_license_unknown_with_warning(self) -> None:
+        def mutate(payload):
+            payload["governance"]["license"] = unknown()
+
+        self.rewrite_sidecar(mutate)
+        report = self.validate()
+        self.assertFalse(report.has_errors, report.issues)
+        self.assertTrue(any(issue.rule == "legacy-license-unverified" for issue in report.issues))
+
     def test_rejects_installable_without_review_or_immutable_source(self) -> None:
         def mutate(payload):
             payload["governance"] = {
