@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.10"
-# dependencies = ["pyyaml>=6.0"]
+# dependencies = ["jsonschema>=4.23,<5", "pyyaml>=6.0"]
 # ///
 """Validate DesireCore market i18n state.
 
@@ -19,6 +19,7 @@ Checks:
   10. Skill, Agent, and entry.json category references exist in categories.json.
   11. entry.json pointers have the required marketplace fields, valid inline SVG icons, and safe source URLs.
   12. Market Skills set `disable-model-invocation` to true or omit it; false is prohibited.
+  13. Every catalog-metadata.v1.json sidecar passes the strict schema and legacy consistency checks.
 
 Exit codes:
   0 = pass
@@ -44,6 +45,12 @@ from pathlib import Path
 from typing import Any, Iterable
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
+
+CATALOG_SCRIPT_DIR = Path(__file__).resolve().parents[1] / "catalog"
+if str(CATALOG_SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(CATALOG_SCRIPT_DIR))
+
+from validate_catalog_metadata import validate_repository as validate_catalog_metadata_repository
 
 try:
     import yaml
@@ -585,6 +592,15 @@ def main(argv: list[str]) -> int:
     report = Report()
     declared_locales, category_ids, manifest = validate_market_root(report)
     validate_market_catalog(report, manifest, category_ids, online=args.online)
+
+    catalog_report = validate_catalog_metadata_repository(REPO_ROOT)
+    for issue in catalog_report.issues:
+        report.add(Issue(
+            issue.path,
+            issue.rule,
+            issue.message,
+            severity=issue.severity,
+        ))
 
     if args.paths:
         targets = [Path(p).resolve() for p in args.paths]

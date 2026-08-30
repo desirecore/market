@@ -12,7 +12,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -48,7 +48,7 @@ jobs:
               ;;
           esac
           changed=$(git diff --name-only "$range" || true)
-          if echo "$changed" | grep -qE '^(skills/|agents/|manifest\.json$|categories\.json$|scripts/i18n/)'; then
+          if echo "$changed" | grep -qE '^(skills/|agents/|schemas/|manifest\.json$|categories\.json$|scripts/i18n/|scripts/catalog/|scripts/gen-collection-children\.py$)'; then
             echo "relevant=true" >> "$GITHUB_OUTPUT"
           else
             echo "relevant=false" >> "$GITHUB_OUTPUT"
@@ -62,6 +62,16 @@ jobs:
         if: steps.changes.outputs.relevant == 'true'
         run: uv run --quiet scripts/i18n/test_validate_i18n.py
 
+      - name: Run catalog validator unit tests
+        if: steps.changes.outputs.relevant == 'true'
+        run: |
+          uv run --quiet scripts/catalog/test_validate_catalog_metadata.py
+          uv run --quiet scripts/catalog/test_collection_generator.py
+
+      - name: Validate catalog metadata
+        if: steps.changes.outputs.relevant == 'true'
+        run: uv run --quiet scripts/catalog/validate_catalog_metadata.py
+
       - name: Validate i18n
         if: steps.changes.outputs.relevant == 'true'
         run: uv run --quiet scripts/i18n/validate-i18n.py
@@ -69,6 +79,10 @@ jobs:
       - name: Check for stale translations
         if: steps.changes.outputs.relevant == 'true'
         run: uv run --quiet scripts/i18n/translate.py --check
+
+      - name: Check generated collection children
+        if: steps.changes.outputs.relevant == 'true'
+        run: uv run --quiet scripts/gen-collection-children.py --check
 
       - name: Skip notice
         if: steps.changes.outputs.relevant != 'true'

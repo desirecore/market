@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.10"
-# dependencies = ["pyyaml>=6.0"]
+# dependencies = ["jsonschema>=4.23,<5", "pyyaml>=6.0"]
 # ///
 """Unit tests for market validation policies."""
 

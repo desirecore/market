@@ -19,10 +19,12 @@ For each requested entry this script:
 Usage:
   python3 scripts/gen-collection-children.py                 # all entries that already declare children
   python3 scripts/gen-collection-children.py larksuite-cli   # specific ids
+  python3 scripts/gen-collection-children.py --check          # verify without writing
 """
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import subprocess
@@ -161,7 +163,7 @@ def discover_children(repo_dir: Path) -> list[dict]:
     return children
 
 
-def process(entry_id: str) -> bool:
+def process(entry_id: str, *, check: bool = False) -> bool:
     entry_path = SKILLS_DIR / entry_id / "entry.json"
     if not entry_path.exists():
         print(f"{entry_id}: no entry.json")
@@ -172,6 +174,15 @@ def process(entry_id: str) -> bool:
     if source.get("kind") != "git":
         print(f"{entry_id}: only git sources can be collections (kind={source.get('kind')})")
         return False
+    if check and source.get("path") is not None:
+        print(f"{entry_id}: stale — collection source.path must be omitted")
+        return False
+    if check and not source.get("ref"):
+        print(
+            f"{entry_id}: SKIP — source.ref is not pinned; "
+            "a mutable source cannot have a deterministic generated-output check"
+        )
+        return True
 
     print(f"{entry_id}: cloning {source['repoUrl']} …")
     with tempfile.TemporaryDirectory(prefix=f"collection-{entry_id}-") as tmp:
@@ -187,6 +198,16 @@ def process(entry_id: str) -> bool:
         print(f"{entry_id}: no sub-skills found — not a collection?")
         return False
 
+    if check:
+        if entry.get("children") != children:
+            print(
+                f"{entry_id}: stale — declared children differ from the "
+                f"{len(children)} children discovered at the pinned source"
+            )
+            return False
+        print(f"{entry_id}: OK ({len(children)} children)")
+        return True
+
     entry.pop("children", None)
     entry["children"] = children
     # source.path is mutually exclusive with children (the client rejects both).
@@ -196,8 +217,17 @@ def process(entry_id: str) -> bool:
     return True
 
 
-def main() -> int:
-    ids = sys.argv[1:]
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="compare generated children with entry.json without writing files",
+    )
+    parser.add_argument("ids", nargs="*", help="collection entry IDs (default: every declared collection)")
+    args = parser.parse_args(argv)
+
+    ids = args.ids
     if not ids:
         ids = sorted(
             p.parent.name
@@ -208,7 +238,7 @@ def main() -> int:
             print("no collection entries found; pass ids explicitly")
             return 1
 
-    failed = [entry_id for entry_id in ids if not process(entry_id)]
+    failed = [entry_id for entry_id in ids if not process(entry_id, check=args.check)]
     if failed:
         print(f"\nfailed: {', '.join(failed)}")
         return 1
@@ -216,4 +246,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(sys.argv[1:]))
