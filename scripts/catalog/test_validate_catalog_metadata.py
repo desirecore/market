@@ -185,6 +185,15 @@ class CatalogMetadataValidatorTests(unittest.TestCase):
         report = self.validate()
         self.assertFalse(report.has_errors, report.issues)
 
+    def test_rejects_system_agent_content_release(self) -> None:
+        self.write_agent_case("system", "repository", "listing-only")
+        sidecar_path = self.root / "agents" / "system-agent" / VALIDATOR.SIDECAR_NAME
+        payload = json.loads(sidecar_path.read_text(encoding="utf-8"))
+        payload["release"] = {"state": "known", "version": "1.2.0", "versionScheme": "semver"}
+        self.write_json(sidecar_path, payload)
+        issues = self.validate().issues
+        self.assertTrue(any(issue.rule in {"catalog-schema", "agent-policy"} for issue in issues))
+
     def test_accepts_market_market_listing_only_agent_policy(self) -> None:
         self.write_agent_case("market", "market", "listing-only")
         report = self.validate()

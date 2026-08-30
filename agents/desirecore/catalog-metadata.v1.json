@@ -29,9 +29,7 @@
     ]
   },
   "release": {
-    "state": "known",
-    "version": "1.2.0",
-    "versionScheme": "semver"
+    "state": "unknown"
   },
   "timestamps": {
     "catalogUpdatedAt": {

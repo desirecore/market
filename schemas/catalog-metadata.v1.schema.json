@@ -108,6 +108,10 @@
           "governance": {
             "properties": { "availability": { "const": "listing-only" } },
             "required": ["availability"]
+          },
+          "release": {
+            "properties": { "state": { "const": "unknown" } },
+            "required": ["state"]
           }
         }
       }

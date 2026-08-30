@@ -563,7 +563,17 @@ def validate_sidecar(
     _validate_i18n(report, rel, sidecar, legacy, supported_locales)
 
     release = sidecar.get("release")
-    if legacy.version is not None and isinstance(release, dict):
+    spec = sidecar.get("spec")
+    system_agent = (
+        legacy.kind == "agent"
+        and isinstance(spec, dict)
+        and spec.get("installPolicy") == "system"
+        and spec.get("updatePolicy") == "repository"
+    )
+    if system_agent:
+        if isinstance(release, dict) and release.get("state") != "unknown":
+            report.add(rel, "agent-policy", "system Agent metadata revision must not be exposed as a content release")
+    elif legacy.version is not None and isinstance(release, dict):
         if release.get("state") != "known":
             report.add(rel, "legacy-consistency", "release must preserve the legacy version")
         else:
