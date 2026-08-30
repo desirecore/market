@@ -308,11 +308,16 @@ print(clean_md)
 
 Do not guess that the browser is merely closed. Call `BrowserExternalProbe` again:
 
-- `debug_port_closed` → show its current `launchCommand` and wait for the user
+- `debug_port_closed` → show its current `launchCommand`, end the turn, and wait for the user;
+  `commandPolicy: display_only_never_execute` forbids passing it to Bash, PowerShell, a terminal,
+  a script, or any other execution tool even when the user previously said “continue”
 - `browser_mismatch` → report the actual/requested products and ask the user to correct or approve the change
 - `browser_not_installed` → report that exact installation fact; alternatives require explicit approval
 - `invalid_cdp_endpoint` → tell the user the port is not a valid CDP endpoint
 - still `ready` → report the Playwright attach failure separately; do not switch to the built-in browser
+
+Released 10.0.128 clients can include `launchCommand` on other statuses for compatibility. Never
+execute it from any status. Only display it for `debug_port_closed`; ignore it for every other status.
 
 ### `browser.contexts[0]` is empty
 
