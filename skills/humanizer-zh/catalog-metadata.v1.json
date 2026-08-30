@@ -1,0 +1,78 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "humanizer-zh"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Humanizer (Chinese)",
+        "summary": "Chinese localization of Humanizer that removes AI writing patterns following Chinese prose conventions, with core rules, a quick checklist and quality scoring for Claude Code and Codex"
+      },
+      "zh-CN": {
+        "name": "Humanizer 中文版",
+        "summary": "Humanizer 的汉化版本，按中文写作习惯去除 AI 生成痕迹，附核心规则、快速检查清单与质量评分，适配 Claude Code、Codex 等"
+      }
+    },
+    "category": "creative",
+    "tags": [
+      "writing",
+      "editing",
+      "ai-detection",
+      "humanize",
+      "chinese"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-09T10:14:38Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-08-09T10:14:38Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/op7418/Humanizer-zh.git",
+      "ref": "91f3d394db8419c20d67ebe22a96cf8fee0a404b"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "歸藏 (op7418)",
+      "url": "https://github.com/op7418/Humanizer-zh",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

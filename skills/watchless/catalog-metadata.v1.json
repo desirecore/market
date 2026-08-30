@@ -1,0 +1,77 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "watchless"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Watchless",
+        "summary": "Turns a video into a complete keyframe-led visual document with faithful transcript-based notes, exported as HTML, PDF or a shareable ZIP"
+      },
+      "zh-CN": {
+        "name": "Watchless",
+        "summary": "把视频转成以关键帧截图为主线的完整视觉文档：转写为事实来源、截图保留画面证据，输出 HTML/PDF/ZIP，读者无需再看原视频"
+      }
+    },
+    "category": "media",
+    "tags": [
+      "video",
+      "transcript",
+      "notes",
+      "chenzixin1"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-19T11:19:33Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-07-19T11:19:33Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/chenzixin1/watchless.git",
+      "ref": "a09c0edc6c3121c05e9824ef556256441d291d4f"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "chenzixin1",
+      "url": "https://github.com/chenzixin1/watchless",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

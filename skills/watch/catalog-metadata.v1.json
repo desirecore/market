@@ -1,0 +1,82 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "watch"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Watch Video",
+        "summary": "Analyze video speech and scene changes together"
+      },
+      "zh-CN": {
+        "name": "视频观看与场景分析",
+        "summary": "结合字幕、Whisper 与场景变化帧分析视频中的语音和画面"
+      }
+    },
+    "category": "media",
+    "tags": [
+      "video",
+      "transcription",
+      "scene-analysis",
+      "ffmpeg",
+      "yt-dlp",
+      "whisper"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.1.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-07T15:54:22Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-08-07T15:54:22Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore-agent/watch-video-skill.git",
+      "path": "skills/watch",
+      "ref": "0fd13b73b7b37318cada0562ba2263d648c8505f"
+    }
+  },
+  "governance": {
+    "stewardship": "official",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "DesireCore Agent",
+      "url": "https://github.com/desirecore-agent",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

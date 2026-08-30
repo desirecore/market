@@ -1,0 +1,77 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "luckin-my-coffee"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Luckin My Coffee",
+        "summary": "Luckin Coffee ordering assistant to browse the menu, place and manage Luckin orders in natural language"
+      },
+      "zh-CN": {
+        "name": "瑞幸下单助手",
+        "summary": "瑞幸咖啡下单助手：用自然语言查询菜单、选品下单与管理瑞幸咖啡订单"
+      }
+    },
+    "category": "business",
+    "tags": [
+      "luckin"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "0.8.4",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-30T18:00:09Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-08-30T18:00:09Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "zip",
+      "url": "https://unpkg.luckincoffeecdn.com/@luckin/my-coffee-skill@0.8.4/dist/my-coffee-skill.zip",
+      "path": "my-coffee",
+      "sha256": "5b079e6c52bc7db188e0a3b8af0b631e63accfa84bbb200e723c24b6da32ff3f"
+    }
+  },
+  "governance": {
+    "stewardship": "pointer",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "luckin",
+      "url": "https://unpkg.luckincoffeecdn.com/@luckin/my-coffee-skill@latest/dist/my-coffee-skill.zip",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

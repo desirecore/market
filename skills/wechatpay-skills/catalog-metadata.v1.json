@@ -1,0 +1,77 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "wechatpay-skills"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "WeChat Pay Skills",
+        "summary": "Official WeChat Pay integration skills: product selection, sample code, integration quality review and troubleshooting"
+      },
+      "zh-CN": {
+        "name": "微信支付 Skills",
+        "summary": "微信支付官方接入技能包：产品选型、官方示例代码、接入质量评估与答疑排障"
+      }
+    },
+    "category": "business",
+    "tags": [
+      "wechatpay-apiv3"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0",
+    "versionScheme": "opaque"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-09T08:25:20Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-06-28T13:06:20Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/wechatpay-apiv3/wechatpay-skills.git",
+      "path": "wechatpay-payment-integration",
+      "ref": "8573bdc38b86fa67a42acfc422d6b4dbca4ada21"
+    }
+  },
+  "governance": {
+    "stewardship": "partner",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "wechatpay-apiv3",
+      "url": "https://github.com/wechatpay-apiv3/wechatpay-skills",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

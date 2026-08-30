@@ -1,0 +1,76 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "amap-jsapi-skill"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "AMap JSAPI Skill",
+        "summary": "AMap JSAPI v2.0 (WebGL) development skill covering map lifecycle, security config, 3D views, overlays and LBS services"
+      },
+      "zh-CN": {
+        "name": "高德地图 JSAPI 技能",
+        "summary": "高德地图 JSAPI v2.0（WebGL）开发技能，涵盖地图生命周期、安全配置、3D 视图、覆盖物绘制与 LBS 服务集成"
+      }
+    },
+    "category": "development",
+    "tags": [
+      "lbs-amap"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.1.1",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-30T18:00:09Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-08-30T18:00:09Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "web",
+      "url": "https://clawhub.ai/api/v1/skills/amap-jsapi-skill/file?path=SKILL.md&ownerHandle=lbs-amap",
+      "sha256": "cf2f06cc5abf5e41a626f823c50575ab52c81aecbceca5abd4e69d56ca5c5d75"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "lbs-amap",
+      "url": "https://clawhub.ai/lbs-amap/skills/amap-jsapi-skill",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

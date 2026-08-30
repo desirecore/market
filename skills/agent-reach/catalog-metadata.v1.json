@@ -1,0 +1,82 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "agent-reach"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Agent Reach",
+        "summary": "Web research and social search across Xiaohongshu, X/Twitter, Bilibili, Reddit, YouTube and more"
+      },
+      "zh-CN": {
+        "name": "Agent Reach",
+        "summary": "全网调研与社媒搜索：覆盖小红书、X/Twitter、B 站、Reddit、YouTube 等平台的内容检索与信息聚合"
+      }
+    },
+    "category": "research",
+    "tags": [
+      "research",
+      "web-search",
+      "social-media",
+      "twitter",
+      "reddit",
+      "youtube",
+      "bilibili",
+      "xiaohongshu"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-19T06:37:19Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-07-09T13:37:59Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/Panniantong/agent-reach.git",
+      "path": "agent_reach/skill",
+      "ref": "e825f6740d24c6c315c3b0dc41907e6c87ff39a5"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "Panniantong",
+      "url": "https://github.com/Panniantong/agent-reach",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

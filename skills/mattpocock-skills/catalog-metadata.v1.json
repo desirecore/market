@@ -1,0 +1,954 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "mattpocock-skills"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Matt Pocock Skills",
+        "summary": "Matt Pocock's collection of small, composable engineering skills for real application development across any model"
+      },
+      "zh-CN": {
+        "name": "Matt Pocock Skills",
+        "summary": "Matt Pocock 的真实工程 AI Skill 合集，小巧、易改、可组合，适配任意模型做实际开发而非 vibe coding"
+      }
+    },
+    "category": "development",
+    "tags": [
+      "engineering",
+      "tdd",
+      "mattpocock"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-09T08:25:20Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/mattpocock/skills.git"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "Matt Pocock",
+      "url": "https://github.com/mattpocock/skills",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "collection": {
+      "role": "parent",
+      "childCount": 35,
+      "children": [
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "ask-matt",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/ask-matt",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "ask-matt",
+                "summary": "Ask which skill or flow fits your situation."
+              },
+              "zh-CN": {
+                "name": "ask-matt",
+                "summary": "Ask which skill or flow fits your situation."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "code-review",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/code-review",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "code-review",
+                "summary": "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Standards (does the code follow this repo's documented coding stand…"
+              },
+              "zh-CN": {
+                "name": "code-review",
+                "summary": "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Standards (does the code follow this repo's documented coding stand…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "codebase-design",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/codebase-design",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "codebase-design",
+                "summary": "Shared vocabulary for designing deep modules."
+              },
+              "zh-CN": {
+                "name": "codebase-design",
+                "summary": "Shared vocabulary for designing deep modules."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "diagnosing-bugs",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/diagnosing-bugs",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "diagnosing-bugs",
+                "summary": "Diagnosis loop for hard bugs and performance regressions."
+              },
+              "zh-CN": {
+                "name": "diagnosing-bugs",
+                "summary": "Diagnosis loop for hard bugs and performance regressions."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "domain-modeling",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/domain-modeling",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "domain-modeling",
+                "summary": "Build and sharpen a project's domain model."
+              },
+              "zh-CN": {
+                "name": "domain-modeling",
+                "summary": "Build and sharpen a project's domain model."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "grill-with-docs",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/grill-with-docs",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "grill-with-docs",
+                "summary": "A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go."
+              },
+              "zh-CN": {
+                "name": "grill-with-docs",
+                "summary": "A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "implement",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/implement",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "implement",
+                "summary": "Implement a piece of work based on a spec or set of tickets."
+              },
+              "zh-CN": {
+                "name": "implement",
+                "summary": "Implement a piece of work based on a spec or set of tickets."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "improve-codebase-architecture",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/improve-codebase-architecture",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "improve-codebase-architecture",
+                "summary": "Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick."
+              },
+              "zh-CN": {
+                "name": "improve-codebase-architecture",
+                "summary": "Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "prototype",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/prototype",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "prototype",
+                "summary": "Build a throwaway prototype to answer a design question."
+              },
+              "zh-CN": {
+                "name": "prototype",
+                "summary": "Build a throwaway prototype to answer a design question."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "research",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/research",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "research",
+                "summary": "Investigate a question against high-trust primary sources and capture the findings as a Markdown file in the repo."
+              },
+              "zh-CN": {
+                "name": "research",
+                "summary": "Investigate a question against high-trust primary sources and capture the findings as a Markdown file in the repo."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "resolving-merge-conflicts",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/resolving-merge-conflicts",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "resolving-merge-conflicts",
+                "summary": "Use when you need to resolve an in-progress git merge/rebase conflict."
+              },
+              "zh-CN": {
+                "name": "resolving-merge-conflicts",
+                "summary": "Use when you need to resolve an in-progress git merge/rebase conflict."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "setup-matt-pocock-skills",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/setup-matt-pocock-skills",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "setup-matt-pocock-skills",
+                "summary": "Configure this repo for the engineering skills — set up its issue tracker, triage label vocabulary, and domain doc layout."
+              },
+              "zh-CN": {
+                "name": "setup-matt-pocock-skills",
+                "summary": "Configure this repo for the engineering skills — set up its issue tracker, triage label vocabulary, and domain doc layout."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "tdd",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/tdd",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "tdd",
+                "summary": "Test-driven development."
+              },
+              "zh-CN": {
+                "name": "tdd",
+                "summary": "Test-driven development."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "to-spec",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/to-spec",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "to-spec",
+                "summary": "Turn the current conversation into a spec and publish it to the project issue tracker — no interview, just synthesis of what you've already discussed."
+              },
+              "zh-CN": {
+                "name": "to-spec",
+                "summary": "Turn the current conversation into a spec and publish it to the project issue tracker — no interview, just synthesis of what you've already discussed."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "to-tickets",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/to-tickets",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "to-tickets",
+                "summary": "Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker — ed…"
+              },
+              "zh-CN": {
+                "name": "to-tickets",
+                "summary": "Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker — ed…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "triage",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/triage",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "triage",
+                "summary": "Move issues and external PRs through a state machine of triage roles — categorise, verify, grill if needed, and write agent-ready briefs."
+              },
+              "zh-CN": {
+                "name": "triage",
+                "summary": "Move issues and external PRs through a state machine of triage roles — categorise, verify, grill if needed, and write agent-ready briefs."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "wayfinder",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/wayfinder",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "wayfinder",
+                "summary": "Plan a huge chunk of work — more than one agent session can hold — as a shared map of decision tickets on your issue tracker, and resolve them one at a time unt…"
+              },
+              "zh-CN": {
+                "name": "wayfinder",
+                "summary": "Plan a huge chunk of work — more than one agent session can hold — as a shared map of decision tickets on your issue tracker, and resolve them one at a time unt…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "wizard",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/wizard",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "wizard",
+                "summary": "Generate an interactive bash wizard that walks a human through steps only they can perform."
+              },
+              "zh-CN": {
+                "name": "wizard",
+                "summary": "Generate an interactive bash wizard that walks a human through steps only they can perform."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "claude-handoff",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/in-progress/claude-handoff",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "claude-handoff",
+                "summary": "Hand the current conversation off to a fresh background agent that picks up the work immediately."
+              },
+              "zh-CN": {
+                "name": "claude-handoff",
+                "summary": "Hand the current conversation off to a fresh background agent that picks up the work immediately."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "loop-me",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/in-progress/loop-me",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "loop-me",
+                "summary": "Grill me about specs for the workflows I want to build, within this workspace."
+              },
+              "zh-CN": {
+                "name": "loop-me",
+                "summary": "Grill me about specs for the workflows I want to build, within this workspace."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "setup-ts-deep-modules",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/in-progress/setup-ts-deep-modules",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "setup-ts-deep-modules",
+                "summary": "Wire dependency-cruiser into a TypeScript repo so each package is a deep module — implementation hidden in subfolders, reachable only through its entry-point fi…"
+              },
+              "zh-CN": {
+                "name": "setup-ts-deep-modules",
+                "summary": "Wire dependency-cruiser into a TypeScript repo so each package is a deep module — implementation hidden in subfolders, reachable only through its entry-point fi…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "writing-beats",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/in-progress/writing-beats",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "writing-beats",
+                "summary": "Writing, exploit — assemble raw material into a journey of beats, grounding each term before a beat leans on it."
+              },
+              "zh-CN": {
+                "name": "writing-beats",
+                "summary": "Writing, exploit — assemble raw material into a journey of beats, grounding each term before a beat leans on it."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "writing-fragments",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/in-progress/writing-fragments",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "writing-fragments",
+                "summary": "Writing, explore — mine raw fragments, no structure yet."
+              },
+              "zh-CN": {
+                "name": "writing-fragments",
+                "summary": "Writing, explore — mine raw fragments, no structure yet."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "writing-shape",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/in-progress/writing-shape",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "writing-shape",
+                "summary": "Writing, exploit — shape raw material into an article, paragraph by paragraph."
+              },
+              "zh-CN": {
+                "name": "writing-shape",
+                "summary": "Writing, exploit — shape raw material into an article, paragraph by paragraph."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "git-guardrails-claude-code",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/misc/git-guardrails-claude-code",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "git-guardrails-claude-code",
+                "summary": "Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, branch -D, etc.) before they execute."
+              },
+              "zh-CN": {
+                "name": "git-guardrails-claude-code",
+                "summary": "Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, branch -D, etc.) before they execute."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "migrate-to-shoehorn",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/misc/migrate-to-shoehorn",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "migrate-to-shoehorn",
+                "summary": "Migrate test files from `as` type assertions to @total-typescript/shoehorn."
+              },
+              "zh-CN": {
+                "name": "migrate-to-shoehorn",
+                "summary": "Migrate test files from `as` type assertions to @total-typescript/shoehorn."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "scaffold-exercises",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/misc/scaffold-exercises",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "scaffold-exercises",
+                "summary": "Create exercise directory structures with sections, problems, solutions, and explainers that pass linting."
+              },
+              "zh-CN": {
+                "name": "scaffold-exercises",
+                "summary": "Create exercise directory structures with sections, problems, solutions, and explainers that pass linting."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "setup-pre-commit",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/misc/setup-pre-commit",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "setup-pre-commit",
+                "summary": "Set up Husky pre-commit hooks with lint-staged (Prettier), type checking, and tests in the current repo."
+              },
+              "zh-CN": {
+                "name": "setup-pre-commit",
+                "summary": "Set up Husky pre-commit hooks with lint-staged (Prettier), type checking, and tests in the current repo."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "grill-me",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/productivity/grill-me",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "grill-me",
+                "summary": "A relentless interview to sharpen a plan or design."
+              },
+              "zh-CN": {
+                "name": "grill-me",
+                "summary": "A relentless interview to sharpen a plan or design."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "grilling",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/productivity/grilling",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "grilling",
+                "summary": "Grill the user relentlessly about a plan, decision, or idea."
+              },
+              "zh-CN": {
+                "name": "grilling",
+                "summary": "Grill the user relentlessly about a plan, decision, or idea."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "handoff",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/productivity/handoff",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "handoff",
+                "summary": "Compact the current conversation into a handoff document for another agent to pick up."
+              },
+              "zh-CN": {
+                "name": "handoff",
+                "summary": "Compact the current conversation into a handoff document for another agent to pick up."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "teach",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/productivity/teach",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "teach",
+                "summary": "Teach the user a new skill or concept, within this workspace."
+              },
+              "zh-CN": {
+                "name": "teach",
+                "summary": "Teach the user a new skill or concept, within this workspace."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "to-questionnaire",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/productivity/to-questionnaire",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "to-questionnaire",
+                "summary": "Turn a decision you can't fully answer into a questionnaire for someone else to fill in."
+              },
+              "zh-CN": {
+                "name": "to-questionnaire",
+                "summary": "Turn a decision you can't fully answer into a questionnaire for someone else to fill in."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "wait-what",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/productivity/wait-what",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "wait-what",
+                "summary": "Stop."
+              },
+              "zh-CN": {
+                "name": "wait-what",
+                "summary": "Stop."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "writing-for-agents",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/productivity/writing-for-agents",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "writing-for-agents",
+                "summary": "Writing documents for agents."
+              },
+              "zh-CN": {
+                "name": "writing-for-agents",
+                "summary": "Writing documents for agents."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        }
+      ]
+    }
+  }
+}

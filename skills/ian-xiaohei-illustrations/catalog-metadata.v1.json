@@ -1,0 +1,78 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "ian-xiaohei-illustrations"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Ian Xiaohei Illustrations",
+        "summary": "Generate Ian \"Xiaohei\" style illustrations for Chinese articles, turning ideas and processes into clean, whimsical 16:9 hand-drawn visuals"
+      },
+      "zh-CN": {
+        "name": "Ian 小黑怪诞正文配图",
+        "summary": "生成 Ian「小黑」风格的中文正文配图，把文章观点、流程与隐喻转成清爽怪诞的 16:9 手绘解释图"
+      }
+    },
+    "category": "media",
+    "tags": [
+      "illustration",
+      "image-generation",
+      "xiaohei",
+      "design"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-19T06:37:19Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-07-09T13:37:59Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/helloianneo/ian-xiaohei-illustrations.git",
+      "path": "ian-xiaohei-illustrations",
+      "ref": "91b560849e8f883922cc2fa8a358a668caa94105"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "helloianneo",
+      "url": "https://github.com/helloianneo/ian-xiaohei-illustrations",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

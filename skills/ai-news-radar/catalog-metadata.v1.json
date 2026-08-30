@@ -1,0 +1,77 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "ai-news-radar"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "AI News Radar",
+        "summary": "24/7 AI news radar that curates multiple sources into storylines and delivers daily headlines with three flavors of commentary"
+      },
+      "zh-CN": {
+        "name": "AI 资讯雷达",
+        "summary": "24 小时 AI 资讯雷达：从多信源筛选要闻、合并成故事线，并用三种口味锐评每日头条"
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "ai-news",
+      "rss",
+      "learnprompt"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-30T18:00:09Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-08-30T18:00:09Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/LearnPrompt/ai-news-radar.git",
+      "path": "skills/ai-news-radar",
+      "ref": "f23ce289695aaf8808f4c19b0b815b51b20730a9"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "LearnPrompt",
+      "url": "https://github.com/LearnPrompt/ai-news-radar",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}
