@@ -38,9 +38,7 @@
       "precision": "second"
     },
     "releasePublishedAt": {
-      "state": "known",
-      "value": "2026-08-13",
-      "precision": "day"
+      "state": "unknown"
     },
     "reviewedAt": {
       "state": "unknown"

@@ -194,6 +194,19 @@ class CatalogMetadataValidatorTests(unittest.TestCase):
         issues = self.validate().issues
         self.assertTrue(any(issue.rule in {"catalog-schema", "agent-policy"} for issue in issues))
 
+    def test_rejects_system_agent_content_release_timestamp(self) -> None:
+        self.write_agent_case("system", "repository", "listing-only")
+        sidecar_path = self.root / "agents" / "system-agent" / VALIDATOR.SIDECAR_NAME
+        payload = json.loads(sidecar_path.read_text(encoding="utf-8"))
+        payload["timestamps"]["releasePublishedAt"] = {
+            "state": "known",
+            "value": "2026-08-13",
+            "precision": "day",
+        }
+        self.write_json(sidecar_path, payload)
+        issues = self.validate().issues
+        self.assertTrue(any(issue.rule == "agent-policy" for issue in issues))
+
     def test_accepts_market_market_listing_only_agent_policy(self) -> None:
         self.write_agent_case("market", "market", "listing-only")
         report = self.validate()

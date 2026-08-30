@@ -573,6 +573,13 @@ def validate_sidecar(
     if system_agent:
         if isinstance(release, dict) and release.get("state") != "unknown":
             report.add(rel, "agent-policy", "system Agent metadata revision must not be exposed as a content release")
+        release_published_at = sidecar.get("timestamps", {}).get("releasePublishedAt")
+        if isinstance(release_published_at, dict) and release_published_at.get("state") != "unknown":
+            report.add(
+                rel,
+                "agent-policy",
+                "system Agent metadata revision must not be exposed as a content release timestamp",
+            )
     elif legacy.version is not None and isinstance(release, dict):
         if release.get("state") != "known":
             report.add(rel, "legacy-consistency", "release must preserve the legacy version")
