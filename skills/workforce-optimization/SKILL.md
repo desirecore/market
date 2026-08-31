@@ -1,9 +1,9 @@
 ---
 name: workforce-optimization
 description: >-
-  Use this Skill when a user naturally asks about workforce efficiency, staffing, shifts, service coverage, hierarchical resource allocation, performance targets, centralized task scheduling, operations research, or general LP/MILP. Govern the request through DecisionWorkspace, versioned multi-agent artifacts, guarded compile/solve, independent validation, and human approval. MindOptSolve is only a compatible connector Tool: the MindOpt solver software, applicable license, separate deployment, and related fees are external and not bundled. 用户自然提到人效、人员配置、排班、服务范围、资源划分、绩效目标、任务调度、运筹优化或 LP/MILP 时使用；通过 DecisionWorkspace、人机确认、版本化制品、受保护求解、独立验收和真人批准完成治理；MindOpt 软件、适用许可证、独立部署及费用不随本技能或客户端提供。
+  排班、工时上限、人员配置的第一轮澄清（含“只澄清、暂不求解”）也先用 Skill 工具加载本技能，再用 DecisionWorkspace 补问和真人确认卡；普通 AskUserQuestion 不能代替业务事实闭环。Load this Skill for the first clarification of staffing, shifts, work-hour limits, service coverage, resource allocation, targets, task scheduling or LP/MILP, including clarify only / do not solve yet requests. Use DecisionWorkspace question and human-confirmation cards for model-changing facts; generic AskUserQuestion is not a substitute. Clarification needs no connected solver. Actual MindOpt solving requires a separately licensed/deployed solver and configured connector; software, licenses, hosting and fees are not included. MindOpt 软件、许可证、部署及相关费用需使用方另行取得或承担。
 compatibility: >-
-  Requires a separately installed or deployed MindOpt solver, a valid license obtained under the official terms, and configured solver.mindopt connections; commercial licenses and operating costs are purchased separately when applicable. 需要外部安装或部署 MindOpt、按官方条款取得有效许可证并配置 solver.mindopt 连接；适用的商业许可及运行费用需另行采购承担。
+  Requirement clarification works without a connected solver. Actual MindOpt solving requires separately installed or deployed MindOpt, a valid license under its official terms, and configured solver.mindopt connections; commercial licenses and operating costs are separate when applicable. 需求澄清不要求先连接求解器；实际 MindOpt 求解仍需外部安装部署、有效许可证及 solver.mindopt 连接，适用的商业许可和运行费用另行承担。
 version: 2.4.0
 type: procedural
 risk_level: medium
@@ -25,7 +25,7 @@ provides:
     - OptimizationValidate
 metadata:
   author: workforce-optimization-team
-  updated_at: '2026-08-31'
+  updated_at: '2026-09-01'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -36,17 +36,17 @@ metadata:
       name: 人效与资源优化
       short_desc: 用决策工作区共管人效建模、受保护求解与独立验收；MindOpt 需外部授权部署
       description: >-
-        当用户自然提出服务范围、分层资源分配、绩效目标、集中任务调度、人员配置、排班或通用 LP/MILP 需求时，通过 DecisionWorkspace 的人机确认、精确版本制品、入口 Agent 绑定、同伴审阅、执行门禁、独立验收和真人批准形成可恢复治理链。选择 MindOpt 引擎时，实际求解仍依赖使用方另行取得适用许可证、部署并接入 MindOpt；客户端和本技能不包含求解器软件、许可证、算力托管或相关费用。
+        用户提出排班、工时上限、人员配置、服务覆盖、资源分配、绩效目标、任务调度或 LP/MILP，即使“只澄清、暂不求解”，也先用 Skill 工具加载本技能。影响模型的事实使用 DecisionWorkspace 补问及真人确认卡，不能用普通 AskUserQuestion 代替。澄清无需连接求解器；实际 MindOpt 求解需使用方另行取得适用许可证、部署并配置连接，软件、许可证、算力托管及费用均不包含在技能中。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:a903f7d52293e763
+      source_hash: sha256:68ad1e47a932ce72
       translated_by: ai:codex
     en-US:
       name: Workforce and Resource Optimization
       short_desc: Co-manage workforce models, guarded solving, and independent validation; MindOpt is externally licensed
       description: >-
-        When users naturally request service coverage, hierarchical resource allocation, performance targets, centralized task scheduling, staffing, shift planning, or general LP/MILP, use DecisionWorkspace human confirmation, exact-version artifacts, entry Agent binding, peer review, execution guards, independent validation, and human approval to create a recoverable governance chain. When MindOpt is selected, actual solving still requires the user to obtain an applicable license, deploy MindOpt, and configure its connector; the client and this Skill do not include the solver, license, hosted compute, or related fees.
+        Load this Skill for the first clarification of staffing, shifts, work-hour limits, service coverage, resource allocation, targets, task scheduling or LP/MILP, including clarify only / do not solve yet requests. Use DecisionWorkspace question and human-confirmation cards for model-changing facts; generic AskUserQuestion is not a substitute. Clarification needs no connected solver. Actual MindOpt solving requires a separately licensed/deployed solver and configured connector; software, licenses, hosting and fees are not included.
       body: ./SKILL.md
-      source_hash: sha256:a903f7d52293e763
+      source_hash: sha256:68ad1e47a932ce72
       translated_by: ai:codex
 market:
   icon: >-
@@ -82,6 +82,7 @@ Turn natural-language workforce-efficiency requests into reviewable and recovera
 - Treat relative business-time expressions such as today, tomorrow, the next N days, or this quarter as `pending_confirmation` until the current request confirms the business timezone, business calendar, date-time anchor, and applicable day-boundary, cutoff, holiday, and overnight rules. A system clock or host timezone is environment evidence, not a business rule.
 - Isolate every new request from historical contamination. Facts from another conversation, Plan, artifact, memory, or sample remain `pending_confirmation` until the user explicitly carries them into the current request; do not search for or reuse a semantically similar Plan as evidence for the first response.
 - Use one entry Agent for routing, consolidated questions, and final delivery. Assign one owner to each stage.
+- Clarify-only requests still use this workflow. Generic AskUserQuestion may handle non-modeling setup choices or an explicitly explained capability fallback, but its replies never become DecisionWorkspace answers or human confirmations.
 - Before using the nonexpert workflow, inspect the live DecisionWorkspace schemas for semantic_checks_version, request_clarification, interpret_clarification, sourceField and evidenceLinks, and confirm check_semantics is available. If the client lacks these contracts, remain in clarification and explain that a compatible client is required. Never emulate missing gates by editing AgentFS records or using the personal solver path.
 - Preflight with a read-only DecisionWorkspace list call. If global TaskBoard/assistance capability is disabled or unavailable, explain the missing user interaction surface and remain in plain-text clarification; do not create questions the user cannot answer, and do not enable capabilities without their request.
 - Clarification itself may create a team workspace with semantic_checks_version=1, propose business nodes, inspect an explicitly authorized data source, and record request_clarification before the fact gate passes. These are clarification operations, not permission to build a mathematical model, publish modeling artifacts, delegate solving or call a solver.

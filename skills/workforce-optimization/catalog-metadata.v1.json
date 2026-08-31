@@ -11,12 +11,12 @@
       "zh-CN": {
         "name": "人效与资源优化",
         "summary": "用决策工作区共管人效建模、受保护求解与独立验收；MindOpt 需外部授权部署",
-        "description": "当用户自然提出服务范围、分层资源分配、绩效目标、集中任务调度、人员配置、排班或通用 LP/MILP 需求时，通过 DecisionWorkspace 的人机确认、精确版本制品、入口 Agent 绑定、同伴审阅、执行门禁、独立验收和真人批准形成可恢复治理链。选择 MindOpt 引擎时，实际求解仍依赖使用方另行取得适用许可证、部署并接入 MindOpt；客户端和本技能不包含求解器软件、许可证、算力托管或相关费用。"
+        "description": "用户提出排班、工时上限、人员配置、服务覆盖、资源分配、绩效目标、任务调度或 LP/MILP，即使“只澄清、暂不求解”，也先用 Skill 工具加载本技能。影响模型的事实使用 DecisionWorkspace 补问及真人确认卡，不能用普通 AskUserQuestion 代替。澄清无需连接求解器；实际 MindOpt 求解需使用方另行取得适用许可证、部署并配置连接，软件、许可证、算力托管及费用均不包含在技能中。"
       },
       "en-US": {
         "name": "Workforce and Resource Optimization",
         "summary": "Co-manage workforce models, guarded solving, and independent validation; MindOpt is externally licensed",
-        "description": "When users naturally request service coverage, hierarchical resource allocation, performance targets, centralized task scheduling, staffing, shift planning, or general LP/MILP, use DecisionWorkspace human confirmation, exact-version artifacts, entry Agent binding, peer review, execution guards, independent validation, and human approval to create a recoverable governance chain. When MindOpt is selected, actual solving still requires the user to obtain an applicable license, deploy MindOpt, and configure its connector; the client and this Skill do not include the solver, license, hosted compute, or related fees."
+        "description": "Load this Skill for the first clarification of staffing, shifts, work-hour limits, service coverage, resource allocation, targets, task scheduling or LP/MILP, including clarify only / do not solve yet requests. Use DecisionWorkspace question and human-confirmation cards for model-changing facts; generic AskUserQuestion is not a substitute. Clarification needs no connected solver. Actual MindOpt solving requires a separately licensed/deployed solver and configured connector; software, licenses, hosting and fees are not included."
       }
     },
     "category": "business",
@@ -35,7 +35,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-08-31",
+      "value": "2026-09-01",
       "precision": "day"
     },
     "releasePublishedAt": {

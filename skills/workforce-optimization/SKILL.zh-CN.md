@@ -22,6 +22,7 @@
 - “今天”“明日”“未来 N 天”“本季度”等业务相对时间，在本轮确认业务时区、业务日历、日期/时刻锚点以及适用的日切、截点、节假日和跨日规则前，一律保持 `pending_confirmation`；系统时钟或宿主机时区只是环境证据，不是业务规则。
 - 每个新需求必须隔离历史污染：其他会话、Plan、工件、记忆或样例中的事实一律保持 `pending_confirmation`，只有用户在当前请求中明确沿用后才能转为事实；首轮不得搜索或复用语义相似的旧 Plan 作为证据。
 - 用户只与入口 Agent 交互；入口负责路由、集中追问和最终交付，每个阶段只有一个 Owner。
+- “只澄清、暂不求解”仍走本流程。普通 AskUserQuestion 只用于非建模设置选择或已明确说明的能力降级，不能把其答复当成 DecisionWorkspace 答案或真人确认。
 - 使用非专家流程前，检查实时 DecisionWorkspace Schema 是否提供 semantic_checks_version、request_clarification、interpret_clarification、sourceField 和 evidenceLinks，并确认 check_semantics 可用。缺少契约时停留在澄清并说明需要兼容客户端；不得直接编辑 AgentFS 记录模拟缺失门禁，也不得切到个人求解路径绕过。
 - 先只读调用 DecisionWorkspace list 探测；全局 TaskBoard/assistance 能力关闭或不可用时，说明缺少用户处理入口并停留在普通文本澄清，不创建用户无法回答的补问，也不在用户未要求时开启能力。
 - 事实门通过前，澄清操作可以创建 semantic_checks_version=1 的团队工作区、提议业务节点、检查用户明确授权的数据源并记录 request_clarification。这些不是数学建模、发布建模工件、委派求解或调用求解器的授权。
