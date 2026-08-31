@@ -20,10 +20,18 @@
       }
     },
     "category": "communication",
-    "tags": ["dingtalk", "collaboration", "messaging", "calendar", "workflow"]
+    "tags": [
+      "dingtalk",
+      "collaboration",
+      "messaging",
+      "calendar",
+      "workflow"
+    ]
   },
   "release": {
-    "state": "unknown"
+    "state": "known",
+    "version": "1.0.0",
+    "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
@@ -32,7 +40,9 @@
       "precision": "day"
     },
     "releasePublishedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-09-01",
+      "precision": "day"
     },
     "reviewedAt": {
       "state": "unknown"
@@ -84,8 +94,8 @@
   },
   "spec": {
     "kind": "agent",
-    "installPolicy": "system",
-    "updatePolicy": "repository",
+    "installPolicy": "market",
+    "updatePolicy": "market",
     "persona": {
       "role": "DingTalk capability gateway and orchestration layer",
       "traits": [
