@@ -4,13 +4,15 @@ description: >-
   Use this skill when the user needs semantic code navigation backed by a
   Language Server: jump to definitions or implementations, find references,
   inspect hover/type information, list document or workspace symbols, or trace
-  incoming and outgoing calls. Activate it for requests such as "where is this
+  incoming and outgoing calls. For such requests you MUST load this skill first
+  to unlock the hidden `Lsp` tool; do NOT answer them from `Grep`/`Glob` text
+  matching without trying `Lsp`. Activate it for requests such as "where is this
   symbol defined", "find usages", "who calls this function", "show the file
   outline", or "search symbols in the workspace". A compatible Language Server
   must already be installed; this skill never installs one automatically. Use
   when 用户提到 跳转定义、查找引用、查找实现、类型信息、悬停信息、符号大纲、
   工作区符号、调用关系、谁调用了这个函数、这个函数调用了谁、语义代码导航。
-version: 1.0.0
+version: 1.1.0
 type: procedural
 risk_level: low
 status: enabled
@@ -26,7 +28,7 @@ provides:
     - Lsp
 metadata:
   author: desirecore
-  updated_at: '2026-07-22'
+  updated_at: '2026-08-31'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -37,17 +39,17 @@ metadata:
       name: 代码智能
       short_desc: 基于 Language Server 的定义、引用、符号与调用关系导航
       description: >-
-        使用已安装的 Language Server 执行语义代码导航，包括定义、引用、实现、悬停类型、符号大纲和调用层级。
+        使用已安装的 Language Server 执行语义代码导航，包括定义、引用、实现、悬停类型、符号大纲和调用层级。此类请求必须先加载本技能解锁隐藏的 `Lsp` 工具，禁止未尝试 `Lsp` 就用文本检索作答。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:cf613ab2572810e5
+      source_hash: sha256:ebfecf4d2982632d
       translated_by: human
     en-US:
       name: Code Intelligence
       short_desc: Language Server powered definitions, references, symbols, and call navigation
       description: >-
-        Use an installed Language Server for semantic code navigation, including definitions, references, implementations, hover types, symbols, and call hierarchies.
+        Use an installed Language Server for semantic code navigation, including definitions, references, implementations, hover types, symbols, and call hierarchies. Load this skill first to unlock the hidden `Lsp` tool for such requests; never answer them from text search alone without trying `Lsp`.
       body: ./SKILL.md
-      source_hash: sha256:cf613ab2572810e5
+      source_hash: sha256:ebfecf4d2982632d
       translated_by: human
 market:
   icon: >-
@@ -84,7 +86,12 @@ Activate this skill when the task depends on symbol meaning rather than text mat
 - List the symbols in one file or search symbols across the workspace.
 - Find callers and callees through the LSP call hierarchy.
 
-Use `Grep` or `Glob` instead when the task is purely textual or no compatible Language Server is installed.
+### Hard rules
+
+- Semantic-navigation requests (definitions, references, implementations, call relations, symbols) **MUST try `Lsp` first**; never answer them from `Grep`/`Glob` text matching without trying `Lsp`.
+- Falling back to text search is allowed only when: the `Lsp` call errors, the target language is not in the supported mappings, or the Language Server is missing and the user has not asked to install it.
+- Every answer that falls back to text search **MUST explicitly tell the user** that the result comes from text matching, not semantic analysis, and why (for example "typescript-language-server is not installed"). In large repositories, or with same-named symbols, overloads, or inheritance, text matching can be wrong — never let the user mistake it for semantic navigation.
+- Purely textual searches (string literals, log copy) are out of scope for this skill; use `Grep`/`Glob` directly.
 
 ## L2: Operating Procedure
 
@@ -128,6 +135,6 @@ Supported built-in mappings:
 
 ### 5. Fallbacks
 
-- Unsupported file type or missing server: use `Grep`, `Glob`, and `Read` for text-level investigation.
+- Unsupported file type or missing server: use `Grep`, `Glob`, and `Read` for text-level investigation, and explicitly tell the user — per the hard rules — that the result comes from text matching, not semantic analysis, and why.
 - Server does not advertise an operation: report that capability mismatch instead of guessing.
 - Empty semantic result: explain that the symbol may be unresolved, excluded, or filtered by access rules; do not claim the symbol has no usages without qualification.
