@@ -14,7 +14,7 @@
 - 平台保留个人会话直接调用 `MindOptSolve` 和 compile 临时覆盖参数，只是本技能团队治理流程之外的向后兼容、非 decision-grade 专家路径。不得把未绑定的个人调用描述成已审阅、已由真人确认、可恢复或 decision-grade；团队运行必须使用受保护的 `OptimizationSolve`，并把求解限制写入 committed specification。
 - 在承诺或发起真实求解前，必须验证外部 Connector 已配置且 ready、所需 capabilities 可用，并确认该部署具备当前用途所需的有效许可证。仅发现 `MindOptSolve` Tool 名称，不能证明求解器已经安装、授权、可达或完成付费。
 - 外部依赖不可用时，必须说明具体缺少的前置条件并在调用求解器前停止。仍可完成需求澄清，并交付供后续执行的 `SceneSpec`、`DataContract` 和 `OptimizationSpec`，但不得伪造 `SolveResult`，也不得宣称可行、最优或收益。
-- 自然语言入口在路由或建模前必须完整读取 `references/requirement-clarification-framework.zh-CN.md`，按业务澄清框架识别真实决策、六场景必问项和条件触发项。
+- 自然语言入口在路由或建模前必须按用户当前对话语言完整读取框架：中文使用 `references/requirement-clarification-framework.zh-CN.md`，英文使用 `references/requirement-clarification-framework.md`，据此识别真实决策、必问项和条件触发项。技能 metadata 默认语言不覆盖用户语言；固定事实门尾注也使用相应语言版本。
 - 先读取当前上下文已注入的 AgentFS 用户画像、偏好和关系记忆，按其中已由用户确认、仍有效且无冲突的专业熟悉度或沟通偏好选择专业、业务引导或证据不足时的自适应表达；岗位名称、公司归属、单次术语使用和模型猜测不是充分证据。
 - 专业表达可以一次公开结构化完整信息契约并接受批量回答；业务引导表达用白话按影响顺序分组、允许任意必要轮次；证据不足时先给中性覆盖范围并询问用户偏好。任何表达都必须维护同一完整问题地图，不得以减少轮次、问题数量或认知负担为由跳过模型影响项。
 - 每次首轮回复必须以业务澄清框架规定的两句“固定事实门尾注”逐字收尾，不得同义改写、缩短、合并或遗漏任何一句。
@@ -27,7 +27,8 @@
 - 先只读调用 DecisionWorkspace list 探测；全局 TaskBoard/assistance 能力关闭或不可用时，说明缺少用户处理入口并停留在普通文本澄清，不创建用户无法回答的补问，也不在用户未要求时开启能力。
 - 事实门通过前，澄清操作可以创建 semantic_checks_version=1 的团队工作区、提议业务节点、检查用户明确授权的数据源并记录 request_clarification。这些不是数学建模、发布建模工件、委派求解或调用求解器的授权。
 - 决定性缺口通过 request_clarification 提供可回答的问题、原因、规范类型、单位和有依据的约束。同陈述/约束保持同一逻辑问题，不编造上下界来减少选项。按业务影响组织问题，并用普通语言说明剩余覆盖范围。
-- 真人提交 value 仍是提议，不是确认。raw_text 回答须读取当前问题，用 interpret_clarification 将完整规范化节点草稿关联到该答案，保留原话并解释拟采用口径；不得用普通 upsert 切断答案与问题关联，不得伪造答案回执，不得把 unknown 默认为某值。用户仍须通过平台控件明确确认新陈述。
+- 平台已提供 unknown 和 raw_text 回答通道；不得把“目前不确定”“不知道”等知识缺口作为精确 choices 或 node.value 的占位值，它们不是业务选项。reason 直接解释原因，不重复界面已有的“为什么问”标签。
+- 真人提交 value 仍是提议，不是确认。仅在 raw_text 能唯一确定业务值及必要单位/统计窗口时，才用 interpret_clarification 关联原答案与规范化节点，保留原话并等待真人确认。仍有歧义时保留原答案和 needs_input，解释尚缺什么，不调用 interpret_clarification 或填 canonical 占位值。例如“差不多八小时，不知按天还是按周”既不能确定精确上限，也不能确定周期。不得普通 upsert 切断原答案关联、伪造回执或默认补值。
 - 由平台在有效缺口结算后继续原来源会话。不得靠发新消息轮询、换请求身份绕过去重、复活已取消来源或重跑 unknown 派发。pending/解释信号不是求解授权；必须重读精确工作区并遵守全部门禁。
 - 真实数据用已授权 FileResourceRef、bytesHash、精确字段/类型/单位和经确认 timeScope 绑定；按需声明 required/unique/range/enum/foreign_key/cutoff 有限规则。range/enum 常量及 FK 两侧单位必须一致。每个实际消费字段都须用 modelSemantics.sourceField 和 sourced_from 关联业务量，再追踪入模；未使用列不必入模。单位/窗口转换须产生显式转换、可追溯且重新确认的来源，不得只改单位标签。
 - 为确切模型约束提议 blocking validation 正例、反例和临界例，提供完整候选赋值与预期硬/软行为；至少覆盖缺约束、错误统计窗口和意外软化。平台 check_semantics 独立复算已声明用例；求解器结果或第二份 Agent 解释本身不能证明业务正确。
