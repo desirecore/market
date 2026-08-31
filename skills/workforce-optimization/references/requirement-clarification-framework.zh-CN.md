@@ -17,6 +17,8 @@
 
 强制规则：
 
+台账状态只表达供讨论的来源证据，不是授权回执。在受治理 DecisionWorkspace 中，影响模型的陈述仍须通过平台专用真人确认。事实门之前可发现 Schema、提议业务节点、检查已授权数据和提交 request_clarification，但仍不得数学建模、发布建模工件或委派求解。raw_text 回答用 interpret_clarification 保留原话并提议规范化陈述，再由用户明确确认；unknown 不提供默认值。聊天文本、台账及 Agent 自写文件不能制造平台真人事实。
+
 1. 不得把未回答解释为“不存在”“否”“0”“不限制”或“按行业惯例”。
 2. 不得以“合理默认”“先模拟一个可能情况”替代用户确认；示例数值只能标记为 `hypothesis_not_modelable`。
 3. 同一因素若存在两种及以上会改变模型的可能值，必须标记 `pending_confirmation` 并追问。

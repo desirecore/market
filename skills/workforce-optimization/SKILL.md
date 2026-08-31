@@ -4,7 +4,7 @@ description: >-
   Use this Skill when a user naturally asks about workforce efficiency, staffing, shifts, service coverage, hierarchical resource allocation, performance targets, centralized task scheduling, operations research, or general LP/MILP. Govern the request through DecisionWorkspace, versioned multi-agent artifacts, guarded compile/solve, independent validation, and human approval. MindOptSolve is only a compatible connector Tool: the MindOpt solver software, applicable license, separate deployment, and related fees are external and not bundled. 用户自然提到人效、人员配置、排班、服务范围、资源划分、绩效目标、任务调度、运筹优化或 LP/MILP 时使用；通过 DecisionWorkspace、人机确认、版本化制品、受保护求解、独立验收和真人批准完成治理；MindOpt 软件、适用许可证、独立部署及费用不随本技能或客户端提供。
 compatibility: >-
   Requires a separately installed or deployed MindOpt solver, a valid license obtained under the official terms, and configured solver.mindopt connections; commercial licenses and operating costs are purchased separately when applicable. 需要外部安装或部署 MindOpt、按官方条款取得有效许可证并配置 solver.mindopt 连接；适用的商业许可及运行费用需另行采购承担。
-version: 2.3.4
+version: 2.4.0
 type: procedural
 risk_level: medium
 status: enabled
@@ -25,7 +25,7 @@ provides:
     - OptimizationValidate
 metadata:
   author: workforce-optimization-team
-  updated_at: '2026-08-29'
+  updated_at: '2026-08-31'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -38,16 +38,16 @@ metadata:
       description: >-
         当用户自然提出服务范围、分层资源分配、绩效目标、集中任务调度、人员配置、排班或通用 LP/MILP 需求时，通过 DecisionWorkspace 的人机确认、精确版本制品、入口 Agent 绑定、同伴审阅、执行门禁、独立验收和真人批准形成可恢复治理链。选择 MindOpt 引擎时，实际求解仍依赖使用方另行取得适用许可证、部署并接入 MindOpt；客户端和本技能不包含求解器软件、许可证、算力托管或相关费用。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:63c40f1123d9fc31
-      translated_by: human
+      source_hash: sha256:a903f7d52293e763
+      translated_by: ai:codex
     en-US:
       name: Workforce and Resource Optimization
       short_desc: Co-manage workforce models, guarded solving, and independent validation; MindOpt is externally licensed
       description: >-
         When users naturally request service coverage, hierarchical resource allocation, performance targets, centralized task scheduling, staffing, shift planning, or general LP/MILP, use DecisionWorkspace human confirmation, exact-version artifacts, entry Agent binding, peer review, execution guards, independent validation, and human approval to create a recoverable governance chain. When MindOpt is selected, actual solving still requires the user to obtain an applicable license, deploy MindOpt, and configure its connector; the client and this Skill do not include the solver, license, hosted compute, or related fees.
       body: ./SKILL.md
-      source_hash: sha256:63c40f1123d9fc31
-      translated_by: human
+      source_hash: sha256:a903f7d52293e763
+      translated_by: ai:codex
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><defs><linearGradient id="bwo-a" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse"><stop stop-color="#34C759"/><stop offset="1" stop-color="#007AFF"/></linearGradient></defs><path d="M5 17.5V11m7 6.5V6m7 11.5V9" stroke="url(#bwo-a)" stroke-width="2" stroke-linecap="round"/><path d="M3.5 20.5h17" stroke="#34C759" stroke-width="1.5" stroke-linecap="round"/><circle cx="5" cy="8" r="2" fill="#34C759"/><circle cx="12" cy="3.5" r="2" fill="#007AFF"/><circle cx="19" cy="6.5" r="2" fill="#AF52DE"/></svg>
@@ -82,25 +82,36 @@ Turn natural-language workforce-efficiency requests into reviewable and recovera
 - Treat relative business-time expressions such as today, tomorrow, the next N days, or this quarter as `pending_confirmation` until the current request confirms the business timezone, business calendar, date-time anchor, and applicable day-boundary, cutoff, holiday, and overnight rules. A system clock or host timezone is environment evidence, not a business rule.
 - Isolate every new request from historical contamination. Facts from another conversation, Plan, artifact, memory, or sample remain `pending_confirmation` until the user explicitly carries them into the current request; do not search for or reuse a semantically similar Plan as evidence for the first response.
 - Use one entry Agent for routing, consolidated questions, and final delivery. Assign one owner to each stage.
+- Before using the nonexpert workflow, inspect the live DecisionWorkspace schemas for semantic_checks_version, request_clarification, interpret_clarification, sourceField and evidenceLinks, and confirm check_semantics is available. If the client lacks these contracts, remain in clarification and explain that a compatible client is required. Never emulate missing gates by editing AgentFS records or using the personal solver path.
+- Preflight with a read-only DecisionWorkspace list call. If global TaskBoard/assistance capability is disabled or unavailable, explain the missing user interaction surface and remain in plain-text clarification; do not create questions the user cannot answer, and do not enable capabilities without their request.
+- Clarification itself may create a team workspace with semantic_checks_version=1, propose business nodes, inspect an explicitly authorized data source, and record request_clarification before the fact gate passes. These are clarification operations, not permission to build a mathematical model, publish modeling artifacts, delegate solving or call a solver.
+- Ask model-changing gaps through request_clarification with an answerable question, reason, canonical type, declared unit and justified constraints. Keep the same logical question while its statement/constraints remain unchanged. Do not invent bounds to reduce choices. Group questions by business impact and explain the remaining coverage in ordinary language.
+- Human value answers are proposed, not confirmed. For raw_text answers, read the current question and use interpret_clarification to link a complete normalized node draft to that answer; preserve its original wording and explain the proposed interpretation. Never use ordinary upsert to detach the answer from its question, never manufacture an answer receipt, and never turn unknown into a default. The user must explicitly confirm the new statement in the platform controls.
+- Let the platform continue the original source conversation after its effective gaps settle. Do not poll by starting new messages, change request identities to evade deduplication, revive canceled sources or retry unknown dispatch outcomes. A pending/interpretation signal is not solve authorization; reread the exact workspace and honor all gates.
+- Bind real data with an authorized FileResourceRef, bytesHash, exact fields/types/units and confirmed timeScope. Add finite required/unique/range/enum/foreign_key/cutoff rules as applicable. Range/enum constants and FK fields must use consistent units. Every consumed data field must have modelSemantics.sourceField plus a sourced_from relationship before its business quantity is traced into the model. Unused columns need not be modeled. Unit/window conversions require an explicitly transformed, traceable and reconfirmed source; do not change only its unit label.
+- Propose blocking validation nodes with confirmed positive, negative and boundary examples for exact model constraints. Include complete candidate assignments and the intended hard/soft behavior. Cover missing constraints, wrong time aggregation and accidental softening. Platform check_semantics independently evaluates the declared examples; a solver result or a second Agent explanation alone does not establish business correctness.
+- Attach file evidence with evidenceLinks whose ref matches the node's evidenceRefs; use only authorized FileResourceRef identities, not guessed paths or arbitrary URLs. Explain report failures using their reason code, exact field/model element, frozen expectation, observed value, impact and next safe action. Direct the user to the graph's issue/source/model controls and change-impact preview; a colored branch, viewed evidence or preview never grants execution approval.
 - After the fact-confirmation gate passes, follow this governed sequence without skipping or reordering its control points:
   1. The entry Agent reads the needed `DecisionWorkspace(action="schema")` sections and each `TeamArtifact(action="schema")` contract before constructing writes.
   2. The entry Agent creates the team DecisionWorkspace or submits CAS-protected proposals in business language; proposals never manufacture human receipts.
   3. The user confirms or rejects blocking facts only through the platform's dedicated human controls. A rejection remains an auditable inactive tombstone. All Agents wait for the authoritative result.
   4. Only the top-level entry Agent calls `DecisionWorkspace(action="bind_workspace")` for the validated current workspace revision and model-input hash. Specialists may not bind, replace, or bypass it.
-  5. The assigned stage owner publishes `SceneSpec`, `DataContract`, optional `PredictionArtifact`, `OptimizationSpec`, `SolveResult`, `ValidationReport`, and `DeliveryBundle` in dependency order through `TeamArtifact`, retaining the returned exact artifact revision and DecisionWorkspace snapshot.
+  5. The assigned stage owners publish `SceneSpec`, `DataContract`, optional `PredictionArtifact`, and `OptimizationSpec` in dependency order through `TeamArtifact`, retaining exact artifact revisions and the DecisionWorkspace snapshot. When confirmed predictive inputs require training data, call OptimizationPredict inside this step, publish its real PredictionArtifact and confirm its model-changing outputs before creating OptimizationSpec. Without predictive inputs, omit this branch; do not predict after semantic checks. Initial model publication performs the platform's internal pure compilation checks; do not call guarded OptimizationCompile early to break the model-publication/semantic-check dependency.
   6. The entry Agent calls `DecisionWorkspace(action="link_artifact")` with the exact artifact ID, exact revision, and semantic bindings; never resolve governed evidence through `latest`.
   7. Submit the linked revision for peer review. An independent reviewer checks business-to-model coverage, units, variable families, feasibility logic, provenance, gaps, and stale/rejected exclusions before execution.
+     After the user confirms the exact source/rules/examples, call DecisionWorkspace(action="check_semantics") for the current revision/hash and inspect its complete bounded report. Missing data, unsupported evaluators, budget limits or unconfirmed examples are blocked, not passes. Do not rebind the workspace merely because an audit-only revision changed; retain the model-input snapshot until business semantics change.
   8. Invoke `OptimizationCompile` and then `OptimizationSolve`; both must pass the platform's DecisionWorkspace execution guard before side effects. `MindOptSolve` remains a compatible connector name and must never be called directly to bypass the guarded solve path.
   9. A validation owner independent from the solver owner calls `OptimizationValidate` and recomputes domains, hard constraints, objective, baseline delta, and IIS traceability from raw values.
+     Only then publish and link the real SolveResult and ValidationReport. Never prepublish guessed results. DeliveryBundle must preserve the exact evidence chain and its human approval status.
   10. The user approves only through the platform's dedicated human approval control after the exact linked chain passes review and independent validation. No Agent or specialist may create that approval.
-- When training data exists, call `OptimizationPredict`; use ordered holdout, train-only imputation, tuning, metrics, baseline comparison, and explicit fallback rules.
+- In step 5's confirmed prediction branch, use `OptimizationPredict` with ordered holdout, train-only imputation, tuning, metrics, baseline comparison, and explicit fallback rules.
 - Compile general models with `OptimizationCompile`, solve once through guarded `OptimizationSolve`, and retain status, variables, objective, request/job IDs, HTTPS transport, selected-engine evidence, and IIS when infeasible.
 - Require the validation owner to call `OptimizationValidate` and recompute variable domains, hard constraints, objective, baseline delta, and IIS traceability from raw values.
 - Treat every settled successful Tool call as authoritative. After an interruption, synthesize the persisted result without repeating the Tool.
 
 ## L2
 
-- Until the fact-confirmation gate passes, clarify only: do not publish modeling artifacts, call a solver, delegate a solver-capable Agent, or fill hidden conditions with defaults, simulations, or industry convention.
+- Until the fact-confirmation gate passes, use only the clarification operations above: do not publish modeling artifacts, call a solver, delegate a solver-capable Agent, or fill hidden conditions with defaults, simulations, or industry convention. Ledger labels such as confirmed_user are not substitutes for dedicated platform confirmation receipts.
 - Interaction mode changes terminology, grouping, per-turn batch size, and example depth only. It never changes fact states, mandatory information, triggered conditions, the modeling-confirmation summary, or the stop gate. The user's explicit choice in the current request overrides historical preference; switching mode preserves confirmed facts and continues with every remaining item.
 - If the user cannot confirm an item, deliver the gap, model impact, required owner/data, and optional reduced scope. Never interpret an omitted answer as absent, false, zero, or unlimited.
 - Use the fast path only when the user supplied a complete `OptimizationSpec`. It may omit unnecessary scene, prediction, or data-authoring work, but it must still create/propose the governed DecisionWorkspace representation, obtain every required dedicated human confirmation, bind the current revision, publish and link exact revisions, pass peer review and execution guards, delegate one solve and one independent validation, and wait for dedicated human approval before an entry-owned `DeliveryBundle` is decision-grade.

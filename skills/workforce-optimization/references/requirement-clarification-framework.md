@@ -17,6 +17,8 @@ Maintain `fact_state`, `value`, `source`, and `model_impact` for every modeling 
 
 Mandatory rules:
 
+The ledger states describe evidence for discussion, not authorization receipts. In the governed DecisionWorkspace, model-changing statements still require dedicated human confirmation. Before that gate, schema discovery, business-node proposals, authorized data inspection and request_clarification are permitted clarification actions; mathematical modeling/artifact publication/solver delegation remain prohibited. Preserve raw_text answers with interpret_clarification and ask for explicit confirmation of the normalized statement; unknown never supplies a default. Conversation text, this ledger and Agent-owned files cannot manufacture platform human facts.
+
 1. Never interpret a missing answer as absent, false, zero, unlimited, or industry standard.
 2. Never replace confirmation with a reasonable default or a simulated possible situation.
 3. If a factor has two or more model-changing values, mark it `pending_confirmation` and ask.

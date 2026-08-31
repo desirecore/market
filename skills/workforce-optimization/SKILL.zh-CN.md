@@ -22,25 +22,36 @@
 - “今天”“明日”“未来 N 天”“本季度”等业务相对时间，在本轮确认业务时区、业务日历、日期/时刻锚点以及适用的日切、截点、节假日和跨日规则前，一律保持 `pending_confirmation`；系统时钟或宿主机时区只是环境证据，不是业务规则。
 - 每个新需求必须隔离历史污染：其他会话、Plan、工件、记忆或样例中的事实一律保持 `pending_confirmation`，只有用户在当前请求中明确沿用后才能转为事实；首轮不得搜索或复用语义相似的旧 Plan 作为证据。
 - 用户只与入口 Agent 交互；入口负责路由、集中追问和最终交付，每个阶段只有一个 Owner。
+- 使用非专家流程前，检查实时 DecisionWorkspace Schema 是否提供 semantic_checks_version、request_clarification、interpret_clarification、sourceField 和 evidenceLinks，并确认 check_semantics 可用。缺少契约时停留在澄清并说明需要兼容客户端；不得直接编辑 AgentFS 记录模拟缺失门禁，也不得切到个人求解路径绕过。
+- 先只读调用 DecisionWorkspace list 探测；全局 TaskBoard/assistance 能力关闭或不可用时，说明缺少用户处理入口并停留在普通文本澄清，不创建用户无法回答的补问，也不在用户未要求时开启能力。
+- 事实门通过前，澄清操作可以创建 semantic_checks_version=1 的团队工作区、提议业务节点、检查用户明确授权的数据源并记录 request_clarification。这些不是数学建模、发布建模工件、委派求解或调用求解器的授权。
+- 决定性缺口通过 request_clarification 提供可回答的问题、原因、规范类型、单位和有依据的约束。同陈述/约束保持同一逻辑问题，不编造上下界来减少选项。按业务影响组织问题，并用普通语言说明剩余覆盖范围。
+- 真人提交 value 仍是提议，不是确认。raw_text 回答须读取当前问题，用 interpret_clarification 将完整规范化节点草稿关联到该答案，保留原话并解释拟采用口径；不得用普通 upsert 切断答案与问题关联，不得伪造答案回执，不得把 unknown 默认为某值。用户仍须通过平台控件明确确认新陈述。
+- 由平台在有效缺口结算后继续原来源会话。不得靠发新消息轮询、换请求身份绕过去重、复活已取消来源或重跑 unknown 派发。pending/解释信号不是求解授权；必须重读精确工作区并遵守全部门禁。
+- 真实数据用已授权 FileResourceRef、bytesHash、精确字段/类型/单位和经确认 timeScope 绑定；按需声明 required/unique/range/enum/foreign_key/cutoff 有限规则。range/enum 常量及 FK 两侧单位必须一致。每个实际消费字段都须用 modelSemantics.sourceField 和 sourced_from 关联业务量，再追踪入模；未使用列不必入模。单位/窗口转换须产生显式转换、可追溯且重新确认的来源，不得只改单位标签。
+- 为确切模型约束提议 blocking validation 正例、反例和临界例，提供完整候选赋值与预期硬/软行为；至少覆盖缺约束、错误统计窗口和意外软化。平台 check_semantics 独立复算已声明用例；求解器结果或第二份 Agent 解释本身不能证明业务正确。
+- 文件证据用 evidenceLinks 显式关联同节点 evidenceRefs，只使用已授权 FileResourceRef，不猜路径或任意 URL。解释失败时给出原因码、精确字段/模型元素、冻结预期、实际观察、影响和安全下一步；引导用户使用图中的问题/来源/模型入口和变更影响预览。分支颜色、查看证据或预览都不是执行授权。
 - 事实确认门通过后，必须严格按以下治理顺序执行，不得跳过或调换控制点：
   1. 入口 Agent 在构造写入前，按需读取 `DecisionWorkspace(action="schema")` 的对应 section，以及每类 `TeamArtifact(action="schema")` 契约。
   2. 入口 Agent 创建团队 DecisionWorkspace，或用 CAS 提交业务语言提议；提议绝不得伪造真人回执。
   3. 用户只能通过平台专用真人控件确认或驳回阻断事实；驳回项保留为可审计的非活跃 tombstone。所有 Agent 必须等待权威结果。
   4. 只有顶层入口 Agent 可以对已验证的当前 workspace revision 与 model-input hash 调用 `DecisionWorkspace(action="bind_workspace")`；Specialist 不得绑定、替换或绕过。
-  5. 指定阶段 Owner 按依赖顺序通过 `TeamArtifact` 发布 `SceneSpec`、`DataContract`、可选 `PredictionArtifact`、`OptimizationSpec`、`SolveResult`、`ValidationReport` 和 `DeliveryBundle`，并保留返回的精确 artifact revision 与 DecisionWorkspace snapshot。
+  5. 指定阶段 Owner 按依赖顺序通过 `TeamArtifact` 发布 `SceneSpec`、`DataContract`、可选 `PredictionArtifact` 和 `OptimizationSpec`，保留精确 artifact revision 与 DecisionWorkspace snapshot。经确认的预测输入需要训练数据时，在本步骤内调用 OptimizationPredict、发布真实 PredictionArtifact，并确认影响模型的预测输出后再创建 OptimizationSpec；无预测输入则省略该分支，不在语义检查之后才补预测。首次模型发布使用平台内部纯编译校验；不得提前调用受保护 OptimizationCompile 来绕开模型发布与语义检查的依赖。
   6. 入口 Agent 使用精确 artifact ID、精确 revision 和语义绑定调用 `DecisionWorkspace(action="link_artifact")`；受治理证据禁止解析到可变 `latest`。
   7. 将已链接 revision 提交同伴审阅；独立 reviewer 在执行前检查业务到模型覆盖、单位、变量族、可行性逻辑、来源证据、缺口以及 stale/rejected 排除。
+     用户确认精确来源/规则/用例后，对当前 revision/hash 调用 DecisionWorkspace(action="check_semantics")，检查完整有界报告。缺数据、未知 evaluator、超预算或未确认用例均是阻断，不是通过。审计-only revision 变化不机械重绑；业务语义不变时保持原 model-input snapshot。
   8. 依次调用 `OptimizationCompile` 和 `OptimizationSolve`；两者产生副作用前都必须通过平台 DecisionWorkspace execution guard。`MindOptSolve` 只保留兼容 Connector 名称，不得被直接调用来绕过受保护求解路径。
   9. 与求解 Owner 不同的验证 Owner 调用 `OptimizationValidate`，基于原始变量独立重算变量域、硬约束、目标值、基线差和 IIS 可追溯性。
+     此后才发布并关联真实 SolveResult 和 ValidationReport，不得提前发布猜测结果。DeliveryBundle 必须保留精确证据链及其真人批准状态。
   10. 精确链接链通过审阅和独立验收后，用户只能通过平台专用真人批准控件批准；任何 Agent 或 Specialist 都不得生成该批准。
-- 有训练数据时必须调用 `OptimizationPredict`，执行有序留出、仅训练集插补、调参、指标、基线比较和明确降级规则。
+- 第 5 步已确认的预测分支使用 `OptimizationPredict`，执行有序留出、仅训练集插补、调参、指标、基线比较和明确降级规则。
 - 通用模型先用 `OptimizationCompile` 严格编译，再通过受保护的 `OptimizationSolve` 求解一次；保留真实 status、原始变量、objective、request/job ID、HTTPS transport、所选引擎证据和不可行时的 IIS。
 - 验证 Owner 必须调用 `OptimizationValidate`，基于原始变量独立重算变量域、硬约束、目标值、基线差和 IIS 可追溯性。
 - 已结算且成功的 Tool 调用是权威事实；系统中断后只能综合持久化结果，不得重复执行 Tool。
 
 ## L2
 
-- 事实确认门未通过时只允许反向追问：不得发布建模工件、调用求解器、委派 solver-capable Agent，或用默认值、模拟情况、行业惯例补全隐形条件。
+- 事实确认门未通过时只允许上述澄清操作：不得发布建模工件、调用求解器、委派 solver-capable Agent，或用默认值、模拟情况、行业惯例补全隐形条件。confirmed_user 等事实台账标签不能代替平台专用真人确认回执。
 - 交互模式只改变术语、分组、单轮批量和举例深度；不得改变事实状态、必问信息集合、条件触发项、建模确认摘要或停止门。用户本轮显式选择优先于历史偏好，切换模式时保留已确认事实并继续补齐其余项目。
 - 用户无法确认时交付待确认项、模型影响、所需责任方/数据和可选降级范围；不得把未回答解释为不存在、否、零或不限制。
 - 只有用户已经提供完整 `OptimizationSpec` 时才走快速路径。快速路径可以省略不必要的场景、预测或数据编写，但仍必须创建/提议受治理的 DecisionWorkspace 表达、取得所有必要的专用真人确认、绑定当前 revision、发布并链接精确 revision、通过同伴审阅和 execution guard、执行一次求解委派和一次独立验证，并等待专用真人批准后，入口发布的 `DeliveryBundle` 才能成为 decision-grade 交付。
