@@ -11,12 +11,12 @@
       "zh-CN": {
         "name": "代码智能",
         "summary": "基于 Language Server 的定义、引用、符号与调用关系导航",
-        "description": "使用已安装的 Language Server 执行语义代码导航，包括定义、引用、实现、悬停类型、符号大纲和调用层级。"
+        "description": "使用已安装的 Language Server 执行语义代码导航，包括定义、引用、实现、悬停类型、符号大纲和调用层级。此类请求必须先加载本技能解锁隐藏的 `Lsp` 工具，禁止未尝试 `Lsp` 就用文本检索作答。"
       },
       "en-US": {
         "name": "Code Intelligence",
         "summary": "Language Server powered definitions, references, symbols, and call navigation",
-        "description": "Use an installed Language Server for semantic code navigation, including definitions, references, implementations, hover types, symbols, and call hierarchies."
+        "description": "Use an installed Language Server for semantic code navigation, including definitions, references, implementations, hover types, symbols, and call hierarchies. Load this skill first to unlock the hidden `Lsp` tool for such requests; never answer them from text search alone without trying `Lsp`."
       }
     },
     "category": "development",
@@ -30,7 +30,7 @@
   },
   "release": {
     "state": "known",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "versionScheme": "semver"
   },
   "timestamps": {
