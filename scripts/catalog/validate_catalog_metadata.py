@@ -22,16 +22,27 @@ from pathlib import Path
 from typing import Any, Iterable
 
 import yaml
-from jsonschema import Draft7Validator, FormatChecker
+from jsonschema import Draft7Validator, FormatChecker, ValidationError, validators
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCHEMA_PATH = REPO_ROOT / "schemas" / "catalog-metadata.v1.schema.json"
+AGENT_ENTRY_SCHEMA_NAME = "market-agent-entry.client.schema.json"
 SIDECAR_NAME = "catalog-metadata.v1.json"
 EXPECTED_SCHEMA_REF = "../../schemas/catalog-metadata.v1.schema.json"
 FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.DOTALL)
 FULL_GIT_REF_RE = re.compile(r"^[a-fA-F0-9]{40}(?:[a-fA-F0-9]{24})?$")
 CONTAINER_DIGEST_RE = re.compile(r"^sha256:[a-fA-F0-9]{64}$")
+
+
+def _client_pattern(validator, pattern, instance, schema):
+    # The exported client patterns use ECMAScript ASCII \d; Python's default
+    # Unicode \d would admit version strings that the client rejects.
+    if validator.is_type(instance, "string") and re.search(pattern, instance, re.ASCII) is None:
+        yield ValidationError(f"{instance!r} does not match {pattern!r}")
+
+
+AgentEntryValidator = validators.extend(Draft7Validator, {"pattern": _client_pattern})
 
 
 @dataclass(frozen=True)
@@ -146,23 +157,46 @@ def _legacy_i18n(raw: Any, *, short_key: str) -> tuple[dict[str, dict[str, Any]]
     return locales, default_locale if isinstance(default_locale, str) else None
 
 
-def load_legacy(sidecar: Path, report: Report, root: Path) -> LegacyItem | None:
+def load_legacy(sidecar: Path, report: Report, root: Path, agent_entry_validator) -> LegacyItem | None:
     parent = sidecar.parent
     root_kind = parent.parent.name
     if root_kind == "agents":
-        legacy_path = parent / "agent.json"
+        inline_path = parent / "agent.json"
+        pointer_path = parent / "entry.json"
+        if inline_path.is_file() == pointer_path.is_file():
+            report.add(
+                _rel(sidecar, root),
+                "fixed-sidecar-path",
+                "agent sidecar must be next to exactly one legacy agent.json or entry.json",
+            )
+            return None
+        is_pointer = pointer_path.is_file()
+        legacy_path = pointer_path if is_pointer else inline_path
         data = _read_json(legacy_path, report, root, "legacy-read")
         if data is None:
             return None
+        if is_pointer:
+            errors = list(agent_entry_validator.iter_errors(data))
+            for error in errors:
+                report.add(_rel(legacy_path, root), "agent-entry-schema", f"{_json_path(error)}: {error.message}")
+            if errors:
+                return None
+        if is_pointer and data.get("id") != parent.name:
+            report.add(_rel(legacy_path, root), "legacy-consistency", "entry.id must equal the catalog directory slug")
+        # The pointer ID is a listing slug, not the upstream AgentFS UUID.
+        # Client indexing reads latestVersion for pointers and version for inline metadata.
+        version = data.get("latestVersion") if is_pointer else (
+            str(data["version"]) if data.get("version") is not None else None
+        )
         i18n, default_locale = _legacy_i18n(data.get("i18n"), short_key="shortDesc")
         return LegacyItem(
             kind="agent",
             item_id=parent.name,
-            source_type="agent",
+            source_type="pointer" if is_pointer else "agent",
             data=data,
             i18n=i18n,
             default_locale=default_locale,
-            version=str(data["version"]) if data.get("version") is not None else None,
+            version=version,
             category=data.get("category") if isinstance(data.get("category"), str) else None,
             tags=data.get("tags") if isinstance(data.get("tags"), list) else None,
         )
@@ -327,7 +361,16 @@ def _validate_content_consistency(
     }
     for sidecar_key, legacy_key in mapping.items():
         legacy_value = source.get(legacy_key)
-        if legacy_value is not None:
+        if legacy.kind == "agent":
+            declared_value = content.get(sidecar_key)
+            # A sidecar must describe the exact pointer that the client installs,
+            # not add a different subdirectory or pin that entry.json never uses.
+            if sidecar_key in {"path", "ref"}:
+                declared_value = None if declared_value == "" else declared_value
+                legacy_value = None if legacy_value == "" else legacy_value
+            if declared_value != legacy_value:
+                report.add(rel, "legacy-consistency", f"provenance.content.{sidecar_key} differs from the Agent pointer")
+        elif legacy_value is not None:
             _compare(
                 report,
                 rel,
@@ -535,6 +578,7 @@ def validate_sidecar(
     report: Report,
     root: Path,
     supported_locales: set[str],
+    agent_entry_validator,
 ) -> None:
     rel = _rel(sidecar_path, root)
     sidecar = _read_json(sidecar_path, report, root, "catalog-schema")
@@ -545,7 +589,7 @@ def validate_sidecar(
     if any(issue.path == rel and issue.rule == "catalog-schema" for issue in report.issues):
         return
 
-    legacy = load_legacy(sidecar_path, report, root)
+    legacy = load_legacy(sidecar_path, report, root, agent_entry_validator)
     if legacy is None:
         return
     identity = sidecar["identity"]
@@ -585,6 +629,16 @@ def validate_sidecar(
             report.add(rel, "legacy-consistency", "release must preserve the legacy version")
         else:
             _compare(report, rel, "release.version", release.get("version"), legacy.version)
+
+    if legacy.kind == "agent" and legacy.source_type == "pointer":
+        for field in ("installPolicy", "updatePolicy"):
+            # Ordinary pointers default to market/market in the client. A sidecar
+            # cannot turn an omitted pair into a system/repository listing.
+            _compare(report, rel, f"spec.{field}", spec.get(field, "market"), legacy.data.get(field, "market"))
+        _compare(
+            report, rel, "compatibility.requiredClientVersion",
+            sidecar["compatibility"].get("requiredClientVersion"), legacy.data.get("requiredClientVersion"),
+        )
 
     _validate_content_consistency(report, rel, sidecar, legacy)
     _validate_governance_consistency(report, rel, sidecar, legacy)
@@ -635,6 +689,13 @@ def validate_sidecar(
                     severity="warning",
                 )
             return
+
+        if legacy.kind == "agent" and legacy.source_type == "pointer":
+            if not _content_is_immutable(legacy.data.get("source")):
+                report.add(
+                    rel, "installable-evidence",
+                    "installable Agent entry.source must itself declare an immutable ref or SHA-256 digest",
+                )
 
         if not _content_is_immutable(content):
             report.add(rel, "installable-evidence", "installable content must have an immutable ref or SHA-256 digest")
@@ -720,6 +781,15 @@ def validate_repository(root: Path = REPO_ROOT, *, require_complete: bool = Fals
     except Exception as exc:  # jsonschema raises several SchemaError subclasses
         report.add(_rel(schema_path, root), "catalog-schema", f"invalid JSON Schema: {exc}")
         return report
+    agent_entry_schema = _read_json(root / "schemas" / AGENT_ENTRY_SCHEMA_NAME, report, root, "agent-entry-schema")
+    if agent_entry_schema is None:
+        return report
+    try:
+        AgentEntryValidator.check_schema(agent_entry_schema)
+    except Exception as exc:
+        report.add(f"schemas/{AGENT_ENTRY_SCHEMA_NAME}", "agent-entry-schema", f"invalid JSON Schema: {exc}")
+        return report
+    agent_entry_validator = AgentEntryValidator(agent_entry_schema, format_checker=FormatChecker())
     validator = Draft7Validator(schema, format_checker=FormatChecker())
     sidecars = _discover_sidecars(root)
     supported_locales = _load_supported_locales(root, report)
@@ -732,7 +802,7 @@ def validate_repository(root: Path = REPO_ROOT, *, require_complete: bool = Fals
                 f"{SIDECAR_NAME} is only allowed at agents/<id>/ or skills/<id>/",
             )
             continue
-        validate_sidecar(sidecar, validator, report, root, supported_locales)
+        validate_sidecar(sidecar, validator, report, root, supported_locales, agent_entry_validator)
 
     _validate_stats(root, report, sidecars)
     if require_complete:
