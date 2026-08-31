@@ -28,7 +28,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-08-09T08:25:20Z",
+      "value": "2026-08-31T12:36:39Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -39,7 +39,7 @@
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-06-28T13:06:20Z",
+      "value": "2026-08-31T12:36:39Z",
       "precision": "second"
     }
   },
