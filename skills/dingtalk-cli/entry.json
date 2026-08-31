@@ -1,0 +1,203 @@
+{
+  "id": "dingtalk-cli",
+  "name": "DingTalk Workspace CLI",
+  "category": "communication",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"3\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"M3 8.5h18\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"m7 12.5 2 2-2 2\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M12.5 16.5h4.5\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
+  "tags": [
+    "open-dingtalk"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "钉钉 CLI",
+      "shortDesc": "钉钉官方命令行工具 dws，面向人与 AI Agent，覆盖消息、文档、钉盘、日历、待办、邮件、AI 听记等 29 个产品域、1200+ 工具。需自行用 npm 安装 dingtalk-workspace-cli 并完成钉钉 OAuth 授权登录（不支持账号密码登录）；DesireCore 不打包、不授权、不安装也不代运营钉钉或该 CLI。"
+    },
+    "en-US": {
+      "name": "DingTalk Workspace CLI",
+      "shortDesc": "Official DingTalk CLI (dws) for humans and AI agents, covering messaging, documents, drive, calendar, to-do, mail and AI minutes across 29 product domains and 1200+ tools. You install the dingtalk-workspace-cli npm package and complete DingTalk OAuth sign-in yourself (no username-and-password login); DesireCore does not bundle, license, install or operate DingTalk or this CLI."
+    }
+  },
+  "maintainer": {
+    "name": "open-dingtalk",
+    "verified": false,
+    "account": "open-dingtalk",
+    "url": "https://www.npmjs.com/package/dingtalk-workspace-cli"
+  },
+  "stewardship": "partner",
+  "license": "Apache-2.0",
+  "redistribution": "verify-package-terms",
+  "riskLevel": "high",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/open-dingtalk/dingtalk-workspace-cli.git"
+  },
+  "children": [
+    {
+      "id": "dingtalk-aisearch",
+      "path": "multi/dingtalk-aisearch",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "AI 搜问：按姓名、工号、部门、职责或上下级线索找人，并跨文档、消息、邮件与听记检索。命令前缀 dws aisearch。"
+        },
+        "en-US": {
+          "shortDesc": "AI Search: find people by name, staff ID, department, duty or reporting line, and search across documents, messages, mail and AI minutes. Command prefix: dws aisearch."
+        }
+      }
+    },
+    {
+      "id": "dingtalk-aitable",
+      "path": "multi/dingtalk-aitable",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "钉钉 AI 表格（多维表）：建表、字段与记录增删改查、筛选排序、批量导入导出、仪表盘图表与数据源同步。命令前缀 dws aitable。"
+        },
+        "en-US": {
+          "shortDesc": "DingTalk AI Table (multi-dimensional base): create tables, manage fields and records, filter and sort, bulk import and export, dashboards and data-source sync. Command prefix: dws aitable."
+        }
+      }
+    },
+    {
+      "id": "dingtalk-calendar",
+      "path": "multi/dingtalk-calendar",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "钉钉日历与会议室：查询日程、创建或改期会议、预订会议室、查闲忙与共同空闲、增删参会人。命令前缀 dws calendar。"
+        },
+        "en-US": {
+          "shortDesc": "DingTalk calendar and meeting rooms: list events, create or reschedule meetings, book rooms, check free/busy and shared availability, and manage attendees. Command prefix: dws calendar."
+        }
+      }
+    },
+    {
+      "id": "dingtalk-chat",
+      "path": "multi/dingtalk-chat",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "钉钉群聊与消息：收发、编辑与撤回消息，建群与群成员管理，话题回复，搜索聊天记录，机器人与 Webhook 通知。命令前缀 dws chat。"
+        },
+        "en-US": {
+          "shortDesc": "DingTalk chats and messages: send, edit and recall messages, create and manage groups, threaded replies, chat history search, bots and webhook notices. Command prefix: dws chat."
+        }
+      }
+    },
+    {
+      "id": "dingtalk-contact",
+      "path": "multi/dingtalk-contact",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "钉钉通讯录精确查询：按 userId 查用户详情、部门、职位与邮箱，按完整手机号反查用户，查询本人、部门成员与角色。命令前缀 dws contact。"
+        },
+        "en-US": {
+          "shortDesc": "Precise DingTalk directory lookups: user detail, department, title and email by userId, reverse lookup by full phone number, own profile, department members and roles. Command prefix: dws contact."
+        }
+      }
+    },
+    {
+      "id": "dingtalk-doc",
+      "path": "multi/dingtalk-doc",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "钉钉在线文档：查找、创建、读取与编辑正文和块，评论、附件、版本、模板、协作者权限与分享，以及 docx/markdown/pdf 导出。命令前缀 dws doc。"
+        },
+        "en-US": {
+          "shortDesc": "DingTalk online documents: find, create, read and edit content and blocks; comments, attachments, versions, templates, collaborator permissions, sharing and docx/markdown/pdf export. Command prefix: dws doc."
+        }
+      }
+    },
+    {
+      "id": "dingtalk-drive",
+      "path": "multi/dingtalk-drive",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "钉钉文件管理（钉盘与文档空间）：查找、上传下载、复制移动、重命名删除、回收站、权限与评论，以及本地目录比较与同步。命令前缀 dws drive。"
+        },
+        "en-US": {
+          "shortDesc": "DingTalk file storage (DingDrive and document spaces): find, upload, download, copy, move, rename, delete, recycle bin, permissions, comments, and local folder compare and sync. Command prefix: dws drive."
+        }
+      }
+    },
+    {
+      "id": "dingtalk-event",
+      "path": "multi/dingtalk-event",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "钉钉事件长连接监听：个人 IM 消息、已读与撤回、表情回应、群成员与群状态变化，以及 OA 审批任务与实例事件。命令前缀 dws event。"
+        },
+        "en-US": {
+          "shortDesc": "Long-lived DingTalk event streaming: personal IM messages, read receipts, recalls, reactions, group membership and state changes, plus OA approval task and instance events. Command prefix: dws event."
+        }
+      }
+    },
+    {
+      "id": "dingtalk-mail",
+      "path": "multi/dingtalk-mail",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "钉钉邮箱：撰写发送、查阅、搜索、回复与转发邮件，处理未读邮件与附件；收件人先由 dingtalk-contact 解析确认。命令前缀 dws mail。"
+        },
+        "en-US": {
+          "shortDesc": "DingTalk Mail: compose, send, read, search, reply to and forward mail, and handle unread items and attachments; resolve recipients with dingtalk-contact first. Command prefix: dws mail."
+        }
+      }
+    },
+    {
+      "id": "dingtalk-minutes",
+      "path": "multi/dingtalk-minutes",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "钉钉 AI 听记：查询或修改摘要、逐字稿、关键词、行动项与录音，上传音频、生成思维导图、查看发言人洞察与分享权限。命令前缀 dws minutes。"
+        },
+        "en-US": {
+          "shortDesc": "DingTalk AI Minutes: read or edit summaries, transcripts, keywords, action items and recordings; upload audio, build mind maps, and review speaker insights and sharing permissions. Command prefix: dws minutes."
+        }
+      }
+    },
+    {
+      "id": "dingtalk-misc",
+      "path": "multi/dingtalk-misc",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "长尾产品集合：OA 审批、考勤、日志日报、DING 紧急消息、直播、招聘、目标管理、电子表格、白板、原生 Markdown 与 OpenAPI 逃生舱。命令前缀见技能内产品索引表。"
+        },
+        "en-US": {
+          "shortDesc": "Long-tail product bundle: OA approvals, attendance, work reports, urgent DING messages, live streams, recruiting, goal management, sheets, whiteboards, native Markdown and a raw OpenAPI escape hatch. Command prefixes come from the skill's own product index."
+        }
+      }
+    },
+    {
+      "id": "dingtalk-shared",
+      "path": "multi/dingtalk-shared",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "钉钉 MultiSkill 的轻量共享入口：提供全局执行契约、URL 类型预检与产品边界消歧，适用于泛称 DWS 操作或跨产品编排。"
+        },
+        "en-US": {
+          "shortDesc": "Lightweight shared entry point for the DingTalk MultiSkill set: global execution contract, URL type pre-checks and product-boundary disambiguation for generic or cross-product requests."
+        }
+      }
+    },
+    {
+      "id": "dingtalk-todo",
+      "path": "multi/dingtalk-todo",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "钉钉待办：创建、指派、批量新建与循环待办，标记完成，查询待办、紧急待办与逾期待办。命令前缀 dws todo。"
+        },
+        "en-US": {
+          "shortDesc": "DingTalk To-Do: create, assign, batch-create and repeat tasks, mark them complete, and query open, urgent and overdue items. Command prefix: dws todo."
+        }
+      }
+    },
+    {
+      "id": "dingtalk-wiki",
+      "path": "multi/dingtalk-wiki",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "钉钉知识库与空间管理：创建与查找知识库、管理成员，以及库内节点的创建、列举、搜索、复制、移动、删除与动态查询。命令前缀 dws wiki。"
+        },
+        "en-US": {
+          "shortDesc": "DingTalk Wiki and space management: create and find knowledge bases, manage space members, and create, list, search, copy, move, delete and track nodes. Command prefix: dws wiki."
+        }
+      }
+    }
+  ]
+}
