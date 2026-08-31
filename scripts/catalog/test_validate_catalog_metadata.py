@@ -99,6 +99,7 @@ class CatalogMetadataValidatorTests(unittest.TestCase):
         self.root = Path(self.tempdir.name)
         (self.root / "schemas").mkdir()
         shutil.copyfile(SOURCE_SCHEMA, self.root / "schemas" / SOURCE_SCHEMA.name)
+        shutil.copyfile(SOURCE_SCHEMA.with_name(VALIDATOR.AGENT_ENTRY_SCHEMA_NAME), self.root / "schemas" / VALIDATOR.AGENT_ENTRY_SCHEMA_NAME)
         (self.root / "agents").mkdir()
         (self.root / "skills" / "example-skill").mkdir(parents=True)
         self.write_json(
@@ -294,6 +295,61 @@ class CatalogMetadataValidatorTests(unittest.TestCase):
             with self.subTest(index=index):
                 self.write_agent_pointer_case(entry_change, metadata_change)
                 self.assertTrue(any(issue.rule == "installable-evidence" for issue in self.validate().issues))
+
+    def test_rejects_invalid_raw_agent_entry_even_if_sidecar_repeats_it(self) -> None:
+        cases = [
+            (lambda p: p.update(latestVersion="1.2.3-beta"), lambda p: p["release"].update(version="1.2.3-beta")),
+            (lambda p: p.update(latestVersion=123), lambda p: p["release"].update(version="123", versionScheme="opaque")),
+            (lambda p: p.update(latestVersion="١.٢.٣"), lambda p: p["release"].update(version="١.٢.٣", versionScheme="opaque")),
+            (lambda p: p.update(requiredClientVersion="1.2.3-beta"), lambda p: p["compatibility"].update(requiredClientVersion="1.2.3-beta")),
+            (lambda p: p.update(requiredClientVersion=None), None),
+            (lambda p: p.pop("updatePolicy"), None),
+            (lambda p: p.pop("installPolicy"), None),
+            (lambda p: p.update(installPolicy="system", updatePolicy="market"), None),
+            (lambda p: p["source"].update(repoBranch=123), None),
+            (lambda p: p["source"].update(path="C:/outside"), lambda p: p["provenance"]["content"].update(path="C:/outside")),
+            (lambda p: p["source"].update(path="C:\\outside"), None),
+            (lambda p: p["source"].update(path="../outside"), None),
+            (lambda p: p["source"].update(path=0), None),
+            (lambda p: p["source"].update(ref=None), None),
+            (lambda p: p["source"].update(unknown=True), None),
+            (lambda p: p.update(version="1.2.3"), None),
+            (lambda p: p.update(name=42), None),
+            (lambda p: p.update(i18n={"en-US": {"name": 42}}), None),
+            (lambda p: p["maintainer"].update(verified="true"), None),
+        ]
+        for index, (entry_change, metadata_change) in enumerate(cases):
+            with self.subTest(index=index):
+                self.write_agent_pointer_case(entry_change, metadata_change)
+                self.assertTrue(any(issue.rule == "agent-entry-schema" for issue in self.validate().issues))
+
+    def test_agent_pointer_default_policy_cannot_be_replaced_by_sidecar(self) -> None:
+        def default_policy(payload):
+            payload.pop("installPolicy")
+            payload.pop("updatePolicy")
+
+        self.write_agent_pointer_case(default_policy)
+        self.assertFalse(self.validate().has_errors)
+        self.write_agent_pointer_case(default_policy, lambda p: p.update(spec={"kind": "agent"}))
+        self.assertFalse(self.validate().has_errors)
+
+        def system_policy(payload):
+            payload["spec"].update(installPolicy="system", updatePolicy="repository")
+            payload["governance"]["availability"] = "listing-only"
+            payload["release"] = unknown()
+
+        self.write_agent_pointer_case(default_policy, system_policy)
+        self.assertTrue(any(issue.rule == "legacy-consistency" for issue in self.validate().issues))
+
+    def test_accepts_explicit_system_agent_pointer_with_matching_listing_policy(self) -> None:
+        def system_policy(payload):
+            payload["spec"].update(installPolicy="system", updatePolicy="repository")
+            payload["governance"]["availability"] = "listing-only"
+            payload["release"] = unknown()
+
+        self.write_agent_pointer_case(lambda p: p.update(installPolicy="system", updatePolicy="repository"), system_policy)
+        report = self.validate(require_complete=True)
+        self.assertFalse(report.has_errors, report.issues)
 
     def test_agent_pointer_sidecar_does_not_allow_provider_or_runtime_fields(self) -> None:
         self.write_agent_pointer_case(mutate_sidecar=lambda p: p["identity"].update(catalogSourceId="market:official"))

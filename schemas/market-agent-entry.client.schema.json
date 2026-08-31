@@ -1,0 +1,260 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "stewardship",
+    "license",
+    "redistribution",
+    "source"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "条目唯一标识符，使用小写连字符格式，如 \"flyai-skill\"",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "name": {
+      "type": "string",
+      "description": "默认显示名称（源 locale），本地化变体见 i18n"
+    },
+    "category": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9-]+$",
+      "description": "市场项目分类（slug 格式），由仓库 categories.json 定义"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "标签列表，用于搜索和分类"
+    },
+    "icon": {
+      "type": "string",
+      "description": "市场列表展示的内联 SVG 图标。Pointer 技能将其随离线元数据返回。"
+    },
+    "latestVersion": {
+      "type": "string",
+      "description": "市场登记的最新版本（semver）",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "i18n": {
+      "type": "object",
+      "description": "按 locale 提供的本地化展示元数据（仅 name/shortDesc，轻量）",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "该 locale 下的显示名称"
+          },
+          "shortDesc": {
+            "type": "string",
+            "description": "该 locale 下的简短描述"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "maintainer": {
+      "type": "object",
+      "required": [
+        "name",
+        "verified"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "维护者名称，如 \"DesireCore Official\""
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "是否官方认证维护者，认证后显示蓝色勾选标记"
+        },
+        "account": {
+          "type": "string",
+          "description": "维护方账号标识，如 GitHub 组织/用户名 \"desirecore\""
+        },
+        "url": {
+          "type": "string",
+          "description": "维护方主页或仓库 URL"
+        }
+      },
+      "additionalProperties": false
+    },
+    "stewardship": {
+      "type": "string",
+      "enum": [
+        "official",
+        "partner",
+        "community",
+        "pointer"
+      ],
+      "description": "维护方分类：official（官方）/ partner（合作伙伴官方）/ community（社区已收录）/ pointer（仅指针，不分发内容）"
+    },
+    "license": {
+      "type": "string",
+      "minLength": 1,
+      "description": "许可证：SPDX id（MIT/Apache-2.0/MIT-0…）或特殊值 not-declared / source-available / packaged-distribution"
+    },
+    "redistribution": {
+      "type": "string",
+      "enum": [
+        "allowed",
+        "source-pointer-only",
+        "verify-package-terms"
+      ],
+      "description": "再分发策略：allowed（可分发）/ source-pointer-only（仅指针，安装时拉取）/ verify-package-terms（需核验条款）"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "kind",
+        "repoUrl"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "git",
+            "web",
+            "zip"
+          ],
+          "description": "内容来源类型：git（仓库）/ web（网页或文件）/ zip（打包产物）"
+        },
+        "repoUrl": {
+          "type": "string",
+          "description": "源仓库 Git URL 或资源 URL，如 https://github.com/desirecore/skill-foo.git"
+        },
+        "repoBranch": {
+          "type": "string",
+          "description": "源仓库分支名称，默认 main（kind=git 时有效）",
+          "default": "main"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^(?:$|(?![A-Za-z]:[\\\\/])(?![\\\\/])(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$))[^\\u0000]+)$",
+          "description": "内容在源仓库中的安全相对子路径，如 \"skills/foo\"；为空表示仓库根目录。禁止绝对路径、盘符与 .. 路径段。"
+        },
+        "ref": {
+          "type": "string",
+          "description": "锁定的 commit SHA / tag，用于可复现安装；为空表示取分支 HEAD"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "description": "web/zip 资源原始响应体的 SHA-256；能力自动安装要求用它绑定发现时的不可变字节。"
+        }
+      },
+      "additionalProperties": false
+    },
+    "requiredClientVersion": {
+      "type": "string",
+      "description": "此条目要求的最低客户端版本（semver），低于此版本时提示升级",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "avatar": {
+      "type": "object",
+      "required": [
+        "t",
+        "bg"
+      ],
+      "properties": {
+        "t": {
+          "type": "string",
+          "description": "头像显示的文字（通常为一个汉字）",
+          "maxLength": 2
+        },
+        "bg": {
+          "type": "string",
+          "description": "头像背景 CSS 渐变值，如 linear-gradient(135deg, #007AFF, #005ECB)"
+        },
+        "image": {
+          "type": "object",
+          "description": "图片头像：市场仓库中该条目目录内的位图（如 \"assets/avatar.webp\"）。存在且文件可读时优先于 t + bg 渲染，否则自动回落——所以 t 与 bg 仍为必填，它们是确定的回落形态。仅支持 PNG / JPEG / WebP。注意：这是**市场展示**元数据，与安装后 agent.json 的 avatar.image 是两套，安装时不迁移。",
+          "required": [
+            "path"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "相对于该市场条目目录的图片路径。禁止绝对路径和 .. 路径穿越",
+              "minLength": 5,
+              "maxLength": 240,
+              "pattern": "^(?![\\\\/])(?![A-Za-z]:)(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+\\.(?:png|jpe?g|webp)$"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "installPolicy": {
+      "type": "string",
+      "enum": [
+        "market",
+        "system"
+      ],
+      "description": "Agent 安装治理策略。system 条目只用于发现与展示，禁止 Market 安装、覆盖或卸载其运行目录。"
+    },
+    "updatePolicy": {
+      "type": "string",
+      "enum": [
+        "market",
+        "repository"
+      ],
+      "description": "Agent 更新策略。repository 表示 latestVersion 与更新操作以 source/已安装 Agent 的 Git 仓库为准。"
+    }
+  },
+  "oneOf": [
+    {
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "installPolicy"
+            ]
+          },
+          {
+            "required": [
+              "updatePolicy"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "required": [
+        "installPolicy",
+        "updatePolicy"
+      ],
+      "properties": {
+        "installPolicy": {
+          "const": "market"
+        },
+        "updatePolicy": {
+          "const": "market"
+        }
+      }
+    },
+    {
+      "required": [
+        "installPolicy",
+        "updatePolicy"
+      ],
+      "properties": {
+        "installPolicy": {
+          "const": "system"
+        },
+        "updatePolicy": {
+          "const": "repository"
+        }
+      }
+    }
+  ],
+  "additionalProperties": false,
+  "$comment": "Generated from desirecore/desirecore packages/schemas/src/market.ts#marketAgentEntrySchema at commit 18bbb86f62e1288b1f945209bed74ec72620a9d4, source blob e3624f5607dba3cfdf88026894d17f0e6954a4ed. Keep the complete client contract; regenerate from that export instead of editing fields manually."
+}
