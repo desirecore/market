@@ -28,6 +28,7 @@
 - 事实门通过前，澄清操作可以创建 semantic_checks_version=1 的团队工作区、提议业务节点、检查用户明确授权的数据源并记录 request_clarification。这些不是数学建模、发布建模工件、委派求解或调用求解器的授权。
 - 决定性缺口通过 request_clarification 提供可回答的问题、原因、规范类型、单位和有依据的约束。同陈述/约束保持同一逻辑问题，不编造上下界来减少选项。按业务影响组织问题，并用普通语言说明剩余覆盖范围。
 - 平台已提供 unknown 和 raw_text 回答通道；不得把“目前不确定”“不知道”等知识缺口作为精确 choices 或 node.value 的占位值，它们不是业务选项。reason 直接解释原因，不重复界面已有的“为什么问”标签。
+- 当前用户消息已唯一给出完整业务值及必要单位/窗口时，提议节点必须写入类型化 `node.value`，状态保持 proposed 等待专用真人确认；“Agent 提议值”不是“Agent 代替确认”。省略 value 会把已知事实错误降为 needs_input，不得用只有 summary 的节点冒充可确认陈述。只有未知或仍有歧义时才省略 value 并进入补问。
 - 真人提交 value 仍是提议，不是确认。仅在 raw_text 能唯一确定业务值及必要单位/统计窗口时，才用 interpret_clarification 关联原答案与规范化节点，保留原话并等待真人确认。仍有歧义时保留原答案和 needs_input，解释尚缺什么，不调用 interpret_clarification 或填 canonical 占位值。例如“差不多八小时，不知按天还是按周”既不能确定精确上限，也不能确定周期。不得普通 upsert 切断原答案关联、伪造回执或默认补值。
 - 由平台在有效缺口结算后继续原来源会话。不得靠发新消息轮询、换请求身份绕过去重、复活已取消来源或重跑 unknown 派发。pending/解释信号不是求解授权；必须重读精确工作区并遵守全部门禁。
 - 真实数据用已授权 FileResourceRef、bytesHash、精确字段/类型/单位和经确认 timeScope 绑定；按需声明 required/unique/range/enum/foreign_key/cutoff 有限规则。range/enum 常量及 FK 两侧单位必须一致。每个实际消费字段都须用 modelSemantics.sourceField 和 sourced_from 关联业务量，再追踪入模；未使用列不必入模。单位/窗口转换须产生显式转换、可追溯且重新确认的来源，不得只改单位标签。

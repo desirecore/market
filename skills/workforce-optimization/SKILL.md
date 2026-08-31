@@ -4,7 +4,7 @@ description: >-
   排班、工时上限、人员配置的第一轮澄清（含“只澄清、暂不求解”）也先用 Skill 工具加载本技能，再用 DecisionWorkspace 补问和真人确认卡；普通 AskUserQuestion 不能代替业务事实闭环。Load this Skill for the first clarification of staffing, shifts, work-hour limits, service coverage, resource allocation, targets, task scheduling or LP/MILP, including clarify only / do not solve yet requests. Use DecisionWorkspace question and human-confirmation cards for model-changing facts; generic AskUserQuestion is not a substitute. Clarification needs no connected solver. Actual MindOpt solving requires a separately licensed/deployed solver and configured connector; software, licenses, hosting and fees are not included. MindOpt 软件、许可证、部署及相关费用需使用方另行取得或承担。
 compatibility: >-
   Requirement clarification works without a connected solver. Actual MindOpt solving requires separately installed or deployed MindOpt, a valid license under its official terms, and configured solver.mindopt connections; commercial licenses and operating costs are separate when applicable. 需求澄清不要求先连接求解器；实际 MindOpt 求解仍需外部安装部署、有效许可证及 solver.mindopt 连接，适用的商业许可和运行费用另行承担。
-version: 2.4.0
+version: 2.5.0
 type: procedural
 risk_level: medium
 status: enabled
@@ -38,7 +38,7 @@ metadata:
       description: >-
         用户提出排班、工时上限、人员配置、服务覆盖、资源分配、绩效目标、任务调度或 LP/MILP，即使“只澄清、暂不求解”，也先用 Skill 工具加载本技能。影响模型的事实使用 DecisionWorkspace 补问及真人确认卡，不能用普通 AskUserQuestion 代替。澄清无需连接求解器；实际 MindOpt 求解需使用方另行取得适用许可证、部署并配置连接，软件、许可证、算力托管及费用均不包含在技能中。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:2dbffc5bd9a81e03
+      source_hash: sha256:22565520b50770c1
       translated_by: ai:codex
     en-US:
       name: Workforce and Resource Optimization
@@ -46,7 +46,7 @@ metadata:
       description: >-
         Load this Skill for the first clarification of staffing, shifts, work-hour limits, service coverage, resource allocation, targets, task scheduling or LP/MILP, including clarify only / do not solve yet requests. Use DecisionWorkspace question and human-confirmation cards for model-changing facts; generic AskUserQuestion is not a substitute. Clarification needs no connected solver. Actual MindOpt solving requires a separately licensed/deployed solver and configured connector; software, licenses, hosting and fees are not included.
       body: ./SKILL.md
-      source_hash: sha256:2dbffc5bd9a81e03
+      source_hash: sha256:22565520b50770c1
       translated_by: ai:codex
 market:
   icon: >-
@@ -88,6 +88,7 @@ Turn natural-language workforce-efficiency requests into reviewable and recovera
 - Clarification itself may create a team workspace with semantic_checks_version=1, propose business nodes, inspect an explicitly authorized data source, and record request_clarification before the fact gate passes. These are clarification operations, not permission to build a mathematical model, publish modeling artifacts, delegate solving or call a solver.
 - Ask model-changing gaps through request_clarification with an answerable question, reason, canonical type, declared unit and justified constraints. Keep the same logical question while its statement/constraints remain unchanged. Do not invent bounds to reduce choices. Group questions by business impact and explain the remaining coverage in ordinary language.
 - The platform already offers unknown and raw_text response channels. Do not add epistemic placeholders such as "not sure yet" or "unknown" to exact choices or node.value. These describe missing knowledge, not a business option. Explain the reason without repeating the UI's "why ask" label.
+- When the current user message uniquely supplies a complete business value and every required unit/window, proposals must include a typed `node.value` and remain proposed until the dedicated human confirmation. An Agent-proposed value is not an Agent confirmation. Omitting value incorrectly downgrades a known fact to needs_input; a summary-only node is not a confirmable statement. Omit value only for genuinely unknown or still-ambiguous facts and ask a clarification instead.
 - Human value answers are proposed, not confirmed. Use interpret_clarification only if raw_text uniquely determines the business value and every necessary unit/time scope. Preserve the original wording and link the normalized node to that answer; the user must explicitly confirm the new statement. If ambiguity remains, keep the original answer and needs_input, explain the remaining gap, and do not call interpret_clarification or fill a canonical placeholder. For example, "about eight hours, not sure per day or week" determines neither an exact limit nor a time window. Never use ordinary upsert to detach the original answer, manufacture a receipt, or default unknown.
 - Let the platform continue the original source conversation after its effective gaps settle. Do not poll by starting new messages, change request identities to evade deduplication, revive canceled sources or retry unknown dispatch outcomes. A pending/interpretation signal is not solve authorization; reread the exact workspace and honor all gates.
 - Bind real data with an authorized FileResourceRef, bytesHash, exact fields/types/units and confirmed timeScope. Add finite required/unique/range/enum/foreign_key/cutoff rules as applicable. Range/enum constants and FK fields must use consistent units. Every consumed data field must have modelSemantics.sourceField plus a sourced_from relationship before its business quantity is traced into the model. Unused columns need not be modeled. Unit/window conversions require an explicitly transformed, traceable and reconfirmed source; do not change only its unit label.

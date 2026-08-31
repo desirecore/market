@@ -242,11 +242,13 @@ class WorkforceClarificationDiscoveryTests(unittest.TestCase):
         self.assertIn("only if raw_text uniquely determines", english)
         self.assertIn("keep the original answer and needs_input", english)
         self.assertIn("Do not add epistemic placeholders", english)
+        self.assertIn("proposals must include a typed `node.value`", english)
         self.assertIn("for Chinese use [中文澄清框架]", english)
         # 以下断言分别覆盖中文规范化、未知与语言入口。
         self.assertIn("仅在 raw_text 能唯一确定业务值及必要单位/统计窗口时", chinese)
         self.assertIn("仍有歧义时保留原答案和 needs_input", chinese)
         self.assertIn("不得把“目前不确定”“不知道”等知识缺口", chinese)
+        self.assertIn("提议节点必须写入类型化 `node.value`", chinese)
         self.assertIn("技能 metadata 默认语言不覆盖用户语言", chinese)
         for locale in ("", ".zh-CN"):
             framework = (directory / "references" / f"requirement-clarification-framework{locale}.md").read_text(encoding="utf-8")
