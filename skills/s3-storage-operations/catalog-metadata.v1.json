@@ -1,0 +1,75 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "s3-storage-operations"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "对象存储操作",
+        "summary": "通过 DesireCore HTTP API 操作 S3 兼容对象存储，支持上传、下载、列举、删除与分享链接",
+        "description": "操作 S3 兼容对象存储（上传、下载、列举、删除），通过 DesireCore HTTP API 调用。Use when 用户要求上传/下载/分享文件、需要生成下载链接、或工作流产出文件需要持久化存储与分发。"
+      },
+      "en-US": {
+        "name": "Object Storage Operations",
+        "summary": "Operate S3-compatible object storage via DesireCore HTTP API — upload, download, list, delete, and share links",
+        "description": "Operate S3-compatible object storage (upload, download, list, delete) via the DesireCore HTTP API. Use when the user requests file upload/download/sharing, needs a download link, or when workflow outputs need persistent storage and distribution."
+      }
+    },
+    "category": "data",
+    "tags": [
+      "storage",
+      "s3",
+      "upload",
+      "download",
+      "sharing"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "2.0.4",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-07T13:14:31Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "medium",
+    "skillType": "procedural"
+  }
+}

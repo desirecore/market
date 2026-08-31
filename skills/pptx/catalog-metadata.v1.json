@@ -1,0 +1,79 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "pptx"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "演示文稿处理",
+        "summary": "创建、编辑和处理 PowerPoint 演示文稿（.pptx）",
+        "description": "Use this skill any time a .pptx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from any .pptx file (even if the extracted content will be used elsewhere, like in an email or summary); editing, modifying, or updating existing presentations; combining or splitting slide files; working with templates, layouts, speaker notes, or comments. Trigger whenever the user mentions \"deck,\" \"slides,\" \"presentation,\" or references a .pptx filename, regardless of what they plan to do with the content afterward. If a .pptx file needs to be opened, created, or touched, use this skill. Use when 用户提到 PPT、演示文稿、幻灯片、演讲稿、汇报材料、 pptx、创建演示、编辑幻灯片。"
+      },
+      "en-US": {
+        "name": "Presentation Processing",
+        "summary": "Create, edit, and process PowerPoint presentations (.pptx)",
+        "description": "Use this skill any time a .pptx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from any .pptx file (even if the extracted content will be used elsewhere, like in an email or summary); editing, modifying, or updating existing presentations; combining or splitting slide files; working with templates, layouts, speaker notes, or comments. Trigger whenever the user mentions \"deck,\" \"slides,\" \"presentation,\" or references a .pptx filename, regardless of what they plan to do with the content afterward. If a .pptx file needs to be opened, created, or touched, use this skill. Use when the user mentions PPT, presentation, slides, speaker notes, briefing materials, pptx, creating presentations, or editing slides."
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "pptx",
+      "powerpoint",
+      "slides",
+      "presentation",
+      "office"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.4",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-07T13:14:31Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    },
+    "upstreamMaintainer": {
+      "name": "anthropic",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low",
+    "skillType": "procedural"
+  }
+}

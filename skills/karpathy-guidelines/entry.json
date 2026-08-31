@@ -33,6 +33,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/multica-ai/andrej-karpathy-skills.git",
     "repoBranch": "main",
-    "path": "skills/karpathy-guidelines"
+    "path": "skills/karpathy-guidelines",
+    "ref": "2c606141936f1eeef17fa3043a72095b4765b9c2"
   }
 }

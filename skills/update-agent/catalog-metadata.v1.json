@@ -1,0 +1,73 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "update-agent"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "更新智能体",
+        "summary": "安全更新智能体配置、人格、规则与技能，支持 diff 预览与版本回滚",
+        "description": "安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent 行为、安装/卸载技能、调整配置、回滚变更或修订规则。"
+      },
+      "en-US": {
+        "name": "Update Agent",
+        "summary": "Safely update Agent config, persona, principles, and skills, with diff preview and version rollback",
+        "description": "Safely update an existing Agent's config, persona, principles, skills, and memory, producing reviewable diffs that are applied and committed only after confirmation. Use when the user asks to modify Agent behavior, install/uninstall skills, adjust config, roll back changes, or revise rules."
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "agent",
+      "update",
+      "meta"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "3.2.1",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-25T09:25:42Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requiredClientVersion": "10.0.108"
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low"
+  }
+}

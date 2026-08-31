@@ -1,0 +1,81 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "dashscope-image-gen"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "AI 文生图",
+        "summary": "AI 文本生成图片技能（支持 GPT Image / 通义万相）",
+        "description": "当用户希望生成图片时使用此技能。支持多种模型：gpt-image-2（默认，通过 DesireCore Cloud）、wan2.7-image-pro / wan2.7-image（用户自行配置阿里云 DashScope 时可用）。通过 OpenAI 兼容的 /images/generations API 同步生成图片。 用户提到 生成图片、画图、文生图、创建图片、AI 绘画、生成插图、画一张、帮我画、设计图片。"
+      },
+      "en-US": {
+        "name": "AI Image Generation",
+        "summary": "AI text-to-image generation (GPT Image / Wan models)",
+        "description": "Use this skill when the user wants to generate images. Supports multiple models: gpt-image-2 (default via DesireCore Cloud), wan2.7-image-pro / wan2.7-image (when user has DashScope configured). Uses the OpenAI-compatible /images/generations API. Trigger keywords: generate image, draw, text-to-image, create image, AI painting, illustration, design picture."
+      }
+    },
+    "category": "media",
+    "tags": [
+      "media",
+      "image",
+      "generation",
+      "dashscope",
+      "alibaba"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.4.2",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-14T03:55:22Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low",
+    "skillType": "procedural",
+    "requires": {
+      "tools": [
+        "Bash"
+      ],
+      "connections": []
+    }
+  }
+}

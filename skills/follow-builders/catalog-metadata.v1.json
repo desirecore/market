@@ -1,0 +1,74 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "follow-builders"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Follow Builders",
+        "summary": "Tracks top AI builders across podcasts, X/Twitter and company blogs, delivering curated daily or weekly digests"
+      },
+      "zh-CN": {
+        "name": "Follow Builders",
+        "summary": "追踪 AI 领域真正在造东西的开发者、研究者与创始人，把播客、X/Twitter 与官方博客的动态汇成每日/每周摘要推送"
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "zarazhangrui"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-30T18:00:09Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-08-30T18:00:09Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/zarazhangrui/follow-builders.git",
+      "ref": "239227ddea46dfb9db6ed23e5864a5fabb9cee83"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "zarazhangrui",
+      "url": "https://github.com/zarazhangrui/follow-builders",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

@@ -1,0 +1,1309 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "marketingskills"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Marketing Skills",
+        "summary": "Marketing skills for technical marketers and founders — CRO, copywriting, SEO, analytics and growth engineering, for Claude Code and Cursor"
+      },
+      "zh-CN": {
+        "name": "Marketing Skills",
+        "summary": "面向技术型营销人与创始人的 AI Agent 技能集，涵盖转化率优化、文案、SEO、数据分析与增长工程，适配 Claude Code、Cursor 等"
+      }
+    },
+    "category": "business",
+    "tags": [
+      "marketing",
+      "cro",
+      "copywriting",
+      "seo",
+      "growth"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-09T08:25:20Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-08-07T15:54:03Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/coreyhaines31/marketingskills.git",
+      "ref": "7868cb9251fad80a73d26e488a5ad5f6c4a9f335"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "Corey Haines",
+      "url": "https://github.com/coreyhaines31/marketingskills",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "collection": {
+      "role": "parent",
+      "childCount": 49,
+      "children": [
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "ab-testing",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/ab-testing",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "ab-testing",
+                "summary": "When the user wants to plan, design, or implement an A/B test or experiment, or build a growth experimentation program."
+              },
+              "zh-CN": {
+                "name": "ab-testing",
+                "summary": "When the user wants to plan, design, or implement an A/B test or experiment, or build a growth experimentation program."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "ad-creative",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/ad-creative",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "ad-creative",
+                "summary": "When the user wants to generate, iterate, or scale ad creative — headlines, descriptions, primary text, or full ad variations — for any paid advertising platfor…"
+              },
+              "zh-CN": {
+                "name": "ad-creative",
+                "summary": "When the user wants to generate, iterate, or scale ad creative — headlines, descriptions, primary text, or full ad variations — for any paid advertising platfor…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "ads",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/ads",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "ads",
+                "summary": "When the user wants help with paid advertising campaigns on Google Ads, Meta (Facebook/Instagram), LinkedIn, Twitter/X, or other ad platforms."
+              },
+              "zh-CN": {
+                "name": "ads",
+                "summary": "When the user wants help with paid advertising campaigns on Google Ads, Meta (Facebook/Instagram), LinkedIn, Twitter/X, or other ad platforms."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "ai-seo",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/ai-seo",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "ai-seo",
+                "summary": "When the user wants to optimize content for AI search engines, get cited by LLMs, or appear in AI-generated answers."
+              },
+              "zh-CN": {
+                "name": "ai-seo",
+                "summary": "When the user wants to optimize content for AI search engines, get cited by LLMs, or appear in AI-generated answers."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "analytics",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/analytics",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "analytics",
+                "summary": "When the user wants to set up, improve, or audit analytics tracking and measurement."
+              },
+              "zh-CN": {
+                "name": "analytics",
+                "summary": "When the user wants to set up, improve, or audit analytics tracking and measurement."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "aso",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/aso",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "aso",
+                "summary": "When the user wants to audit or optimize an App Store or Google Play listing."
+              },
+              "zh-CN": {
+                "name": "aso",
+                "summary": "When the user wants to audit or optimize an App Store or Google Play listing."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "attribution",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/attribution",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "attribution",
+                "summary": "When the user wants to figure out which marketing actually drives conversions and revenue, choose or interpret an attribution model, or reconcile conflicting nu…"
+              },
+              "zh-CN": {
+                "name": "attribution",
+                "summary": "When the user wants to figure out which marketing actually drives conversions and revenue, choose or interpret an attribution model, or reconcile conflicting nu…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "churn-prevention",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/churn-prevention",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "churn-prevention",
+                "summary": "When the user wants to reduce churn, build cancellation flows, set up save offers, recover failed payments, or implement retention strategies."
+              },
+              "zh-CN": {
+                "name": "churn-prevention",
+                "summary": "When the user wants to reduce churn, build cancellation flows, set up save offers, recover failed payments, or implement retention strategies."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "co-marketing",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/co-marketing",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "co-marketing",
+                "summary": "When the user wants to find co-marketing partners, plan joint campaigns, or brainstorm partnership opportunities."
+              },
+              "zh-CN": {
+                "name": "co-marketing",
+                "summary": "When the user wants to find co-marketing partners, plan joint campaigns, or brainstorm partnership opportunities."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "cold-email",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/cold-email",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "cold-email",
+                "summary": "Write B2B cold emails and follow-up sequences that get replies."
+              },
+              "zh-CN": {
+                "name": "cold-email",
+                "summary": "Write B2B cold emails and follow-up sequences that get replies."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "community-marketing",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/community-marketing",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "community-marketing",
+                "summary": "Build and leverage online communities to drive product growth and brand loyalty."
+              },
+              "zh-CN": {
+                "name": "community-marketing",
+                "summary": "Build and leverage online communities to drive product growth and brand loyalty."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "competitor-profiling",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/competitor-profiling",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "competitor-profiling",
+                "summary": "When the user wants to research, profile, or analyze competitors from their URLs."
+              },
+              "zh-CN": {
+                "name": "competitor-profiling",
+                "summary": "When the user wants to research, profile, or analyze competitors from their URLs."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "competitors",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/competitors",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "competitors",
+                "summary": "When the user wants to create competitor comparison or alternative pages for SEO and sales enablement."
+              },
+              "zh-CN": {
+                "name": "competitors",
+                "summary": "When the user wants to create competitor comparison or alternative pages for SEO and sales enablement."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "content-strategy",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/content-strategy",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "content-strategy",
+                "summary": "When the user wants to plan a content strategy, decide what content to create, or figure out what topics to cover."
+              },
+              "zh-CN": {
+                "name": "content-strategy",
+                "summary": "When the user wants to plan a content strategy, decide what content to create, or figure out what topics to cover."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "copy-editing",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/copy-editing",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "copy-editing",
+                "summary": "When the user wants to edit, review, or improve existing marketing copy, or refresh outdated content."
+              },
+              "zh-CN": {
+                "name": "copy-editing",
+                "summary": "When the user wants to edit, review, or improve existing marketing copy, or refresh outdated content."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "copywriting",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/copywriting",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "copywriting",
+                "summary": "When the user wants to write, rewrite, or improve marketing copy for any page — including homepage, landing pages, pricing pages, feature pages, about pages, or…"
+              },
+              "zh-CN": {
+                "name": "copywriting",
+                "summary": "When the user wants to write, rewrite, or improve marketing copy for any page — including homepage, landing pages, pricing pages, feature pages, about pages, or…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "cro",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/cro",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "cro",
+                "summary": "When the user wants to optimize, improve, or increase conversions on any marketing page or form — including homepage, landing pages, pricing pages, feature page…"
+              },
+              "zh-CN": {
+                "name": "cro",
+                "summary": "When the user wants to optimize, improve, or increase conversions on any marketing page or form — including homepage, landing pages, pricing pages, feature page…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "customer-research",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/customer-research",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "customer-research",
+                "summary": "When the user wants to conduct, analyze, or synthesize customer research."
+              },
+              "zh-CN": {
+                "name": "customer-research",
+                "summary": "When the user wants to conduct, analyze, or synthesize customer research."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "directory-submissions",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/directory-submissions",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "directory-submissions",
+                "summary": "When the user wants to submit their product to startup, SaaS, AI, agent, MCP, no-code, or review directories for backlinks, domain rating, and discovery."
+              },
+              "zh-CN": {
+                "name": "directory-submissions",
+                "summary": "When the user wants to submit their product to startup, SaaS, AI, agent, MCP, no-code, or review directories for backlinks, domain rating, and discovery."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "emails",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/emails",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "emails",
+                "summary": "When the user wants to create or optimize an email sequence, drip campaign, automated email flow, or lifecycle email program."
+              },
+              "zh-CN": {
+                "name": "emails",
+                "summary": "When the user wants to create or optimize an email sequence, drip campaign, automated email flow, or lifecycle email program."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "free-tools",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/free-tools",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "free-tools",
+                "summary": "When the user wants to plan, evaluate, or build a free tool for marketing purposes — lead generation, SEO value, or brand awareness."
+              },
+              "zh-CN": {
+                "name": "free-tools",
+                "summary": "When the user wants to plan, evaluate, or build a free tool for marketing purposes — lead generation, SEO value, or brand awareness."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "image",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/image",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "image",
+                "summary": "When the user wants to create, generate, edit, or optimize images for marketing — blog heroes, social graphics, product mockups, profile banners, listing visual…"
+              },
+              "zh-CN": {
+                "name": "image",
+                "summary": "When the user wants to create, generate, edit, or optimize images for marketing — blog heroes, social graphics, product mockups, profile banners, listing visual…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "influencer-marketing",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/influencer-marketing",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "influencer-marketing",
+                "summary": "When the user wants to run influencer, creator, or ambassador partnerships to promote their product — finding and vetting partners, structuring deals, briefing…"
+              },
+              "zh-CN": {
+                "name": "influencer-marketing",
+                "summary": "When the user wants to run influencer, creator, or ambassador partnerships to promote their product — finding and vetting partners, structuring deals, briefing…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "launch",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/launch",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "launch",
+                "summary": "When the user wants to plan a product launch, feature announcement, or release strategy."
+              },
+              "zh-CN": {
+                "name": "launch",
+                "summary": "When the user wants to plan a product launch, feature announcement, or release strategy."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "lead-magnets",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/lead-magnets",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "lead-magnets",
+                "summary": "When the user wants to create, plan, or optimize a lead magnet for email capture or lead generation."
+              },
+              "zh-CN": {
+                "name": "lead-magnets",
+                "summary": "When the user wants to create, plan, or optimize a lead magnet for email capture or lead generation."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "marketing-council",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/marketing-council",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "marketing-council",
+                "summary": "When the user wants multiple expert perspectives on a marketing question — a simulated board of advisors staffed by legendary marketers (Seth Godin, David Ogilv…"
+              },
+              "zh-CN": {
+                "name": "marketing-council",
+                "summary": "When the user wants multiple expert perspectives on a marketing question — a simulated board of advisors staffed by legendary marketers (Seth Godin, David Ogilv…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "marketing-ideas",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/marketing-ideas",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "marketing-ideas",
+                "summary": "When the user needs marketing ideas, inspiration, or strategies for their SaaS or software product."
+              },
+              "zh-CN": {
+                "name": "marketing-ideas",
+                "summary": "When the user needs marketing ideas, inspiration, or strategies for their SaaS or software product."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "marketing-loops",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/marketing-loops",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "marketing-loops",
+                "summary": "When the user wants to set up a recurring, self-running marketing workflow — a repeatable loop an AI agent runs on a cadence (weekly, daily, on a trigger) rathe…"
+              },
+              "zh-CN": {
+                "name": "marketing-loops",
+                "summary": "When the user wants to set up a recurring, self-running marketing workflow — a repeatable loop an AI agent runs on a cadence (weekly, daily, on a trigger) rathe…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "marketing-plan",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/marketing-plan",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "marketing-plan",
+                "summary": "When the user needs a comprehensive marketing plan for a client, a company they advise, or their own product."
+              },
+              "zh-CN": {
+                "name": "marketing-plan",
+                "summary": "When the user needs a comprehensive marketing plan for a client, a company they advise, or their own product."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "marketing-psychology",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/marketing-psychology",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "marketing-psychology",
+                "summary": "When the user wants to apply psychological principles, mental models, or behavioral science to marketing."
+              },
+              "zh-CN": {
+                "name": "marketing-psychology",
+                "summary": "When the user wants to apply psychological principles, mental models, or behavioral science to marketing."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "offers",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/offers",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "offers",
+                "summary": "When the user wants to design, construct, or improve an offer — the thing they actually sell — including value framing, bonus stacking, guarantee design, scarci…"
+              },
+              "zh-CN": {
+                "name": "offers",
+                "summary": "When the user wants to design, construct, or improve an offer — the thing they actually sell — including value framing, bonus stacking, guarantee design, scarci…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "onboarding",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/onboarding",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "onboarding",
+                "summary": "When the user wants to optimize post-signup onboarding, user activation, first-run experience, or time-to-value."
+              },
+              "zh-CN": {
+                "name": "onboarding",
+                "summary": "When the user wants to optimize post-signup onboarding, user activation, first-run experience, or time-to-value."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "paywalls",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/paywalls",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "paywalls",
+                "summary": "When the user wants to create or optimize in-app paywalls, upgrade screens, upsell modals, or feature gates."
+              },
+              "zh-CN": {
+                "name": "paywalls",
+                "summary": "When the user wants to create or optimize in-app paywalls, upgrade screens, upsell modals, or feature gates."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "popups",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/popups",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "popups",
+                "summary": "When the user wants to create or optimize popups, modals, overlays, slide-ins, or banners for conversion purposes."
+              },
+              "zh-CN": {
+                "name": "popups",
+                "summary": "When the user wants to create or optimize popups, modals, overlays, slide-ins, or banners for conversion purposes."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "pricing",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/pricing",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "pricing",
+                "summary": "When the user wants help with pricing decisions, packaging, or monetization strategy."
+              },
+              "zh-CN": {
+                "name": "pricing",
+                "summary": "When the user wants help with pricing decisions, packaging, or monetization strategy."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "product-marketing",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/product-marketing",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "product-marketing",
+                "summary": "When the user wants to create or update their product marketing context document."
+              },
+              "zh-CN": {
+                "name": "product-marketing",
+                "summary": "When the user wants to create or update their product marketing context document."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "programmatic-seo",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/programmatic-seo",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "programmatic-seo",
+                "summary": "When the user wants to create SEO-driven pages at scale using templates and data."
+              },
+              "zh-CN": {
+                "name": "programmatic-seo",
+                "summary": "When the user wants to create SEO-driven pages at scale using templates and data."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "prospecting",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/prospecting",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "prospecting",
+                "summary": "When the user wants to find, qualify, and build a list of prospects to reach out to — across B2B SaaS, general B2B, or local small businesses."
+              },
+              "zh-CN": {
+                "name": "prospecting",
+                "summary": "When the user wants to find, qualify, and build a list of prospects to reach out to — across B2B SaaS, general B2B, or local small businesses."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "public-relations",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/public-relations",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "public-relations",
+                "summary": "When the user wants help with public relations, earned media, press coverage, journalist outreach, or media strategy (not pull requests)."
+              },
+              "zh-CN": {
+                "name": "public-relations",
+                "summary": "When the user wants help with public relations, earned media, press coverage, journalist outreach, or media strategy (not pull requests)."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "referrals",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/referrals",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "referrals",
+                "summary": "When the user wants to create, optimize, or analyze a referral program, affiliate program, or word-of-mouth strategy."
+              },
+              "zh-CN": {
+                "name": "referrals",
+                "summary": "When the user wants to create, optimize, or analyze a referral program, affiliate program, or word-of-mouth strategy."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "revops",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/revops",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "revops",
+                "summary": "When the user wants help with revenue operations, lead lifecycle management, or marketing-to-sales handoff processes."
+              },
+              "zh-CN": {
+                "name": "revops",
+                "summary": "When the user wants help with revenue operations, lead lifecycle management, or marketing-to-sales handoff processes."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "sales-enablement",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/sales-enablement",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "sales-enablement",
+                "summary": "When the user wants to create sales collateral, pitch decks, one-pagers, objection handling docs, or demo scripts."
+              },
+              "zh-CN": {
+                "name": "sales-enablement",
+                "summary": "When the user wants to create sales collateral, pitch decks, one-pagers, objection handling docs, or demo scripts."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "schema",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/schema",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "schema",
+                "summary": "When the user wants to add, fix, or optimize schema markup and structured data on their site."
+              },
+              "zh-CN": {
+                "name": "schema",
+                "summary": "When the user wants to add, fix, or optimize schema markup and structured data on their site."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "seo-audit",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/seo-audit",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "seo-audit",
+                "summary": "When the user wants to audit, review, or diagnose SEO issues on their site."
+              },
+              "zh-CN": {
+                "name": "seo-audit",
+                "summary": "When the user wants to audit, review, or diagnose SEO issues on their site."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "signup",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/signup",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "signup",
+                "summary": "When the user wants to optimize signup, registration, account creation, or trial activation flows."
+              },
+              "zh-CN": {
+                "name": "signup",
+                "summary": "When the user wants to optimize signup, registration, account creation, or trial activation flows."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "site-architecture",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/site-architecture",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "site-architecture",
+                "summary": "When the user wants to plan, map, or restructure their website's page hierarchy, navigation, URL structure, or internal linking."
+              },
+              "zh-CN": {
+                "name": "site-architecture",
+                "summary": "When the user wants to plan, map, or restructure their website's page hierarchy, navigation, URL structure, or internal linking."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "sms",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/sms",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "sms",
+                "summary": "When the user wants to plan, build, or optimize SMS or MMS marketing — including welcome flows, abandoned cart texts, post-purchase, win-back, promotional sends…"
+              },
+              "zh-CN": {
+                "name": "sms",
+                "summary": "When the user wants to plan, build, or optimize SMS or MMS marketing — including welcome flows, abandoned cart texts, post-purchase, win-back, promotional sends…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "social",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/social",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "social",
+                "summary": "When the user wants help creating, scheduling, or optimizing social media content for LinkedIn, Twitter/X, Instagram, TikTok, Facebook, or other platforms, or w…"
+              },
+              "zh-CN": {
+                "name": "social",
+                "summary": "When the user wants help creating, scheduling, or optimizing social media content for LinkedIn, Twitter/X, Instagram, TikTok, Facebook, or other platforms, or w…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "video",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/video",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "video",
+                "summary": "When the user wants to create, generate, or produce video content using AI tools or programmatic frameworks."
+              },
+              "zh-CN": {
+                "name": "video",
+                "summary": "When the user wants to create, generate, or produce video content using AI tools or programmatic frameworks."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        }
+      ]
+    }
+  }
+}

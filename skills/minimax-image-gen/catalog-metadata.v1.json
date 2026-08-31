@@ -1,0 +1,78 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "minimax-image-gen"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "MiniMax Image Generation",
+        "summary": "MiniMax Image Generation"
+      },
+      "zh-CN": {
+        "name": "MiniMax 图像生成",
+        "summary": "MiniMax 图像生成"
+      }
+    },
+    "category": "media",
+    "tags": [
+      "minimax",
+      "media"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.3.1",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-16T11:59:41Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-06-28T13:06:20Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore/skills-minimax.git",
+      "path": "minimax-image-gen",
+      "ref": "6e39eee2ad39632a21f43ed997983e70594b2b8a"
+    }
+  },
+  "governance": {
+    "stewardship": "official",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "DesireCore",
+      "url": "https://github.com/desirecore",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

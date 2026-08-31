@@ -1,0 +1,651 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "baoyu-skills"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Baoyu Skills",
+        "summary": "Baoyu's 20+ content-creation skills — cover images, illustrations, WeChat publishing, translation and slide decks, for Claude Code and Codex"
+      },
+      "zh-CN": {
+        "name": "宝玉 Skills",
+        "summary": "宝玉分享的 AI Agent 技能集，20+ 技能覆盖封面图、插图、公众号发布、翻译、幻灯片等，适配 Claude Code、Codex 等"
+      }
+    },
+    "category": "creative",
+    "tags": [
+      "baoyu",
+      "content-creation",
+      "wechat",
+      "illustration",
+      "productivity"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-09T08:25:20Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-08-07T15:54:03Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/JimLiu/baoyu-skills.git",
+      "ref": "6b7a2e417500561a5ecdd0b168332f4142584617"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "Baoyu (JimLiu)",
+      "url": "https://github.com/JimLiu/baoyu-skills",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "collection": {
+      "role": "parent",
+      "childCount": 21,
+      "children": [
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-article-illustrator",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-article-illustrator",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-article-illustrator",
+                "summary": "Analyzes article structure, identifies positions requiring visual aids, generates illustrations with Type × Style × Palette three-dimension approach."
+              },
+              "zh-CN": {
+                "name": "baoyu-article-illustrator",
+                "summary": "Analyzes article structure, identifies positions requiring visual aids, generates illustrations with Type × Style × Palette three-dimension approach."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.117.4",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-comic",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-comic",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-comic",
+                "summary": "Knowledge comic creator supporting multiple art styles and tones."
+              },
+              "zh-CN": {
+                "name": "baoyu-comic",
+                "summary": "Knowledge comic creator supporting multiple art styles and tones."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.117.4",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-compress-image",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-compress-image",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-compress-image",
+                "summary": "Compresses images to WebP (default) or PNG with automatic tool selection."
+              },
+              "zh-CN": {
+                "name": "baoyu-compress-image",
+                "summary": "Compresses images to WebP (default) or PNG with automatic tool selection."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.56.1",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-cover-image",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-cover-image",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-cover-image",
+                "summary": "Generates article cover images with 5 dimensions (type, palette, rendering, text, mood) combining 11 color palettes and 7 rendering styles."
+              },
+              "zh-CN": {
+                "name": "baoyu-cover-image",
+                "summary": "Generates article cover images with 5 dimensions (type, palette, rendering, text, mood) combining 11 color palettes and 7 rendering styles."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.117.5",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-danger-gemini-web",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-danger-gemini-web",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-danger-gemini-web",
+                "summary": "Generates images and text via reverse-engineered Gemini Web API."
+              },
+              "zh-CN": {
+                "name": "baoyu-danger-gemini-web",
+                "summary": "Generates images and text via reverse-engineered Gemini Web API."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.56.2",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-danger-x-to-markdown",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-danger-x-to-markdown",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-danger-x-to-markdown",
+                "summary": "Converts X (Twitter) tweets and articles to markdown with YAML front matter."
+              },
+              "zh-CN": {
+                "name": "baoyu-danger-x-to-markdown",
+                "summary": "Converts X (Twitter) tweets and articles to markdown with YAML front matter."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.117.3",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-diagram",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-diagram",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-diagram",
+                "summary": "Create professional, dark-themed SVG diagrams of any type — architecture diagrams, flowcharts, sequence diagrams, structural diagrams, mind maps, timelines, ill…"
+              },
+              "zh-CN": {
+                "name": "baoyu-diagram",
+                "summary": "Create professional, dark-themed SVG diagrams of any type — architecture diagrams, flowcharts, sequence diagrams, structural diagrams, mind maps, timelines, ill…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.117.3",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-electron-extract",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-electron-extract",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-electron-extract",
+                "summary": "Extracts resources and JavaScript from any installed Electron app (`.asar` bundle), restoring original sources from `.js.map` files when available or formatting…"
+              },
+              "zh-CN": {
+                "name": "baoyu-electron-extract",
+                "summary": "Extracts resources and JavaScript from any installed Electron app (`.asar` bundle), restoring original sources from `.js.map` files when available or formatting…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.119.0",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-format-markdown",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-format-markdown",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-format-markdown",
+                "summary": "Formats plain text or markdown files with frontmatter, titles, summaries, headings, bold, lists, and code blocks."
+              },
+              "zh-CN": {
+                "name": "baoyu-format-markdown",
+                "summary": "Formats plain text or markdown files with frontmatter, titles, summaries, headings, bold, lists, and code blocks."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.57.0",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-image-gen",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-image-gen",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-image-gen",
+                "summary": "AI image generation with OpenAI GPT Image 2, Azure OpenAI, Google, OpenRouter, DashScope, Z.AI GLM-Image, MiniMax, Jimeng, Seedream, Replicate and Agnes APIs."
+              },
+              "zh-CN": {
+                "name": "baoyu-image-gen",
+                "summary": "AI image generation with OpenAI GPT Image 2, Azure OpenAI, Google, OpenRouter, DashScope, Z.AI GLM-Image, MiniMax, Jimeng, Seedream, Replicate and Agnes APIs."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "2.1.0",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-infographic",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-infographic",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-infographic",
+                "summary": "Generate professional infographics with 21 layout types and 22 visual styles."
+              },
+              "zh-CN": {
+                "name": "baoyu-infographic",
+                "summary": "Generate professional infographics with 21 layout types and 22 visual styles."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.117.4",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-markdown-to-html",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-markdown-to-html",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-markdown-to-html",
+                "summary": "Converts Markdown to styled HTML with WeChat-compatible themes."
+              },
+              "zh-CN": {
+                "name": "baoyu-markdown-to-html",
+                "summary": "Converts Markdown to styled HTML with WeChat-compatible themes."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.117.3",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-post-to-wechat",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-post-to-wechat",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-post-to-wechat",
+                "summary": "Posts content to WeChat Official Account (微信公众号) via API or Chrome CDP."
+              },
+              "zh-CN": {
+                "name": "baoyu-post-to-wechat",
+                "summary": "Posts content to WeChat Official Account (微信公众号) via API or Chrome CDP."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.118.2",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-post-to-weibo",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-post-to-weibo",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-post-to-weibo",
+                "summary": "Posts content to Weibo (微博)."
+              },
+              "zh-CN": {
+                "name": "baoyu-post-to-weibo",
+                "summary": "Posts content to Weibo (微博)."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.117.3",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-post-to-x",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-post-to-x",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-post-to-x",
+                "summary": "Posts content and articles to X (Twitter)."
+              },
+              "zh-CN": {
+                "name": "baoyu-post-to-x",
+                "summary": "Posts content and articles to X (Twitter)."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.58.1",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-slide-deck",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-slide-deck",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-slide-deck",
+                "summary": "Generates professional slide deck images from content."
+              },
+              "zh-CN": {
+                "name": "baoyu-slide-deck",
+                "summary": "Generates professional slide deck images from content."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.117.4",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-translate",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-translate",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-translate",
+                "summary": "This skill should be used when the user asks to \"translate\", \"翻译\", \"精翻\", \"translate article\", \"translate to Chinese\", \"translate to English\", \"改成中文\", \"改成英文\", \"c…"
+              },
+              "zh-CN": {
+                "name": "baoyu-translate",
+                "summary": "This skill should be used when the user asks to \"translate\", \"翻译\", \"精翻\", \"translate article\", \"translate to Chinese\", \"translate to English\", \"改成中文\", \"改成英文\", \"c…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.117.3",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-url-to-markdown",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-url-to-markdown",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-url-to-markdown",
+                "summary": "Fetch any URL and convert to markdown using baoyu-fetch CLI (Chrome CDP with site-specific adapters)."
+              },
+              "zh-CN": {
+                "name": "baoyu-url-to-markdown",
+                "summary": "Fetch any URL and convert to markdown using baoyu-fetch CLI (Chrome CDP with site-specific adapters)."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.61.0",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-wechat-summary",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-wechat-summary",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-wechat-summary",
+                "summary": "Summarizes WeChat group chat highlights into a structured digest using the local wx-cli binary (https://github.com/jackwener/wx-cli)."
+              },
+              "zh-CN": {
+                "name": "baoyu-wechat-summary",
+                "summary": "Summarizes WeChat group chat highlights into a structured digest using the local wx-cli binary (https://github.com/jackwener/wx-cli)."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.119.0",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-xhs-images",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-xhs-images",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-xhs-images",
+                "summary": "Generates infographic image card series with 12 visual styles, 8 layouts, and 3 color palettes."
+              },
+              "zh-CN": {
+                "name": "baoyu-xhs-images",
+                "summary": "Generates infographic image card series with 12 visual styles, 8 layouts, and 3 color palettes."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "2.0.1",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "baoyu-youtube-transcript",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-youtube-transcript",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "baoyu-youtube-transcript",
+                "summary": "Downloads YouTube video transcripts/subtitles and cover images by URL or video ID."
+              },
+              "zh-CN": {
+                "name": "baoyu-youtube-transcript",
+                "summary": "Downloads YouTube video transcripts/subtitles and cover images by URL or video ID."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.1.0",
+            "versionScheme": "semver"
+          }
+        }
+      ]
+    }
+  }
+}

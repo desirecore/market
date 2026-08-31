@@ -1,0 +1,81 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "minimax-music-gen"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "MiniMax 音乐生成",
+        "summary": "基于 MiniMax Music 2.6 的文本生成音乐技能",
+        "description": "Use this skill when the user wants to generate music using MiniMax's Music Generation API. Supports text-to-music with lyrics, instrumental generation, and music cover. Use when 用户提到 生成音乐、文生音乐、 AI 作曲、创作歌曲、写一首歌、音乐生成、AI 音乐、MiniMax 音乐、 作词作曲、纯音乐、伴奏、翻唱、cover。"
+      },
+      "en-US": {
+        "name": "MiniMax Music Generation",
+        "summary": "Text-to-music skill powered by MiniMax Music 2.6",
+        "description": "Use this skill when the user wants to generate music using MiniMax's Music Generation API. Supports text-to-music with lyrics, instrumental generation, and music cover. Use when the user mentions generating music, text-to-music, AI composing, creating songs, writing a song, music generation, AI music, MiniMax music, songwriting, instrumental music, accompaniment, cover, or remake."
+      }
+    },
+    "category": "media",
+    "tags": [
+      "media",
+      "audio",
+      "music",
+      "generation",
+      "minimax"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.1.5",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-07T13:14:31Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low",
+    "skillType": "procedural",
+    "requires": {
+      "tools": [
+        "Bash"
+      ],
+      "connections": []
+    }
+  }
+}

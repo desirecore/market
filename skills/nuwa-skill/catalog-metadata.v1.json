@@ -1,0 +1,78 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "nuwa-skill"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Nuwa Skill",
+        "summary": "Give it a name and it researches, distills and validates automatically, turning anyone's mental models, decision heuristics and voice into a runnable persona skill for Claude Code, Codex and Cursor"
+      },
+      "zh-CN": {
+        "name": "女娲.skill",
+        "summary": "输入一个名字即自动完成调研、提炼、验证，把任何人的心智模型、决策启发式与表达 DNA 蒸馏成可运行的人物 Skill，适配 Claude Code、Codex、Cursor 等"
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "nuwa",
+      "skill-creator",
+      "thinking",
+      "research",
+      "distillation"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-09T10:14:38Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-08-09T10:14:38Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/alchaincyf/nuwa-skill.git",
+      "ref": "27642f5bfed2dc1bbf8ee59a2c1ee602a626bbd7"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "花生 (alchaincyf)",
+      "url": "https://github.com/alchaincyf/nuwa-skill",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

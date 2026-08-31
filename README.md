@@ -23,9 +23,9 @@ DesireCore 官方市场仓库，存放官方维护的 Agent/Skill 定义，以�
 The market currently contains:
 
 - `1` Agent: `desirecore`
-- `33` local built-in skills with `SKILL.md`
+- `34` local built-in skills with `SKILL.md`
 - `28` external skill entries with `entry.json`
-- `61` publishable skills in total (`SKILL.md` + `entry.json`)
+- `62` publishable skills in total (`SKILL.md` + `entry.json`)
 
 ## Skill Sources
 
@@ -128,6 +128,40 @@ External entries point to upstream packages or repositories. They are counted in
 }
 ```
 
+### Catalog metadata sidecar (`catalog-metadata.v1.json`)
+
+The versioned catalog metadata contract is stored at one fixed path next to each
+legacy item:
+
+```text
+agents/<id>/catalog-metadata.v1.json
+skills/<id>/catalog-metadata.v1.json
+```
+
+Legacy `agent.json`, `SKILL.md`, and `entry.json` files remain the compatibility
+surface for older clients. New clients merge the sidecar through a deterministic
+adapter. Any field repeated in both files must have the same value; the validator
+rejects drift rather than choosing one copy silently.
+
+The sidecar records source-owned presentation, release, timestamp, content
+provenance, governance, compatibility, and type-specific facts. It deliberately
+cannot declare `catalogSourceId`, catalog commit/path/trust, effective official
+status, installation state, device state, health, URLs discovered at runtime, or
+`syncedAt`. DesireCore injects trusted catalog provenance and runtime facts.
+
+Time facts are explicit `known`/`unknown` values. A known day uses
+`YYYY-MM-DD` with `precision: "day"`; a known second uses an RFC 3339 UTC value
+ending in `Z` with `precision: "second"`. Never use the current date, clone time,
+or synchronization time to fill an unknown catalog or release timestamp.
+
+Collection children stay in their parent's sidecar. Each child declares the
+canonical `skill + parentId + id` identity and its own release fact; a collection
+parent may have an unknown version, and a child version must not be inferred from
+the parent.
+
+The strict source schema is
+[`schemas/catalog-metadata.v1.schema.json`](schemas/catalog-metadata.v1.schema.json).
+
 ## Categories
 
 Valid category slugs are declared in `categories.json`:
@@ -145,14 +179,29 @@ Run these checks before submitting changes:
 # Full market + i18n validation
 uv run scripts/i18n/validate-i18n.py
 
+# Catalog sidecar validator unit tests and standalone validation
+uv run scripts/catalog/test_validate_catalog_metadata.py
+uv run scripts/catalog/test_collection_generator.py
+uv run scripts/catalog/validate_catalog_metadata.py
+
 # Translation freshness check
 uv run scripts/i18n/translate.py --check
+
+# Verify pinned collection children without changing entry.json (network required;
+# mutable collections are reported and skipped because their output is not reproducible)
+uv run scripts/gen-collection-children.py --check
 
 # Optional network check for entry.json source URLs
 uv run scripts/i18n/validate-i18n.py --online
 ```
 
-The validator checks market stats, category references, `builtin-skills.json`, `entry.json` structure, i18n completeness, and translation freshness. Human-locked translations (`translated_by: human`) must keep `source_hash` aligned after manual review.
+The validators check market stats, category references, `builtin-skills.json`,
+`entry.json` structure, sidecar schema and legacy consistency, immutable source
+evidence, collection identity, i18n completeness, and translation freshness.
+Human-locked translations (`translated_by: human`) must keep `source_hash`
+aligned after manual review. During a data migration,
+`scripts/catalog/validate_catalog_metadata.py --require-complete` additionally
+requires one sidecar for every top-level Agent and Skill.
 
 Detailed i18n guidance is in [docs/I18N.md](docs/I18N.md).
 

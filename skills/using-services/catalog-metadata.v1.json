@@ -1,0 +1,74 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "using-services"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "使用服务",
+        "summary": "发现并调用全局目录中已注册的服务",
+        "description": "发现并调用全局应用与服务目录中已经注册过的 HTTP/MCP 服务。Use when 用户让 Agent 调用某个 API、查找已有服务，或访问通过 registering-services 注册的后端。"
+      },
+      "en-US": {
+        "name": "Using Services",
+        "summary": "Discover and invoke registered services from the catalog",
+        "description": "Discover and invoke HTTP/MCP services already registered in the global catalog. Use when the user asks the Agent to call an API, search for an existing service, or query a backend that was registered via the registering-services skill."
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "service",
+      "catalog",
+      "http",
+      "mcp",
+      "meta"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.3",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-29T09:48:28Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low"
+  }
+}

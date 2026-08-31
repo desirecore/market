@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "guizang-ppt"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "归藏网页 PPT",
+        "summary": "生成单文件 HTML 横向翻页网页 PPT（电子杂志风 / 瑞士国际主义风两套视觉）",
+        "description": "生成横向翻页的单文件 HTML 网页 PPT，提供“电子杂志 × 电子墨水”与“瑞士国际主义”两套视觉系统，含 WebGL 背景、章节封面、数据大字报、图片网格等模板。适合线下分享、演讲、产品发布、年度总结等场景。"
+      },
+      "en-US": {
+        "name": "Guizang Web PPT",
+        "summary": "Single-file HTML horizontal-swipe slide decks (magazine / Swiss styles)",
+        "description": "Generate single-file HTML horizontal-swipe presentation decks in two visual systems — editorial “magazine × e-ink” and “Swiss International” — with WebGL backgrounds, chapter covers, data headlines and image grids. Ideal for talks, sharing sessions, product launches and year-in-review decks. The skill body itself is bilingual (zh-CN/en mixed) and the en-US locale intentionally falls back to the shared body, so it is locked as human-maintained."
+      }
+    },
+    "category": "creative",
+    "tags": [
+      "ppt",
+      "presentation",
+      "html",
+      "deck",
+      "swiss-style"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.1",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-07T13:14:31Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-05-31T14:31:12Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/op7418/guizang-ppt-skill.git",
+      "ref": "014c572454065e905477a7432ae331dfc0fe6070"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "AGPL-3.0",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "listingMaintainer": {
+      "name": "DesireCore Official (vendored)",
+      "verified": true
+    },
+    "upstreamMaintainer": {
+      "name": "歸藏 (op7418)",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low",
+    "skillType": "procedural"
+  }
+}

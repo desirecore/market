@@ -1,0 +1,77 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "dev-environment-setup"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "开发环境综合配置",
+        "summary": "开发环境综合入口（容器 / WSL / 办公依赖 / 系统工具）",
+        "description": "Use this skill as a router/index when the user faces a development environment question that spans multiple domains: containers (Docker/Podman), WSL2 on Windows, office-skill dependencies (DOCX/PDF/XLSX/ PPTX), or system tools (LibreOffice/Poppler/Pandoc/Tesseract). For pure Python issues use python-runtime skill; for pure Node.js issues use nodejs-runtime skill. Triggers include: \"setup environment\", \"PATH\", \"WSL\", \"WSL2\", \"docker not found\", \"podman\", \"container\", \"office dependency\", \"LibreOffice\", \"poppler\", \"pandoc\", \"tesseract\", or any cross-cutting environment question. 使用场景：用户提到 环境配置、PATH、 容器、Docker、Podman、WSL、WSL2、办公依赖、系统工具，或不确定属于 Python / Node.js 时的入口指引。"
+      },
+      "en-US": {
+        "name": "Dev Environment Setup",
+        "summary": "Unified dev environment entry (container / WSL / office deps / system tools)",
+        "description": "Use this skill as a router/index when the user faces a development environment question that spans multiple domains: containers (Docker/Podman), WSL2 on Windows, office-skill dependencies (DOCX/PDF/XLSX/ PPTX), or system tools (LibreOffice/Poppler/Pandoc/Tesseract). For pure Python issues use python-runtime skill; for pure Node.js issues use nodejs-runtime skill. Triggers include: \"setup environment\", \"PATH\", \"WSL\", \"WSL2\", \"docker not found\", \"podman\", \"container\", \"office dependency\", \"LibreOffice\", \"poppler\", \"pandoc\", \"tesseract\", or any cross-cutting environment question. Use when the user mentions environment setup, PATH, containers, Docker, Podman, WSL, WSL2, office dependencies, system tools, or needs an entry-point guide when uncertain whether the issue belongs to Python or Node.js."
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "environment",
+      "docker",
+      "container",
+      "wsl",
+      "office",
+      "system-tools",
+      "router"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "2.0.4",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-06-09T03:27:13Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low",
+    "skillType": "procedural"
+  }
+}

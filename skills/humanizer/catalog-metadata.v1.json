@@ -1,0 +1,78 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "humanizer"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Humanizer",
+        "summary": "Strips signs of AI-generated writing using Wikipedia's \"Signs of AI writing\" guide, fixing inflated symbolism, promotional tone, em dash overuse, rule of three and negative parallelisms; plain Markdown, runs in any harness"
+      },
+      "zh-CN": {
+        "name": "Humanizer",
+        "summary": "基于维基百科「AI 写作特征」指南去除文本中的 AI 痕迹，识别并修复夸大象征、宣传腔、破折号滥用、三段式、否定式排比等模式，纯 Markdown 可跨 agent 运行"
+      }
+    },
+    "category": "creative",
+    "tags": [
+      "writing",
+      "editing",
+      "ai-detection",
+      "humanize",
+      "prose"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-09T10:14:38Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-08-09T10:14:38Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/blader/humanizer.git",
+      "ref": "523374dee72d67c7b2b5f858ea0094ffda49c3ac"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "blader",
+      "url": "https://github.com/blader/humanizer",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

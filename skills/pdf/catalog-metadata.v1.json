@@ -1,0 +1,78 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "pdf"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "PDF 文档处理",
+        "summary": "读取、创建、合并、拆分和填写 PDF 文档",
+        "description": "Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs apart, rotating pages, adding watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs, extracting images, and OCR on scanned PDFs to make them searchable. If the user mentions a .pdf file or asks to produce one, use this skill. Use when 用户提到 PDF、读取PDF、合并PDF、拆分PDF、填写表单、加水印、提取文字、 扫描识别。"
+      },
+      "en-US": {
+        "name": "PDF Document Processing",
+        "summary": "Read, create, merge, split, and fill PDF documents",
+        "description": "Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs apart, rotating pages, adding watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs, extracting images, and OCR on scanned PDFs to make them searchable. If the user mentions a .pdf file or asks to produce one, use this skill. Use when the user mentions PDF, reading PDFs, merging PDFs, splitting PDFs, filling forms, adding watermarks, extracting text, or OCR."
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "pdf",
+      "document",
+      "form",
+      "ocr"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.2",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-05-04T16:26:33Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    },
+    "upstreamMaintainer": {
+      "name": "anthropic",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low",
+    "skillType": "procedural"
+  }
+}

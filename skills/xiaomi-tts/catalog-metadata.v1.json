@@ -1,0 +1,82 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "xiaomi-tts"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "小米 MiMo 语音合成",
+        "summary": "基于小米 MiMo 的文本转语音技能",
+        "description": "当用户希望使用小米 MiMo 的 TTS 模型（mimo-v2.5-tts）将文本转为语音时使用此技能。基于 OpenAI 兼容的 chat/completions API，响应中携带音频。支持多种预置音色和自定义音色设计。用户提到 语音合成、文字转语音、TTS、朗读、读出来、生成语音、生成音频、文本转音频、配音、念出来、小米语音、MiMo 语音、小米 TTS。"
+      },
+      "en-US": {
+        "name": "Xiaomi MiMo TTS",
+        "summary": "Text-to-speech synthesis using Xiaomi MiMo models",
+        "description": "Use this skill when the user wants to convert text to speech using Xiaomi MiMo's TTS models (mimo-v2.5-tts). Built on the OpenAI-compatible chat/completions API with audio response, supporting multiple preset voices and custom voice design. Trigger keywords: text-to-speech, TTS, read aloud, narrate, generate audio, voice synthesis, MiMo voice, Xiaomi TTS."
+      }
+    },
+    "category": "media",
+    "tags": [
+      "media",
+      "audio",
+      "tts",
+      "speech",
+      "xiaomi",
+      "mimo"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.3",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-14T03:55:22Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low",
+    "skillType": "procedural",
+    "requires": {
+      "tools": [
+        "Bash"
+      ],
+      "connections": []
+    }
+  }
+}

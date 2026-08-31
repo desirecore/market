@@ -1,0 +1,74 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "mt-paotui-for-client"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Meituan Paotui Client",
+        "summary": "Meituan Paotui ordering assistant for pickup-delivery, errands and shopping, with address search and two-step cost confirmation"
+      },
+      "zh-CN": {
+        "name": "美团跑腿下单助手",
+        "summary": "美团跑腿下单助手：帮取送、帮忙（取号/搬装）、帮买全流程下单，含地址搜索与两步费用确认"
+      }
+    },
+    "category": "business",
+    "tags": [
+      "meituan"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-19T06:37:19Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-06-28T13:06:20Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/meituan/MT-Paotui-For-Client.git",
+      "ref": "dc5cc223a010c2fe4377088affc2fbe4c6c6473d"
+    }
+  },
+  "governance": {
+    "stewardship": "pointer",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "source-pointer-only",
+    "upstreamMaintainer": {
+      "name": "meituan",
+      "url": "https://github.com/meituan/MT-Paotui-For-Client",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "dingtalk-api"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "DingTalk API Skill",
+        "summary": "Call DingTalk Open Platform APIs: user/department lookup, bot messaging in chats and groups, and HR records"
+      },
+      "zh-CN": {
+        "name": "钉钉 API 技能",
+        "summary": "调用钉钉开放平台 API：用户与部门查询、机器人单聊/群聊消息发送、群机器人列表、离职记录查询等"
+      }
+    },
+    "category": "communication",
+    "tags": [
+      "ogenes"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-09T08:25:20Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-08-09T08:25:20Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/ogenes/dingtalk-api.git",
+      "ref": "83465bf60b522ad19f7822d167489c3c4f79b302"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "ogenes",
+      "url": "https://clawhub.ai/ogenes/skills/dingtalk-api",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

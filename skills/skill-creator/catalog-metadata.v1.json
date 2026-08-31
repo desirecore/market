@@ -1,0 +1,74 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "skill-creator"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "技能创建器",
+        "summary": "引导创建符合规范的 SKILL.md 技能包，支持完整元数据与分层内容",
+        "description": "引导用户创建和编辑符合规范的 SKILL.md 技能包。支持 DesireCore 完整格式 （frontmatter 元数据 + L0/L1/L2 分层内容 + 脚本/参考/资产）和 Claude Code 基础格式。Use when 用户要求创建新技能、更新已有技能、或将经验封装为可复用 的技能包。"
+      },
+      "en-US": {
+        "name": "Skill Creator",
+        "summary": "Guides creation of standards-compliant SKILL.md packages with complete metadata and layered content",
+        "description": "Guides users to create and edit standards-compliant SKILL.md skill packages. Supports the DesireCore full format (frontmatter metadata + L0/L1/L2 layered content + scripts/references/assets) and the Claude Code basic format. Use when the user requests to create a new Skill, update an existing Skill, or package experience into a reusable Skill bundle."
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "skill",
+      "creation",
+      "meta",
+      "template",
+      "authoring"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.5",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-14T03:55:22Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low"
+  }
+}

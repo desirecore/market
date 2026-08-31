@@ -1,0 +1,77 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "taste-skill"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Taste Skill",
+        "summary": "Anti-slop frontend framework for AI agents to build premium, tasteful UIs instead of generic output"
+      },
+      "zh-CN": {
+        "name": "Taste Skill",
+        "summary": "面向 AI Agent 的“抗平庸”前端框架，帮智能体产出有品味的高级感前端而非千篇一律的模板"
+      }
+    },
+    "category": "creative",
+    "tags": [
+      "taste",
+      "design",
+      "creative"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-30T18:00:09Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-08-30T18:00:09Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/Leonxlnx/taste-skill.git",
+      "path": "skills/taste-skill",
+      "ref": "ccbc15639c97057cbfcf32ecebc38ef716e4bb37"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "Leonxlnx",
+      "url": "https://github.com/Leonxlnx/taste-skill",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

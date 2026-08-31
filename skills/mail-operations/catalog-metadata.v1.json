@@ -1,0 +1,76 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "mail-operations"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "邮箱操作",
+        "summary": "邮件收发、搜索、标签管理、自动规则与智能体邮件处理",
+        "description": "Use this skill whenever the user wants to interact with email. This includes reading inbox, sending emails, replying, searching messages, managing labels and categories, downloading attachments, setting up auto-reply rules, or triggering agents to handle incoming emails. Supports Gmail, Outlook, and IMAP/SMTP (QQ Mail, 163, Yahoo, etc.) through DesireCore's local REST API. Use when 用户提到 邮件、邮箱、收件箱、发邮件、回复邮件、查邮件、Gmail、 Outlook、QQ邮箱、163邮箱、附件、标签、草稿、自动回复、邮件规则、 转发、抄送、未读邮件、收信、发信、邮件同步、邮件搜索。"
+      },
+      "en-US": {
+        "name": "Email Operations",
+        "summary": "Email send/receive, search, label management, auto-rules, and Agent-driven email handling",
+        "description": "Use this skill whenever the user wants to interact with email. This includes reading inbox, sending emails, replying, searching messages, managing labels and categories, downloading attachments, setting up auto-reply rules, or triggering agents to handle incoming emails. Supports Gmail, Outlook, and IMAP/SMTP (QQ Mail, 163, Yahoo, etc.) through DesireCore's local REST API. Use when the user mentions email, mailbox, inbox, sending email, replying, checking email, Gmail, Outlook, QQ Mail, 163 Mail, attachments, labels, drafts, auto-reply, email rules, forwarding, CC, unread email, receiving, sending, email sync, or email search."
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "mail",
+      "email",
+      "gmail",
+      "outlook",
+      "imap",
+      "smtp"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.5",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-07-07T13:14:31Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "medium",
+    "skillType": "procedural"
+  }
+}

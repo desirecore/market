@@ -1,0 +1,80 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "impeccable"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Impeccable",
+        "summary": "A design language that makes AI better at frontend: UX review, visual hierarchy, accessibility, typography, color, motion and reusable design systems"
+      },
+      "zh-CN": {
+        "name": "Impeccable",
+        "summary": "让 AI 更懂设计的前端设计语言：覆盖 UX 审查、视觉层级、可访问性、排版、配色、动效与可复用设计系统，把界面打磨到生产级"
+      }
+    },
+    "category": "design",
+    "tags": [
+      "design",
+      "frontend",
+      "ui",
+      "pbakaus"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "3.9.1",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-09T08:25:20Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-07-19T11:19:33Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/pbakaus/impeccable.git",
+      "path": "plugin/skills/impeccable",
+      "ref": "e4ab5e24bdf5321b72163d2fbcbe6fa985c848ba"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "Paul Bakaus",
+      "url": "https://github.com/pbakaus/impeccable",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

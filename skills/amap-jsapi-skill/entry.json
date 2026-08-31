@@ -27,6 +27,7 @@
   "redistribution": "allowed",
   "source": {
     "kind": "web",
-    "repoUrl": "https://clawhub.ai/api/v1/skills/amap-jsapi-skill/file?path=SKILL.md&ownerHandle=lbs-amap"
+    "repoUrl": "https://clawhub.ai/api/v1/skills/amap-jsapi-skill/file?path=SKILL.md&ownerHandle=lbs-amap",
+    "sha256": "cf2f06cc5abf5e41a626f823c50575ab52c81aecbceca5abd4e69d56ca5c5d75"
   }
 }

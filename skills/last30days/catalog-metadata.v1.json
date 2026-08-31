@@ -1,0 +1,82 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "last30days"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Last 30 Days",
+        "summary": "Research what people actually say about any topic in the last 30 days across Reddit, X, YouTube, HN and more"
+      },
+      "zh-CN": {
+        "name": "近 30 天研究",
+        "summary": "调研任意话题近 30 天的真实讨论，聚合 Reddit、X、YouTube、HN、Polymarket、GitHub 等来源的热帖与观点"
+      }
+    },
+    "category": "research",
+    "tags": [
+      "research",
+      "trends",
+      "reddit",
+      "youtube",
+      "hacker-news",
+      "web"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "3.21.1",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-30T18:00:09Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-08-30T18:00:09Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/mvanhorn/last30days-skill.git",
+      "path": "skills/last30days",
+      "ref": "a218edadbc3361672f5e5e2cd72a8212b0b3fbb8"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "Matt Van Horn",
+      "url": "https://github.com/mvanhorn/last30days-skill",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

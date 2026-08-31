@@ -1,0 +1,73 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "clone-agent"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "克隆智能体",
+        "summary": "完整复制现有智能体为独立本地副本，可选继承用户私有数据",
+        "description": "完整克隆现有智能体为独立本地副本，并安全处理私有记忆、偏好、关系与团队分发影响。Use when 用户要求复制、克隆或基于现有 Agent 创建独立变体。"
+      },
+      "en-US": {
+        "name": "Clone Agent",
+        "summary": "Clone an existing Agent into an independent local copy with optional private user data",
+        "description": "Clone an existing Agent into an independent local copy while safely handling private memory, preferences, relationships, and team distribution impact. Use when the user asks to copy, clone, or create an independent variant from an existing Agent."
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "agent",
+      "clone",
+      "meta"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.1",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-25T09:25:42Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requiredClientVersion": "10.0.115"
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "medium"
+  }
+}

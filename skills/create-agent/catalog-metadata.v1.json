@@ -1,0 +1,73 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "create-agent"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "创建智能体",
+        "summary": "通过自然语言对话收集需求，一键创建专业化数字智能体",
+        "description": "通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。"
+      },
+      "en-US": {
+        "name": "Create Agent",
+        "summary": "Collect requirements through natural-language conversation and create a specialized digital Agent in one step",
+        "description": "Collect requirements through multi-turn conversation and call the ManageAgent builtin tool to create a new AgentFS v2 Agent, with customizable persona and principles. Use when the user asks to create a new Agent, raise a domain assistant, or quickly produce a governable Agent from a template."
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "agent",
+      "creation",
+      "meta"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "2.6.1",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-08-25T09:25:42Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requiredClientVersion": "10.0.108"
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low"
+  }
+}
