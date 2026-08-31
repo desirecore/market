@@ -143,6 +143,27 @@ surface for older clients. New clients merge the sidecar through a deterministic
 adapter. Any field repeated in both files must have the same value; the validator
 rejects drift rather than choosing one copy silently.
 
+Agent listings support exactly one of `agents/<slug>/agent.json` (inline metadata)
+or `agents/<slug>/entry.json` (an external pointer), alongside the sidecar. Missing
+or simultaneous primary files are rejected. For a pointer, `entry.id` and sidecar
+`identity.id` use the catalog directory slug and `identity.kind` is `agent`; the
+upstream AgentFS `agent.json.id` remains its own UUID and must not be rewritten.
+
+Agent pointer `latestVersion` maps to sidecar `release.version`; optional
+`requiredClientVersion`, `installPolicy`, and `updatePolicy` must agree with the
+sidecar compatibility/spec fields. Pointer source fields must describe the same
+artifact as `provenance.content`, and `maintainer` maps to `upstreamMaintainer`.
+An installable Agent pointer must itself pin `source.ref` (Git) or `source.sha256`
+(Web/ZIP); an immutable ref supplied only by the sidecar cannot pin a mutable
+entry. Existing immutable-source, license, governance-review and complete-coverage
+checks still apply. Agent pointers do not receive the built-in Skill exceptions.
+
+Agent 目录必须在 `agent.json` 内联元数据和 `entry.json` 外部指针中二选一，并提供 sidecar。
+Pointer 的目录 slug、`entry.id`、sidecar `identity.id` 必须一致；上游 AgentFS 的 UUID 不改写。
+`latestVersion`、最低客户端版本和安装/更新策略须与 sidecar 对齐；来源必须是同一个制品。
+可安装指针自身必须固定 Git ref 或 Web/ZIP 摘要，不能只在 sidecar 宣称不可变版本。
+现有许可、治理审查、不可变来源和完整覆盖门禁继续有效，不适用内置 Skill 的宽松例外。
+
 The sidecar records source-owned presentation, release, timestamp, content
 provenance, governance, compatibility, and type-specific facts. It deliberately
 cannot declare `catalogSourceId`, catalog commit/path/trust, effective official

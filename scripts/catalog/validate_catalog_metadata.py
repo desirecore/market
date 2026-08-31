@@ -150,19 +150,34 @@ def load_legacy(sidecar: Path, report: Report, root: Path) -> LegacyItem | None:
     parent = sidecar.parent
     root_kind = parent.parent.name
     if root_kind == "agents":
-        legacy_path = parent / "agent.json"
+        inline_path = parent / "agent.json"
+        pointer_path = parent / "entry.json"
+        if inline_path.is_file() == pointer_path.is_file():
+            report.add(
+                _rel(sidecar, root),
+                "fixed-sidecar-path",
+                "agent sidecar must be next to exactly one legacy agent.json or entry.json",
+            )
+            return None
+        is_pointer = pointer_path.is_file()
+        legacy_path = pointer_path if is_pointer else inline_path
         data = _read_json(legacy_path, report, root, "legacy-read")
         if data is None:
             return None
+        if is_pointer and data.get("id") != parent.name:
+            report.add(_rel(legacy_path, root), "legacy-consistency", "entry.id must equal the catalog directory slug")
+        # The pointer ID is a listing slug, not the upstream AgentFS UUID.
+        # Client indexing reads latestVersion for pointers and version for inline metadata.
+        version_key = "latestVersion" if is_pointer else "version"
         i18n, default_locale = _legacy_i18n(data.get("i18n"), short_key="shortDesc")
         return LegacyItem(
             kind="agent",
             item_id=parent.name,
-            source_type="agent",
+            source_type="pointer" if is_pointer else "agent",
             data=data,
             i18n=i18n,
             default_locale=default_locale,
-            version=str(data["version"]) if data.get("version") is not None else None,
+            version=str(data[version_key]) if data.get(version_key) is not None else None,
             category=data.get("category") if isinstance(data.get("category"), str) else None,
             tags=data.get("tags") if isinstance(data.get("tags"), list) else None,
         )
@@ -327,7 +342,16 @@ def _validate_content_consistency(
     }
     for sidecar_key, legacy_key in mapping.items():
         legacy_value = source.get(legacy_key)
-        if legacy_value is not None:
+        if legacy.kind == "agent":
+            declared_value = content.get(sidecar_key)
+            # A sidecar must describe the exact pointer that the client installs,
+            # not add a different subdirectory or pin that entry.json never uses.
+            if sidecar_key in {"path", "ref"}:
+                declared_value = None if declared_value == "" else declared_value
+                legacy_value = None if legacy_value == "" else legacy_value
+            if declared_value != legacy_value:
+                report.add(rel, "legacy-consistency", f"provenance.content.{sidecar_key} differs from the Agent pointer")
+        elif legacy_value is not None:
             _compare(
                 report,
                 rel,
@@ -586,6 +610,14 @@ def validate_sidecar(
         else:
             _compare(report, rel, "release.version", release.get("version"), legacy.version)
 
+    if legacy.kind == "agent" and legacy.source_type == "pointer":
+        for field in ("installPolicy", "updatePolicy"):
+            _compare(report, rel, f"spec.{field}", spec.get(field), legacy.data.get(field))
+        _compare(
+            report, rel, "compatibility.requiredClientVersion",
+            sidecar["compatibility"].get("requiredClientVersion"), legacy.data.get("requiredClientVersion"),
+        )
+
     _validate_content_consistency(report, rel, sidecar, legacy)
     _validate_governance_consistency(report, rel, sidecar, legacy)
     _validate_collection(report, rel, sidecar, legacy, supported_locales)
@@ -635,6 +667,13 @@ def validate_sidecar(
                     severity="warning",
                 )
             return
+
+        if legacy.kind == "agent" and legacy.source_type == "pointer":
+            if not _content_is_immutable(legacy.data.get("source")):
+                report.add(
+                    rel, "installable-evidence",
+                    "installable Agent entry.source must itself declare an immutable ref or SHA-256 digest",
+                )
 
         if not _content_is_immutable(content):
             report.add(rel, "installable-evidence", "installable content must have an immutable ref or SHA-256 digest")

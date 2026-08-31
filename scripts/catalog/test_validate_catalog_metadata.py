@@ -174,6 +174,146 @@ class CatalogMetadataValidatorTests(unittest.TestCase):
         manifest["stats"]["totalAgents"] = 1
         self.write_json(self.root / "manifest.json", manifest)
 
+    def write_agent_pointer_case(self, mutate_entry=None, mutate_sidecar=None) -> tuple[Path, Path]:
+        agent_dir = self.root / "agents" / "example-agent"
+        entry = valid_entry()
+        entry.update(
+            id="example-agent", name="Example Agent", latestVersion="1.2.3",
+            requiredClientVersion="10.0.0", installPolicy="market", updatePolicy="market",
+            icon='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z"/></svg>',
+        )
+        entry["i18n"] = {
+            "zh-CN": {"name": "示例智能体", "shortDesc": "通用示例智能体"},
+            "en-US": {"name": "Example Agent", "shortDesc": "General-purpose example agent"},
+        }
+        entry["source"]["repoUrl"] = "https://example.com/example-agent.git"
+        sidecar = valid_sidecar()
+        sidecar["identity"] = {"kind": "agent", "id": "example-agent"}
+        sidecar["presentation"]["i18n"] = {
+            locale: {"name": value["name"], "summary": value["shortDesc"]}
+            for locale, value in entry["i18n"].items()
+        }
+        sidecar["release"] = {"state": "known", "version": "1.2.3", "versionScheme": "semver"}
+        sidecar["provenance"]["content"]["url"] = entry["source"]["repoUrl"]
+        sidecar["timestamps"]["reviewedAt"] = {"state": "known", "value": "2026-08-30", "precision": "day"}
+        sidecar["governance"].update(
+            availability="installable",
+            compliance={"licenseEvidencePath": "LICENSE", "reviewedRef": "a" * 40,
+                        "reviewedAt": "2026-08-30", "reviewedBy": "Example Reviewer", "upstreamEndorsed": False},
+        )
+        sidecar["governance"]["license"]["evidencePath"] = "LICENSE"
+        sidecar["compatibility"]["requiredClientVersion"] = "10.0.0"
+        sidecar["spec"] = {"kind": "agent", "installPolicy": "market", "updatePolicy": "market"}
+        if mutate_entry:
+            mutate_entry(entry)
+        if mutate_sidecar:
+            mutate_sidecar(sidecar)
+        entry_path = agent_dir / "entry.json"
+        sidecar_path = agent_dir / VALIDATOR.SIDECAR_NAME
+        self.write_json(entry_path, entry)
+        self.write_json(sidecar_path, sidecar)
+        self.write_json(self.root / "manifest.json", {
+            "supportedLocales": ["zh-CN", "en-US"], "stats": {"totalAgents": 1, "totalSkills": 1},
+        })
+        return entry_path, sidecar_path
+
+    def test_accepts_complete_installable_agent_pointer_without_inline_agent(self) -> None:
+        entry_path, _ = self.write_agent_pointer_case()
+        report = self.validate(require_complete=True)
+        self.assertFalse(report.has_errors, report.issues)
+        self.assertFalse(entry_path.with_name("agent.json").exists())
+        self.assertEqual(1, report.stats["agents"])
+        self.assertEqual(2, report.stats["sidecars"])
+
+    def test_listing_only_agent_pointer_allows_empty_root_path_and_unpinned_ref(self) -> None:
+        def metadata_change(payload):
+            payload["provenance"]["content"].pop("ref")
+            payload["governance"]["availability"] = "listing-only"
+
+        self.write_agent_pointer_case(
+            lambda payload: payload["source"].update(path="", ref=""), metadata_change,
+        )
+        report = self.validate(require_complete=True)
+        self.assertFalse(report.has_errors, report.issues)
+
+    def test_accepts_agent_web_and_zip_pointers_with_matching_byte_digest(self) -> None:
+        for kind in ("web", "zip"):
+            with self.subTest(kind=kind):
+                def entry_change(payload):
+                    payload["source"] = {"kind": kind, "repoUrl": "https://example.com/agent.zip", "sha256": "b" * 64}
+
+                def metadata_change(payload):
+                    payload["provenance"]["content"] = {"kind": kind, "url": "https://example.com/agent.zip", "sha256": "b" * 64}
+                    payload["governance"]["compliance"]["reviewedRef"] = "b" * 64
+
+                self.write_agent_pointer_case(entry_change, metadata_change)
+                report = self.validate(require_complete=True)
+                self.assertFalse(report.has_errors, report.issues)
+
+    def test_rejects_agent_pointer_sidecar_conflicts(self) -> None:
+        mutations = {
+            "identity": lambda p: p["identity"].update(id="other-agent"),
+            "kind": lambda p: (p["identity"].update(kind="skill"), p.update(spec={"kind": "skill"})),
+            "version": lambda p: p["release"].update(version="9.9.9"),
+            "source-kind": lambda p: p["provenance"]["content"].update(kind="web"),
+            "source-url": lambda p: p["provenance"]["content"].update(url="https://example.com/other.git"),
+            "source-ref": lambda p: p["provenance"]["content"].update(ref="b" * 40),
+            "source-path": lambda p: p["provenance"]["content"].update(path="another-agent"),
+            "source-digest": lambda p: p["provenance"]["content"].update(sha256="b" * 64),
+            "category": lambda p: p["presentation"].update(category="research"),
+            "tags": lambda p: p["presentation"].update(tags=["other"]),
+            "summary": lambda p: p["presentation"]["i18n"]["en-US"].update(summary="Different"),
+            "license": lambda p: p["governance"]["license"].update(value="Apache-2.0"),
+            "redistribution": lambda p: p["governance"].update(redistribution="source-pointer-only"),
+            "stewardship": lambda p: p["governance"].update(stewardship="official"),
+            "maintainer": lambda p: p["governance"]["upstreamMaintainer"].update(name="Other Maintainer"),
+            "compatibility": lambda p: p["compatibility"].update(requiredClientVersion="9.0.0"),
+            "policy": lambda p: (p.update(spec={"kind": "agent", "installPolicy": "system", "updatePolicy": "repository"}),
+                                  p.update(release=unknown()), p["governance"].update(availability="listing-only")),
+        }
+        for name, mutation in mutations.items():
+            with self.subTest(name=name):
+                self.write_agent_pointer_case(mutate_sidecar=mutation)
+                self.assertTrue(any(issue.rule == "legacy-consistency" for issue in self.validate().issues))
+
+    def test_rejects_agent_pointer_entry_id_that_is_not_the_catalog_slug(self) -> None:
+        self.write_agent_pointer_case(mutate_entry=lambda p: p.update(id="00000000-0000-4000-8000-000000000000"))
+        self.assertTrue(any("entry.id" in issue.message for issue in self.validate().issues))
+
+    def test_agent_pointer_must_keep_both_immutable_source_and_governance_evidence(self) -> None:
+        cases = [
+            (lambda p: p["source"].pop("ref"), None),
+            (lambda p: p["source"].update(ref="main"),
+             lambda p: (p["provenance"]["content"].update(ref="main"), p["governance"]["compliance"].update(reviewedRef="main"))),
+            (None, lambda p: p["governance"].update(license=unknown())),
+            (None, lambda p: p["governance"].pop("compliance")),
+            (None, lambda p: p["timestamps"].update(reviewedAt=unknown())),
+            (None, lambda p: p["governance"]["compliance"].update(reviewedRef="b" * 40)),
+        ]
+        for index, (entry_change, metadata_change) in enumerate(cases):
+            with self.subTest(index=index):
+                self.write_agent_pointer_case(entry_change, metadata_change)
+                self.assertTrue(any(issue.rule == "installable-evidence" for issue in self.validate().issues))
+
+    def test_agent_pointer_sidecar_does_not_allow_provider_or_runtime_fields(self) -> None:
+        self.write_agent_pointer_case(mutate_sidecar=lambda p: p["identity"].update(catalogSourceId="market:official"))
+        self.assertTrue(any(issue.rule == "catalog-schema" for issue in self.validate().issues))
+
+    def test_agent_sidecar_rejects_missing_or_ambiguous_legacy_file(self) -> None:
+        entry, sidecar = self.write_agent_pointer_case()
+        entry.unlink()
+        report = self.validate()
+        self.assertTrue(any(issue.rule == "fixed-sidecar-path" and "agent.json or entry.json" in issue.message for issue in report.issues))
+        self.write_agent_pointer_case()
+        self.write_json(entry.with_name("agent.json"), {"id": "example-agent"})
+        report = self.validate()
+        self.assertTrue(any(issue.rule == "fixed-sidecar-path" and "exactly one" in issue.message for issue in report.issues))
+
+    def test_agent_pointer_requires_sidecar_under_complete_coverage(self) -> None:
+        _, sidecar = self.write_agent_pointer_case()
+        sidecar.unlink()
+        self.assertTrue(any(issue.rule == "sidecar-coverage" for issue in self.validate(require_complete=True).issues))
+
     def test_accepts_valid_listing_only_pointer(self) -> None:
         report = self.validate(require_complete=True)
         self.assertFalse(report.has_errors, report.issues)
