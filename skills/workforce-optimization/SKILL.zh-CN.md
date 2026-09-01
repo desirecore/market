@@ -34,13 +34,14 @@
 - 由平台在有效缺口结算后继续原来源会话。不得靠发新消息轮询、换请求身份绕过去重、复活已取消来源或重跑 unknown 派发。pending/解释信号不是求解授权；必须重读精确工作区并遵守全部门禁。
 - 真实数据用已授权 FileResourceRef、bytesHash、精确字段/类型/单位和经确认 timeScope 绑定；按需声明 required/unique/range/enum/foreign_key/cutoff 有限规则。range/enum 常量及 FK 两侧单位必须一致。每个实际消费字段都须用 modelSemantics.sourceField 和 sourced_from 关联业务量，再追踪入模；未使用列不必入模。单位/窗口转换须产生显式转换、可追溯且重新确认的来源，不得只改单位标签。
 - 为确切模型约束提议 blocking validation 正例、反例和临界例，提供完整候选赋值与预期硬/软行为；至少覆盖缺约束、错误统计窗口和意外软化。平台 check_semantics 独立复算已声明用例；求解器结果或第二份 Agent 解释本身不能证明业务正确。
+- 所有新 decision-grade `OptimizationSpec` 必须选择实时 TeamArtifact payload 中 `schema_version` 明确等于 `2` 的分支；legacy v1 只能只读兼容，不能关联为当前决策的批准依据。发布前完整读取 v2 Schema，构造完整 algebraic/CP `model`、`problem_family`、精确 `data_refs` 与 `semantic_contract`。合同必须声明 `solve_intent`，并为模型中实际存在的每个 material objective、variable、constraint 和 data reference 各声明且仅声明一项，写入已确认的 dimension、canonical unit 及适用 time scope；不得缺失、未知、重复，也不得用展示标签、JSON Pointer 或隐式单位替代。请求 `link_artifact` 前重新读取已发布的精确 revision 并核对这个闭合集合；legacy 或语义不完整工件即使编译回执成功，也不是 decision-grade 证据。
 - 文件证据用 evidenceLinks 显式关联同节点 evidenceRefs，只使用已授权 FileResourceRef，不猜路径或任意 URL。解释失败时给出原因码、精确字段/模型元素、冻结预期、实际观察、影响和安全下一步；引导用户使用图中的问题/来源/模型入口和变更影响预览。分支颜色、查看证据或预览都不是执行授权。
 - 事实确认门通过后，必须严格按以下治理顺序执行，不得跳过或调换控制点：
   1. 入口 Agent 在构造写入前，按需读取 `DecisionWorkspace(action="schema")` 的对应 section，以及每类 `TeamArtifact(action="schema")` 契约。
   2. 入口 Agent 创建团队 DecisionWorkspace，或用 CAS 提交业务语言提议；提议绝不得伪造真人回执。
   3. 用户只能通过平台专用真人控件确认或驳回阻断事实；驳回项保留为可审计的非活跃 tombstone。所有 Agent 必须等待权威结果。
   4. 只有顶层入口 Agent 可以对已验证的当前 workspace revision 与 model-input hash 调用 `DecisionWorkspace(action="bind_workspace")`；Specialist 不得绑定、替换或绕过。
-  5. 指定阶段 Owner 按依赖顺序通过 `TeamArtifact` 发布 `SceneSpec`、`DataContract`、可选 `PredictionArtifact` 和 `OptimizationSpec`，保留精确 artifact revision 与 DecisionWorkspace snapshot。经确认的预测输入需要训练数据时，在本步骤内调用 OptimizationPredict、发布真实 PredictionArtifact，并确认影响模型的预测输出后再创建 OptimizationSpec；无预测输入则省略该分支，不在语义检查之后才补预测。首次模型发布使用平台内部纯编译校验；不得提前调用受保护 OptimizationCompile 来绕开模型发布与语义检查的依赖。
+  5. 指定阶段 Owner 按依赖顺序通过 `TeamArtifact` 发布 `SceneSpec`、`DataContract`、可选 `PredictionArtifact` 和带上述完整 `semantic_contract` 的 decision-grade OptimizationSpec v2，保留精确 artifact revision 与 DecisionWorkspace snapshot。经确认的预测输入需要训练数据时，在本步骤内调用 OptimizationPredict、发布真实 PredictionArtifact，并确认影响模型的预测输出后再创建 OptimizationSpec；无预测输入则省略该分支，不在语义检查之后才补预测。首次模型发布使用平台内部纯编译校验；不得提前调用受保护 OptimizationCompile 来绕开模型发布与语义检查的依赖。
   6. 入口 Agent 使用精确 artifact ID、精确 revision 和语义绑定调用 `DecisionWorkspace(action="link_artifact")`；受治理证据禁止解析到可变 `latest`。
   7. 将已链接 revision 提交同伴审阅；独立 reviewer 在执行前检查业务到模型覆盖、单位、变量族、可行性逻辑、来源证据、缺口以及 stale/rejected 排除。
      用户确认精确来源/规则/用例后，对当前 revision/hash 调用 DecisionWorkspace(action="check_semantics")，检查完整有界报告。缺数据、未知 evaluator、超预算或未确认用例均是阻断，不是通过。审计-only revision 变化不机械重绑；业务语义不变时保持原 model-input snapshot。

@@ -4,7 +4,7 @@ description: >-
   排班、工时上限、人员配置的第一轮澄清（含“只澄清、暂不求解”）也先用 Skill 工具加载本技能，再用 DecisionWorkspace 补问和真人确认卡；普通 AskUserQuestion 不能代替业务事实闭环。Load this Skill for the first clarification of staffing, shifts, work-hour limits, service coverage, resource allocation, targets, task scheduling or LP/MILP, including clarify only / do not solve yet requests. Use DecisionWorkspace question and human-confirmation cards for model-changing facts; generic AskUserQuestion is not a substitute. Clarification needs no connected solver. Actual MindOpt solving requires a separately licensed/deployed solver and configured connector; software, licenses, hosting and fees are not included. MindOpt 软件、许可证、部署及相关费用需使用方另行取得或承担。
 compatibility: >-
   Requirement clarification works without a connected solver. Actual MindOpt solving requires separately installed or deployed MindOpt, a valid license under its official terms, and configured solver.mindopt connections; commercial licenses and operating costs are separate when applicable. 需求澄清不要求先连接求解器；实际 MindOpt 求解仍需外部安装部署、有效许可证及 solver.mindopt 连接，适用的商业许可和运行费用另行承担。
-version: 2.6.0
+version: 2.7.0
 type: procedural
 risk_level: medium
 status: enabled
@@ -38,7 +38,7 @@ metadata:
       description: >-
         用户提出排班、工时上限、人员配置、服务覆盖、资源分配、绩效目标、任务调度或 LP/MILP，即使“只澄清、暂不求解”，也先用 Skill 工具加载本技能。影响模型的事实使用 DecisionWorkspace 补问及真人确认卡，不能用普通 AskUserQuestion 代替。澄清无需连接求解器；实际 MindOpt 求解需使用方另行取得适用许可证、部署并配置连接，软件、许可证、算力托管及费用均不包含在技能中。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:9376ca33638a7db6
+      source_hash: sha256:8170ad2510897280
       translated_by: ai:codex
     en-US:
       name: Workforce and Resource Optimization
@@ -46,7 +46,7 @@ metadata:
       description: >-
         Load this Skill for the first clarification of staffing, shifts, work-hour limits, service coverage, resource allocation, targets, task scheduling or LP/MILP, including clarify only / do not solve yet requests. Use DecisionWorkspace question and human-confirmation cards for model-changing facts; generic AskUserQuestion is not a substitute. Clarification needs no connected solver. Actual MindOpt solving requires a separately licensed/deployed solver and configured connector; software, licenses, hosting and fees are not included.
       body: ./SKILL.md
-      source_hash: sha256:9376ca33638a7db6
+      source_hash: sha256:8170ad2510897280
       translated_by: ai:codex
 market:
   icon: >-
@@ -94,13 +94,14 @@ Turn natural-language workforce-efficiency requests into reviewable and recovera
 - Let the platform continue the original source conversation after its effective gaps settle. Do not poll by starting new messages, change request identities to evade deduplication, revive canceled sources or retry unknown dispatch outcomes. A pending/interpretation signal is not solve authorization; reread the exact workspace and honor all gates.
 - Bind real data with an authorized FileResourceRef, bytesHash, exact fields/types/units and confirmed timeScope. Add finite required/unique/range/enum/foreign_key/cutoff rules as applicable. Range/enum constants and FK fields must use consistent units. Every consumed data field must have modelSemantics.sourceField plus a sourced_from relationship before its business quantity is traced into the model. Unused columns need not be modeled. Unit/window conversions require an explicitly transformed, traceable and reconfirmed source; do not change only its unit label.
 - Propose blocking validation nodes with confirmed positive, negative and boundary examples for exact model constraints. Include complete candidate assignments and the intended hard/soft behavior. Cover missing constraints, wrong time aggregation and accidental softening. Platform check_semantics independently evaluates the declared examples; a solver result or a second Agent explanation alone does not establish business correctness.
+- Every new decision-grade `OptimizationSpec` must use the live TeamArtifact payload branch whose `schema_version` is exactly `2`; legacy v1 payloads are read-only compatibility artifacts and cannot be linked to approve a current decision. Before publishing, read the v2 schema and construct its complete algebraic/CP `model`, `problem_family`, exact `data_refs`, and `semantic_contract`. The contract must declare `solve_intent` and exactly one entry for every material objective, variable, constraint, and data reference actually present, with the confirmed dimension, canonical unit, and time scope where applicable—no missing, unknown, duplicate, display-label, JSON-Pointer, or implicit-unit substitutions. Re-read the published exact revision and verify this closed set before requesting `link_artifact`; a compile-success receipt for legacy or incomplete semantics is not decision-grade evidence.
 - Attach file evidence with evidenceLinks whose ref matches the node's evidenceRefs; use only authorized FileResourceRef identities, not guessed paths or arbitrary URLs. Explain report failures using their reason code, exact field/model element, frozen expectation, observed value, impact and next safe action. Direct the user to the graph's issue/source/model controls and change-impact preview; a colored branch, viewed evidence or preview never grants execution approval.
 - After the fact-confirmation gate passes, follow this governed sequence without skipping or reordering its control points:
   1. The entry Agent reads the needed `DecisionWorkspace(action="schema")` sections and each `TeamArtifact(action="schema")` contract before constructing writes.
   2. The entry Agent creates the team DecisionWorkspace or submits CAS-protected proposals in business language; proposals never manufacture human receipts.
   3. The user confirms or rejects blocking facts only through the platform's dedicated human controls. A rejection remains an auditable inactive tombstone. All Agents wait for the authoritative result.
   4. Only the top-level entry Agent calls `DecisionWorkspace(action="bind_workspace")` for the validated current workspace revision and model-input hash. Specialists may not bind, replace, or bypass it.
-  5. The assigned stage owners publish `SceneSpec`, `DataContract`, optional `PredictionArtifact`, and `OptimizationSpec` in dependency order through `TeamArtifact`, retaining exact artifact revisions and the DecisionWorkspace snapshot. When confirmed predictive inputs require training data, call OptimizationPredict inside this step, publish its real PredictionArtifact and confirm its model-changing outputs before creating OptimizationSpec. Without predictive inputs, omit this branch; do not predict after semantic checks. Initial model publication performs the platform's internal pure compilation checks; do not call guarded OptimizationCompile early to break the model-publication/semantic-check dependency.
+  5. The assigned stage owners publish `SceneSpec`, `DataContract`, optional `PredictionArtifact`, and a decision-grade OptimizationSpec v2 with the complete `semantic_contract` above in dependency order through `TeamArtifact`, retaining exact artifact revisions and the DecisionWorkspace snapshot. When confirmed predictive inputs require training data, call OptimizationPredict inside this step, publish its real PredictionArtifact and confirm its model-changing outputs before creating OptimizationSpec. Without predictive inputs, omit this branch; do not predict after semantic checks. Initial model publication performs the platform's internal pure compilation checks; do not call guarded OptimizationCompile early to break the model-publication/semantic-check dependency.
   6. The entry Agent calls `DecisionWorkspace(action="link_artifact")` with the exact artifact ID, exact revision, and semantic bindings; never resolve governed evidence through `latest`.
   7. Submit the linked revision for peer review. An independent reviewer checks business-to-model coverage, units, variable families, feasibility logic, provenance, gaps, and stale/rejected exclusions before execution.
      After the user confirms the exact source/rules/examples, call DecisionWorkspace(action="check_semantics") for the current revision/hash and inspect its complete bounded report. Missing data, unsupported evaluators, budget limits or unconfirmed examples are blocked, not passes. Do not rebind the workspace merely because an audit-only revision changed; retain the model-input snapshot until business semantics change.
