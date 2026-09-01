@@ -207,6 +207,53 @@ class PublishableTeamCatalogTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             with patch.object(VALIDATOR, "REPO_ROOT", Path(tmp)):
                 self.assertEqual([], VALIDATOR.count_publishable_teams())
+class WorkforceClarificationDiscoveryTests(unittest.TestCase):
+    """Guard the catalog-only entry text; actual model selection still needs runtime acceptance."""
+
+    def test_clarify_only_requests_are_explicit_in_both_discovery_locales(self) -> None:
+        import json
+        import yaml
+
+        directory = Path(__file__).resolve().parents[2] / "skills" / "workforce-optimization"
+        raw = (directory / "SKILL.md").read_text(encoding="utf-8")
+        metadata = yaml.safe_load(raw.split("---", 2)[1])
+        locales = metadata["metadata"]["i18n"]
+        catalog = json.loads((directory / "catalog-metadata.v1.json").read_text(encoding="utf-8"))
+        # Keep the repository's on-demand-body policy; don't enable eager injection of all Skills.
+        self.assertIs(metadata["disable-model-invocation"], True)
+        self.assertIn("只澄清", metadata["description"][:180])
+        self.assertIn("Skill", metadata["description"][:180])
+        for locale, trigger in (("zh-CN", "暂不求解"), ("en-US", "clarify only")):
+            description = locales[locale]["description"]
+            self.assertIn(trigger, description)
+            self.assertIn("DecisionWorkspace", description)
+            self.assertIn("AskUserQuestion", description)
+            self.assertEqual(description, catalog["presentation"]["i18n"][locale]["description"])
+        self.assertIn("clarification works without a connected solver", metadata["compatibility"])
+        self.assertIn("separately", metadata["compatibility"])
+        self.assertIn("Generic AskUserQuestion may handle non-modeling setup", raw)
+        chinese = (directory / "SKILL.zh-CN.md").read_text(encoding="utf-8")
+        self.assertIn("普通 AskUserQuestion 只用于非建模设置选择", chinese)
+
+    def test_ambiguous_answers_and_current_language_keep_their_boundaries(self) -> None:
+        directory = Path(__file__).resolve().parents[2] / "skills" / "workforce-optimization"
+        english = (directory / "SKILL.md").read_text(encoding="utf-8")
+        chinese = (directory / "SKILL.zh-CN.md").read_text(encoding="utf-8")
+        self.assertIn("only if raw_text uniquely determines", english)
+        self.assertIn("keep the original answer and needs_input", english)
+        self.assertIn("Do not add epistemic placeholders", english)
+        self.assertIn("proposals must include a typed `node.value`", english)
+        self.assertIn("for Chinese use [中文澄清框架]", english)
+        # 以下断言分别覆盖中文规范化、未知与语言入口。
+        self.assertIn("仅在 raw_text 能唯一确定业务值及必要单位/统计窗口时", chinese)
+        self.assertIn("仍有歧义时保留原答案和 needs_input", chinese)
+        self.assertIn("不得把“目前不确定”“不知道”等知识缺口", chinese)
+        self.assertIn("提议节点必须写入类型化 `node.value`", chinese)
+        self.assertIn("技能 metadata 默认语言不覆盖用户语言", chinese)
+        for locale in ("", ".zh-CN"):
+            framework = (directory / "references" / f"requirement-clarification-framework{locale}.md").read_text(encoding="utf-8")
+            self.assertIn("needs_input", framework)
+            self.assertIn("node.value", framework)
 
 
 if __name__ == "__main__":
