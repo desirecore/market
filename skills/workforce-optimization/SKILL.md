@@ -38,7 +38,7 @@ metadata:
       description: >-
         用户提出排班、工时上限、人员配置、服务覆盖、资源分配、绩效目标、任务调度或 LP/MILP，即使“只澄清、暂不求解”，也先用 Skill 工具加载本技能。影响模型的事实使用 DecisionWorkspace 补问及真人确认卡，不能用普通 AskUserQuestion 代替。澄清无需连接求解器；实际 MindOpt 求解需使用方另行取得适用许可证、部署并配置连接，软件、许可证、算力托管及费用均不包含在技能中。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:22565520b50770c1
+      source_hash: sha256:9376ca33638a7db6
       translated_by: ai:codex
     en-US:
       name: Workforce and Resource Optimization
@@ -46,7 +46,7 @@ metadata:
       description: >-
         Load this Skill for the first clarification of staffing, shifts, work-hour limits, service coverage, resource allocation, targets, task scheduling or LP/MILP, including clarify only / do not solve yet requests. Use DecisionWorkspace question and human-confirmation cards for model-changing facts; generic AskUserQuestion is not a substitute. Clarification needs no connected solver. Actual MindOpt solving requires a separately licensed/deployed solver and configured connector; software, licenses, hosting and fees are not included.
       body: ./SKILL.md
-      source_hash: sha256:22565520b50770c1
+      source_hash: sha256:9376ca33638a7db6
       translated_by: ai:codex
 market:
   icon: >-
