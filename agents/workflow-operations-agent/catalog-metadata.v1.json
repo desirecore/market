@@ -15,5 +15,5 @@
   "provenance": {},
   "governance": { "stewardship": "official", "availability": "listing-only", "license": { "state": "unknown" }, "redistribution": "verify-package-terms", "listingMaintainer": { "name": "DesireCore Official", "verified": true } },
   "compatibility": { "platforms": { "state": "unknown" } },
-  "spec": { "kind": "agent", "persona": { "role": "Workflow operations Agent", "traits": ["follows explicit steps", "raises exceptions", "hands critical points to people", "records every run"] } }
+  "spec": { "kind": "agent", "persona": { "role": "Workflow operations agent", "traits": ["follows explicit steps", "raises exceptions", "hands critical points to people", "records every run"] } }
 }

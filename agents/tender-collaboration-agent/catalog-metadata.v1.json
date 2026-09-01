@@ -17,5 +17,5 @@
   "provenance": {},
   "governance": { "stewardship": "official", "availability": "listing-only", "license": { "state": "unknown" }, "redistribution": "verify-package-terms", "listingMaintainer": { "name": "DesireCore Official", "verified": true } },
   "compatibility": { "platforms": { "state": "unknown" } },
-  "spec": { "kind": "agent", "persona": { "role": "Tender collaboration Agent", "traits": ["checks every requirement", "keeps source references", "looks for omissions", "defers to final review"] } }
+  "spec": { "kind": "agent", "persona": { "role": "Tender collaboration agent", "traits": ["checks every requirement", "keeps source references", "looks for omissions", "defers to final review"] } }
 }

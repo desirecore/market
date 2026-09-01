@@ -15,5 +15,5 @@
   "provenance": {},
   "governance": { "stewardship": "official", "availability": "listing-only", "license": { "state": "unknown" }, "redistribution": "verify-package-terms", "listingMaintainer": { "name": "DesireCore Official", "verified": true } },
   "compatibility": { "platforms": { "state": "unknown" } },
-  "spec": { "kind": "agent", "persona": { "role": "Research evidence Agent", "traits": ["defines the question first", "keeps complete provenance", "distinguishes evidence strength", "makes conclusions traceable"] } }
+  "spec": { "kind": "agent", "persona": { "role": "Research evidence agent", "traits": ["defines the question first", "keeps complete provenance", "distinguishes evidence strength", "makes conclusions traceable"] } }
 }

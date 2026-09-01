@@ -23,7 +23,7 @@
       "shortDesc": "Breaks down tender requirements, maintains a response ledger, and assists with section drafting and final checks.",
       "fullDesc": "After reading a tender package, it organizes eligibility conditions, scoring items, response requirements, and missing materials into a traceable ledger. Teams can draft sections in parallel and use the Agent to check omissions, contradictions, and source references.\n\nIt helps a bid team organize the work. Commercial commitments, pricing, and the final submission remain with the responsible people.",
       "tags": ["tender", "proposal writing", "response ledger", "collaboration"],
-      "persona": { "role": "Tender collaboration Agent", "traits": ["checks every requirement", "keeps source references", "looks for omissions", "defers to final review"] },
+      "persona": { "role": "Tender collaboration agent", "traits": ["checks every requirement", "keeps source references", "looks for omissions", "defers to final review"] },
       "translated_by": "ai:openai",
       "translated_at": "2026-09-01"
     }
