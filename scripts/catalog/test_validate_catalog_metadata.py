@@ -53,6 +53,83 @@ def valid_entry() -> dict[str, object]:
     }
 
 
+def valid_team_entry() -> dict[str, object]:
+    """A Team listing: a git fork pointer plus display facts, and nothing else."""
+    return {
+        "id": "example-team",
+        "name": "Example Team",
+        "category": "development",
+        "tags": ["example"],
+        "latestVersion": "0.1.0",
+        "i18n": {
+            "zh-CN": {"name": "示例团队", "shortDesc": "中文团队简介"},
+            "en-US": {"name": "Example Team", "shortDesc": "English team summary"},
+        },
+        "maintainer": {"name": "Example Maintainer", "verified": False},
+        "stewardship": "community",
+        "license": "MIT",
+        "redistribution": "source-pointer-only",
+        "source": {
+            "kind": "git",
+            "repoUrl": "https://example.com/example-team.git",
+            "repoBranch": "main",
+            "ref": "a" * 40,
+        },
+        "supervisorName": "Example Supervisor",
+        "supervisorAgentId": "example-lead",
+        "memberCount": 3,
+        "memberNames": ["Example Member One", "Example Member Two"],
+        "requiredSkills": ["example-skill"],
+    }
+
+
+def valid_team_sidecar() -> dict[str, object]:
+    return {
+        "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+        "schemaVersion": 1,
+        "identity": {"kind": "team", "id": "example-team"},
+        "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+                "zh-CN": {"name": "示例团队", "summary": "中文团队简介"},
+                "en-US": {"name": "Example Team", "summary": "English team summary"},
+            },
+            "category": "development",
+            "tags": ["example"],
+        },
+        "release": {"state": "known", "version": "0.1.0", "versionScheme": "semver"},
+        "timestamps": {
+            "catalogUpdatedAt": unknown(),
+            "releasePublishedAt": unknown(),
+            "reviewedAt": unknown(),
+            "upstreamObservedAt": unknown(),
+        },
+        "provenance": {
+            "content": {
+                "kind": "git",
+                "url": "https://example.com/example-team.git",
+                "ref": "a" * 40,
+            }
+        },
+        "governance": {
+            "stewardship": "community",
+            "availability": "listing-only",
+            "license": {"state": "known", "value": "MIT"},
+            "redistribution": "source-pointer-only",
+            "upstreamMaintainer": {"name": "Example Maintainer", "verified": False},
+        },
+        "compatibility": {"platforms": unknown()},
+        "spec": {
+            "kind": "team",
+            "supervisorName": "Example Supervisor",
+            "supervisorAgentId": "example-lead",
+            "memberCount": 3,
+            "memberNames": ["Example Member One", "Example Member Two"],
+            "requiredSkills": ["example-skill"],
+        },
+    }
+
+
 def valid_sidecar() -> dict[str, object]:
     return {
         "$schema": "../../schemas/catalog-metadata.v1.schema.json",
@@ -99,8 +176,10 @@ class CatalogMetadataValidatorTests(unittest.TestCase):
         self.root = Path(self.tempdir.name)
         (self.root / "schemas").mkdir()
         shutil.copyfile(SOURCE_SCHEMA, self.root / "schemas" / SOURCE_SCHEMA.name)
-        shutil.copyfile(SOURCE_SCHEMA.with_name(VALIDATOR.AGENT_ENTRY_SCHEMA_NAME), self.root / "schemas" / VALIDATOR.AGENT_ENTRY_SCHEMA_NAME)
+        for client_schema in (VALIDATOR.AGENT_ENTRY_SCHEMA_NAME, VALIDATOR.TEAM_ENTRY_SCHEMA_NAME):
+            shutil.copyfile(SOURCE_SCHEMA.with_name(client_schema), self.root / "schemas" / client_schema)
         (self.root / "agents").mkdir()
+        (self.root / "teams").mkdir()
         (self.root / "skills" / "example-skill").mkdir(parents=True)
         self.write_json(
             self.root / "manifest.json",
@@ -217,6 +296,191 @@ class CatalogMetadataValidatorTests(unittest.TestCase):
             "supportedLocales": ["zh-CN", "en-US"], "stats": {"totalAgents": 1, "totalSkills": 1},
         })
         return entry_path, sidecar_path
+
+    def write_team_pointer_case(self, mutate_entry=None, mutate_sidecar=None) -> tuple[Path, Path]:
+        team_dir = self.root / "teams" / "example-team"
+        entry = valid_team_entry()
+        sidecar = valid_team_sidecar()
+        if mutate_entry:
+            mutate_entry(entry)
+        if mutate_sidecar:
+            mutate_sidecar(sidecar)
+        entry_path = team_dir / "entry.json"
+        sidecar_path = team_dir / VALIDATOR.SIDECAR_NAME
+        self.write_json(entry_path, entry)
+        self.write_json(sidecar_path, sidecar)
+        self.write_json(self.root / "manifest.json", {
+            "supportedLocales": ["zh-CN", "en-US"],
+            "stats": {"totalAgents": 0, "totalTeams": 1, "totalSkills": 1},
+        })
+        return entry_path, sidecar_path
+
+    def test_accepts_complete_team_pointer(self) -> None:
+        entry_path, _ = self.write_team_pointer_case()
+        report = self.validate(require_complete=True)
+        self.assertFalse(report.has_errors, report.issues)
+        self.assertEqual(1, report.stats["teams"])
+        self.assertEqual(2, report.stats["sidecars"])
+        # A Team never carries an inline body in the catalog.
+        self.assertFalse(entry_path.with_name("team.json").exists())
+
+    def test_rejects_team_sidecar_conflicts(self) -> None:
+        mutations = {
+            "identity": lambda p: p["identity"].update(id="other-team"),
+            "kind": lambda p: (p["identity"].update(kind="skill"), p.update(spec={"kind": "skill"})),
+            "version": lambda p: p["release"].update(version="9.9.9"),
+            "source-kind": lambda p: p["provenance"]["content"].update(kind="web"),
+            "source-url": lambda p: p["provenance"]["content"].update(url="https://example.com/other.git"),
+            "source-ref": lambda p: p["provenance"]["content"].update(ref="b" * 40),
+            "category": lambda p: p["presentation"].update(category="research"),
+            "tags": lambda p: p["presentation"].update(tags=["other"]),
+            "summary": lambda p: p["presentation"]["i18n"]["en-US"].update(summary="Different"),
+            "license": lambda p: p["governance"]["license"].update(value="Apache-2.0"),
+            "redistribution": lambda p: p["governance"].update(redistribution="allowed"),
+            "stewardship": lambda p: p["governance"].update(stewardship="official"),
+            "maintainer": lambda p: p["governance"]["upstreamMaintainer"].update(name="Other Maintainer"),
+            "supervisor-name": lambda p: p["spec"].update(supervisorName="Other Supervisor"),
+            "supervisor-id": lambda p: p["spec"].update(supervisorAgentId="other-lead"),
+            "member-count": lambda p: p["spec"].update(memberCount=9),
+            "member-names": lambda p: p["spec"].update(memberNames=["Someone Else"]),
+            "required-client-version": lambda p: p["compatibility"].update(requiredClientVersion="10.0.0"),
+        }
+        for name, mutation in mutations.items():
+            with self.subTest(name=name):
+                self.write_team_pointer_case(mutate_sidecar=mutation)
+                self.assertTrue(any(issue.rule == "legacy-consistency" for issue in self.validate().issues))
+
+    def test_team_sidecar_must_not_drop_declared_display_facts(self) -> None:
+        for field in VALIDATOR.TEAM_DISPLAY_FIELDS:
+            with self.subTest(field=field):
+                self.write_team_pointer_case(mutate_sidecar=lambda p, f=field: p["spec"].pop(f))
+                self.assertTrue(any(issue.rule == "legacy-consistency" for issue in self.validate().issues))
+
+    def test_team_sidecar_must_not_synthesize_undeclared_display_facts(self) -> None:
+        for field in VALIDATOR.TEAM_DISPLAY_FIELDS:
+            with self.subTest(field=field):
+                self.write_team_pointer_case(mutate_entry=lambda p, f=field: p.pop(f))
+                self.assertTrue(any(issue.rule == "legacy-consistency" for issue in self.validate().issues))
+
+    def test_accepts_team_pointer_that_declares_no_display_facts(self) -> None:
+        def drop_entry_facts(payload):
+            for field in VALIDATOR.TEAM_DISPLAY_FIELDS:
+                payload.pop(field, None)
+
+        def drop_sidecar_facts(payload):
+            payload["spec"] = {"kind": "team"}
+
+        self.write_team_pointer_case(drop_entry_facts, drop_sidecar_facts)
+        report = self.validate(require_complete=True)
+        self.assertFalse(report.has_errors, report.issues)
+
+    def test_team_pointer_keeps_required_client_version_aligned(self) -> None:
+        self.write_team_pointer_case(
+            lambda p: p.update(requiredClientVersion="10.0.137"),
+            lambda p: p["compatibility"].update(requiredClientVersion="10.0.137"),
+        )
+        self.assertFalse(self.validate(require_complete=True).has_errors)
+        self.write_team_pointer_case(lambda p: p.update(requiredClientVersion="10.0.137"))
+        self.assertTrue(any(issue.rule == "legacy-consistency" for issue in self.validate().issues))
+
+    def test_rejects_invalid_raw_team_entry_even_if_sidecar_repeats_it(self) -> None:
+        cases = [
+            # A team is forked and git-pulled; zip / web cannot express either action.
+            (lambda p: p["source"].update(kind="zip"), lambda p: p["provenance"]["content"].update(kind="zip")),
+            (lambda p: p["source"].update(kind="web"), lambda p: p["provenance"]["content"].update(kind="web")),
+            (lambda p: p["source"].pop("repoUrl"), None),
+            # There is no subpath or byte digest for a whole forked repository.
+            (lambda p: p["source"].update(path="teams/example"), None),
+            (lambda p: p["source"].update(sha256="b" * 64), None),
+            # Teams are always fork-install + git-pull-update; no policy pair exists.
+            (lambda p: p.update(installPolicy="market", updatePolicy="market"), None),
+            (lambda p: p.update(fullDesc="Teams have no fullDesc field"), None),
+            (lambda p: p.update(latestVersion="0.1.0-beta"), lambda p: p["release"].update(version="0.1.0-beta")),
+            (lambda p: p.update(id="-example-team"), None),
+            (lambda p: p.update(memberCount=0), None),
+            (lambda p: p.update(memberNames=[f"Member {index}" for index in range(33)]), None),
+            (lambda p: p.update(requiredSkills=["duplicate", "duplicate"]), None),
+            (lambda p: p.update(supervisorAgentId="not a slug"), None),
+            (lambda p: p.update(requiredClientVersion="10.0.137-rc1"), None),
+            (lambda p: p["maintainer"].update(verified="true"), None),
+        ]
+        for index, (entry_change, metadata_change) in enumerate(cases):
+            with self.subTest(index=index):
+                self.write_team_pointer_case(entry_change, metadata_change)
+                self.assertTrue(any(issue.rule == "team-entry-schema" for issue in self.validate().issues))
+
+    def test_rejects_team_pointer_entry_id_that_is_not_the_catalog_slug(self) -> None:
+        self.write_team_pointer_case(
+            mutate_entry=lambda p: p.update(id="other-team"),
+            mutate_sidecar=lambda p: p["identity"].update(id="other-team"),
+        )
+        self.assertTrue(any("entry.id" in issue.message for issue in self.validate().issues))
+
+    def test_team_sidecar_rejects_inline_team_json(self) -> None:
+        entry_path, _ = self.write_team_pointer_case()
+        self.write_json(entry_path.with_name("team.json"), {"id": "example-team"})
+        issues = self.validate().issues
+        self.assertTrue(any(issue.rule == "fixed-sidecar-path" and "forked team repository" in issue.message for issue in issues))
+
+    def test_team_sidecar_requires_entry_json(self) -> None:
+        entry_path, _ = self.write_team_pointer_case()
+        entry_path.unlink()
+        issues = self.validate().issues
+        self.assertTrue(any(issue.rule == "fixed-sidecar-path" and "next to a legacy entry.json" in issue.message for issue in issues))
+
+    def test_installable_team_pointer_needs_immutable_ref_and_governance_evidence(self) -> None:
+        def installable(payload):
+            payload["governance"].update(
+                availability="installable",
+                compliance={"licenseEvidencePath": "LICENSE", "reviewedRef": "a" * 40,
+                            "reviewedAt": "2026-08-30", "reviewedBy": "Example Reviewer", "upstreamEndorsed": False},
+            )
+            payload["governance"]["license"]["evidencePath"] = "LICENSE"
+            payload["timestamps"]["reviewedAt"] = {"state": "known", "value": "2026-08-30", "precision": "day"}
+
+        self.write_team_pointer_case(mutate_sidecar=installable)
+        self.assertFalse(self.validate(require_complete=True).has_errors)
+
+        # A moving tag is not a reproducible pin, so it cannot back an installable listing.
+        def tag_ref(payload):
+            payload["source"]["ref"] = "v0.1.0"
+
+        def tag_provenance(payload):
+            installable(payload)
+            payload["provenance"]["content"]["ref"] = "v0.1.0"
+            payload["governance"]["compliance"]["reviewedRef"] = "v0.1.0"
+
+        self.write_team_pointer_case(tag_ref, tag_provenance)
+        messages = [issue.message for issue in self.validate().issues if issue.rule == "installable-evidence"]
+        self.assertTrue(any("installable Team entry.source" in message for message in messages))
+
+    def test_team_sidecar_requires_market_locales(self) -> None:
+        self.write_team_pointer_case(
+            lambda p: p["i18n"].pop("zh-CN"),
+            lambda p: p["presentation"]["i18n"].pop("zh-CN"),
+        )
+        self.assertTrue(any(issue.rule == "i18n" for issue in self.validate().issues))
+
+    def test_manifest_must_count_teams(self) -> None:
+        self.write_team_pointer_case()
+        manifest = json.loads((self.root / "manifest.json").read_text(encoding="utf-8"))
+        manifest["stats"].pop("totalTeams")
+        self.write_json(self.root / "manifest.json", manifest)
+        issues = self.validate().issues
+        self.assertTrue(any(issue.rule == "market-stats" and "totalTeams" in issue.message for issue in issues))
+
+    def test_manifest_may_omit_total_teams_without_teams(self) -> None:
+        manifest = json.loads((self.root / "manifest.json").read_text(encoding="utf-8"))
+        self.assertNotIn("totalTeams", manifest["stats"])
+        self.assertFalse(any(issue.rule == "market-stats" for issue in self.validate().issues))
+        manifest["stats"]["totalTeams"] = 1
+        self.write_json(self.root / "manifest.json", manifest)
+        self.assertTrue(any(issue.rule == "market-stats" and "totalTeams" in issue.message for issue in self.validate().issues))
+
+    def test_team_requires_sidecar_under_complete_coverage(self) -> None:
+        _, sidecar = self.write_team_pointer_case()
+        sidecar.unlink()
+        self.assertTrue(any(issue.rule == "sidecar-coverage" for issue in self.validate(require_complete=True).issues))
 
     def test_accepts_complete_installable_agent_pointer_without_inline_agent(self) -> None:
         entry_path, _ = self.write_agent_pointer_case()

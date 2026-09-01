@@ -6,7 +6,7 @@ customer-neutral, and safe to index publicly.
 ## Public information boundary
 
 - Never put a tenant, customer, prospect, partner, or other confidential identity
-  in tracked files, paths, filenames, Agent or Skill IDs, frontmatter, descriptions,
+  in tracked files, paths, filenames, Agent, Team or Skill IDs, frontmatter, descriptions,
   examples, fixtures, memories, generated artifacts, or screenshots.
 - Apply the same rule to Git metadata and collaboration text: branch names, commit
   subjects and bodies, PR or issue titles and bodies, comments, and review replies.
@@ -19,7 +19,7 @@ customer-neutral, and safe to index publicly.
 
 ## External dependency disclosure
 
-- A Skill or Agent that relies on separately licensed, purchased, hosted, or
+- A Skill, Agent or Team that relies on separately licensed, purchased, hosted, or
   deployed third-party software must disclose that dependency in its discovery
   description, `compatibility` field, localized marketplace text, and execution
   instructions.

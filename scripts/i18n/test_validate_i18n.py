@@ -102,5 +102,26 @@ class PublishableAgentCatalogTests(unittest.TestCase):
             self.assertEqual(["pointer-agent"], pointers)
 
 
+class PublishableTeamCatalogTests(unittest.TestCase):
+    def test_counts_team_pointers_only(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "teams" / "pointer-team").mkdir(parents=True)
+            (root / "teams" / "pointer-team" / "entry.json").write_text("{}")
+            # A team is a fork pointer: a stray inline body is not a publishable unit.
+            (root / "teams" / "inline-team").mkdir(parents=True)
+            (root / "teams" / "inline-team" / "team.json").write_text("{}")
+
+            with patch.object(VALIDATOR, "REPO_ROOT", root):
+                teams = VALIDATOR.count_publishable_teams()
+
+            self.assertEqual(["pointer-team"], teams)
+
+    def test_returns_empty_without_a_teams_directory(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            with patch.object(VALIDATOR, "REPO_ROOT", Path(tmp)):
+                self.assertEqual([], VALIDATOR.count_publishable_teams())
+
+
 if __name__ == "__main__":
     unittest.main()
