@@ -28,8 +28,9 @@
   "riskLevel": "high",
   "source": {
     "kind": "git",
-    "repoUrl": "https://github.com/open-dingtalk/dingtalk-workspace-cli.git"
-  },
+    "repoUrl": "https://github.com/open-dingtalk/dingtalk-workspace-cli.git",
+    "repoBranch": "main"
+  }
   "children": [
     {
       "id": "dingtalk-aisearch",
