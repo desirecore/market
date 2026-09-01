@@ -1,6 +1,6 @@
 # DesireCore Market
 
-DesireCore 官方市场仓库，存放官方维护的 Agent/Skill 定义，以及经过整理的第三方 Skill 入口。
+DesireCore 官方市场仓库，存放官方维护的 Agent/Team/Skill 定义，以及经过整理的第三方 Skill 入口。
 
 ## Repository Shape
 
@@ -12,6 +12,9 @@ DesireCore 官方市场仓库，存放官方维护的 Agent/Skill 定义，以�
 ├── agents/
 │   └── desirecore/
 │       └── agent.json
+├── teams/
+│   └── <team>/
+│       └── entry.json
 └── skills/
     ├── <local-skill>/
     │   ├── SKILL.md
@@ -23,6 +26,7 @@ DesireCore 官方市场仓库，存放官方维护的 Agent/Skill 定义，以�
 The market currently contains:
 
 - `1` Agent: `desirecore`
+- `1` Team: `contract-review-team`
 - `34` local built-in skills with `SKILL.md`
 - `28` external skill entries with `entry.json`
 - `62` publishable skills in total (`SKILL.md` + `entry.json`)
@@ -128,6 +132,70 @@ External entries point to upstream packages or repositories. They are counted in
 }
 ```
 
+### Team Listing (`teams/<id>/entry.json`)
+
+A Team is a group of Agents with a supervisor. It is published as a **fork pointer
+only**: the team body (`team.json`, `members.json`, `shared/`) always stays in the
+upstream team repository, and the catalog registers just "what it is and where to
+fork it from". Installation forks that repository and installs the declared members;
+updates are a `git pull` on the fork. Because both actions are Git actions,
+`source.kind` must be `git` and `source.repoUrl` is required — `zip` and `web` cannot
+express either one — and a Team deliberately has **no** `installPolicy` /
+`updatePolicy` pair: it is always market-initiated fork plus repository-driven update.
+
+`teams/<id>/` therefore holds exactly `entry.json` plus the sidecar. There is no
+inline form; a `team.json` in the catalog is rejected.
+
+```json
+{
+  "id": "example-team",
+  "name": "Example Team",
+  "category": "development",
+  "tags": ["example"],
+  "latestVersion": "0.1.0",
+  "maintainer": {
+    "name": "Example",
+    "verified": false,
+    "account": "example",
+    "url": "https://github.com/example"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "source-pointer-only",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/example/example-team.git",
+    "repoBranch": "main",
+    "ref": "0123456789abcdef0123456789abcdef01234567"
+  },
+  "requiredClientVersion": "10.0.0",
+  "avatar": { "t": "示", "bg": "linear-gradient(135deg, #5856D6, #3634A3)" },
+  "supervisorName": "Example Supervisor",
+  "supervisorAgentId": "example-lead",
+  "memberCount": 3,
+  "memberNames": ["Example Member One", "Example Member Two"]
+}
+```
+
+A Team card is rendered from `avatar`, not from `icon`. The client's runtime
+projection `marketTeamSchema` requires `avatar` and has no `icon` property at all —
+the same is true of `marketAgentSchema`, while only `marketSkillSchema` exposes
+`icon`. The entry contract inherits `icon` from the shared common properties, so it
+is *accepted*, but it can never reach a card. The validator therefore requires `icon`
+on Skill listings only, and warns when an Agent or Team listing declares one.
+
+`redistribution` stays `source-pointer-only` for a Team even under a permissive
+license: the market never ships the team body, it only points at the repository the
+client forks. The license governs what a fork may do; `redistribution` describes how
+the content is delivered, and for teams that is always "fetch from upstream".
+
+`supervisorName`, `supervisorAgentId`, `memberCount`, `memberNames` and
+`requiredSkills` are display metadata declared by the publisher. They may drift from
+the upstream repository, so installation, permissions and member resolution must read
+the forked `team.json` / `members.json` instead. Teams are counted in
+`manifest.stats.totalTeams`, which the client keeps optional: a catalog with no teams
+may omit it, and once the key is present it must be exact.
+
 ### Catalog metadata sidecar (`catalog-metadata.v1.json`)
 
 The versioned catalog metadata contract is stored at one fixed path next to each
@@ -135,6 +203,7 @@ legacy item:
 
 ```text
 agents/<id>/catalog-metadata.v1.json
+teams/<id>/catalog-metadata.v1.json
 skills/<id>/catalog-metadata.v1.json
 ```
 
@@ -177,11 +246,44 @@ Pointer 的目录 slug、`entry.id`、sidecar `identity.id` 必须一致；上�
 可安装指针自身必须固定 Git ref 或 Web/ZIP 摘要，不能只在 sidecar 宣称不可变版本。
 现有许可、治理审查、不可变来源和完整覆盖门禁继续有效，不适用内置 Skill 的宽松例外。
 
+Team listings are pointer-only, so `teams/<slug>/` carries exactly `entry.json` plus
+the sidecar; an inline `team.json` is rejected. Team pointers first pass the complete
+raw client contract in
+[`schemas/market-team-entry.client.schema.json`](schemas/market-team-entry.client.schema.json),
+exported from `marketTeamEntrySchema` the same way as the Agent snapshot; its
+`$comment` records the source commit and blob. `entry.id`, the directory slug and
+sidecar `identity.id` must agree, `identity.kind` is `team`, and `latestVersion` maps
+to `release.version`. `supervisorName`, `supervisorAgentId`, `memberCount`,
+`memberNames`, `requiredSkills` and `requiredClientVersion` are compared symmetrically:
+the sidecar may neither drop a fact the pointer declares nor invent one it omits,
+because the client reads the pointer and a version gate that exists only in the
+sidecar would not gate anything. Pointer source fields must describe the same
+artifact as `provenance.content`, and an installable Team pointer must itself pin a
+full-SHA `source.ref` — a tag is not a reproducible pin, because a tag can be moved
+to a different commit after the listing is reviewed.
+
+团队条目只有指针形态：`teams/<slug>/` 仅放 `entry.json` 与 sidecar，目录内出现 `team.json` 直接判非法。
+Pointer 原始 JSON 先通过由 `marketTeamEntrySchema` 导出的完整客户端 Schema；
+`source.kind` 恒为 `git` 且必须有 `repoUrl`，团队没有 `installPolicy` / `updatePolicy` 组合。
+目录 slug、`entry.id`、sidecar `identity.id` 必须一致，`identity.kind` 为 `team`。
+展示字段与最低客户端版本双向比对：sidecar 既不得丢弃指针声明的事实，也不得凭空补上指针没有的事实。
+可安装团队指针自身必须固定完整 SHA 的 `source.ref`，tag 或分支不算可复现锁定。
+
 The sidecar records source-owned presentation, release, timestamp, content
 provenance, governance, compatibility, and type-specific facts. It deliberately
 cannot declare `catalogSourceId`, catalog commit/path/trust, effective official
 status, installation state, device state, health, URLs discovered at runtime, or
 `syncedAt`. DesireCore injects trusted catalog provenance and runtime facts.
+
+`license.evidencePath`, `compliance.licenseEvidencePath` and `compliance.noticePath`
+resolve differently by item shape, because the schema constrains only the string
+form. Vendored content (built-in Skills, inline Agents) ships inside this repository,
+so the path is relative to the catalog item directory and the file must actually be
+there — a missing file is an error. A pointer distributes nothing, so its evidence
+can only be inside the upstream snapshot at the pinned revision; the validator cannot
+read that offline, so it warns when such a claim is made against an unpinned pointer.
+Pin `source.ref` to a full commit SHA and the claim becomes falsifiable by anyone who
+fetches it.
 
 Time facts are explicit `known`/`unknown` values. A known day uses
 `YYYY-MM-DD` with `precision: "day"`; a known second uses an RFC 3339 UTC value
@@ -235,7 +337,7 @@ evidence, collection identity, i18n completeness, and translation freshness.
 Human-locked translations (`translated_by: human`) must keep `source_hash`
 aligned after manual review. During a data migration,
 `scripts/catalog/validate_catalog_metadata.py --require-complete` additionally
-requires one sidecar for every top-level Agent and Skill.
+requires one sidecar for every top-level Agent, Team and Skill.
 
 Detailed i18n guidance is in [docs/I18N.md](docs/I18N.md).
 

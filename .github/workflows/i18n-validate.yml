@@ -48,7 +48,7 @@ jobs:
               ;;
           esac
           changed=$(git diff --name-only "$range" || true)
-          if echo "$changed" | grep -qE '^(skills/|agents/|schemas/|manifest\.json$|categories\.json$|scripts/i18n/|scripts/catalog/|scripts/gen-collection-children\.py$)'; then
+          if echo "$changed" | grep -qE '^(skills/|agents/|teams/|schemas/|manifest\.json$|categories\.json$|scripts/i18n/|scripts/catalog/|scripts/gen-collection-children\.py$)'; then
             echo "relevant=true" >> "$GITHUB_OUTPUT"
           else
             echo "relevant=false" >> "$GITHUB_OUTPUT"

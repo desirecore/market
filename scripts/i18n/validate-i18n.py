@@ -15,9 +15,11 @@ Checks:
   6. Frontmatter parses cleanly; heading count of locale body matches source body (+/- 0).
   7. categories.json's per-category i18n covers all locales declared in manifest.json.
   8. Top-level description is 1-1024 chars (spec); top-level name is 1-64 chars (spec).
-  9. Skill/Agent counts and builtin skill index match the repository contents.
-  10. Skill, Agent, and entry.json category references exist in categories.json.
+  9. Skill/Agent/Team counts and builtin skill index match the repository contents.
+  10. Skill, Agent, Team, and entry.json category references exist in categories.json.
   11. entry.json pointers have the required marketplace fields, valid inline SVG icons, and safe source URLs.
+      Team pointers additionally accept only git sources, because a team is installed by forking
+      its repository and updated with git pull.
   12. Market Skills set `disable-model-invocation` to true or omit it; false is prohibited.
   13. Every catalog-metadata.v1.json sidecar passes the strict schema and legacy consistency checks.
 
@@ -67,6 +69,12 @@ LOCALE_HEADER_PATTERN = re.compile(r"^<!--\s*locale:\s*([a-zA-Z-]+)\s*-->")
 HEADING_PATTERN = re.compile(r"^(#{1,6})\s+\S", re.MULTILINE)
 FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n(.*)$", re.DOTALL)
 SAFE_URL_PATTERN = re.compile(r"^https://")
+# Only Skill cards are rendered from an inline SVG icon. The client's runtime
+# projections `marketAgentSchema` and `marketTeamSchema` have no `icon` property at
+# all and require `avatar` instead, so an icon on an Agent or Team listing is never
+# displayed. Requiring one there would force publishers to ship a field that cannot
+# take effect, so it is optional for those kinds and flagged when present.
+ICON_RENDERED_KINDS = frozenset({"skill"})
 
 
 @dataclass
@@ -362,6 +370,15 @@ def count_publishable_agents() -> tuple[list[str], list[str]]:
     return agent_json_names, entry_names
 
 
+def count_publishable_teams() -> list[str]:
+    """Return Team IDs represented by the Market catalog.
+
+    A Team listing has no inline form: the team body lives in the forked
+    repository, so ``teams/<id>/entry.json`` is the only publishable unit.
+    """
+    return sorted(p.parent.name for p in (REPO_ROOT / "teams").glob("*/entry.json"))
+
+
 def validate_builtin_skills(report: Report, skill_md_names: list[str]) -> None:
     builtin_path = REPO_ROOT / "builtin-skills.json"
     builtin = load_json(builtin_path, report, "builtin-skills")
@@ -448,13 +465,22 @@ def validate_agent_json(report: Report, agent_file: Path, category_ids: set[str]
         report.add(Issue(rel, "agent-json", f"category '{category}' is not declared in categories.json"))
 
 
-def validate_entry_json(report: Report, entry_file: Path, category_ids: set[str], online: bool) -> None:
+def validate_entry_json(
+    report: Report,
+    entry_file: Path,
+    category_ids: set[str],
+    online: bool,
+    kind: str = "skill",
+    allowed_source_kinds: frozenset[str] = frozenset({"git", "web", "zip"}),
+) -> None:
     rel = entry_file.relative_to(REPO_ROOT).as_posix()
     entry = load_json(entry_file, report, "entry-json")
     if not entry:
         return
 
-    required = ("id", "name", "category", "icon", "maintainer", "stewardship", "license", "redistribution", "source")
+    required = ["id", "name", "category", "maintainer", "stewardship", "license", "redistribution", "source"]
+    if kind in ICON_RENDERED_KINDS:
+        required.append("icon")
     for key in required:
         if key not in entry:
             report.add(Issue(rel, "entry-json", f"missing required field '{key}'"))
@@ -467,17 +493,28 @@ def validate_entry_json(report: Report, entry_file: Path, category_ids: set[str]
         report.add(Issue(rel, "entry-json", f"category '{category}' is not declared in categories.json"))
 
     icon = entry.get("icon")
-    if not isinstance(icon, str) or not icon.strip():
-        report.add(Issue(rel, "entry-json", "icon must be a non-empty inline SVG string"))
-    else:
-        try:
-            root = ElementTree.fromstring(icon)
-            if root.tag != "{http://www.w3.org/2000/svg}svg":
-                report.add(Issue(rel, "entry-json", "icon root element must be svg in the SVG namespace"))
-            elif not root.get("viewBox"):
-                report.add(Issue(rel, "entry-json", "icon SVG must declare a viewBox"))
-        except ElementTree.ParseError as exc:
-            report.add(Issue(rel, "entry-json", f"icon must be valid SVG XML: {exc}"))
+    icon_rendered = kind in ICON_RENDERED_KINDS
+    # An omitted icon is only a problem where the client actually renders one.
+    if icon is not None or icon_rendered:
+        if not isinstance(icon, str) or not icon.strip():
+            report.add(Issue(rel, "entry-json", "icon must be a non-empty inline SVG string"))
+        else:
+            if not icon_rendered:
+                report.add(Issue(
+                    rel, "entry-json",
+                    f"icon is dead weight for a {kind} listing: the client renders {kind} cards from "
+                    "avatar and its runtime projection has no icon field; remove it, or the next "
+                    "maintainer will believe editing it changes the card",
+                    severity="warning",
+                ))
+            try:
+                root = ElementTree.fromstring(icon)
+                if root.tag != "{http://www.w3.org/2000/svg}svg":
+                    report.add(Issue(rel, "entry-json", "icon root element must be svg in the SVG namespace"))
+                elif not root.get("viewBox"):
+                    report.add(Issue(rel, "entry-json", "icon SVG must declare a viewBox"))
+            except ElementTree.ParseError as exc:
+                report.add(Issue(rel, "entry-json", f"icon must be valid SVG XML: {exc}"))
 
     maintainer = entry.get("maintainer")
     if not isinstance(maintainer, dict) or not isinstance(maintainer.get("name"), str):
@@ -494,9 +531,13 @@ def validate_entry_json(report: Report, entry_file: Path, category_ids: set[str]
     if not isinstance(source, dict):
         report.add(Issue(rel, "entry-json", "source must be an object"))
         return
-    kind = source.get("kind")
-    if kind not in {"git", "web", "zip"}:
-        report.add(Issue(rel, "entry-json", f"source.kind '{kind}' must be one of git/web/zip"))
+    # 刻意不叫 `kind`：那是本函数的参数，表示条目种类（agent/skill/team）。
+    # 这里是 source 的传输种类（git/web/zip），两者取值空间不相交，遮蔽掉参数会让
+    # 后续任何一处引用 `kind` 都变成静默取错值。
+    source_kind = source.get("kind")
+    if source_kind not in allowed_source_kinds:
+        allowed = "/".join(sorted(allowed_source_kinds))
+        report.add(Issue(rel, "entry-json", f"source.kind '{source_kind}' must be one of {allowed}"))
     repo_url = source.get("repoUrl")
     if not isinstance(repo_url, str) or not repo_url.strip():
         report.add(Issue(rel, "entry-json", "source.repoUrl is required"))
@@ -530,6 +571,8 @@ def validate_market_catalog(report: Report, manifest: dict[str, Any], category_i
     agent_json_names, agent_entry_names = count_publishable_agents()
     agent_files = [REPO_ROOT / "agents" / name / "agent.json" for name in agent_json_names]
     agent_entry_files = [REPO_ROOT / "agents" / name / "entry.json" for name in agent_entry_names]
+    team_names = count_publishable_teams()
+    team_entry_files = [REPO_ROOT / "teams" / name / "entry.json" for name in team_names]
     skill_md_names, entry_names = count_publishable_skills()
     skill_entry_files = sorted((REPO_ROOT / "skills").glob("*/entry.json"))
 
@@ -549,10 +592,18 @@ def validate_market_catalog(report: Report, manifest: dict[str, Any], category_i
                 "manifest.json", "market-stats",
                 f"stats.totalSkills is {stats.get('totalSkills')}, expected {expected_skills}"
             ))
+        # The client keeps totalTeams optional so a catalog without teams stays
+        # valid; once a team is listed, or the key is declared at all, it must be exact.
+        declared_teams = stats.get("totalTeams")
+        if (team_names or declared_teams is not None) and declared_teams != len(team_names):
+            report.add(Issue(
+                "manifest.json", "market-stats",
+                f"stats.totalTeams is {declared_teams}, expected {len(team_names)}"
+            ))
 
     features = manifest.get("features") or []
     if isinstance(features, list) and "verified-only" in features:
-        for entry_file in [*agent_entry_files, *skill_entry_files]:
+        for entry_file in [*agent_entry_files, *team_entry_files, *skill_entry_files]:
             entry = load_json(entry_file, report, "entry-json")
             maintainer = entry.get("maintainer") if isinstance(entry, dict) else None
             verified = maintainer.get("verified") if isinstance(maintainer, dict) else None
@@ -566,8 +617,16 @@ def validate_market_catalog(report: Report, manifest: dict[str, Any], category_i
     validate_builtin_skills(report, skill_md_names)
     for agent_file in agent_files:
         validate_agent_json(report, agent_file, category_ids)
-    for entry_file in [*agent_entry_files, *skill_entry_files]:
-        validate_entry_json(report, entry_file, category_ids, online)
+    any_source_kind = frozenset({"git", "web", "zip"})
+    for kind, entry_files, source_kinds in (
+        ("agent", agent_entry_files, any_source_kind),
+        # A team is installed by forking its repository and updated with git pull;
+        # zip / web cannot express either action, so only git is accepted here.
+        ("team", team_entry_files, frozenset({"git"})),
+        ("skill", skill_entry_files, any_source_kind),
+    ):
+        for entry_file in entry_files:
+            validate_entry_json(report, entry_file, category_ids, online, kind, source_kinds)
 
 
 def iter_skill_dirs(targets: Iterable[Path]) -> Iterable[Path]:

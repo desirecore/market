@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://desirecore.com/schemas/market/catalog-metadata.v1.schema.json",
   "title": "DesireCore Market catalog metadata sidecar v1",
-  "description": "Strict source-owned metadata stored next to one legacy Market Agent or Skill. The trusted catalog source ID, catalog commit, catalog path and catalog trust are injected by DesireCore and are intentionally prohibited here.",
+  "description": "Strict source-owned metadata stored next to one legacy Market Agent, Team or Skill. The trusted catalog source ID, catalog commit, catalog path and catalog trust are injected by DesireCore and are intentionally prohibited here.",
   "type": "object",
   "required": [
     "schemaVersion",
@@ -19,7 +19,7 @@
     "$schema": {
       "type": "string",
       "const": "../../schemas/catalog-metadata.v1.schema.json",
-      "description": "Relative schema reference from agents/<id>/ or skills/<id>/."
+      "description": "Relative schema reference from agents/<id>/, teams/<id>/ or skills/<id>/."
     },
     "schemaVersion": {
       "type": "integer",
@@ -50,6 +50,7 @@
     "spec": {
       "oneOf": [
         { "$ref": "#/$defs/agentSpec" },
+        { "$ref": "#/$defs/teamSpec" },
         { "$ref": "#/$defs/skillSpec" }
       ]
     }
@@ -68,6 +69,21 @@
       "then": {
         "properties": {
           "spec": { "$ref": "#/$defs/agentSpec" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "identity": {
+            "properties": { "kind": { "const": "team" } },
+            "required": ["kind"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "spec": { "$ref": "#/$defs/teamSpec" }
         }
       }
     },
@@ -158,7 +174,7 @@
       "properties": {
         "kind": {
           "type": "string",
-          "enum": ["agent", "skill"]
+          "enum": ["agent", "team", "skill"]
         },
         "id": {
           "$ref": "#/$defs/slug"
@@ -518,6 +534,38 @@
       "dependencies": {
         "installPolicy": ["updatePolicy"],
         "updatePolicy": ["installPolicy"]
+      },
+      "additionalProperties": false
+    },
+    "teamSpec": {
+      "type": "object",
+      "description": "Team facts owned by the listing. A Team is always a fork pointer: installation forks the team repository and updates are a git pull, so a Team never declares installPolicy or updatePolicy. Every field here is presentation metadata that may drift from the forked repository; membership, permissions and capability resolution must read the forked team.json and members.json instead.",
+      "required": ["kind"],
+      "properties": {
+        "kind": { "const": "team" },
+        "supervisorName": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "supervisorAgentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "memberCount": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Total member count including the supervisor."
+        },
+        "memberNames": {
+          "type": "array",
+          "maxItems": 32,
+          "items": { "type": "string", "minLength": 1, "maxLength": 200 }
+        },
+        "requiredSkills": {
+          "type": "array",
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1, "maxLength": 160 }
+        }
       },
       "additionalProperties": false
     },

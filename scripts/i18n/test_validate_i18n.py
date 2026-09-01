@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
 import tempfile
 import unittest
@@ -100,6 +101,112 @@ class PublishableAgentCatalogTests(unittest.TestCase):
 
             self.assertEqual(["inline-agent"], inline)
             self.assertEqual(["pointer-agent"], pointers)
+
+
+class EntryIconPolicyTests(unittest.TestCase):
+    """`icon` is only required where the client actually renders one.
+
+    `marketSkillSchema` exposes `icon`; `marketAgentSchema` and `marketTeamSchema`
+    expose `avatar` and have no `icon` property at all, so an icon on those listings
+    can never reach a card.
+    """
+
+    ICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z"/></svg>'
+
+    def check(self, kind: str, *, icon: object = ..., source=None, source_kinds=None) -> list[object]:
+        entry = {
+            "id": "example",
+            "name": "Example",
+            "category": "development",
+            "maintainer": {"name": "Example Maintainer", "verified": False},
+            "stewardship": "community",
+            "license": "MIT",
+            "redistribution": "allowed",
+            "source": source or {"kind": "git", "repoUrl": "https://example.com/example.git"},
+        }
+        if icon is not ...:
+            entry["icon"] = icon
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            entry_dir = root / f"{kind}s" / "example"
+            entry_dir.mkdir(parents=True)
+            entry_file = entry_dir / "entry.json"
+            entry_file.write_text(json.dumps(entry), encoding="utf-8")
+            report = VALIDATOR.Report()
+            with patch.object(VALIDATOR, "REPO_ROOT", root):
+                VALIDATOR.validate_entry_json(
+                    report, entry_file, {"development"}, False, kind,
+                    source_kinds or frozenset({"git", "web", "zip"}),
+                )
+            return report.issues
+
+    def test_skill_entry_still_requires_an_icon(self) -> None:
+        messages = [issue.message for issue in self.check("skill")]
+        self.assertTrue(any("missing required field 'icon'" in message for message in messages))
+
+    def test_team_and_agent_entries_may_omit_the_icon(self) -> None:
+        for kind in ("team", "agent"):
+            with self.subTest(kind=kind):
+                self.assertEqual([], self.check(kind))
+
+    def test_icon_on_a_team_listing_is_flagged_but_not_fatal(self) -> None:
+        issues = self.check("team", icon=self.ICON)
+        self.assertEqual(1, len(issues))
+        self.assertEqual("warning", issues[0].severity)
+        self.assertIn("dead weight", issues[0].message)
+
+    def test_a_declared_icon_is_still_validated_on_every_kind(self) -> None:
+        for kind in ("skill", "team"):
+            with self.subTest(kind=kind):
+                errors = [i.message for i in self.check(kind, icon="not svg") if i.severity == "error"]
+                self.assertTrue(any("valid SVG XML" in message for message in errors))
+
+    def test_team_entry_rejects_non_git_sources(self) -> None:
+        # Installing a team forks its repository and updating it is a git pull;
+        # neither action can be expressed by a zip or a fetched web page.
+        for source_kind in ("zip", "web"):
+            with self.subTest(source_kind=source_kind):
+                messages = [
+                    issue.message
+                    for issue in self.check(
+                        "team",
+                        source={"kind": source_kind, "repoUrl": "https://example.com/example.zip"},
+                        source_kinds=frozenset({"git"}),
+                    )
+                    if issue.severity == "error"
+                ]
+                self.assertTrue(any("must be one of git" in message for message in messages), messages)
+
+    def test_skill_entry_still_accepts_zip_and_web_sources(self) -> None:
+        for source_kind in ("zip", "web"):
+            with self.subTest(source_kind=source_kind):
+                issues = self.check(
+                    "skill",
+                    icon=self.ICON,
+                    source={"kind": source_kind, "repoUrl": "https://example.com/example.zip"},
+                )
+                self.assertEqual([], issues)
+
+
+class PublishableTeamCatalogTests(unittest.TestCase):
+    def test_counts_team_pointers_only(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "teams" / "pointer-team").mkdir(parents=True)
+            (root / "teams" / "pointer-team" / "entry.json").write_text("{}")
+            # A team is a fork pointer: a stray inline body is not a publishable unit.
+            (root / "teams" / "inline-team").mkdir(parents=True)
+            (root / "teams" / "inline-team" / "team.json").write_text("{}")
+
+            with patch.object(VALIDATOR, "REPO_ROOT", root):
+                teams = VALIDATOR.count_publishable_teams()
+
+            self.assertEqual(["pointer-team"], teams)
+
+    def test_returns_empty_without_a_teams_directory(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            with patch.object(VALIDATOR, "REPO_ROOT", Path(tmp)):
+                self.assertEqual([], VALIDATOR.count_publishable_teams())
 
 
 if __name__ == "__main__":

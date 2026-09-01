@@ -9,6 +9,10 @@ The sidecar is deliberately discovered at one fixed path next to a legacy
 ``agent.json``, ``SKILL.md`` or ``entry.json``.  It supplements the legacy
 file; it never selects an arbitrary metadata path and never declares the
 trusted catalog provider identity.
+
+Agents, Teams and Skills are the three catalog item kinds.  A Team listing has
+no inline form: it is always ``teams/<id>/entry.json``, a git fork pointer whose
+installation forks the team repository and whose update is a ``git pull``.
 """
 
 from __future__ import annotations
@@ -28,6 +32,19 @@ from jsonschema import Draft7Validator, FormatChecker, ValidationError, validato
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCHEMA_PATH = REPO_ROOT / "schemas" / "catalog-metadata.v1.schema.json"
 AGENT_ENTRY_SCHEMA_NAME = "market-agent-entry.client.schema.json"
+TEAM_ENTRY_SCHEMA_NAME = "market-team-entry.client.schema.json"
+# Catalog roots that may hold a sidecar, in listing order.
+CATALOG_ROOTS = ("agents", "teams", "skills")
+ALLOWED_SIDECAR_LOCATIONS = ", ".join(f"{name}/<id>/" for name in CATALOG_ROOTS)
+# Team display facts are mirrored in entry.json and the sidecar; neither file may
+# declare one the other omits, otherwise the two disagree on what is even known.
+TEAM_DISPLAY_FIELDS = (
+    "supervisorName",
+    "supervisorAgentId",
+    "memberCount",
+    "memberNames",
+    "requiredSkills",
+)
 SIDECAR_NAME = "catalog-metadata.v1.json"
 EXPECTED_SCHEMA_REF = "../../schemas/catalog-metadata.v1.schema.json"
 FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.DOTALL)
@@ -42,7 +59,8 @@ def _client_pattern(validator, pattern, instance, schema):
         yield ValidationError(f"{instance!r} does not match {pattern!r}")
 
 
-AgentEntryValidator = validators.extend(Draft7Validator, {"pattern": _client_pattern})
+# The extension is about client pattern semantics; it is shared by every pointer kind.
+ClientEntryValidator = validators.extend(Draft7Validator, {"pattern": _client_pattern})
 
 
 @dataclass(frozen=True)
@@ -157,7 +175,78 @@ def _legacy_i18n(raw: Any, *, short_key: str) -> tuple[dict[str, dict[str, Any]]
     return locales, default_locale if isinstance(default_locale, str) else None
 
 
-def load_legacy(sidecar: Path, report: Report, root: Path, agent_entry_validator) -> LegacyItem | None:
+def _report_entry_schema_errors(
+    report: Report,
+    legacy_path: Path,
+    root: Path,
+    validator,
+    rule: str,
+    data: dict[str, Any],
+) -> bool:
+    """Validate a raw pointer against the exported client contract.
+
+    Returns True when the pointer is already invalid for the client, in which case
+    no sidecar comparison is meaningful: a sidecar must never make an entry.json the
+    client rejects look acceptable.
+    """
+    errors = list(validator.iter_errors(data))
+    for error in errors:
+        report.add(_rel(legacy_path, root), rule, f"{_json_path(error)}: {error.message}")
+    return bool(errors)
+
+
+def _load_team_pointer(
+    sidecar: Path,
+    parent: Path,
+    report: Report,
+    root: Path,
+    team_entry_validator,
+) -> LegacyItem | None:
+    """Load ``teams/<id>/entry.json``.
+
+    A Team listing is a fork pointer and has no inline form: the team body
+    (team.json / members.json / shared/) lives in the forked repository, so the
+    catalog only ever carries entry.json plus the sidecar.
+    """
+    pointer_path = parent / "entry.json"
+    inline_path = parent / "team.json"
+    if inline_path.is_file():
+        report.add(
+            _rel(inline_path, root),
+            "fixed-sidecar-path",
+            "team listings are fork pointers; team.json belongs in the forked team repository",
+        )
+        return None
+    if not pointer_path.is_file():
+        report.add(
+            _rel(sidecar, root),
+            "fixed-sidecar-path",
+            "team sidecar must be next to a legacy entry.json",
+        )
+        return None
+    data = _read_json(pointer_path, report, root, "legacy-read")
+    if data is None:
+        return None
+    if _report_entry_schema_errors(report, pointer_path, root, team_entry_validator, "team-entry-schema", data):
+        return None
+    if data.get("id") != parent.name:
+        report.add(_rel(pointer_path, root), "legacy-consistency", "entry.id must equal the catalog directory slug")
+    i18n, default_locale = _legacy_i18n(data.get("i18n"), short_key="shortDesc")
+    return LegacyItem(
+        kind="team",
+        item_id=parent.name,
+        source_type="pointer",
+        data=data,
+        i18n=i18n,
+        default_locale=default_locale,
+        # A Team pointer carries no installed version; the catalog registers latestVersion.
+        version=data.get("latestVersion"),
+        category=data.get("category") if isinstance(data.get("category"), str) else None,
+        tags=data.get("tags") if isinstance(data.get("tags"), list) else None,
+    )
+
+
+def load_legacy(sidecar: Path, report: Report, root: Path, entry_validators: dict[str, Any]) -> LegacyItem | None:
     parent = sidecar.parent
     root_kind = parent.parent.name
     if root_kind == "agents":
@@ -175,12 +264,10 @@ def load_legacy(sidecar: Path, report: Report, root: Path, agent_entry_validator
         data = _read_json(legacy_path, report, root, "legacy-read")
         if data is None:
             return None
-        if is_pointer:
-            errors = list(agent_entry_validator.iter_errors(data))
-            for error in errors:
-                report.add(_rel(legacy_path, root), "agent-entry-schema", f"{_json_path(error)}: {error.message}")
-            if errors:
-                return None
+        if is_pointer and _report_entry_schema_errors(
+            report, legacy_path, root, entry_validators["agent"], "agent-entry-schema", data
+        ):
+            return None
         if is_pointer and data.get("id") != parent.name:
             report.add(_rel(legacy_path, root), "legacy-consistency", "entry.id must equal the catalog directory slug")
         # The pointer ID is a listing slug, not the upstream AgentFS UUID.
@@ -201,11 +288,14 @@ def load_legacy(sidecar: Path, report: Report, root: Path, agent_entry_validator
             tags=data.get("tags") if isinstance(data.get("tags"), list) else None,
         )
 
+    if root_kind == "teams":
+        return _load_team_pointer(sidecar, parent, report, root, entry_validators["team"])
+
     if root_kind != "skills":
         report.add(
             _rel(sidecar, root),
             "fixed-sidecar-path",
-            f"{SIDECAR_NAME} is only allowed at agents/<id>/ or skills/<id>/",
+            f"{SIDECAR_NAME} is only allowed at {ALLOWED_SIDECAR_LOCATIONS}",
         )
         return None
 
@@ -361,7 +451,7 @@ def _validate_content_consistency(
     }
     for sidecar_key, legacy_key in mapping.items():
         legacy_value = source.get(legacy_key)
-        if legacy.kind == "agent":
+        if legacy.kind in {"agent", "team"}:
             declared_value = content.get(sidecar_key)
             # A sidecar must describe the exact pointer that the client installs,
             # not add a different subdirectory or pin that entry.json never uses.
@@ -369,7 +459,8 @@ def _validate_content_consistency(
                 declared_value = None if declared_value == "" else declared_value
                 legacy_value = None if legacy_value == "" else legacy_value
             if declared_value != legacy_value:
-                report.add(rel, "legacy-consistency", f"provenance.content.{sidecar_key} differs from the Agent pointer")
+                label = "Agent" if legacy.kind == "agent" else "Team"
+                report.add(rel, "legacy-consistency", f"provenance.content.{sidecar_key} differs from the {label} pointer")
         elif legacy_value is not None:
             _compare(
                 report,
@@ -424,6 +515,77 @@ def _validate_governance_consistency(
                     sidecar_maintainer.get(field),
                     legacy_maintainer[field],
                 )
+
+
+def _validate_license_evidence(
+    report: Report,
+    rel: str,
+    sidecar: dict[str, Any],
+    legacy: LegacyItem,
+    item_dir: Path,
+) -> None:
+    """Make ``evidencePath`` a checkable claim rather than a well-formed string.
+
+    The schema only constrains the shape, not what the path is relative to, and the
+    two readings disagree exactly where it matters:
+
+    * vendored content (builtin Skills, inline Agents) ships inside this repository,
+      so the evidence file must be present here and is checked directly;
+    * a pointer distributes nothing, so its evidence can only live in the upstream
+      snapshot. This validator cannot read that offline, so an unpinned pointer is
+      flagged instead: the claim is about whatever HEAD happens to be and nobody can
+      check it. That stays a warning, because an installable pointer is already
+      required to be pinned by ``installable-evidence`` — this branch is only ever
+      reached by a listing-only entry, which is explicitly allowed to be unpinned and
+      installs nothing on the strength of the claim.
+    """
+    governance = sidecar.get("governance")
+    if not isinstance(governance, dict):
+        return
+    license_fact = governance.get("license")
+    compliance = governance.get("compliance")
+    candidates: list[tuple[str, Any]] = []
+    if isinstance(license_fact, dict):
+        candidates.append(("license.evidencePath", license_fact.get("evidencePath")))
+    if isinstance(compliance, dict):
+        for key in ("licenseEvidencePath", "noticePath"):
+            candidates.append((f"compliance.{key}", compliance.get(key)))
+
+    pinned = _content_is_immutable((sidecar.get("provenance") or {}).get("content"))
+    for field, value in candidates:
+        if not isinstance(value, str) or not value:
+            continue
+        if legacy.source_type == "pointer":
+            if not pinned:
+                report.add(
+                    rel,
+                    "license-evidence",
+                    f"{field} names evidence inside the upstream snapshot but provenance.content is not "
+                    "pinned to an immutable ref or digest, so the claim is about a moving target and "
+                    "cannot be checked",
+                    severity="warning",
+                )
+        elif not (item_dir / value).is_file():
+            report.add(
+                rel,
+                "license-evidence",
+                f"{field} {value!r} does not exist in the catalog item directory",
+            )
+
+
+def _validate_team_spec(report: Report, rel: str, sidecar: dict[str, Any], legacy: LegacyItem) -> None:
+    """Keep the sidecar Team facts identical to the entry.json Team facts.
+
+    The comparison is symmetric on purpose: a sidecar must not synthesize a
+    supervisor, member count or required-Skill list that the pointer never
+    declared, and it must not drop one the pointer did declare.
+    """
+    spec = sidecar.get("spec")
+    if not isinstance(spec, dict):
+        return
+    for field in TEAM_DISPLAY_FIELDS:
+        if spec.get(field) != legacy.data.get(field):
+            report.add(rel, "legacy-consistency", f"spec.{field} differs from the Team pointer")
 
 
 def _validate_collection(
@@ -578,7 +740,7 @@ def validate_sidecar(
     report: Report,
     root: Path,
     supported_locales: set[str],
-    agent_entry_validator,
+    entry_validators: dict[str, Any],
 ) -> None:
     rel = _rel(sidecar_path, root)
     sidecar = _read_json(sidecar_path, report, root, "catalog-schema")
@@ -589,7 +751,7 @@ def validate_sidecar(
     if any(issue.path == rel and issue.rule == "catalog-schema" for issue in report.issues):
         return
 
-    legacy = load_legacy(sidecar_path, report, root, agent_entry_validator)
+    legacy = load_legacy(sidecar_path, report, root, entry_validators)
     if legacy is None:
         return
     identity = sidecar["identity"]
@@ -640,8 +802,19 @@ def validate_sidecar(
             sidecar["compatibility"].get("requiredClientVersion"), legacy.data.get("requiredClientVersion"),
         )
 
+    if legacy.kind == "team":
+        # Teams are always fork-installed and git-pull-updated, so there is no
+        # policy pair to reconcile; the display facts and the client floor are.
+        _validate_team_spec(report, rel, sidecar, legacy)
+        # Symmetric on purpose: the upgrade gate is enforced from entry.json, which is
+        # what the client reads. A floor that exists only in the sidecar would let a
+        # listing look version-gated while the client still offers it for install.
+        if sidecar["compatibility"].get("requiredClientVersion") != legacy.data.get("requiredClientVersion"):
+            report.add(rel, "legacy-consistency", "compatibility.requiredClientVersion differs from the Team pointer")
+
     _validate_content_consistency(report, rel, sidecar, legacy)
     _validate_governance_consistency(report, rel, sidecar, legacy)
+    _validate_license_evidence(report, rel, sidecar, legacy, sidecar_path.parent)
     _validate_collection(report, rel, sidecar, legacy, supported_locales)
 
     governance = sidecar.get("governance")
@@ -690,11 +863,12 @@ def validate_sidecar(
                 )
             return
 
-        if legacy.kind == "agent" and legacy.source_type == "pointer":
+        if legacy.kind in {"agent", "team"} and legacy.source_type == "pointer":
             if not _content_is_immutable(legacy.data.get("source")):
+                label = "Agent" if legacy.kind == "agent" else "Team"
                 report.add(
                     rel, "installable-evidence",
-                    "installable Agent entry.source must itself declare an immutable ref or SHA-256 digest",
+                    f"installable {label} entry.source must itself declare an immutable ref or SHA-256 digest",
                 )
 
         if not _content_is_immutable(content):
@@ -734,6 +908,8 @@ def _validate_stats(root: Path, report: Report, sidecars: Iterable[Path]) -> Non
     agent_count = sum(1 for _ in (root / "agents").glob("*/agent.json")) + sum(
         1 for _ in (root / "agents").glob("*/entry.json")
     )
+    # A Team has no inline form, so entry.json alone is the publishable unit.
+    team_count = sum(1 for _ in (root / "teams").glob("*/entry.json"))
     builtin_count = sum(1 for _ in (root / "skills").glob("*/SKILL.md"))
     pointer_count = sum(1 for _ in (root / "skills").glob("*/entry.json"))
     collection_count = 0
@@ -750,6 +926,7 @@ def _validate_stats(root: Path, report: Report, sidecars: Iterable[Path]) -> Non
     sidecar_list = list(sidecars)
     report.stats = {
         "agents": agent_count,
+        "teams": team_count,
         "builtinSkills": builtin_count,
         "pointerSkills": pointer_count,
         "publishableSkills": builtin_count + pointer_count,
@@ -767,6 +944,11 @@ def _validate_stats(root: Path, report: Report, sidecars: Iterable[Path]) -> Non
         report.add("manifest.json", "market-stats", f"stats.totalAgents must be {agent_count}")
     if stats.get("totalSkills") != builtin_count + pointer_count:
         report.add("manifest.json", "market-stats", f"stats.totalSkills must be {builtin_count + pointer_count}")
+    # The client stats schema keeps totalTeams optional so a catalog with no teams
+    # stays valid; once a team exists, or the key is declared at all, it must be exact.
+    declared_teams = stats.get("totalTeams")
+    if (team_count > 0 or declared_teams is not None) and declared_teams != team_count:
+        report.add("manifest.json", "market-stats", f"stats.totalTeams must be {team_count}")
 
 
 def validate_repository(root: Path = REPO_ROOT, *, require_complete: bool = False) -> Report:
@@ -781,32 +963,42 @@ def validate_repository(root: Path = REPO_ROOT, *, require_complete: bool = Fals
     except Exception as exc:  # jsonschema raises several SchemaError subclasses
         report.add(_rel(schema_path, root), "catalog-schema", f"invalid JSON Schema: {exc}")
         return report
-    agent_entry_schema = _read_json(root / "schemas" / AGENT_ENTRY_SCHEMA_NAME, report, root, "agent-entry-schema")
-    if agent_entry_schema is None:
-        return report
-    try:
-        AgentEntryValidator.check_schema(agent_entry_schema)
-    except Exception as exc:
-        report.add(f"schemas/{AGENT_ENTRY_SCHEMA_NAME}", "agent-entry-schema", f"invalid JSON Schema: {exc}")
-        return report
-    agent_entry_validator = AgentEntryValidator(agent_entry_schema, format_checker=FormatChecker())
+    entry_validators: dict[str, Any] = {}
+    for kind, schema_name, rule in (
+        ("agent", AGENT_ENTRY_SCHEMA_NAME, "agent-entry-schema"),
+        ("team", TEAM_ENTRY_SCHEMA_NAME, "team-entry-schema"),
+    ):
+        entry_schema = _read_json(root / "schemas" / schema_name, report, root, rule)
+        if entry_schema is None:
+            return report
+        try:
+            ClientEntryValidator.check_schema(entry_schema)
+        except Exception as exc:
+            report.add(f"schemas/{schema_name}", rule, f"invalid JSON Schema: {exc}")
+            return report
+        entry_validators[kind] = ClientEntryValidator(entry_schema, format_checker=FormatChecker())
     validator = Draft7Validator(schema, format_checker=FormatChecker())
     sidecars = _discover_sidecars(root)
     supported_locales = _load_supported_locales(root, report)
 
+    catalog_roots = {root / name for name in CATALOG_ROOTS}
     for sidecar in sidecars:
-        if sidecar.parent.parent not in {root / "agents", root / "skills"}:
+        if sidecar.parent.parent not in catalog_roots:
             report.add(
                 _rel(sidecar, root),
                 "fixed-sidecar-path",
-                f"{SIDECAR_NAME} is only allowed at agents/<id>/ or skills/<id>/",
+                f"{SIDECAR_NAME} is only allowed at {ALLOWED_SIDECAR_LOCATIONS}",
             )
             continue
-        validate_sidecar(sidecar, validator, report, root, supported_locales, agent_entry_validator)
+        validate_sidecar(sidecar, validator, report, root, supported_locales, entry_validators)
 
     _validate_stats(root, report, sidecars)
     if require_complete:
-        expected = report.stats.get("agents", 0) + report.stats.get("publishableSkills", 0)
+        expected = (
+            report.stats.get("agents", 0)
+            + report.stats.get("teams", 0)
+            + report.stats.get("publishableSkills", 0)
+        )
         actual = report.stats.get("sidecars", 0)
         if actual != expected:
             report.add(
@@ -823,7 +1015,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--require-complete",
         action="store_true",
-        help="require one sidecar for every publishable top-level Agent and Skill",
+        help="require one sidecar for every publishable top-level Agent, Team and Skill",
     )
     args = parser.parse_args(argv)
     report = validate_repository(require_complete=args.require_complete)
