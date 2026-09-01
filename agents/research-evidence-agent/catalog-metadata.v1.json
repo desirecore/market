@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json", "schemaVersion": 1,
+  "identity": { "kind": "agent", "id": "research-evidence-agent" },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": { "name": "研究证据 Agent", "summary": "围绕研究问题收集资料、整理证据等级，并生成可回到原文的结论摘要", "description": "它会先把研究问题拆清楚，再从允许使用的资料源中收集文献和数据，记录作者、出处、时间和引用位置。不同证据可以按团队规则分级，最后形成带引用的摘要与待确认问题。\n\n它不会把搜索结果冒充研究结论。涉及医学、法律或投资判断时，仍需相应专业人员复核。" },
+      "en-US": { "name": "Research Evidence Agent", "summary": "Collects material around a research question, organizes evidence strength, and produces summaries linked to the source text.", "description": "It starts by clarifying the research question, then gathers literature and data from approved sources while recording authors, provenance, dates, and citation locations. Evidence can be graded using team-defined rules before producing a cited summary and a list of unresolved questions.\n\nSearch results are not presented as research conclusions. Medical, legal, and investment decisions still require qualified review." }
+    },
+    "category": "research", "tags": ["research", "evidence", "literature", "citations"],
+    "icon": { "kind": "letter", "value": "研" }
+  },
+  "release": { "state": "known", "version": "1.0.0", "versionScheme": "semver" },
+  "timestamps": { "catalogUpdatedAt": { "state": "known", "value": "2026-09-01", "precision": "day" }, "releasePublishedAt": { "state": "unknown" }, "reviewedAt": { "state": "unknown" }, "upstreamObservedAt": { "state": "unknown" } },
+  "provenance": {},
+  "governance": { "stewardship": "official", "availability": "listing-only", "license": { "state": "unknown" }, "redistribution": "verify-package-terms", "listingMaintainer": { "name": "DesireCore Official", "verified": true } },
+  "compatibility": { "platforms": { "state": "unknown" } },
+  "spec": { "kind": "agent", "persona": { "role": "Research evidence agent", "traits": ["defines the question first", "keeps complete provenance", "distinguishes evidence strength", "makes conclusions traceable"] } }
+}

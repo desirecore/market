@@ -1,0 +1,21 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": { "kind": "agent", "id": "contract-review-agent" },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": { "name": "合同审查 Agent", "summary": "对照企业规则和模板检查合同条款，给出带原文定位的风险清单", "description": "它会逐条读取合同，识别缺失项、责任不对等、付款与交付风险，并把每条意见定位到原文。企业可以加入自己的审查规则、标准模板和审批阈值。\n\n输出用于法务和业务人员复核，不构成法律意见，也不会替代有资质的专业判断。" },
+      "en-US": { "name": "Contract Review Agent", "summary": "Checks contract clauses against company rules and templates, producing a risk list linked to the original text.", "description": "It reads a contract clause by clause, flags missing terms, unbalanced obligations, payment concerns, and delivery risks, and links each comment to the source text. Organizations can add their own review rules, standard templates, and approval thresholds.\n\nThe output supports legal and business review. It is not legal advice and does not replace qualified professional judgment." }
+    },
+    "category": "business",
+    "tags": ["contract-review", "risk", "compliance", "legal-collaboration"],
+    "icon": { "kind": "letter", "value": "审" }
+  },
+  "release": { "state": "known", "version": "1.0.0", "versionScheme": "semver" },
+  "timestamps": { "catalogUpdatedAt": { "state": "known", "value": "2026-09-01", "precision": "day" }, "releasePublishedAt": { "state": "unknown" }, "reviewedAt": { "state": "unknown" }, "upstreamObservedAt": { "state": "unknown" } },
+  "provenance": {},
+  "governance": { "stewardship": "official", "availability": "listing-only", "license": { "state": "unknown" }, "redistribution": "verify-package-terms", "listingMaintainer": { "name": "DesireCore Official", "verified": true } },
+  "compatibility": { "platforms": { "state": "unknown" } },
+  "spec": { "kind": "agent", "persona": { "role": "Contract review collaborator", "traits": ["quotes the source clause", "separates facts from suggestions", "does not sign off", "keeps review records"] } }
+}

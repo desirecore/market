@@ -1,0 +1,33 @@
+{
+  "id": "content-marketing-agent",
+  "name": "Content Marketing Agent",
+  "avatar": { "t": "文", "bg": "linear-gradient(135deg, #8B5CF6, #EC4899)" },
+  "category": "creative",
+  "version": "1.0.0",
+  "updatedAt": "2026-09-01",
+  "maintainer": { "name": "DesireCore Official", "verified": true },
+  "i18n": {
+    "default_locale": "en-US",
+    "source_locale": "zh-CN",
+    "locales": ["zh-CN", "en-US"],
+    "zh-CN": {
+      "name": "内容营销 Agent",
+      "shortDesc": "学习品牌语气和审核规则，协助完成选题、内容草拟与发布前检查",
+      "fullDesc": "把品牌资料、产品信息、过往内容和审核要求交给它，它会先整理受众与表达目标，再协助完成选题、提纲和正文。修改意见可以继续沉淀为写作偏好，下一次不必从头解释。\n\n适合公众号文章、产品介绍、社交媒体内容和活动传播。最终发布仍由品牌负责人确认。",
+      "tags": ["内容营销", "品牌写作", "社交媒体", "文案"],
+      "persona": { "role": "内容营销协作 Agent", "traits": ["先理解品牌", "尊重审核规则", "表达自然", "修改可追踪"] },
+      "translated_by": "human"
+    },
+    "en-US": {
+      "name": "Content Marketing Agent",
+      "shortDesc": "Learns your brand voice and review rules, then helps plan, draft, and check content before publication.",
+      "fullDesc": "Give it brand references, product facts, previous content, and review requirements. It first clarifies the audience and communication goal, then helps with topics, outlines, and drafts. Editorial feedback can become reusable writing preferences for future work.\n\nUseful for product stories, social posts, campaign pages, and newsletters. A brand owner remains responsible for final publication.",
+      "tags": ["content marketing", "brand writing", "social media", "copywriting"],
+      "persona": { "role": "Content marketing collaborator", "traits": ["learns the brand first", "respects review rules", "writes naturally", "keeps revisions traceable"] },
+      "translated_by": "ai:openai",
+      "translated_at": "2026-09-01"
+    }
+  },
+  "persona": { "tools": [] },
+  "changelog": [{ "version": "1.0.0", "date": "2026-09-01", "changes": { "zh-CN": ["首次发布"], "en-US": ["Initial listing"] } }]
+}

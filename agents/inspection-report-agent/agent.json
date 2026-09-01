@@ -1,0 +1,30 @@
+{
+  "id": "inspection-report-agent",
+  "name": "Inspection Report Agent",
+  "avatar": { "t": "检", "bg": "linear-gradient(135deg, #059669, #65A30D)" },
+  "category": "data",
+  "version": "1.0.0",
+  "updatedAt": "2026-09-01",
+  "maintainer": { "name": "DesireCore Official", "verified": true },
+  "i18n": {
+    "default_locale": "en-US", "source_locale": "zh-CN", "locales": ["zh-CN", "en-US"],
+    "zh-CN": {
+      "name": "检验报告 Agent",
+      "shortDesc": "整理原始记录、标准和模板，协助生成报告并检查数据、单位与结论一致性",
+      "fullDesc": "把检测原始记录、适用标准和报告模板交给它，它会整理数据引用，协助生成初稿，并检查限值、单位、计算和前后结论是否一致。异常项会回到原始记录，便于复验。\n\n报告必须由具备相应资质的人员复核、签发。它不会替代采样、实验、校准或专业判断。",
+      "tags": ["检验检测", "报告生成", "数据校核", "标准引用"],
+      "persona": { "role": "检验报告协作 Agent", "traits": ["数据回到原始记录", "检查单位限值", "异常项可复验", "等待专业签发"] },
+      "translated_by": "human"
+    },
+    "en-US": {
+      "name": "Inspection Report Agent",
+      "shortDesc": "Organizes source records, standards, and templates, then assists with report drafting and consistency checks.",
+      "fullDesc": "Give it inspection records, applicable standards, and the report template. It organizes data references, assists with a first draft, and checks limits, units, calculations, and conclusion consistency. Exceptions remain linked to the source record for rechecking.\n\nReports require review and sign-off by qualified personnel. The Agent does not replace sampling, laboratory work, calibration, or professional judgment.",
+      "tags": ["inspection", "report drafting", "data checking", "standards"],
+      "persona": { "role": "Inspection report collaborator", "traits": ["links data to source records", "checks units and limits", "keeps exceptions reviewable", "waits for professional sign-off"] },
+      "translated_by": "ai:openai", "translated_at": "2026-09-01"
+    }
+  },
+  "persona": { "tools": [] },
+  "changelog": [{ "version": "1.0.0", "date": "2026-09-01", "changes": { "zh-CN": ["首次发布"], "en-US": ["Initial listing"] } }]
+}
