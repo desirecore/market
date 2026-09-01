@@ -25,7 +25,7 @@ metadata:
       description: >-
         创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 持续协作、建立组织架构，或发布、安装和同步团队仓库时。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:d781d4d2d18667aa
+      source_hash: sha256:f6d361c54642cb4d
       translated_by: human
     en-US:
       name: Team Management
@@ -33,7 +33,7 @@ metadata:
       description: >-
         Create and govern Agent teams. Use when multiple Agents need sustained collaboration, an organizational hierarchy, or a team repository must be published, installed, or synchronized.
       body: ./SKILL.md
-      source_hash: sha256:d781d4d2d18667aa
+      source_hash: sha256:f6d361c54642cb4d
       translated_by: human
 market:
   icon: >-
@@ -100,6 +100,7 @@ A team defines organization, shared directories, and governance. Actual work is 
 | `remove_member` | Remove one member | `teamId`, `agentId` |
 | `remove_members` | Remove members in a batch | `teamId`, `members` |
 | `set_supervisor` | Replace the supervisor | `teamId`, `agentId` |
+| `set_member_source` | Declare where a member Agent comes from | `teamId`, `agentId`, `memberSource`; `git` needs `url` (https, will be cloned) and `ref` (defaults to `main`), `registry` needs `id`+`version`, `core`/`local` need nothing else |
 | `update` | Partially update team configuration | `teamId`; supports `name/type/isolation/parentTeamId/description/avatar/avatarImage` |
 | `promote` | Promote an ephemeral team to persistent | `teamId`; one-way and never implicit |
 | `disband` | Disband a team | `teamId`; explain impact and confirm unless explicitly requested |
@@ -157,6 +158,7 @@ Example:
 
 - Prefer batch member actions to avoid observable intermediate states.
 - `set_supervisor` uses `agentId`; first verify that the Agent does not already supervise another team.
+- `set_member_source` declares provenance, it does not move files. A team whose roster still contains a `local` member is **not distributable** — `members.lock.json` cannot pin an ID that exists only on this machine, so a fork elsewhere would silently come up short a member. Switch each member to `git` or `registry` before publishing, then `resolve` to write the lock. It cannot change a member's `role`; use `set_supervisor` for that.
 - `update` is a patch: omitted fields remain unchanged.
 - `parentTeamId: null` detaches the team and makes it top-level; an empty string is invalid.
 - `type` only allows `ephemeral → persistent`. Repeating the current value is idempotent; use `promote` for an explicit upgrade.

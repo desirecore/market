@@ -43,6 +43,7 @@
 | `remove_member` | 移除一个成员 | `teamId`、`agentId` |
 | `remove_members` | 批量移除成员 | `teamId`、`members` |
 | `set_supervisor` | 更换组长 | `teamId`、`agentId` |
+| `set_member_source` | 声明成员 Agent 的来源 | `teamId`、`agentId`、`memberSource`；`git` 必填 `url`（https，将被 clone）与 `ref`（默认 `main`），`registry` 必填 `id`+`version`，`core`/`local` 无附加字段 |
 | `update` | 部分更新团队配置 | `teamId`；可更新 `name/type/isolation/parentTeamId/description/avatar/avatarImage` |
 | `promote` | 临时团队升级为持久团队 | `teamId`；单向操作，不得隐式执行 |
 | `disband` | 解散团队 | `teamId`；若用户未明确要求，先说明影响并确认 |
@@ -100,6 +101,7 @@
 
 - 成员增删优先使用批量 action，避免多次调用产生中间状态。
 - `set_supervisor` 使用 `agentId` 指定新组长；先确认其未担任其他团队组长。
+- `set_member_source` 声明来源，不搬运文件。名册里只要还留着 `local` 成员，团队就**不可分发**——`members.lock.json` 无法锁定一个只存在于本机的 ID，别处 fork 出来会静默缺员。发布前把每个成员改为 `git` 或 `registry`，再 `resolve` 写锁。它改不了成员的 `role`，换组长用 `set_supervisor`。
 - `update` 是部分更新：未传字段保持原值。
 - `parentTeamId: null` 表示摘除父团队成为顶层团队；空字符串非法。
 - `type` 只允许 `ephemeral → persistent`。原值幂等更新可以接受；明确升级优先使用 `promote`。
