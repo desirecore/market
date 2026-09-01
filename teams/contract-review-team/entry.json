@@ -2,7 +2,6 @@
   "id": "contract-review-team",
   "name": "Contract Review Team",
   "category": "business",
-  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M13.5 3H6.5A1.5 1.5 0 0 0 5 4.5v15A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V8.5L13.5 3Z\" stroke=\"#5856D6\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/><path d=\"M13.5 3v4a1.5 1.5 0 0 0 1.5 1.5h4\" stroke=\"#5856D6\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/><path d=\"m8.4 14.6 2 2 4-4.4\" stroke=\"#5856D6\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
   "tags": [
     "contract-review",
     "multi-agent-team",
@@ -28,7 +27,7 @@
     "url": "https://github.com/desirecore-agent"
   },
   "stewardship": "official",
-  "license": "not-declared",
+  "license": "MIT",
   "redistribution": "source-pointer-only",
   "source": {
     "kind": "git",

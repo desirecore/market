@@ -151,7 +151,6 @@ inline form; a `team.json` in the catalog is rejected.
   "id": "example-team",
   "name": "Example Team",
   "category": "development",
-  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\">...</svg>",
   "tags": ["example"],
   "latestVersion": "0.1.0",
   "maintainer": {
@@ -170,12 +169,25 @@ inline form; a `team.json` in the catalog is rejected.
     "ref": "v0.1.0"
   },
   "requiredClientVersion": "10.0.0",
+  "avatar": { "t": "示", "bg": "linear-gradient(135deg, #5856D6, #3634A3)" },
   "supervisorName": "Example Supervisor",
   "supervisorAgentId": "example-lead",
   "memberCount": 3,
   "memberNames": ["Example Member One", "Example Member Two"]
 }
 ```
+
+A Team card is rendered from `avatar`, not from `icon`. The client's runtime
+projection `marketTeamSchema` requires `avatar` and has no `icon` property at all —
+the same is true of `marketAgentSchema`, while only `marketSkillSchema` exposes
+`icon`. The entry contract inherits `icon` from the shared common properties, so it
+is *accepted*, but it can never reach a card. The validator therefore requires `icon`
+on Skill listings only, and warns when an Agent or Team listing declares one.
+
+`redistribution` stays `source-pointer-only` for a Team even under a permissive
+license: the market never ships the team body, it only points at the repository the
+client forks. The license governs what a fork may do; `redistribution` describes how
+the content is delivered, and for teams that is always "fetch from upstream".
 
 `supervisorName`, `supervisorAgentId`, `memberCount`, `memberNames` and
 `requiredSkills` are display metadata declared by the publisher. They may drift from

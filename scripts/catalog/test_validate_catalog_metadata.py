@@ -477,6 +477,19 @@ class CatalogMetadataValidatorTests(unittest.TestCase):
         self.write_json(self.root / "manifest.json", manifest)
         self.assertTrue(any(issue.rule == "market-stats" and "totalTeams" in issue.message for issue in self.validate().issues))
 
+    def test_team_license_evidence_clears_the_unverified_warning(self) -> None:
+        # A known license that matches the pointer is fully reconciled: no warning.
+        self.write_team_pointer_case()
+        report = self.validate(require_complete=True)
+        self.assertFalse(report.has_errors, report.issues)
+        self.assertFalse(any(issue.rule == "legacy-license-unverified" for issue in report.issues))
+
+        # Dropping back to unknown is legal but must stay visible as a warning.
+        self.write_team_pointer_case(mutate_sidecar=lambda p: p["governance"].update(license=unknown()))
+        report = self.validate()
+        self.assertFalse(report.has_errors, report.issues)
+        self.assertTrue(any(issue.rule == "legacy-license-unverified" for issue in report.issues))
+
     def test_team_requires_sidecar_under_complete_coverage(self) -> None:
         _, sidecar = self.write_team_pointer_case()
         sidecar.unlink()

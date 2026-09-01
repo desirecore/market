@@ -69,6 +69,12 @@ LOCALE_HEADER_PATTERN = re.compile(r"^<!--\s*locale:\s*([a-zA-Z-]+)\s*-->")
 HEADING_PATTERN = re.compile(r"^(#{1,6})\s+\S", re.MULTILINE)
 FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n(.*)$", re.DOTALL)
 SAFE_URL_PATTERN = re.compile(r"^https://")
+# Only Skill cards are rendered from an inline SVG icon. The client's runtime
+# projections `marketAgentSchema` and `marketTeamSchema` have no `icon` property at
+# all and require `avatar` instead, so an icon on an Agent or Team listing is never
+# displayed. Requiring one there would force publishers to ship a field that cannot
+# take effect, so it is optional for those kinds and flagged when present.
+ICON_RENDERED_KINDS = frozenset({"skill"})
 
 
 @dataclass
@@ -464,6 +470,7 @@ def validate_entry_json(
     entry_file: Path,
     category_ids: set[str],
     online: bool,
+    kind: str = "skill",
     allowed_source_kinds: frozenset[str] = frozenset({"git", "web", "zip"}),
 ) -> None:
     rel = entry_file.relative_to(REPO_ROOT).as_posix()
@@ -471,7 +478,9 @@ def validate_entry_json(
     if not entry:
         return
 
-    required = ("id", "name", "category", "icon", "maintainer", "stewardship", "license", "redistribution", "source")
+    required = ["id", "name", "category", "maintainer", "stewardship", "license", "redistribution", "source"]
+    if kind in ICON_RENDERED_KINDS:
+        required.append("icon")
     for key in required:
         if key not in entry:
             report.add(Issue(rel, "entry-json", f"missing required field '{key}'"))
@@ -484,17 +493,28 @@ def validate_entry_json(
         report.add(Issue(rel, "entry-json", f"category '{category}' is not declared in categories.json"))
 
     icon = entry.get("icon")
-    if not isinstance(icon, str) or not icon.strip():
-        report.add(Issue(rel, "entry-json", "icon must be a non-empty inline SVG string"))
-    else:
-        try:
-            root = ElementTree.fromstring(icon)
-            if root.tag != "{http://www.w3.org/2000/svg}svg":
-                report.add(Issue(rel, "entry-json", "icon root element must be svg in the SVG namespace"))
-            elif not root.get("viewBox"):
-                report.add(Issue(rel, "entry-json", "icon SVG must declare a viewBox"))
-        except ElementTree.ParseError as exc:
-            report.add(Issue(rel, "entry-json", f"icon must be valid SVG XML: {exc}"))
+    icon_rendered = kind in ICON_RENDERED_KINDS
+    # An omitted icon is only a problem where the client actually renders one.
+    if icon is not None or icon_rendered:
+        if not isinstance(icon, str) or not icon.strip():
+            report.add(Issue(rel, "entry-json", "icon must be a non-empty inline SVG string"))
+        else:
+            if not icon_rendered:
+                report.add(Issue(
+                    rel, "entry-json",
+                    f"icon is dead weight for a {kind} listing: the client renders {kind} cards from "
+                    "avatar and its runtime projection has no icon field; remove it, or the next "
+                    "maintainer will believe editing it changes the card",
+                    severity="warning",
+                ))
+            try:
+                root = ElementTree.fromstring(icon)
+                if root.tag != "{http://www.w3.org/2000/svg}svg":
+                    report.add(Issue(rel, "entry-json", "icon root element must be svg in the SVG namespace"))
+                elif not root.get("viewBox"):
+                    report.add(Issue(rel, "entry-json", "icon SVG must declare a viewBox"))
+            except ElementTree.ParseError as exc:
+                report.add(Issue(rel, "entry-json", f"icon must be valid SVG XML: {exc}"))
 
     maintainer = entry.get("maintainer")
     if not isinstance(maintainer, dict) or not isinstance(maintainer.get("name"), str):
@@ -594,12 +614,16 @@ def validate_market_catalog(report: Report, manifest: dict[str, Any], category_i
     validate_builtin_skills(report, skill_md_names)
     for agent_file in agent_files:
         validate_agent_json(report, agent_file, category_ids)
-    for entry_file in [*agent_entry_files, *skill_entry_files]:
-        validate_entry_json(report, entry_file, category_ids, online)
-    for entry_file in team_entry_files:
+    any_source_kind = frozenset({"git", "web", "zip"})
+    for kind, entry_files, source_kinds in (
+        ("agent", agent_entry_files, any_source_kind),
         # A team is installed by forking its repository and updated with git pull;
         # zip / web cannot express either action, so only git is accepted here.
-        validate_entry_json(report, entry_file, category_ids, online, frozenset({"git"}))
+        ("team", team_entry_files, frozenset({"git"})),
+        ("skill", skill_entry_files, any_source_kind),
+    ):
+        for entry_file in entry_files:
+            validate_entry_json(report, entry_file, category_ids, online, kind, source_kinds)
 
 
 def iter_skill_dirs(targets: Iterable[Path]) -> Iterable[Path]:
