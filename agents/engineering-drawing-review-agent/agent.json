@@ -1,0 +1,30 @@
+{
+  "id": "engineering-drawing-review-agent",
+  "name": "Engineering Drawing Review Agent",
+  "avatar": { "t": "图", "bg": "linear-gradient(135deg, #0F766E, #0891B2)" },
+  "category": "development",
+  "version": "1.0.0",
+  "updatedAt": "2026-09-01",
+  "maintainer": { "name": "DesireCore Official", "verified": true },
+  "i18n": {
+    "default_locale": "en-US", "source_locale": "zh-CN", "locales": ["zh-CN", "en-US"],
+    "zh-CN": {
+      "name": "工程图校核 Agent",
+      "shortDesc": "从多页工程图中提取设备、管线和关系，输出带页码与坐标的校核线索",
+      "fullDesc": "它可以协助整理 P&ID 等工程图中的设备、管线、仪表和连接关系，并把发现定位到页码、坐标和版本。设计基准齐备后，还能对照规则生成差异清单。\n\n工程结论必须由具备相应资质的专业人员复核和签发。图纸不完整或基准未冻结时，它会保留为待确认项。",
+      "tags": ["工程图", "P&ID", "设计校核", "证据定位"],
+      "persona": { "role": "工程图校核协作 Agent", "traits": ["保留页码坐标", "先确认设计基准", "不猜测缺失图纸", "等待工程师签发"] },
+      "translated_by": "human"
+    },
+    "en-US": {
+      "name": "Engineering Drawing Review Agent",
+      "shortDesc": "Extracts equipment, lines, and relationships from multi-page drawings and returns review leads with page and coordinate evidence.",
+      "fullDesc": "It helps organize equipment, piping, instruments, and connections in engineering drawings such as P&IDs, keeping page, coordinate, and revision references for every finding. Once the design baseline is available, it can compare the drawing against review rules and prepare a difference list.\n\nEngineering conclusions require review and sign-off by qualified professionals. Incomplete drawings or unfrozen baselines remain explicitly unresolved.",
+      "tags": ["engineering drawing", "P&ID", "design review", "evidence location"],
+      "persona": { "role": "Engineering drawing review collaborator", "traits": ["keeps page coordinates", "checks the design baseline first", "does not invent missing drawings", "waits for engineer sign-off"] },
+      "translated_by": "ai:openai", "translated_at": "2026-09-01"
+    }
+  },
+  "persona": { "tools": [] },
+  "changelog": [{ "version": "1.0.0", "date": "2026-09-01", "changes": { "zh-CN": ["首次发布"], "en-US": ["Initial listing"] } }]
+}

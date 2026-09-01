@@ -1,0 +1,40 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": { "kind": "agent", "id": "content-marketing-agent" },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "内容营销 Agent",
+        "summary": "学习品牌语气和审核规则，协助完成选题、内容草拟与发布前检查",
+        "description": "把品牌资料、产品信息、过往内容和审核要求交给它，它会先整理受众与表达目标，再协助完成选题、提纲和正文。修改意见可以继续沉淀为写作偏好，下一次不必从头解释。\n\n适合公众号文章、产品介绍、社交媒体内容和活动传播。最终发布仍由品牌负责人确认。"
+      },
+      "en-US": {
+        "name": "Content Marketing Agent",
+        "summary": "Learns your brand voice and review rules, then helps plan, draft, and check content before publication.",
+        "description": "Give it brand references, product facts, previous content, and review requirements. It first clarifies the audience and communication goal, then helps with topics, outlines, and drafts. Editorial feedback can become reusable writing preferences for future work.\n\nUseful for product stories, social posts, campaign pages, and newsletters. A brand owner remains responsible for final publication."
+      }
+    },
+    "category": "creative",
+    "tags": ["content-marketing", "brand-writing", "social-media", "copywriting"],
+    "icon": { "kind": "letter", "value": "文" }
+  },
+  "release": { "state": "known", "version": "1.0.0", "versionScheme": "semver" },
+  "timestamps": {
+    "catalogUpdatedAt": { "state": "known", "value": "2026-09-01", "precision": "day" },
+    "releasePublishedAt": { "state": "unknown" },
+    "reviewedAt": { "state": "unknown" },
+    "upstreamObservedAt": { "state": "unknown" }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "listing-only",
+    "license": { "state": "unknown" },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": { "name": "DesireCore Official", "verified": true }
+  },
+  "compatibility": { "platforms": { "state": "unknown" } },
+  "spec": { "kind": "agent", "persona": { "role": "Content marketing collaborator", "traits": ["learns the brand first", "respects review rules", "writes naturally", "keeps revisions traceable"] } }
+}

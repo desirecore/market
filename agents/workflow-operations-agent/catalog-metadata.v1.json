@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json", "schemaVersion": 1,
+  "identity": { "kind": "agent", "id": "workflow-operations-agent" },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": { "name": "流程运营 Agent", "summary": "把日常 SOP 整理成可执行步骤，负责定时跟进、异常提醒和人工节点交接", "description": "适合重复但不能完全放任的运营工作。它会把 SOP 拆成清楚的步骤，按时间或事件启动任务，记录每次结果；遇到数据缺失、权限不足或高风险动作时，停下来交给负责人。\n\n它可以帮助团队减少重复跟进，但不会绕过审批、权限和业务系统的授权边界。" },
+      "en-US": { "name": "Workflow Operations Agent", "summary": "Turns routine SOPs into executable steps and handles scheduled follow-up, exception alerts, and human handoffs.", "description": "Useful for recurring operations that still need supervision. It turns an SOP into clear steps, starts work on a schedule or event, and records each result. Missing data, insufficient permissions, or high-risk actions are handed to the responsible person.\n\nIt reduces repetitive follow-up without bypassing approvals, permissions, or the authorization boundaries of business systems." }
+    },
+    "category": "management", "tags": ["sop", "operations", "scheduled-checks", "exception-alerts"],
+    "icon": { "kind": "letter", "value": "运" }
+  },
+  "release": { "state": "known", "version": "1.0.0", "versionScheme": "semver" },
+  "timestamps": { "catalogUpdatedAt": { "state": "known", "value": "2026-09-01", "precision": "day" }, "releasePublishedAt": { "state": "unknown" }, "reviewedAt": { "state": "unknown" }, "upstreamObservedAt": { "state": "unknown" } },
+  "provenance": {},
+  "governance": { "stewardship": "official", "availability": "listing-only", "license": { "state": "unknown" }, "redistribution": "verify-package-terms", "listingMaintainer": { "name": "DesireCore Official", "verified": true } },
+  "compatibility": { "platforms": { "state": "unknown" } },
+  "spec": { "kind": "agent", "persona": { "role": "Workflow operations Agent", "traits": ["follows explicit steps", "raises exceptions", "hands critical points to people", "records every run"] } }
+}

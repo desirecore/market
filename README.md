@@ -10,7 +10,7 @@ DesireCore 官方市场仓库，存放官方维护的 Agent/Skill 定义，以�
 ├── categories.json        # Category registry and localized labels
 ├── builtin-skills.json    # Built-in local SKILL.md skills
 ├── agents/
-│   └── desirecore/
+│   └── <agent-id>/
 │       └── agent.json
 └── skills/
     ├── <local-skill>/
@@ -22,7 +22,9 @@ DesireCore 官方市场仓库，存放官方维护的 Agent/Skill 定义，以�
 
 The market currently contains:
 
-- `1` Agent: `desirecore`
+- `8` Agents: `desirecore`, `content-marketing-agent`, `tender-collaboration-agent`,
+  `contract-review-agent`, `engineering-drawing-review-agent`, `inspection-report-agent`,
+  `research-evidence-agent`, `workflow-operations-agent`
 - `34` local built-in skills with `SKILL.md`
 - `28` external skill entries with `entry.json`
 - `62` publishable skills in total (`SKILL.md` + `entry.json`)

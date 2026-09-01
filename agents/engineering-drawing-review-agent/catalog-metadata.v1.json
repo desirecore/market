@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json", "schemaVersion": 1,
+  "identity": { "kind": "agent", "id": "engineering-drawing-review-agent" },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": { "name": "工程图校核 Agent", "summary": "从多页工程图中提取设备、管线和关系，输出带页码与坐标的校核线索", "description": "它可以协助整理 P&ID 等工程图中的设备、管线、仪表和连接关系，并把发现定位到页码、坐标和版本。设计基准齐备后，还能对照规则生成差异清单。\n\n工程结论必须由具备相应资质的专业人员复核和签发。图纸不完整或基准未冻结时，它会保留为待确认项。" },
+      "en-US": { "name": "Engineering Drawing Review Agent", "summary": "Extracts equipment, lines, and relationships from multi-page drawings and returns review leads with page and coordinate evidence.", "description": "It helps organize equipment, piping, instruments, and connections in engineering drawings such as P&IDs, keeping page, coordinate, and revision references for every finding. Once the design baseline is available, it can compare the drawing against review rules and prepare a difference list.\n\nEngineering conclusions require review and sign-off by qualified professionals. Incomplete drawings or unfrozen baselines remain explicitly unresolved." }
+    },
+    "category": "development", "tags": ["engineering-drawing", "pid", "design-review", "evidence-location"],
+    "icon": { "kind": "letter", "value": "图" }
+  },
+  "release": { "state": "known", "version": "1.0.0", "versionScheme": "semver" },
+  "timestamps": { "catalogUpdatedAt": { "state": "known", "value": "2026-09-01", "precision": "day" }, "releasePublishedAt": { "state": "unknown" }, "reviewedAt": { "state": "unknown" }, "upstreamObservedAt": { "state": "unknown" } },
+  "provenance": {},
+  "governance": { "stewardship": "official", "availability": "listing-only", "license": { "state": "unknown" }, "redistribution": "verify-package-terms", "listingMaintainer": { "name": "DesireCore Official", "verified": true } },
+  "compatibility": { "platforms": { "state": "unknown" } },
+  "spec": { "kind": "agent", "persona": { "role": "Engineering drawing review collaborator", "traits": ["keeps page coordinates", "checks the design baseline first", "does not invent missing drawings", "waits for engineer sign-off"] } }
+}
