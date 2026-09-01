@@ -531,10 +531,13 @@ def validate_entry_json(
     if not isinstance(source, dict):
         report.add(Issue(rel, "entry-json", "source must be an object"))
         return
-    kind = source.get("kind")
-    if kind not in allowed_source_kinds:
+    # 刻意不叫 `kind`：那是本函数的参数，表示条目种类（agent/skill/team）。
+    # 这里是 source 的传输种类（git/web/zip），两者取值空间不相交，遮蔽掉参数会让
+    # 后续任何一处引用 `kind` 都变成静默取错值。
+    source_kind = source.get("kind")
+    if source_kind not in allowed_source_kinds:
         allowed = "/".join(sorted(allowed_source_kinds))
-        report.add(Issue(rel, "entry-json", f"source.kind '{kind}' must be one of {allowed}"))
+        report.add(Issue(rel, "entry-json", f"source.kind '{source_kind}' must be one of {allowed}"))
     repo_url = source.get("repoUrl")
     if not isinstance(repo_url, str) or not repo_url.strip():
         report.add(Issue(rel, "entry-json", "source.repoUrl is required"))
