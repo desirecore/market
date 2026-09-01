@@ -34,7 +34,7 @@
     },
     "icon": {
       "type": "string",
-      "description": "市场列表展示的内联 SVG 图标。Pointer 技能将其随离线元数据返回。"
+      "description": "市场列表展示的内联 SVG 图标。**只有 Skill 卡片渲染它**——marketAgentSchema 与 marketTeamSchema 都没有 icon 字段，Agent 与团队卡片一律走 avatar，条目声明了 icon 也不会显示。Pointer 技能将其随离线元数据返回。"
     },
     "latestVersion": {
       "type": "string",
@@ -215,5 +215,5 @@
     }
   },
   "additionalProperties": false,
-  "$comment": "Generated from desirecore/desirecore packages/schemas/src/market.ts#marketTeamEntrySchema at commit 28ac3a0599004b342b7100dfc2de3a632665052d, source blob 0b2a0fbe3b175b3f524738b96c4617ff47937791. Keep the complete client contract; regenerate from that export instead of editing fields manually."
+  "$comment": "Generated from desirecore/desirecore packages/schemas/src/market.ts#marketTeamEntrySchema at commit 947d9f32c6c81ebe5ece78f6295155814c888a22, source blob d6b361d149773e7384babe3011d86d25ded4e493. Keep the complete client contract; regenerate from that export instead of editing fields manually."
 }
