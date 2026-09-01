@@ -517,6 +517,62 @@ def _validate_governance_consistency(
                 )
 
 
+def _validate_license_evidence(
+    report: Report,
+    rel: str,
+    sidecar: dict[str, Any],
+    legacy: LegacyItem,
+    item_dir: Path,
+) -> None:
+    """Make ``evidencePath`` a checkable claim rather than a well-formed string.
+
+    The schema only constrains the shape, not what the path is relative to, and the
+    two readings disagree exactly where it matters:
+
+    * vendored content (builtin Skills, inline Agents) ships inside this repository,
+      so the evidence file must be present here and is checked directly;
+    * a pointer distributes nothing, so its evidence can only live in the upstream
+      snapshot. This validator cannot read that offline, so an unpinned pointer is
+      flagged instead: the claim is about whatever HEAD happens to be and nobody can
+      check it. That stays a warning, because an installable pointer is already
+      required to be pinned by ``installable-evidence`` — this branch is only ever
+      reached by a listing-only entry, which is explicitly allowed to be unpinned and
+      installs nothing on the strength of the claim.
+    """
+    governance = sidecar.get("governance")
+    if not isinstance(governance, dict):
+        return
+    license_fact = governance.get("license")
+    compliance = governance.get("compliance")
+    candidates: list[tuple[str, Any]] = []
+    if isinstance(license_fact, dict):
+        candidates.append(("license.evidencePath", license_fact.get("evidencePath")))
+    if isinstance(compliance, dict):
+        for key in ("licenseEvidencePath", "noticePath"):
+            candidates.append((f"compliance.{key}", compliance.get(key)))
+
+    pinned = _content_is_immutable((sidecar.get("provenance") or {}).get("content"))
+    for field, value in candidates:
+        if not isinstance(value, str) or not value:
+            continue
+        if legacy.source_type == "pointer":
+            if not pinned:
+                report.add(
+                    rel,
+                    "license-evidence",
+                    f"{field} names evidence inside the upstream snapshot but provenance.content is not "
+                    "pinned to an immutable ref or digest, so the claim is about a moving target and "
+                    "cannot be checked",
+                    severity="warning",
+                )
+        elif not (item_dir / value).is_file():
+            report.add(
+                rel,
+                "license-evidence",
+                f"{field} {value!r} does not exist in the catalog item directory",
+            )
+
+
 def _validate_team_spec(report: Report, rel: str, sidecar: dict[str, Any], legacy: LegacyItem) -> None:
     """Keep the sidecar Team facts identical to the entry.json Team facts.
 
@@ -758,6 +814,7 @@ def validate_sidecar(
 
     _validate_content_consistency(report, rel, sidecar, legacy)
     _validate_governance_consistency(report, rel, sidecar, legacy)
+    _validate_license_evidence(report, rel, sidecar, legacy, sidecar_path.parent)
     _validate_collection(report, rel, sidecar, legacy, supported_locales)
 
     governance = sidecar.get("governance")

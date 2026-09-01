@@ -166,7 +166,7 @@ inline form; a `team.json` in the catalog is rejected.
     "kind": "git",
     "repoUrl": "https://github.com/example/example-team.git",
     "repoBranch": "main",
-    "ref": "v0.1.0"
+    "ref": "0123456789abcdef0123456789abcdef01234567"
   },
   "requiredClientVersion": "10.0.0",
   "avatar": { "t": "示", "bg": "linear-gradient(135deg, #5856D6, #3634A3)" },
@@ -259,7 +259,8 @@ the sidecar may neither drop a fact the pointer declares nor invent one it omits
 because the client reads the pointer and a version gate that exists only in the
 sidecar would not gate anything. Pointer source fields must describe the same
 artifact as `provenance.content`, and an installable Team pointer must itself pin a
-full-SHA `source.ref` — a moving tag or branch is not a reproducible pin.
+full-SHA `source.ref` — a tag is not a reproducible pin, because a tag can be moved
+to a different commit after the listing is reviewed.
 
 团队条目只有指针形态：`teams/<slug>/` 仅放 `entry.json` 与 sidecar，目录内出现 `team.json` 直接判非法。
 Pointer 原始 JSON 先通过由 `marketTeamEntrySchema` 导出的完整客户端 Schema；
@@ -273,6 +274,16 @@ provenance, governance, compatibility, and type-specific facts. It deliberately
 cannot declare `catalogSourceId`, catalog commit/path/trust, effective official
 status, installation state, device state, health, URLs discovered at runtime, or
 `syncedAt`. DesireCore injects trusted catalog provenance and runtime facts.
+
+`license.evidencePath`, `compliance.licenseEvidencePath` and `compliance.noticePath`
+resolve differently by item shape, because the schema constrains only the string
+form. Vendored content (built-in Skills, inline Agents) ships inside this repository,
+so the path is relative to the catalog item directory and the file must actually be
+there — a missing file is an error. A pointer distributes nothing, so its evidence
+can only be inside the upstream snapshot at the pinned revision; the validator cannot
+read that offline, so it warns when such a claim is made against an unpinned pointer.
+Pin `source.ref` to a full commit SHA and the claim becomes falsifiable by anyone who
+fetches it.
 
 Time facts are explicit `known`/`unknown` values. A known day uses
 `YYYY-MM-DD` with `precision: "day"`; a known second uses an RFC 3339 UTC value

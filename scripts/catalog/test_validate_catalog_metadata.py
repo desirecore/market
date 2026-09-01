@@ -490,6 +490,56 @@ class CatalogMetadataValidatorTests(unittest.TestCase):
         self.assertFalse(report.has_errors, report.issues)
         self.assertTrue(any(issue.rule == "legacy-license-unverified" for issue in report.issues))
 
+    def test_license_evidence_on_a_pointer_requires_an_immutable_pin(self) -> None:
+        """Upstream evidence is unreadable offline, so it must name an exact snapshot."""
+        def with_evidence(payload):
+            payload["governance"]["license"]["evidencePath"] = "LICENSE"
+
+        # Pinned to a full SHA: the claim is falsifiable by anyone who fetches it.
+        self.write_team_pointer_case(mutate_sidecar=with_evidence)
+        self.assertFalse(self.validate(require_complete=True).has_errors)
+
+        # Against a moving branch, nobody can say which tree the claim was about.
+        for ref in ("main", None):
+            with self.subTest(ref=ref):
+                def unpin_entry(payload, value=ref):
+                    if value is None:
+                        payload["source"].pop("ref")
+                    else:
+                        payload["source"]["ref"] = value
+
+                def unpin_sidecar(payload, value=ref):
+                    with_evidence(payload)
+                    if value is None:
+                        payload["provenance"]["content"].pop("ref")
+                    else:
+                        payload["provenance"]["content"]["ref"] = value
+
+                self.write_team_pointer_case(unpin_entry, unpin_sidecar)
+                report = self.validate()
+                flagged = [issue for issue in report.issues if issue.rule == "license-evidence"]
+                self.assertTrue(flagged)
+                # listing-only is allowed to stay unpinned, so this must not be fatal
+                self.assertTrue(all(issue.severity == "warning" for issue in flagged))
+                self.assertFalse(report.has_errors, report.issues)
+
+    def test_license_evidence_on_vendored_content_must_exist_locally(self) -> None:
+        """Vendored content ships here, so the evidence file is checked directly."""
+        self.entry_path.unlink()
+        self.entry_path.with_name("SKILL.md").write_text(
+            "---\nname: example-skill\ndescription: Example builtin skill.\n"
+            "market:\n  category: development\n---\nBody.\n",
+            encoding="utf-8",
+        )
+        self.rewrite_sidecar(
+            lambda payload: payload["governance"]["license"].update(evidencePath="LICENSE")
+        )
+        issues = [issue for issue in self.validate().issues if issue.rule == "license-evidence"]
+        self.assertTrue(any("does not exist" in issue.message for issue in issues), issues)
+
+        (self.entry_path.parent / "LICENSE").write_text("MIT License\n", encoding="utf-8")
+        self.assertFalse(any(issue.rule == "license-evidence" for issue in self.validate().issues))
+
     def test_team_requires_sidecar_under_complete_coverage(self) -> None:
         _, sidecar = self.write_team_pointer_case()
         sidecar.unlink()
