@@ -130,12 +130,12 @@
         },
         "repoBranch": {
           "type": "string",
-          "description": "团队仓库分支名称，默认 main",
+          "description": "团队仓库分支名称，默认 main。安装时会真的按这个分支克隆；必须是合法分支名（不带 refs/ 前缀、不以 - 开头），否则安装失败关闭而不是静默改装默认分支。",
           "default": "main"
         },
         "ref": {
           "type": "string",
-          "description": "锁定的 commit SHA / tag，用于可复现安装；为空表示取分支 HEAD"
+          "description": "锁定的 commit SHA / tag，用于可复现安装；为空表示取分支 HEAD。只接受**完整 40 位 SHA-1** 或标签名：缩写 oid 会随仓库增长变歧义、也远比完整 SHA 容易被构造碰撞，而降级 git 后端根本不解析它。安装时会按该 ref 克隆并读回真实 HEAD 逐字复核，不一致就中止整个安装——一个不被兑现的锁比没有锁更危险，因为它会被信任。"
         }
       },
       "additionalProperties": false,
@@ -215,5 +215,5 @@
     }
   },
   "additionalProperties": false,
-  "$comment": "Generated from desirecore/desirecore packages/schemas/src/market.ts#marketTeamEntrySchema at commit 697375c3b84054a4e23088989755bcab884db4dc, source blob 474f0f4e0936d2f355a4138102c22ed7587c9df9. Keep the complete client contract; regenerate from that export instead of editing fields manually."
+  "$comment": "Generated from desirecore/desirecore packages/schemas/src/market.ts#marketTeamEntrySchema at commit 28ac3a0599004b342b7100dfc2de3a632665052d, source blob 0b2a0fbe3b175b3f524738b96c4617ff47937791. Keep the complete client contract; regenerate from that export instead of editing fields manually."
 }
