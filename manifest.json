@@ -1,6 +1,6 @@
 {
   "name": "DesireCore Official Market",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "schemaVersion": "1.1.0",
   "supportedLocales": ["zh-CN", "en-US"],
   "defaultLocale": "en-US",
@@ -26,7 +26,7 @@
     "url": "https://github.com/desirecore/market.git"
   },
   "stats": {
-    "totalAgents": 1,
+    "totalAgents": 2,
     "totalTeams": 1,
     "totalSkills": 63,
     "lastUpdated": "2026-09-01"

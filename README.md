@@ -10,8 +10,11 @@ DesireCore 官方市场仓库，存放官方维护的 Agent/Team/Skill 定义，
 ├── categories.json        # Category registry and localized labels
 ├── builtin-skills.json    # Built-in local SKILL.md skills
 ├── agents/
-│   └── desirecore/
-│       └── agent.json
+│   ├── desirecore/
+│   │   └── agent.json
+│   └── <agent-listing>/
+│       ├── agent.json
+│       └── catalog-metadata.v1.json
 ├── teams/
 │   └── <team>/
 │       └── entry.json
@@ -25,7 +28,7 @@ DesireCore 官方市场仓库，存放官方维护的 Agent/Team/Skill 定义，
 
 The market currently contains:
 
-- `1` Agent: `desirecore`
+- `2` Agents: `desirecore`, `dingtalk-workspace`
 - `1` Team: `contract-review-team`
 - `34` local built-in skills with `SKILL.md`
 - `29` external skill entries with `entry.json`
