@@ -278,9 +278,17 @@ wecom-cli <service> [resource...] <method> [--param value ...] [--json '<JSON>']
 - **文档自查**：`wecom-cli <service> --help` / `--doc` / `--schema`，
   `wecom-cli <service> <method> --help` / `--doc` / `--schema`。**拿不准参数就查，不要猜。**
 - **禁止绕过**：不得用 `curl` / `python` / 直接打企业微信 API 等方式绕开 `wecom-cli` 完成调用。
-  （**例外**：下载正文里的**外部 CDN 静态资源**不属此列——那不是企业微信 API 调用。
-  典型场景是智能文档正文中的图片直链，`media download` 只接受 `media_id`、吃不下 URL，
-  这时用通用下载工具落地是正确做法，见 `wecom-smartpage`。）
+
+  **两条明确例外**（都不是「绕开 CLI 打企微 API」，不要因本条而拒绝它们）：
+
+  1. **下载正文里的外部 CDN 静态资源**。典型场景是智能文档正文中的图片直链——
+     `media download` 只接受 `media_id`、吃不下 URL，这时用通用下载工具落地是正确做法，
+     见 `wecom-smartpage`。
+  2. **智能表格的 Webhook 兜底写入**。`smartsheet records add` / `records update` 返回
+     `851003` 或 `errmsg` 含 `no authority` 时，`wecom-smartsheet` 规定转 Webhook 写入，
+     那条路径**本身就需要直接发 HTTP 请求**，是该技能的既定设计而非绕过。
+     见 `wecom-smartsheet/references/Webhook兜底.md`。
+     ⚠️ 仅限该错误码触发，**其他任何错误都不得切 Webhook**。
 
 ### ⚠️ `--dry-run` 不是参数校验器（已实测）
 
