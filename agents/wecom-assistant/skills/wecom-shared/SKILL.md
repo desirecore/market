@@ -164,7 +164,7 @@ wecom-cli identity whoami
 |---|---|
 | `850002` | 该品类完全未授权（如「通讯录」） |
 | `851008` | `partial no authorization`（部分未授权，如文档 / 微盘 / 会议） |
-| `853006` | 同类未授权（如群聊会话） |
+| `853006` | **企业级不可用**——`this tool is not available for your corporation`。与 `850002`/`851008` 不同，这不是「机器人没开通」而是**整个企业没有这项能力**，联系管理员也未必能开。实测 `message send` 与 `chat groups list` 都是这个码 |
 
 这类响应会附带 `help_instruction` 字段，内容是：
 
