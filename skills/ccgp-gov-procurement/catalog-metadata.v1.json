@@ -1,0 +1,74 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "ccgp-gov-procurement"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "政府采购网招标查询",
+        "summary": "输入企业名称（建议简称），返回采购公告列表与详情字段",
+        "description": "中国政府采购网招标公告查询——输入企业名称（或简称），搜索该企业参与的采购公告，返回公告列表（标题/链接/日期）并可深度提取详情字段（项目编号/采购人/代理机构/更正内容/联系人）。Use when 用户提到\"查招投标\"、\"政府采购\"、\"采购公告\"、\"中标公告\"、\"招标信息\"、\"ccgp\"、\"企业中标\"。"
+      },
+      "en-US": {
+        "name": "CCGP Procurement Search",
+        "summary": "Search China Government Procurement announcements by company name",
+        "description": "China Government Procurement (ccgp.gov.cn) announcement search — input a company name (short name recommended) and return procurement announcements (title / link / date), with optional deep extraction of detail fields (project number / purchaser / agency / corrections / contacts). Use when the user asks about tenders, procurement announcements, winning bids, or ccgp."
+      }
+    },
+    "category": "business",
+    "tags": [
+      "due-diligence",
+      "procurement",
+      "government",
+      "bidding"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-09-03T05:45:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requiredClientVersion": "10.0.115"
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "medium"
+  }
+}
