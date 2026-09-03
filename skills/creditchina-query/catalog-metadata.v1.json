@@ -1,0 +1,74 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "creditchina-query"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "信用中国查询",
+        "summary": "浏览器自动化 + ddddocr 本地过验证码，返回企业信用信息",
+        "description": "信用中国企业信用信息查询——输入企业名称，自动通过图形验证码（ddddocr 本地 OCR 100ms），返回信用信息（行政处罚/失信被执行/行政许可）。Use when 用户提到\"查信用\"、\"信用中国\"、\"行政处罚\"、\"失信企业\"、\"企业信用\"、\"失信被执行人\"、\"行政许可\"、\"creditchina\"。"
+      },
+      "en-US": {
+        "name": "Credit China Query",
+        "summary": "Browser automation with local ddddocr captcha solving for enterprise credit records",
+        "description": "Credit China (creditchina.gov.cn) enterprise credit query — input a company name, automatically pass the graphic captcha (ddddocr local OCR, ~100 ms), and return credit records (administrative penalties / dishonest debtors / administrative licenses). Use when the user asks about enterprise credit, administrative penalties, dishonest-debtor lists, or creditchina."
+      }
+    },
+    "category": "business",
+    "tags": [
+      "due-diligence",
+      "credit",
+      "creditchina",
+      "compliance"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-09-03T05:45:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requiredClientVersion": "10.0.115"
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "high"
+  }
+}

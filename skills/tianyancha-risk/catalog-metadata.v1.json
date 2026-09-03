@@ -1,0 +1,74 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "tianyancha-risk"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "天眼查企业风险查询",
+        "summary": "输入企业名称，返回自身/周边/历史/预警四类风险画像",
+        "description": "天眼查企业风险查询——输入企业名称，返回风险画像（自身风险/周边风险/历史风险/预警提醒，含分类统计与明细）。Use when 用户提到\"查风险\"、\"企业风险\"、\"风险画像\"、\"司法风险\"、\"经营风险\"、\"开庭公告\"、\"裁判文书\"、\"被执行人\"、\"天眼查\"。"
+      },
+      "en-US": {
+        "name": "Tianyancha Risk Query",
+        "summary": "Enterprise risk profile by company name — self/related/historical/warning risk",
+        "description": "Tianyancha enterprise risk query — input a company name and return a structured risk profile (self risk / related-party risk / historical risk / early warnings, with category counts and details). Use when the user asks about enterprise risk, judicial risk, litigation announcements, court rulings, dishonest debtors, or Tianyancha."
+      }
+    },
+    "category": "business",
+    "tags": [
+      "due-diligence",
+      "risk",
+      "tianyancha",
+      "corporate"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-09-03T05:45:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requiredClientVersion": "10.0.115"
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low"
+  }
+}

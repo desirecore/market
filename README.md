@@ -30,21 +30,22 @@ The market currently contains:
 
 - `2` Agents: `desirecore`, `dingtalk-workspace`
 - `1` Team: `contract-review-team`
-- `34` local built-in skills with `SKILL.md`
+- `40` local built-in skills with `SKILL.md`
 - `29` external skill entries with `entry.json`
-- `63` publishable skills in total (`SKILL.md` + `entry.json`)
+- `69` publishable skills in total (`SKILL.md` + `entry.json`)
 
 ## Skill Sources
 
 Local built-in skills are installable from this repository and must be listed in `builtin-skills.json`:
 
 ```text
-code-intelligence, configuring-compute, create-agent, dashscope-image-gen, delete-agent,
+baidu-poi-search, ccgp-gov-procurement, clone-agent, cnipa-patent-search, code-intelligence,
+configuring-compute, create-agent, creditchina-query, dashscope-image-gen, delete-agent,
 dev-environment-setup, discover-agent, docx, frontend-design, guizang-ppt,
 image-to-image, mail-operations, manage-skills, manage-teams, markdown,
-minimax-music-gen, minimax-video-gen, nodejs-runtime, pdf, pptx,
+minimax-music-gen, minimax-video-gen, multi-source-sentiment, nodejs-runtime, pdf, pptx,
 presentation-forge, python-runtime, registering-services, s3-storage-operations, skill-creator,
-tech-diagram, update-agent, using-services, web-access, workflow, workforce-optimization,
+tech-diagram, tianyancha-risk, update-agent, using-services, web-access, workflow, workforce-optimization,
 xiaomi-tts, xlsx
 ```
 

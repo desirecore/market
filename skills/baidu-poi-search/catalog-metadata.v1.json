@@ -1,0 +1,74 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "baidu-poi-search"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "百度地图POI搜索",
+        "summary": "输入企业名称，返回 POI 名称/地址/经纬度/分支机构",
+        "description": "百度地图企业 POI 搜索——输入企业名称，返回 POI 名称/地址/经纬度/分支机构。Use when 用户提到\"查企业地址\"、\"查公司位置\"、\"POI搜索\"、\"企业地图\"、\"经纬度\"、\"查分支机构\"、\"百度地图\"、\"企业网点\"、\"周边企业\"。"
+      },
+      "en-US": {
+        "name": "Baidu Map POI Search",
+        "summary": "Enterprise POI lookup by company name — name, address, coordinates, branches",
+        "description": "Baidu Map enterprise POI search — input a company name and return POI name, address, latitude/longitude, and branch listings. Use when the user asks to look up a company address, location, POI, enterprise map, coordinates, branches, or nearby companies."
+      }
+    },
+    "category": "data",
+    "tags": [
+      "due-diligence",
+      "baidu-map",
+      "poi",
+      "geolocation"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-09-03T05:45:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requiredClientVersion": "10.0.115"
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low"
+  }
+}

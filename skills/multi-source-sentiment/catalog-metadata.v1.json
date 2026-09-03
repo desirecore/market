@@ -1,0 +1,74 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "multi-source-sentiment"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "企业尽调舆情采集",
+        "summary": "抖音指数+抖音精选+WebSearch 三渠道采集，输出尽调舆情报告",
+        "description": "企业尽调舆情采集——通过抖音指数、抖音精选、WebSearch 三大数据源采集企业舆情，分析负面风险（诉讼/处罚/质量/高管/劳资），输出尽调舆情报告。Use when 用户提到\"查舆情\"、\"企业舆情\"、\"负面新闻\"、\"舆论风险\"、\"尽调舆情\"、\"企业口碑\"、\"舆情分析\"、\"网络口碑\"。"
+      },
+      "en-US": {
+        "name": "Multi-Source Sentiment",
+        "summary": "Due-diligence sentiment via Douyin Index, Douyin Featured, and WebSearch",
+        "description": "Due-diligence sentiment collection — gather enterprise public opinion via three channels (Douyin Index, Douyin Featured, WebSearch), analyze negative risks (litigation / penalties / quality / executives / labor), and output a due-diligence sentiment report. Use when the user asks about enterprise sentiment, negative news, reputation risk, or public opinion."
+      }
+    },
+    "category": "research",
+    "tags": [
+      "due-diligence",
+      "sentiment",
+      "public-opinion",
+      "douyin"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-09-03T05:45:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requiredClientVersion": "10.0.115"
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "medium"
+  }
+}
