@@ -14,7 +14,8 @@ DesireCore 官方市场仓库，存放官方维护的 Agent/Team/Skill 定义，
 │   │   └── agent.json
 │   └── <agent-listing>/
 │       ├── agent.json
-│       └── catalog-metadata.v1.json
+│       ├── catalog-metadata.v1.json
+│       └── USAGE.md            # Optional usage notes (USAGE.<locale>.md for variants)
 ├── teams/
 │   └── <team>/
 │       └── entry.json
@@ -221,6 +222,19 @@ or `agents/<slug>/entry.json` (an external pointer), alongside the sidecar. Miss
 or simultaneous primary files are rejected. For a pointer, `entry.id` and sidecar
 `identity.id` use the catalog directory slug and `identity.kind` is `agent`; the
 upstream AgentFS `agent.json.id` remains its own UUID and must not be rewritten.
+
+An agent listing may also carry an optional `USAGE.md` next to `agent.json`. The
+client renders it as a separate "Usage" section on the agent detail page, kept
+apart from `fullDesc` (which is persona text and also enters the agent's runtime
+context). Localized variants use `USAGE.<locale>.md`, resolved through the same
+fallback chain as the `i18n` block: requested locale, then `i18n.source_locale`,
+then `i18n.default_locale`, then the unsuffixed file. Its scope is what a reader
+needs *before* installing — prerequisites, authorization steps, capability and
+safety boundaries — not full documentation; clients truncate overlong content.
+Longer material belongs in a skill's `references/` directory, which the agent
+loads on demand. Listings without the file are unaffected and render no section.
+Relative image references do not render on the detail page, so keep `USAGE.md`
+text-only. See ADR-143 in the DesireCore repository.
 
 Agent pointers first pass the complete raw client contract in
 [`schemas/market-agent-entry.client.schema.json`](schemas/market-agent-entry.client.schema.json),
