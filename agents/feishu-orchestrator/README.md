@@ -96,6 +96,18 @@ lark-cli auth status --json --verify
 - **`lark-whiteboard` 需要 Node 环境**，会按需拉取 `@larksuite/whiteboard-cli`。
 - **`lark-slides` 依赖 Python 3** 做版式校验。
 
+## 界面
+
+**市场条目**
+
+![市场中的飞书编排助手](./docs/images/market-listing.png)
+
+**条目详情**
+
+![条目详情页](./docs/images/agent-detail.png)
+
+详情页右侧的「获取状态：仅收录」来自 `requiredClientVersion` 门槛——截图时的客户端为 10.0.141，低于本条目要求的 10.0.143。达到该版本后即可一键获取。
+
 ## 详细功能文档
 
 每个业务域的实测命令、参数约定与真机踩过的坑，见 [`docs/`](./docs/README.md)：
