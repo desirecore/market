@@ -1,0 +1,86 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "agent",
+    "id": "wecom-assistant"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "企业微信助手",
+        "summary": "在对话里代你操作企业微信：消息、文档、表格、日程、会议、待办、邮件、微盘",
+        "description": "企业微信助手把企业微信的日常办公搬进 DesireCore 的对话框。你用日常语言说出意图，它通过企业微信官方命令行工具 wecom-cli 把事情办成，再用可读的语言汇报结果——不必打开企业微信客户端，不必记接口，不必自己敲命令。\n\n覆盖能力（14 类服务，95 个方法）：\n- 消息与会话：查最近会话、拉取群聊记录、发送文本/图片/文件/语音/视频\n- 在线文档：新建、导入、读取、追加与覆盖正文\n- 在线表格：新建、导入、读改数据、追加行、子表管理\n- 智能表格：子表/字段/记录/视图/图表的完整增删改查与行列样式\n- 智能文档：创建、页面读取与管理、Block 编辑、内容追加与覆盖\n- 文档管理：跨类型搜索、重命名、成员权限与加入规则\n- 日程：增删改查、参与人管理、多人闲忙查询、会议室查询与预订\n- 会议：预约、查询、搜索、取消、更新参会人、读取纪要与转写\n- 待办：创建、查询、更新、完成、删除、分派参与人\n- 邮件：发送、回复、转发、搜索与正文读取\n- 微盘：搜索、上传、下载、重命名、读元信息、新建文件夹\n- 通讯录：按姓名/拼音/别名解析成员\n- 媒体文件：本地文件与企微之间的上传下载\n\n风险治理：\n发消息、发邮件、改文档权限、覆盖或删除内容等 26 个对外可见或不可逆的操作，一律先向你复述影响并取得明确同意才执行。文档加入规则涉及企业外可见时会额外提示。所有内部标识（成员 ID、会话 ID、文档 ID 等）只在内部流转，回复中始终使用姓名、群名、文档标题这类可读信息。\n\n能力边界（真机实测得出）：\n机器人可以读取你的数据，但只能写入或修改机器人自己创建的内容——你自己建的文档、日程、待办，助手改不了，它会说明这条边界并给出替代方案。企业微信的机器人权限按品类逐项开通，未开通时助手会把官方开通指引原样转给你，不会反复重试。\n\n使用前提：\n需要 Node.js 18+ 与企业微信账号。首次使用时助手会引导你安装 wecom-cli 并用企业微信扫码完成授权，仅需一次。"
+      },
+      "en-US": {
+        "name": "WeCom Assistant",
+        "summary": "Operate WeCom from chat: messages, docs, sheets, calendar, meetings, todos, mail, drive",
+        "description": "WeCom Assistant brings everyday WeCom (Enterprise WeChat) work into the DesireCore chat box. You state your intent in plain language; it gets the job done through the official WeCom CLI and reports back in readable terms — no need to open the WeCom client, memorize APIs, or type commands yourself.\n\nCoverage (14 services, 95 methods):\n- Messaging: list recent sessions, pull group chat history, send text/image/file/voice/video\n- Docs: create, import, read, append and overwrite content\n- Sheets: create, import, read/modify data, append rows, manage subsheets\n- Smart sheets: full CRUD over subsheets, fields, records, views and charts, plus row/column styling\n- Smart pages: create, read and manage pages, edit blocks, append and overwrite content\n- Doc management: cross-type search, rename, member permissions and join rules\n- Calendar: full schedule CRUD, attendee management, multi-member free/busy, meeting room booking\n- Meetings: book, query, search, cancel, update attendees, read minutes and transcripts\n- Todos: create, query, update, finish, delete, assign participants\n- Mail: send, reply, forward, search and read message bodies\n- Drive: search, upload, download, rename, read metadata, create folders\n- Contacts: resolve members by name, pinyin or alias\n- Media: move files between your machine and WeCom\n\nRisk governance:\n26 operations that are externally visible or irreversible — sending messages or mail, changing document permissions, overwriting or deleting content — always restate their impact and require your explicit consent first. Join-rule changes that would expose a document outside the company get an extra warning. Internal identifiers never appear in replies; you always see names, group titles and document titles.\n\nCapability boundary (verified on a live account):\nThe bot can read your data but may only write or modify content the bot itself created — documents, schedules and todos you created yourself cannot be modified; the assistant explains this boundary and offers an alternative. WeCom bot permissions are granted per category; when a category is not enabled the assistant relays the official activation guidance verbatim instead of retrying.\n\nRequirements:\nNode.js 18+ and a WeCom account. On first use the assistant walks you through installing wecom-cli and authorizing once by scanning a QR code in WeCom."
+      }
+    },
+    "category": "communication",
+    "tags": [
+      "wecom",
+      "office",
+      "collaboration",
+      "documents",
+      "calendar"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-09-03T06:30:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "known",
+      "value": "2026-09-03T06:30:00Z",
+      "precision": "second"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-08-25T10:23:42Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "agent",
+    "persona": {
+      "role": "WeCom office assistant",
+      "traits": [
+        "confirms before acting",
+        "plain language, no raw IDs",
+        "full business coverage",
+        "reports failures honestly"
+      ]
+    }
+  }
+}

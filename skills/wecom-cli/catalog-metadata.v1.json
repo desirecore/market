@@ -39,7 +39,7 @@
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-06-28T13:06:20Z",
+      "value": "2026-08-25T10:23:42Z",
       "precision": "second"
     }
   },
@@ -47,7 +47,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/WecomTeam/wecom-cli.git",
-      "ref": "72e14f7695f34d28f1ff23ea504ddd2210a87c13"
+      "ref": "78c514b2afee7c0d3d7be715628478421f37ee63"
     }
   },
   "governance": {
@@ -72,8 +72,33 @@
     "kind": "skill",
     "collection": {
       "role": "parent",
-      "childCount": 7,
+      "childCount": 14,
       "children": [
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "wecomcli-calendar",
+            "parentId": "wecom-cli"
+          },
+          "path": "skills/wecomcli-calendar",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "wecomcli-calendar",
+                "summary": "企业微信日程管理。当用户需要预约日程、预订会议室、查看/更新/取消日程或查忙闲时触发。本技能负责『日程』——即不含在线会议链接的安排（也涵盖纯线下面对面碰头）；若用户要的是『在线会议』（含会议号/入会链接、可远程或视频参会），改用 wecomcli-meeting 技能。用户仅说'开会/约个会/某会'等、未明确要创建的…"
+              },
+              "zh-CN": {
+                "name": "wecomcli-calendar",
+                "summary": "企业微信日程管理。当用户需要预约日程、预订会议室、查看/更新/取消日程或查忙闲时触发。本技能负责『日程』——即不含在线会议链接的安排（也涵盖纯线下面对面碰头）；若用户要的是『在线会议』（含会议号/入会链接、可远程或视频参会），改用 wecomcli-meeting 技能。用户仅说'开会/约个会/某会'等、未明确要创建的…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
         {
           "identity": {
             "kind": "skill",
@@ -86,17 +111,44 @@
             "i18n": {
               "en-US": {
                 "name": "wecomcli-contact",
-                "summary": "通讯录成员查询技能，获取当前用户可见范围内的通讯录成员，支持按姓名/别名本地筛选匹配。返回 userid、姓名和别名。⚠️ 仅返回当前用户有权限查看的成员，非全量成员。"
+                "summary": "使用 wecom-cli 按姓名、拼音、英文名或别名搜索企业微信通讯录中的人员，并查询匹配人员的 userid、部门和职务。适用于查找联系人、区分同名人员、获取用户 userid，以及列出全部同名人员。"
               },
               "zh-CN": {
                 "name": "wecomcli-contact",
-                "summary": "通讯录成员查询技能，获取当前用户可见范围内的通讯录成员，支持按姓名/别名本地筛选匹配。返回 userid、姓名和别名。⚠️ 仅返回当前用户有权限查看的成员，非全量成员。"
+                "summary": "使用 wecom-cli 按姓名、拼音、英文名或别名搜索企业微信通讯录中的人员，并查询匹配人员的 userid、部门和职务。适用于查找联系人、区分同名人员、获取用户 userid，以及列出全部同名人员。"
               }
             },
             "tags": []
           },
           "release": {
             "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "wecomcli-disk",
+            "parentId": "wecom-cli"
+          },
+          "path": "skills/wecomcli-disk",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "wecomcli-disk",
+                "summary": "企业微信微盘（Disk / 网盘）文件操作技能。承接\"微盘 / 网盘\"里的文件列出、搜索、读取元信息、上传、下载、重命名、新建文件夹操作。用户明确提到\"微盘\"/\"网盘\"/\"共享空间\"时必须先读取本技能获取完整指引，不得凭记忆处理。用户说\"上传到微盘\"、\"帮我在微盘里搜一下 xxx\"、\"微盘那个 PPT 在哪\"、\"下载微…"
+              },
+              "zh-CN": {
+                "name": "wecomcli-disk",
+                "summary": "企业微信微盘（Disk / 网盘）文件操作技能。承接\"微盘 / 网盘\"里的文件列出、搜索、读取元信息、上传、下载、重命名、新建文件夹操作。用户明确提到\"微盘\"/\"网盘\"/\"共享空间\"时必须先读取本技能获取完整指引，不得凭记忆处理。用户说\"上传到微盘\"、\"帮我在微盘里搜一下 xxx\"、\"微盘那个 PPT 在哪\"、\"下载微…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.0.0",
+            "versionScheme": "semver"
           }
         },
         {
@@ -111,17 +163,96 @@
             "i18n": {
               "en-US": {
                 "name": "wecomcli-doc",
-                "summary": "企业微信文档、表格（在线表格）、智能表格和智能文档（原名智能主页）管理技能。提供文档的创建、读取、编辑能力，表格和智能表格的内容读取，智能表格的创建，以及智能文档的创建和内容导出。适用场景：(1) 以 Markdown 格式获取文档/表格/智能表格完整内容 (2) 新建文档或智能表格 (3) 用 Markdown 格式…"
+                "summary": "企微 doc 内容操作技能，包含新建在线文档、导入、读取、追加、覆盖写入等功能。仅当用户明确指定 'doc'、'docx'、'word'、'在线文档'、'office文档'，或提供 https://doc.weixin.qq.com/doc/xxx 链接时触发。本技能不处理未指明类型的“文档”请求；凡是“创建文档 /…"
               },
               "zh-CN": {
                 "name": "wecomcli-doc",
-                "summary": "企业微信文档、表格（在线表格）、智能表格和智能文档（原名智能主页）管理技能。提供文档的创建、读取、编辑能力，表格和智能表格的内容读取，智能表格的创建，以及智能文档的创建和内容导出。适用场景：(1) 以 Markdown 格式获取文档/表格/智能表格完整内容 (2) 新建文档或智能表格 (3) 用 Markdown 格式…"
+                "summary": "企微 doc 内容操作技能，包含新建在线文档、导入、读取、追加、覆盖写入等功能。仅当用户明确指定 'doc'、'docx'、'word'、'在线文档'、'office文档'，或提供 https://doc.weixin.qq.com/doc/xxx 链接时触发。本技能不处理未指明类型的“文档”请求；凡是“创建文档 /…"
               }
             },
             "tags": []
           },
           "release": {
             "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "wecomcli-doc-manage",
+            "parentId": "wecom-cli"
+          },
+          "path": "skills/wecomcli-doc-manage",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "wecomcli-doc-manage",
+                "summary": "企业微信文档公共管理：搜索文档（最近浏览/创建）、文档改名、添加文档成员权限、设置文档加入规则。适用于所有文档类型（doc文档 / 在线表格 / 智能表格 / 智能文档）。新建或导入doc文档请使用 wecomcli-doc；新建或导入在线表格请使用 wecomcli-sheet；智能表格内容 CRUD 请使用 wec…"
+              },
+              "zh-CN": {
+                "name": "wecomcli-doc-manage",
+                "summary": "企业微信文档公共管理：搜索文档（最近浏览/创建）、文档改名、添加文档成员权限、设置文档加入规则。适用于所有文档类型（doc文档 / 在线表格 / 智能表格 / 智能文档）。新建或导入doc文档请使用 wecomcli-doc；新建或导入在线表格请使用 wecomcli-sheet；智能表格内容 CRUD 请使用 wec…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "wecomcli-email",
+            "parentId": "wecom-cli"
+          },
+          "path": "skills/wecomcli-email",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "wecomcli-email",
+                "summary": "企业微信邮件：发送/回复/转发邮件、搜索邮件列表、获取邮件详情（正文、附件、内嵌图片解析），支持通过邮件发送日程邀约和会议预定。当用户涉及内部邮件收发、邮件查询、邮件管理等需求时使用。注意：日程和会议有单独的技能，仅当用户明确提到\"邮箱\"或\"邮件\"时（如\"通过邮箱发送会议邀请\"、\"发封会议邮件\"），才使用本技能处理会议…"
+              },
+              "zh-CN": {
+                "name": "wecomcli-email",
+                "summary": "企业微信邮件：发送/回复/转发邮件、搜索邮件列表、获取邮件详情（正文、附件、内嵌图片解析），支持通过邮件发送日程邀约和会议预定。当用户涉及内部邮件收发、邮件查询、邮件管理等需求时使用。注意：日程和会议有单独的技能，仅当用户明确提到\"邮箱\"或\"邮件\"时（如\"通过邮箱发送会议邀请\"、\"发封会议邮件\"），才使用本技能处理会议…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "2.1.0",
+            "versionScheme": "semver"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "wecomcli-media",
+            "parentId": "wecom-cli"
+          },
+          "path": "skills/wecomcli-media",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "wecomcli-media",
+                "summary": "企业微信媒体文件上传/下载技能。承接基于 media_id 下载媒体文件到本地，以及上传本地文件获取 media_id 两类操作。当其他技能（微盘、邮件等）返回了 media_id 需要落地为本地文件，或已有本地文件需要转换为 media_id 供其他技能使用时，必须先读取本技能获取完整指引，不得凭记忆处理。本技能不解…"
+              },
+              "zh-CN": {
+                "name": "wecomcli-media",
+                "summary": "企业微信媒体文件上传/下载技能。承接基于 media_id 下载媒体文件到本地，以及上传本地文件获取 media_id 两类操作。当其他技能（微盘、邮件等）返回了 media_id 需要落地为本地文件，或已有本地文件需要转换为 media_id 供其他技能使用时，必须先读取本技能获取完整指引，不得凭记忆处理。本技能不解…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "known",
+            "version": "1.0.0",
+            "versionScheme": "semver"
           }
         },
         {
@@ -136,11 +267,11 @@
             "i18n": {
               "en-US": {
                 "name": "wecomcli-meeting",
-                "summary": "企业微信会议技能，支持创建预约会议、查询会议列表、获取会议详情、取消会议、更新会议成员。当用户需要\"创建会议\"、\"预约会议\"、\"约会议\"、\"安排会议\"、\"查看会议\"、\"查询会议列表\"、\"会议详情\"、\"什么时候开会\"、\"有哪些会议\"、\"查找会议\"、\"取消会议\"、\"删除会议\"、\"修改会议成员\"、\"添加会议参与人\"、\"移除会…"
+                "summary": "企业微信会议管理。本技能负责『在线会议』——即含在线会议链接（含会议号/入会链接、可远程或视频参会）的会议的创建、查询、搜索、获取详情（含会议信息、纪要、待办）、查询会议转写原文（逐字发言记录）、更新、取消等全部操作；若用户要的是不含在线会议链接的『日程』（也涵盖纯线下面对面碰头），改用 wecomcli-calend…"
               },
               "zh-CN": {
                 "name": "wecomcli-meeting",
-                "summary": "企业微信会议技能，支持创建预约会议、查询会议列表、获取会议详情、取消会议、更新会议成员。当用户需要\"创建会议\"、\"预约会议\"、\"约会议\"、\"安排会议\"、\"查看会议\"、\"查询会议列表\"、\"会议详情\"、\"什么时候开会\"、\"有哪些会议\"、\"查找会议\"、\"取消会议\"、\"删除会议\"、\"修改会议成员\"、\"添加会议参与人\"、\"移除会…"
+                "summary": "企业微信会议管理。本技能负责『在线会议』——即含在线会议链接（含会议号/入会链接、可远程或视频参会）的会议的创建、查询、搜索、获取详情（含会议信息、纪要、待办）、查询会议转写原文（逐字发言记录）、更新、取消等全部操作；若用户要的是不含在线会议链接的『日程』（也涵盖纯线下面对面碰头），改用 wecomcli-calend…"
               }
             },
             "tags": []
@@ -152,20 +283,20 @@
         {
           "identity": {
             "kind": "skill",
-            "id": "wecomcli-msg",
+            "id": "wecomcli-message",
             "parentId": "wecom-cli"
           },
-          "path": "skills/wecomcli-msg",
+          "path": "skills/wecomcli-message",
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
               "en-US": {
-                "name": "wecomcli-msg",
-                "summary": "企业微信消息技能。提供会话列表查询、消息记录拉取（支持文本/图片/文件/语音/视频）、多媒体文件获取和文本消息发送能力。当用户需要\"查看消息\"、\"看聊天记录\"、\"发消息给某人\"、\"最近有什么消息\"、\"给群里发消息\"、\"看看发了什么图片/文件\"时触发。"
+                "name": "wecomcli-message",
+                "summary": "查询当前可以发送消息的聊天会话范围，并向会话列表中的单聊或群聊发送文本、Markdown、图片、文件、语音、视频消息。用户要求“给某人发消息”“在某个群里通知”“给最近会话发消息”或“把图片/文件/语音/视频发到企业微信”时使用。"
               },
               "zh-CN": {
-                "name": "wecomcli-msg",
-                "summary": "企业微信消息技能。提供会话列表查询、消息记录拉取（支持文本/图片/文件/语音/视频）、多媒体文件获取和文本消息发送能力。当用户需要\"查看消息\"、\"看聊天记录\"、\"发消息给某人\"、\"最近有什么消息\"、\"给群里发消息\"、\"看看发了什么图片/文件\"时触发。"
+                "name": "wecomcli-message",
+                "summary": "查询当前可以发送消息的聊天会话范围，并向会话列表中的单聊或群聊发送文本、Markdown、图片、文件、语音、视频消息。用户要求“给某人发消息”“在某个群里通知”“给最近会话发消息”或“把图片/文件/语音/视频发到企业微信”时使用。"
               }
             },
             "tags": []
@@ -177,20 +308,70 @@
         {
           "identity": {
             "kind": "skill",
-            "id": "wecomcli-schedule",
+            "id": "wecomcli-shared",
             "parentId": "wecom-cli"
           },
-          "path": "skills/wecomcli-schedule",
+          "path": "skills/wecomcli-shared",
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
               "en-US": {
-                "name": "wecomcli-schedule",
-                "summary": "企业微信日程管理技能。适用于用户对企业微信日程的各类管理需求。当用户需要：(1) 查询指定时间范围内的日程列表或获取日程详细信息（标题、时间、地点、参与者等），(2) 创建新日程并设置提醒、参与人等，(3) 修改已有日程的标题、时间、地点等信息或取消日程，(4) 添加或移除日程参与人，(5) 查询多个成员的闲忙状态并分…"
+                "name": "wecomcli-shared",
+                "summary": "wecom-cli 业务技能的公共前置检查、获取机器人及授权真人身份，以及通用输出约束。任何 wecomcli-* 技能准备执行 wecom-cli 命令前，都必须同时读取本技能，检查 CLI 是否安装、版本是否不低于 1.1.0，以及企业微信凭证是否已授权；仅在缺失、版本过低或未授权时执行安装或初始化。本技能还定义所…"
               },
               "zh-CN": {
-                "name": "wecomcli-schedule",
-                "summary": "企业微信日程管理技能。适用于用户对企业微信日程的各类管理需求。当用户需要：(1) 查询指定时间范围内的日程列表或获取日程详细信息（标题、时间、地点、参与者等），(2) 创建新日程并设置提醒、参与人等，(3) 修改已有日程的标题、时间、地点等信息或取消日程，(4) 添加或移除日程参与人，(5) 查询多个成员的闲忙状态并分…"
+                "name": "wecomcli-shared",
+                "summary": "wecom-cli 业务技能的公共前置检查、获取机器人及授权真人身份，以及通用输出约束。任何 wecomcli-* 技能准备执行 wecom-cli 命令前，都必须同时读取本技能，检查 CLI 是否安装、版本是否不低于 1.1.0，以及企业微信凭证是否已授权；仅在缺失、版本过低或未授权时执行安装或初始化。本技能还定义所…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "wecomcli-sheet",
+            "parentId": "wecom-cli"
+          },
+          "path": "skills/wecomcli-sheet",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "wecomcli-sheet",
+                "summary": "企业微信在线表格文档管理：新建在线表格、导入 CSV/Excel 为在线表格、读取表格信息与数据、修改表格内容、追加行数据、子表管理。当用户提到'表格'、'在线表格'、'excel表格'这些关键词触发，或链接形如 https://doc.weixin.qq.com/sheet/xxx 时触发。文档公共操作请使用 wec…"
+              },
+              "zh-CN": {
+                "name": "wecomcli-sheet",
+                "summary": "企业微信在线表格文档管理：新建在线表格、导入 CSV/Excel 为在线表格、读取表格信息与数据、修改表格内容、追加行数据、子表管理。当用户提到'表格'、'在线表格'、'excel表格'这些关键词触发，或链接形如 https://doc.weixin.qq.com/sheet/xxx 时触发。文档公共操作请使用 wec…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "wecomcli-smartpage",
+            "parentId": "wecom-cli"
+          },
+          "path": "skills/wecomcli-smartpage",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "wecomcli-smartpage",
+                "summary": "使用 wecom-cli 创建企业微信智能文档，读取页面内容，调整页面树结构，获取内置智能表格信息。适用于用户明确提到企业微信智能文档、智能主页、smartpage，或提供形如 https://doc.weixin.qq.com/smartpage/xxx 或 https://page.weixin.qq.com/sm…"
+              },
+              "zh-CN": {
+                "name": "wecomcli-smartpage",
+                "summary": "使用 wecom-cli 创建企业微信智能文档，读取页面内容，调整页面树结构，获取内置智能表格信息。适用于用户明确提到企业微信智能文档、智能主页、smartpage，或提供形如 https://doc.weixin.qq.com/smartpage/xxx 或 https://page.weixin.qq.com/sm…"
               }
             },
             "tags": []
@@ -211,11 +392,11 @@
             "i18n": {
               "en-US": {
                 "name": "wecomcli-smartsheet",
-                "summary": "企业微信智能表格管理技能。提供智能表格的结构管理（子表、字段）和数据管理（记录增删改查）。适用场景：(1) 管理智能表格子表和字段/列 (2) 查询、添加、更新、删除智能表格记录。支持通过 docid 或文档 URL 定位文档。"
+                "summary": "企业微信智能表格内容操作技能——专注于智能表格（smartsheet）的数据、结构与样式管理：读取表结构与记录、管理子表/字段/记录/视图/图表，以及修改行列样式（填色/高亮）；记录新增或更新遇到 851003 / no authority 时通过 Webhook 兜底写入。触发条件：用户提到智能表格、企微表格、sma…"
               },
               "zh-CN": {
                 "name": "wecomcli-smartsheet",
-                "summary": "企业微信智能表格管理技能。提供智能表格的结构管理（子表、字段）和数据管理（记录增删改查）。适用场景：(1) 管理智能表格子表和字段/列 (2) 查询、添加、更新、删除智能表格记录。支持通过 docid 或文档 URL 定位文档。"
+                "summary": "企业微信智能表格内容操作技能——专注于智能表格（smartsheet）的数据、结构与样式管理：读取表结构与记录、管理子表/字段/记录/视图/图表，以及修改行列样式（填色/高亮）；记录新增或更新遇到 851003 / no authority 时通过 Webhook 兜底写入。触发条件：用户提到智能表格、企微表格、sma…"
               }
             },
             "tags": []
@@ -236,11 +417,11 @@
             "i18n": {
               "en-US": {
                 "name": "wecomcli-todo",
-                "summary": "企业微信待办事项管理技能，支持查询待办列表、获取待办详情、创建待办、更新待办、删除待办及变更用户处理进度状态。在用户说\"看看我的待办列表\"、\"我有哪些待办\"、\"帮我创建一个待办\"、\"把这个任务分派给张三\"、\"标记待办完成\"、\"删掉那个待办\"、\"帮我建个提醒\"、\"更新一下待办内容\"、\"把提醒时间改到下周\"、\"接受这个待办…"
+                "summary": "管理企业微信待办，支持创建、删除或退出、完成、查询和筛选，以及修改标题、描述、参与人名单和截止时间。"
               },
               "zh-CN": {
                 "name": "wecomcli-todo",
-                "summary": "企业微信待办事项管理技能，支持查询待办列表、获取待办详情、创建待办、更新待办、删除待办及变更用户处理进度状态。在用户说\"看看我的待办列表\"、\"我有哪些待办\"、\"帮我创建一个待办\"、\"把这个任务分派给张三\"、\"标记待办完成\"、\"删掉那个待办\"、\"帮我建个提醒\"、\"更新一下待办内容\"、\"把提醒时间改到下周\"、\"接受这个待办…"
+                "summary": "管理企业微信待办，支持创建、删除或退出、完成、查询和筛选，以及修改标题、描述、参与人名单和截止时间。"
               }
             },
             "tags": []
