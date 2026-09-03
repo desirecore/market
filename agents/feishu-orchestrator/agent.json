@@ -18,7 +18,7 @@
   },
   "installPolicy": "market",
   "updatePolicy": "market",
-  "requiredClientVersion": "10.0.143",
+  "requiredClientVersion": "10.0.144",
   "llm": {
     "routingMode": "smart",
     "smart": {

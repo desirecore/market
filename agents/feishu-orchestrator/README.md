@@ -106,7 +106,7 @@ lark-cli auth status --json --verify
 
 ![条目详情页](./docs/images/agent-detail.png)
 
-详情页右侧的「获取状态：仅收录」来自 `requiredClientVersion` 门槛——截图时的客户端为 10.0.141，低于本条目要求的 10.0.143。达到该版本后即可一键获取。
+详情页右侧的「获取状态：仅收录」来自 `requiredClientVersion` 门槛——截图时的客户端为 10.0.141，低于本条目要求的版本。达到要求版本后即可一键获取。
 
 ## 详细功能文档
 
