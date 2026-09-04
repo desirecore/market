@@ -140,5 +140,11 @@
         ]
       }
     }
-  ]
+  ],
+  "contentSource": {
+    "kind": "git",
+    "repoUrl": "https://github.com/desirecore/market.git",
+    "path": "agents/invoice-organizer",
+    "ref": "42a29e99a06b0387250b31d4bbe1515c7406694f"
+  }
 }

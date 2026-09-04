@@ -45,30 +45,40 @@
       "precision": "day"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-09-04",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "unknown"
     }
   },
-  "provenance": {},
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore/market.git",
+      "path": "agents/invoice-organizer",
+      "ref": "42a29e99a06b0387250b31d4bbe1515c7406694f"
+    }
+  },
   "governance": {
-    "stewardship": "official",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
       "state": "known",
       "value": "MIT",
       "evidencePath": "LICENSE"
     },
     "redistribution": "allowed",
-    "branding": {
-      "relationship": "official",
-      "nameUsage": "owned",
-      "logoStatus": "not-used"
-    },
     "listingMaintainer": {
       "name": "DesireCore Official",
       "verified": true
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "42a29e99a06b0387250b31d4bbe1515c7406694f",
+      "reviewedAt": "2026-09-04",
+      "reviewedBy": "yi-ge",
+      "upstreamEndorsed": true
     }
   },
   "compatibility": {
