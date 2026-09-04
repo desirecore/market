@@ -36,8 +36,8 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-03T12:00:00Z",
-      "precision": "second"
+      "value": "2026-09-04",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "known",
@@ -45,7 +45,9 @@
       "precision": "second"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-09-04",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
@@ -53,14 +55,22 @@
       "precision": "second"
     }
   },
-  "provenance": {},
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore-agent/feishu-orchestrator.git",
+      "ref": "d5b0a786a5b429f46bccb3a93a5396904072c854"
+    }
+  },
   "governance": {
     "stewardship": "official",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
     },
-    "redistribution": "verify-package-terms",
+    "redistribution": "source-pointer-only",
     "branding": {
       "relationship": "independent-listing",
       "nameUsage": "nominative",
@@ -69,6 +79,18 @@
     "listingMaintainer": {
       "name": "DesireCore Official",
       "verified": true
+    },
+    "upstreamMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "noticePath": "NOTICE",
+      "reviewedRef": "d5b0a786a5b429f46bccb3a93a5396904072c854",
+      "reviewedAt": "2026-09-04",
+      "reviewedBy": "yi-ge",
+      "upstreamEndorsed": true
     }
   },
   "compatibility": {
@@ -92,7 +114,8 @@
         "kind": "runtime",
         "value": "The 23 Feishu domain skills this Agent depends on are installed together with the Agent by the marketplace; the client version declared in requiredClientVersion is the first release that provisions them automatically."
       }
-    ]
+    ],
+    "requiredClientVersion": "10.0.144"
   },
   "spec": {
     "kind": "agent",

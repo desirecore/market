@@ -1,0 +1,44 @@
+{
+  "id": "feishu-orchestrator",
+  "name": "飞书编排助手",
+  "category": "communication",
+  "tags": [
+    "feishu",
+    "lark",
+    "collaboration",
+    "documents",
+    "calendar"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "飞书编排助手",
+      "shortDesc": "在对话里代你操作飞书：文档、表格、云盘、日历、消息、任务、审批。需自行安装第三方 lark-cli 并完成飞书账号授权。"
+    },
+    "en-US": {
+      "name": "Feishu Orchestrator",
+      "shortDesc": "Operate Feishu (Lark) from chat: docs, sheets, drive, calendar, messages, tasks, approvals. Requires separately installing the third-party lark-cli and authorizing your own Feishu account."
+    }
+  },
+  "latestVersion": "1.0.0",
+  "maintainer": {
+    "name": "DesireCore Official",
+    "verified": true
+  },
+  "stewardship": "official",
+  "license": "MIT",
+  "redistribution": "source-pointer-only",
+  "requiredClientVersion": "10.0.144",
+  "avatar": {
+    "t": "飞",
+    "bg": "linear-gradient(135deg, #34C759, #28A745)",
+    "image": {
+      "path": "assets/avatar.webp"
+    }
+  },
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/desirecore-agent/feishu-orchestrator.git",
+    "repoBranch": "main",
+    "ref": "d5b0a786a5b429f46bccb3a93a5396904072c854"
+  }
+}
