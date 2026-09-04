@@ -27,7 +27,7 @@ One new directory under your work directory:
 ```
 发票/                  (invoices)
 ├── 台账.xlsx           (ledger; 台账.csv when the xlsx dependencies are unavailable)
-├── 报告/2024-08.md     (reports)
+├── 报告/2024-08.md     (reports; invoices spanning months write 报告/2020-08_2024-09.md)
 ├── 归档/2024/08/20240815_<seller>_1959.98_24312000000000020002.pdf   (archive, by year/month)
 ├── _inbox/            downloaded, not yet processed
 ├── _quarantine/       parse failures and non-invoices, each with a .reason.txt
