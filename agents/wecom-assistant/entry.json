@@ -1,0 +1,40 @@
+{
+  "id": "wecom-assistant",
+  "name": "企业微信助手",
+  "category": "communication",
+  "tags": [
+    "wecom",
+    "office",
+    "collaboration",
+    "documents",
+    "calendar"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "企业微信助手",
+      "shortDesc": "在对话里代你操作企业微信：消息、文档、表格、日程、会议、待办、邮件、微盘"
+    },
+    "en-US": {
+      "name": "WeCom Assistant",
+      "shortDesc": "Operate WeCom from chat: messages, docs, sheets, calendar, meetings, todos, mail, drive"
+    }
+  },
+  "latestVersion": "1.0.0",
+  "maintainer": {
+    "name": "DesireCore Official",
+    "verified": true
+  },
+  "stewardship": "official",
+  "license": "MIT",
+  "redistribution": "source-pointer-only",
+  "avatar": {
+    "t": "微",
+    "bg": "linear-gradient(135deg, #34C759, #248A3D)"
+  },
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/desirecore-agent/wecom-assistant.git",
+    "repoBranch": "main",
+    "ref": "665ab1d2ca35155e60a10a8fb58ab0a3baef0e49"
+  }
+}

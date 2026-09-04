@@ -36,16 +36,18 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-03T06:30:00Z",
-      "precision": "second"
+      "value": "2026-09-04",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-03T06:30:00Z",
-      "precision": "second"
+      "value": "2026-09-04",
+      "precision": "day"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-09-04",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
@@ -53,17 +55,37 @@
       "precision": "second"
     }
   },
-  "provenance": {},
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore-agent/wecom-assistant.git",
+      "ref": "665ab1d2ca35155e60a10a8fb58ab0a3baef0e49"
+    }
+  },
   "governance": {
     "stewardship": "official",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
     },
-    "redistribution": "verify-package-terms",
+    "redistribution": "source-pointer-only",
     "listingMaintainer": {
       "name": "DesireCore Official",
       "verified": true
+    },
+    "upstreamMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "noticePath": "NOTICE",
+      "reviewedRef": "665ab1d2ca35155e60a10a8fb58ab0a3baef0e49",
+      "reviewedAt": "2026-09-04",
+      "reviewedBy": "yi-ge",
+      "upstreamEndorsed": true
     }
   },
   "compatibility": {
