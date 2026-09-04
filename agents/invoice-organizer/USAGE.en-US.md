@@ -25,14 +25,17 @@ Relative dates like "last month" are converted to explicit start and end dates a
 One new directory under your work directory:
 
 ```
-invoices/
-├── ledger.xlsx        (ledger.csv when the xlsx dependencies are unavailable)
-├── reports/2024-08.md
-├── archive/2024/08/20240815_<seller>_1959.98_24312000000000020002.pdf
+发票/                  (invoices)
+├── 台账.xlsx           (ledger; 台账.csv when the xlsx dependencies are unavailable)
+├── 报告/2024-08.md     (reports)
+├── 归档/2024/08/20240815_<seller>_1959.98_24312000000000020002.pdf   (archive, by year/month)
 ├── _inbox/            downloaded, not yet processed
 ├── _quarantine/       parse failures and non-invoices, each with a .reason.txt
 └── .index/            dedupe index — do not edit by hand
 ```
+
+The directory and file names are Chinese, matching the invoices themselves; the English glosses above
+are only for reading this page. Look for `发票/` under your work directory.
 
 The ledger has four sheets: line items, monthly summary, per-seller summary, and exceptions. Amounts follow RMB conventions (two decimal places always; a zero-amount invoice shows as `¥0.00` rather than being hidden), and invoice numbers and tax IDs are stored as text so Excel cannot turn them into `2.4312E+19`.
 
@@ -41,7 +44,7 @@ Every monthly report opens with a one-line conclusion before any detail, and eac
 ## Documents it handles
 
 - **PDF**: fully digital VAT e-invoices (the nationwide platform format used since 2023, both ordinary and special), legacy VAT electronic ordinary invoices, railway e-ticket reimbursement vouchers (both the old and new layouts), air transport e-ticket itineraries, taxi and ride-hailing receipts
-- **OFD**: reads the embedded national-standard structured invoice data first. On that path the values come from the issuing system itself rather than from layout guessing, and confidence is full
+- **OFD**: reads the structured invoice data carried inside the package. A 2020-style invoice ships a complete national-standard invoice XML in the package — those values are written by the issuing system rather than guessed from the layout, so that path gets full confidence. A 2024 fully-digital invoice carries only invoice tags, which cannot supply the invoice code or the per-line item breakdown; those are recovered from the layout text and confidence is lowered to match. When neither is present it falls back to layout text
 - **Scans and images**: JPG, PNG, WebP, and scanned PDFs with no text layer, handed to the vision model with confidence lowered accordingly
 
 None of this requires you to install anything. Only the `.xlsx` ledger may need Python with `openpyxl` and `pandas`; when they are missing it writes a UTF-8 BOM CSV instead (so non-Latin text opens correctly in Excel) and tells you it degraded.
@@ -56,14 +59,15 @@ If you want genuinely unattended operation (a ledger built overnight on a schedu
 
 - Never deletes, moves or forwards your mail. Mailbox cleanup stays with you
 - No accounting entries, no tax filing, no input-tax-credit judgements
-- No currency conversion. Foreign-currency invoices are recorded exactly as printed, with the currency in its own column
+- No currency conversion. A foreign-currency settlement is still priced in RMB on the face of the invoice; the original amount and the rate used are copied verbatim into the notes, never converted and never totalled separately
 - Never merges suspected duplicates on its own (numbers differing by one digit with every other field identical); they are listed for you to decide
 - Never invents invoice fields. Whatever cannot be extracted is left empty, the original is quarantined, and the reason is stated
 - Never claims to have found everything, only that within the stated range it found N candidate messages and successfully parsed M invoices
 
 ## Known limits
 
-- **Mail rules only cover the inbox.** If your invoice mail is auto-filed into another folder the rule will not fire; in that case ask the Agent in conversation to scan that folder
+- **On IMAP accounts, mail rules only cover the inbox.** If you are on IMAP and your invoice mail is auto-filed into another folder, the rule will not fire; in that case ask the Agent in conversation to scan that folder. Gmail and Outlook poll the whole mailbox and are not affected
+- **The local cached search matches keywords against the subject only.** Mail whose subject never says "invoice" and only mentions it in the body ("You have a new electronic voucher") will not surface that way. On Gmail the Agent switches to Gmail's own server-side search, which does cover bodies; on Outlook and IMAP it has to pull the messages locally and scan them one by one, which is slower over a wide range. It states in its summary which of the two it used
 - **Outlook and IMAP have no server-side search**, so messages must be pulled locally before filtering. Over a wide range that is noticeably slower than Gmail, where the native search syntax narrows the set in one call
 - **Password-protected PDFs cannot be opened.** Some invoicing platforms send them with the password in the message body. For now you need to decrypt the file yourself and drop it into `_inbox/`, and the next run will pick it up
 - **Void detection relies on the text layer.** A void stamp that exists only as an image may go undetected. Void invoices get their own column in the ledger — worth a glance

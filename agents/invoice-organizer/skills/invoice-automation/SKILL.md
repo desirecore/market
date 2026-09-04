@@ -85,6 +85,15 @@ MailOperations{
 
 正则操作符叫 **`matches_regex`**，不是 `regex`。`is_true` / `is_false` 只用于 `has_attachment`，`value` 传空串。
 
+两个实现细节，写规则前必须知道：
+
+- **`has_attachment` 配 `is_true` 之外的任何 operator，都会静默等价于 `is_false`。** 求值器在
+  `has_attachment` 这一支直接短路成「`is_true` ? 有附件 : 没有附件」，写成 `contains` / `equals`
+  一律落到「没有附件」那一侧，规则会精确地反着匹配，且不报任何错。
+- **`matches_regex` 做不到大小写敏感。** 目标值先被整体转小写，正则又固定带 `i` 标志，所以模式里
+  写大写字母只会让它匹配不到自己本来能匹配的东西。中文不受影响；要区分 `INVOICE` 与 `invoice`
+  这类场景，规则层做不了，只能在 Agent 拿到邮件之后自己判断。
+
 **动作里有一半是空实现，别教用户用：**
 
 | 动作 | 状态 |
@@ -110,7 +119,17 @@ MailOperations{
 | Outlook | `GET /api/outlook/message?id={mailId}&email=..` |
 | IMAP | `GET /api/imap/messages/{uid}?email=..&folder=..` |
 
-**规则只覆盖收件箱。** 轮询只看 INBOX；发票被自动归到别的文件夹的用户，规则不会触发，要如实告诉他这个限制。
+**规则的触发范围跟着轮询走，三家不一样：**
+
+| provider | 增量轮询实际覆盖 | 发票归到别的文件夹会怎样 |
+| --- | --- | --- |
+| Gmail | `history.list(historyTypes:['messageAdded'])`，**不带 label 过滤 → 整个邮箱** | 照样触发 |
+| Outlook | `/me/messages/delta`，**整个邮箱**（只有 delta 不可用时的降级轮询才只拉 inbox） | 照样触发 |
+| IMAP | **硬编码 `INBOX`** | **不会触发**，要如实告诉用户 |
+
+所以「规则只覆盖收件箱」这句话**只对 IMAP 成立**，不要对 Gmail / Outlook 用户这么说。
+IMAP 用户需要 `POST /api/imap/messages/fetch?folder=<名字>` 主动补拉，而**补拉不重放规则**——
+补回来的邮件要在对话里让 Agent 走一遍增量入账。
 
 规则的增删查改：`GET /api/rules`（可带 `?provider=..&email=..`）、`PUT /api/rules/{ruleId}`、`DELETE /api/rules/{ruleId}`、`POST /api/rules/{ruleId}/toggle`。配完以后自己 `GET` 一次确认写进去了，把规则 id 告诉用户。
 
@@ -172,9 +191,28 @@ ManageSchedule{
 
 1. `GET /api/rules` 确认规则真的存在且 `enabled: true`
 2. 看 `conditions` 的 `field` / `operator` 拼写——写错的取值不会报错，只会永远不匹配
-3. 确认那封邮件在 **INBOX**。规则只跟着收件箱轮询走，别的文件夹要 `POST /api/{p}/messages/fetch?folder=..` 主动补拉，而补拉不会重放规则
-4. 用 `POST /api/rules/{ruleId}/test`（body `{provider, email, mailId}`）拿一封已知邮件试跑，看条件到底匹不匹配
-5. 确认邮件确实带附件——`has_attachment is_true` 判的是邮件级标志，Gmail 的内联签名图也算附件，所以这个条件比想象中宽
+3. **IMAP 账户**：确认那封邮件在 `INBOX`。别的文件夹要 `POST /api/imap/messages/fetch?folder=..`
+   主动补拉，而补拉不会重放规则。Gmail / Outlook 不用查这一条（见上面的触发范围表）
+4. 拿一封已知邮件跑 `POST /api/rules/execute`（body `{provider, email, mailId}`）看条件到底匹不匹配，
+   或直接观察 `rule_failed` 广播。
+   **不要用 `POST /api/rules/{ruleId}/test` 验证正则规则**——`/test` 走的是另一份内联的匹配实现，
+   里面**根本没有 `matches_regex` 分支**，命中 default 恒返回 `matched: false`。一条工作正常的正则规则
+   在 `/test` 里永远显示不匹配，照着它排查会把好规则判成坏规则。`/test` 只在纯 `contains` /
+   `equals` 这类规则上可信
+5. 确认邮件确实带附件——`has_attachment is_true` 判的是邮件级标志，Gmail 的内联签名图也算附件，
+   所以这个条件比想象中宽；同时复查 operator **确实是 `is_true`**（其它 operator 会静默变成 `is_false`）
+
+### 两个会让规则整条失效的错误码
+
+`agent_handle` 动作失败时会广播 `rule_failed`。除了网络类错误，有两个码指向的是**配置**，
+不修就永远不会触发，而且规则本身看起来完全正常（`enabled: true`、条件也对）：
+
+| 错误码 | 什么时候出现 | 怎么修 |
+| --- | --- | --- |
+| `agent_handle_event_not_declared` | Agent 的 `agent.json` 开了 `webhooks.enabled`，却没有在 `webhooks.events` 里声明 `mail.received`。webhook 端点返回 400，**平台不会回退**到普通交办通道，规则直接失效 | 要么在 `webhooks.events` 里补上 `mail.received`（连同权限快照，见下面的「关于 webhook 事件」），要么把 `webhooks.enabled` 关掉走默认通道。**本 Agent 默认 `webhooks.enabled: false`，正是为了不踩这一条** |
+| `mail_rule_agent_service_binding_mismatch` | 规则创建时绑定的 Agent Service 连接与当前不是同一个（换了实例、改了连接配置、切换过 Agent Service） | 存量规则会**全部**失效。把规则删掉重建一遍，重建后 `GET /api/rules` 确认 |
+
+排查规则不触发时，这两个码比条件拼写更值得先看一眼——条件写错只是不匹配，这两个是整条通道断了。
 
 ### 排查：定时任务到点没动静
 
