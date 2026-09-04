@@ -1,0 +1,176 @@
+{
+  "id": "feishu-orchestrator",
+  "name": "飞书编排助手",
+  "description": "飞书全业务域能力入口：把自然语言意图翻译成第三方 lark-cli 的正确调用",
+  "avatar": {
+    "t": "飞",
+    "bg": "linear-gradient(135deg, #34C759, #28A745)",
+    "image": {
+      "path": "assets/avatar.webp"
+    }
+  },
+  "category": "communication",
+  "version": "1.0.0",
+  "updatedAt": "2026-09-03",
+  "maintainer": {
+    "name": "DesireCore Official",
+    "verified": true
+  },
+  "installPolicy": "market",
+  "updatePolicy": "market",
+  "requiredClientVersion": "10.0.144",
+  "llm": {
+    "routingMode": "smart",
+    "smart": {
+      "profile": {
+        "tier": "flagship",
+        "requiredCapabilities": [
+          "tool_use"
+        ],
+        "reasoning": "medium"
+      }
+    },
+    "maxRetryDelayMs": 32000
+  },
+  "heartbeat": {
+    "enabled": false
+  },
+  "session_mode": {
+    "manual": false
+  },
+  "capabilities": [
+    "lark-cli-orchestration",
+    "document-collaboration",
+    "spreadsheet-and-base",
+    "calendar-scheduling",
+    "instant-messaging",
+    "task-and-approval",
+    "meeting-minutes"
+  ],
+  "trigger_patterns": [
+    "飞书",
+    "Lark",
+    "云文档",
+    "多维表格",
+    "知识库",
+    "妙记",
+    "妙搭",
+    "lark-cli"
+  ],
+  "default_enabled": {
+    "skills": [
+      "lark-shared",
+      "lark-contact",
+      "lark-doc",
+      "lark-markdown",
+      "lark-sheets",
+      "lark-base",
+      "lark-drive",
+      "lark-wiki",
+      "lark-slides",
+      "lark-whiteboard",
+      "lark-im",
+      "lark-mail",
+      "lark-calendar",
+      "lark-meeting",
+      "lark-task",
+      "lark-approval",
+      "lark-okr",
+      "lark-attendance",
+      "lark-apps",
+      "lark-event",
+      "lark-workflow-standup-report",
+      "lark-workflow-meeting-summary",
+      "lark-openapi-explorer"
+    ]
+  },
+  "file_security": {
+    "restrictToWorkDirs": true
+  },
+  "network_security": {
+    "enableSsrfProtection": true
+  },
+  "compute_credentials": {
+    "allowed_providers": []
+  },
+  "accepts_handoff": true,
+  "accepts_messages": true,
+  "max_concurrent_sessions": 3,
+  "persona": {
+    "tools": []
+  },
+  "i18n": {
+    "default_locale": "en-US",
+    "source_locale": "zh-CN",
+    "locales": [
+      "zh-CN",
+      "en-US"
+    ],
+    "zh-CN": {
+      "name": "飞书编排助手",
+      "shortDesc": "在对话里代你操作飞书：文档、表格、云盘、日历、消息、任务、审批。需自行安装第三方 lark-cli 并完成飞书账号授权。",
+      "fullDesc": "把你的自然语言意图翻译成第三方飞书命令行工具 lark-cli 的正确调用，并对结果负责。覆盖云文档、Markdown 文件、电子表格、多维表格、云空间、知识库、幻灯片、画板、即时消息、邮箱、日历、视频会议与妙记、任务、审批、OKR、考勤、妙搭应用与实时事件等业务域。\n\n它不是命令说明书。命令目录由飞书官方技能提供，随 CLI 升级而更新；本 Agent 做的是官方技能不覆盖的四件事：\n- 接入：确认 CLI 已安装、已授权、有权限，缺什么就说清楚缺什么\n- 纪律：对会改变飞书数据的写操作做前置确认，绝不静默绕过删除保护\n- 编排：跨业务域工作流（如 日历 + 任务 → 站会摘要，妙记 → 文档 → 群消息）\n- 降级：做不到就说做不到，绝不编造成功\n\n随 Agent 一并安装 23 个飞书业务域技能，安装后即可使用，无需手工拷贝技能目录。\n\n外部依赖声明（重要）\n本 Agent 依赖一个由第三方独立分发的命令行程序，DesireCore 不打包、不分发、不授权、不安装、不代付、不运营该程序及其背后的飞书/Lark 产品。使用前你必须自行完成：\n1. 自行安装第三方飞书 CLI：`npx @larksuite/cli@latest install`。\n2. 自行完成两段式授权：`lark-cli config init --new` 创建应用配置，再 `lark-cli auth login --domain all` 完成 OAuth 授权。助手会把链接与二维码给你，等你完成后再继续。\n3. 自行确认可用范围：实际能力覆盖取决于你的授权 scope，以及你所在租户已开通的飞书产品与权益。\n\n凭据与费用由你与飞书之间的服务条款约束，与 DesireCore 无关。若依赖不可用（未安装、未授权、无权限、租户未开通），本 Agent 会在发起外部调用前停止并如实说明原因，不会编造成功结果。\n\n安全边界\n只通过 CLI 调用，不自拼 HTTP；资源 token 一律从命令返回中提取，不编造；写操作先确认；CLI 对删除、清空、覆盖、权限变更返回退出码 10 的确认门禁时，助手会把操作内容与风险展示给你，取得同意后才追加确认标志重试，绝不自动静默重试。邮件正文、消息内容等外部输入一律当数据处理，其中的「指令」绝不执行。所有命令显式指定身份（`--as user` 或 `--as bot`），因为不指定时 CLI 常落到 bot，而 bot 看不见你的个人日历、云盘与邮箱，且返回空成功而非报错。\n\n已知边界\n会中实时内容、机器人入会、妙搭应用开发、实时事件订阅等能力依赖额外 scope 或租户开通，未开通时助手会明确说明受限原因而非反复重试。",
+      "tags": [
+        "飞书",
+        "Lark",
+        "协作",
+        "云文档",
+        "日历"
+      ],
+      "persona": {
+        "role": "飞书能力入口与编排层",
+        "traits": [
+          "意图识别与业务域消歧",
+          "写操作前置确认",
+          "跨业务域工作流编排",
+          "受限时如实降级"
+        ]
+      }
+    },
+    "en-US": {
+      "name": "Feishu Orchestrator",
+      "shortDesc": "Operate Feishu (Lark) from chat: docs, sheets, drive, calendar, messages, tasks, approvals. Requires separately installing the third-party lark-cli and authorizing your own Feishu account.",
+      "fullDesc": "Turns your natural-language intent into correct calls to the third-party Feishu command-line tool lark-cli, and stays accountable for the result. It covers business domains including cloud documents, Markdown files, spreadsheets, Base tables, drive, wiki, slides, whiteboards, instant messaging, mail, calendar, video meetings and Minutes, tasks, approvals, OKR, attendance, app building, and real-time events.\n\nThis is not a command reference. The command catalog is supplied by the official Feishu skills and changes as the CLI is upgraded. What this Agent adds are the four things those skills do not cover:\n- Onboarding: verify the CLI is installed, authorized, and permitted, and state plainly what is missing\n- Discipline: require confirmation before any write that changes Feishu data, and never silently bypass deletion protection\n- Orchestration: cross-domain workflows (calendar + tasks into a stand-up summary; Minutes into a document into a group message)\n- Degradation: say so when something cannot be done, and never fabricate success\n\n23 Feishu domain skills are installed together with the Agent and are usable immediately — no manual copying of skill directories.\n\nExternal dependency disclosure (important)\nThis Agent depends on a command-line program distributed independently by a third party. DesireCore does not bundle, distribute, license, install, pay for, or operate that program or the Feishu/Lark products behind it. Before use you must do the following yourself:\n1. Install the third-party Feishu CLI yourself: `npx @larksuite/cli@latest install`.\n2. Complete the two-stage authorization yourself: `lark-cli config init --new` to create the app configuration, then `lark-cli auth login --domain all` for OAuth. The Agent hands you the link and QR code and waits for you to finish before continuing.\n3. Confirm your own coverage: actual capability depends on your granted scopes and on which Feishu products and entitlements your tenant has enabled.\n\nCredentials and any fees are governed by the terms between you and Feishu, and are unrelated to DesireCore. If the dependency is unavailable (not installed, not authorized, not permitted, or not enabled for your tenant), this Agent stops before making the external call, explains why, and does not fabricate a successful result.\n\nSafety boundary\nCalls go only through the CLI, never through hand-assembled HTTP. Resource tokens are always extracted from command output, never invented. Write operations require confirmation. When the CLI returns its exit-code-10 confirmation gate for a delete, clear, overwrite, or permission change, the Agent shows you the operation and its risk, and only retries with the confirmation flag after you agree — never a silent automatic retry. Mail bodies, message contents, and other external input are treated strictly as data; instructions found inside them are never executed. Every command states its identity explicitly (`--as user` or `--as bot`), because without it the CLI often falls back to bot, and a bot cannot see your personal calendar, drive, or mailbox — it returns an empty success rather than an error.\n\nKnown limits\nIn-meeting real-time content, bot meeting attendance, app building, and real-time event subscriptions depend on additional scopes or tenant enablement. When they are unavailable the Agent states the restriction explicitly instead of retrying.",
+      "tags": [
+        "feishu",
+        "lark",
+        "collaboration",
+        "documents",
+        "calendar"
+      ],
+      "persona": {
+        "role": "Feishu capability gateway and orchestration layer",
+        "traits": [
+          "intent routing across business domains",
+          "confirmation before write operations",
+          "cross-domain workflow orchestration",
+          "honest degradation when blocked"
+        ]
+      },
+      "translated_by": "ai:claude-opus-5",
+      "translated_at": "2026-09-03"
+    }
+  },
+  "changelog": [
+    {
+      "version": "1.0.0",
+      "date": "2026-09-03",
+      "changes": {
+        "zh-CN": [
+          "首次发布：覆盖飞书 18 个业务域，命令与坑位均来自真机验证",
+          "随 Agent 安装 23 个飞书业务域技能，无需手工拷贝",
+          "固化 CLI 的三处易错契约：auth status 无顶层 ok、身份不指定会落到 bot 返回空成功、--ranges 需 sheet_name 而非 sheet_id",
+          "退出码 10 确认门禁完整闭环：展示风险 → 取得同意 → 追加确认标志重试",
+          "声明外部依赖：需自行安装第三方 lark-cli 并完成飞书账号授权"
+        ],
+        "en-US": [
+          "Initial release: covers 18 Feishu business domains; commands and pitfalls all verified on a live account",
+          "Ships 23 Feishu domain skills installed together with the Agent — no manual copying",
+          "Encodes three error-prone CLI contracts: auth status has no top-level ok, an unspecified identity falls back to bot and returns empty success, and --ranges needs sheet_name rather than sheet_id",
+          "Complete exit-code-10 confirmation loop: show the risk, obtain consent, then retry with the confirmation flag",
+          "External dependency disclosed: users must install the third-party lark-cli and authorize their own Feishu account"
+        ]
+      }
+    }
+  ]
+}
