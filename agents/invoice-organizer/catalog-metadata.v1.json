@@ -1,0 +1,111 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "agent",
+    "id": "invoice-organizer"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "发票整理助手",
+        "summary": "把邮箱里的发票收拢成一本可对账的台账：按范围收集附件、解析 PDF / OFD / 扫描件、去重归档、生成表格台账与月度报告。需先在 DesireCore 中完成一次邮箱授权；只做形式校验，不做发票真伪查验。",
+        "description": "把散落在邮箱和本地的发票收拢成一本可对账、可复用的台账，并对每一条记录的来源负责。\n\n七步工作流，顺序固定，每一步都幂等：接入检查 → 收集 → 解析 → 去重 → 归档 → 台账 → 报告。状态只写工作目录里的索引文件，且落盘顺序固定（记录先入账，再删原件），所以中途中断重跑不会重复入账；万一仍有漏记，每次整理都会反查归档目录把它补回台账。\n\n覆盖的载体\n- PDF：数电票（2023 年后的全国统一电子发票）、旧版增值税电子普通发票、铁路电子客票报销凭证、航空运输电子客票行程单、出租车与网约车票\n- OFD：读取包内的结构化发票数据。2020 年式样的内嵌附件字段最全、值由开票系统直接写出，置信度给满分；2024 数电票式样只有发票标引，拿不到发票代码与逐行明细，这些会回到版面文本补齐并相应下调置信度；都没有时回落到版面文本\n- 扫描件与图片：交给视觉模型识别，并按来源下调置信度\n\n产出\n- 归档目录：按年/月归档，文件名统一为「开票日期_销售方_价税合计_发票号码」\n- 台账：明细、月度汇总、按销售方汇总、异常四张表；金额按人民币口径（¥#,##0.00、负号式负数、零值显示为 ¥0.00），发票号码与税号按文本存放以免被识别成科学计数法。生成 xlsx 的依赖不可用时自动降级为带 UTF-8 BOM 的 CSV 并明确告知\n- 月度报告：一句话结论 + 汇总 + 支出构成 + 「需要你处理的」清单，每条都带具体动作\n\n自动化（可选，需你同意后才配置）\n- 邮件规则：带附件且主题或正文含发票关键词的新邮件，自动交给本 Agent 增量入账\n- 定时任务：每月固定时间重建上月台账与报告，并把文件发回给你\n\n前置条件\n1. 在 DesireCore 的邮箱界面完成一次授权（Gmail / Outlook / IMAP 均可）。这是唯一需要你介入的一步\n2. 建议用 ManageWorkDirs 登记一个你在文件管理器里找得到的目录（如 ~/Documents/发票）并设为首选，产物会落在那里并出现在文件工作台中\n3. 解析 PDF / OFD / 图片不需要额外安装任何东西；只有生成 xlsx 台账才可能需要 Python 的 openpyxl 与 pandas，装不上会自动降级为 CSV\n4. 默认的执行审批模式下，写文件与邮件调用会逐条弹审批卡。要让定时任务与邮件规则真正无人值守，需要你自己把本 Agent 的执行审批模式改成允许全部\n\n边界（不会做的事）\n- 不做发票真伪查验。没有官方查验通道，只做形式校验与勾稽校验，并给出国家税务总局全国增值税发票查验平台入口让你自行核验\n- 不做记账凭证、不做纳税申报、不做进项抵扣判断，不是财务软件的替代品\n- 不删除、不移动、不转发你的邮件；邮箱清理请你自己在邮箱里做\n- 不做汇率换算。外币结算的票面本身仍以人民币计价，原币金额与折算汇率原样记录在备注里，不换算、也不并成第二套合计\n- 不自动合并疑似重复（号码只差一位、其余字段全同），标出来交你确认\n- 不编造票面字段。抽不到就留空、隔离原件并说明卡在哪一步，绝不用常见格式补全\n- 不承诺「已全部找到」，只报「在给定范围内找到 N 封候选、成功解析 M 张」\n\n隐私\n发票含公司抬头、纳税人识别号、开户行账号、行程信息。这些只在本机的工作目录与台账里流转，本 Agent 没有对外发送的通道，也不会替你回复或转发邮件。"
+      },
+      "en-US": {
+        "name": "Invoice Organizer",
+        "summary": "Turns the invoices buried in a mailbox into a reconcilable ledger: collects attachments over a stated range, extracts fields from PDF, OFD and scanned images, deduplicates, archives, and produces a spreadsheet ledger plus a monthly report. Requires a one-time mailbox authorization inside DesireCore; it performs format and arithmetic checks only, never tax-authority invoice verification.",
+        "description": "Collects the invoices scattered across a mailbox and the local disk into one reconcilable, reusable ledger, and stays accountable for where every record came from.\n\nA seven-step pipeline in fixed order, each step idempotent: preflight, intake, extraction, dedupe, archive, ledger, report. All state lives in index files inside the work directory and is written in a fixed order — the record is posted before the original is removed — so re-running after an interruption never posts anything twice; and should a record still go missing, every run sweeps the archive directory to put it back in the ledger.\n\nFormats covered\n- PDF: fully digital VAT e-invoices (the nationwide platform format used since 2023), legacy VAT electronic ordinary invoices, railway e-ticket reimbursement vouchers, air transport e-ticket itineraries, taxi and ride-hailing receipts\n- OFD: reads the structured invoice data carried inside the package. The 2020-style embedded attachment is the most complete — its values are written by the issuing system itself, so confidence is full; the 2024 fully-digital style carries only invoice tags, which cannot supply the invoice code or the per-line item breakdown, so those are recovered from the layout text with confidence lowered to match; when neither is present it falls back to layout text entirely\n- Scans and images: handed to the vision model, with confidence lowered to match the source\n\nOutputs\n- Archive: filed by year and month, named uniformly as issue date, seller, tax-inclusive total, invoice number\n- Ledger: four sheets — line items, monthly summary, per-seller summary, exceptions. Amounts follow RMB conventions (¥#,##0.00, minus-sign negatives, zeros shown as ¥0.00), and invoice numbers and tax IDs are stored as text so spreadsheets cannot turn them into scientific notation. When the xlsx dependencies are unavailable it degrades to a UTF-8 BOM CSV and says so\n- Monthly report: a one-line conclusion, the totals, the spending breakdown, and a \"needs your attention\" list where every entry carries a concrete action\n\nAutomation (optional, configured only after you agree)\n- Mail rule: a new message with attachments whose subject or body mentions invoices is handed to this Agent for incremental posting\n- Scheduled job: rebuilds the previous month's ledger and report at a fixed time each month and sends the files back to you\n\nPrerequisites\n1. Complete a one-time mailbox authorization in the DesireCore mail interface (Gmail, Outlook or IMAP). This is the only step that requires you\n2. Register a directory you can actually find in your file manager (for example ~/Documents/invoices) with ManageWorkDirs and make it primary; deliverables land there and show up in the file workbench\n3. Parsing PDF, OFD and images needs nothing installed. Only the xlsx ledger may need Python's openpyxl and pandas, and it degrades to CSV when they are missing\n4. Under the default execution-approval mode, file writes and mail calls raise an approval card each time. Making the scheduled job and the mail rule genuinely unattended requires you to switch this Agent's execution-approval mode to allow-all yourself\n\nBoundaries (what it will not do)\n- No authenticity verification. There is no official verification channel available to it, so it performs format and arithmetic checks only and points you to the State Taxation Administration's national VAT invoice verification platform to check for yourself\n- No accounting entries, no tax filing, no input-tax-credit judgements. This is not a replacement for accounting software\n- It never deletes, moves or forwards your mail; mailbox cleanup stays with you\n- No currency conversion. A foreign-currency settlement is still priced in RMB on the face of the invoice; the original amount and the rate used are copied verbatim into the notes, never converted and never totalled as a second set of figures\n- It never merges suspected duplicates on its own (numbers differing by one digit with every other field identical); they are listed for you to decide\n- It never invents invoice fields. Whatever cannot be extracted is left empty, the original is quarantined, and the reason is stated; no field is ever completed from a \"usual format\"\n- It never claims to have found everything, only that within the stated range it found N candidate messages and successfully parsed M invoices\n\nPrivacy\nInvoices carry company names, taxpayer IDs, bank accounts and travel details. All of it stays in the local work directory and ledger; this Agent has no outbound channel and never replies to or forwards mail on your behalf."
+      }
+    },
+    "category": "business",
+    "tags": [
+      "invoice",
+      "expense",
+      "ledger",
+      "finance",
+      "email"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-09-04",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "known",
+      "value": "2026-09-04",
+      "precision": "day"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "listing-only",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "branding": {
+      "relationship": "official",
+      "nameUsage": "owned",
+      "logoStatus": "not-used"
+    },
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requirements": [
+      {
+        "kind": "permission",
+        "value": "A mailbox account authorized inside DesireCore (Gmail, Outlook or IMAP). The user completes this one-time authorization themselves; without it the Agent stops at preflight and states what is missing."
+      },
+      {
+        "kind": "runtime",
+        "value": "Parsing PDF, OFD and scanned images needs nothing installed. Only the .xlsx ledger may require Python with openpyxl and pandas; when they are unavailable the Agent degrades to a UTF-8 BOM CSV and reports the degradation."
+      },
+      {
+        "kind": "permission",
+        "value": "A registered work directory (ManageWorkDirs) for the archive, ledger and report. Under the default execution-approval mode every file write and mail call raises an approval card; unattended scheduled runs require the user to switch this Agent to allow-all themselves."
+      },
+      {
+        "kind": "connection",
+        "value": "Local Mail Service access for listing messages and downloading attachments. No invoice authenticity verification is performed: there is no official verification channel, so the Agent runs format and arithmetic checks only and points the user to the State Taxation Administration platform to verify for themselves."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "agent",
+    "installPolicy": "market",
+    "updatePolicy": "market",
+    "persona": {
+      "role": "Invoice intake, structuring and ledger maintenance",
+      "traits": [
+        "collects over a stated range instead of trawling the whole mailbox",
+        "every field carries its source and a confidence score",
+        "idempotent: the same invoice yields the same result however often it is processed",
+        "quarantines what it cannot extract instead of inventing it"
+      ]
+    }
+  }
+}

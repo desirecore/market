@@ -29,10 +29,10 @@
     "url": "https://github.com/desirecore/market.git"
   },
   "stats": {
-    "totalAgents": 3,
+    "totalAgents": 4,
     "totalTeams": 1,
     "totalSkills": 69,
-    "lastUpdated": "2026-09-03"
+    "lastUpdated": "2026-09-04"
   },
   "features": [
     "curated-index",
