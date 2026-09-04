@@ -79,9 +79,9 @@ OFD 是中国电子发票的两大法定载体之一。`Read` 一个 `.ofd` 返�
 **键名是点号路径。** 展平器剥掉命名空间前缀、丢掉根元素、用 `.` 连接层级、同名兄弟加 `[序号]`。真实的键长这样：
 
 ```
-InvoiceNo = 24112000000048542163
-Buyer.BuyerName = 海南麒麟云服科技有限公司
-Seller.SellerTaxID = 91110108690017781B
+InvoiceNo = 24112000000000010001
+Buyer.BuyerName = 示例数字科技（北京）有限公司
+Seller.SellerTaxID = 91110105MA00P8L2RU
 TaxInclusiveTotalAmount = ¥4449.00
 GoodsInfos.GoodsInfo[1].Item = 餐费
 ```
