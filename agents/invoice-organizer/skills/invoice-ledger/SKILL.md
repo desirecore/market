@@ -151,7 +151,9 @@ CSV 只出「明细」一张表，汇总数字放进月度报告的 Markdown 里
 
 ### 月度报告
 
-模板见 `${SKILL_DIR}/references/月度报告模板.md`，写到 `报告/<YYYY-MM>.md`。
+模板见 `${SKILL_DIR}/references/月度报告模板.md`。文件名：覆盖恰好一个自然月时写
+`报告/<YYYY-MM>.md`，跨多个月时写 `报告/<起始 YYYY-MM>_<结束 YYYY-MM>.md`（月份按开票日期归属）。
+**不要用运行日期命名**，理由见 `invoice-workflow` 第 7 步。
 
 用户要 PDF/DOCX 时用 `ExportDocument` 从这份 Markdown 转（该工具不能直接出 xlsx）。要把台账文件交给用户时用 `SendUserMessage` 带附件（最多 10 个文件、每个 ≤10MB）。
 
