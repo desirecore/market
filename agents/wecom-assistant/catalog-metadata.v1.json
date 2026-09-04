@@ -103,6 +103,8 @@
         "full business coverage",
         "reports failures honestly"
       ]
-    }
+    },
+    "installPolicy": "market",
+    "updatePolicy": "market"
   }
 }
