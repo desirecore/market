@@ -1,0 +1,7 @@
+# Python 字节码：跑 scripts/catalog、scripts/i18n 下的校验脚本会就地产生。
+# 它随 defaults/market.zip 分发给每个客户端，且只对生成它的那个 Python 版本有效。
+__pycache__/
+*.py[cod]
+
+# macOS
+.DS_Store
