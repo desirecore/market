@@ -17,7 +17,7 @@
     "finance",
     "email"
   ],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "updatedAt": "2026-09-04",
   "maintainer": {
     "name": "DesireCore Official",
@@ -125,6 +125,22 @@
   },
   "changelog": [
     {
+      "version": "1.0.1",
+      "date": "2026-09-04",
+      "changes": {
+        "zh-CN": [
+          "归档路径改成四条可逐项对照的硬规则（归档/年/月 + YYYYMMDD 八位日期），并写入实测踩到的错误形态",
+          "报告文件名按「本次入账发票的开票月份落在几个 YYYY-MM」决定：同月写 <YYYY-MM>.md，跨月写 <最早>_<最晚>.md；禁止用运行日期命名",
+          "台账四张表必须全建：即使某张表零行也要建出表头，不许因为数据少而省略「按销售方汇总」"
+        ],
+        "en-US": [
+          "Archive path pinned to four checkable rules (归档/year/month + 8-digit YYYYMMDD date), with the observed wrong forms written into the skill",
+          "Report filename now keyed on how many distinct YYYY-MM the run's invoice issue dates span; run-date filenames are forbidden",
+          "All four ledger sheets must always be created with their header row, even when a sheet would be empty"
+        ]
+      }
+    },
+    {
       "version": "1.0.0",
       "date": "2026-09-04",
       "changes": {
@@ -145,6 +161,6 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore/market.git",
     "path": "agents/invoice-organizer",
-    "ref": "42a29e99a06b0387250b31d4bbe1515c7406694f"
+    "ref": "7560a586426f5575eb86b0de0498f9b5cebe1751"
   }
 }

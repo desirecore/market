@@ -30,7 +30,7 @@
   },
   "release": {
     "state": "known",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "versionScheme": "semver"
   },
   "timestamps": {
@@ -58,7 +58,7 @@
       "kind": "git",
       "url": "https://github.com/desirecore/market.git",
       "path": "agents/invoice-organizer",
-      "ref": "42a29e99a06b0387250b31d4bbe1515c7406694f"
+      "ref": "7560a586426f5575eb86b0de0498f9b5cebe1751"
     }
   },
   "governance": {
@@ -75,7 +75,7 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "42a29e99a06b0387250b31d4bbe1515c7406694f",
+      "reviewedRef": "7560a586426f5575eb86b0de0498f9b5cebe1751",
       "reviewedAt": "2026-09-04",
       "reviewedBy": "yi-ge",
       "upstreamEndorsed": true
