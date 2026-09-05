@@ -40,7 +40,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-01",
+      "value": "2026-09-06",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -49,7 +49,9 @@
       "precision": "second"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-09-06",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
@@ -66,7 +68,7 @@
   },
   "governance": {
     "stewardship": "official",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
       "state": "known",
       "value": "MIT",
@@ -77,6 +79,13 @@
       "name": "DesireCore Agent",
       "url": "https://github.com/desirecore-agent",
       "verified": true
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "73cd87a9901cc548871927e9d5dbec8e4cc6c2b1",
+      "reviewedAt": "2026-09-06",
+      "reviewedBy": "DesireCore Agent",
+      "upstreamEndorsed": true
     }
   },
   "compatibility": {
@@ -86,16 +95,6 @@
     "requiredClientVersion": "10.0.137"
   },
   "spec": {
-    "kind": "team",
-    "supervisorName": "合同审查统筹官",
-    "supervisorAgentId": "contract-review-lead",
-    "memberCount": 6,
-    "memberNames": [
-      "合同输入治理官",
-      "条款结构化官",
-      "合同风险识别官",
-      "法域合规官",
-      "合同复核出报告官"
-    ]
+    "kind": "team"
   }
 }
