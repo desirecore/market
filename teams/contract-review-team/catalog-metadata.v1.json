@@ -92,7 +92,7 @@
     "platforms": {
       "state": "unknown"
     },
-    "requiredClientVersion": "10.0.137"
+    "requiredClientVersion": "10.0.136"
   },
   "spec": {
     "kind": "team"
