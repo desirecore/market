@@ -1,219 +1,487 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "type": "object",
-  "required": [
-    "id",
-    "name",
-    "stewardship",
-    "license",
-    "redistribution",
-    "source"
-  ],
-  "properties": {
-    "id": {
-      "type": "string",
-      "description": "团队条目唯一标识符，采用与 team.json#id 相同的团队 slug 规则（不允许首尾连字符），保证市场 ID 天然是一个合法团队目录名。",
-      "pattern": "^[a-z0-9]([a-z0-9-]*[a-z0-9])?$"
-    },
-    "name": {
-      "type": "string",
-      "description": "默认显示名称（源 locale），本地化变体见 i18n"
-    },
-    "category": {
-      "type": "string",
-      "minLength": 1,
-      "pattern": "^[a-z0-9-]+$",
-      "description": "市场项目分类（slug 格式），由仓库 categories.json 定义"
-    },
-    "tags": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "description": "标签列表，用于搜索和分类"
-    },
-    "icon": {
-      "type": "string",
-      "description": "市场列表展示的内联 SVG 图标。**只有 Skill 卡片渲染它**——marketAgentSchema 与 marketTeamSchema 都没有 icon 字段，Agent 与团队卡片一律走 avatar，条目声明了 icon 也不会显示。Pointer 技能将其随离线元数据返回。"
-    },
-    "latestVersion": {
-      "type": "string",
-      "description": "市场登记的最新版本（semver）",
-      "pattern": "^\\d+\\.\\d+\\.\\d+$"
-    },
-    "i18n": {
-      "type": "object",
-      "description": "按 locale 提供的本地化展示元数据（仅 name/shortDesc，轻量）",
-      "additionalProperties": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "该 locale 下的显示名称"
-          },
-          "shortDesc": {
-            "type": "string",
-            "description": "该 locale 下的简短描述"
-          }
-        },
-        "additionalProperties": false
-      }
-    },
-    "maintainer": {
+  "title": "Market Team Entry (legacy and current client contracts)",
+  "description": "Accept the legacy pointer contract while allowing the current installable team contract. New entries should use the current branch; the legacy branch remains for catalog compatibility during migration.",
+  "anyOf": [
+    {
       "type": "object",
       "required": [
+        "id",
         "name",
-        "verified"
+        "stewardship",
+        "license",
+        "redistribution",
+        "source"
       ],
       "properties": {
+        "id": {
+          "type": "string",
+          "description": "团队条目唯一标识符，采用与 team.json#id 相同的团队 slug 规则（不允许首尾连字符），保证市场 ID 天然是一个合法团队目录名。",
+          "pattern": "^[a-z0-9]([a-z0-9-]*[a-z0-9])?$"
+        },
         "name": {
           "type": "string",
-          "description": "维护者名称，如 \"DesireCore Official\""
+          "description": "默认显示名称（源 locale），本地化变体见 i18n"
         },
-        "verified": {
-          "type": "boolean",
-          "description": "是否官方认证维护者，认证后显示蓝色勾选标记"
-        },
-        "account": {
-          "type": "string",
-          "description": "维护方账号标识，如 GitHub 组织/用户名 \"desirecore\""
-        },
-        "url": {
-          "type": "string",
-          "description": "维护方主页或仓库 URL"
-        }
-      },
-      "additionalProperties": false
-    },
-    "stewardship": {
-      "type": "string",
-      "enum": [
-        "official",
-        "partner",
-        "community",
-        "pointer"
-      ],
-      "description": "维护方分类：official（官方）/ partner（合作伙伴官方）/ community（社区已收录）/ pointer（仅指针，不分发内容）"
-    },
-    "license": {
-      "type": "string",
-      "minLength": 1,
-      "description": "许可证：SPDX id（MIT/Apache-2.0/MIT-0…）或特殊值 not-declared / source-available / packaged-distribution"
-    },
-    "redistribution": {
-      "type": "string",
-      "enum": [
-        "allowed",
-        "source-pointer-only",
-        "verify-package-terms"
-      ],
-      "description": "再分发策略：allowed（可分发）/ source-pointer-only（仅指针，安装时拉取）/ verify-package-terms（需核验条款）"
-    },
-    "source": {
-      "type": "object",
-      "required": [
-        "kind",
-        "repoUrl"
-      ],
-      "properties": {
-        "kind": {
-          "type": "string",
-          "enum": [
-            "git"
-          ],
-          "description": "团队只支持 git 源：安装是 fork 团队仓库、更新是 git pull，zip / web 无法表达这两个动作。"
-        },
-        "repoUrl": {
+        "category": {
           "type": "string",
           "minLength": 1,
-          "description": "团队 git 仓库的 HTTPS 克隆地址，如 https://github.com/desirecore/team-contract-review.git"
+          "pattern": "^[a-z0-9-]+$",
+          "description": "市场项目分类（slug 格式），由仓库 categories.json 定义"
         },
-        "repoBranch": {
-          "type": "string",
-          "description": "团队仓库分支名称，默认 main。安装时会真的按这个分支克隆；必须是合法分支名（不带 refs/ 前缀、不以 - 开头），否则安装失败关闭而不是静默改装默认分支。",
-          "default": "main"
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "标签列表，用于搜索和分类"
         },
-        "ref": {
+        "icon": {
           "type": "string",
-          "description": "锁定的 commit SHA / tag，用于可复现安装；为空表示取分支 HEAD。只接受**完整 40 位 SHA-1** 或标签名：缩写 oid 会随仓库增长变歧义、也远比完整 SHA 容易被构造碰撞，而降级 git 后端根本不解析它。安装时会按该 ref 克隆并读回真实 HEAD 逐字复核，不一致就中止整个安装——一个不被兑现的锁比没有锁更危险，因为它会被信任。"
-        }
-      },
-      "additionalProperties": false,
-      "description": "团队 fork 源。**这是团队条目的核心**：安装端点用 repoUrl + repoBranch 调用 forkTeam，更新用同一仓库 git pull。"
-    },
-    "requiredClientVersion": {
-      "type": "string",
-      "description": "此条目要求的最低客户端版本（semver），低于此版本时提示升级",
-      "pattern": "^\\d+\\.\\d+\\.\\d+$"
-    },
-    "avatar": {
-      "type": "object",
-      "required": [
-        "t",
-        "bg"
-      ],
-      "properties": {
-        "t": {
-          "type": "string",
-          "description": "头像显示的文字（通常为一个汉字）",
-          "maxLength": 2
+          "description": "市场列表展示的内联 SVG 图标。**只有 Skill 卡片渲染它**——marketAgentSchema 与 marketTeamSchema 都没有 icon 字段，Agent 与团队卡片一律走 avatar，条目声明了 icon 也不会显示。Pointer 技能将其随离线元数据返回。"
         },
-        "bg": {
+        "latestVersion": {
           "type": "string",
-          "description": "头像背景 CSS 渐变值，如 linear-gradient(135deg, #007AFF, #005ECB)"
+          "description": "市场登记的最新版本（semver）",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
         },
-        "image": {
+        "i18n": {
           "type": "object",
-          "description": "图片头像：市场仓库中该条目目录内的位图（如 \"assets/avatar.webp\"）。存在且文件可读时优先于 t + bg 渲染，否则自动回落——所以 t 与 bg 仍为必填，它们是确定的回落形态。仅支持 PNG / JPEG / WebP。注意：这是**市场展示**元数据，与安装后 agent.json 的 avatar.image 是两套，安装时不迁移。",
+          "description": "按 locale 提供的本地化展示元数据（仅 name/shortDesc，轻量）",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "该 locale 下的显示名称"
+              },
+              "shortDesc": {
+                "type": "string",
+                "description": "该 locale 下的简短描述"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "maintainer": {
+          "type": "object",
           "required": [
-            "path"
+            "name",
+            "verified"
           ],
           "properties": {
-            "path": {
+            "name": {
               "type": "string",
-              "description": "相对于该市场条目目录的图片路径。禁止绝对路径和 .. 路径穿越",
-              "minLength": 5,
-              "maxLength": 240,
-              "pattern": "^(?![\\\\/])(?![A-Za-z]:)(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+\\.(?:png|jpe?g|webp)$"
+              "description": "维护者名称，如 \"DesireCore Official\""
+            },
+            "verified": {
+              "type": "boolean",
+              "description": "是否官方认证维护者，认证后显示蓝色勾选标记"
+            },
+            "account": {
+              "type": "string",
+              "description": "维护方账号标识，如 GitHub 组织/用户名 \"desirecore\""
+            },
+            "url": {
+              "type": "string",
+              "description": "维护方主页或仓库 URL"
             }
           },
           "additionalProperties": false
+        },
+        "stewardship": {
+          "type": "string",
+          "enum": [
+            "official",
+            "partner",
+            "community",
+            "pointer"
+          ],
+          "description": "维护方分类：official（官方）/ partner（合作伙伴官方）/ community（社区已收录）/ pointer（仅指针，不分发内容）"
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1,
+          "description": "许可证：SPDX id（MIT/Apache-2.0/MIT-0…）或特殊值 not-declared / source-available / packaged-distribution"
+        },
+        "redistribution": {
+          "type": "string",
+          "enum": [
+            "allowed",
+            "source-pointer-only",
+            "verify-package-terms"
+          ],
+          "description": "再分发策略：allowed（可分发）/ source-pointer-only（仅指针，安装时拉取）/ verify-package-terms（需核验条款）"
+        },
+        "source": {
+          "type": "object",
+          "required": [
+            "kind",
+            "repoUrl"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "git"
+              ],
+              "description": "团队只支持 git 源：安装是 fork 团队仓库、更新是 git pull，zip / web 无法表达这两个动作。"
+            },
+            "repoUrl": {
+              "type": "string",
+              "minLength": 1,
+              "description": "团队 git 仓库的 HTTPS 克隆地址，如 https://github.com/desirecore/team-contract-review.git"
+            },
+            "repoBranch": {
+              "type": "string",
+              "description": "团队仓库分支名称，默认 main。安装时会真的按这个分支克隆；必须是合法分支名（不带 refs/ 前缀、不以 - 开头），否则安装失败关闭而不是静默改装默认分支。",
+              "default": "main"
+            },
+            "ref": {
+              "type": "string",
+              "description": "锁定的 commit SHA / tag，用于可复现安装；为空表示取分支 HEAD。只接受**完整 40 位 SHA-1** 或标签名：缩写 oid 会随仓库增长变歧义、也远比完整 SHA 容易被构造碰撞，而降级 git 后端根本不解析它。安装时会按该 ref 克隆并读回真实 HEAD 逐字复核，不一致就中止整个安装——一个不被兑现的锁比没有锁更危险，因为它会被信任。"
+            }
+          },
+          "additionalProperties": false,
+          "description": "团队 fork 源。**这是团队条目的核心**：安装端点用 repoUrl + repoBranch 调用 forkTeam，更新用同一仓库 git pull。"
+        },
+        "requiredClientVersion": {
+          "type": "string",
+          "description": "此条目要求的最低客户端版本（semver），低于此版本时提示升级",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "avatar": {
+          "type": "object",
+          "required": [
+            "t",
+            "bg"
+          ],
+          "properties": {
+            "t": {
+              "type": "string",
+              "description": "头像显示的文字（通常为一个汉字）",
+              "maxLength": 2
+            },
+            "bg": {
+              "type": "string",
+              "description": "头像背景 CSS 渐变值，如 linear-gradient(135deg, #007AFF, #005ECB)"
+            },
+            "image": {
+              "type": "object",
+              "description": "图片头像：市场仓库中该条目目录内的位图（如 \"assets/avatar.webp\"）。存在且文件可读时优先于 t + bg 渲染，否则自动回落——所以 t 与 bg 仍为必填，它们是确定的回落形态。仅支持 PNG / JPEG / WebP。注意：这是**市场展示**元数据，与安装后 agent.json 的 avatar.image 是两套，安装时不迁移。",
+              "required": [
+                "path"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "相对于该市场条目目录的图片路径。禁止绝对路径和 .. 路径穿越",
+                  "minLength": 5,
+                  "maxLength": 240,
+                  "pattern": "^(?![\\\\/])(?![A-Za-z]:)(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+\\.(?:png|jpe?g|webp)$"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "supervisorName": {
+          "type": "string",
+          "description": "组长（supervisor）Agent 的显示名称，仅用于卡片与详情页展示；真实组长以团队仓库 team.json#supervisor 为准。"
+        },
+        "supervisorAgentId": {
+          "type": "string",
+          "description": "组长 Agent ID（展示与去重用）。只是发布者声明，不作为安装期白名单依据。",
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "memberCount": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "团队成员总数（**含组长**），用于卡片上\"N 名成员\"的展示；不参与任何安装校验。"
+        },
+        "memberNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 32,
+          "description": "成员显示名预览列表（不含组长），用于卡片上的成员缩略展示；不保证与仓库成员完全一致。"
+        },
+        "requiredSkills": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 128,
+          "uniqueItems": true,
+          "description": "团队声明的必需 Skill ID，用于安装前向用户提示前置条件；真实校验由安装后的团队 capability audit 执行。"
         }
       },
       "additionalProperties": false
     },
-    "supervisorName": {
-      "type": "string",
-      "description": "组长（supervisor）Agent 的显示名称，仅用于卡片与详情页展示；真实组长以团队仓库 team.json#supervisor 为准。"
-    },
-    "supervisorAgentId": {
-      "type": "string",
-      "description": "组长 Agent ID（展示与去重用）。只是发布者声明，不作为安装期白名单依据。",
-      "pattern": "^[A-Za-z0-9_-]+$"
-    },
-    "memberCount": {
-      "type": "integer",
-      "minimum": 1,
-      "description": "团队成员总数（**含组长**），用于卡片上\"N 名成员\"的展示；不参与任何安装校验。"
-    },
-    "memberNames": {
-      "type": "array",
-      "items": {
-        "type": "string"
+    {
+      "type": "object",
+      "description": "可安装团队的自描述市场条目；能力、成员与隐私说明由发布者维护。",
+      "required": [
+        "id",
+        "name",
+        "shortDesc",
+        "category",
+        "tags",
+        "latestVersion",
+        "updatedAt",
+        "members",
+        "capabilities",
+        "privacy",
+        "stewardship",
+        "license",
+        "redistribution",
+        "source"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "条目唯一标识符，使用小写连字符格式，如 \"flyai-skill\"",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "name": {
+          "type": "string",
+          "description": "默认显示名称（源 locale），本地化变体见 i18n"
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[a-z0-9-]+$",
+          "description": "市场项目分类（slug 格式），由仓库 categories.json 定义"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "标签列表，用于搜索和分类"
+        },
+        "icon": {
+          "type": "string",
+          "description": "市场列表展示的内联 SVG 图标。Pointer 技能将其随离线元数据返回。"
+        },
+        "latestVersion": {
+          "type": "string",
+          "description": "市场登记的最新版本（semver）",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "i18n": {
+          "type": "object",
+          "description": "按 locale 提供的本地化展示元数据（仅 name/shortDesc，轻量）",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "该 locale 下的显示名称"
+              },
+              "shortDesc": {
+                "type": "string",
+                "description": "该 locale 下的简短描述"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "maintainer": {
+          "type": "object",
+          "required": [
+            "name",
+            "verified"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "维护者名称，如 \"DesireCore Official\""
+            },
+            "verified": {
+              "type": "boolean",
+              "description": "是否官方认证维护者，认证后显示蓝色勾选标记"
+            },
+            "account": {
+              "type": "string",
+              "description": "维护方账号标识，如 GitHub 组织/用户名 \"desirecore\""
+            },
+            "url": {
+              "type": "string",
+              "description": "维护方主页或仓库 URL"
+            }
+          },
+          "additionalProperties": false
+        },
+        "stewardship": {
+          "type": "string",
+          "enum": [
+            "official",
+            "partner",
+            "community",
+            "pointer"
+          ],
+          "description": "维护方分类：official（官方）/ partner（合作伙伴官方）/ community（社区已收录）/ pointer（仅指针，不分发内容）"
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1,
+          "description": "许可证：SPDX id（MIT/Apache-2.0/MIT-0…）或特殊值 not-declared / source-available / packaged-distribution"
+        },
+        "redistribution": {
+          "type": "string",
+          "enum": [
+            "allowed",
+            "source-pointer-only",
+            "verify-package-terms"
+          ],
+          "description": "再分发策略：allowed（可分发）/ source-pointer-only（仅指针，安装时拉取）/ verify-package-terms（需核验条款）"
+        },
+        "source": {
+          "type": "object",
+          "description": "团队安装制品：HTTPS Git 仓库根目录及完整 40 位 commit SHA。",
+          "required": [
+            "kind",
+            "repoUrl",
+            "ref"
+          ],
+          "properties": {
+            "kind": {
+              "const": "git",
+              "type": "string",
+              "description": "团队来源仅支持 Git 仓库。"
+            },
+            "repoUrl": {
+              "type": "string",
+              "pattern": "^https://[^\\s/?#@]+/[^\\s?#]+$",
+              "description": "不含凭据、查询或片段的 HTTPS Git 仓库 URL；安装另经过远程安全策略。"
+            },
+            "ref": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$",
+              "description": "不可变完整 commit SHA；安装 checkout 后必须回读 HEAD 验证。"
+            },
+            "path": {
+              "type": "string",
+              "const": "",
+              "description": "首版只支持仓库根目录，省略或空字符串。"
+            }
+          },
+          "additionalProperties": false
+        },
+        "requiredClientVersion": {
+          "type": "string",
+          "description": "此条目要求的最低客户端版本（semver），低于此版本时提示升级",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "shortDesc": {
+          "type": "string",
+          "minLength": 1,
+          "description": "团队卡片简介。"
+        },
+        "fullDesc": {
+          "type": "string",
+          "description": "完整介绍及使用前提；不能替代明确的隐私说明。"
+        },
+        "avatar": {
+          "type": "object",
+          "required": [
+            "t",
+            "bg"
+          ],
+          "properties": {
+            "t": {
+              "type": "string",
+              "description": "头像显示的文字（通常为一个汉字）",
+              "maxLength": 2
+            },
+            "bg": {
+              "type": "string",
+              "description": "头像背景 CSS 渐变值，如 linear-gradient(135deg, #007AFF, #005ECB)"
+            },
+            "image": {
+              "type": "object",
+              "description": "图片头像：市场仓库中该条目目录内的位图（如 \"assets/avatar.webp\"）。存在且文件可读时优先于 t + bg 渲染，否则自动回落——所以 t 与 bg 仍为必填，它们是确定的回落形态。仅支持 PNG / JPEG / WebP。注意：这是**市场展示**元数据，与安装后 agent.json 的 avatar.image 是两套，安装时不迁移。",
+              "required": [
+                "path"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "相对于该市场条目目录的图片路径。禁止绝对路径和 .. 路径穿越",
+                  "minLength": 5,
+                  "maxLength": 240,
+                  "pattern": "^(?![\\\\/])(?![A-Za-z]:)(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+\\.(?:png|jpe?g|webp)$"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date",
+          "description": "发布元数据更新日期。"
+        },
+        "members": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": {
+            "type": "object",
+            "description": "团队目录中的角色展示；安装时与仓库名册逐项校验。",
+            "required": [
+              "id",
+              "name",
+              "role"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]+$",
+                "description": "成员 Agent ID，必须与团队发布名册一致。"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "description": "成员展示名称。"
+              },
+              "role": {
+                "type": "string",
+                "enum": [
+                  "supervisor",
+                  "member"
+                ],
+                "description": "组长或普通成员。"
+              },
+              "version": {
+                "type": "string",
+                "pattern": "^\\d+\\.\\d+\\.\\d+$",
+                "description": "目录声明的成员版本；存在时必须与发布锁一致。"
+              }
+            },
+            "additionalProperties": false
+          },
+          "description": "完整成员名册，恰好一个组长，不允许重复 ID。"
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "发布者声明的能力范围，不代表平台验证或担保。"
+        },
+        "privacy": {
+          "type": "string",
+          "minLength": 1,
+          "description": "发布者说明的数据处理、模型外联及人工治理边界，不得默认宣称离线或零外发。"
+        }
       },
-      "maxItems": 32,
-      "description": "成员显示名预览列表（不含组长），用于卡片上的成员缩略展示；不保证与仓库成员完全一致。"
-    },
-    "requiredSkills": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "maxItems": 128,
-      "uniqueItems": true,
-      "description": "团队声明的必需 Skill ID，用于安装前向用户提示前置条件；真实校验由安装后的团队 capability audit 执行。"
+      "additionalProperties": false
     }
-  },
-  "additionalProperties": false,
-  "$comment": "Generated from desirecore/desirecore packages/schemas/src/market.ts#marketTeamEntrySchema at commit 947d9f32c6c81ebe5ece78f6295155814c888a22, source blob d6b361d149773e7384babe3011d86d25ded4e493. Keep the complete client contract; regenerate from that export instead of editing fields manually."
+  ],
+  "$comment": "The current branch is generated from desirecore/desirecore packages/schemas/src/market.ts at commit 40dbc58237c1ffc1c0877223142e441afee9c1ec, source blob 7662ea407f3350cd537afb3563b944e4168c8bdb. The legacy branch is retained for existing public catalog entries and fixtures until the migration is complete."
 }
