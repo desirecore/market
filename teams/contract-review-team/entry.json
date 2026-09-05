@@ -71,7 +71,7 @@
       "id": "jurisdiction-auditor",
       "name": "法域合规官",
       "role": "member",
-      "version": "1.0.0"
+      "version": "1.2.0"
     },
     {
       "id": "review-reporter",
