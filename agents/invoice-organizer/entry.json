@@ -1,0 +1,43 @@
+{
+  "id": "invoice-organizer",
+  "name": "发票整理助手",
+  "category": "business",
+  "tags": [
+    "invoice",
+    "expense",
+    "ledger",
+    "finance",
+    "email"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "发票整理助手",
+      "shortDesc": "把邮箱里的发票收拢成一本可对账的台账：按范围收集附件、解析 PDF / OFD / 扫描件、去重归档、生成表格台账与月度报告。需先在 DesireCore 中完成一次邮箱授权；只做形式校验，不做发票真伪查验。"
+    },
+    "en-US": {
+      "name": "Invoice Organizer",
+      "shortDesc": "Turns the invoices buried in a mailbox into a reconcilable ledger: collects attachments over a stated range, extracts fields from PDF, OFD and scanned images, deduplicates, archives, and produces a spreadsheet ledger plus a monthly report. Requires a one-time mailbox authorization inside DesireCore; it performs format and arithmetic checks only, never tax-authority invoice verification."
+    }
+  },
+  "latestVersion": "1.0.3",
+  "maintainer": {
+    "name": "DesireCore Official",
+    "verified": true
+  },
+  "stewardship": "official",
+  "license": "MIT",
+  "redistribution": "source-pointer-only",
+  "avatar": {
+    "t": "票",
+    "bg": "linear-gradient(135deg, #34C759, #007AFF)",
+    "image": {
+      "path": "assets/avatar.webp"
+    }
+  },
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/desirecore-agent/invoice-organizer.git",
+    "repoBranch": "main",
+    "ref": "891deee7b0ff24706e07fb8dfacc182398820d7e"
+  }
+}
