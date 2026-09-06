@@ -11,12 +11,12 @@
       "en-US": {
         "name": "Contract Review Team",
         "summary": "A six-member contract review team: intake gating, clause structuring, risk scanning and jurisdiction checks, closed by an independent reviewer who re-verifies against the source text before reporting",
-        "description": "Six members work a fixed seven-step chain. The intake officer runs hard checks and freezes the reviewed baseline, stopping the pipeline outright when a blocking condition is hit. The clause officer rewrites the body and attachments into structured facts anchored to clause numbers and page references, keeping genuine ambiguity intact instead of resolving it early. Risk scanning and jurisdiction checks then run in parallel over that same structured record. The reviewer closes the chain: it does not read the earlier members' reasoning, goes back to the source text to re-establish evidence, and only then composes the report.\n\nThis is a team, not one agent running the whole flow end to end. Responsibilities are split across six members and one independent review pass is kept, so a run takes longer but leaves a traceable evidence chain and a clear boundary for each finding. Pick the shape that fits the job.\n\nThe output is supporting material for review work. It is not legal advice, it carries no legal effect, and it does not replace a qualified lawyer or in-house counsel. Every conclusion has to be checked by a qualified person before it is relied on."
+        "description": "Six members work a fixed seven-step chain. The intake officer runs hard checks and freezes the reviewed baseline, stopping the pipeline outright when a blocking condition is hit. The clause officer rewrites the body and attachments into structured facts anchored to clause numbers and page references, keeping genuine ambiguity intact instead of resolving it early. Risk scanning and jurisdiction checks then run in parallel over that same structured record. The reviewer closes the chain: it does not read the earlier members' reasoning, goes back to the source text to re-establish evidence, and only then composes the report.\n\nThis is a team, not one agent running the whole flow end to end. Responsibilities are split across six members and one independent review pass is kept, so a run takes longer but leaves a traceable evidence chain and a clear boundary for each finding. Pick the shape that fits the job.\n\nDelegation uses an explicit Work Context for each isolated stage and resumes only from the exact context ID recorded in a receipt.\n\nThe output is supporting material for review work. It is not legal advice, it carries no legal effect, and it does not replace a qualified lawyer or in-house counsel. Every conclusion has to be checked by a qualified person before it is relied on."
       },
       "zh-CN": {
         "name": "合同审查团队",
         "summary": "六名成员分工的合同审查团队：输入治理、条款结构化、风险识别、法域合规，最后由独立复核成员回原文重新取证再出报告",
-        "description": "六名成员按固定七步链路协作。输入治理官先做硬校验并冻结受审基线，命中阻断项直接终止流水线；条款结构化官把正文与附件转写为带条款编号和页码锚点的结构化事实，原始歧义原样保留，不替下游提前消歧；风险识别官与法域合规官在同一份结构化事实上并行工作；复核出报告官收尾——不读前序成员的推理过程，回到原文重新取证后独立判定，再汇总成报告。\n\n这是一个团队，不是单个智能体跑完全流程：职责拆到六个成员，并保留一次独立复核，因此一次运行耗时更长，换来的是可追溯的证据链和清晰的责任边界。按任务需要选择合适的形态即可。\n\n产出是供审阅使用的辅助材料，不构成法律意见，不具有法律效力，也不替代律师或法务的专业判断；任何结论都需由具备资质的人员复核后再使用。"
+        "description": "六名成员按固定七步链路协作。输入治理官先做硬校验并冻结受审基线，命中阻断项直接终止流水线；条款结构化官把正文与附件转写为带条款编号和页码锚点的结构化事实，原始歧义原样保留，不替下游提前消歧；风险识别官与法域合规官在同一份结构化事实上并行工作；复核出报告官收尾——不读前序成员的推理过程，回到原文重新取证后独立判定，再汇总成报告。\n\n这是一个团队，不是单个智能体跑完全流程：职责拆到六个成员，并保留一次独立复核，因此一次运行耗时更长，换来的是可追溯的证据链和清晰的责任边界。按任务需要选择合适的形态即可。\n\n每个独立环节都显式选择 Work Context，续跑只接受回执中记录的精确上下文 ID。\n\n产出是供审阅使用的辅助材料，不构成法律意见，不具有法律效力，也不替代律师或法务的专业判断；任何结论都需由具备资质的人员复核后再使用。"
       }
     },
     "icon": {
@@ -34,7 +34,7 @@
   },
   "release": {
     "state": "known",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "versionScheme": "semver"
   },
   "timestamps": {
@@ -45,7 +45,7 @@
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-01T05:18:09Z",
+      "value": "2026-09-06T07:32:42Z",
       "precision": "second"
     },
     "reviewedAt": {
@@ -55,7 +55,7 @@
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-01T05:21:24Z",
+      "value": "2026-09-06T07:32:42Z",
       "precision": "second"
     }
   },
@@ -63,7 +63,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/contract-review-team.git",
-      "ref": "96fe7248cdb713b63243225485199d117d2b36f0"
+      "ref": "b3b7b56b073efa8a4da2bc2a00c8aac00d261060"
     }
   },
   "governance": {
@@ -82,7 +82,7 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "96fe7248cdb713b63243225485199d117d2b36f0",
+      "reviewedRef": "b3b7b56b073efa8a4da2bc2a00c8aac00d261060",
       "reviewedAt": "2026-09-06",
       "reviewedBy": "DesireCore Agent",
       "upstreamEndorsed": true
