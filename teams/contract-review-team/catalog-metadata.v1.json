@@ -45,7 +45,7 @@
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-01T05:18:09Z",
+      "value": "2026-09-06T07:32:42Z",
       "precision": "second"
     },
     "reviewedAt": {
@@ -55,7 +55,7 @@
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-01T05:21:24Z",
+      "value": "2026-09-06T07:32:42Z",
       "precision": "second"
     }
   },
