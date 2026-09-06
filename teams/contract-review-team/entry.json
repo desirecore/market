@@ -32,6 +32,7 @@
   "source": {
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/contract-review-team.git",
+    "repoBranch": "main",
     "ref": "6aa93bf11a6e37cc9d0444e3335ba953bee0a61f"
   },
   "requiredClientVersion": "10.0.136",

@@ -358,6 +358,11 @@
               "pattern": "^https://[^\\s/?#@]+/[^\\s?#]+$",
               "description": "不含凭据、查询或片段的 HTTPS Git 仓库 URL；安装另经过远程安全策略。"
             },
+            "repoBranch": {
+              "type": "string",
+              "pattern": "^(?!-)[^\\s]+$",
+              "description": "团队 Git 仓库分支名称；默认 main。安装与更新均按该分支解析，并仍以完整 ref 做不可变校验。"
+            },
             "ref": {
               "type": "string",
               "pattern": "^[0-9a-f]{40}$",
