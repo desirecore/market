@@ -275,6 +275,35 @@ IMAP 的两个坑：`messageId` 用 `"imap:<uid>"` 形式（列表返回的 `id`
     └── raw/<sha256>.json       单文件原始解析输出
 ```
 
+### 三个索引文件的顶层结构（硬规则，不许自己另起一套）
+
+**新建**时必须是下面这个形状。容器键名与嵌套形态都钉死——台账、报告、幂等判据全部从这里
+派生，键名一漂，跨轮次和外部工具就都对不上：
+
+```jsonc
+// .index/ledger.json —— 发票主键 → 记录（是**字典**，不是数组）
+{ "schemaVersion": 1, "updatedAt": "<ISO8601>",
+  "invoices": { "<发票主键>": { /* 单张发票的记录 */ } },
+  "suspectedDuplicates": [ /* 疑似重复，交人工确认，不并入 invoices */ ],
+  "quarantined": [ /* 隔离项摘要，与 _quarantine/ 里的 .reason.txt 对应 */ ] }
+
+// .index/files.json —— 文件 sha256 → 解析结果
+{ "schemaVersion": 1, "updatedAt": "<ISO8601>",
+  "files": { "<sha256>": { /* 该文件的解析结果与去向 */ } } }
+
+// .index/emails.json —— 已处理邮件 id
+{ "schemaVersion": 1, "updatedAt": "<ISO8601>",
+  "emails": { "<provider>:<email>:<mailId>": { /* 处理结论 */ } } }
+```
+
+**读到旧形态时不要重写容器。** 历史目录里 `ledger.json` 可能是
+`{schemaVersion, updatedAt, records: [ … ]}`（**数组**）。这种目录要**原样读、原样写回**，
+只增改里面的条目——不要顺手"规范化"成 `invoices`。理由：容器一换，本轮之外的字段
+（旧版写过、当前规格没覆盖的）就会静默丢掉，而用户毫无察觉。判据很简单：
+**顶层出现 `records` 就一路沿用 `records`，出现 `invoices` 就用 `invoices`，新建才用 `invoices`。**
+
+实测踩过：同一个 Agent 在不同轮次分别产出过这两种不兼容结构，`updatedAt` 也时有时无。
+
 产物必须落在**已登记的工作目录**里。Agent 的 AgentFS 私有目录不在文件工作台的可见范围内，别把台账放那儿。
 
 用 `Write` 落盘，不要用 Bash 重定向——`Write` 会产生「本轮修改了哪些文件」卡片，用户能直接点开台账；Bash 写的文件不会。
