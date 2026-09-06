@@ -1,0 +1,43 @@
+{
+  "id": "dingtalk-workspace",
+  "name": "钉钉工作台助手",
+  "category": "communication",
+  "tags": [
+    "dingtalk",
+    "collaboration",
+    "messaging",
+    "approval",
+    "documents"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "钉钉工作台助手",
+      "shortDesc": "钉钉全产品能力入口，把自然语言意图翻译成官方 dws CLI 的正确调用。需自行安装第三方 dingtalk-workspace-cli 并完成钉钉账号 OAuth 授权。"
+    },
+    "en-US": {
+      "name": "DingTalk Workspace Assistant",
+      "shortDesc": "A DingTalk workspace entry point that turns natural-language intent into correct official dws CLI calls. Requires separately installing the third-party dingtalk-workspace-cli and completing DingTalk account OAuth."
+    }
+  },
+  "latestVersion": "1.0.0",
+  "maintainer": {
+    "name": "DesireCore Official",
+    "verified": true
+  },
+  "stewardship": "official",
+  "license": "MIT",
+  "redistribution": "source-pointer-only",
+  "avatar": {
+    "t": "钉",
+    "bg": "linear-gradient(135deg, #3D9BFF, #0047B3)",
+    "image": {
+      "path": "assets/avatar.webp"
+    }
+  },
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/desirecore-agent/dingtalk-workspace.git",
+    "repoBranch": "main",
+    "ref": "86962a251446bcb733ec066e3c4d173127a31b60"
+  }
+}

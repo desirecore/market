@@ -36,7 +36,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-01",
+      "value": "2026-09-06",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -48,17 +48,27 @@
       "state": "unknown"
     },
     "upstreamObservedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-09-06T00:00:00Z",
+      "precision": "second"
     }
   },
-  "provenance": {},
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore-agent/dingtalk-workspace.git",
+      "ref": "86962a251446bcb733ec066e3c4d173127a31b60"
+    }
+  },
   "governance": {
     "stewardship": "official",
     "availability": "listing-only",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
     },
-    "redistribution": "verify-package-terms",
+    "redistribution": "source-pointer-only",
     "branding": {
       "relationship": "independent-listing",
       "nameUsage": "nominative",
