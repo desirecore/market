@@ -361,7 +361,8 @@
             "repoBranch": {
               "type": "string",
               "pattern": "^(?!-)[^\\s]+$",
-              "description": "团队 Git 仓库分支名称；默认 main。安装与更新均按该分支解析，并仍以完整 ref 做不可变校验。"
+              "description": "团队 Git 仓库分支名称；默认 main。安装与更新均按该分支解析，并仍以完整 ref 做不可变校验。",
+              "default": "main"
             },
             "ref": {
               "type": "string",
