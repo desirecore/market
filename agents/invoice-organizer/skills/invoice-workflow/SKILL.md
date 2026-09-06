@@ -293,7 +293,11 @@ IMAP 的两个坑：`messageId` 用 `"imap:<uid>"` 形式（列表返回的 `id`
 
 // .index/emails.json —— 已处理邮件 id
 { "schemaVersion": 1, "updatedAt": "<ISO8601>",
-  "emails": { "<provider>:<email>:<mailId>": { /* 处理结论 */ } } }
+  "emails": { "<provider>:<email>:<mailId 原值>": { /* 处理结论 */ } } }
+// mailId 一律用列表接口返回的 id **原值**，不做任何清洗。IMAP 的 id 本身就带
+// "imap:" 前缀，所以它的 key 长这样（前缀出现两次是对的，别"修正"）：
+//   "imap:me@example.com:imap:123"
+//   "gmail:me@example.com:18f2c9a1b7e4"
 ```
 
 **读到旧形态时不要重写容器。** 历史目录里 `ledger.json` 可能是
@@ -397,7 +401,7 @@ IMAP 的两个坑：`messageId` 用 `"imap:<uid>"` 形式（列表返回的 `id`
 
 ### 多邮箱
 
-`accounts-with-settings` 返回多个账户时，默认全都扫，收集阶段按账户循环，`emails.json` 的 key 用 `<provider>:<email>:<mailId>` 避免不同账户的 id 撞车。用户明确指定某个邮箱时只扫那个。
+`accounts-with-settings` 返回多个账户时，默认全都扫，收集阶段按账户循环，`emails.json` 的 key 用 `<provider>:<email>:<mailId 原值>` 避免不同账户的 id 撞车。**`mailId` 用列表接口返回的 id 原值，一个字符都不改**——IMAP 的 id 自带 `imap:` 前缀，拼出来就是 `imap:me@example.com:imap:123`，前缀出现两次是对的。如果这一轮抄原值、下一轮又把前缀剥掉，同一封邮件会产生两个 key，「已处理」判定直接失效、邮件被重复入账。用户明确指定某个邮箱时只扫那个。
 
 ### 多工作目录
 
