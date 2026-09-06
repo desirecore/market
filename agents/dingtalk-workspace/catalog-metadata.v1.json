@@ -22,10 +22,10 @@
     "category": "communication",
     "tags": [
       "dingtalk",
+      "office",
       "collaboration",
-      "messaging",
-      "calendar",
-      "workflow"
+      "documents",
+      "calendar"
     ]
   },
   "release": {
@@ -36,37 +36,54 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-01",
+      "value": "2026-09-06",
       "precision": "day"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-01",
+      "value": "2026-09-06",
       "precision": "day"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-09-06",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "unknown"
     }
   },
-  "provenance": {},
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore-agent/dingtalk-workspace.git",
+      "ref": "9e5a4695b07d9d71921202a7a4072140c2135670"
+    }
+  },
   "governance": {
     "stewardship": "official",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
     },
-    "redistribution": "verify-package-terms",
-    "branding": {
-      "relationship": "independent-listing",
-      "nameUsage": "nominative",
-      "logoStatus": "not-used"
-    },
+    "redistribution": "source-pointer-only",
     "listingMaintainer": {
       "name": "DesireCore Official",
       "verified": true
+    },
+    "upstreamMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "noticePath": "NOTICE",
+      "reviewedRef": "9e5a4695b07d9d71921202a7a4072140c2135670",
+      "reviewedAt": "2026-09-06",
+      "reviewedBy": "yi-ge",
+      "upstreamEndorsed": true
     }
   },
   "compatibility": {
