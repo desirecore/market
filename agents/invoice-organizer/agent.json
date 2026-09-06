@@ -17,7 +17,7 @@
     "finance",
     "email"
   ],
-  "version": "1.0.2",
+  "version": "1.0.3",
   "updatedAt": "2026-09-06",
   "maintainer": {
     "name": "DesireCore Official",
@@ -125,6 +125,18 @@
   },
   "changelog": [
     {
+      "version": "1.0.3",
+      "date": "2026-09-06",
+      "changes": {
+        "zh-CN": [
+          "新增「名称字段的标签污染防护」：PDF 文本层在「两栏先输出全部标签、再输出全部取值」的版式下，按「标签后紧跟的下一段文字」配对会把字段标签本身抽成销售方/购买方名称；现规定名称命中已知标签模式即判定为提取失败，先在同页重新定位、再退到整页视觉阅读，仍不能确定则按必填字段缺失隔离，不得从邮件主题、文件名或相邻税号猜公司名"
+        ],
+        "en-US": [
+          "Add a name-label contamination guard: when a PDF text layer emits both columns' labels first and both columns' values afterwards, pairing a label with the text that follows it captures the label itself as the seller/buyer name. A name matching a known label pattern is now treated as an extraction failure — relocate within the page, then fall back to full-page visual reading, and finally quarantine as a missing required field rather than guessing the company from the subject, filename or adjacent tax ID"
+        ]
+      }
+    },
+    {
       "version": "1.0.2",
       "date": "2026-09-06",
       "changes": {
@@ -175,6 +187,6 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore/market.git",
     "path": "agents/invoice-organizer",
-    "ref": "406bc10bccddd8b57436bc7035f065b2c327a286"
+    "ref": "450be28a2b0686cdd4a51427224c94749469ee89"
   }
 }
