@@ -34,7 +34,7 @@
   },
   "release": {
     "state": "known",
-    "version": "0.1.10",
+    "version": "0.1.11",
     "versionScheme": "semver"
   },
   "timestamps": {
@@ -45,7 +45,7 @@
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-07T00:30:00.000Z",
+      "value": "2026-09-07T00:50:00.000Z",
       "precision": "second"
     },
     "reviewedAt": {
@@ -55,7 +55,7 @@
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-07T00:30:00.000Z",
+      "value": "2026-09-07T00:50:00.000Z",
       "precision": "second"
     }
   },
@@ -63,7 +63,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/contract-review-team.git",
-      "ref": "1950e3b117e11b9208ed38fe6d64abfa87ea1adc"
+      "ref": "e1187567d395788db02efda7ef9caad9a3f78048"
     }
   },
   "governance": {
@@ -82,7 +82,7 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "1950e3b117e11b9208ed38fe6d64abfa87ea1adc",
+      "reviewedRef": "e1187567d395788db02efda7ef9caad9a3f78048",
       "reviewedAt": "2026-09-07",
       "reviewedBy": "DesireCore Agent",
       "upstreamEndorsed": true

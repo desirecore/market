@@ -9,7 +9,7 @@
     "compliance",
     "legal-collaboration"
   ],
-  "latestVersion": "0.1.10",
+  "latestVersion": "0.1.11",
   "i18n": {
     "zh-CN": {
       "name": "合同审查团队",
@@ -32,7 +32,7 @@
   "source": {
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/contract-review-team.git",
-    "ref": "1950e3b117e11b9208ed38fe6d64abfa87ea1adc"
+    "ref": "e1187567d395788db02efda7ef9caad9a3f78048"
   },
   "requiredClientVersion": "10.0.136",
   "avatar": {
@@ -47,7 +47,7 @@
       "id": "contract-review-lead",
       "name": "合同审查统筹官",
       "role": "supervisor",
-      "version": "1.0.6"
+      "version": "1.0.7"
     },
     {
       "id": "contract-intake",
