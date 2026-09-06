@@ -30,23 +30,23 @@
   },
   "release": {
     "state": "known",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-04",
+      "value": "2026-09-06",
       "precision": "day"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-04",
+      "value": "2026-09-06",
       "precision": "day"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-09-04",
+      "value": "2026-09-06",
       "precision": "day"
     },
     "upstreamObservedAt": {
@@ -58,7 +58,7 @@
       "kind": "git",
       "url": "https://github.com/desirecore/market.git",
       "path": "agents/invoice-organizer",
-      "ref": "7560a586426f5575eb86b0de0498f9b5cebe1751"
+      "ref": "406bc10bccddd8b57436bc7035f065b2c327a286"
     }
   },
   "governance": {
@@ -75,8 +75,8 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "7560a586426f5575eb86b0de0498f9b5cebe1751",
-      "reviewedAt": "2026-09-04",
+      "reviewedRef": "406bc10bccddd8b57436bc7035f065b2c327a286",
+      "reviewedAt": "2026-09-06",
       "reviewedBy": "yi-ge",
       "upstreamEndorsed": true
     }

@@ -17,8 +17,8 @@
     "finance",
     "email"
   ],
-  "version": "1.0.1",
-  "updatedAt": "2026-09-04",
+  "version": "1.0.2",
+  "updatedAt": "2026-09-06",
   "maintainer": {
     "name": "DesireCore Official",
     "verified": true
@@ -125,6 +125,20 @@
   },
   "changelog": [
     {
+      "version": "1.0.2",
+      "date": "2026-09-06",
+      "changes": {
+        "zh-CN": [
+          "钉死 .index/ 三个索引文件的顶层结构（ledger/files/emails 的容器键名与嵌套形态），并规定读到旧形态时原样沿用、不重写容器",
+          "钉死 emails.json 的 key 用列表接口返回的 mailId 原值——IMAP 的 id 自带 imap: 前缀，双前缀是正确形态，剥掉会让同一封邮件产生两个 key 而重复入账"
+        ],
+        "en-US": [
+          "Pin the top-level schema of the three .index files (container keys and nesting for ledger/files/emails); legacy shapes are read and preserved in place rather than rewritten",
+          "Pin the emails.json key to the verbatim mailId returned by the list API — IMAP ids already carry an imap: prefix, so the doubled prefix is correct; stripping it yields two keys for one message and double-counts it"
+        ]
+      }
+    },
+    {
       "version": "1.0.1",
       "date": "2026-09-04",
       "changes": {
@@ -161,6 +175,6 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore/market.git",
     "path": "agents/invoice-organizer",
-    "ref": "7560a586426f5575eb86b0de0498f9b5cebe1751"
+    "ref": "406bc10bccddd8b57436bc7035f065b2c327a286"
   }
 }
