@@ -59,7 +59,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/wecom-assistant.git",
-      "ref": "047928afe1b46493fc48bda7d37031d6a3edd725"
+      "ref": "ebb19035bb1f9f18fcf20e44d84f64b2fe125652"
     }
   },
   "governance": {
@@ -82,7 +82,7 @@
     "compliance": {
       "licenseEvidencePath": "LICENSE",
       "noticePath": "NOTICE",
-      "reviewedRef": "047928afe1b46493fc48bda7d37031d6a3edd725",
+      "reviewedRef": "ebb19035bb1f9f18fcf20e44d84f64b2fe125652",
       "reviewedAt": "2026-09-06",
       "reviewedBy": "yi-ge",
       "upstreamEndorsed": true
