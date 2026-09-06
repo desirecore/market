@@ -36,7 +36,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-04",
+      "value": "2026-09-06",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -46,7 +46,7 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-09-04",
+      "value": "2026-09-06",
       "precision": "day"
     },
     "upstreamObservedAt": {
@@ -59,7 +59,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/wecom-assistant.git",
-      "ref": "665ab1d2ca35155e60a10a8fb58ab0a3baef0e49"
+      "ref": "047928afe1b46493fc48bda7d37031d6a3edd725"
     }
   },
   "governance": {
@@ -82,8 +82,8 @@
     "compliance": {
       "licenseEvidencePath": "LICENSE",
       "noticePath": "NOTICE",
-      "reviewedRef": "665ab1d2ca35155e60a10a8fb58ab0a3baef0e49",
-      "reviewedAt": "2026-09-04",
+      "reviewedRef": "047928afe1b46493fc48bda7d37031d6a3edd725",
+      "reviewedAt": "2026-09-06",
       "reviewedBy": "yi-ge",
       "upstreamEndorsed": true
     }
