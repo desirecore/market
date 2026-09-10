@@ -55,5 +55,11 @@
     "ref": "7ee5650b066cdee385288a722b8cbd8e1947d0fe"
   },
   "requiredClientVersion": "10.0.155",
-  "fullDesc": "预览发布：固定团队仓库和双语 USAGE 已就绪，macOS arm64 客户端候选可用；完整跨平台发行和新人验收仍待完成。安装后先阅读 USAGE，上传 T01/B01/I01 后确认规则，再启动审查。"
+  "fullDesc": "预览发布：固定团队仓库和双语 USAGE 已就绪，macOS arm64 客户端候选可用；完整跨平台发行和新人验收仍待完成。安装后先阅读 USAGE，上传 T01/B01/I01 后确认规则，再启动审查。",
+  "maintainer": {
+    "name": "DesireCore Official",
+    "verified": false,
+    "account": "desirecore-agent",
+    "url": "https://github.com/desirecore-agent"
+  }
 }
