@@ -1,0 +1,105 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "agent",
+    "id": "tender-review-assistant"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "标书检查助手",
+        "summary": "新人安装入口：前检、规则确认和标书联合审查团队交接。",
+        "description": "安装后先阅读 Entry 与团队 USAGE，确认工作目录、规则和模型披露，再把任务交给标书联合审查团队。"
+      },
+      "en-US": {
+        "name": "Tender Review Assistant",
+        "summary": "Onboarding entry for preflight, rules confirmation and handoff to the tender review team.",
+        "description": "After installation, read the Entry and team USAGE, confirm workdir, rules and model disclosure, then hand the task to the Tender Review Team."
+      }
+    },
+    "tags": [
+      "tender-review",
+      "onboarding",
+      "multi-agent"
+    ],
+    "category": "business"
+  },
+  "release": {
+    "state": "known",
+    "version": "0.1.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-09-11",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "known",
+      "value": "2026-09-11",
+      "precision": "day"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-09-11",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-11",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore-agent/tender-review-assistant.git",
+      "ref": "4b6855d2edb535f81c29847e06145c0da87942d0"
+    }
+  },
+  "governance": {
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "source-pointer-only",
+    "stewardship": "pointer",
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "noticePath": "NOTICE",
+      "reviewedRef": "4b6855d2edb535f81c29847e06145c0da87942d0",
+      "reviewedAt": "2026-09-11",
+      "reviewedBy": "desirecore-agent",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requiredClientVersion": "10.0.155",
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "DesireCore 10.0.155 or newer; preview listing pending full newcomer qualification."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "agent",
+    "installPolicy": "market",
+    "updatePolicy": "market",
+    "persona": {
+      "role": "Tender review onboarding and team handoff",
+      "traits": [
+        "preflight before handoff",
+        "keeps human review boundaries explicit"
+      ]
+    }
+  }
+}

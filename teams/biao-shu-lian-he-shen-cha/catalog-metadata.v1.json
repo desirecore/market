@@ -1,0 +1,96 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "team",
+    "id": "biao-shu-lian-he-shen-cha"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "标书联合审查",
+        "summary": "五角色协作审查条款、报价和标书图片，并独立复核证据。",
+        "description": "预览发布。安装后先阅读团队仓库中的 USAGE.zh-CN.md，确认规则和输入范围，再提交 T01、B01 与 I01。结果需要人工复核。"
+      },
+      "en-US": {
+        "name": "Tender Review Team",
+        "summary": "Five roles review requirements, pricing and tender images with independent evidence checks.",
+        "description": "Preview listing. Read USAGE.md after installation, confirm rules and input scope, then provide T01, B01 and I01. Results require human review."
+      }
+    },
+    "tags": [
+      "tender-review",
+      "multi-agent-team",
+      "document-review",
+      "multimodal"
+    ],
+    "category": "business"
+  },
+  "release": {
+    "state": "known",
+    "version": "0.1.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-09-11",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "known",
+      "value": "2026-09-11",
+      "precision": "day"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-09-11",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-11",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore-agent/biao-shu-lian-he-shen-cha.git",
+      "ref": "7ee5650b066cdee385288a722b8cbd8e1947d0fe"
+    }
+  },
+  "governance": {
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "source-pointer-only",
+    "stewardship": "pointer",
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "7ee5650b066cdee385288a722b8cbd8e1947d0fe",
+      "reviewedAt": "2026-09-11",
+      "reviewedBy": "desirecore-agent",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requiredClientVersion": "10.0.155",
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "DesireCore 10.0.155 or newer; this is a preview pointer and the full cross-platform release qualification remains pending."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "team"
+  }
+}

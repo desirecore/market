@@ -1,0 +1,59 @@
+{
+  "id": "biao-shu-lian-he-shen-cha",
+  "name": "标书联合审查",
+  "shortDesc": "五角色协作审查条款响应、商务报价和标书图片，并独立复核证据。",
+  "category": "business",
+  "tags": [
+    "tender-review",
+    "multi-agent-team",
+    "document-review",
+    "multimodal"
+  ],
+  "latestVersion": "0.1.0",
+  "updatedAt": "2026-09-11",
+  "members": [
+    {
+      "id": "tender-review-lead",
+      "name": "标书总审",
+      "role": "supervisor"
+    },
+    {
+      "id": "tender-review-requirements",
+      "name": "条款响应审查",
+      "role": "member"
+    },
+    {
+      "id": "tender-review-commercial",
+      "name": "商务报价审查",
+      "role": "member"
+    },
+    {
+      "id": "tender-review-visual",
+      "name": "技术图片审查",
+      "role": "member"
+    },
+    {
+      "id": "tender-review-evidence",
+      "name": "独立证据复核",
+      "role": "member"
+    }
+  ],
+  "capabilities": [
+    "tender-requirements",
+    "price-recalculation",
+    "document-image-review",
+    "evidence-review"
+  ],
+  "privacy": "用户选定模型服务可能处理标书文本和图片；本团队仅供人工辅助审查，不保证法律合规、中标或证书/签章真实性。",
+  "stewardship": "pointer",
+  "license": "MIT",
+  "redistribution": "source-pointer-only",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/desirecore-agent/biao-shu-lian-he-shen-cha.git",
+    "repoBranch": "main",
+    "ref": "7ee5650b066cdee385288a722b8cbd8e1947d0fe"
+  },
+  "requiredClientVersion": "10.0.155",
+  "fullDesc": "预览发布：固定团队仓库和双语 USAGE 已就绪，macOS arm64 客户端候选可用；完整跨平台发行和新人验收仍待完成。安装后先阅读 USAGE，上传 T01/B01/I01 后确认规则，再启动审查。"
+}

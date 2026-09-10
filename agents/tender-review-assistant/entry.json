@@ -1,0 +1,25 @@
+{
+  "id": "tender-review-assistant",
+  "name": "标书检查助手",
+  "category": "business",
+  "tags": [
+    "tender-review",
+    "onboarding",
+    "multi-agent"
+  ],
+  "latestVersion": "0.1.0",
+  "maintainer": {
+    "name": "DesireCore Official",
+    "verified": false
+  },
+  "stewardship": "pointer",
+  "license": "MIT",
+  "redistribution": "source-pointer-only",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/desirecore-agent/tender-review-assistant.git",
+    "repoBranch": "main",
+    "ref": "4b6855d2edb535f81c29847e06145c0da87942d0"
+  },
+  "requiredClientVersion": "10.0.155"
+}
