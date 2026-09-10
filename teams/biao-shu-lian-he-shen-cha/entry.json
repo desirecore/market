@@ -61,5 +61,15 @@
     "verified": false,
     "account": "desirecore-agent",
     "url": "https://github.com/desirecore-agent"
+  },
+  "i18n": {
+    "zh-CN": {
+      "name": "标书联合审查",
+      "shortDesc": "五角色协作审查条款响应、商务报价和标书图片，并独立复核证据。"
+    },
+    "en-US": {
+      "name": "Tender Review Team",
+      "shortDesc": "Five roles review requirements, pricing and tender images with independent evidence checks."
+    }
   }
 }

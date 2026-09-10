@@ -21,5 +21,15 @@
     "repoBranch": "main",
     "ref": "4b6855d2edb535f81c29847e06145c0da87942d0"
   },
-  "requiredClientVersion": "10.0.155"
+  "requiredClientVersion": "10.0.155",
+  "i18n": {
+    "zh-CN": {
+      "name": "标书检查助手",
+      "shortDesc": "新人安装入口：前检、规则确认和标书联合审查团队交接。"
+    },
+    "en-US": {
+      "name": "Tender Review Assistant",
+      "shortDesc": "Onboarding entry for preflight, rules confirmation and handoff to the tender review team."
+    }
+  }
 }
