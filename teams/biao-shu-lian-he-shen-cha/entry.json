@@ -52,10 +52,10 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/biao-shu-lian-he-shen-cha.git",
     "repoBranch": "main",
-    "ref": "7ee5650b066cdee385288a722b8cbd8e1947d0fe"
+    "ref": "0b6e09d8a86b34afe829be2b243fb4ebf47a2663"
   },
   "requiredClientVersion": "10.0.155",
-  "fullDesc": "预览发布：固定团队仓库和双语 USAGE 已就绪，macOS arm64 客户端候选可用；完整跨平台发行和新人验收仍待完成。安装后先阅读 USAGE，上传 T01/B01/I01 后确认规则，再启动审查。",
+  "fullDesc": "预览发布：团队仓库已包含共享 contracts/rules 与五角色固定锁，macOS arm64 客户端候选可用；完整跨平台发行和新人验收仍待完成。安装后先阅读 USAGE，上传材料并确认规则，再启动审查。",
   "maintainer": {
     "name": "DesireCore Official",
     "verified": false,
