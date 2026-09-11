@@ -58,7 +58,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/biao-shu-lian-he-shen-cha.git",
-      "ref": "ceecec3f1e239514a360fab2d451b32dad65b111"
+      "ref": "f9116880cc5f8cf3a3409416927548c7e93484bf"
     }
   },
   "governance": {
@@ -72,7 +72,7 @@
     "stewardship": "pointer",
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "ceecec3f1e239514a360fab2d451b32dad65b111",
+      "reviewedRef": "f9116880cc5f8cf3a3409416927548c7e93484bf",
       "reviewedAt": "2026-09-11",
       "reviewedBy": "desirecore-agent",
       "upstreamEndorsed": false
