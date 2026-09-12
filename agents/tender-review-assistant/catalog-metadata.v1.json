@@ -28,7 +28,7 @@
   },
   "release": {
     "state": "known",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "versionScheme": "semver"
   },
   "timestamps": {
@@ -57,7 +57,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/tender-review-assistant.git",
-      "ref": "2e2557b93aa4854f4a4bcc81e95aeb6480a69713"
+      "ref": "8484c57e430108b3e361f328b2e31f364e92c630"
     }
   },
   "governance": {
@@ -72,7 +72,7 @@
     "compliance": {
       "licenseEvidencePath": "LICENSE",
       "noticePath": "NOTICE",
-      "reviewedRef": "2e2557b93aa4854f4a4bcc81e95aeb6480a69713",
+      "reviewedRef": "8484c57e430108b3e361f328b2e31f364e92c630",
       "reviewedAt": "2026-09-13",
       "reviewedBy": "desirecore-agent",
       "upstreamEndorsed": false
