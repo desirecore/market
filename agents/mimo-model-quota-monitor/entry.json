@@ -1,0 +1,41 @@
+{
+  "id": "mimo-model-quota-monitor",
+  "name": "MiMo 模型余量检测",
+  "category": "management",
+  "tags": [
+    "mimo",
+    "quota",
+    "monitoring",
+    "browser",
+    "xiaomi"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "MiMo 模型余量检测",
+      "shortDesc": "定时巡检小米 MiMo 开放平台 Token Plan 的套餐额度：总量、已用、剩余与重置时间，余量偏低、消耗异常或登录失效时主动提醒，同一情况只提醒一次。只读，不花钱不改设置；需在 DesireCore 账号库保存 MiMo 账号，首次登录由你完成一次短信验证。"
+    },
+    "en-US": {
+      "name": "MiMo Quota Monitor",
+      "shortDesc": "Checks the Token Plan quota on the Xiaomi MiMo open platform on a schedule — total, used, remaining and reset time — and notifies you once when quota runs low, consumption spikes or the login expires. Read-only, never spends money or changes settings; requires a MiMo account saved in the DesireCore account store and a one-time SMS verification that you complete yourself."
+    }
+  },
+  "latestVersion": "1.0.0",
+  "maintainer": {
+    "name": "DesireCore Official",
+    "verified": true
+  },
+  "stewardship": "official",
+  "license": "MIT",
+  "redistribution": "source-pointer-only",
+  "avatar": {
+    "t": "M",
+    "bg": "linear-gradient(135deg, #34C759, #007AFF)"
+  },
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/desirecore-agent/mimo-model-quota-monitor.git",
+    "repoBranch": "main",
+    "ref": "911c0a226346a8157f07d5218207f16e32ea82e0"
+  },
+  "requiredClientVersion": "10.0.156"
+}
