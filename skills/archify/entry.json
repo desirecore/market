@@ -1,0 +1,38 @@
+{
+  "id": "archify",
+  "name": "Archify",
+  "category": "development",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"4\" width=\"7\" height=\"6\" rx=\"1\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"6\" rx=\"1\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"M6.5 10v3.5H17.5V14\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "architecture",
+    "diagram",
+    "visualization",
+    "development"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Archify",
+      "shortDesc": "把代码库或系统描述编译成可交互的系统架构图（架构/流程/时序/数据流/生命周期），产出自带动效、可校验、可导出的单文件 HTML/SVG，适配 Claude Code、Codex、Cursor"
+    },
+    "en-US": {
+      "name": "Archify",
+      "shortDesc": "Compile a codebase or system description into interactive, verifiable architecture/workflow/sequence/data-flow/lifecycle diagrams — self-contained HTML/SVG with motion and crisp export, for Claude Code, Codex and Cursor"
+    }
+  },
+  "maintainer": {
+    "name": "tt-a1i",
+    "verified": false,
+    "account": "tt-a1i",
+    "url": "https://github.com/tt-a1i/archify"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/tt-a1i/archify.git",
+    "repoBranch": "main",
+    "ref": "c1443b31b496eebf4a68bf83151816c955ddb796",
+    "path": "archify"
+  }
+}
