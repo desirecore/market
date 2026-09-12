@@ -7,7 +7,7 @@
     "onboarding",
     "multi-agent"
   ],
-  "latestVersion": "0.2.0",
+  "latestVersion": "0.2.1",
   "maintainer": {
     "name": "DesireCore Official",
     "verified": false
@@ -19,7 +19,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/tender-review-assistant.git",
     "repoBranch": "main",
-    "ref": "2e2557b93aa4854f4a4bcc81e95aeb6480a69713"
+    "ref": "8484c57e430108b3e361f328b2e31f364e92c630"
   },
   "requiredClientVersion": "10.0.155",
   "i18n": {
