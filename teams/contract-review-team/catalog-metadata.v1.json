@@ -11,12 +11,12 @@
       "en-US": {
         "name": "Contract Review Team",
         "summary": "A six-member contract review team: intake gating, clause structuring, risk scanning and jurisdiction checks, closed by an independent reviewer who re-verifies against the source text before reporting",
-        "description": "Six members work a fixed seven-step chain. The intake officer runs hard checks and freezes the reviewed baseline, stopping the pipeline outright when a blocking condition is hit. The clause officer rewrites the body and attachments into structured facts anchored to clause numbers and page references, keeping genuine ambiguity intact instead of resolving it early. Risk scanning and jurisdiction checks then run in parallel over that same structured record. The reviewer closes the chain: it does not read the earlier members' reasoning, goes back to the source text to re-establish evidence, and only then composes the report.\n\nThis is a team, not one agent running the whole flow end to end. Responsibilities are split across six members and one independent review pass is kept, so a run takes longer but leaves a traceable evidence chain and a clear boundary for each finding. Pick the shape that fits the job.\n\nDelegation uses an explicit Work Context for each isolated stage and resumes only from the exact context ID recorded in a receipt.\n\nThe output is supporting material for review work. It is not legal advice, it carries no legal effect, and it does not replace a qualified lawyer or in-house counsel. Every conclusion has to be checked by a qualified person before it is relied on."
+        "description": "Six members collaborate in a fixed chain, with each step judged by observable outcomes: input coverage, source evidence, real receipts and explicit gaps. The Lead starts with a minimal case ledger, then runs intake, clause facts, parallel jurisdiction and risk checks, and an independent review. A non-critical capability failure is recorded as capability debt and does not become a fabricated conclusion. The output supports review work and is not legal advice; a qualified person must review it before use."
       },
       "zh-CN": {
         "name": "合同审查团队",
         "summary": "六名成员分工的合同审查团队：输入治理、条款结构化、风险识别、法域合规，最后由独立复核成员回原文重新取证再出报告",
-        "description": "六名成员按固定七步链路协作。输入治理官先做硬校验并冻结受审基线，命中阻断项直接终止流水线；条款结构化官先交付最小条款事实检查点，再按需补充定义、期限、责任和附件，保留 unknown、blocked、capability_debt 与原始歧义，不替下游提前消歧；风险识别官与法域合规官在同一份结构化事实上并行工作；复核出报告官收尾——不读前序成员的推理过程，回到原文重新取证后独立判定，再汇总成报告。\n\n这是一个团队，不是单个智能体跑完全流程：职责拆到六个成员，并保留一次独立复核，最小事实检查点让下游可以在丰富抽取超时前继续判断。\n\n每个独立环节都显式选择 Work Context，续跑只接受回执中记录的精确上下文 ID。\n\n产出是供审阅使用的辅助材料，不构成法律意见，不具有法律效力，也不替代律师或法务的专业判断；任何结论都需由具备资质的人员复核后再使用。"
+        "description": "六名成员按固定链路协作，但每一步只要求可验证的工作结果：文件覆盖、原文证据、真实回执和明确欠账。Lead 先建立最小登记与覆盖表，再按输入治理、条款事实、法域与风险并行、独立复核的顺序推进；单个工具能力不足时记录 capability_debt 并降级，不伪造结论。产出是供审阅使用的辅助材料，不构成法律意见，必须由具备资质的人员复核。"
       }
     },
     "icon": {
@@ -34,7 +34,7 @@
   },
   "release": {
     "state": "known",
-    "version": "0.1.28",
+    "version": "0.1.29",
     "versionScheme": "semver"
   },
   "timestamps": {
@@ -45,7 +45,7 @@
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-15T03:38:21Z",
+      "value": "2026-09-15T06:35:00Z",
       "precision": "second"
     },
     "reviewedAt": {
@@ -55,7 +55,7 @@
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-15T03:38:21Z",
+      "value": "2026-09-15T06:35:00Z",
       "precision": "second"
     }
   },
@@ -63,7 +63,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/contract-review-team.git",
-      "ref": "f088da9eb61d084470e8ede578e73c8cd65b57cb"
+      "ref": "ad958b1f88121cb49a258a14e19f9f6f6610590d"
     }
   },
   "governance": {
@@ -82,7 +82,7 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "f088da9eb61d084470e8ede578e73c8cd65b57cb",
+      "reviewedRef": "ad958b1f88121cb49a258a14e19f9f6f6610590d",
       "reviewedAt": "2026-09-15",
       "reviewedBy": "DesireCore Agent",
       "upstreamEndorsed": true
