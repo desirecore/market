@@ -9,7 +9,7 @@
     "compliance",
     "legal-collaboration"
   ],
-  "latestVersion": "0.1.26",
+  "latestVersion": "0.1.27",
   "i18n": {
     "zh-CN": {
       "name": "合同审查团队",
@@ -33,7 +33,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/contract-review-team.git",
     "repoBranch": "main",
-    "ref": "4e4e4759b191d7de1282ed9a9c21473448588e50"
+    "ref": "cb25d73a0dfbfc319df6eac2d254b3dbcc790e6e"
   },
   "requiredClientVersion": "10.0.136",
   "avatar": {
@@ -41,7 +41,7 @@
     "bg": "linear-gradient(135deg, #5856D6, #3634A3)"
   },
   "shortDesc": "A six-member contract review team: intake gating, clause structuring, risk scanning and jurisdiction checks, closed by an independent reviewer who re-verifies against the source text before reporting",
-  "updatedAt": "2026-09-08",
+  "updatedAt": "2026-09-15",
   "fullDesc": "A six-member contract review team: intake gating, clause structuring, risk scanning and jurisdiction checks, closed by an independent reviewer who re-verifies against the source text before reporting",
   "members": [
     {
@@ -60,7 +60,7 @@
       "id": "clause-extractor",
       "name": "条款结构化官",
       "role": "member",
-      "version": "1.0.6"
+      "version": "1.1.0"
     },
     {
       "id": "risk-scanner",
