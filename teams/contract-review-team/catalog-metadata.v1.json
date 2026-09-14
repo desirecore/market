@@ -16,7 +16,7 @@
       "zh-CN": {
         "name": "合同审查团队",
         "summary": "六名成员分工的合同审查团队：输入治理、条款结构化、风险识别、法域合规，最后由独立复核成员回原文重新取证再出报告",
-        "description": "六名成员按固定七步链路协作。输入治理官先做硬校验并冻结受审基线，命中阻断项直接终止流水线；条款结构化官把正文与附件转写为带条款编号和页码锚点的结构化事实，原始歧义原样保留，不替下游提前消歧；风险识别官与法域合规官在同一份结构化事实上并行工作；复核出报告官收尾——不读前序成员的推理过程，回到原文重新取证后独立判定，再汇总成报告。\n\n这是一个团队，不是单个智能体跑完全流程：职责拆到六个成员，并保留一次独立复核，因此一次运行耗时更长，换来的是可追溯的证据链和清晰的责任边界。按任务需要选择合适的形态即可。\n\n每个独立环节都显式选择 Work Context，续跑只接受回执中记录的精确上下文 ID。\n\n产出是供审阅使用的辅助材料，不构成法律意见，不具有法律效力，也不替代律师或法务的专业判断；任何结论都需由具备资质的人员复核后再使用。"
+        "description": "六名成员按固定七步链路协作。输入治理官先做硬校验并冻结受审基线，命中阻断项直接终止流水线；条款结构化官先交付最小条款事实检查点，再按需补充定义、期限、责任和附件，保留 unknown、blocked、capability_debt 与原始歧义，不替下游提前消歧；风险识别官与法域合规官在同一份结构化事实上并行工作；复核出报告官收尾——不读前序成员的推理过程，回到原文重新取证后独立判定，再汇总成报告。\n\n这是一个团队，不是单个智能体跑完全流程：职责拆到六个成员，并保留一次独立复核，最小事实检查点让下游可以在丰富抽取超时前继续判断。\n\n每个独立环节都显式选择 Work Context，续跑只接受回执中记录的精确上下文 ID。\n\n产出是供审阅使用的辅助材料，不构成法律意见，不具有法律效力，也不替代律师或法务的专业判断；任何结论都需由具备资质的人员复核后再使用。"
       }
     },
     "icon": {
@@ -34,28 +34,28 @@
   },
   "release": {
     "state": "known",
-    "version": "0.1.26",
+    "version": "0.1.27",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-08",
+      "value": "2026-09-15",
       "precision": "day"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-08T11:08:52Z",
+      "value": "2026-09-15T03:38:21Z",
       "precision": "second"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-09-08",
+      "value": "2026-09-15",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-08T11:21:36Z",
+      "value": "2026-09-15T03:38:21Z",
       "precision": "second"
     }
   },
@@ -63,7 +63,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/contract-review-team.git",
-      "ref": "4e4e4759b191d7de1282ed9a9c21473448588e50"
+      "ref": "cb25d73a0dfbfc319df6eac2d254b3dbcc790e6e"
     }
   },
   "governance": {
@@ -82,8 +82,8 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "4e4e4759b191d7de1282ed9a9c21473448588e50",
-      "reviewedAt": "2026-09-08",
+      "reviewedRef": "cb25d73a0dfbfc319df6eac2d254b3dbcc790e6e",
+      "reviewedAt": "2026-09-15",
       "reviewedBy": "DesireCore Agent",
       "upstreamEndorsed": true
     }
