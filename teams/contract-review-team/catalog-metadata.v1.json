@@ -10,13 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "Contract Review Team",
-        "summary": "A six-member contract review team: intake gating, clause structuring, risk scanning and jurisdiction checks, closed by an independent reviewer who re-verifies against the source text before reporting",
-        "description": "Six members collaborate in a fixed chain, with each step judged by observable outcomes: input coverage, source evidence, real receipts and explicit gaps. The Lead starts with a minimal case ledger, then runs intake, clause facts, parallel jurisdiction and risk checks, and an independent review. A non-critical capability failure is recorded as capability debt and does not become a fabricated conclusion. The output supports review work and is not legal advice; a qualified person must review it before use."
+        "summary": "Six-member contract review team with parallel risk and jurisdiction checks, independent re-verification, scored reporting, and tracked DOCX delivery. Requires a user-configured model service; contract text and attachments are sent for analysis, results require qualified human review, and capability gaps produce a bounded report.",
+        "description": "Six members collaborate through stable, observable steps: input coverage, source evidence, real receipts, independent re-verification, and explicit gaps. The Lead fans out jurisdiction and risk checks in parallel, then produces a scored report and tracked DOCX. Contract text and attachments are sent to the user-configured model service for analysis; qualified human review remains required, and missing capabilities produce only a bounded report."
       },
       "zh-CN": {
         "name": "合同审查团队",
-        "summary": "六名成员分工的合同审查团队：输入治理、条款结构化、风险识别、法域合规，最后由独立复核成员回原文重新取证再出报告",
-        "description": "六名成员按固定链路协作，但每一步只要求可验证的工作结果：文件覆盖、原文证据、真实回执和明确欠账。Lead 先建立最小登记与覆盖表，再按输入治理、条款事实、法域与风险并行、独立复核的顺序推进；单个工具能力不足时记录 capability_debt 并降级，不伪造结论。产出是供审阅使用的辅助材料，不构成法律意见，必须由具备资质的人员复核。"
+        "summary": "六名成员协作完成风险与法域并行、独立复核、评分报告和带修订 DOCX 交付。需要用户配置模型服务；合同正文与附件会发送用于分析，结果必须由具备资质的人员复核，能力缺口只生成范围受限报告。",
+        "description": "六名成员按固定且可观察的步骤协作：文件覆盖、原文证据、真实回执、独立复核和明确欠账。Lead 将法域与风险检查真正并行，再生成评分报告和带修订 DOCX。合同正文与附件会发送到用户配置的模型服务用于分析；调用前必须确认 provider/model 路由与服务可用性，不可用时停止并只生成 capability_debt/blocked 的范围受限报告，不得伪造法律结论。使用前必须由具备资质的人员复核，服务条款与额外费用由用户负责。"
       }
     },
     "icon": {
@@ -34,7 +34,7 @@
   },
   "release": {
     "state": "known",
-    "version": "0.1.34",
+    "version": "0.1.35",
     "versionScheme": "semver"
   },
   "timestamps": {
@@ -45,7 +45,7 @@
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-15T06:25:00Z",
+      "value": "2026-09-15T14:05:00Z",
       "precision": "second"
     },
     "reviewedAt": {
@@ -55,7 +55,7 @@
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-15T06:25:00Z",
+      "value": "2026-09-15T13:56:26Z",
       "precision": "second"
     }
   },
@@ -63,7 +63,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/contract-review-team.git",
-      "ref": "92cb41f7798dcc82267e9a97dfcc62eefe7874da"
+      "ref": "1103baf4ba221b27f3a9a4fcb4d6dedfd1804618"
     }
   },
   "governance": {
@@ -82,7 +82,7 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "92cb41f7798dcc82267e9a97dfcc62eefe7874da",
+      "reviewedRef": "1103baf4ba221b27f3a9a4fcb4d6dedfd1804618",
       "reviewedAt": "2026-09-15",
       "reviewedBy": "DesireCore Agent",
       "upstreamEndorsed": true
@@ -92,7 +92,17 @@
     "platforms": {
       "state": "unknown"
     },
-    "requiredClientVersion": "10.0.136"
+    "requiredClientVersion": "10.0.136",
+    "requirements": [
+      {
+        "kind": "connection",
+        "value": "Before any call, confirm the configured provider/model route and service availability. Contract text and attachments are sent to that service; if unavailable, stop and emit only a capability_debt/blocked bounded report, never a fabricated legal result."
+      },
+      {
+        "kind": "permission",
+        "value": "Qualified human review is required before using the scored report or tracked DOCX. Provider terms and any separate service costs remain the user's responsibility."
+      }
+    ]
   },
   "spec": {
     "kind": "team"
