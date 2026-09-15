@@ -13,11 +13,11 @@
   "i18n": {
     "zh-CN": {
       "name": "合同审查团队",
-      "shortDesc": "六名成员分工的合同审查团队：输入治理、条款结构化、风险与法域并行、独立复核，最后评分并交付带修订 DOCX"
+      "shortDesc": "六名成员协作完成风险与法域并行、独立复核和带修订 DOCX 交付。需要用户配置模型服务；合同正文与附件会发送用于分析，结果必须由具备资质的人员复核，能力缺口只生成范围受限报告。"
     },
     "en-US": {
       "name": "Contract Review Team",
-      "shortDesc": "A six-member contract review team: intake gating, clause structuring, parallel risk and jurisdiction checks, independent re-verification, then scored reporting and tracked DOCX delivery"
+      "shortDesc": "Six-member contract review team with parallel risk and jurisdiction checks, independent re-verification and tracked DOCX delivery. Requires a user-configured model service; contract text and attachments are sent for analysis, results require qualified human review, and capability gaps produce a bounded report."
     }
   },
   "maintainer": {
@@ -40,9 +40,9 @@
     "t": "合审",
     "bg": "linear-gradient(135deg, #5856D6, #3634A3)"
   },
-  "shortDesc": "A six-member contract review team: intake gating, clause structuring, parallel risk and jurisdiction checks, independent re-verification, then scored reporting and tracked DOCX delivery",
+  "shortDesc": "Six-member contract review team with parallel risk and jurisdiction checks, independent re-verification and tracked DOCX delivery. Requires a user-configured model service; contract text and attachments are sent for analysis, results require qualified human review, and capability gaps produce a bounded report.",
   "updatedAt": "2026-09-15",
-  "fullDesc": "A six-member contract review team: intake gating, clause structuring, parallel risk and jurisdiction checks, independent re-verification, then scored reporting and tracked DOCX delivery",
+  "fullDesc": "Six-member contract review team with parallel risk and jurisdiction checks, independent re-verification and tracked DOCX delivery. Requires a user-configured model service; contract text and attachments are sent for analysis, results require qualified human review, and capability gaps produce a bounded report.",
   "members": [
     {
       "id": "contract-review-lead",

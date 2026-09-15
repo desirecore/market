@@ -10,13 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "Contract Review Team",
-        "summary": "A six-member contract review team: intake gating, clause structuring, parallel risk and jurisdiction checks, independent re-verification, then scored reporting and tracked DOCX delivery",
-        "description": "Six members collaborate through stable, observable steps: input coverage, source evidence, real receipts, independent re-verification, and explicit gaps. The Lead creates the case ledger, runs intake and clause facts, fans out jurisdiction and risk checks in parallel, re-reads key claims independently, then produces a scored report and tracked DOCX. Capability debt remains bounded and never becomes a fabricated legal conclusion. A qualified person must review the output before use."
+        "summary": "Six-member contract review team with parallel risk and jurisdiction checks, independent re-verification and tracked DOCX delivery. Requires a user-configured model service; contract text and attachments are sent for analysis, results require qualified human review, and capability gaps produce a bounded report.",
+        "description": "Six members collaborate through stable, observable steps: input coverage, source evidence, real receipts, independent re-verification, and explicit gaps. The Lead fans out jurisdiction and risk checks in parallel, then produces a scored report and tracked DOCX. Contract text and attachments are sent to the user-configured model service for analysis; qualified human review remains required, and missing capabilities produce only a bounded report."
       },
       "zh-CN": {
         "name": "合同审查团队",
-        "summary": "六名成员分工的合同审查团队：输入治理、条款结构化、风险与法域并行、独立复核，最后评分并交付带修订 DOCX",
-        "description": "六名成员按固定且可观察的步骤协作：文件覆盖、原文证据、真实回执、独立复核和明确欠账。Lead 建立案件账本，执行输入治理与条款事实，再将法域和风险真正并行分发，独立回读重点断言，最后生成评分报告和带修订 DOCX。能力债务保持在受限范围内，不得伪造法律结论；使用前仍需具备资质的人员复核。"
+        "summary": "六名成员协作完成风险与法域并行、独立复核和带修订 DOCX 交付。需要用户配置模型服务；合同正文与附件会发送用于分析，结果必须由具备资质的人员复核，能力缺口只生成范围受限报告。",
+        "description": "六名成员按固定且可观察的步骤协作：文件覆盖、原文证据、真实回执、独立复核和明确欠账。Lead 将法域与风险检查真正并行，再生成评分报告和带修订 DOCX。合同正文与附件会发送到用户配置的模型服务用于分析；必须由具备资质的人员复核，能力缺失时只生成范围受限报告。"
       }
     },
     "icon": {
@@ -45,7 +45,7 @@
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-15T09:10:00Z",
+      "value": "2026-09-15T14:05:00Z",
       "precision": "second"
     },
     "reviewedAt": {
@@ -55,7 +55,7 @@
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-15T09:10:00Z",
+      "value": "2026-09-15T13:56:26Z",
       "precision": "second"
     }
   },
@@ -92,7 +92,17 @@
     "platforms": {
       "state": "unknown"
     },
-    "requiredClientVersion": "10.0.136"
+    "requiredClientVersion": "10.0.136",
+    "requirements": [
+      {
+        "kind": "connection",
+        "value": "Requires a user-configured model service; contract text and attachments are sent to that service for analysis."
+      },
+      {
+        "kind": "permission",
+        "value": "Qualified human review is required before using the report or tracked DOCX."
+      }
+    ]
   },
   "spec": {
     "kind": "team"
