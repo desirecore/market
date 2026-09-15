@@ -10,13 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "Contract Review Team",
-        "summary": "A six-member contract review team: intake gating, clause structuring, risk scanning and jurisdiction checks, closed by an independent reviewer who re-verifies against the source text before reporting",
-        "description": "Six members collaborate in a fixed chain, with each step judged by observable outcomes: input coverage, source evidence, real receipts and explicit gaps. The Lead starts with a minimal case ledger, then runs intake, clause facts, parallel jurisdiction and risk checks, and an independent review. A non-critical capability failure is recorded as capability debt and does not become a fabricated conclusion. The output supports review work and is not legal advice; a qualified person must review it before use."
+        "summary": "A six-member contract review team: intake gating, clause structuring, parallel risk and jurisdiction checks, independent re-verification, then scored reporting and tracked DOCX delivery",
+        "description": "Six members collaborate through stable, observable steps: input coverage, source evidence, real receipts, independent re-verification, and explicit gaps. The Lead creates the case ledger, runs intake and clause facts, fans out jurisdiction and risk checks in parallel, re-reads key claims independently, then produces a scored report and tracked DOCX. Capability debt remains bounded and never becomes a fabricated legal conclusion. A qualified person must review the output before use."
       },
       "zh-CN": {
         "name": "合同审查团队",
-        "summary": "六名成员分工的合同审查团队：输入治理、条款结构化、风险识别、法域合规，最后由独立复核成员回原文重新取证再出报告",
-        "description": "六名成员按固定链路协作，但每一步只要求可验证的工作结果：文件覆盖、原文证据、真实回执和明确欠账。Lead 先建立最小登记与覆盖表，再按输入治理、条款事实、法域与风险并行、独立复核的顺序推进；单个工具能力不足时记录 capability_debt 并降级，不伪造结论。产出是供审阅使用的辅助材料，不构成法律意见，必须由具备资质的人员复核。"
+        "summary": "六名成员分工的合同审查团队：输入治理、条款结构化、风险与法域并行、独立复核，最后评分并交付带修订 DOCX",
+        "description": "六名成员按固定且可观察的步骤协作：文件覆盖、原文证据、真实回执、独立复核和明确欠账。Lead 建立案件账本，执行输入治理与条款事实，再将法域和风险真正并行分发，独立回读重点断言，最后生成评分报告和带修订 DOCX。能力债务保持在受限范围内，不得伪造法律结论；使用前仍需具备资质的人员复核。"
       }
     },
     "icon": {
@@ -34,7 +34,7 @@
   },
   "release": {
     "state": "known",
-    "version": "0.1.34",
+    "version": "0.1.35",
     "versionScheme": "semver"
   },
   "timestamps": {
@@ -45,7 +45,7 @@
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-15T06:25:00Z",
+      "value": "2026-09-15T09:10:00Z",
       "precision": "second"
     },
     "reviewedAt": {
@@ -55,7 +55,7 @@
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-15T06:25:00Z",
+      "value": "2026-09-15T09:10:00Z",
       "precision": "second"
     }
   },
@@ -63,7 +63,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/contract-review-team.git",
-      "ref": "92cb41f7798dcc82267e9a97dfcc62eefe7874da"
+      "ref": "1103baf4ba221b27f3a9a4fcb4d6dedfd1804618"
     }
   },
   "governance": {
@@ -82,7 +82,7 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "92cb41f7798dcc82267e9a97dfcc62eefe7874da",
+      "reviewedRef": "1103baf4ba221b27f3a9a4fcb4d6dedfd1804618",
       "reviewedAt": "2026-09-15",
       "reviewedBy": "DesireCore Agent",
       "upstreamEndorsed": true
