@@ -15,8 +15,8 @@
       },
       "zh-CN": {
         "name": "合同审查团队",
-        "summary": "六名成员协作完成风险与法域并行、独立复核和带修订 DOCX 交付。需要用户配置模型服务；合同正文与附件会发送用于分析，结果必须由具备资质的人员复核，能力缺口只生成范围受限报告。",
-        "description": "六名成员按固定且可观察的步骤协作：文件覆盖、原文证据、真实回执、独立复核和明确欠账。Lead 将法域与风险检查真正并行，再生成评分报告和带修订 DOCX。合同正文与附件会发送到用户配置的模型服务用于分析；必须由具备资质的人员复核，能力缺失时只生成范围受限报告。"
+        "summary": "六名成员协作完成风险与法域并行、独立复核、评分报告和带修订 DOCX 交付。需要用户配置模型服务；合同正文与附件会发送用于分析，结果必须由具备资质的人员复核，能力缺口只生成范围受限报告。",
+        "description": "六名成员按固定且可观察的步骤协作：文件覆盖、原文证据、真实回执、独立复核和明确欠账。Lead 将法域与风险检查真正并行，再生成评分报告和带修订 DOCX。合同正文与附件会发送到用户配置的模型服务用于分析；调用前必须确认 provider/model 路由与服务可用性，不可用时停止并只生成 capability_debt/blocked 的范围受限报告，不得伪造法律结论。使用前必须由具备资质的人员复核，服务条款与额外费用由用户负责。"
       }
     },
     "icon": {
@@ -96,11 +96,11 @@
     "requirements": [
       {
         "kind": "connection",
-        "value": "Requires a user-configured model service; contract text and attachments are sent to that service for analysis."
+        "value": "Before any call, confirm the configured provider/model route and service availability. Contract text and attachments are sent to that service; if unavailable, stop and emit only a capability_debt/blocked bounded report, never a fabricated legal result."
       },
       {
         "kind": "permission",
-        "value": "Qualified human review is required before using the report or tracked DOCX."
+        "value": "Qualified human review is required before using the scored report or tracked DOCX. Provider terms and any separate service costs remain the user's responsibility."
       }
     ]
   },
