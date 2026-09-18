@@ -5,7 +5,7 @@ description: >-
   catalog. Use when the user asks the Agent to call an API, search for an
   existing service, or query a backend that was registered via the
   registering-services skill. 调用某个 API、查找已有服务、访问已注册的后端服务时使用。
-version: 1.0.3
+version: 1.0.4
 type: meta
 risk_level: low
 status: enabled
@@ -18,7 +18,7 @@ tags:
   - meta
 metadata:
   author: desirecore
-  updated_at: '2026-07-29'
+  updated_at: '2026-09-18'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -38,8 +38,8 @@ metadata:
       description: >-
         Discover and invoke HTTP/MCP services already registered in the global catalog. Use when the user asks the Agent to call an API, search for an existing service, or query a backend that was registered via the registering-services skill.
       body: ./SKILL.md
-      translated_by: human
-      source_hash: sha256:8a20b2835e5e54d1
+      translated_by: ai:chatgpt
+      source_hash: sha256:6ca726dc419c1536
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="6" height="6" rx="1.5"/><rect x="15" y="3" width="6" height="6" rx="1.5"/><rect x="15" y="15" width="6" height="6" rx="1.5"/><path d="M9 11.5h3.5V6H15"/><path d="M9 12.5h3.5V18H15"/></svg>
@@ -51,6 +51,10 @@ market:
 ---
 
 # using-services Skill
+
+## Native applications and outward protocols
+
+**DesireCore Control** is a `native-app` for external agents, not an installed internal MCP service. The presence of its dashboard or outward `/mcp` endpoint does not authorize this Agent to invoke it through `using-services`, register it, or bypass GUI approval. Use `app-install-manager` (1.4.0 or newer) for its App lifecycle and the governed `ControlDesireCoreGui` for runtime GUI access. An App installation must not mint an internal service or `svc-*` skill.
 
 ## L0: One-line Summary
 
