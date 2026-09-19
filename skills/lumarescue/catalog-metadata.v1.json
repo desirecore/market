@@ -1,0 +1,77 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "lumarescue"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "LumaRescue",
+        "summary": "AI bad-photo rescue skill — reshapes light, applies master-level composition, restores damage and enhances aesthetics while preserving subject identity and factual content, for Codex/Doubao desktop"
+      },
+      "zh-CN": {
+        "name": "LumaRescue 废片拯救",
+        "summary": "AI 废片拯救技能:在保留主体身份与事实内容的前提下,通过光影重塑、大师级构图、照片修复与审美增强把普通照片修成惊艳成片,适配 Codex/豆包桌面版"
+      }
+    },
+    "category": "creative",
+    "tags": [
+      "photo",
+      "restoration",
+      "enhancement",
+      "creative"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-09-12T02:26:16Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-12T02:26:16Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/justlovemaki/LumaRescue.git",
+      "ref": "14cd76cea24e825e079fa2dfa5c5322002d6dc4e"
+    }
+  },
+  "governance": {
+    "stewardship": "pointer",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "source-pointer-only",
+    "upstreamMaintainer": {
+      "name": "justlovemaki",
+      "url": "https://github.com/justlovemaki/LumaRescue",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

@@ -10,13 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "Contract Review Team",
-        "summary": "A six-member contract review team: intake gating, clause structuring, risk scanning and jurisdiction checks, closed by an independent reviewer who re-verifies against the source text before reporting",
-        "description": "Six members work a fixed seven-step chain. The intake officer runs hard checks and freezes the reviewed baseline, stopping the pipeline outright when a blocking condition is hit. The clause officer rewrites the body and attachments into structured facts anchored to clause numbers and page references, keeping genuine ambiguity intact instead of resolving it early. Risk scanning and jurisdiction checks then run in parallel over that same structured record. The reviewer closes the chain: it does not read the earlier members' reasoning, goes back to the source text to re-establish evidence, and only then composes the report.\n\nThis is a team, not one agent running the whole flow end to end. Responsibilities are split across six members and one independent review pass is kept, so a run takes longer but leaves a traceable evidence chain and a clear boundary for each finding. Pick the shape that fits the job.\n\nDelegation uses an explicit Work Context for each isolated stage and resumes only from the exact context ID recorded in a receipt.\n\nThe output is supporting material for review work. It is not legal advice, it carries no legal effect, and it does not replace a qualified lawyer or in-house counsel. Every conclusion has to be checked by a qualified person before it is relied on."
+        "summary": "Six-member contract review team with parallel risk and jurisdiction checks, independent re-verification, scored reporting, and tracked DOCX delivery. Requires a user-configured model service; contract text and attachments are sent for analysis, results require qualified human review, and capability gaps produce a bounded report.",
+        "description": "Six members collaborate through stable, observable steps: input coverage, source evidence, real receipts, independent re-verification, and explicit gaps. The Lead fans out jurisdiction and risk checks in parallel, then produces a scored report and tracked DOCX. Contract text and attachments are sent to the user-configured model service for analysis; qualified human review remains required, and missing capabilities produce only a bounded report."
       },
       "zh-CN": {
         "name": "合同审查团队",
-        "summary": "六名成员分工的合同审查团队：输入治理、条款结构化、风险识别、法域合规，最后由独立复核成员回原文重新取证再出报告",
-        "description": "六名成员按固定七步链路协作。输入治理官先做硬校验并冻结受审基线，命中阻断项直接终止流水线；条款结构化官把正文与附件转写为带条款编号和页码锚点的结构化事实，原始歧义原样保留，不替下游提前消歧；风险识别官与法域合规官在同一份结构化事实上并行工作；复核出报告官收尾——不读前序成员的推理过程，回到原文重新取证后独立判定，再汇总成报告。\n\n这是一个团队，不是单个智能体跑完全流程：职责拆到六个成员，并保留一次独立复核，因此一次运行耗时更长，换来的是可追溯的证据链和清晰的责任边界。按任务需要选择合适的形态即可。\n\n每个独立环节都显式选择 Work Context，续跑只接受回执中记录的精确上下文 ID。\n\n产出是供审阅使用的辅助材料，不构成法律意见，不具有法律效力，也不替代律师或法务的专业判断；任何结论都需由具备资质的人员复核后再使用。"
+        "summary": "六名成员协作完成风险与法域并行、独立复核、评分报告和带修订 DOCX 交付。需要用户配置模型服务；合同正文与附件会发送用于分析，结果必须由具备资质的人员复核，能力缺口只生成范围受限报告。",
+        "description": "六名成员按固定且可观察的步骤协作：文件覆盖、原文证据、真实回执、独立复核和明确欠账。Lead 将法域与风险检查真正并行，再生成评分报告和带修订 DOCX。合同正文与附件会发送到用户配置的模型服务用于分析；调用前必须确认 provider/model 路由与服务可用性，不可用时停止并只生成 capability_debt/blocked 的范围受限报告，不得伪造法律结论。使用前必须由具备资质的人员复核，服务条款与额外费用由用户负责。"
       }
     },
     "icon": {
@@ -34,28 +34,28 @@
   },
   "release": {
     "state": "known",
-    "version": "0.1.26",
+    "version": "0.1.36",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-08",
+      "value": "2026-09-15",
       "precision": "day"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-08T11:08:52Z",
+      "value": "2026-09-15T14:05:00Z",
       "precision": "second"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-09-08",
+      "value": "2026-09-15",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-08T11:21:36Z",
+      "value": "2026-09-15T13:56:26Z",
       "precision": "second"
     }
   },
@@ -63,7 +63,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/contract-review-team.git",
-      "ref": "4e4e4759b191d7de1282ed9a9c21473448588e50"
+      "ref": "aa67148a8da07bcf8f654edfca1df6bd35d1c9cb"
     }
   },
   "governance": {
@@ -82,8 +82,8 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "4e4e4759b191d7de1282ed9a9c21473448588e50",
-      "reviewedAt": "2026-09-08",
+      "reviewedRef": "aa67148a8da07bcf8f654edfca1df6bd35d1c9cb",
+      "reviewedAt": "2026-09-15",
       "reviewedBy": "DesireCore Agent",
       "upstreamEndorsed": true
     }
@@ -92,7 +92,17 @@
     "platforms": {
       "state": "unknown"
     },
-    "requiredClientVersion": "10.0.136"
+    "requiredClientVersion": "10.0.136",
+    "requirements": [
+      {
+        "kind": "connection",
+        "value": "Before any call, confirm the configured provider/model route and service availability. Contract text and attachments are sent to that service; if unavailable, stop and emit only a capability_debt/blocked bounded report, never a fabricated legal result."
+      },
+      {
+        "kind": "permission",
+        "value": "Qualified human review is required before using the scored report or tracked DOCX. Provider terms and any separate service costs remain the user's responsibility."
+      }
+    ]
   },
   "spec": {
     "kind": "team"

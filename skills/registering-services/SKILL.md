@@ -5,7 +5,7 @@ description: >-
   Catalog so that other Agents (and the human user) can discover and call it.
   Use when the user mentions adding a new service, registering an API, or
   publishing a backend you control to the team's catalog. 新增服务、注册 API、把后端发布到团队目录时使用。
-version: 1.0.3
+version: 1.0.4
 type: meta
 risk_level: medium
 status: enabled
@@ -17,7 +17,7 @@ tags:
   - meta
 metadata:
   author: desirecore
-  updated_at: '2026-07-29'
+  updated_at: '2026-09-18'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -38,8 +38,8 @@ metadata:
       description: >-
         Register an external HTTP/MCP service to the global Application & Service Catalog so that other Agents (and the human user) can discover and call it. Use when the user mentions adding a new service, registering an API, or publishing a backend you control to the team's catalog.
       body: ./SKILL.md
-      translated_by: human
-      source_hash: sha256:dcd8732ac76f009f
+      translated_by: ai:chatgpt
+      source_hash: sha256:f5b954fb4d490606
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="12" height="6" rx="1.5"/><rect x="3" y="14" width="12" height="6" rx="1.5"/><circle cx="6.5" cy="7" r="0.5" fill="#FFFFFF"/><circle cx="6.5" cy="17" r="0.5" fill="#FFFFFF"/><line x1="19.5" y1="5" x2="19.5" y2="11"/><line x1="16.5" y1="8" x2="22.5" y2="8"/></svg>
@@ -51,6 +51,10 @@ market:
 ---
 
 # registering-services Skill
+
+## Native applications are not internal services
+
+A `native-app` such as **DesireCore Control** is installed and managed through the App acquisition flow and `app-install-manager` (1.5.2 or newer). Its outward MCP endpoint is for external agents, not permission to register it in DesireCore's service catalog or an Agent's MCP configuration. Do not convert it to `mcp`/`docker-app`, derive services, or call service-registration APIs for it. Runtime GUI access still uses the governed `ControlDesireCoreGui` tool.
 
 ## L0: One-line Summary
 

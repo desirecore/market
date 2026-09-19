@@ -1,0 +1,80 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "archify"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Archify",
+        "summary": "Compile a codebase or system description into interactive, verifiable architecture/workflow/sequence/data-flow/lifecycle diagrams — self-contained HTML/SVG with motion and crisp export, for Claude Code, Codex and Cursor"
+      },
+      "zh-CN": {
+        "name": "Archify",
+        "summary": "把代码库或系统描述编译成可交互的系统架构图（架构/流程/时序/数据流/生命周期），产出自带动效、可校验、可导出的单文件 HTML/SVG，适配 Claude Code、Codex、Cursor"
+      }
+    },
+    "category": "development",
+    "tags": [
+      "architecture",
+      "diagram",
+      "visualization",
+      "development"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-09-12T02:26:16Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-12T02:26:16Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/tt-a1i/archify.git",
+      "path": "archify",
+      "ref": "c1443b31b496eebf4a68bf83151816c955ddb796"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "tt-a1i",
+      "url": "https://github.com/tt-a1i/archify",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

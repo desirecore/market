@@ -316,6 +316,12 @@ the parent.
 The strict source schema is
 [`schemas/catalog-metadata.v1.schema.json`](schemas/catalog-metadata.v1.schema.json).
 
+## Applications: DesireCore Control
+
+Applications shown in the DesireCore marketplace are indexed by [DesireCore Registry](https://github.com/desirecore/registry), not by adding a Skill or MCP entry to this repository. [DesireCore Control 1.4.0](https://github.com/desirecore/registry/tree/main/entries/desirecore-control) is a native application for external agents, with ChatGPT tunnel management; installation never registers internal MCP tools. Its catalog declares the required client and installation-skill versions. Catalog publication does not update the desktop client automatically.
+
+See the [installation guide](docs/desirecore-control.md) / [中文安装说明](docs/desirecore-control.zh-CN.md). Registry maintains the immutable release URL, checksum, application metadata and install/uninstall guide; the open-source implementation stays in `desirecore-agent/desirecore-cdp-mcp`.
+
 ## Categories
 
 Valid category slugs are declared in `categories.json`:
