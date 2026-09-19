@@ -29,8 +29,8 @@ DesireCore 官方市场仓库，存放官方维护的 Agent/Team/Skill 定义，
 
 The market currently contains:
 
-- `5` Agents: `desirecore`, `dingtalk-workspace`, `feishu-orchestrator`, `invoice-organizer`, `wecom-assistant`
-- `1` Team: `contract-review-team`
+- `7` Agents: `desirecore`, `dingtalk-workspace`, `feishu-orchestrator`, `invoice-organizer`, `mimo-model-quota-monitor`, `tender-review-assistant`, `wecom-assistant`
+- `2` Teams: `biao-shu-lian-he-shen-cha`, `contract-review-team`
 - `40` local built-in skills with `SKILL.md`
 - `31` external skill entries with `entry.json`
 - `71` publishable skills in total (`SKILL.md` + `entry.json`)
