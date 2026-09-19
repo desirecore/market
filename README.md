@@ -1,370 +1,253 @@
 # DesireCore Market
 
-DesireCore 官方市场仓库，存放官方维护的 Agent/Team/Skill 定义，以及经过整理的第三方 Skill 入口。
+**English** | [简体中文](README.zh-CN.md)
 
-## Repository Shape
+The official, version-controlled catalog of **Agents, Teams, and Skills for DesireCore**.
 
+Discover reusable assistants, coordinated agent teams, and task-specific skills in one place. This repository maintains catalog metadata, locally bundled skills, and curated pointers to upstream content, together with schemas and validation tools for consistent publication.
+
+[Overview](#overview) · [Getting started](#getting-started) · [Repository layout](#repository-layout) · [Listing contracts](#listing-contracts) · [Localization](#localization) · [Contributing](#contributing) · [Validation](#validation) · [Security and trust](#security-and-trust) · [Related projects](#related-projects) · [License](#license)
+
+## Overview
+
+| Resource | Purpose | Where to explore |
+| --- | --- | --- |
+| **Agents** | Individual assistants with a defined role, capabilities, and configuration; published as inline metadata or an upstream pointer. | [`agents/`](agents/) |
+| **Teams** | Groups of agents coordinated by a supervisor; published as pointers to repositories that the client forks. | [`teams/`](teams/) |
+| **Skills** | Reusable task instructions and supporting resources; bundled locally or discovered through upstream Git, Web, or ZIP sources. | [`skills/`](skills/) |
+
+The market is a **content catalog, not a standalone application or execution runtime**. A listing describes what a resource is, where it comes from, and the conditions under which it can be used. Installation and execution belong to a compatible DesireCore client and the resource's dependencies.
+
+### Catalog sources of truth
+
+| File | What it defines |
+| --- | --- |
+| [`manifest.json`](manifest.json) | Market identity, schema version, supported locales, default locale, and aggregate statistics. |
+| [`categories.json`](categories.json) | Valid category IDs and their localized labels and descriptions. |
+| [`builtin-skills.json`](builtin-skills.json) | Local built-in skill IDs and the retirement list. |
+| `catalog-metadata.v1.json` beside each listing | Versioned presentation, release, provenance, governance, and compatibility facts. |
+
+Use the manifest and actual catalog directories for the current inventory rather than maintaining a second list of counts in this README. `totalSkills` counts top-level local `SKILL.md` listings plus external `entry.json` listings, not every child inside a skill collection. `totalTeams` may be omitted for a catalog with no teams; when present, it must match the catalog exactly.
+
+Categories cover productivity, development, business, creative work, design, media, communication, research, data, and management. Use the IDs in `categories.json` when publishing; display labels are not category IDs.
+
+## Getting started
+
+### Use the market in DesireCore
+
+1. Open the market in a compatible DesireCore client and synchronize the official catalog.
+2. Inspect the resource's description, source, release information, client requirements, license, and external dependencies before installation. Read any available usage notes.
+3. Follow the client's installation flow when the listing is installable, then complete any required local setup or authorization. Keep credentials and private configuration outside this public repository.
+
+**Listed does not necessarily mean installable.** Catalog metadata can describe listing-only resources; compatibility, governance, source reproducibility, or licensing requirements may prevent installation. Catalog synchronization also does not upgrade the desktop client or provision third-party services.
+
+### Explore or contribute locally
+
+For repository maintenance, use Git, Python **3.10 or newer**, and `uv`. The Python scripts declare their dependencies inline; `uv run` manages their execution environments.
+
+```bash
+git clone https://github.com/desirecore/market.git
+cd market
+
+# Validate market structure and skill localization.
+uv run scripts/i18n/validate-i18n.py
 ```
+
+Initial environment setup may download Python packages. The validation command above does not require model API credentials or fetch upstream content unless `--online` is supplied. See [Validation](#validation) for coverage checks, translation freshness, and focused commands.
+
+Cloning this repository only downloads the catalog and bundled files; it does not install the DesireCore client, agents, teams, or external products.
+
+## Repository layout
+
+```text
 .
-├── manifest.json          # Market metadata, supported locales, aggregate stats
-├── categories.json        # Category registry and localized labels
-├── builtin-skills.json    # Built-in local SKILL.md skills
-├── agents/
-│   ├── desirecore/
-│   │   └── agent.json
-│   └── <agent-listing>/
-│       ├── agent.json
-│       ├── catalog-metadata.v1.json
-│       └── USAGE.md            # Optional usage notes (USAGE.<locale>.md for variants)
-├── teams/
-│   └── <team>/
-│       └── entry.json
-└── skills/
-    ├── <local-skill>/
-    │   ├── SKILL.md
-    │   └── SKILL.<locale>.md
-    └── <external-entry>/
-        └── entry.json
+├── README.md                         # English overview and contributor guide
+├── README.zh-CN.md                   # Simplified Chinese counterpart
+├── manifest.json                     # Market metadata, locales, and statistics
+├── categories.json                   # Category registry
+├── builtin-skills.json               # Built-in skills and retirement policy
+├── agents/<id>/
+│   ├── agent.json OR entry.json       # Exactly one primary listing file
+│   ├── catalog-metadata.v1.json       # Versioned catalog metadata
+│   └── USAGE[.<locale>].md            # Optional inline-agent usage notes
+├── teams/<id>/
+│   ├── entry.json                    # Upstream Git fork pointer only
+│   └── catalog-metadata.v1.json
+├── skills/<id>/
+│   ├── SKILL.md OR entry.json         # Local skill or external source pointer
+│   ├── catalog-metadata.v1.json
+│   ├── SKILL.<locale>.md              # Localized body for a local skill
+│   ├── references/                   # Optional supporting documentation
+│   └── scripts/                      # Optional skill-specific helpers
+├── schemas/                          # Catalog and exported client contracts
+├── scripts/
+│   ├── catalog/                      # Catalog validation and focused tests
+│   ├── i18n/                         # Localization schema, validation, translation
+│   └── gen-collection-children.py     # Upstream collection inventory generation
+├── docs/                             # Authoring and application guides
+├── .github/workflows/                # Validation, translation, and review automation
+├── AGENTS.md / CLAUDE.md              # Equivalent repository contribution policies
+├── LICENSE                           # License for repository-original content
+└── THIRD_PARTY_NOTICES.md             # Third-party licensing qualifications
 ```
 
-The market currently contains:
+The tree illustrates supported shapes, not files required in every directory. Localized bodies, helper scripts, and references belong to local skills; external pointers keep their implementation upstream. A team directory contains `entry.json` and its sidecar, not an inline `team.json`.
 
-- `5` Agents: `desirecore`, `dingtalk-workspace`, `feishu-orchestrator`, `invoice-organizer`, `wecom-assistant`
-- `1` Team: `contract-review-team`
-- `40` local built-in skills with `SKILL.md`
-- `31` external skill entries with `entry.json`
-- `71` publishable skills in total (`SKILL.md` + `entry.json`)
+## Listing contracts
 
-## Skill Sources
+Use the schemas and existing listings as implementation references. A shortened JSON example is not a substitute for the complete client contract.
 
-Local built-in skills are installable from this repository and must be listed in `builtin-skills.json`:
+### Local skills
 
-```text
-baidu-poi-search, ccgp-gov-procurement, clone-agent, cnipa-patent-search, code-intelligence,
-configuring-compute, create-agent, creditchina-query, dashscope-image-gen, delete-agent,
-dev-environment-setup, discover-agent, docx, frontend-design, guizang-ppt,
-image-to-image, mail-operations, manage-skills, manage-teams, markdown,
-minimax-music-gen, minimax-video-gen, multi-source-sentiment, nodejs-runtime, pdf, pptx,
-presentation-forge, python-runtime, registering-services, s3-storage-operations, skill-creator,
-tech-diagram, tianyancha-risk, update-agent, using-services, web-access, workflow, workforce-optimization,
-xiaomi-tts, xlsx
-```
+A local skill lives at `skills/<id>/SKILL.md` and combines YAML frontmatter with a Markdown instruction body. Its top-level `name` must match the directory's lowercase ASCII slug; localized display names belong in `metadata.i18n`.
 
-`builtin-skills.json#retired` lists old built-in Skill IDs that clients may safely retire during
-startup. Clients only remove copies tracked in `skills.lock` as market/bundled content whose
-`SKILL.md` hash still matches the installed record; manually installed or locally modified copies
-are preserved. An ID must not appear in both `skills` and `retired`.
+Only `SKILL.md` carries frontmatter. Localized `SKILL.<locale>.md` files contain the body, start with the corresponding locale comment, and are referenced by the i18n metadata. For example, `SKILL.zh-CN.md` starts with `<!-- locale: zh-CN -->`. Market skills must set `disable-model-invocation: true` or omit the field; `false` is rejected.
 
-External entries are marketplace pointers to Git/Web/ZIP sources:
+Register every local built-in skill in `builtin-skills.json.skills`, supply its sidecar, and use a valid market category. See the [frontmatter schema](scripts/i18n/schema/skill-frontmatter.schema.json), [Web Access example](skills/web-access/SKILL.md), and [i18n authoring guide](docs/I18N.md) (Chinese).
 
-```text
-agent-reach, ai-news-radar, amap-jsapi-skill, archify, baoyu-skills, dingtalk-api,
-dingtalk-cli, flyai-skill, follow-builders, humanizer, humanizer-zh,
-ian-xiaohei-illustrations, impeccable, karpathy-guidelines, khazix-skills,
-larksuite-cli, last30days, luckin-my-coffee, lumarescue, marketingskills,
-mattpocock-skills, minimax-image-gen, minimax-tts, mt-paotui-for-client,
-netease-skills, nuwa-skill, taste-skill, watch, watchless,
-wechatpay-skills, wecom-cli
-```
+The `retired` list identifies former built-in skills that clients may retire at startup. Clients remove only market/bundled copies tracked in `skills.lock` whose `SKILL.md` hash still matches the installation record. Manually installed or locally modified copies are preserved. An ID must never appear in both `skills` and `retired`.
 
-## Data Formats
+### External skills and collections
 
-### Local Skill (`skills/<id>/SKILL.md`)
+An external skill uses `skills/<id>/entry.json` to describe its upstream source, presentation, maintainer, category, license, and redistribution terms. Skill listings require an inline SVG `icon`. Supported source kinds are `git`, `web`, and `zip`; external listings count toward `manifest.stats.totalSkills` but do not belong in the built-in skill index.
 
-Local skills use YAML frontmatter plus Markdown body. The top-level `name` must equal the directory slug. Display strings live in `metadata.i18n`.
+A collection groups multiple upstream skills under one listing, with a declared `children` inventory for discovery. Keep the children's metadata in the parent's sidecar. Each child has its own `skill + parentId + id` identity and release fact; never infer a child's version from its parent, whose version may be unknown.
 
-```yaml
----
-name: web-access
-description: >-
-  Use this skill when ...
-version: 2.0.1
-type: procedural
-risk_level: low
-status: enabled
-metadata:
-  author: desirecore
-  updated_at: '2026-05-05'
-  i18n:
-    default_locale: en-US
-    source_locale: zh-CN
-    locales: [zh-CN, en-US]
-    zh-CN:
-      name: 联网访问
-      short_desc: 联网搜索、网页抓取、登录态浏览器访问
-      body: ./SKILL.zh-CN.md
-      translated_by: human
-    en-US:
-      name: Web Access
-      short_desc: Web search, page fetching, logged-in browser access
-      body: ./SKILL.md
-      source_hash: sha256:...
-      translated_by: human
-market:
-  category: research
-  channel: latest
-  maintainer:
-    name: DesireCore Official
-    verified: true
----
-```
+See the [Lark Suite CLI entry](skills/larksuite-cli/entry.json) and [sidecar](skills/larksuite-cli/catalog-metadata.v1.json). The [collection generator](scripts/gen-collection-children.py) derives children from upstream `SKILL.md` files; its `--check` mode verifies reproducible, pinned collections without rewriting entries.
 
-### External Entry (`skills/<id>/entry.json`)
+### Agents
 
-External entries point to upstream packages or repositories. They are counted in `manifest.stats.totalSkills` but are not included in `builtin-skills.json`.
+An agent directory must contain exactly one primary file: `agent.json` for inline metadata **or** `entry.json` for an external pointer, plus `catalog-metadata.v1.json`. Neither a missing primary file nor both files together is valid.
 
-```json
-{
-  "id": "example-skill",
-  "name": "Example Skill",
-  "category": "development",
-  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\">...</svg>",
-  "tags": ["example"],
-  "maintainer": {
-    "name": "Example",
-    "verified": false,
-    "account": "example",
-    "url": "https://github.com/example/example-skill"
-  },
-  "stewardship": "community",
-  "license": "MIT",
-  "redistribution": "allowed",
-  "source": {
-    "kind": "git",
-    "repoUrl": "https://github.com/example/example-skill.git",
-    "repoBranch": "main"
-  }
-}
-```
+For pointers, the directory slug, `entry.id`, and sidecar `identity.id` must agree, and `identity.kind` is `agent`. The upstream AgentFS `agent.json.id` is a separate UUID and must not be rewritten to match the catalog slug.
 
-### Team Listing (`teams/<id>/entry.json`)
+The raw pointer must pass the [exported agent client schema](schemas/market-agent-entry.client.schema.json) before sidecar validation. Preserve version types and supported formats. `installPolicy` and `updatePolicy` must either both be absent, with effective values `market/market`, or form a complete supported pair. The sidecar must preserve that effective pair rather than reclassifying the resource as a system item.
 
-A Team is a group of Agents with a supervisor. It is published as a **fork pointer
-only**: the team body (`team.json`, `members.json`, `shared/`) always stays in the
-upstream team repository, and the catalog registers just "what it is and where to
-fork it from". Installation forks that repository and installs the declared members;
-updates are a `git pull` on the fork. Because both actions are Git actions,
-`source.kind` must be `git` and `source.repoUrl` is required — `zip` and `web` cannot
-express either one — and a Team deliberately has **no** `installPolicy` /
-`updatePolicy` pair: it is always market-initiated fork plus repository-driven update.
+`latestVersion` maps to `release.version`; client requirements, policies, and source fields must agree across the pointer and sidecar. `maintainer` maps to `upstreamMaintainer`. An installable pointer must itself pin a full Git commit in `source.ref`, or a Web/ZIP digest in `source.sha256`; a pin declared only in the sidecar is insufficient. Agent pointers do not receive the built-in skill exceptions to source, license, or review requirements.
 
-`teams/<id>/` therefore holds exactly `entry.json` plus the sidecar. There is no
-inline form; a `team.json` in the catalog is rejected.
+An inline agent may include concise, text-only `USAGE.md` notes for prerequisites, authorization, and safety boundaries. Localized variants use `USAGE.<locale>.md`, resolved by requested locale → source locale → default locale → unsuffixed file. Usage is displayed separately from `fullDesc`, which also enters the agent's runtime context. Clients may truncate long notes; put extensive supporting material in skill `references/` instead. Relative images do not render in the usage section.
 
-```json
-{
-  "id": "example-team",
-  "name": "Example Team",
-  "category": "development",
-  "tags": ["example"],
-  "latestVersion": "0.1.0",
-  "maintainer": {
-    "name": "Example",
-    "verified": false,
-    "account": "example",
-    "url": "https://github.com/example"
-  },
-  "stewardship": "community",
-  "license": "MIT",
-  "redistribution": "source-pointer-only",
-  "source": {
-    "kind": "git",
-    "repoUrl": "https://github.com/example/example-team.git",
-    "repoBranch": "main",
-    "ref": "0123456789abcdef0123456789abcdef01234567"
-  },
-  "requiredClientVersion": "10.0.0",
-  "avatar": { "t": "示", "bg": "linear-gradient(135deg, #5856D6, #3634A3)" },
-  "supervisorName": "Example Supervisor",
-  "supervisorAgentId": "example-lead",
-  "memberCount": 3,
-  "memberNames": ["Example Member One", "Example Member Two"]
-}
-```
+Examples: [inline DesireCore agent](agents/desirecore/agent.json) and [DingTalk Workspace pointer](agents/dingtalk-workspace/entry.json).
 
-A Team card is rendered from `avatar`, not from `icon`. The client's runtime
-projection `marketTeamSchema` requires `avatar` and has no `icon` property at all —
-the same is true of `marketAgentSchema`, while only `marketSkillSchema` exposes
-`icon`. The entry contract inherits `icon` from the shared common properties, so it
-is *accepted*, but it can never reach a card. The validator therefore requires `icon`
-on Skill listings only, and warns when an Agent or Team listing declares one.
+### Teams
 
-`redistribution` stays `source-pointer-only` for a Team even under a permissive
-license: the market never ships the team body, it only points at the repository the
-client forks. The license governs what a fork may do; `redistribution` describes how
-the content is delivered, and for teams that is always "fetch from upstream".
+A team is a supervisor-led group of agents, published **only as a Git fork pointer** at `teams/<id>/entry.json`, alongside its sidecar. The implementation (`team.json`, `members.json`, and `shared/`) stays upstream. Installation forks that repository and installs its declared members; subsequent updates use `git pull` on the fork.
 
-`supervisorName`, `supervisorAgentId`, `memberCount`, `memberNames` and
-`requiredSkills` are display metadata declared by the publisher. They may drift from
-the upstream repository, so installation, permissions and member resolution must read
-the forked `team.json` / `members.json` instead. Teams are counted in
-`manifest.stats.totalTeams`, which the client keeps optional: a catalog with no teams
-may omit it, and once the key is present it must be exact.
+Consequently, `source.kind` must be `git`, `source.repoUrl` is required, and an installable pointer must pin a full commit SHA in `source.ref`. Branches and tags are mutable and do not satisfy that pin. Teams have no `installPolicy` / `updatePolicy` pair, and `redistribution` remains `source-pointer-only` even when the upstream license is permissive.
 
-### Catalog metadata sidecar (`catalog-metadata.v1.json`)
+The raw pointer must pass the [exported team client schema](schemas/market-team-entry.client.schema.json). The directory slug, `entry.id`, and sidecar `identity.id` must agree; `identity.kind` is `team`, and `latestVersion` maps to `release.version`. Source fields must describe the same artifact as `provenance.content`.
 
-The versioned catalog metadata contract is stored at one fixed path next to each
-legacy item:
+`supervisorName`, `supervisorAgentId`, `memberCount`, `memberNames`, `requiredSkills`, and `requiredClientVersion` must agree symmetrically with the sidecar: it may neither drop declared facts nor invent absent ones. Member and supervisor display metadata is not installation or permission authority; resolve those facts from the forked `team.json` and `members.json`.
 
-```text
-agents/<id>/catalog-metadata.v1.json
-teams/<id>/catalog-metadata.v1.json
-skills/<id>/catalog-metadata.v1.json
-```
+Agent and team cards use `avatar`, not the skill-only `icon` presentation. An `icon` accepted by a shared entry contract still does not reach these cards, and the validator warns about it. See the [Contract Review Team entry](teams/contract-review-team/entry.json).
 
-Legacy `agent.json`, `SKILL.md`, and `entry.json` files remain the compatibility
-surface for older clients. New clients merge the sidecar through a deterministic
-adapter. Any field repeated in both files must have the same value; the validator
-rejects drift rather than choosing one copy silently.
+### Versioned catalog metadata
 
-Agent listings support exactly one of `agents/<slug>/agent.json` (inline metadata)
-or `agents/<slug>/entry.json` (an external pointer), alongside the sidecar. Missing
-or simultaneous primary files are rejected. For a pointer, `entry.id` and sidecar
-`identity.id` use the catalog directory slug and `identity.kind` is `agent`; the
-upstream AgentFS `agent.json.id` remains its own UUID and must not be rewritten.
+Every top-level listing must have `catalog-metadata.v1.json` at the fixed location beside its primary file. This **sidecar** supplements the legacy compatibility file; it does not replace `agent.json`, `entry.json`, or `SKILL.md`. New clients merge it through a deterministic adapter, and validators reject inconsistent duplicated fields.
 
-An agent listing may also carry an optional `USAGE.md` next to `agent.json`. The
-client renders it as a separate "Usage" section on the agent detail page, kept
-apart from `fullDesc` (which is persona text and also enters the agent's runtime
-context). Localized variants use `USAGE.<locale>.md`, resolved through the same
-fallback chain as the `i18n` block: requested locale, then `i18n.source_locale`,
-then `i18n.default_locale`, then the unsuffixed file. Its scope is what a reader
-needs *before* installing — prerequisites, authorization steps, capability and
-safety boundaries — not full documentation; clients truncate overlong content.
-Longer material belongs in a skill's `references/` directory, which the agent
-loads on demand. Listings without the file are unaffected and render no section.
-Relative image references do not render on the detail page, so keep `USAGE.md`
-text-only. See ADR-143 in the DesireCore repository.
+The [catalog metadata schema](schemas/catalog-metadata.v1.schema.json) covers presentation, releases, explicit timestamp facts, content provenance, governance, compatibility, and type-specific metadata. Keep these boundaries intact:
 
-Agent pointers first pass the complete raw client contract in
-[`schemas/market-agent-entry.client.schema.json`](schemas/market-agent-entry.client.schema.json),
-exported from `marketAgentEntrySchema` in the DesireCore repository at commit
-`18bbb86f62e1288b1f945209bed74ec72620a9d4`. The schema's `$comment` records the
-source blob as well. Refresh this generated snapshot from the TypeScript export
-when changing client compatibility; do not replace it with permissive sidecar
-validation. Version fields keep their original types and the client's supported
-format. Installation/update policies must either both be absent (effective
-`market/market`) or form a complete supported pair; the sidecar must preserve
-that effective pair.
+- **Source facts versus runtime facts.** A sidecar cannot declare trusted catalog identity (`catalogSourceId`), catalog commit/path/trust, effective official status, installed state, device state, health, runtime-discovered URLs, or `syncedAt`. DesireCore supplies trusted catalog provenance and runtime observations.
+- **Evidence paths follow the content.** `license.evidencePath`, `compliance.licenseEvidencePath`, and `compliance.noticePath` are relative to the item directory for vendored content, and the files must exist. For pointers they refer to the upstream snapshot; offline validation cannot fetch that evidence and warns about claims against unpinned sources.
+- **Unknown is a valid fact.** Use explicit `known` / `unknown` states. A known day uses `YYYY-MM-DD` with `precision: "day"`; a known second uses an RFC 3339 UTC timestamp ending in `Z` with `precision: "second"`. Never fill an unknown release or catalog timestamp with the current date, clone time, or synchronization time.
 
-Agent pointer `latestVersion` maps to sidecar `release.version`; optional
-`requiredClientVersion`, `installPolicy`, and `updatePolicy` must agree with the
-sidecar compatibility/spec fields. Pointer source fields must describe the same
-artifact as `provenance.content`, and `maintainer` maps to `upstreamMaintainer`.
-An installable Agent pointer must itself pin `source.ref` (Git) or `source.sha256`
-(Web/ZIP); an immutable ref supplied only by the sidecar cannot pin a mutable
-entry. Existing immutable-source, license, governance-review and complete-coverage
-checks still apply. Agent pointers do not receive the built-in Skill exceptions.
+The agent and team client schemas are generated compatibility snapshots. Their `$comment` records the upstream source commit and blob. Refresh them from the corresponding TypeScript exports when compatibility changes; do not weaken them or substitute sidecar-only validation.
 
-Agent 目录必须在 `agent.json` 内联元数据和 `entry.json` 外部指针中二选一，并提供 sidecar。
-Pointer 原始 JSON 先通过固定客户端提交导出的完整 Schema；版本类型与格式、来源路径和策略组合不能由 sidecar 掩盖。
-Pointer 的目录 slug、`entry.id`、sidecar `identity.id` 必须一致；上游 AgentFS 的 UUID 不改写。
-安装/更新策略双缺省时有效值仍是 `market/market`，sidecar 不得将其改成系统条目。
-`latestVersion`、最低客户端版本和安装/更新策略须与 sidecar 对齐；来源必须是同一个制品。
-可安装指针自身必须固定 Git ref 或 Web/ZIP 摘要，不能只在 sidecar 宣称不可变版本。
-现有许可、治理审查、不可变来源和完整覆盖门禁继续有效，不适用内置 Skill 的宽松例外。
+## Localization
 
-Team listings are pointer-only, so `teams/<slug>/` carries exactly `entry.json` plus
-the sidecar; an inline `team.json` is rejected. Team pointers first pass the complete
-raw client contract in
-[`schemas/market-team-entry.client.schema.json`](schemas/market-team-entry.client.schema.json),
-exported from `marketTeamEntrySchema` the same way as the Agent snapshot; its
-`$comment` records the source commit and blob. `entry.id`, the directory slug and
-sidecar `identity.id` must agree, `identity.kind` is `team`, and `latestVersion` maps
-to `release.version`. `supervisorName`, `supervisorAgentId`, `memberCount`,
-`memberNames`, `requiredSkills` and `requiredClientVersion` are compared symmetrically:
-the sidecar may neither drop a fact the pointer declares nor invent one it omits,
-because the client reads the pointer and a version gate that exists only in the
-sidecar would not gate anything. Pointer source fields must describe the same
-artifact as `provenance.content`, and an installable Team pointer must itself pin a
-full-SHA `source.ref` — a tag is not a reproducible pin, because a tag can be moved
-to a different commit after the listing is reviewed.
+The market declares its languages in `manifest.json.supportedLocales`, currently `en-US` and `zh-CN`, with English as the default. Local skill display text lives in `metadata.i18n`; listing JSON and sidecars retain their own schema-defined i18n shapes rather than sharing interchangeable field names.
 
-团队条目只有指针形态：`teams/<slug>/` 仅放 `entry.json` 与 sidecar，目录内出现 `team.json` 直接判非法。
-Pointer 原始 JSON 先通过由 `marketTeamEntrySchema` 导出的完整客户端 Schema；
-`source.kind` 恒为 `git` 且必须有 `repoUrl`，团队没有 `installPolicy` / `updatePolicy` 组合。
-目录 slug、`entry.id`、sidecar `identity.id` 必须一致，`identity.kind` 为 `team`。
-展示字段与最低客户端版本双向比对：sidecar 既不得丢弃指针声明的事实，也不得凭空补上指针没有的事实。
-可安装团队指针自身必须固定完整 SHA 的 `source.ref`，tag 或分支不算可复现锁定。
+For skill bodies, resolve the requested locale, then the source locale, then the default locale. Keep the default body in `SKILL.md`, reference localized bodies explicitly, and keep heading structure aligned across languages. The [glossary](scripts/i18n/glossary.json) records shared terminology.
 
-The sidecar records source-owned presentation, release, timestamp, content
-provenance, governance, compatibility, and type-specific facts. It deliberately
-cannot declare `catalogSourceId`, catalog commit/path/trust, effective official
-status, installation state, device state, health, URLs discovered at runtime, or
-`syncedAt`. DesireCore injects trusted catalog provenance and runtime facts.
+The [translation workflow](.github/workflows/i18n-translate.yml) translates eligible missing or stale skill locales using configured model credentials. Review its output for terminology, structure, and factual accuracy; automation is not a substitute for review. `translated_by: human` locks a translation against automatic replacement. After a source change, manually synchronize that translation and refresh `source_hash` only after review; never use a fabricated hash to silence a freshness failure.
 
-`license.evidencePath`, `compliance.licenseEvidencePath` and `compliance.noticePath`
-resolve differently by item shape, because the schema constrains only the string
-form. Vendored content (built-in Skills, inline Agents) ships inside this repository,
-so the path is relative to the catalog item directory and the file must actually be
-there — a missing file is an error. A pointer distributes nothing, so its evidence
-can only be inside the upstream snapshot at the pinned revision; the validator cannot
-read that offline, so it warns when such a claim is made against an unpinned pointer.
-Pin `source.ref` to a full commit SHA and the claim becomes falsifiable by anyone who
-fetches it.
+Run `translate.py --check` to inspect freshness without calling a model API or rewriting translations. Backend configuration and the authoring workflow are documented in the [i18n guide](docs/I18N.md) (Chinese); the workflow and script are authoritative for current behavior. These two README files are maintained together manually and are not inputs to the skill translation pipeline.
 
-Time facts are explicit `known`/`unknown` values. A known day uses
-`YYYY-MM-DD` with `precision: "day"`; a known second uses an RFC 3339 UTC value
-ending in `Z` with `precision: "second"`. Never use the current date, clone time,
-or synchronization time to fill an unknown catalog or release timestamp.
+## Contributing
 
-Collection children stay in their parent's sidecar. Each child declares the
-canonical `skill + parentId + id` identity and its own release fact; a collection
-parent may have an unknown version, and a child version must not be inferred from
-the parent.
+Contributions can add reusable resources, improve existing listings, correct metadata, strengthen validation, or improve translations and documentation.
 
-The strict source schema is
-[`schemas/catalog-metadata.v1.schema.json`](schemas/catalog-metadata.v1.schema.json).
+1. **Choose the right destination.** Agents, teams, and skills belong here; application entries belong in [DesireCore Registry](https://github.com/desirecore/registry). Read [AGENTS.md](AGENTS.md) or [CLAUDE.md](CLAUDE.md) before editing.
+2. **Work from the current `main` branch.** Use a focused branch or isolated worktree. Select the correct listing shape, a stable public slug, and a valid category. Reuse existing examples without copying their identities, review status, or licensing claims.
+3. **Publish a complete, consistent listing.** Keep the primary file and sidecar aligned; supply localization, provenance, license evidence, compatibility, and dependency disclosures. Update `builtin-skills.json` for local skills and `manifest.json` statistics when the inventory changes. Do not invent unknown dates or versions.
+4. **Verify before publication.** Run the applicable checks below, review translations, and follow the private-token and public-information checks in the repository policy. Scan the working tree, including hidden files except `.git`, as well as new paths, branch names, commit messages, and proposed PR text. Keep confidential search tokens outside the repository.
+5. **Open a pull request against `main`.** Explain the reusable use case, source and licensing decisions, compatibility impact, and validation performed. Use generic examples, keep both README languages synchronized when changing this guide, and wait for required checks and review before merging.
 
-## Applications: DesireCore Control
-
-Applications shown in the DesireCore marketplace are indexed by [DesireCore Registry](https://github.com/desirecore/registry), not by adding a Skill or MCP entry to this repository. [DesireCore Control 1.4.0](https://github.com/desirecore/registry/tree/main/entries/desirecore-control) is a native application for external agents, with ChatGPT tunnel management; installation never registers internal MCP tools. Its catalog declares the required client and installation-skill versions. Catalog publication does not update the desktop client automatically.
-
-See the [installation guide](docs/desirecore-control.md) / [中文安装说明](docs/desirecore-control.zh-CN.md). Registry maintains the immutable release URL, checksum, application metadata and install/uninstall guide; the open-source implementation stays in `desirecore-agent/desirecore-cdp-mcp`.
-
-## Categories
-
-Valid category slugs are declared in `categories.json`:
-
-```text
-productivity, development, business, creative, design, media,
-communication, research, data, management
-```
+For catalog errors, broken pointers, or documentation issues, open an [issue](https://github.com/desirecore/market/issues) with the listing ID, relevant client version, expected behavior, and sanitized reproduction details. Report upstream implementation bugs to the upstream project when appropriate. Never include credentials, private customer data, or confidential incident evidence in a public issue.
 
 ## Validation
 
-Run these checks before submitting changes:
+Run commands from the repository root. The scripts use their inline dependency declarations, so a separate application build or Node.js dependency installation is not required for catalog validation.
+
+### Catalog and translation checks
 
 ```bash
-# Full market + i18n validation
+# Market statistics, categories, built-in index, entries, sidecars, and skill i18n.
 uv run scripts/i18n/validate-i18n.py
 
-# Catalog sidecar validator unit tests and standalone validation
+# Strict sidecar contracts and complete top-level listing coverage, as required by CI.
+uv run scripts/catalog/validate_catalog_metadata.py --require-complete
+
+# Missing or stale translations; no model API calls and no file changes.
+uv run scripts/i18n/translate.py --check
+```
+
+The checks above do not fetch upstream source repositories. Package installation during environment setup may still require network access. A successful schema check is not proof of upstream license validity, external service availability, or successful installation in every client.
+
+### Focused authoring and validator tests
+
+```bash
+# Limit skill-body validation and translation inspection to one existing skill.
+uv run scripts/i18n/validate-i18n.py skills/web-access
+uv run scripts/i18n/translate.py --check skills/web-access
+
+# Run the relevant single-file suite when changing its validator or generator.
+uv run scripts/i18n/test_validate_i18n.py
 uv run scripts/catalog/test_validate_catalog_metadata.py
 uv run scripts/catalog/test_collection_generator.py
-uv run scripts/catalog/validate_catalog_metadata.py
+```
 
-# Translation freshness check
-uv run scripts/i18n/translate.py --check
+Passing a skill path narrows skill-body validation, but market-level and sidecar checks still run. Choose the relevant test file for your change rather than treating every documentation edit as a reason to run all test suites.
 
-# Verify pinned collection children without changing entry.json (network required;
-# mutable collections are reported and skipped because their output is not reproducible)
+### Network-dependent checks
+
+```bash
+# Compare declared children with pinned upstream collections without rewriting entries.
 uv run scripts/gen-collection-children.py --check
 
-# Optional network check for entry.json source URLs
+# Optional source-URL availability checks in addition to normal validation.
 uv run scripts/i18n/validate-i18n.py --online
 ```
 
-The validators check market stats, category references, `builtin-skills.json`,
-`entry.json` structure, sidecar schema and legacy consistency, immutable source
-evidence, collection identity, i18n completeness, and translation freshness.
-Human-locked translations (`translated_by: human`) must keep `source_hash`
-aligned after manual review. During a data migration,
-`scripts/catalog/validate_catalog_metadata.py --require-complete` additionally
-requires one sidecar for every top-level Agent, Team and Skill.
+Collection checking requires Git and network access. Mutable collections are reported and skipped because their generated inventory is not reproducible. Omitting `--check` runs the generator in write mode; review both the regenerated children and the corresponding sidecar facts before committing.
 
-Detailed i18n guidance is in [docs/I18N.md](docs/I18N.md).
+The [validation workflow](.github/workflows/i18n-validate.yml) is the source of truth for CI. It detects relevant paths and can skip catalog validation for documentation-only changes. A green skipped job is not evidence that Markdown links or bilingual documentation were checked; review those separately.
+
+## Security and trust
+
+**Official catalog hosting does not make every upstream resource DesireCore-authored, unrestricted, or ready to execute.** Review each resource's provenance, governance, availability, license, and compatibility rather than inferring trust from its directory or display name.
+
+All contributions must be reusable, customer-neutral, and safe for public indexing. Keep tenant identities, private organization structures, customer-specific prompts, account mappings, credentials, and deployment details in private AgentFS homes, private repositories, or private runtime configuration. The same boundary applies to Git and GitHub metadata.
+
+A connector or adapter does not bundle, license, install, pay for, or operate the third-party product it accesses. Disclose separately licensed, purchased, hosted, or deployed dependencies in discovery descriptions, compatibility information, localized text, and execution instructions. State operator prerequisites, applicable terms, relevant costs, readiness checks, and safe degraded behavior. When a required dependency is unavailable, stop before the external call and never fabricate success.
+
+If confidential data is exposed, follow the incident-response policy in [AGENTS.md](AGENTS.md). Removing a current file or rewriting a branch does not by itself remove pull-request references, notifications, caches, or other copies.
+
+## Related projects
+
+| Project or guide | Responsibility |
+| --- | --- |
+| [DesireCore Registry](https://github.com/desirecore/registry) | Application catalog entries and authorized lifecycle metadata, separate from this Agent/Team/Skill catalog. |
+| [DesireCore Control listing](https://github.com/desirecore/registry/tree/main/entries/desirecore-control) | Authoritative release source, checksum, compatibility requirements, and installation/uninstallation guide for Control. |
+| [Control installation guide](docs/desirecore-control.md) | Using the native application from a compatible DesireCore client. |
+| [Control implementation](https://github.com/desirecore-agent/desirecore-cdp-mcp) | Application source and releases. |
+
+DesireCore Control is a native application for external agents. Its application listing belongs in Registry, not in a duplicate Skill or internal MCP service entry here. Installing Control does not register internal MCP tools, and publishing a catalog entry does not deploy a compatible desktop client or installation skill. Consult the authoritative listing and guide for current requirements rather than copying a release number into this overview.
 
 ## License
 
-MIT License. See [LICENSE](LICENSE).
+DesireCore-authored repository content is licensed under the [MIT License](LICENSE). **That license does not override the terms of bundled third-party content or external resources.**
+
+Read [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), the resource's own license files, and its `license` / `redistribution` metadata. In particular, the notices identify the bundled `docx`, `pdf`, `pptx`, and `xlsx` skills as source-available reference implementations, not MIT-licensed open-source content; other bundled material may use Apache-2.0 or separate terms. External pointers remain governed by their upstream licenses.
+
+A redistribution mode describes how content is delivered, not a replacement license. Verify the applicable upstream terms before redistribution or production use.
