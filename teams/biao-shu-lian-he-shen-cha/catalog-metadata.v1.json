@@ -11,12 +11,12 @@
       "zh-CN": {
         "name": "标书联合审查",
         "summary": "五角色协作审查条款响应、商务报价和标书图片，并独立复核证据。",
-        "description": "预览发布。安装后先阅读团队仓库中的 USAGE.zh-CN.md，确认规则和输入范围，再提交 T01、B01 与 I01。结果需要人工复核。"
+        "description": "用自然语言说明审查目标和材料；五个角色按重要问题、证据、整改建议与未决事项验收。结构化导出可选，结果需人工复核；真实标书效果尚未验证。"
       },
       "en-US": {
         "name": "Tender Review Team",
         "summary": "Five roles review requirements, pricing and tender images with independent evidence checks.",
-        "description": "Preview listing. Read USAGE.md after installation, confirm rules and input scope, then provide T01, B01 and I01. Results require human review."
+        "description": "Describe goals and materials in natural language. Five roles assess important issues, evidence, actionable corrections and open questions. Structured export is optional; human review is required and real-bid effectiveness is not yet validated."
       }
     },
     "tags": [
@@ -29,28 +29,28 @@
   },
   "release": {
     "state": "known",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-11",
+      "value": "2026-09-13",
       "precision": "day"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-11",
+      "value": "2026-09-13",
       "precision": "day"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-09-11",
+      "value": "2026-09-13",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-11",
+      "value": "2026-09-13",
       "precision": "day"
     }
   },
@@ -58,7 +58,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/biao-shu-lian-he-shen-cha.git",
-      "ref": "0b6e09d8a86b34afe829be2b243fb4ebf47a2663"
+      "ref": "af59d115f11f6a636e5e043b4f7a03f68dc02e33"
     }
   },
   "governance": {
@@ -72,8 +72,8 @@
     "stewardship": "pointer",
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "0b6e09d8a86b34afe829be2b243fb4ebf47a2663",
-      "reviewedAt": "2026-09-11",
+      "reviewedRef": "af59d115f11f6a636e5e043b4f7a03f68dc02e33",
+      "reviewedAt": "2026-09-13",
       "reviewedBy": "desirecore-agent",
       "upstreamEndorsed": false
     }

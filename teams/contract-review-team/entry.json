@@ -9,15 +9,15 @@
     "compliance",
     "legal-collaboration"
   ],
-  "latestVersion": "0.1.26",
+  "latestVersion": "0.1.36",
   "i18n": {
     "zh-CN": {
       "name": "合同审查团队",
-      "shortDesc": "六名成员分工的合同审查团队：输入治理、条款结构化、风险识别、法域合规，最后由独立复核成员回原文重新取证再出报告"
+      "shortDesc": "六名成员协作完成风险与法域并行、独立复核、评分报告和带修订 DOCX 交付。需要用户配置模型服务；合同正文与附件会发送用于分析，结果必须由具备资质的人员复核，能力缺口只生成范围受限报告。"
     },
     "en-US": {
       "name": "Contract Review Team",
-      "shortDesc": "A six-member contract review team: intake gating, clause structuring, risk scanning and jurisdiction checks, closed by an independent reviewer who re-verifies against the source text before reporting"
+      "shortDesc": "Six-member contract review team with parallel risk and jurisdiction checks, independent re-verification, scored reporting, and tracked DOCX delivery. Requires a user-configured model service; contract text and attachments are sent for analysis, results require qualified human review, and capability gaps produce a bounded report."
     }
   },
   "maintainer": {
@@ -33,52 +33,52 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/contract-review-team.git",
     "repoBranch": "main",
-    "ref": "4e4e4759b191d7de1282ed9a9c21473448588e50"
+    "ref": "aa67148a8da07bcf8f654edfca1df6bd35d1c9cb"
   },
   "requiredClientVersion": "10.0.136",
   "avatar": {
     "t": "合审",
     "bg": "linear-gradient(135deg, #5856D6, #3634A3)"
   },
-  "shortDesc": "A six-member contract review team: intake gating, clause structuring, risk scanning and jurisdiction checks, closed by an independent reviewer who re-verifies against the source text before reporting",
-  "updatedAt": "2026-09-08",
-  "fullDesc": "A six-member contract review team: intake gating, clause structuring, risk scanning and jurisdiction checks, closed by an independent reviewer who re-verifies against the source text before reporting",
+  "shortDesc": "Six-member contract review team with parallel risk and jurisdiction checks, independent re-verification, scored reporting, and tracked DOCX delivery. Requires a user-configured model service; contract text and attachments are sent for analysis, results require qualified human review, and capability gaps produce a bounded report.",
+  "updatedAt": "2026-09-15",
+  "fullDesc": "Six-member contract review team with parallel risk and jurisdiction checks, independent re-verification, scored reporting, and tracked DOCX delivery. Requires a user-configured model service; contract text and attachments are sent for analysis, results require qualified human review, and capability gaps produce a bounded report.",
   "members": [
     {
       "id": "contract-review-lead",
       "name": "合同审查统筹官",
       "role": "supervisor",
-      "version": "1.0.14"
+      "version": "1.0.21"
     },
     {
       "id": "contract-intake",
       "name": "合同输入治理官",
       "role": "member",
-      "version": "1.0.3"
+      "version": "1.0.6"
     },
     {
       "id": "clause-extractor",
       "name": "条款结构化官",
       "role": "member",
-      "version": "1.0.6"
+      "version": "1.1.0"
     },
     {
       "id": "risk-scanner",
       "name": "合同风险识别官",
       "role": "member",
-      "version": "1.0.4"
+      "version": "1.1.0"
     },
     {
       "id": "jurisdiction-auditor",
       "name": "法域合规官",
       "role": "member",
-      "version": "1.2.1"
+      "version": "1.3.0"
     },
     {
       "id": "review-reporter",
       "name": "合同复核出报告官",
       "role": "member",
-      "version": "1.0.5"
+      "version": "1.0.6"
     }
   ],
   "capabilities": [

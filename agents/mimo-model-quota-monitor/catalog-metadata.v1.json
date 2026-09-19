@@ -1,0 +1,128 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "agent",
+    "id": "mimo-model-quota-monitor"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "MiMo 模型余量检测",
+        "summary": "定时巡检小米 MiMo 开放平台 Token Plan 的套餐额度：总量、已用、剩余与重置时间，余量偏低、消耗异常或登录失效时主动提醒，同一情况只提醒一次。只读，不花钱不改设置；需在 DesireCore 账号库保存 MiMo 账号，首次登录由你完成一次短信验证。",
+        "description": "用内置浏览器巡检小米 MiMo 开放平台 Token Plan 的套餐额度，把结果结构化落盘，并在出现新情况时主动提醒你。整个巡检只用内置浏览器和文件工具，不执行任何命令。\n\n每轮只巡检一个账号，流程固定：核对账号库、读取上一轮结果并选定该账号独占的浏览器环境 → 打开控制台 → 判定登录态（失效时先免填表恢复，再用账号库代填登录）→ 读取套餐详情、用量与余额 → 校验 → 与上一轮对比、判定告警项并写入本轮历史 → 需要时提醒 → 关闭浏览器会话 → 最后写入最新结果。\n\n产出\n- 工作目录下 mimo-quota/<账号 id>/latest.json（最近一次结果）与 history/（历次结果，每轮一个文件）\n- 每条结果包含套餐档位、总额度、已用、剩余、剩余百分比、重置时间（UTC 原文与北京时间）、与上次成功巡检相比的变化、数据来源（接口或页面）、数据质量和本轮成立的告警项\n\n什么时候提醒\n每轮定时巡检结束后，这个 Agent 的对话里都会出现一条一行的执行回执。除此之外，出现下面这些情况时会主动提醒，同一情况持续期间只提醒一次：\n- 剩余额度降到 20% 及以下，或距离重置不超过 3 天\n- 相邻两次成功巡检之间剩余额度下降 10 个百分点以上（两次间隔不超过 24 小时；额度重置回满不算）\n- 数据校验对不上\n- 需要你处理的问题：账号库里找不到账号、账号还没有浏览器环境、登录失效且自动恢复失败、遇到人机验证、页面改版等\n- 可能自行恢复的问题（浏览器暂时不可用、网络失败、浏览器环境被占用、会话中断、操作结果未知）连续两轮都没恢复\n\n前置条件\n1. DesireCore 客户端 10.0.156 或更高版本\n2. 在 DesireCore 的账号库里保存 MiMo 开放平台账号，「站点 / 服务」填 platform.xiaomimimo.com，巡检时用它的 id 指定账号\n3. 第一次巡检请在对话里做：它会为账号新建浏览器环境；小米会要求短信验证，你在浏览器面板里完成后点「恢复 Agent」并回复它，它会接着取数。之后登录态保存在该账号独占的持久化浏览器环境里\n4. 定时巡检让 Agent 在对话里帮你建，它会同时设置完成判据（要求每轮写出 latest.json），没做完就收场时平台会续跑，仍未完成时通知你；定时巡检需要 DesireCore 保持运行\n\n边界（不会做的事）\n- 只读：只访问登录状态、套餐详情、用量、余额四个查询接口，不购买、不续费、不退订、不改套餐、不重置 API Key、不退出登录\n- 不绕过滑块、图形验证码或短信验证，遇到就停下请你处理\n- 不保存、不输出密码、Cookie、验证码或完整 API Key；手机号只保留后 4 位\n- 不编造数值：取不到就记为未取到并说明原因\n- 不会因为一个账号登录不上就换用另一个账号\n- 不执行命令、不启动其他程序\n\n隐私\n密码在 DesireCore 加密存储里，登录态在本机浏览器环境里，巡检结果只写你的工作目录；本 Agent 不会把这些信息发往 MiMo 开放平台以外的任何地方。"
+      },
+      "en-US": {
+        "name": "MiMo Quota Monitor",
+        "summary": "Checks the Token Plan quota on the Xiaomi MiMo open platform on a schedule — total, used, remaining and reset time — and notifies you once when quota runs low, consumption spikes or the login expires. Read-only, never spends money or changes settings; requires a MiMo account saved in the DesireCore account store and a one-time SMS verification that you complete yourself.",
+        "description": "Checks the Token Plan quota on the Xiaomi MiMo open platform with the built-in browser, records the result in a structured form and notifies you when something new comes up. The whole check uses only the built-in browser and file tools and runs no commands.\n\nEach run checks exactly one account in a fixed sequence: verify the account in the account store, read the previous result and pick the account's dedicated browser environment, open the console, confirm the login (restoring it without the form first, then filling the form from the account store), read plan detail, usage and balance, validate, compare with the previous result, work out the alerts and write this run's history entry, notify if needed, close the browser session, and finally write the latest result.\n\nOutputs\n- mimo-quota/<account id>/latest.json (the most recent result) and history/ (every result, one file per run) in the work directory\n- Each result records the plan tier, total quota, used, remaining, remaining percentage, reset time (original UTC value and Beijing time), the change since the last successful check, the data source (API or page), data quality and the alerts that apply to the run\n\nWhen it notifies you\nEvery scheduled check leaves a one-line run receipt in this Agent's conversation. On top of that, the Agent sends you a message when one of the situations below appears, once per situation while it lasts:\n- Remaining quota drops to 20% or below, or the quota resets within 3 days\n- Remaining quota dropped by 10 points or more between two consecutive successful checks no more than 24 hours apart (a reset back to full does not count)\n- The figures fail validation\n- Problems that need you: the account is missing from the account store, the account has no browser environment yet, the login expired and could not be restored, a human verification appeared, the page changed, and similar\n- Problems that may clear up on their own (browser temporarily unavailable, network failure, browser environment in use, session interrupted, unknown operation outcome) persisted for two checks in a row\n\nPrerequisites\n1. DesireCore client 10.0.156 or later\n2. Save your MiMo open platform account in the DesireCore account store with \"Site / service\" set to platform.xiaomimimo.com, and refer to it by id when checking\n3. Run the first check in a conversation: the Agent creates a browser environment for the account; Xiaomi requires SMS verification, which you complete in the browser panel before clicking \"Resume Agent\" and replying, and the Agent then carries on. After that the login is kept in a persistent browser environment dedicated to that account\n4. Let the Agent create scheduled checks for you in a conversation; it also sets a completion contract (each run must write latest.json) so that an unfinished run is continued by the platform and reported to you if it still does not finish. Scheduled checks need DesireCore running\n\nBoundaries (what it will not do)\n- Read-only: it calls only the login-status, plan-detail, usage and balance query endpoints; it never purchases, renews, cancels, changes the plan, resets an API key or logs out\n- It never bypasses sliders, image captchas or SMS verification; it stops and asks you\n- It never stores or outputs passwords, cookies, verification codes or full API keys; phone numbers keep only the last 4 digits\n- It never invents numbers; when a value cannot be read the run is recorded as blocked with the reason\n- It never switches to another account because one account cannot log in\n- It never runs commands or launches other programs\n\nPrivacy\nThe password stays in DesireCore's encrypted storage, the login in the local browser environment, and the results in your work directory; this Agent never sends any of it anywhere other than the MiMo open platform itself."
+      }
+    },
+    "category": "management",
+    "tags": [
+      "mimo",
+      "quota",
+      "monitoring",
+      "browser",
+      "xiaomi"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-09-13",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "known",
+      "value": "2026-09-12",
+      "precision": "day"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-09-13",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-13",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore-agent/mimo-model-quota-monitor.git",
+      "ref": "911c0a226346a8157f07d5218207f16e32ea82e0"
+    }
+  },
+  "governance": {
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "source-pointer-only",
+    "stewardship": "official",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "911c0a226346a8157f07d5218207f16e32ea82e0",
+      "reviewedAt": "2026-09-13",
+      "reviewedBy": "yi-ge",
+      "upstreamEndorsed": true
+    },
+    "upstreamMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requiredClientVersion": "10.0.156",
+    "requirements": [
+      {
+        "kind": "permission",
+        "value": "A Xiaomi MiMo open platform account saved in the DesireCore account store with its site set to platform.xiaomimimo.com. The Agent fills the login form through secret placeholders and never reads the password in plain text; without the account it records the run as blocked and says what is missing."
+      },
+      {
+        "kind": "permission",
+        "value": "A one-time SMS verification completed by the user in the built-in browser panel during the first check, which runs in a conversation. The Agent stops at any slider, image captcha or SMS verification and never tries to bypass it."
+      },
+      {
+        "kind": "connection",
+        "value": "The built-in browser with a persistent browser space per account; each account's login is kept in its own space and selected by id."
+      },
+      {
+        "kind": "runtime",
+        "value": "DesireCore client 10.0.156 or later. Scheduled checks need DesireCore running and should be created by the Agent in a conversation so that a completion contract (requiring latest.json) is set; the check itself runs no commands."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "agent",
+    "installPolicy": "market",
+    "updatePolicy": "market",
+    "persona": {
+      "role": "Read-only Token Plan quota patrol for the Xiaomi MiMo open platform",
+      "traits": [
+        "reads only an allow-list of query endpoints and never spends money or changes settings",
+        "one account per persistent browser space, selected by id",
+        "records every run, including blocked ones, instead of inventing numbers",
+        "stops at any human verification and asks the user"
+      ]
+    }
+  }
+}

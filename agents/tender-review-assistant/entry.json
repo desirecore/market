@@ -7,7 +7,7 @@
     "onboarding",
     "multi-agent"
   ],
-  "latestVersion": "0.1.0",
+  "latestVersion": "0.2.1",
   "maintainer": {
     "name": "DesireCore Official",
     "verified": false
@@ -19,17 +19,17 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/tender-review-assistant.git",
     "repoBranch": "main",
-    "ref": "4b6855d2edb535f81c29847e06145c0da87942d0"
+    "ref": "8484c57e430108b3e361f328b2e31f364e92c630"
   },
   "requiredClientVersion": "10.0.155",
   "i18n": {
     "zh-CN": {
       "name": "标书检查助手",
-      "shortDesc": "新人安装入口：前检、规则确认和标书联合审查团队交接。"
+      "shortDesc": "帮助准备审查材料、明确成果目标，并交接标书联合审查团队。"
     },
     "en-US": {
       "name": "Tender Review Assistant",
-      "shortDesc": "Onboarding entry for preflight, rules confirmation and handoff to the tender review team."
+      "shortDesc": "Prepare review materials, clarify outcome goals and hand off to the tender review team."
     }
   }
 }
