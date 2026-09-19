@@ -32,8 +32,8 @@ The market currently contains:
 - `5` Agents: `desirecore`, `dingtalk-workspace`, `feishu-orchestrator`, `invoice-organizer`, `wecom-assistant`
 - `1` Team: `contract-review-team`
 - `40` local built-in skills with `SKILL.md`
-- `29` external skill entries with `entry.json`
-- `69` publishable skills in total (`SKILL.md` + `entry.json`)
+- `31` external skill entries with `entry.json`
+- `71` publishable skills in total (`SKILL.md` + `entry.json`)
 
 ## Skill Sources
 
@@ -58,10 +58,10 @@ are preserved. An ID must not appear in both `skills` and `retired`.
 External entries are marketplace pointers to Git/Web/ZIP sources:
 
 ```text
-agent-reach, ai-news-radar, amap-jsapi-skill, baoyu-skills, dingtalk-api,
+agent-reach, ai-news-radar, amap-jsapi-skill, archify, baoyu-skills, dingtalk-api,
 dingtalk-cli, flyai-skill, follow-builders, humanizer, humanizer-zh,
 ian-xiaohei-illustrations, impeccable, karpathy-guidelines, khazix-skills,
-larksuite-cli, last30days, luckin-my-coffee, marketingskills,
+larksuite-cli, last30days, luckin-my-coffee, lumarescue, marketingskills,
 mattpocock-skills, minimax-image-gen, minimax-tts, mt-paotui-for-client,
 netease-skills, nuwa-skill, taste-skill, watch, watchless,
 wechatpay-skills, wecom-cli
