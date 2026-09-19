@@ -4,7 +4,7 @@
 
 ## 原生应用不等于内部服务
 
-**DesireCore Control** 等 `native-app` 通过 App 获取流程与 `app-install-manager`（1.4.0 或更新版本）安装和管理。它向外提供的 MCP 端点是给外部智能体使用的，不代表允许注册到 DesireCore 的服务目录或 Agent MCP 配置。不得改成 `mcp`/`docker-app`、派生内部服务或为它调用服务注册 API。运行时 GUI 接管仍使用受治理的 `ControlDesireCoreGui`。
+**DesireCore Control** 等 `native-app` 通过 App 获取流程与 `app-install-manager`（1.5.2 或更新版本）安装和管理。它向外提供的 MCP 端点是给外部智能体使用的，不代表允许注册到 DesireCore 的服务目录或 Agent MCP 配置。不得改成 `mcp`/`docker-app`、派生内部服务或为它调用服务注册 API。运行时 GUI 接管仍使用受治理的 `ControlDesireCoreGui`。
 
 ## L0：一句话总结
 

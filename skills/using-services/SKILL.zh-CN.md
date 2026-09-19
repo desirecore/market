@@ -4,7 +4,7 @@
 
 ## 原生应用与对外协议
 
-**DesireCore Control** 是供外部智能体使用的 `native-app`，不是已经安装的内部 MCP 服务。看到它的管理页或对外 `/mcp` 端点，不代表本 Agent 获准通过 `using-services` 调用、注册它或绕过 GUI 审批。应用生命周期使用 `app-install-manager`（1.4.0 或更新版本），运行时 GUI 接管使用受治理的 `ControlDesireCoreGui`。应用安装不得生成内部服务或 `svc-*` 技能。
+**DesireCore Control** 是供外部智能体使用的 `native-app`，不是已经安装的内部 MCP 服务。看到它的管理页或对外 `/mcp` 端点，不代表本 Agent 获准通过 `using-services` 调用、注册它或绕过 GUI 审批。应用生命周期使用 `app-install-manager`（1.5.2 或更新版本），运行时 GUI 接管使用受治理的 `ControlDesireCoreGui`。应用安装不得生成内部服务或 `svc-*` 技能。
 
 ## L0：一句话总结
 
