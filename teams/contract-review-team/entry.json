@@ -13,10 +13,14 @@
   "i18n": {
     "zh-CN": {
       "name": "合同审查团队",
+      "fullDesc": "六名成员按固定且可观察的步骤协作：文件覆盖、原文证据、真实回执、独立复核和明确欠账。Lead 将法域与风险检查真正并行，再生成评分报告和带修订 DOCX。合同正文与附件会发送到用户配置的模型服务用于分析；调用前必须确认 provider/model 路由与服务可用性，不可用时停止并只生成 capability_debt/blocked 的范围受限报告，不得伪造法律结论。使用前必须由具备资质的人员复核，服务条款与额外费用由用户负责。",
+      "privacy": "合同正文与附件会发送到用户配置的模型服务进行辅助分析；团队不宣称离线处理或零外发。市场只分发公开 Git 指针，安装后产出必须由具备资质的法务或律师复核，不构成法律意见。",
       "shortDesc": "六名成员协作完成风险与法域并行、独立复核、评分报告和带修订 DOCX 交付。需要用户配置模型服务；合同正文与附件会发送用于分析，结果必须由具备资质的人员复核，能力缺口只生成范围受限报告。"
     },
     "en-US": {
       "name": "Contract Review Team",
+      "fullDesc": "Six members collaborate through stable, observable steps: input coverage, source evidence, real receipts, independent re-verification, and explicit gaps. The Lead fans out jurisdiction and risk checks in parallel, then produces a scored report and tracked DOCX. Contract text and attachments are sent to the user-configured model service for analysis; qualified human review remains required, and missing capabilities produce only a bounded report.",
+      "privacy": "Contract text and attachments are sent to the user-configured model service for assisted analysis. The team does not claim offline processing or zero external data transmission. The Market only distributes a public Git pointer. Outputs require review by qualified legal personnel or a lawyer and do not constitute legal advice.",
       "shortDesc": "Six-member contract review team with parallel risk and jurisdiction checks, independent re-verification, scored reporting, and tracked DOCX delivery. Requires a user-configured model service; contract text and attachments are sent for analysis, results require qualified human review, and capability gaps produce a bounded report."
     }
   },
