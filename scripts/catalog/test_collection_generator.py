@@ -66,6 +66,16 @@ class CollectionGeneratorCheckTests(unittest.TestCase):
         self.assertEqual(before, self.entry_path.read_bytes(), "--check must never write entry.json")
         return result
 
+    def test_discovery_uses_portable_git_paths(self) -> None:
+        repo = Path(self.tempdir.name) / "repo"
+        skill_dir = repo / "skills" / "child-one"
+        skill_dir.mkdir(parents=True)
+        (skill_dir / "SKILL.md").write_text("---\nname: child-one\n---\n", encoding="utf-8")
+        self.assertEqual(
+            GENERATOR.discover_children(repo),
+            [{"id": "child-one", "path": "skills/child-one"}],
+        )
+
     def test_check_accepts_current_children_without_writing(self) -> None:
         self.assertTrue(self.run_check(self.children))
 

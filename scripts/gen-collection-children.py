@@ -145,7 +145,8 @@ def discover_children(repo_dir: Path) -> list[dict]:
         seen[child_id] = str(rel.parent)
 
         fm = parse_frontmatter(skill_md)
-        child: dict = {"id": child_id, "path": str(rel.parent)}
+        # Git catalog paths use POSIX separators on every contributor platform.
+        child: dict = {"id": child_id, "path": rel.parent.as_posix()}
         name = fm.get("display_name") or fm.get("name")
         if name and str(name) != child_id:
             child["name"] = str(name)
