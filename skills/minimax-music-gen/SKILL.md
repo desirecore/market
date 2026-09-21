@@ -6,7 +6,7 @@ description: >-
   generation, and music cover. Use when 用户提到 生成音乐、文生音乐、
   AI 作曲、创作歌曲、写一首歌、音乐生成、AI 音乐、MiniMax 音乐、
   作词作曲、纯音乐、伴奏、翻唱、cover。
-license: Complete terms in LICENSE.txt
+license: MIT
 version: 1.1.5
 type: procedural
 risk_level: low

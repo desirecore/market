@@ -14,7 +14,7 @@ description: >-
   查资料、抓取网页、研究、调研、最新资讯、文档查询、对比、竞品、技术文档、
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
-license: Complete terms in LICENSE.txt
+license: MIT
 version: 3.4.4
 type: procedural
 risk_level: low

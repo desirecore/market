@@ -34,5 +34,6 @@
     "repoBranch": "main",
     "path": "plugin/skills/impeccable",
     "ref": "e4ab5e24bdf5321b72163d2fbcbe6fa985c848ba"
-  }
+  },
+  "latestVersion": "3.9.1"
 }

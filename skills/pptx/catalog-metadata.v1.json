@@ -54,7 +54,8 @@
     "stewardship": "community",
     "availability": "installable",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "Anthropic Source Available License"
     },
     "redistribution": "verify-package-terms",
     "listingMaintainer": {

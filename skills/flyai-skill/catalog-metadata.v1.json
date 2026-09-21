@@ -23,7 +23,9 @@
     ]
   },
   "release": {
-    "state": "unknown"
+    "state": "known",
+    "version": "1.0.15",
+    "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {

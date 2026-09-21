@@ -6,7 +6,7 @@ description: >-
   The API is asynchronous — submit a task, poll for status, then download.
   Use when 用户提到 生成视频、文生视频、AI 视频、创建视频、视频生成、
   动画生成、MiniMax 视频、海螺、Hailuo、图片变视频、图生视频。
-license: Complete terms in LICENSE.txt
+license: MIT
 version: 1.3.1
 type: procedural
 risk_level: low

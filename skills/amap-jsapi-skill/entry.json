@@ -23,11 +23,12 @@
     "url": "https://clawhub.ai/lbs-amap/skills/amap-jsapi-skill"
   },
   "stewardship": "community",
-  "license": "MIT-0",
+  "license": "MIT",
   "redistribution": "allowed",
   "source": {
     "kind": "web",
     "repoUrl": "https://clawhub.ai/api/v1/skills/amap-jsapi-skill/file?path=SKILL.md&ownerHandle=lbs-amap",
     "sha256": "cf2f06cc5abf5e41a626f823c50575ab52c81aecbceca5abd4e69d56ca5c5d75"
-  }
+  },
+  "latestVersion": "1.1.1"
 }
