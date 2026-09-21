@@ -1,4 +1,5 @@
 ---
+license: "MIT"
 name: markdown
 description: >-
   Use this skill whenever the user wants to create, write, organize, or draft

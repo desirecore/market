@@ -1,4 +1,5 @@
 ---
+license: "MIT"
 name: manage-skills
 description: >-
   管理 Agent 的技能生命周期：通过 HTTP API 导入、安装、更新、删除技能，

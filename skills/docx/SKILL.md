@@ -1,4 +1,5 @@
 ---
+license: "Anthropic Source Available License"
 name: docx
 description: >-
   Use this skill whenever the user wants to create, read, edit, or manipulate

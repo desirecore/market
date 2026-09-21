@@ -1,4 +1,5 @@
 ---
+license: "MIT"
 name: workflow
 description: >-
   引导 Agent 设计、编辑、测试和执行 Workflow 工作流。Use when

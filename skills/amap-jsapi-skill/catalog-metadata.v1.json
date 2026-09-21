@@ -56,7 +56,8 @@
     "stewardship": "community",
     "availability": "listing-only",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {

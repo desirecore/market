@@ -7,7 +7,7 @@ description: >-
   /images/generations API for synchronous image generation.
   Use when the user mentions: generate image, draw, text-to-image, create image,
   AI painting, illustration, design picture.
-license: Complete terms in LICENSE.txt
+license: MIT
 version: 1.4.2
 type: procedural
 risk_level: low

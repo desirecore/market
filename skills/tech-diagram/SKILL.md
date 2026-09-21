@@ -1,4 +1,5 @@
 ---
+license: "MIT"
 name: tech-diagram
 description: >-
   Use this skill when the user wants to turn a description into a technical

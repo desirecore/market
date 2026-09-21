@@ -1,4 +1,5 @@
 ---
+license: "Anthropic Source Available License"
 name: pdf
 description: >-
   Use this skill whenever the user wants to do anything with PDF files. This

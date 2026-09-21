@@ -97,6 +97,10 @@ The tree illustrates supported shapes, not files required in every directory. Lo
 
 Use the schemas and existing listings as implementation references. A shortened JSON example is not a substitute for the complete client contract.
 
+### Static catalog facts
+
+Catalog counts are file-derived, not usage statistics. Do not author views, downloads, ratings, Stars, install counts, or runtime health. Missing publisher evidence remains unknown. A listed release is not a live latest-version query. Preserve the upstream release identifier; do not invent a three-part version to fill a missing fact. New team localization fields and two-part pointer versions must wait until the matching client contract is released before being published to the shared catalog. Regenerate bootstrap archives through the client repository's synchronization tools, never by editing ZIP contents manually.
+
 ### Local skills
 
 A local skill lives at `skills/<id>/SKILL.md` and combines YAML frontmatter with a Markdown instruction body. Its top-level `name` must match the directory's lowercase ASCII slug; localized display names belong in `metadata.i18n`.

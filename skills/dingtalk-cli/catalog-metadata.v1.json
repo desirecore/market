@@ -53,7 +53,8 @@
     "stewardship": "partner",
     "availability": "listing-only",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "Apache-2.0"
     },
     "redistribution": "verify-package-terms",
     "branding": {
@@ -97,7 +98,6 @@
   },
   "spec": {
     "kind": "skill",
-    "skillType": "procedural",
     "riskLevel": "high",
     "collection": {
       "role": "parent",

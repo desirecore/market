@@ -9,7 +9,7 @@ description: >-
   generic AI aesthetics. Use when 用户提到 前端设计、网页设计、UI 设计、
   界面设计、组件、海报、Landing Page、落地页、React 组件、Vue 组件、
   CSS 样式、美化界面、设计一个、做一个网页、官网、仪表盘、Dashboard。
-license: Complete terms in LICENSE.txt
+license: Apache-2.0
 version: 1.0.2
 type: procedural
 risk_level: low

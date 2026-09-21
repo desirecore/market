@@ -7,7 +7,7 @@ description: >-
   Use when 用户提到 图生图、修改图片、编辑图片、图片变换、改图、
   换背景、换风格、图片编辑、以图生图、参考图、基于这张图、
   把这张图改成、在这张图上、image edit、img2img。
-license: Complete terms in LICENSE.txt
+license: MIT
 version: 1.0.2
 type: procedural
 risk_level: low

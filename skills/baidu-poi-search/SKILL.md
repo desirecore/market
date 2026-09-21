@@ -1,4 +1,5 @@
 ---
+license: "MIT"
 name: baidu-poi-search
 description: >-
   百度地图企业 POI 搜索——输入企业名称，返回 POI 名称/地址/经纬度/分支机构。Use when 用户提到"查企业地址"、"查公司位置"、"POI搜索"、"企业地图"、"经纬度"、"查分支机构"、"百度地图"、"企业网点"、"周边企业"。
