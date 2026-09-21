@@ -1,4 +1,5 @@
 ---
+license: "MIT"
 name: mail-operations
 description: >-
   Use this skill whenever the user wants to interact with email. This includes

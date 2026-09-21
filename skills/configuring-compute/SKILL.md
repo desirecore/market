@@ -1,4 +1,5 @@
 ---
+license: "MIT"
 name: configuring-compute
 description: >-
   Configure DesireCore compute providers through governed tools: inspect,

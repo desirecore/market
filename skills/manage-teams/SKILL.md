@@ -1,4 +1,5 @@
 ---
+license: "MIT"
 name: manage-teams
 description: 创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 持续协作、建立组织架构，或发布、安装和同步团队仓库时。
 version: 1.3.0

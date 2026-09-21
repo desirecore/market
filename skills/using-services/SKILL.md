@@ -1,4 +1,5 @@
 ---
+license: "MIT"
 name: using-services
 description: >-
   Discover and invoke HTTP/MCP services already registered in the global

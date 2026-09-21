@@ -1,4 +1,5 @@
 ---
+license: "Anthropic Source Available License"
 name: pptx
 description: >-
   Use this skill any time a .pptx file is involved in any way — as input,

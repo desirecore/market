@@ -1,4 +1,5 @@
 ---
+license: "MIT"
 name: dev-environment-setup
 description: >-
   Use this skill as a router/index when the user faces a development

@@ -1,4 +1,5 @@
 ---
+license: "MIT"
 name: update-agent
 description: >-
   安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent

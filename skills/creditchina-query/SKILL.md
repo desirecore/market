@@ -1,4 +1,5 @@
 ---
+license: "MIT"
 name: creditchina-query
 description: >-
   信用中国企业信用信息查询——输入企业名称，自动通过图形验证码（ddddocr 本地 OCR 100ms），返回信用信息（行政处罚/失信被执行/行政许可）。Use when 用户提到"查信用"、"信用中国"、"行政处罚"、"失信企业"、"企业信用"、"失信被执行人"、"行政许可"、"creditchina"。

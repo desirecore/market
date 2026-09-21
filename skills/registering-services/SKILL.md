@@ -1,4 +1,5 @@
 ---
+license: "MIT"
 name: registering-services
 description: >-
   Register an external HTTP/MCP service to the global Application & Service

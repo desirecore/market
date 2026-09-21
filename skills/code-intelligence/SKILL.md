@@ -1,4 +1,5 @@
 ---
+license: "MIT"
 name: code-intelligence
 description: >-
   Use this skill when the user needs semantic code navigation backed by a

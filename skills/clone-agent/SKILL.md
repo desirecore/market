@@ -1,4 +1,5 @@
 ---
+license: "MIT"
 name: clone-agent
 description: >-
   完整克隆现有智能体为独立本地副本，并安全处理私有记忆、偏好、关系与团队分发影响。Use when 用户要求复制、克隆或基于现有 Agent 创建独立变体。

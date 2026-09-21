@@ -1,4 +1,5 @@
 ---
+license: "MIT"
 name: nodejs-runtime
 description: >-
   Use this skill when the user needs to install, upgrade, or troubleshoot

@@ -1,4 +1,5 @@
 ---
+license: "MIT"
 name: skill-creator
 description: >-
   引导用户创建和编辑符合规范的 SKILL.md 技能包。支持 DesireCore 完整格式
