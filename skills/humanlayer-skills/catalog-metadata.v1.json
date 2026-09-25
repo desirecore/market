@@ -1,0 +1,234 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "humanlayer-skills"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "HumanLayer Skills",
+        "summary": "HumanLayer's Claude Code skill collection for visual explanations, visual PR outlines, CLAUDE.md rewrites, React prop narrowing, and iterated coding-agent loops"
+      },
+      "zh-CN": {
+        "name": "HumanLayer Skills",
+        "summary": "HumanLayer 出品的 Claude Code 技能合集：可视化讲解、可视化 PR 描述、CLAUDE.md 改写、React 属性收窄与迭代式编码智能体循环搭建"
+      }
+    },
+    "category": "development",
+    "tags": [
+      "claude-code",
+      "coding-agents",
+      "pull-request",
+      "claude-md",
+      "humanlayer"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-09-25T06:52:12Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-17T12:05:06Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/humanlayer/skills.git",
+      "ref": "ca7c8088db69e315a8b2deea43820270457f8f3c"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "HumanLayer",
+      "url": "https://github.com/humanlayer/skills",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "collection": {
+      "role": "parent",
+      "childCount": 6,
+      "children": [
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "build-iterated-agentic-loop",
+            "parentId": "humanlayer-skills"
+          },
+          "path": "plugins/build-iterated-agentic-loop/skills/build-iterated-agentic-loop",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "build-iterated-agentic-loop",
+                "summary": "build a repo-local skill and install a matching iterated coding-agent GitHub Actions workflow, prompt, memory file, and reference templates"
+              },
+              "zh-CN": {
+                "name": "build-iterated-agentic-loop",
+                "summary": "build a repo-local skill and install a matching iterated coding-agent GitHub Actions workflow, prompt, memory file, and reference templates"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "design-control-loop",
+            "parentId": "humanlayer-skills"
+          },
+          "path": "plugins/design-control-loop/skills/design-control-loop",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "design-control-loop",
+                "summary": "interview the user to design an agentic control loop (sensor, controller, actuator under disturbances) tailored to their codebase, then build it as locally-runn…"
+              },
+              "zh-CN": {
+                "name": "design-control-loop",
+                "summary": "interview the user to design an agentic control loop (sensor, controller, actuator under disturbances) tailored to their codebase, then build it as locally-runn…"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "improve-claude-md",
+            "parentId": "humanlayer-skills"
+          },
+          "path": "plugins/improve-claude-md/skills/improve-claude-md",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "improve-claude-md",
+                "summary": "improve a CLAUDE.md file using <important if> blocks to improve instruction adherence"
+              },
+              "zh-CN": {
+                "name": "improve-claude-md",
+                "summary": "improve a CLAUDE.md file using <important if> blocks to improve instruction adherence"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "narrow-react-prop-types",
+            "parentId": "humanlayer-skills"
+          },
+          "path": "plugins/narrow-react-prop-types/skills/narrow-react-prop-types",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "narrow-react-prop-types",
+                "summary": "narrow React component prop types to match live code paths"
+              },
+              "zh-CN": {
+                "name": "narrow-react-prop-types",
+                "summary": "narrow React component prop types to match live code paths"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "show-me",
+            "parentId": "humanlayer-skills"
+          },
+          "path": "plugins/show-me/skills/show-me",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "show-me",
+                "summary": "Help the user understand the current topic visually with concise diagrams, code-shape sketches, and focused HTML artifacts."
+              },
+              "zh-CN": {
+                "name": "show-me",
+                "summary": "Help the user understand the current topic visually with concise diagrams, code-shape sketches, and focused HTML artifacts."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "visual-pr",
+            "parentId": "humanlayer-skills"
+          },
+          "path": "plugins/visual-pr/skills/visual-pr",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "visual-pr",
+                "summary": "Only use when the user explicitly invokes this skill by name."
+              },
+              "zh-CN": {
+                "name": "visual-pr",
+                "summary": "Only use when the user explicitly invokes this skill by name."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        }
+      ]
+    }
+  }
+}
