@@ -28,7 +28,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-08-31T11:41:31Z",
+      "value": "2026-09-25T07:48:53Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -39,14 +39,14 @@
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-08-31T11:41:31Z",
+      "value": "2026-09-23T10:09:22Z",
       "precision": "second"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
-      "url": "https://github.com/open-dingtalk/dingtalk-workspace-cli.git"
+      "url": "https://github.com/DingTalk-Real-AI/dingtalk-workspace-cli.git"
     }
   },
   "governance": {
@@ -63,7 +63,7 @@
       "logoStatus": "not-used"
     },
     "upstreamMaintainer": {
-      "name": "open-dingtalk",
+      "name": "DingTalk-Real-AI",
       "url": "https://www.npmjs.com/package/dingtalk-workspace-cli",
       "verified": false
     }
@@ -101,7 +101,7 @@
     "riskLevel": "high",
     "collection": {
       "role": "parent",
-      "childCount": 14,
+      "childCount": 15,
       "children": [
         {
           "identity": {
@@ -109,7 +109,7 @@
             "id": "dingtalk-aisearch",
             "parentId": "dingtalk-cli"
           },
-          "path": "multi/dingtalk-aisearch",
+          "path": "skills/multi/dingtalk-aisearch",
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
@@ -134,7 +134,7 @@
             "id": "dingtalk-aitable",
             "parentId": "dingtalk-cli"
           },
-          "path": "multi/dingtalk-aitable",
+          "path": "skills/multi/dingtalk-aitable",
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
@@ -159,7 +159,7 @@
             "id": "dingtalk-calendar",
             "parentId": "dingtalk-cli"
           },
-          "path": "multi/dingtalk-calendar",
+          "path": "skills/multi/dingtalk-calendar",
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
@@ -184,7 +184,7 @@
             "id": "dingtalk-chat",
             "parentId": "dingtalk-cli"
           },
-          "path": "multi/dingtalk-chat",
+          "path": "skills/multi/dingtalk-chat",
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
@@ -209,7 +209,7 @@
             "id": "dingtalk-contact",
             "parentId": "dingtalk-cli"
           },
-          "path": "multi/dingtalk-contact",
+          "path": "skills/multi/dingtalk-contact",
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
@@ -234,7 +234,7 @@
             "id": "dingtalk-doc",
             "parentId": "dingtalk-cli"
           },
-          "path": "multi/dingtalk-doc",
+          "path": "skills/multi/dingtalk-doc",
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
@@ -259,7 +259,7 @@
             "id": "dingtalk-drive",
             "parentId": "dingtalk-cli"
           },
-          "path": "multi/dingtalk-drive",
+          "path": "skills/multi/dingtalk-drive",
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
@@ -284,7 +284,7 @@
             "id": "dingtalk-event",
             "parentId": "dingtalk-cli"
           },
-          "path": "multi/dingtalk-event",
+          "path": "skills/multi/dingtalk-event",
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
@@ -309,7 +309,7 @@
             "id": "dingtalk-mail",
             "parentId": "dingtalk-cli"
           },
-          "path": "multi/dingtalk-mail",
+          "path": "skills/multi/dingtalk-mail",
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
@@ -334,7 +334,7 @@
             "id": "dingtalk-minutes",
             "parentId": "dingtalk-cli"
           },
-          "path": "multi/dingtalk-minutes",
+          "path": "skills/multi/dingtalk-minutes",
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
@@ -359,7 +359,7 @@
             "id": "dingtalk-misc",
             "parentId": "dingtalk-cli"
           },
-          "path": "multi/dingtalk-misc",
+          "path": "skills/multi/dingtalk-misc",
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
@@ -384,7 +384,7 @@
             "id": "dingtalk-shared",
             "parentId": "dingtalk-cli"
           },
-          "path": "multi/dingtalk-shared",
+          "path": "skills/multi/dingtalk-shared",
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
@@ -406,10 +406,35 @@
         {
           "identity": {
             "kind": "skill",
+            "id": "dingtalk-tag",
+            "parentId": "dingtalk-cli"
+          },
+          "path": "skills/multi/dingtalk-tag",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "dingtalk-tag",
+                "summary": "Create, query, update, publish and delete DingTalk digital employees in natural language, manage their skills and MCP resources, check execution status, save local profiles and connect a local DSH. Command prefix: dws dingtalk-tag."
+              },
+              "zh-CN": {
+                "name": "dingtalk-tag",
+                "summary": "钉钉数字员工的自然语言创建、查询、修改、发布、删除、能力资源、执行状态、本地 Profile 落盘与 DSH 接入。命令前缀 dws dingtalk-tag。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
             "id": "dingtalk-todo",
             "parentId": "dingtalk-cli"
           },
-          "path": "multi/dingtalk-todo",
+          "path": "skills/multi/dingtalk-todo",
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
@@ -434,7 +459,7 @@
             "id": "dingtalk-wiki",
             "parentId": "dingtalk-cli"
           },
-          "path": "multi/dingtalk-wiki",
+          "path": "skills/multi/dingtalk-wiki",
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
