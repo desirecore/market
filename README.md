@@ -209,6 +209,7 @@ uv run scripts/i18n/translate.py --check skills/web-access
 uv run scripts/i18n/test_validate_i18n.py
 uv run scripts/catalog/test_validate_catalog_metadata.py
 uv run scripts/catalog/test_collection_generator.py
+uv run scripts/catalog/test_check_upstream_health.py
 ```
 
 Passing a skill path narrows skill-body validation, but market-level and sidecar checks still run. Choose the relevant test file for your change rather than treating every documentation edit as a reason to run all test suites.
@@ -221,9 +222,15 @@ uv run scripts/gen-collection-children.py --check
 
 # Optional source-URL availability checks in addition to normal validation.
 uv run scripts/i18n/validate-i18n.py --online
+
+# Report deleted upstreams, missing branches or pinned refs, moved skill paths,
+# undeclared collection children, and available updates for every external entry.
+uv run scripts/catalog/check_upstream_health.py
 ```
 
 Collection checking requires Git and network access. Mutable collections are reported and skipped because their generated inventory is not reproducible. Omitting `--check` runs the generator in write mode; review both the regenerated children and the corresponding sidecar facts before committing.
+
+The upstream health check is read-only and exits non-zero when an entry is `gone` or has a `bad-branch`, `bad-ref`, or `bad-path`. `unreachable` is a network error, not a confirmed failure. The [upstream health workflow](.github/workflows/upstream-health.yml) runs it weekly and keeps one `upstream-health` issue current; fixes and `source.ref` bumps still go through reviewed PRs.
 
 The [validation workflow](.github/workflows/i18n-validate.yml) is the source of truth for CI. It detects relevant paths and can skip catalog validation for documentation-only changes. A green skipped job is not evidence that Markdown links or bilingual documentation were checked; review those separately.
 

@@ -209,6 +209,7 @@ uv run scripts/i18n/translate.py --check skills/web-access
 uv run scripts/i18n/test_validate_i18n.py
 uv run scripts/catalog/test_validate_catalog_metadata.py
 uv run scripts/catalog/test_collection_generator.py
+uv run scripts/catalog/test_check_upstream_health.py
 ```
 
 传入技能路径只缩小技能正文的校验范围，市场级与 sidecar 检查仍会执行。应根据改动选择相关测试文件，而不是每次修改文档都运行全部测试。
@@ -221,9 +222,15 @@ uv run scripts/gen-collection-children.py --check
 
 # 可选：在常规校验之外检查来源 URL 是否可访问。
 uv run scripts/i18n/validate-i18n.py --online
+
+# 检查所有外部条目：上游是否已删除、分支或固定提交是否失效、技能路径是否移动、
+# 集合是否有未声明的子技能，以及是否有可同步的更新。
+uv run scripts/catalog/check_upstream_health.py
 ```
 
 集合检查需要 Git 和网络。可变来源集合会被报告并跳过，因为无法保证生成清单可复现。省略 `--check` 会进入写入模式；提交前应同时检查重新生成的子技能和对应 sidecar 事实。
+
+上游健康检查只读，不改写条目；出现 `gone`、`bad-branch`、`bad-ref` 或 `bad-path` 时以非零状态退出。`unreachable` 表示网络错误，不等于确认失效。[上游健康工作流](.github/workflows/upstream-health.yml)每周运行一次，并维护唯一一个 `upstream-health` Issue；修复条目和更新 `source.ref` 仍需通过经过评审的 PR。
 
 [校验工作流](.github/workflows/i18n-validate.yml)是 CI 行为的权威来源。它会检测相关路径，纯文档改动可能跳过目录校验。跳过后显示成功的任务，不代表 Markdown 链接或中英文文档已被检查；这些内容仍需单独审查。
 
