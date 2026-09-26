@@ -1,0 +1,112 @@
+{
+  "id": "humanlayer-skills",
+  "name": "HumanLayer Skills",
+  "category": "development",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"12\" cy=\"7\" r=\"3\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"M5 20a7 7 0 0 1 14 0\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M4 13h3m10 0h3\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
+  "tags": [
+    "claude-code",
+    "coding-agents",
+    "pull-request",
+    "claude-md",
+    "humanlayer"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "HumanLayer Skills",
+      "shortDesc": "HumanLayer 出品的 Claude Code 技能合集：可视化讲解、可视化 PR 描述、CLAUDE.md 改写、React 属性收窄与迭代式编码智能体循环搭建"
+    },
+    "en-US": {
+      "name": "HumanLayer Skills",
+      "shortDesc": "HumanLayer's Claude Code skill collection for visual explanations, visual PR outlines, CLAUDE.md rewrites, React prop narrowing, and iterated coding-agent loops"
+    }
+  },
+  "maintainer": {
+    "name": "HumanLayer",
+    "verified": false,
+    "account": "humanlayer",
+    "url": "https://github.com/humanlayer/skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/humanlayer/skills.git",
+    "repoBranch": "main",
+    "ref": "ca7c8088db69e315a8b2deea43820270457f8f3c"
+  },
+  "children": [
+    {
+      "id": "build-iterated-agentic-loop",
+      "path": "plugins/build-iterated-agentic-loop/skills/build-iterated-agentic-loop",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "build a repo-local skill and install a matching iterated coding-agent GitHub Actions workflow, prompt, memory file, and reference templates"
+        },
+        "en-US": {
+          "shortDesc": "build a repo-local skill and install a matching iterated coding-agent GitHub Actions workflow, prompt, memory file, and reference templates"
+        }
+      }
+    },
+    {
+      "id": "design-control-loop",
+      "path": "plugins/design-control-loop/skills/design-control-loop",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "interview the user to design an agentic control loop (sensor, controller, actuator under disturbances) tailored to their codebase, then build it as locally-runn…"
+        },
+        "en-US": {
+          "shortDesc": "interview the user to design an agentic control loop (sensor, controller, actuator under disturbances) tailored to their codebase, then build it as locally-runn…"
+        }
+      }
+    },
+    {
+      "id": "improve-claude-md",
+      "path": "plugins/improve-claude-md/skills/improve-claude-md",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "improve a CLAUDE.md file using <important if> blocks to improve instruction adherence"
+        },
+        "en-US": {
+          "shortDesc": "improve a CLAUDE.md file using <important if> blocks to improve instruction adherence"
+        }
+      }
+    },
+    {
+      "id": "narrow-react-prop-types",
+      "path": "plugins/narrow-react-prop-types/skills/narrow-react-prop-types",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "narrow React component prop types to match live code paths"
+        },
+        "en-US": {
+          "shortDesc": "narrow React component prop types to match live code paths"
+        }
+      }
+    },
+    {
+      "id": "show-me",
+      "path": "plugins/show-me/skills/show-me",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Help the user understand the current topic visually with concise diagrams, code-shape sketches, and focused HTML artifacts."
+        },
+        "en-US": {
+          "shortDesc": "Help the user understand the current topic visually with concise diagrams, code-shape sketches, and focused HTML artifacts."
+        }
+      }
+    },
+    {
+      "id": "visual-pr",
+      "path": "plugins/visual-pr/skills/visual-pr",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Only use when the user explicitly invokes this skill by name."
+        },
+        "en-US": {
+          "shortDesc": "Only use when the user explicitly invokes this skill by name."
+        }
+      }
+    }
+  ]
+}

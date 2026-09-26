@@ -67,6 +67,7 @@ jobs:
         run: |
           uv run --quiet scripts/catalog/test_validate_catalog_metadata.py
           uv run --quiet scripts/catalog/test_collection_generator.py
+          uv run --quiet scripts/catalog/test_check_upstream_health.py
 
       - name: Validate catalog metadata
         if: steps.changes.outputs.relevant == 'true'
