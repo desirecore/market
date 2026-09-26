@@ -1,0 +1,87 @@
+name: Upstream Health
+
+# Weekly check that every external pointer (skills/agents/teams entry.json)
+# still resolves upstream. Results go to one tracking issue labelled
+# `upstream-health`, which is updated in place and closed once nothing is
+# actionable. Fixing an entry stays a normal reviewed PR; this workflow never
+# rewrites catalog files.
+
+on:
+  schedule:
+    - cron: "23 1 * * 1" # Mondays 01:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: upstream-health
+  cancel-in-progress: false
+
+jobs:
+  check:
+    if: github.repository == 'desirecore/market'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Check upstreams
+        id: check
+        run: |
+          set +e
+          uv run --quiet scripts/catalog/check_upstream_health.py --format markdown > report.md
+          code=$?
+          set -e
+          if [ "$code" -gt 1 ]; then
+            echo "health check crashed with exit code $code" >&2
+            exit "$code"
+          fi
+          echo "broken=$([ "$code" = 1 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          if grep -qE '^### (Broken|Undeclared upstream skills|Updates available) ' report.md; then
+            echo "actionable=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "actionable=false" >> "$GITHUB_OUTPUT"
+          fi
+          cat report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Update tracking issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ACTIONABLE: ${{ steps.check.outputs.actionable }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          label=upstream-health
+          gh label create "$label" --color D93F0B \
+            --description "Upstream availability of external catalog entries" 2>/dev/null || true
+
+          {
+            echo "_Updated by [Upstream Health]($RUN_URL) on $(date -u +%Y-%m-%d)._"
+            echo
+            echo "Fix entries through a normal PR: repoint or remove \`gone\` entries, correct \`bad-*\` paths, and review upstream changes before bumping \`source.ref\` for \`outdated\` entries (rerun \`scripts/gen-collection-children.py\` for collections). \`unreachable\` means a network error, not a confirmed failure."
+            echo
+            cat report.md
+          } > body.md
+
+          issue=$(gh issue list --label "$label" --state open --limit 1 --json number --jq '.[0].number // empty')
+          if [ "$ACTIONABLE" = "true" ]; then
+            if [ -n "$issue" ]; then
+              gh issue edit "$issue" --body-file body.md
+            else
+              gh issue create --title "Upstream health report" --label "$label" --body-file body.md
+            fi
+          elif [ -n "$issue" ]; then
+            gh issue comment "$issue" --body "All external entries resolve upstream and are current as of $RUN_URL. Closing."
+            gh issue close "$issue"
+          fi
+
+      - name: Fail when an entry is broken
+        if: steps.check.outputs.broken == 'true'
+        run: |
+          echo "::error::At least one external entry no longer resolves upstream; see the upstream-health issue."
+          exit 1
