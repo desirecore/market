@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "video-use",
-        "summary": "Edit videos through a conversational workflow with subtitles and animation overlays; requires Python 3.10+, ffmpeg/ffprobe, and an ElevenLabs Scribe API key (usage may incur separate charges)"
+        "summary": "Edit videos and create subtitles/animation overlays conversationally. Transcription sends source audio to ElevenLabs Scribe; an API key is required and usage may incur separate charges. Requires Python 3.10+ and ffmpeg/ffprobe."
       },
       "zh-CN": {
         "name": "video-use 视频剪辑",
-        "summary": "通过对话式工作流剪辑视频、生成字幕与动画叠层；需要 Python 3.10+、ffmpeg/ffprobe 和 ElevenLabs Scribe API 密钥（API 用量可能单独收费）"
+        "summary": "以对话式工作流剪辑视频并生成字幕、动画叠层；转录会将素材音频发送至 ElevenLabs Scribe，需 API 密钥（可能另收费）；需要 Python 3.10+、ffmpeg/ffprobe。"
       }
     },
     "category": "media",
@@ -34,7 +34,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-29T08:36:58Z",
+      "value": "2026-09-29T08:40:48Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -86,7 +86,7 @@
       },
       {
         "kind": "connection",
-        "value": "ElevenLabs Scribe transcription requires an operator-provided API key and may incur separate usage charges; without it, transcription is unavailable."
+        "value": "Transcription sends source audio to ElevenLabs Scribe. Obtain the operator's consent before the first upload. An operator-provided API key is required and separate usage charges may apply; without consent or a key, stop before the external call."
       }
     ]
   },
