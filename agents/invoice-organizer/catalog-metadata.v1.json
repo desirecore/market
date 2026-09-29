@@ -30,28 +30,28 @@
   },
   "release": {
     "state": "known",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-06",
+      "value": "2026-09-29",
       "precision": "day"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-06",
+      "value": "2026-09-29",
       "precision": "day"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-09-06",
+      "value": "2026-09-29",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-06T00:00:00Z",
+      "value": "2026-09-29T00:00:00Z",
       "precision": "second"
     }
   },
@@ -59,7 +59,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/invoice-organizer.git",
-      "ref": "891deee7b0ff24706e07fb8dfacc182398820d7e"
+      "ref": "553ce87d52ea66da83f3a5e07862805fef89c556"
     }
   },
   "governance": {
@@ -77,8 +77,8 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "891deee7b0ff24706e07fb8dfacc182398820d7e",
-      "reviewedAt": "2026-09-06",
+      "reviewedRef": "553ce87d52ea66da83f3a5e07862805fef89c556",
+      "reviewedAt": "2026-09-29",
       "reviewedBy": "yi-ge",
       "upstreamEndorsed": true
     }
