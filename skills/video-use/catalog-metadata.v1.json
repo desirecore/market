@@ -1,0 +1,99 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "video-use"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "video-use",
+        "summary": "Edit videos through a conversational workflow with subtitles and animation overlays; requires Python 3.10+, ffmpeg/ffprobe, and an ElevenLabs Scribe API key (usage may incur separate charges)"
+      },
+      "zh-CN": {
+        "name": "video-use 视频剪辑",
+        "summary": "通过对话式工作流剪辑视频、生成字幕与动画叠层；需要 Python 3.10+、ffmpeg/ffprobe 和 ElevenLabs Scribe API 密钥（API 用量可能单独收费）"
+      }
+    },
+    "category": "media",
+    "tags": [
+      "video-editing",
+      "video-production",
+      "transcription",
+      "subtitles",
+      "ffmpeg"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "0.1.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-09-29T08:06:48Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-29T08:06:48Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/browser-use/video-use.git",
+      "path": ".",
+      "ref": "b877063835e6ea6e457124da7e28a0ae26691dc3"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "Browser Use",
+      "url": "https://github.com/browser-use/video-use",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Python 3.10 or newer with uv or pip; install the dependencies declared by the upstream pyproject.toml."
+      },
+      {
+        "kind": "runtime",
+        "value": "ffmpeg and ffprobe must be available on PATH; yt-dlp is optional for URL sources."
+      },
+      {
+        "kind": "connection",
+        "value": "ElevenLabs Scribe transcription requires an operator-provided API key and may incur separate usage charges; without it, transcription is unavailable."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "medium",
+    "skillType": "procedural"
+  }
+}

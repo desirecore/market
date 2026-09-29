@@ -1,0 +1,41 @@
+{
+  "id": "video-use",
+  "name": "video-use",
+  "category": "media",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\" stroke=\"#AF52DE\" stroke-width=\"1.7\"/><path d=\"m10 9 5 3-5 3V9Z\" fill=\"#AF52DE\"/><path d=\"M3 17h18\" stroke=\"#AF52DE\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
+  "tags": [
+    "video-editing",
+    "video-production",
+    "transcription",
+    "subtitles",
+    "ffmpeg"
+  ],
+  "latestVersion": "0.1.0",
+  "riskLevel": "medium",
+  "i18n": {
+    "zh-CN": {
+      "name": "video-use 视频剪辑",
+      "shortDesc": "通过对话式工作流剪辑视频、生成字幕与动画叠层；需要 Python 3.10+、ffmpeg/ffprobe 和 ElevenLabs Scribe API 密钥（API 用量可能单独收费）"
+    },
+    "en-US": {
+      "name": "video-use",
+      "shortDesc": "Edit videos through a conversational workflow with subtitles and animation overlays; requires Python 3.10+, ffmpeg/ffprobe, and an ElevenLabs Scribe API key (usage may incur separate charges)"
+    }
+  },
+  "maintainer": {
+    "name": "Browser Use",
+    "verified": false,
+    "account": "browser-use",
+    "url": "https://github.com/browser-use/video-use"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/browser-use/video-use.git",
+    "repoBranch": "main",
+    "ref": "b877063835e6ea6e457124da7e28a0ae26691dc3",
+    "path": "."
+  }
+}
