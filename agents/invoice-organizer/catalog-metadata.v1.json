@@ -30,7 +30,7 @@
   },
   "release": {
     "state": "known",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "versionScheme": "semver"
   },
   "timestamps": {
@@ -59,7 +59,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/invoice-organizer.git",
-      "ref": "553ce87d52ea66da83f3a5e07862805fef89c556"
+      "ref": "b2e6d69f0df2345e282ceea424afce0b9345d97f"
     }
   },
   "governance": {
@@ -77,7 +77,7 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "553ce87d52ea66da83f3a5e07862805fef89c556",
+      "reviewedRef": "b2e6d69f0df2345e282ceea424afce0b9345d97f",
       "reviewedAt": "2026-09-29",
       "reviewedBy": "yi-ge",
       "upstreamEndorsed": true
@@ -94,7 +94,7 @@
       },
       {
         "kind": "runtime",
-        "value": "Parsing PDF, OFD and scanned images needs nothing installed. Only the .xlsx ledger may require Python with openpyxl and pandas; when they are unavailable the Agent degrades to a UTF-8 BOM CSV and reports the degradation."
+        "value": "Parsing PDF, OFD, XML and scanned images needs nothing installed. .zip attachments are unpacked with the system's own unzip, python3 or bsdtar (macOS and Windows ship at least one; a minimal Linux image may have none, in which case the archive is quarantined for the user to unpack). Only the .xlsx ledger may require Python with openpyxl and pandas; when they are unavailable the Agent degrades to a UTF-8 BOM CSV and reports the degradation."
       },
       {
         "kind": "permission",
