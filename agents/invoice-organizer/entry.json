@@ -19,7 +19,7 @@
       "shortDesc": "Turns the invoices buried in a mailbox into a reconcilable ledger: collects attachments over a stated range, extracts fields from PDF, OFD and scanned images, deduplicates, archives, and produces a spreadsheet ledger plus a monthly report. Requires a one-time mailbox authorization inside DesireCore; it performs format and arithmetic checks only, never tax-authority invoice verification."
     }
   },
-  "latestVersion": "1.0.7",
+  "latestVersion": "1.0.8",
   "maintainer": {
     "name": "DesireCore Official",
     "verified": true
@@ -38,6 +38,6 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/invoice-organizer.git",
     "repoBranch": "main",
-    "ref": "27c1896036e9a8988aa4d112ab7092d4dee75cda"
+    "ref": "0796408b6acba726cd05ed956b40f97c00c5a772"
   }
 }

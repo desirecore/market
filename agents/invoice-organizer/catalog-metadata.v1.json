@@ -30,7 +30,7 @@
   },
   "release": {
     "state": "known",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "versionScheme": "semver"
   },
   "timestamps": {
@@ -59,7 +59,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/invoice-organizer.git",
-      "ref": "27c1896036e9a8988aa4d112ab7092d4dee75cda"
+      "ref": "0796408b6acba726cd05ed956b40f97c00c5a772"
     }
   },
   "governance": {
@@ -77,7 +77,7 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "27c1896036e9a8988aa4d112ab7092d4dee75cda",
+      "reviewedRef": "0796408b6acba726cd05ed956b40f97c00c5a772",
       "reviewedAt": "2026-09-29",
       "reviewedBy": "yi-ge",
       "upstreamEndorsed": true
