@@ -35,7 +35,6 @@
     "kind": "git",
     "repoUrl": "https://github.com/browser-use/video-use.git",
     "repoBranch": "main",
-    "ref": "b877063835e6ea6e457124da7e28a0ae26691dc3",
-    "path": "."
+    "ref": "b877063835e6ea6e457124da7e28a0ae26691dc3"
   }
 }
