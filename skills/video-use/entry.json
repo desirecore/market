@@ -15,11 +15,11 @@
   "i18n": {
     "zh-CN": {
       "name": "video-use 视频剪辑",
-      "shortDesc": "以对话式工作流剪辑视频并生成字幕、动画叠层；转录会将素材音频发送至 ElevenLabs Scribe，需 API 密钥（可能另收费）；需要 Python 3.10+、ffmpeg/ffprobe。"
+      "shortDesc": "上游工作流会在初始盘点、提出剪辑策略前将素材音频上传至 ElevenLabs Scribe；上游不设同意确认，须事先授权。需 API 密钥且可能另收费；需要 Python 3.10+、ffmpeg/ffprobe。"
     },
     "en-US": {
       "name": "video-use",
-      "shortDesc": "Edit videos and create subtitles/animation overlays conversationally. Transcription sends source audio to ElevenLabs Scribe; an API key is required and usage may incur separate charges. Requires Python 3.10+ and ffmpeg/ffprobe."
+      "shortDesc": "During initial inventory, the upstream workflow uploads source audio to ElevenLabs Scribe before presenting an edit strategy. It has no consent gate; authorize the transfer in advance. An API key is required and separate charges may apply. Requires Python 3.10+ and ffmpeg/ffprobe."
     }
   },
   "maintainer": {
