@@ -15,11 +15,11 @@
   "i18n": {
     "zh-CN": {
       "name": "video-use 视频剪辑",
-      "shortDesc": "通过对话式工作流剪辑视频、生成字幕与动画叠层；需要 Python 3.10+、ffmpeg/ffprobe 和 ElevenLabs Scribe API 密钥（API 用量可能单独收费）"
+      "shortDesc": "上游工作流会在初始盘点、提出剪辑策略前将素材音频上传至 ElevenLabs Scribe；上游不会在上传前询问授权，须事先授权。需 API 密钥且可能另收费；需要 Python 3.10+、ffmpeg/ffprobe。"
     },
     "en-US": {
       "name": "video-use",
-      "shortDesc": "Edit videos through a conversational workflow with subtitles and animation overlays; requires Python 3.10+, ffmpeg/ffprobe, and an ElevenLabs Scribe API key (usage may incur separate charges)"
+      "shortDesc": "During initial inventory, the upstream workflow uploads source audio to ElevenLabs Scribe before presenting an edit strategy. It does not prompt for consent before uploading; authorize the transfer in advance. An API key is required and separate charges may apply. Requires Python 3.10+ and ffmpeg/ffprobe."
     }
   },
   "maintainer": {
@@ -35,7 +35,6 @@
     "kind": "git",
     "repoUrl": "https://github.com/browser-use/video-use.git",
     "repoBranch": "main",
-    "ref": "b877063835e6ea6e457124da7e28a0ae26691dc3",
-    "path": "."
+    "ref": "b877063835e6ea6e457124da7e28a0ae26691dc3"
   }
 }
