@@ -19,7 +19,7 @@
       "shortDesc": "Operate WeCom from chat: messages, docs, sheets, calendar, meetings, todos, mail, drive"
     }
   },
-  "latestVersion": "1.0.0",
+  "latestVersion": "1.0.1",
   "maintainer": {
     "name": "DesireCore Official",
     "verified": true
@@ -29,12 +29,15 @@
   "redistribution": "source-pointer-only",
   "avatar": {
     "t": "微",
-    "bg": "linear-gradient(135deg, #34C759, #248A3D)"
+    "bg": "linear-gradient(135deg, #34C759, #248A3D)",
+    "image": {
+      "path": "assets/avatar.webp"
+    }
   },
   "source": {
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/wecom-assistant.git",
     "repoBranch": "main",
-    "ref": "ebb19035bb1f9f18fcf20e44d84f64b2fe125652"
+    "ref": "d08336c6080e40f178a33d11b811b91a98f48ce9"
   }
 }
