@@ -28,23 +28,23 @@
   },
   "release": {
     "state": "known",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-13",
+      "value": "2026-09-30",
       "precision": "day"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-13",
+      "value": "2026-09-30",
       "precision": "day"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-09-13",
+      "value": "2026-09-30",
       "precision": "day"
     },
     "upstreamObservedAt": {
@@ -57,7 +57,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/tender-review-assistant.git",
-      "ref": "8484c57e430108b3e361f328b2e31f364e92c630"
+      "ref": "d58ed0a0de03628357e8d9fd166ba929c2c275ba"
     }
   },
   "governance": {
@@ -72,9 +72,9 @@
     "compliance": {
       "licenseEvidencePath": "LICENSE",
       "noticePath": "NOTICE",
-      "reviewedRef": "8484c57e430108b3e361f328b2e31f364e92c630",
-      "reviewedAt": "2026-09-13",
-      "reviewedBy": "desirecore-agent",
+      "reviewedRef": "d58ed0a0de03628357e8d9fd166ba929c2c275ba",
+      "reviewedAt": "2026-09-30",
+      "reviewedBy": "Codex",
       "upstreamEndorsed": false
     }
   },
