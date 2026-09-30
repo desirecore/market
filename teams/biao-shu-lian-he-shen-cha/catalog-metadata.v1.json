@@ -29,28 +29,28 @@
   },
   "release": {
     "state": "known",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-13",
+      "value": "2026-09-30",
       "precision": "day"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-13",
+      "value": "2026-09-30",
       "precision": "day"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-09-13",
+      "value": "2026-09-30",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-13",
+      "value": "2026-09-30",
       "precision": "day"
     }
   },
@@ -58,7 +58,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/biao-shu-lian-he-shen-cha.git",
-      "ref": "af59d115f11f6a636e5e043b4f7a03f68dc02e33"
+      "ref": "60d2f7f62e8035f7ad03d61a40a66925486c29a6"
     }
   },
   "governance": {
@@ -72,8 +72,8 @@
     "stewardship": "pointer",
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "af59d115f11f6a636e5e043b4f7a03f68dc02e33",
-      "reviewedAt": "2026-09-13",
+      "reviewedRef": "60d2f7f62e8035f7ad03d61a40a66925486c29a6",
+      "reviewedAt": "2026-09-30",
       "reviewedBy": "desirecore-agent",
       "upstreamEndorsed": false
     }
