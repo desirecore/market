@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Market Team Member Portraits",
+  "description": "Optional market-only portraits for published team members. Keep this separate from entry.json so older clients can continue to read the team.",
+  "type": "object",
+  "required": ["schemaVersion", "members"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Relative path to this validation schema."
+    },
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1,
+      "description": "Sidecar format version."
+    },
+    "members": {
+      "type": "object",
+      "description": "Portraits keyed by published team roster member ID.",
+      "propertyNames": {
+        "pattern": "^[A-Za-z0-9_-]+$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["image"],
+        "properties": {
+          "image": {
+            "type": "object",
+            "required": ["path"],
+            "properties": {
+              "path": {
+                "type": "string",
+                "pattern": "^(?!/|[A-Za-z]:|.*\\.\\.)(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+\\.(?:png|jpe?g|webp)$",
+                "description": "Relative portrait image path inside the market team directory."
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

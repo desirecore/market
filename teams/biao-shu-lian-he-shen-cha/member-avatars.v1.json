@@ -1,0 +1,31 @@
+{
+  "$schema": "../../schemas/team-member-avatars.v1.schema.json",
+  "schemaVersion": 1,
+  "members": {
+    "tender-review-lead": {
+      "image": {
+        "path": "assets/members/tender-review-lead.webp"
+      }
+    },
+    "tender-review-requirements": {
+      "image": {
+        "path": "assets/members/tender-review-requirements.webp"
+      }
+    },
+    "tender-review-commercial": {
+      "image": {
+        "path": "assets/members/tender-review-commercial.webp"
+      }
+    },
+    "tender-review-visual": {
+      "image": {
+        "path": "assets/members/tender-review-visual.webp"
+      }
+    },
+    "tender-review-evidence": {
+      "image": {
+        "path": "assets/members/tender-review-evidence.webp"
+      }
+    }
+  }
+}
