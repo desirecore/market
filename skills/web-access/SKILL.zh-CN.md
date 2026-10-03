@@ -37,6 +37,8 @@ web-access 是一个**流程型技能（Procedural Skill）**，提供四层互�
 | SitePatternRead / SitePatternWrite | 按域名累积"站点经验"（AgentFS 三层） |
 | LocalBookmarks | 检索本地 Chrome 书签 / 历史 |
 
+> **开发者工具类动作不在上表**：网络观察 / 拦截 / 改写与网络配置、Cookie 与站点存储、Console 读取、性能指标、覆盖率、缓存、Service Worker、扩展、Tracing、打开 DevTools 与原始 CDP（`cdp.raw`），在较新的客户端里由独立的 `BrowserDevtools` 承担，它不随本技能注入。需要时先调用 `DiscoverTools(query="select:BrowserDevtools")` 加载，参数与 BrowserAct 相同（`action` + `sessionId` / `tabId` + `params`）；查不到说明客户端早于拆分，同样的 action 与参数直接在 `BrowserAct` 上调用。
+
 > **重要**：未调用 Skill('web-access') 之前，这些工具**不会**出现在 LLM 的 tools 列表里——默认对话不消耗其 token。详见 [references/browser-tools.md](references/browser-tools.md)。
 >
 > **v2.1 已移除**：`BrowserListTabs` / `BrowserNavigate` / `BrowserEval` / `BrowserClick` / `BrowserScreenshot` / `BrowserScroll` / `BrowserSetFiles` / `BrowserCloseTab` 及其背后的 cdp-proxy 已停用，调用会返回「该旧 BrowserXxx/cdp-proxy 入口已停用」。本技能版本要求客户端 v10.0.128+；`page.extract-text` / `page.element` / `page.wait` / 内联 wait 块 / 跨源 iframe 快照自 v10.0.112 起可用，`BrowserScript` 需包含 S17/S18 的更新版本。
