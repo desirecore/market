@@ -9,8 +9,8 @@
     "document-review",
     "multimodal"
   ],
-  "latestVersion": "0.2.1",
-  "updatedAt": "2026-09-30",
+  "latestVersion": "0.2.2",
+  "updatedAt": "2026-10-03",
   "members": [
     {
       "id": "tender-review-lead",
@@ -57,10 +57,10 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/biao-shu-lian-he-shen-cha.git",
     "repoBranch": "main",
-    "ref": "60d2f7f62e8035f7ad03d61a40a66925486c29a6"
+    "ref": "d5cb18c7e94205bd87ba4a69fd1a887e6bc11356"
   },
-  "requiredClientVersion": "10.0.155",
-  "fullDesc": "成果质量导向的五角色标书辅助审查：用自然语言说明目标和材料，成员自主检查，总审按重要问题、依据、整改建议和未决事项验收。结构化导出为可选能力；真实标书效果尚未验证。",
+  "requiredClientVersion": "10.0.178",
+  "fullDesc": "成果质量导向的五角色标书辅助审查：用自然语言说明目标和材料，成员自主检查，总审按重要问题、依据、整改建议和未决事项验收。结构化导出为可选能力；真实标书效果尚未验证。成员默认收纳在组长下方并初始收起；用户显式选择平铺或收纳时，以用户选择为准。",
   "maintainer": {
     "name": "DesireCore Official",
     "verified": false,

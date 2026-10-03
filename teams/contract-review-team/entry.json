@@ -9,7 +9,7 @@
     "compliance",
     "legal-collaboration"
   ],
-  "latestVersion": "0.1.38",
+  "latestVersion": "0.1.39",
   "i18n": {
     "zh-CN": {
       "name": "合同审查团队",
@@ -33,9 +33,9 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/contract-review-team.git",
     "repoBranch": "main",
-    "ref": "914ee32c2199c9a5a3bd126403b47255014235ce"
+    "ref": "440c28a494d1f06f2785552e57cca3f03cd4111e"
   },
-  "requiredClientVersion": "10.0.136",
+  "requiredClientVersion": "10.0.178",
   "avatar": {
     "t": "合审",
     "bg": "linear-gradient(135deg, #5856D6, #3634A3)",
@@ -44,8 +44,8 @@
     }
   },
   "shortDesc": "Six-member contract review team with parallel risk and jurisdiction checks, independent re-verification, scored reporting, and tracked DOCX delivery. Requires a user-configured model service; contract text and attachments are sent for analysis, results require qualified human review, and capability gaps produce a bounded report.",
-  "updatedAt": "2026-09-30",
-  "fullDesc": "Six-member contract review team with parallel risk and jurisdiction checks, independent re-verification, scored reporting, and tracked DOCX delivery. Requires a user-configured model service; contract text and attachments are sent for analysis, results require qualified human review, and capability gaps produce a bounded report.",
+  "updatedAt": "2026-10-03",
+  "fullDesc": "Six-member contract review team with parallel risk and jurisdiction checks, independent re-verification, scored reporting, and tracked DOCX delivery. Requires a user-configured model service; contract text and attachments are sent for analysis, results require qualified human review, and capability gaps produce a bounded report. Members initially appear collapsed under the supervisor; an explicit user choice of flat or nested display takes precedence.",
   "members": [
     {
       "id": "contract-review-lead",
