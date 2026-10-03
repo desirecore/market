@@ -28,7 +28,7 @@ metadata:
       description: >-
         通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。可选头像生成需配置图像服务，适用供应商条款/额度及独立费用。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:d4f3b3614e26088f
+      source_hash: sha256:7ffb7a362c26a91e
       translated_by: human
     en-US:
       name: Create Agent
@@ -36,7 +36,7 @@ metadata:
       description: >-
         Collect requirements through multi-turn conversation and call the ManageAgent builtin tool to create a new AgentFS v2 Agent, with customizable persona and principles. Use when the user asks to create a new Agent, raise a domain assistant, or quickly produce a governable Agent from a template. Optional avatar generation requires a configured image service under provider terms/quota and separate charges.
       body: ./SKILL.md
-      source_hash: sha256:d4f3b3614e26088f
+      source_hash: sha256:7ffb7a362c26a91e
       translated_by: human
 market:
   icon: >-
@@ -175,7 +175,7 @@ ManageAgent({
 
 ### Automatic asynchronous avatar
 
-Check readiness through the current governed tool catalog: use `ManageCompute(list)` for enabled/credential status and `InspectModels(action="list", serviceType="image_gen")` for an eligible image model. Neither listing proves upstream quota or call success; follow provider terms/quota and separate charges. Do not read keys or use local HTTP. If these tools are absent, follow the configuring-compute skill's governed GUI observation. If generation is known unavailable, create with `avatarGeneration.enabled:false`, preserve the character avatar and report the limitation; this opt-out also covers unavailable service, not only user refusal. Unknown readiness is not success; inspect the background task result and do not fabricate completion.
+Check readiness through the current governed tool catalog: use `ManageCompute(action="list")` for enabled/credential status and `InspectModels(action="list", serviceType="image_gen")` for an eligible image model. Neither listing proves upstream quota or call success; follow provider terms/quota and separate charges. Do not read keys or use local HTTP. If these tools are absent, follow the configuring-compute skill's governed GUI observation. If generation is known unavailable, create with `avatarGeneration.enabled:false`, preserve the character avatar and report the limitation; this opt-out also covers unavailable service, not only user refusal. Unknown readiness is not success; inspect the background task result and do not fabricate completion.
 
 Generation requires a configured image provider and its own service terms/quota; provider charges are separate from this skill. Without a usable provider, keep the character avatar and report the failed task.
 

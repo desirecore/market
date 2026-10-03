@@ -29,7 +29,7 @@ metadata:
       description: >-
         安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent 行为、安装/卸载技能、调整配置、回滚变更或修订规则。可选头像生成需配置图像服务，适用供应商条款/额度及独立费用。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:cc2bb0a602f02dcd
+      source_hash: sha256:b2c95e40c280b162
       translated_by: human
     en-US:
       name: Update Agent
@@ -37,7 +37,7 @@ metadata:
       description: >-
         Safely update an existing Agent's config, persona, principles, skills, and memory, producing reviewable diffs that are applied and committed only after confirmation. Use when the user asks to modify Agent behavior, install/uninstall skills, adjust config, roll back changes, or revise rules. Optional avatar generation requires a configured image service under provider terms/quota and separate charges.
       body: ./SKILL.md
-      source_hash: sha256:cc2bb0a602f02dcd
+      source_hash: sha256:b2c95e40c280b162
       translated_by: human
 market:
   icon: >-
@@ -173,6 +173,6 @@ Trigger: user says "undo / roll back / restore the previous settings". Flow:
 
 ### Avatar customization
 
-Check readiness through the current governed tool catalog: use `ManageCompute(list)` for enabled/credential status and `InspectModels(action="list", serviceType="image_gen")` for an eligible image model. Neither listing proves upstream quota or call success; follow provider terms/quota and separate charges. Do not read keys or use local HTTP. If these tools are absent, follow the configuring-compute skill's governed GUI observation. If generation is known unavailable, skip regeneration, preserve the current avatar and report the limitation. Unknown readiness is not success; inspect the background task result and do not fabricate completion.
+Check readiness through the current governed tool catalog: use `ManageCompute(action="list")` for enabled/credential status and `InspectModels(action="list", serviceType="image_gen")` for an eligible image model. Neither listing proves upstream quota or call success; follow provider terms/quota and separate charges. Do not read keys or use local HTTP. If these tools are absent, follow the configuring-compute skill's governed GUI observation. If generation is known unavailable, skip regeneration, preserve the current avatar and report the limitation. Unknown readiness is not success; inspect the background task result and do not fabricate completion.
 
 Users may freely change the avatar's appearance, style, background, upload an existing image, or remove it with `avatarImage.remove:true`. On clients exposing `avatarGeneration`, pass a new generation request to `ManageAgent(action="update", avatarGeneration={prompt:"user requirements"})`; `transparentBackground:false` preserves a requested background and `enabled:false` cancels pending generation. Direct image replacement/removal invalidates older asynchronous results. The default automatic style is transparent and photorealistic; explicit user choices take precedence. `avatarImage.requireTransparency:true` opts into strict transparency checks; do not impose that check on a user who requested a background. Inspect `ManageAgent(get)` for task failures, and do not automatically retry paid requests. Older clients must use only fields in their actual tool schema.
