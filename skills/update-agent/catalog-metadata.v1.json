@@ -34,8 +34,8 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-08-25T09:25:42Z",
-      "precision": "second"
+      "value": "2026-10-03",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
