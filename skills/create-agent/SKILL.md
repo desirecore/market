@@ -2,8 +2,9 @@
 license: "MIT"
 name: create-agent
 description: >-
-  通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
-version: 2.6.1
+  通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。可选头像生成需配置图像服务，适用供应商条款/额度及独立费用。
+version: 2.7.0
+compatibility: "DesireCore ManageAgent; optional avatar generation requires a configured image provider under its own terms and quota, with separate charges; unavailable generation retains the existing avatar."
 type: meta
 risk_level: low
 status: enabled
@@ -14,7 +15,7 @@ tags:
   - meta
 metadata:
   author: desirecore
-  updated_at: '2026-08-25'
+  updated_at: '2026-10-03'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -25,17 +26,17 @@ metadata:
       name: 创建智能体
       short_desc: 通过自然语言对话收集需求，一键创建专业化数字智能体
       description: >-
-        通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。
+        通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。可选头像生成需配置图像服务，适用供应商条款/额度及独立费用。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:14e8755703784086
+      source_hash: sha256:d4f3b3614e26088f
       translated_by: human
     en-US:
       name: Create Agent
       short_desc: Collect requirements through natural-language conversation and create a specialized digital Agent in one step
       description: >-
-        Collect requirements through multi-turn conversation and call the ManageAgent builtin tool to create a new AgentFS v2 Agent, with customizable persona and principles. Use when the user asks to create a new Agent, raise a domain assistant, or quickly produce a governable Agent from a template.
+        Collect requirements through multi-turn conversation and call the ManageAgent builtin tool to create a new AgentFS v2 Agent, with customizable persona and principles. Use when the user asks to create a new Agent, raise a domain assistant, or quickly produce a governable Agent from a template. Optional avatar generation requires a configured image service under provider terms/quota and separate charges.
       body: ./SKILL.md
-      source_hash: sha256:14e8755703784086
+      source_hash: sha256:d4f3b3614e26088f
       translated_by: human
 market:
   icon: >-
@@ -171,6 +172,12 @@ ManageAgent({
 ```
 
 `source` may be a media ID from the current turn or a PNG/JPEG/WebP file inside the working directory. URLs and base64 are rejected. The service crops to 512×512 WebP and removes EXIF automatically. Avatar failure does not roll back an otherwise successful Agent creation; retry only the avatar operation according to the receipt.
+
+### Automatic asynchronous avatar
+
+Generation requires a configured image provider and its own service terms/quota; provider charges are separate from this skill. Without a usable provider, keep the character avatar and report the failed task.
+
+Read the actual `ManageAgent` schema. On clients exposing `avatarGeneration`, creation automatically queues a transparent photorealistic portrait without waiting for generation. Do not ask for appearance preferences when the user has none, and do not call GenerateImage a second time for the same creation. Preserve explicit user requirements with `avatarGeneration.prompt`; use `transparentBackground:false` only for an explicitly requested background, or `enabled:false` when the user explicitly wants no generated image. Supplying `avatarImage.source` takes precedence. Inspect queued/running/completed/failed/interrupted state through `ManageAgent(get)`; failure retains the character avatar and does not require recreating the Agent. On an older client without the field, follow its declared schema and never send unsupported parameters.
 
 ### Stage 6: Receipt
 

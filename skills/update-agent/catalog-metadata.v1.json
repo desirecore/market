@@ -11,12 +11,12 @@
       "zh-CN": {
         "name": "更新智能体",
         "summary": "安全更新智能体配置、人格、规则与技能，支持 diff 预览与版本回滚",
-        "description": "安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent 行为、安装/卸载技能、调整配置、回滚变更或修订规则。"
+        "description": "安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent 行为、安装/卸载技能、调整配置、回滚变更或修订规则。可选头像生成需配置图像服务，适用供应商条款/额度及独立费用。"
       },
       "en-US": {
         "name": "Update Agent",
         "summary": "Safely update Agent config, persona, principles, and skills, with diff preview and version rollback",
-        "description": "Safely update an existing Agent's config, persona, principles, skills, and memory, producing reviewable diffs that are applied and committed only after confirmation. Use when the user asks to modify Agent behavior, install/uninstall skills, adjust config, roll back changes, or revise rules."
+        "description": "Safely update an existing Agent's config, persona, principles, skills, and memory, producing reviewable diffs that are applied and committed only after confirmation. Use when the user asks to modify Agent behavior, install/uninstall skills, adjust config, roll back changes, or revise rules. Optional avatar generation requires a configured image service under provider terms/quota and separate charges."
       }
     },
     "category": "productivity",
@@ -28,7 +28,7 @@
   },
   "release": {
     "state": "known",
-    "version": "3.2.1",
+    "version": "3.3.0",
     "versionScheme": "semver"
   },
   "timestamps": {

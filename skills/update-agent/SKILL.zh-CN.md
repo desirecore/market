@@ -107,3 +107,8 @@ ManageAgent(action='update', id='<agent-id>', avatarImage={ source: "dc-media://
 
 - AgentFS 结构、受保护路径详见 `_agentfs-background.md` 与 `_protected-paths.yaml`。
 - 工具报错时：config 非白名单字段 / schema 校验失败 / 核心体拒绝 → 按工具提示修正或告知用户；受保护路径 → 阻断并提示需 owner；回滚版本不存在 → 列出可用版本请用户重选。
+
+
+### 头像自由定制
+
+用户可自由改变头像外貌、风格、背景、上传已有图片或通过 `avatarImage.remove:true` 移除。提供 `avatarGeneration` 的新客户端可用 `ManageAgent(action="update", avatarGeneration={prompt:"用户要求"})` 重新生成；明确要求背景用 `transparentBackground:false`，`enabled:false` 取消未完成生成。后续设图/移除优先，旧异步结果不会覆盖用户新选择。透明真人风格只作为默认；明确用户要求优先。`avatarImage.requireTransparency:true` 可显式启用透明度检查，不对需要背景的用户强制该检查。用 `ManageAgent(get)` 查看失败，不自动重复付费请求；旧客户端只用实际 Schema 声明的字段。
