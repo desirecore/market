@@ -47,7 +47,7 @@
         },
         "i18n": {
           "type": "object",
-          "description": "按 locale 提供的本地化展示元数据（仅 name/shortDesc，轻量）",
+          "description": "团队按 locale 提供名称、摘要及可选的完整介绍和数据处理说明。",
           "additionalProperties": {
             "type": "object",
             "properties": {
@@ -58,6 +58,14 @@
               "shortDesc": {
                 "type": "string",
                 "description": "该 locale 下的简短描述"
+              },
+              "fullDesc": {
+                "type": "string", "minLength": 1, "maxLength": 16000,
+                "description": "该语言的完整介绍，不得遗漏依赖和使用限制。"
+              },
+              "privacy": {
+                "type": "string", "minLength": 1, "maxLength": 8000,
+                "description": "该语言的数据处理、外部模型及人工复核边界。"
               }
             },
             "additionalProperties": false
@@ -273,7 +281,7 @@
         },
         "i18n": {
           "type": "object",
-          "description": "按 locale 提供的本地化展示元数据（仅 name/shortDesc，轻量）",
+          "description": "团队按 locale 提供名称、摘要及可选的完整介绍和数据处理说明。",
           "additionalProperties": {
             "type": "object",
             "properties": {
@@ -284,6 +292,14 @@
               "shortDesc": {
                 "type": "string",
                 "description": "该 locale 下的简短描述"
+              },
+              "fullDesc": {
+                "type": "string", "minLength": 1, "maxLength": 16000,
+                "description": "该语言的完整介绍，不得遗漏依赖和使用限制。"
+              },
+              "privacy": {
+                "type": "string", "minLength": 1, "maxLength": 8000,
+                "description": "该语言的数据处理、外部模型及人工复核边界。"
               }
             },
             "additionalProperties": false

@@ -11,12 +11,12 @@
       "zh-CN": {
         "name": "标书联合审查",
         "summary": "五角色协作审查条款响应、商务报价和标书图片，并独立复核证据。",
-        "description": "用自然语言说明审查目标和材料；五个角色按重要问题、证据、整改建议与未决事项验收。结构化导出可选，结果需人工复核；真实标书效果尚未验证。"
+        "description": "成果质量导向的五角色标书辅助审查：用自然语言说明目标和材料，成员自主检查，总审按重要问题、依据、整改建议和未决事项验收。结构化导出为可选能力；真实标书效果尚未验证。"
       },
       "en-US": {
         "name": "Tender Review Team",
         "summary": "Five roles review requirements, pricing and tender images with independent evidence checks.",
-        "description": "Describe goals and materials in natural language. Five roles assess important issues, evidence, actionable corrections and open questions. Structured export is optional; human review is required and real-bid effectiveness is not yet validated."
+        "description": "Five roles assist with tender review focused on output quality. Describe the goals and materials in natural language; members perform their checks independently, and the lead reviews important issues, supporting evidence, corrective recommendations, and unresolved items. Structured export is optional; effectiveness on real tender documents has not yet been verified."
       }
     },
     "tags": [

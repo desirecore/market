@@ -70,10 +70,14 @@
   "i18n": {
     "zh-CN": {
       "name": "标书联合审查",
+      "fullDesc": "成果质量导向的五角色标书辅助审查：用自然语言说明目标和材料，成员自主检查，总审按重要问题、依据、整改建议和未决事项验收。结构化导出为可选能力；真实标书效果尚未验证。",
+      "privacy": "用户选定模型服务可能处理标书文本和图片；本团队仅供人工辅助审查，不保证法律合规、中标或证书/签章真实性。",
       "shortDesc": "五角色协作审查条款响应、商务报价和标书图片，并独立复核证据。"
     },
     "en-US": {
       "name": "Tender Review Team",
+      "fullDesc": "Five roles assist with tender review focused on output quality. Describe the goals and materials in natural language; members perform their checks independently, and the lead reviews important issues, supporting evidence, corrective recommendations, and unresolved items. Structured export is optional; effectiveness on real tender documents has not yet been verified.",
+      "privacy": "The user-selected model service may process tender text and images. This team only assists human review and does not guarantee legal compliance, tender success, or the authenticity of certificates, signatures, or seals.",
       "shortDesc": "Five roles review requirements, pricing and tender images with independent evidence checks."
     }
   },
