@@ -30,23 +30,23 @@
   },
   "release": {
     "state": "known",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-13",
+      "value": "2026-09-30",
       "precision": "day"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-12",
+      "value": "2026-09-30",
       "precision": "day"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-09-13",
+      "value": "2026-09-30",
       "precision": "day"
     },
     "upstreamObservedAt": {
@@ -59,7 +59,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/mimo-model-quota-monitor.git",
-      "ref": "911c0a226346a8157f07d5218207f16e32ea82e0"
+      "ref": "0abbfc28f4fe3fffd6da0708a361a9c0a1fe15b9"
     }
   },
   "governance": {
@@ -77,9 +77,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "911c0a226346a8157f07d5218207f16e32ea82e0",
-      "reviewedAt": "2026-09-13",
-      "reviewedBy": "yi-ge",
+      "reviewedRef": "0abbfc28f4fe3fffd6da0708a361a9c0a1fe15b9",
+      "reviewedAt": "2026-09-30",
+      "reviewedBy": "Codex",
       "upstreamEndorsed": true
     },
     "upstreamMaintainer": {

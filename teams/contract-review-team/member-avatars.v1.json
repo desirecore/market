@@ -1,0 +1,36 @@
+{
+  "$schema": "../../schemas/team-member-avatars.v1.schema.json",
+  "schemaVersion": 1,
+  "members": {
+    "contract-review-lead": {
+      "image": {
+        "path": "assets/members/contract-review-lead.webp"
+      }
+    },
+    "contract-intake": {
+      "image": {
+        "path": "assets/members/contract-intake.webp"
+      }
+    },
+    "clause-extractor": {
+      "image": {
+        "path": "assets/members/clause-extractor.webp"
+      }
+    },
+    "risk-scanner": {
+      "image": {
+        "path": "assets/members/risk-scanner.webp"
+      }
+    },
+    "jurisdiction-auditor": {
+      "image": {
+        "path": "assets/members/jurisdiction-auditor.webp"
+      }
+    },
+    "review-reporter": {
+      "image": {
+        "path": "assets/members/review-reporter.webp"
+      }
+    }
+  }
+}

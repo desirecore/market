@@ -112,6 +112,14 @@ ManageAgent({
 
 `source` 可以是本轮媒体 ID 或工作目录内的 PNG/JPEG/WebP 文件；不接受 URL 或 base64。服务端会自动裁成 512×512 WebP 并移除 EXIF。头像失败不会回滚已经成功创建的 Agent，需根据工具回执单独重试头像设置。
 
+### 自动异步头像
+
+通过当前受治理工具目录检查就绪状态：用 `ManageCompute(action="list")` 查看启用/凭据状态，用 `InspectModels(action="list", serviceType="image_gen")` 查看可用图像模型。列表不证明上游额度或调用成功，遵守供应商条款/额度及独立费用；不读取密钥，不用本机 HTTP 旁路。缺少这些工具时，遵循 configuring-compute 技能的受治理 GUI 观察流程。已知生成不可用时，创建传 `avatarGeneration.enabled:false`，保留字符头像并报告限制；此关闭也适用于服务不可用，不限于用户拒绝。就绪状态未知不代表成功，检查后台任务结果，不伪造完成。
+
+生成需要已配置的图像供应商及对应服务条款/额度，供应商费用独立于此技能。没有可用供应商时保留字符头像，并如实报告任务失败。
+
+先核对当前 `ManageAgent` Schema。提供 `avatarGeneration` 的新客户端会在创建成功后自动排队生成透明真人摄影头像，创建不等待生图；用户没有外貌要求时不要额外提问，不要为同一次创建再次调用 GenerateImage。用户明确的外貌/风格要求放入 `avatarGeneration.prompt`；明确要求背景才设 `transparentBackground:false`，明确不要生成才设 `enabled:false`。已有图片通过 `avatarImage.source` 设置并优先保留。用 `ManageAgent(get)` 查看 queued/running/completed/failed/interrupted 状态；失败保留字符头像，不重复创建。旧客户端没有该字段时遵从其实际声明，不发送新参数。
+
 ### 阶段 6：回执
 
 以用户友好方式呈现（不暴露内部路径/技术细节）：告知创建成功，并提示下一步——直接对话、添加技能、调整人格或规则。

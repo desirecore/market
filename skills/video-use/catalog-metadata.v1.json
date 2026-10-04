@@ -1,0 +1,98 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "video-use"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "video-use",
+        "summary": "During initial inventory, the upstream workflow uploads source audio to ElevenLabs Scribe before presenting an edit strategy. It does not prompt for consent before uploading; authorize the transfer in advance. An API key is required and separate charges may apply. Requires Python 3.10+ and ffmpeg/ffprobe."
+      },
+      "zh-CN": {
+        "name": "video-use 视频剪辑",
+        "summary": "上游工作流会在初始盘点、提出剪辑策略前将素材音频上传至 ElevenLabs Scribe；上游不会在上传前询问授权，须事先授权。需 API 密钥且可能另收费；需要 Python 3.10+、ffmpeg/ffprobe。"
+      }
+    },
+    "category": "media",
+    "tags": [
+      "video-editing",
+      "video-production",
+      "transcription",
+      "subtitles",
+      "ffmpeg"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "0.1.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-09-29T08:46:54Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-29T08:06:48Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/browser-use/video-use.git",
+      "ref": "b877063835e6ea6e457124da7e28a0ae26691dc3"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "Browser Use",
+      "url": "https://github.com/browser-use/video-use",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Python 3.10 or newer with uv or pip; install the dependencies declared by the upstream pyproject.toml."
+      },
+      {
+        "kind": "runtime",
+        "value": "ffmpeg and ffprobe must be available on PATH; yt-dlp is optional for URL sources."
+      },
+      {
+        "kind": "connection",
+        "value": "During initial inventory, before presenting an edit strategy, the upstream workflow uploads extracted source audio to ElevenLabs Scribe. The upstream skill does not prompt for consent before uploading; only start it after the operator has explicitly authorized that transfer in advance. An operator-provided API key is required and separate usage charges may apply; without prior authorization or a key, do not start the workflow."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "medium",
+    "skillType": "procedural"
+  }
+}

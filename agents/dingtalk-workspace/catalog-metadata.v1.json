@@ -30,23 +30,23 @@
   },
   "release": {
     "state": "known",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-06",
+      "value": "2026-09-30",
       "precision": "day"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-06",
+      "value": "2026-09-30",
       "precision": "day"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-09-06",
+      "value": "2026-09-30",
       "precision": "day"
     },
     "upstreamObservedAt": {
@@ -57,7 +57,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/dingtalk-workspace.git",
-      "ref": "9e5a4695b07d9d71921202a7a4072140c2135670"
+      "ref": "746d011a64db4061a68e512f3e5aaa4c0ec5abe5"
     }
   },
   "governance": {
@@ -80,9 +80,9 @@
     "compliance": {
       "licenseEvidencePath": "LICENSE",
       "noticePath": "NOTICE",
-      "reviewedRef": "9e5a4695b07d9d71921202a7a4072140c2135670",
-      "reviewedAt": "2026-09-06",
-      "reviewedBy": "yi-ge",
+      "reviewedRef": "746d011a64db4061a68e512f3e5aaa4c0ec5abe5",
+      "reviewedAt": "2026-09-30",
+      "reviewedBy": "Codex",
       "upstreamEndorsed": true
     }
   },
