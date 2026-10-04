@@ -9,7 +9,7 @@
     "compliance",
     "legal-collaboration"
   ],
-  "latestVersion": "0.1.39",
+  "latestVersion": "0.1.40",
   "i18n": {
     "zh-CN": {
       "name": "合同审查团队",
@@ -37,7 +37,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/contract-review-team.git",
     "repoBranch": "main",
-    "ref": "440c28a494d1f06f2785552e57cca3f03cd4111e"
+    "ref": "80646096a694a79f1a367bdab0349d1743df1a0d"
   },
   "requiredClientVersion": "10.0.178",
   "avatar": {
@@ -48,7 +48,7 @@
     }
   },
   "shortDesc": "Six-member contract review team with parallel risk and jurisdiction checks, independent re-verification, scored reporting, and tracked DOCX delivery. Requires a user-configured model service; verify the route and availability before calling it. Contract text and attachments are sent for analysis. Qualified human review is required; provider terms and separate costs are the user's responsibility. If unavailable, stop external calls and produce only a bounded report.",
-  "updatedAt": "2026-10-03",
+  "updatedAt": "2026-10-04",
   "fullDesc": "Six members collaborate through stable, observable steps: input coverage, source evidence, real receipts, independent re-verification, and explicit gaps. The Lead fans out jurisdiction and risk checks in parallel, then produces a scored report and tracked DOCX. Contract text and attachments are sent to the user-configured model service for analysis; before any external call, confirm the configured provider/model route and service availability. If the service is unavailable, stop before calling it and produce only a capability_debt/blocked bounded report; never fabricate legal findings. Qualified human review is required before using the outputs. Provider terms and any separate service costs are the user's responsibility. Members initially appear collapsed under the supervisor; an explicit user choice of flat or nested display takes precedence.",
   "members": [
     {

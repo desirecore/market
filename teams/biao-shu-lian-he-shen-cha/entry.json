@@ -9,8 +9,8 @@
     "document-review",
     "multimodal"
   ],
-  "latestVersion": "0.2.2",
-  "updatedAt": "2026-10-03",
+  "latestVersion": "0.2.3",
+  "updatedAt": "2026-10-04",
   "members": [
     {
       "id": "tender-review-lead",
@@ -57,7 +57,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/biao-shu-lian-he-shen-cha.git",
     "repoBranch": "main",
-    "ref": "d5cb18c7e94205bd87ba4a69fd1a887e6bc11356"
+    "ref": "a91158468a338a4522cdd4db2d87d4bfd84caa2b"
   },
   "requiredClientVersion": "10.0.178",
   "fullDesc": "成果质量导向的五角色标书辅助审查：用自然语言说明目标和材料，成员自主检查，总审按重要问题、依据、整改建议和未决事项验收。结构化导出为可选能力，结果需人工复核；真实标书效果尚未验证。使用前需要用户配置模型服务；调用前必须确认 provider/model 路由与服务可用性，标书文本和图片可能发送到该服务用于分析，服务条款与额外费用由用户负责。服务不可用时必须在外部调用前停止，仅说明缺少的能力和未完成的审查，不得伪造审查结果。成员默认收纳在组长下方并初始收起；用户显式选择平铺或收纳时，以用户选择为准。",
