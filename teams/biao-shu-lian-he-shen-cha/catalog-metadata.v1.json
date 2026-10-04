@@ -10,13 +10,13 @@
     "i18n": {
       "zh-CN": {
         "name": "标书联合审查",
-        "summary": "五角色协作审查条款响应、商务报价和标书图片，并独立复核证据。",
-        "description": "成果质量导向的五角色标书辅助审查：用自然语言说明目标和材料，成员自主检查，总审按重要问题、依据、整改建议和未决事项验收。结构化导出为可选能力，结果需人工复核；真实标书效果尚未验证。成员默认收纳在组长下方并初始收起；用户显式选择平铺或收纳时，以用户选择为准。"
+        "summary": "五角色协作审查条款响应、商务报价和标书图片，并独立复核证据。需要用户配置可用模型服务；标书文本和图片可能发送用于分析，服务条款与额外费用由用户负责，服务不可用时停止外部调用。",
+        "description": "成果质量导向的五角色标书辅助审查：用自然语言说明目标和材料，成员自主检查，总审按重要问题、依据、整改建议和未决事项验收。结构化导出为可选能力，结果需人工复核；真实标书效果尚未验证。使用前需要用户配置模型服务；调用前必须确认 provider/model 路由与服务可用性，标书文本和图片可能发送到该服务用于分析，服务条款与额外费用由用户负责。服务不可用时必须在外部调用前停止，仅说明缺少的能力和未完成的审查，不得伪造审查结果。成员默认收纳在组长下方并初始收起；用户显式选择平铺或收纳时，以用户选择为准。"
       },
       "en-US": {
         "name": "Tender Review Team",
-        "summary": "Five roles review requirements, pricing and tender images with independent evidence checks.",
-        "description": "Five roles assist with tender review focused on output quality. Describe the goals and materials in natural language; members perform their checks independently, and the lead reviews important issues, supporting evidence, corrective recommendations, and unresolved items. Structured export is optional; human review is required and effectiveness on real tender documents has not yet been verified. Members initially appear collapsed under the supervisor; an explicit user choice of flat or nested display takes precedence."
+        "summary": "Five roles review requirements, pricing and tender images with independent evidence checks. Requires a user-configured, available model service; tender text and images may be sent for analysis. The user is responsible for provider terms and separate costs; stop external calls if the service is unavailable.",
+        "description": "Five roles assist with tender review focused on output quality. Describe the goals and materials in natural language; members perform their checks independently, and the lead reviews important issues, supporting evidence, corrective recommendations, and unresolved items. Structured export is optional; human review is required and effectiveness on real tender documents has not yet been verified. Requires a user-configured model service. Before any external call, confirm the configured provider/model route and service availability. Tender text and images may be sent to that service for analysis; the user is responsible for provider terms and any separate costs. If the service is unavailable, stop before calling it and disclose missing capabilities and unfinished checks; never fabricate review results. Members initially appear collapsed under the supervisor; an explicit user choice of flat or nested display takes precedence."
       }
     },
     "tags": [
@@ -87,6 +87,14 @@
       {
         "kind": "runtime",
         "value": "Requires DesireCore 10.0.178 or newer with support for team.json memberDisplay. Stable 10.0.177 does not support this manifest field. This catalog release is published ahead of the compatible client; older clients must upgrade before installation. Full cross-platform release qualification remains pending."
+      },
+      {
+        "kind": "connection",
+        "value": "Before any external call, confirm the user-configured provider/model route and service availability. Tender text and images may be sent to that service. If unavailable, stop before calling it and disclose missing capabilities and unfinished checks; never fabricate review results."
+      },
+      {
+        "kind": "permission",
+        "value": "Human review is required before using the output. The user is responsible for the model provider terms and any separate service costs."
       }
     ]
   },
