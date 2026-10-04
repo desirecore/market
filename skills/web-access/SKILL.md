@@ -43,7 +43,7 @@ provides:
     - LocalBookmarks
 metadata:
   author: desirecore
-  updated_at: '2026-10-04'
+  updated_at: '2026-10-03'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
