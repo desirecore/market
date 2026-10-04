@@ -1,7 +1,7 @@
 {
   "id": "biao-shu-lian-he-shen-cha",
   "name": "标书联合审查",
-  "shortDesc": "五角色协作审查条款响应、商务报价和标书图片，并独立复核证据。",
+  "shortDesc": "五角色协作审查条款响应、商务报价和标书图片，并独立复核证据。需要用户配置可用模型服务；标书文本和图片可能发送用于分析，服务条款与额外费用由用户负责，服务不可用时停止外部调用。",
   "category": "business",
   "tags": [
     "tender-review",
@@ -9,8 +9,8 @@
     "document-review",
     "multimodal"
   ],
-  "latestVersion": "0.2.2",
-  "updatedAt": "2026-10-03",
+  "latestVersion": "0.2.3",
+  "updatedAt": "2026-10-04",
   "members": [
     {
       "id": "tender-review-lead",
@@ -49,7 +49,7 @@
     "document-image-review",
     "evidence-review"
   ],
-  "privacy": "用户选定模型服务可能处理标书文本和图片；本团队仅供人工辅助审查，不保证法律合规、中标或证书/签章真实性。",
+  "privacy": "用户选定模型服务可能处理标书文本和图片；本团队仅供人工辅助审查，不保证法律合规、中标或证书/签章真实性。调用前必须确认已配置的 provider/model 路由与服务可用性，服务条款与额外费用由用户负责；服务不可用时停止外部调用并说明未完成的审查，不得伪造结论。",
   "stewardship": "pointer",
   "license": "MIT",
   "redistribution": "source-pointer-only",
@@ -57,10 +57,10 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/biao-shu-lian-he-shen-cha.git",
     "repoBranch": "main",
-    "ref": "d5cb18c7e94205bd87ba4a69fd1a887e6bc11356"
+    "ref": "a91158468a338a4522cdd4db2d87d4bfd84caa2b"
   },
   "requiredClientVersion": "10.0.178",
-  "fullDesc": "成果质量导向的五角色标书辅助审查：用自然语言说明目标和材料，成员自主检查，总审按重要问题、依据、整改建议和未决事项验收。结构化导出为可选能力；真实标书效果尚未验证。成员默认收纳在组长下方并初始收起；用户显式选择平铺或收纳时，以用户选择为准。",
+  "fullDesc": "成果质量导向的五角色标书辅助审查：用自然语言说明目标和材料，成员自主检查，总审按重要问题、依据、整改建议和未决事项验收。结构化导出为可选能力，结果需人工复核；真实标书效果尚未验证。使用前需要用户配置模型服务；调用前必须确认 provider/model 路由与服务可用性，标书文本和图片可能发送到该服务用于分析，服务条款与额外费用由用户负责。服务不可用时必须在外部调用前停止，仅说明缺少的能力和未完成的审查，不得伪造审查结果。成员默认收纳在组长下方并初始收起；用户显式选择平铺或收纳时，以用户选择为准。",
   "maintainer": {
     "name": "DesireCore Official",
     "verified": false,
@@ -70,11 +70,15 @@
   "i18n": {
     "zh-CN": {
       "name": "标书联合审查",
-      "shortDesc": "五角色协作审查条款响应、商务报价和标书图片，并独立复核证据。"
+      "fullDesc": "成果质量导向的五角色标书辅助审查：用自然语言说明目标和材料，成员自主检查，总审按重要问题、依据、整改建议和未决事项验收。结构化导出为可选能力，结果需人工复核；真实标书效果尚未验证。使用前需要用户配置模型服务；调用前必须确认 provider/model 路由与服务可用性，标书文本和图片可能发送到该服务用于分析，服务条款与额外费用由用户负责。服务不可用时必须在外部调用前停止，仅说明缺少的能力和未完成的审查，不得伪造审查结果。成员默认收纳在组长下方并初始收起；用户显式选择平铺或收纳时，以用户选择为准。",
+      "privacy": "用户选定模型服务可能处理标书文本和图片；本团队仅供人工辅助审查，不保证法律合规、中标或证书/签章真实性。调用前必须确认已配置的 provider/model 路由与服务可用性，服务条款与额外费用由用户负责；服务不可用时停止外部调用并说明未完成的审查，不得伪造结论。",
+      "shortDesc": "五角色协作审查条款响应、商务报价和标书图片，并独立复核证据。需要用户配置可用模型服务；标书文本和图片可能发送用于分析，服务条款与额外费用由用户负责，服务不可用时停止外部调用。"
     },
     "en-US": {
       "name": "Tender Review Team",
-      "shortDesc": "Five roles review requirements, pricing and tender images with independent evidence checks."
+      "fullDesc": "Five roles assist with tender review focused on output quality. Describe the goals and materials in natural language; members perform their checks independently, and the lead reviews important issues, supporting evidence, corrective recommendations, and unresolved items. Structured export is optional; human review is required and effectiveness on real tender documents has not yet been verified. Requires a user-configured model service. Before any external call, confirm the configured provider/model route and service availability. Tender text and images may be sent to that service for analysis; the user is responsible for provider terms and any separate costs. If the service is unavailable, stop before calling it and disclose missing capabilities and unfinished checks; never fabricate review results. Members initially appear collapsed under the supervisor; an explicit user choice of flat or nested display takes precedence.",
+      "privacy": "The user-selected model service may process tender text and images. This team only assists human review and does not guarantee legal compliance, tender success, or the authenticity of certificates, signatures, or seals. Before any external call, confirm the configured provider/model route and service availability. Provider terms and any separate costs are the user's responsibility. If unavailable, stop before calling the service and disclose unfinished checks; never fabricate conclusions.",
+      "shortDesc": "Five roles review requirements, pricing and tender images with independent evidence checks. Requires a user-configured, available model service; tender text and images may be sent for analysis. The user is responsible for provider terms and separate costs; stop external calls if the service is unavailable."
     }
   },
   "avatar": {

@@ -47,7 +47,7 @@
         },
         "i18n": {
           "type": "object",
-          "description": "按 locale 提供的本地化展示元数据（仅 name/shortDesc，轻量）",
+          "description": "团队按 locale 提供名称、摘要及可选的完整介绍和数据处理说明。",
           "additionalProperties": {
             "type": "object",
             "properties": {
@@ -58,6 +58,14 @@
               "shortDesc": {
                 "type": "string",
                 "description": "该 locale 下的简短描述"
+              },
+              "fullDesc": {
+                "type": "string", "minLength": 1, "maxLength": 16000,
+                "description": "该语言的完整介绍，不得遗漏依赖和使用限制。"
+              },
+              "privacy": {
+                "type": "string", "minLength": 1, "maxLength": 8000,
+                "description": "该语言的数据处理、外部模型及人工复核边界。"
               }
             },
             "additionalProperties": false
@@ -273,7 +281,7 @@
         },
         "i18n": {
           "type": "object",
-          "description": "按 locale 提供的本地化展示元数据（仅 name/shortDesc，轻量）",
+          "description": "团队按 locale 提供名称、摘要及可选的完整介绍和数据处理说明。",
           "additionalProperties": {
             "type": "object",
             "properties": {
@@ -284,6 +292,14 @@
               "shortDesc": {
                 "type": "string",
                 "description": "该 locale 下的简短描述"
+              },
+              "fullDesc": {
+                "type": "string", "minLength": 1, "maxLength": 16000,
+                "description": "该语言的完整介绍，不得遗漏依赖和使用限制。"
+              },
+              "privacy": {
+                "type": "string", "minLength": 1, "maxLength": 8000,
+                "description": "该语言的数据处理、外部模型及人工复核边界。"
               }
             },
             "additionalProperties": false
@@ -489,5 +505,5 @@
       "additionalProperties": false
     }
   ],
-  "$comment": "The current branch is generated from desirecore/desirecore packages/schemas/src/market.ts at commit 40dbc58237c1ffc1c0877223142e441afee9c1ec, source blob 7662ea407f3350cd537afb3563b944e4168c8bdb. The legacy branch is retained for existing public catalog entries and fixtures until the migration is complete."
+  "$comment": "The base current branch was generated from desirecore/desirecore packages/schemas/src/market.ts at commit 40dbc58237c1ffc1c0877223142e441afee9c1ec, source blob 7662ea407f3350cd537afb3563b944e4168c8bdb. Both branches deliberately add a local i18n extension for fullDesc (1-16000 characters) and privacy (1-8000 characters), matching marketTeamEntryI18nSchema in the released v10.0.177 client at commit 1a83319b008f7b56e4df902e7b02b6a23d38bd57, source blob ebeea353595544b4893dadae18113bf551247571. The legacy branch is retained for existing public catalog entries and fixtures until the migration is complete."
 }

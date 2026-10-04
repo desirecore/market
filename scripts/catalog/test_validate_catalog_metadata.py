@@ -16,6 +16,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from jsonschema import Draft7Validator
+
 
 VALIDATOR_PATH = Path(__file__).with_name("validate_catalog_metadata.py")
 SPEC = importlib.util.spec_from_file_location("market_catalog_metadata_validator", VALIDATOR_PATH)
@@ -957,6 +959,61 @@ Body.
         self.sidecar_path.unlink()
         issues = self.validate(require_complete=True).issues
         self.assertTrue(any(issue.rule == "sidecar-coverage" for issue in issues))
+
+
+class TeamEntryLocalizationSchemaTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.schema = json.loads(SOURCE_SCHEMA.with_name(VALIDATOR.TEAM_ENTRY_SCHEMA_NAME).read_text())
+        self.validator = Draft7Validator(self.schema)
+
+    def entries(self):
+        legacy = valid_team_entry()
+        current = copy.deepcopy(legacy)
+        for field in VALIDATOR.TEAM_DISPLAY_FIELDS:
+            current.pop(field, None)
+        current.update(
+            shortDesc="Example team summary",
+            fullDesc="Example team description",
+            updatedAt="2026-10-04",
+            members=[
+                {"id": "example-lead", "name": "Example Lead", "role": "supervisor"},
+                {"id": "example-member", "name": "Example Member", "role": "member"},
+            ],
+            capabilities=["example-review"],
+            privacy="Example data-processing disclosure",
+        )
+        for branch, entry in enumerate((legacy, current)):
+            Draft7Validator(self.schema["anyOf"][branch]).validate(entry)
+            self.assertFalse(Draft7Validator(self.schema["anyOf"][1 - branch]).is_valid(entry))
+            yield branch, entry
+
+    def test_accepts_localized_descriptions_and_privacy_on_both_branches(self) -> None:
+        for branch, entry in self.entries():
+            with self.subTest(branch=branch):
+                for payload in entry["i18n"].values():
+                    payload.update(fullDesc="Localized full description", privacy="Localized privacy")
+                self.validator.validate(entry)
+
+    def test_accepts_localized_fields_at_their_maximum_lengths(self) -> None:
+        for branch, entry in self.entries():
+            with self.subTest(branch=branch):
+                entry["i18n"]["zh-CN"].update(fullDesc="文" * 16000, privacy="文" * 8000)
+                self.validator.validate(entry)
+
+    def test_rejects_empty_over_limit_and_non_string_localized_fields(self) -> None:
+        for branch, entry in self.entries():
+            for field, limit in (("fullDesc", 16000), ("privacy", 8000)):
+                for invalid in ("", "x" * (limit + 1), None, 1, []):
+                    with self.subTest(branch=branch, field=field, invalid_type=type(invalid).__name__):
+                        candidate = copy.deepcopy(entry)
+                        candidate["i18n"]["en-US"][field] = invalid
+                        self.assertFalse(self.validator.is_valid(candidate))
+
+    def test_rejects_unknown_localized_properties_on_both_branches(self) -> None:
+        for branch, entry in self.entries():
+            with self.subTest(branch=branch):
+                entry["i18n"]["en-US"]["unexpectedProperty"] = True
+                self.assertFalse(self.validator.is_valid(entry))
 
 
 if __name__ == "__main__":
