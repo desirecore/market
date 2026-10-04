@@ -1,7 +1,7 @@
 # 内置受管浏览器工具速查（L3）
 
 > **范围**：本文只描述 DesireCore **内置**受管浏览器，所以 v10.0.98+ 是本层基础能力的最低版本，
-> 不是整个 web-access v3.4.3 的兼容门槛。用户点名自己的外部 Chrome/Edge/Chromium 时需要
+> 不是整个 web-access v3.4.5 的兼容门槛。用户点名自己的外部 Chrome/Edge/Chromium 时需要
 > 客户端 v10.0.128+；简单打开走 `BrowserExternalProbe → BrowserExternalOpen`，高级 CDP/Playwright
 > 交互见 [cdp-browser.md](cdp-browser.md)。不要把本文的 BrowserManage/Act 路线用于冒充外部浏览器。
 >
@@ -210,6 +210,27 @@ scope（viewport/full_page/ref）+ ref + snapshotId、format（markdown/text）�
 `captureBeyondViewport`、`clip={x,y,width,height,scale}`。结果落 artifact store，回执给
 artifact.id / sha256 / bytes；截图像素直接进结果（见「截图」节）。
 
+### BrowserDevtools（开发者工具类动作，按需加载）
+
+调试与检查网页本身的动作在较新的客户端里从 BrowserAct 拆到了这个工具：`cdp.raw`、
+`network.observe` / `network.intercept` / `network.modify` / `network.profile.apply`、
+`storage.cookies.metadata` / `storage.cookies.write` / `storage.clear`、`devtools.open`、`console.read`、
+`performance.metrics`、`coverage.start` / `coverage.stop`、`cache.clear`、
+`service-worker.list` / `service-worker.stop-all`、`extension.install` / `extension.list` / `extension.remove`、
+`tracing.start` / `tracing.stop`。
+
+```yaml
+BrowserDevtools:
+  action: console.read
+  params: {}
+```
+
+- 它不隐藏，但也不随 web-access 注入：需要时先 `DiscoverTools(query="select:BrowserDevtools")` 加载。参数形状与
+  BrowserAct 相同（`action` + `sessionId` / `tabId` + 随 action 变化的 `params`），能力、来源、审批与宿主隔离检查也完全一致
+- 查不到这个工具说明客户端早于拆分：同样的 action 与参数直接在 BrowserAct 上调用
+- 会改变会话网络、存储或扩展状态的动作（如 `storage.clear`、`network.modify`、`extension.install`）按受管能力走审批，
+  `cdp.raw` 永远人工审批（见「已知边界」）；只读的 `console.read`、`performance.metrics`、`service-worker.list` 对观察者开放
+
 ### BrowserScript（代码模式，S17+S18）
 
 一段异步 JS 在 Worker 里跑，通过注入的 `page` / `tab` / `input` / `snapshot` / `console` /
@@ -333,7 +354,7 @@ Agent 会话（actor ≠ user）的标签页**常驻离屏原位，保住合成�
 | 边界 | 说明 |
 |------|------|
 | **`page.evaluate` 走人工闸门** | 能力 `browser.page.evaluate` 属 always-human-gate：非 allow-all 模式每次弹审批卡。返回值已原样过界（超预算截断标 `truncated`），登录态取接口走 fetch.browser 配方 |
-| **`cdp.raw` 需人工审批** | `browser.raw_cdp.*` 属于永远人工闸门的能力，无人值守流程用不了。元素级裁剪 / 整页截图用 `clip` / `captureBeyondViewport`，别走它 |
+| **`cdp.raw` 需人工审批** | 在 `BrowserDevtools` 上调用（客户端早于拆分时在 BrowserAct 上）。`browser.raw_cdp.*` 属于永远人工闸门的能力，无人值守流程用不了。元素级裁剪 / 整页截图用 `clip` / `captureBeyondViewport`，别走它 |
 | **`page.element` 没有 click** | 指针动作必须走 `input.*`（拟真轨迹、可审计）；JS 直调 `el.click()` 是明确禁止的回退 |
 | **`fill` 拒绝密码框** | `input[type=password]` 一律拒绝——密码输入只走 `input.text`（拟真键入） |
 | **单条命令 30 s deadline** | 超时只掐掉**这一条命令**（stop 加载），标签页仍可用，重试即可；不再打掉宿主。等待类命令超时连 stop 都跳过 |
@@ -363,6 +384,7 @@ SitePatternWrite:
 | 错误 | 原因 | 解决 |
 |------|------|------|
 | `该旧 BrowserXxx/cdp-proxy 入口已停用` | 还在调 v2.0 的旧工具 | 改用 BrowserManage / BrowserSnapshot / BrowserAct |
+| `action="…" 已从 BrowserAct 拆到 BrowserDevtools` | 在 BrowserAct 上调了开发者工具类动作 | 先 `DiscoverTools(query="select:BrowserDevtools")` 加载，再用同样的 action 与参数调用 BrowserDevtools |
 | `BROWSER_TAB_HOST_NOT_FOUND` | 标签页宿主真的没了（渲染进程崩溃/销毁） | 重建 Session。命令超时**不再**引发此错误——超时只 stop 这一条命令，标签页保留 |
 | `BROWSER_COMMAND_DEADLINE_EXCEEDED` | 单条命令超 30 s | 标签页仍停在上一页/空白页，直接重试；慢加载常态不算故障 |
 | `BROWSER_VIEWPORT_UNAVAILABLE` | embedded 多标签会话的后台 tab 没有可用视口 | 先 `tab.activate` 再截图（秒级快判，不是挂死） |
@@ -374,7 +396,7 @@ SitePatternWrite:
 ## 调用链路
 
 ```
-Agent → BrowserManage/Snapshot/Act/Script → browser-use service（Capability/Grant/Lease/Policy 校验）
+Agent → BrowserManage/Snapshot/Act/Devtools/Script → browser-use service（Capability/Grant/Lease/Policy 校验）
       → BrowserHost（electron-embedded 或 standalone-managed）→ Chromium
                                     ↑ 每步产出带 digest 的回执，写入审计事件流
 ```

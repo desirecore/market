@@ -15,7 +15,7 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: MIT
-version: 3.4.4
+version: 3.4.5
 type: procedural
 risk_level: low
 status: enabled
@@ -43,7 +43,7 @@ provides:
     - LocalBookmarks
 metadata:
   author: desirecore
-  updated_at: '2026-08-29'
+  updated_at: '2026-10-03'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -55,14 +55,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:c8c7be6cf577d445
+      source_hash: sha256:5a2d3f06ce8eca10
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request.
       body: ./SKILL.md
-      source_hash: sha256:c8c7be6cf577d445
+      source_hash: sha256:5a2d3f06ce8eca10
       translated_by: human
 market:
   icon: >-
@@ -123,6 +123,8 @@ When you call `Skill('web-access')`, the following tools are injected into the c
 | BrowserShare | Delegate a Space/Session to another Agent (isolated / snapshot / copy-on-write / live) |
 | SitePatternRead / SitePatternWrite | Per-domain "site experience" (AgentFS three-layer) |
 | LocalBookmarks | Search local Chrome bookmarks / history |
+
+> **Developer-tool actions are not in the table above**: network observe / intercept / modify and network profiles, cookies and site storage, console reads, performance metrics, coverage, cache, service workers, extensions, tracing, opening DevTools and raw CDP (`cdp.raw`) belong to a separate `BrowserDevtools` tool on newer clients, and this skill does not inject it. When you need one, first call `DiscoverTools(query="select:BrowserDevtools")` to load it; its parameters match BrowserAct (`action` + `sessionId` / `tabId` + `params`). If it is not found, the client predates the split: call the same action with the same parameters on `BrowserAct`.
 
 > **Important**: before `Skill('web-access')` is called, none of these tools appear in the LLM tools list — default conversations don't pay their token cost. See [references/browser-tools.md](references/browser-tools.md).
 >

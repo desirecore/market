@@ -19,7 +19,7 @@
       "shortDesc": "Operate Feishu (Lark) from chat: docs, sheets, drive, calendar, messages, tasks, approvals. Requires separately installing the third-party lark-cli and authorizing your own Feishu account."
     }
   },
-  "latestVersion": "1.0.0",
+  "latestVersion": "1.0.1",
   "maintainer": {
     "name": "DesireCore Official",
     "verified": true
@@ -39,6 +39,6 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/feishu-orchestrator.git",
     "repoBranch": "main",
-    "ref": "6116ad4ac7c0b90d44145a3d6ba86e89a33d6c3f"
+    "ref": "8f1d8102f4b934c8b7f0999c325a59a4e7b3b86c"
   }
 }

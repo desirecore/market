@@ -11,12 +11,12 @@
       "zh-CN": {
         "name": "标书联合审查",
         "summary": "五角色协作审查条款响应、商务报价和标书图片，并独立复核证据。",
-        "description": "成果质量导向的五角色标书辅助审查：用自然语言说明目标和材料，成员自主检查，总审按重要问题、依据、整改建议和未决事项验收。结构化导出为可选能力；真实标书效果尚未验证。"
+        "description": "成果质量导向的五角色标书辅助审查：用自然语言说明目标和材料，成员自主检查，总审按重要问题、依据、整改建议和未决事项验收。结构化导出为可选能力，结果需人工复核；真实标书效果尚未验证。成员默认收纳在组长下方并初始收起；用户显式选择平铺或收纳时，以用户选择为准。"
       },
       "en-US": {
         "name": "Tender Review Team",
         "summary": "Five roles review requirements, pricing and tender images with independent evidence checks.",
-        "description": "Five roles assist with tender review focused on output quality. Describe the goals and materials in natural language; members perform their checks independently, and the lead reviews important issues, supporting evidence, corrective recommendations, and unresolved items. Structured export is optional; effectiveness on real tender documents has not yet been verified."
+        "description": "Five roles assist with tender review focused on output quality. Describe the goals and materials in natural language; members perform their checks independently, and the lead reviews important issues, supporting evidence, corrective recommendations, and unresolved items. Structured export is optional; human review is required and effectiveness on real tender documents has not yet been verified. Members initially appear collapsed under the supervisor; an explicit user choice of flat or nested display takes precedence."
       }
     },
     "tags": [
@@ -29,28 +29,28 @@
   },
   "release": {
     "state": "known",
-    "version": "0.2.0",
+    "version": "0.2.2",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-13",
+      "value": "2026-10-03",
       "precision": "day"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-13",
+      "value": "2026-10-03",
       "precision": "day"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-09-13",
+      "value": "2026-10-03",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-13",
+      "value": "2026-10-03",
       "precision": "day"
     }
   },
@@ -58,7 +58,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/biao-shu-lian-he-shen-cha.git",
-      "ref": "af59d115f11f6a636e5e043b4f7a03f68dc02e33"
+      "ref": "d5cb18c7e94205bd87ba4a69fd1a887e6bc11356"
     }
   },
   "governance": {
@@ -72,8 +72,8 @@
     "stewardship": "pointer",
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "af59d115f11f6a636e5e043b4f7a03f68dc02e33",
-      "reviewedAt": "2026-09-13",
+      "reviewedRef": "d5cb18c7e94205bd87ba4a69fd1a887e6bc11356",
+      "reviewedAt": "2026-10-03",
       "reviewedBy": "desirecore-agent",
       "upstreamEndorsed": false
     }
@@ -82,11 +82,11 @@
     "platforms": {
       "state": "unknown"
     },
-    "requiredClientVersion": "10.0.155",
+    "requiredClientVersion": "10.0.178",
     "requirements": [
       {
         "kind": "runtime",
-        "value": "DesireCore 10.0.155 or newer; this is a preview pointer and the full cross-platform release qualification remains pending."
+        "value": "Requires DesireCore 10.0.178 or newer with support for team.json memberDisplay. Stable 10.0.177 does not support this manifest field. This catalog release is published ahead of the compatible client; older clients must upgrade before installation. Full cross-platform release qualification remains pending."
       }
     ]
   },

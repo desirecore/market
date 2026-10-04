@@ -30,28 +30,28 @@
   },
   "release": {
     "state": "known",
-    "version": "1.0.3",
+    "version": "1.1.2",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-06",
+      "value": "2026-09-30",
       "precision": "day"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-06",
+      "value": "2026-09-30",
       "precision": "day"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-09-06",
+      "value": "2026-09-30",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-06T00:00:00Z",
+      "value": "2026-09-29T00:00:00Z",
       "precision": "second"
     }
   },
@@ -59,7 +59,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/invoice-organizer.git",
-      "ref": "891deee7b0ff24706e07fb8dfacc182398820d7e"
+      "ref": "4970adebc906d83dd35953ea00aa941eb3dcfed5"
     }
   },
   "governance": {
@@ -77,9 +77,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "891deee7b0ff24706e07fb8dfacc182398820d7e",
-      "reviewedAt": "2026-09-06",
-      "reviewedBy": "yi-ge",
+      "reviewedRef": "4970adebc906d83dd35953ea00aa941eb3dcfed5",
+      "reviewedAt": "2026-09-30",
+      "reviewedBy": "Codex",
       "upstreamEndorsed": true
     }
   },
@@ -94,7 +94,7 @@
       },
       {
         "kind": "runtime",
-        "value": "Parsing PDF, OFD and scanned images needs nothing installed. Only the .xlsx ledger may require Python with openpyxl and pandas; when they are unavailable the Agent degrades to a UTF-8 BOM CSV and reports the degradation."
+        "value": "Parsing PDF, OFD, XML and scanned images needs nothing installed. .zip attachments are unpacked with the system's own unzip, python3 or bsdtar (macOS and Windows ship at least one; a minimal Linux image may have none, in which case the archive is quarantined for the user to unpack). Only the .xlsx ledger may require Python with openpyxl and pandas; when they are unavailable the Agent degrades to a UTF-8 BOM CSV and reports the degradation."
       },
       {
         "kind": "permission",
