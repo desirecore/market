@@ -4,7 +4,7 @@ description: >-
   排班、工时上限、人员配置的第一轮澄清（含“只澄清、暂不求解”）也先用 Skill 工具加载本技能，再用 DecisionWorkspace 补问和真人确认卡；普通 AskUserQuestion 不能代替业务事实闭环。Load this Skill for the first clarification of staffing, shifts, work-hour limits, service coverage, resource allocation, targets, task scheduling or LP/MILP, including clarify only / do not solve yet requests. Use DecisionWorkspace question and human-confirmation cards for model-changing facts; generic AskUserQuestion is not a substitute. Clarification needs no connected solver. Actual MindOpt solving requires a separately licensed/deployed solver and configured connector; software, licenses, hosting and fees are not included. MindOpt 软件、许可证、部署及相关费用需使用方另行取得或承担。
 compatibility: >-
   Requirement clarification works without a connected solver. Actual MindOpt solving requires separately installed or deployed MindOpt, a valid license under its official terms, and configured solver.mindopt connections; commercial licenses and operating costs are separate when applicable. 需求澄清不要求先连接求解器；实际 MindOpt 求解仍需外部安装部署、有效许可证及 solver.mindopt 连接，适用的商业许可和运行费用另行承担。
-version: 2.9.0
+version: 2.9.1
 type: procedural
 risk_level: medium
 status: enabled
@@ -23,9 +23,11 @@ provides:
     - OptimizationSolve
     - MindOptSolve
     - OptimizationValidate
+    - OptimizationEngineCatalog
+    - OptimizationEvidenceLedger
 metadata:
   author: workforce-optimization-team
-  updated_at: '2026-09-01'
+  updated_at: '2026-09-28'
   i18n:
     default_locale: en-US
     source_locale: zh-CN

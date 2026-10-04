@@ -29,13 +29,13 @@
   },
   "release": {
     "state": "known",
-    "version": "2.9.0",
+    "version": "2.9.1",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-01",
+      "value": "2026-09-28",
       "precision": "day"
     },
     "releasePublishedAt": {
