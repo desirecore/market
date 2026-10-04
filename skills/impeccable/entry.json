@@ -12,11 +12,11 @@
   "i18n": {
     "zh-CN": {
       "name": "Impeccable",
-      "shortDesc": "让 AI 更懂设计的前端设计语言：覆盖 UX 审查、视觉层级、可访问性、排版、配色、动效与可复用设计系统，把界面打磨到生产级"
+      "shortDesc": "让 AI 更懂设计的前端设计语言：覆盖 UX 审查、视觉层级、可访问性、排版、配色、动效与可复用设计系统，把界面打磨到生产级。新版本使用上游独立二进制启动器，可能在首次运行时下载；需自行满足平台与运行权限。"
     },
     "en-US": {
       "name": "Impeccable",
-      "shortDesc": "A design language that makes AI better at frontend: UX review, visual hierarchy, accessibility, typography, color, motion and reusable design systems"
+      "shortDesc": "A design language that makes AI better at frontend: UX review, visual hierarchy, accessibility, typography, color, motion and reusable design systems. Uses an upstream standalone binary launcher that may download on first run; platform and execution permissions must be supplied separately."
     }
   },
   "maintainer": {
@@ -33,7 +33,7 @@
     "repoUrl": "https://github.com/pbakaus/impeccable.git",
     "repoBranch": "main",
     "path": "plugin/skills/impeccable",
-    "ref": "e4ab5e24bdf5321b72163d2fbcbe6fa985c848ba"
+    "ref": "6e802bd0ed99f53180e2359fddab6da8d97970d9"
   },
-  "latestVersion": "3.9.1"
+  "latestVersion": "4.5.0"
 }

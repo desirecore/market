@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Marketing Skills",
-        "summary": "Marketing skills for technical marketers and founders — CRO, copywriting, SEO, analytics and growth engineering, for Claude Code and Cursor"
+        "summary": "Marketing skills for technical marketers and founders — CRO, copywriting, SEO, analytics and growth engineering, for Claude Code and Cursor. Third-party marketing, advertising and analytics tools require separate accounts, authorization and billing."
       },
       "zh-CN": {
         "name": "Marketing Skills",
-        "summary": "面向技术型营销人与创始人的 AI Agent 技能集，涵盖转化率优化、文案、SEO、数据分析与增长工程，适配 Claude Code、Cursor 等"
+        "summary": "面向技术型营销人与创始人的 AI Agent 技能集，涵盖转化率优化、文案、SEO、数据分析与增长工程，适配 Claude Code、Cursor 等。第三方营销、广告与分析工具需自行开通；账号、授权和费用另计。"
       }
     },
     "category": "business",
@@ -32,33 +32,37 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-08-09T08:25:20Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-08-07T15:54:03Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
       "url": "https://github.com/coreyhaines31/marketingskills.git",
-      "ref": "7868cb9251fad80a73d26e488a5ad5f6c4a9f335"
+      "ref": "dda3841f0b294e01e93b1541486beefbfab0915e"
     }
   },
   "governance": {
     "stewardship": "community",
     "availability": "listing-only",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {
@@ -70,13 +74,19 @@
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "permission",
+        "value": "Optional advertising, analytics, email, CRM and image/video integrations require the operator's own separately licensed services, accounts, access permissions and billing. The skills supply guidance, not those products; request missing evidence or report unavailable integrations before external calls."
+      }
+    ]
   },
   "spec": {
     "kind": "skill",
     "collection": {
       "role": "parent",
-      "childCount": 49,
+      "childCount": 50,
       "children": [
         {
           "identity": {
@@ -390,11 +400,11 @@
             "i18n": {
               "en-US": {
                 "name": "competitors",
-                "summary": "When the user wants to create competitor comparison or alternative pages for SEO and sales enablement."
+                "summary": "When the user wants to create competitor comparison or alternative pages for SEO and buyer-facing use."
               },
               "zh-CN": {
                 "name": "competitors",
-                "summary": "When the user wants to create competitor comparison or alternative pages for SEO and sales enablement."
+                "summary": "When the user wants to create competitor comparison or alternative pages for SEO and buyer-facing use."
               }
             },
             "tags": []
@@ -465,11 +475,11 @@
             "i18n": {
               "en-US": {
                 "name": "copywriting",
-                "summary": "When the user wants to write, rewrite, or improve marketing copy for any page — including homepage, landing pages, pricing pages, feature pages, about pages, or…"
+                "summary": "When the user wants to write, rewrite, or improve marketing copy for any page, including homepage, landing pages, pricing pages, feature pages, about pages, or…"
               },
               "zh-CN": {
                 "name": "copywriting",
-                "summary": "When the user wants to write, rewrite, or improve marketing copy for any page — including homepage, landing pages, pricing pages, feature pages, about pages, or…"
+                "summary": "When the user wants to write, rewrite, or improve marketing copy for any page, including homepage, landing pages, pricing pages, feature pages, about pages, or…"
               }
             },
             "tags": []
@@ -570,6 +580,31 @@
               "zh-CN": {
                 "name": "emails",
                 "summary": "When the user wants to create or optimize an email sequence, drip campaign, automated email flow, or lifecycle email program."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "events",
+            "parentId": "marketingskills"
+          },
+          "path": "skills/events",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "events",
+                "summary": "Plan online or in-person marketing events, including goals, budget, promotion, execution and follow-up."
+              },
+              "zh-CN": {
+                "name": "events",
+                "summary": "规划线上或线下营销活动，包括目标、预算、推广、执行与会后跟进。"
               }
             },
             "tags": []
@@ -1240,11 +1275,11 @@
             "i18n": {
               "en-US": {
                 "name": "sms",
-                "summary": "When the user wants to plan, build, or optimize SMS or MMS marketing — including welcome flows, abandoned cart texts, post-purchase, win-back, promotional sends…"
+                "summary": "When the user wants to plan, build, or optimize SMS, MMS, or WhatsApp marketing — including welcome flows, abandoned cart texts, post-purchase, win-back, promot…"
               },
               "zh-CN": {
                 "name": "sms",
-                "summary": "When the user wants to plan, build, or optimize SMS or MMS marketing — including welcome flows, abandoned cart texts, post-purchase, win-back, promotional sends…"
+                "summary": "When the user wants to plan, build, or optimize SMS, MMS, or WhatsApp marketing — including welcome flows, abandoned cart texts, post-purchase, win-back, promot…"
               }
             },
             "tags": []
@@ -1265,11 +1300,11 @@
             "i18n": {
               "en-US": {
                 "name": "social",
-                "summary": "When the user wants help creating, scheduling, or optimizing social media content for LinkedIn, Twitter/X, Instagram, TikTok, Facebook, or other platforms, or w…"
+                "summary": "When the user wants help creating, scheduling, or optimizing social media content for LinkedIn, Twitter/X, Instagram, TikTok, or Facebook, or wants to do social…"
               },
               "zh-CN": {
                 "name": "social",
-                "summary": "When the user wants help creating, scheduling, or optimizing social media content for LinkedIn, Twitter/X, Instagram, TikTok, Facebook, or other platforms, or w…"
+                "summary": "When the user wants help creating, scheduling, or optimizing social media content for LinkedIn, Twitter/X, Instagram, TikTok, or Facebook, or wants to do social…"
               }
             },
             "tags": []

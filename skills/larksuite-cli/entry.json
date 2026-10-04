@@ -9,11 +9,11 @@
   "i18n": {
     "zh-CN": {
       "name": "飞书 CLI",
-      "shortDesc": "飞书/Lark 官方命令行工具，面向人与 AI Agent，覆盖消息、文档、多维表格、日历、邮件等 18 个业务域、200+ 命令"
+      "shortDesc": "飞书/Lark 官方命令行工具，面向人与 AI Agent，覆盖消息、文档、多维表格、日历、邮件等 18 个业务域、200+ 命令。需自行安装第三方 lark-cli，并完成飞书/Lark 账号授权；产品权益和费用另计。"
     },
     "en-US": {
       "name": "Lark Suite CLI",
-      "shortDesc": "Official Lark/Feishu CLI for humans and AI agents, spanning Messenger, Docs, Base, Calendar and 18 domains with 200+ commands"
+      "shortDesc": "Official Lark/Feishu CLI for humans and AI agents, spanning Messenger, Docs, Base, Calendar and 18 domains with 200+ commands. Install third-party lark-cli separately and authorize a Feishu/Lark account; product entitlements and costs are separate."
     }
   },
   "maintainer": {
@@ -29,7 +29,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/larksuite/cli.git",
     "repoBranch": "main",
-    "ref": "a257fcbaf9f07787b6c170d9265e9ef273b0c579"
+    "ref": "7beffb086d7fa3c5b843d8affa7c089f49cfc65e"
   },
   "children": [
     {
@@ -74,7 +74,7 @@
     {
       "id": "lark-base",
       "path": "skills/lark-base",
-      "version": "1.2.21",
+      "version": "1.2.23",
       "i18n": {
         "zh-CN": {
           "shortDesc": "飞书多维表格（Base）操作：建表、字段、记录、视图、统计、公式/lookup、表单、仪表盘、应用模式（BaseApp/AppMode 页面与组件）、Workspace 目录、workflow、角色权限、模板中心（多维表格模板分类/列表/搜索）；遇到 Base/多维表格/bitable、BaseApp/AppMode、…"
@@ -268,13 +268,13 @@
     {
       "id": "lark-sheets",
       "path": "skills/lark-sheets",
-      "version": "3.1.8",
+      "version": "3.5.2",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "飞书电子表格：创建和操作电子表格。支持创建表格、管理工作表与行列结构（增删/合并/调整尺寸/隐藏/冻结）、读写单元格（值/公式/样式/批注/单元格图片）、查找替换、多操作批量更新，以及图表、透视表、条件格式、筛选器、迷你图、浮动图片等对象的创建与维护。当用户需要创建电子表格、管理工作表、批量读写或编辑数据、统计汇总与可…"
+          "shortDesc": "飞书电子表格：创建和操作电子表格。支持工作表与行列结构（增删/合并/尺寸/隐藏/冻结/分组）、单元格读写（值/公式/样式/批注/单元格图片）、区域复制移动排序填充、查找替换、批量更新，图表、透视表、条件格式、筛选器与筛选视图、下拉列表、迷你图、浮动图片等对象的创建与维护，以及公式校验、历史版本回滚、本地 Excel/C…"
         },
         "en-US": {
-          "shortDesc": "飞书电子表格：创建和操作电子表格。支持创建表格、管理工作表与行列结构（增删/合并/调整尺寸/隐藏/冻结）、读写单元格（值/公式/样式/批注/单元格图片）、查找替换、多操作批量更新，以及图表、透视表、条件格式、筛选器、迷你图、浮动图片等对象的创建与维护。当用户需要创建电子表格、管理工作表、批量读写或编辑数据、统计汇总与可…"
+          "shortDesc": "飞书电子表格：创建和操作电子表格。支持工作表与行列结构（增删/合并/尺寸/隐藏/冻结/分组）、单元格读写（值/公式/样式/批注/单元格图片）、区域复制移动排序填充、查找替换、批量更新，图表、透视表、条件格式、筛选器与筛选视图、下拉列表、迷你图、浮动图片等对象的创建与维护，以及公式校验、历史版本回滚、本地 Excel/C…"
         }
       }
     },

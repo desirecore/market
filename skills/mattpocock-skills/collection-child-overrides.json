@@ -1,0 +1,32 @@
+{
+  "implement-spec": {
+    "i18n": {
+      "zh-CN": {
+        "shortDesc": "按规格和任务依赖图实现功能；需要宿主支持子 Agent、Git 分支及所选任务跟踪工具。"
+      },
+      "en-US": {
+        "shortDesc": "Implement a specification and its task graph; requires host subagents, Git branches and the chosen issue tracker."
+      }
+    }
+  },
+  "pr": {
+    "i18n": {
+      "zh-CN": {
+        "shortDesc": "为拉取请求撰写说明，交代修改内容、验证证据和合并影响。"
+      },
+      "en-US": {
+        "shortDesc": "Write pull request descriptions covering changes, validation evidence and merge impact."
+      }
+    }
+  },
+  "retro": {
+    "i18n": {
+      "zh-CN": {
+        "shortDesc": "回顾编程会话，依据日志与现有检查改进开发环境和工作规则。"
+      },
+      "en-US": {
+        "shortDesc": "Review a coding session using logs and existing checks to improve the development environment and working rules."
+      }
+    }
+  }
+}

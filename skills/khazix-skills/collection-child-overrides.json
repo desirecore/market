@@ -1,0 +1,12 @@
+{
+  "leader": {
+    "i18n": {
+      "zh-CN": {
+        "shortDesc": "将想法整理成可执行的 Agent 任务书，包含调研证据、范围、验收要求和恢复安排。"
+      },
+      "en-US": {
+        "shortDesc": "Turn an idea into an executable agent brief with research evidence, scope, acceptance criteria and recovery steps."
+      }
+    }
+  }
+}

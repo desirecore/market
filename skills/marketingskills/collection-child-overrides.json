@@ -1,0 +1,12 @@
+{
+  "events": {
+    "i18n": {
+      "zh-CN": {
+        "shortDesc": "规划线上或线下营销活动，包括目标、预算、推广、执行与会后跟进。"
+      },
+      "en-US": {
+        "shortDesc": "Plan online or in-person marketing events, including goals, budget, promotion, execution and follow-up."
+      }
+    }
+  }
+}

@@ -13,11 +13,11 @@
   "i18n": {
     "zh-CN": {
       "name": "宝玉 Skills",
-      "shortDesc": "宝玉分享的 AI Agent 技能集，20+ 技能覆盖封面图、插图、公众号发布、翻译、幻灯片等，适配 Claude Code、Codex 等"
+      "shortDesc": "宝玉分享的 AI Agent 技能集，20+ 技能覆盖封面图、插图、公众号发布、翻译、幻灯片等，适配 Claude Code、Codex 等。外部生成服务的账号、API 密钥和费用须自行配置。"
     },
     "en-US": {
       "name": "Baoyu Skills",
-      "shortDesc": "Baoyu's 20+ content-creation skills — cover images, illustrations, WeChat publishing, translation and slide decks, for Claude Code and Codex"
+      "shortDesc": "Baoyu's 20+ content-creation skills — cover images, illustrations, WeChat publishing, translation and slide decks, for Claude Code and Codex. External generation services require separately configured accounts, API keys and billing."
     }
   },
   "maintainer": {
@@ -33,7 +33,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/JimLiu/baoyu-skills.git",
     "repoBranch": "main",
-    "ref": "6b7a2e417500561a5ecdd0b168332f4142584617"
+    "ref": "1567581c26ec29f4216c6e6835415bf30343b0e3"
   },
   "children": [
     {
@@ -156,13 +156,13 @@
     {
       "id": "baoyu-image-gen",
       "path": "skills/baoyu-image-gen",
-      "version": "2.1.0",
+      "version": "2.2.0",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "AI image generation with OpenAI GPT Image 2, Azure OpenAI, Google, OpenRouter, DashScope, Z.AI GLM-Image, MiniMax, Jimeng, Seedream, Replicate and Agnes APIs."
+          "shortDesc": "AI image generation with OpenAI GPT Image 2.5, Azure OpenAI, Google, OpenRouter, DashScope, Z.AI GLM-Image, MiniMax, Jimeng, Seedream, Replicate and Agnes APIs."
         },
         "en-US": {
-          "shortDesc": "AI image generation with OpenAI GPT Image 2, Azure OpenAI, Google, OpenRouter, DashScope, Z.AI GLM-Image, MiniMax, Jimeng, Seedream, Replicate and Agnes APIs."
+          "shortDesc": "AI image generation with OpenAI GPT Image 2.5, Azure OpenAI, Google, OpenRouter, DashScope, Z.AI GLM-Image, MiniMax, Jimeng, Seedream, Replicate and Agnes APIs."
         }
       }
     },

@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Meituan Paotui Client",
-        "summary": "Meituan Paotui ordering assistant for pickup-delivery, errands and shopping, with address search and two-step cost confirmation"
+        "summary": "Meituan Paotui ordering assistant for pickup-delivery, errands and shopping, with address search and two-step cost confirmation. Requires a Meituan account and the upstream authorization tool; real orders and delivery charges require user confirmation."
       },
       "zh-CN": {
         "name": "美团跑腿下单助手",
-        "summary": "美团跑腿下单助手：帮取送、帮忙（取号/搬装）、帮买全流程下单，含地址搜索与两步费用确认"
+        "summary": "美团跑腿下单助手：帮取送、帮忙（取号/搬装）、帮买全流程下单，含地址搜索与两步费用确认。需美团账号与上游授权工具；真实订单和配送费用须由用户确认。"
       }
     },
     "category": "business",
@@ -28,26 +28,28 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-07-19T06:37:19Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-06-28T13:06:20Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
       "url": "https://github.com/meituan/MT-Paotui-For-Client.git",
-      "ref": "dc5cc223a010c2fe4377088affc2fbe4c6c6473d"
+      "ref": "05ead232ae2b94b9b55b2a1e126e039a1cb6db00"
     }
   },
   "governance": {
@@ -66,7 +68,17 @@
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "The upstream pt-passport authorization tool and the runtime prerequisites of the included order scripts. The operator separately authorizes installation and their own Meituan account."
+      },
+      {
+        "kind": "permission",
+        "value": "Meituan delivery/order services and fees are separate from the skill. Preview the actual order and fees, obtain explicit user confirmation, and stop before submission if authorization, required details or the service are unavailable."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"

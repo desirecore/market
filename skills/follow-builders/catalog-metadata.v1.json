@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Follow Builders",
-        "summary": "Tracks top AI builders across podcasts, X/Twitter and company blogs, delivering curated daily or weekly digests"
+        "summary": "Tracks top AI builders across podcasts, X/Twitter and company blogs, delivering curated daily or weekly digests. Depends on a third-party public feed; Telegram or mail delivery requires separate setup and explicit authorization."
       },
       "zh-CN": {
         "name": "Follow Builders",
-        "summary": "追踪 AI 领域真正在造东西的开发者、研究者与创始人，把播客、X/Twitter 与官方博客的动态汇成每日/每周摘要推送"
+        "summary": "追踪 AI 领域真正在造东西的开发者、研究者与创始人，把播客、X/Twitter 与官方博客的动态汇成每日/每周摘要推送。依赖第三方公共信源；Telegram 或邮件推送须自行配置并明确授权。"
       }
     },
     "category": "productivity",
@@ -28,26 +28,28 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-08-30T18:00:09Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-08-30T18:00:09Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
       "url": "https://github.com/zarazhangrui/follow-builders.git",
-      "ref": "239227ddea46dfb9db6ed23e5864a5fabb9cee83"
+      "ref": "ec5b50e3127ba9cc5e9c54ea7bf409b0654c7f39"
     }
   },
   "governance": {
@@ -66,7 +68,17 @@
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "connection",
+        "value": "Access to the upstream public digest feed. Feed availability and data licensing are governed by its operator."
+      },
+      {
+        "kind": "runtime",
+        "value": "Node.js is required by the included digest and delivery scripts. Optional Telegram/email delivery requires the operator's own account credentials and explicit sending/scheduling authorization."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"

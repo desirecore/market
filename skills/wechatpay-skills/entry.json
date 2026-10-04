@@ -1,6 +1,6 @@
 {
   "id": "wechatpay-skills",
-  "latestVersion": "1.0",
+  "latestVersion": "1.2",
   "name": "WeChat Pay Skills",
   "category": "business",
   "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"4\" y=\"6\" width=\"16\" height=\"12\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"M4 10h16m-8 4h4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><circle cx=\"8\" cy=\"14\" r=\"1.5\" fill=\"#2563EB\"/></svg>",
@@ -10,11 +10,11 @@
   "i18n": {
     "zh-CN": {
       "name": "微信支付 Skills",
-      "shortDesc": "微信支付官方接入技能包：产品选型、官方示例代码、接入质量评估与答疑排障"
+      "shortDesc": "微信支付官方接入技能包：产品选型、官方示例代码、接入质量评估与答疑排障。实际查单需要用户自己的微信支付商户授权和凭据。"
     },
     "en-US": {
       "name": "WeChat Pay Skills",
-      "shortDesc": "Official WeChat Pay integration skills: product selection, sample code, integration quality review and troubleshooting"
+      "shortDesc": "Official WeChat Pay integration skills: product selection, sample code, integration quality review and troubleshooting. Live transaction queries require the operator's own WeChat Pay merchant authorization and credentials."
     }
   },
   "maintainer": {
@@ -31,6 +31,6 @@
     "repoUrl": "https://github.com/wechatpay-apiv3/wechatpay-skills.git",
     "repoBranch": "main",
     "path": "wechatpay-payment-integration",
-    "ref": "8573bdc38b86fa67a42acfc422d6b4dbca4ada21"
+    "ref": "9df6ba49f6f394f47ca1ee68bf9517d000b2c9d9"
   }
 }
