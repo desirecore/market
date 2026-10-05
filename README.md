@@ -119,6 +119,8 @@ A collection groups multiple upstream skills under one listing, with a declared 
 
 See the [Lark Suite CLI entry](skills/larksuite-cli/entry.json) and [sidecar](skills/larksuite-cli/catalog-metadata.v1.json). The [collection generator](scripts/gen-collection-children.py) derives children from upstream `SKILL.md` files; its `--check` mode verifies reproducible, pinned collections without rewriting entries.
 
+Discovery uses exact Git filenames, excludes fixtures, symlinks and skills marked `metadata.internal: true`, and requires a frontmatter name. Reviewed translations may be stored in a fixed `collection-child-overrides.json` beside the entry: map child IDs to `i18n` summaries for `en-US` and `zh-CN`. Overrides cannot change an upstream ID, path or version, or retain a child removed upstream. Both generation and `--check` apply these translations.
+
 ### Agents
 
 An agent directory must contain exactly one primary file: `agent.json` for inline metadata **or** `entry.json` for an external pointer, plus `catalog-metadata.v1.json`. Neither a missing primary file nor both files together is valid.
@@ -231,6 +233,8 @@ uv run scripts/catalog/check_upstream_health.py
 Collection checking requires Git and network access. Mutable collections are reported and skipped because their generated inventory is not reproducible. Omitting `--check` runs the generator in write mode; review both the regenerated children and the corresponding sidecar facts before committing.
 
 The upstream health check is read-only and exits non-zero when an entry is `gone` or has a `bad-branch`, `bad-ref`, or `bad-path`. `unreachable` is a network error, not a confirmed failure. The [upstream health workflow](.github/workflows/upstream-health.yml) runs it weekly and keeps one `upstream-health` issue current; fixes and `source.ref` bumps still go through reviewed PRs.
+
+Paths are checked at the installed snapshot. A path removed only at branch head is reported as `upstream-path-change` while a valid pin remains usable. `outdated` means the snapshot content differs, not that a new release version exists; commits with identical trees do not trigger it. For single-skill subtree pointers, comparison covers `source.path` and root license/notice files, so unrelated feed or website updates do not trigger repins. `--summary-file <path>` writes the workflow's `broken`, `actionable` and `unknown` decisions as JSON. Unpinned entries remain actionable, and network uncertainty keeps the tracking issue open.
 
 The [validation workflow](.github/workflows/i18n-validate.yml) is the source of truth for CI. It detects relevant paths and can skip catalog validation for documentation-only changes. A green skipped job is not evidence that Markdown links or bilingual documentation were checked; review those separately.
 

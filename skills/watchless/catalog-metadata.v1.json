@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Watchless",
-        "summary": "Turns a video into a complete keyframe-led visual document with faithful transcript-based notes, exported as HTML, PDF or a shareable ZIP"
+        "summary": "Turns a video into a complete keyframe-led visual document with faithful transcript-based notes, exported as HTML, PDF or a shareable ZIP. Defaults to Tencent Cloud ASR, with separate account authorization and billing; configure Python, ffmpeg and other prerequisites separately."
       },
       "zh-CN": {
         "name": "Watchless",
-        "summary": "把视频转成以关键帧截图为主线的完整视觉文档：转写为事实来源、截图保留画面证据，输出 HTML/PDF/ZIP，读者无需再看原视频"
+        "summary": "把视频转成以关键帧截图为主线的完整视觉文档：转写为事实来源、截图保留画面证据，输出 HTML/PDF/ZIP，读者无需再看原视频。默认使用腾讯云 ASR，需自行开通账号、授权与计费；Python、ffmpeg 等运行依赖另行配置。"
       }
     },
     "category": "media",
@@ -31,33 +31,37 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-07-19T11:19:33Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-07-19T11:19:33Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
       "url": "https://github.com/chenzixin1/watchless.git",
-      "ref": "a09c0edc6c3121c05e9824ef556256441d291d4f"
+      "ref": "34e2fa861a2e31bb4197e9e0a7b8d90e76ebeb6b"
     }
   },
   "governance": {
     "stewardship": "community",
     "availability": "listing-only",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {
@@ -69,7 +73,17 @@
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "The operator configures the Python environment, ffmpeg and other upstream video-processing dependencies."
+      },
+      {
+        "kind": "permission",
+        "value": "Tencent Cloud ASR is the default cloud transcription provider; its account, credentials, service authorization and fees are separate. Other providers require explicit selection. Obtain permission before transferring non-public audio; use an explicitly requested local option or stop if authorization is unavailable."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"

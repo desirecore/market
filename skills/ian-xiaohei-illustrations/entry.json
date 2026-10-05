@@ -7,11 +7,11 @@
   "i18n": {
     "zh-CN": {
       "name": "Ian 小黑怪诞正文配图",
-      "shortDesc": "生成 Ian「小黑」风格的中文正文配图，把文章观点、流程与隐喻转成清爽怪诞的 16:9 手绘解释图"
+      "shortDesc": "生成 Ian「小黑」风格的中文正文配图，把文章观点、流程与隐喻转成清爽怪诞的 16:9 手绘解释图。生成图片需要另行配置可用的图像生成能力及相关服务权益。"
     },
     "en-US": {
       "name": "Ian Xiaohei Illustrations",
-      "shortDesc": "Generate Ian \"Xiaohei\" style illustrations for Chinese articles, turning ideas and processes into clean, whimsical 16:9 hand-drawn visuals"
+      "shortDesc": "Generate Ian \"Xiaohei\" style illustrations for Chinese articles, turning ideas and processes into clean, whimsical 16:9 hand-drawn visuals. Image generation requires separately configured image capabilities and service entitlements."
     }
   },
   "maintainer": {
@@ -28,6 +28,6 @@
     "repoUrl": "https://github.com/helloianneo/ian-xiaohei-illustrations.git",
     "repoBranch": "main",
     "path": "ian-xiaohei-illustrations",
-    "ref": "91b560849e8f883922cc2fa8a358a668caa94105"
+    "ref": "4102eb807f03bcb6e538a16e8b31b41db8b5b954"
   }
 }

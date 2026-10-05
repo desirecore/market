@@ -12,11 +12,11 @@
   "i18n": {
     "zh-CN": {
       "name": "Watchless",
-      "shortDesc": "把视频转成以关键帧截图为主线的完整视觉文档：转写为事实来源、截图保留画面证据，输出 HTML/PDF/ZIP，读者无需再看原视频"
+      "shortDesc": "把视频转成以关键帧截图为主线的完整视觉文档：转写为事实来源、截图保留画面证据，输出 HTML/PDF/ZIP，读者无需再看原视频。默认使用腾讯云 ASR，需自行开通账号、授权与计费；Python、ffmpeg 等运行依赖另行配置。"
     },
     "en-US": {
       "name": "Watchless",
-      "shortDesc": "Turns a video into a complete keyframe-led visual document with faithful transcript-based notes, exported as HTML, PDF or a shareable ZIP"
+      "shortDesc": "Turns a video into a complete keyframe-led visual document with faithful transcript-based notes, exported as HTML, PDF or a shareable ZIP. Defaults to Tencent Cloud ASR, with separate account authorization and billing; configure Python, ffmpeg and other prerequisites separately."
     }
   },
   "maintainer": {
@@ -32,6 +32,6 @@
     "kind": "git",
     "repoUrl": "https://github.com/chenzixin1/watchless.git",
     "repoBranch": "main",
-    "ref": "a09c0edc6c3121c05e9824ef556256441d291d4f"
+    "ref": "34e2fa861a2e31bb4197e9e0a7b8d90e76ebeb6b"
   }
 }

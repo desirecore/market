@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -53,7 +54,11 @@ MAX_SHORT_DESC = 160
 
 
 def run(cmd: list[str], cwd: Path | None = None) -> subprocess.CompletedProcess:
-    return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
+    try:
+        return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=300,
+                              env={**os.environ, "GIT_TERMINAL_PROMPT": "0", "GCM_INTERACTIVE": "never"})
+    except subprocess.TimeoutExpired:
+        return subprocess.CompletedProcess(cmd, 124, "", "timed out")
 
 
 def clone_pinned(repo_url: str, branch: str, ref: str | None, dest: Path) -> None:
@@ -86,7 +91,11 @@ def parse_frontmatter(path: Path) -> dict:
         text = path.read_text(encoding="utf-8", errors="replace")
     except OSError:
         return {}
-    match = re.match(r"^---\n(.*?)\n---", text, re.S)
+    return parse_frontmatter_text(text)
+
+
+def parse_frontmatter_text(text: str) -> dict:
+    match = re.match(r"^---\r?\n(.*?)\r?\n---", text, re.S)
     if not match:
         return {}
     try:
@@ -94,6 +103,42 @@ def parse_frontmatter(path: Path) -> dict:
     except yaml.YAMLError:
         return {}
     return data if isinstance(data, dict) else {}
+
+
+def skill_paths(repo_dir: Path, revision: str = "HEAD") -> list[str]:
+    """Use Git's exact filenames, independent of filesystem case folding."""
+    if (repo_dir / ".git").exists():
+        result = run(["git", "ls-tree", "-rz", "--full-tree", revision], cwd=repo_dir)
+        if result.returncode:
+            raise RuntimeError(f"cannot list skill files: {result.stderr.strip()[:300]}")
+        paths = []
+        for record in result.stdout.split("\0"):
+            if not record:
+                continue
+            info, path = record.split("\t", 1)
+            mode, kind, _ = info.split()
+            if kind == "blob" and mode != "120000" and path.split("/")[-1] == "SKILL.md":
+                paths.append(path)
+        return sorted(paths, key=lambda path: tuple(path.split("/")))
+
+    # Support local authoring fixtures without a Git repository. os.walk yields
+    # actual directory entries; glob("SKILL.md") can match lowercase skill.md.
+    return sorted(
+        ((Path(directory) / name).relative_to(repo_dir).as_posix()
+         for directory, _, names in os.walk(repo_dir)
+         for name in names
+         if name == "SKILL.md" and not (Path(directory) / name).is_symlink()),
+        key=lambda path: tuple(path.split("/")),
+    )
+
+
+def skill_frontmatter(repo_dir: Path, path: str, revision: str = "HEAD") -> dict:
+    if (repo_dir / ".git").exists():
+        result = run(["git", "show", f"{revision}:{path}"], cwd=repo_dir)
+        if result.returncode:
+            raise RuntimeError(f"cannot read {path}: {result.stderr.strip()[:300]}")
+        return parse_frontmatter_text(result.stdout)
+    return parse_frontmatter(repo_dir / path)
 
 
 def first_sentence(text: str) -> str:
@@ -117,7 +162,7 @@ def normalize_version(raw) -> str | None:
     return f"{int(major)}.{int(minor or 0)}.{int(patch or 0)}"
 
 
-def discover_children(repo_dir: Path) -> list[dict]:
+def discover_children(repo_dir: Path, revision: str = "HEAD") -> list[dict]:
     children: list[dict] = []
     seen: dict[str, str] = {}
 
@@ -125,26 +170,33 @@ def discover_children(repo_dir: Path) -> list[dict]:
     # the published set. Scanning the whole tree instead picks up decoys such as
     # larksuite/cli's internal/qualitygate/skillscan/testdata/skills/lark-demo,
     # which is a linter fixture, not a shippable skill.
-    scan_root = repo_dir / "skills" if (repo_dir / "skills").is_dir() else repo_dir
+    paths = skill_paths(repo_dir, revision)
+    has_skills = any(path.startswith("skills/") for path in paths)
 
-    for skill_md in sorted(scan_root.rglob("SKILL.md")):
-        rel = skill_md.relative_to(repo_dir)
+    for path in paths:
+        if has_skills and not path.startswith("skills/"):
+            continue
+        rel = Path(path)
         segments = [s.lower() for s in rel.parts[:-1]]
         if any(seg in EXCLUDED_SEGMENTS for seg in segments):
             continue
         if not segments:
             continue  # repo root itself is a single skill, not a collection
 
+        fm = skill_frontmatter(repo_dir, path, revision)
+        metadata = fm.get("metadata")
+        if not fm.get("name") or (isinstance(metadata, dict) and metadata.get("internal") is True):
+            continue
+
         child_id = rel.parts[-2]
         if not re.match(r"^[a-z0-9-]+$", child_id):
-            print(f"  ! skipped {rel.parent}: directory name is not a valid skill id")
+            print(f"  ! skipped {rel.parent}: directory name is not a valid skill id", file=sys.stderr)
             continue
         if child_id in seen:
-            print(f"  ! skipped {rel.parent}: id '{child_id}' already taken by {seen[child_id]}")
+            print(f"  ! skipped {rel.parent}: id '{child_id}' already taken by {seen[child_id]}", file=sys.stderr)
             continue
         seen[child_id] = str(rel.parent)
 
-        fm = parse_frontmatter(skill_md)
         # Git catalog paths use POSIX separators on every contributor platform.
         child: dict = {"id": child_id, "path": rel.parent.as_posix()}
         name = fm.get("display_name") or fm.get("name")
@@ -161,6 +213,32 @@ def discover_children(repo_dir: Path) -> list[dict]:
             }
         children.append(child)
 
+    return children
+
+
+def apply_presentation_overrides(entry_id: str, children: list[dict]) -> list[dict]:
+    """Keep reviewed translations reproducible without overriding source facts."""
+    path = SKILLS_DIR / entry_id / "collection-child-overrides.json"
+    if not path.exists():
+        return children
+    overrides = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(overrides, dict):
+        raise RuntimeError("child presentation overrides must be an object")
+    by_id = {child["id"]: child for child in children}
+    for child_id, override in overrides.items():
+        if child_id not in by_id:
+            raise RuntimeError(f"presentation override names missing upstream child '{child_id}'")
+        if not isinstance(override, dict) or set(override) != {"i18n"}:
+            raise RuntimeError(f"presentation override for '{child_id}' may only contain i18n")
+        locales = override["i18n"]
+        if not isinstance(locales, dict) or not locales:
+            raise RuntimeError(f"presentation override for '{child_id}' must declare locales")
+        for locale, payload in locales.items():
+            if locale not in {"en-US", "zh-CN"} or not isinstance(payload, dict) or set(payload) != {"shortDesc"}:
+                raise RuntimeError(f"invalid presentation override locale for '{child_id}'")
+            if not isinstance(payload["shortDesc"], str) or not payload["shortDesc"].strip():
+                raise RuntimeError(f"presentation override for '{child_id}' needs a non-empty summary")
+        by_id[child_id]["i18n"] = locales
     return children
 
 
@@ -193,7 +271,11 @@ def process(entry_id: str, *, check: bool = False) -> bool:
         except RuntimeError as err:
             print(f"{entry_id}: {err}")
             return False
-        children = discover_children(repo_dir)
+        try:
+            children = apply_presentation_overrides(entry_id, discover_children(repo_dir))
+        except (RuntimeError, ValueError) as err:
+            print(f"{entry_id}: {err}")
+            return False
 
     if not children:
         print(f"{entry_id}: no sub-skills found — not a collection?")

@@ -30,19 +30,21 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-08-30T18:00:09Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-08-30T18:00:09Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     }
   },
   "provenance": {
@@ -50,14 +52,16 @@
       "kind": "git",
       "url": "https://github.com/Leonxlnx/taste-skill.git",
       "path": "skills/taste-skill",
-      "ref": "ccbc15639c97057cbfcf32ecebc38ef716e4bb37"
+      "ref": "ce26fc25c0e5e8cab638f883de62d9a86ee5e45b"
     }
   },
   "governance": {
     "stewardship": "community",
     "availability": "listing-only",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {

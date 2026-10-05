@@ -12,11 +12,11 @@
   "i18n": {
     "zh-CN": {
       "name": "卡兹克 Skills",
-      "shortDesc": "卡兹克日常在用的开源 AI Skill 合集，遵循 AgentSkills 标准，适配 Claude Code、Codex、OpenCode 等"
+      "shortDesc": "卡兹克日常在用的开源 AI Skill 合集，遵循 AgentSkills 标准，适配 Claude Code、Codex、OpenCode 等。AIHOT 资讯依赖第三方服务；面向外部的商业使用须另获 AIHOT 授权。"
     },
     "en-US": {
       "name": "Khazix Skills",
-      "shortDesc": "Khazix's open-source collection of daily-use AI skills following the AgentSkills standard, working with Claude Code, Codex and OpenCode"
+      "shortDesc": "Khazix's open-source collection of daily-use AI skills following the AgentSkills standard, working with Claude Code, Codex and OpenCode. AIHOT news depends on a third-party service; external commercial use requires separate AIHOT authorization."
     }
   },
   "maintainer": {
@@ -32,7 +32,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/KKKKhazix/khazix-skills.git",
     "repoBranch": "main",
-    "ref": "d4e43c91f16dcd859748c1d71ec7d8aa1ebb4694"
+    "ref": "322346ded8129436b3f64707789a73e732ae24d9"
   },
   "children": [
     {
@@ -40,10 +40,10 @@
       "path": "aihot",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "AI HOT (aihot.virxact.com) 中文 AI 资讯查询 Skill。当用户想知道\"今天 AI 圈有什么\"、\"AI 日报\"、\"AI HOT\"、\"AI 资讯\"、\"AI 热点\"、\"最近 AI\"、\"OpenAI/Anthropic/Google 最近发布了什么\"、\"AI hot today\"、\"AI new…"
+          "shortDesc": "查询 AIHOT（aihot.news）的中文 AI 资讯。用户问今天或最近 AI 圈发生了什么、AI 新闻和 AI 日报、大模型与 AI 产品发布、OpenAI／Anthropic／Google 等公司或某个 AI 话题的最新消息、当前最热的 AI 事件及来龙去脉、AI 模型排行、Codex 额度重置，或其它 AI…"
         },
         "en-US": {
-          "shortDesc": "AI HOT (aihot.virxact.com) 中文 AI 资讯查询 Skill。当用户想知道\"今天 AI 圈有什么\"、\"AI 日报\"、\"AI HOT\"、\"AI 资讯\"、\"AI 热点\"、\"最近 AI\"、\"OpenAI/Anthropic/Google 最近发布了什么\"、\"AI hot today\"、\"AI new…"
+          "shortDesc": "查询 AIHOT（aihot.news）的中文 AI 资讯。用户问今天或最近 AI 圈发生了什么、AI 新闻和 AI 日报、大模型与 AI 产品发布、OpenAI／Anthropic／Google 等公司或某个 AI 话题的最新消息、当前最热的 AI 事件及来龙去脉、AI 模型排行、Codex 额度重置，或其它 AI…"
         }
       }
     },
@@ -72,14 +72,26 @@
       }
     },
     {
+      "id": "leader",
+      "path": "leader",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "将想法整理成可执行的 Agent 任务书，包含调研证据、范围、验收要求和恢复安排。"
+        },
+        "en-US": {
+          "shortDesc": "Turn an idea into an executable agent brief with research evidence, scope, acceptance criteria and recovery steps."
+        }
+      }
+    },
+    {
       "id": "neat-freak",
       "path": "neat-freak",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "End-of-session knowledge cleanup with OCD-level rigor — reconciles project docs (CLAUDE.md, README.md, docs/) and agent memory against the code, and audits whet…"
+          "shortDesc": "Knowledge and governance closeout: reconcile project docs, rule files (CLAUDE.md/AGENTS.md), authorized agent memory, and workspace residue with what the code a…"
         },
         "en-US": {
-          "shortDesc": "End-of-session knowledge cleanup with OCD-level rigor — reconciles project docs (CLAUDE.md, README.md, docs/) and agent memory against the code, and audits whet…"
+          "shortDesc": "Knowledge and governance closeout: reconcile project docs, rule files (CLAUDE.md/AGENTS.md), authorized agent memory, and workspace residue with what the code a…"
         }
       }
     },

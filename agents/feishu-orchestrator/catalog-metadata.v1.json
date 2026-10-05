@@ -36,7 +36,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-30",
+      "value": "2026-10-05",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -46,20 +46,20 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-09-30",
+      "value": "2026-10-05",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-06T00:00:00Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/feishu-orchestrator.git",
-      "ref": "8f1d8102f4b934c8b7f0999c325a59a4e7b3b86c"
+      "ref": "3b22436d4c0a98124946fe935f816fde1b49fa4f"
     }
   },
   "governance": {
@@ -87,9 +87,9 @@
     "compliance": {
       "licenseEvidencePath": "LICENSE",
       "noticePath": "NOTICE",
-      "reviewedRef": "8f1d8102f4b934c8b7f0999c325a59a4e7b3b86c",
-      "reviewedAt": "2026-09-30",
-      "reviewedBy": "Codex",
+      "reviewedRef": "3b22436d4c0a98124946fe935f816fde1b49fa4f",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "Market upstream maintenance",
       "upstreamEndorsed": true
     }
   },

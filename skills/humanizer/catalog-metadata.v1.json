@@ -27,38 +27,44 @@
     ]
   },
   "release": {
-    "state": "unknown"
+    "state": "known",
+    "version": "3.1.0",
+    "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-08-09T10:14:38Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-08-09T10:14:38Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
       "url": "https://github.com/blader/humanizer.git",
-      "ref": "523374dee72d67c7b2b5f858ea0094ffda49c3ac"
+      "ref": "225a6f39ac85f76ee48dbad772ea4abe4ed6c9d8"
     }
   },
   "governance": {
     "stewardship": "community",
     "availability": "listing-only",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {
