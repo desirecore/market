@@ -38,7 +38,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/mimo-model-quota-monitor.git",
     "repoBranch": "main",
-    "ref": "0abbfc28f4fe3fffd6da0708a361a9c0a1fe15b9"
+    "ref": "5e68bab7afacb54705f7cc99c337ec3b6d4ebb84"
   },
   "requiredClientVersion": "10.0.156"
 }

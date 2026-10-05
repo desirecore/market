@@ -119,6 +119,8 @@ uv run scripts/i18n/validate-i18n.py
 
 参考[飞书 CLI 条目](skills/larksuite-cli/entry.json)及其 [sidecar](skills/larksuite-cli/catalog-metadata.v1.json)。[集合生成器](scripts/gen-collection-children.py)从上游 `SKILL.md` 提取子技能，`--check` 模式只验证固定版本、可复现的集合，不重写条目。
 
+发现过程使用 Git 中的精确文件名，排除测试样例、符号链接和标记为 `metadata.internal: true` 的技能，并要求 frontmatter 声明名称。经过审阅的翻译可放在条目旁的固定文件 `collection-child-overrides.json`：按子技能 ID 声明 `en-US` 和 `zh-CN` 的 `i18n` 简介。该文件不能修改上游 ID、路径或版本，也不能保留上游已删除的子技能；生成和 `--check` 都会应用这些翻译。
+
 ### 智能体
 
 智能体目录必须包含一个主文件：内联元数据 `agent.json` **或**外部指针 `entry.json`，并同时提供 `catalog-metadata.v1.json`。主文件缺失或两种主文件同时存在均不合法。
@@ -231,6 +233,8 @@ uv run scripts/catalog/check_upstream_health.py
 集合检查需要 Git 和网络。可变来源集合会被报告并跳过，因为无法保证生成清单可复现。省略 `--check` 会进入写入模式；提交前应同时检查重新生成的子技能和对应 sidecar 事实。
 
 上游健康检查只读，不改写条目；出现 `gone`、`bad-branch`、`bad-ref` 或 `bad-path` 时以非零状态退出。`unreachable` 表示网络错误，不等于确认失效。[上游健康工作流](.github/workflows/upstream-health.yml)每周运行一次，并维护唯一一个 `upstream-health` Issue；修复条目和更新 `source.ref` 仍需通过经过评审的 PR。
+
+路径检查以实际安装的快照为准。只有分支头删除路径、固定版本仍可用时，报告 `upstream-path-change`。`outdated` 表示快照内容不同，不表示一定发布了新版本；文件树完全相同的提交不会触发更新提醒。单技能子目录指针比较 `source.path` 和仓库根的许可证、声明文件，不因无关的资讯数据或网站更新反复要求改动固定提交。`--summary-file <路径>` 将工作流使用的 `broken`、`actionable` 和 `unknown` 判定写入 JSON。未固定版本仍属于待处理事项；网络状态未知时保留跟踪 Issue。
 
 [校验工作流](.github/workflows/i18n-validate.yml)是 CI 行为的权威来源。它会检测相关路径，纯文档改动可能跳过目录校验。跳过后显示成功的任务，不代表 Markdown 链接或中英文文档已被检查；这些内容仍需单独审查。
 

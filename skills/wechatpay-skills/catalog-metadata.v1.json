@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "WeChat Pay Skills",
-        "summary": "Official WeChat Pay integration skills: product selection, sample code, integration quality review and troubleshooting"
+        "summary": "Official WeChat Pay integration skills: product selection, sample code, integration quality review and troubleshooting. Live transaction queries require the operator's own WeChat Pay merchant authorization and credentials."
       },
       "zh-CN": {
         "name": "微信支付 Skills",
-        "summary": "微信支付官方接入技能包：产品选型、官方示例代码、接入质量评估与答疑排障"
+        "summary": "微信支付官方接入技能包：产品选型、官方示例代码、接入质量评估与答疑排障。实际查单需要用户自己的微信支付商户授权和凭据。"
       }
     },
     "category": "business",
@@ -24,25 +24,27 @@
   },
   "release": {
     "state": "known",
-    "version": "1.0",
+    "version": "1.2",
     "versionScheme": "opaque"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-08-09T08:25:20Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-06-28T13:06:20Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     }
   },
   "provenance": {
@@ -50,14 +52,16 @@
       "kind": "git",
       "url": "https://github.com/wechatpay-apiv3/wechatpay-skills.git",
       "path": "wechatpay-payment-integration",
-      "ref": "8573bdc38b86fa67a42acfc422d6b4dbca4ada21"
+      "ref": "9df6ba49f6f394f47ca1ee68bf9517d000b2c9d9"
     }
   },
   "governance": {
     "stewardship": "partner",
     "availability": "listing-only",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE.md"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {
@@ -69,7 +73,13 @@
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "permission",
+        "value": "Official document lookup is distinct from live merchant API calls. Live payment/refund queries require the operator's own authorized WeChat Pay merchant account and protected API credentials; service terms and charges remain separate. Never send a live request when authorization or credentials are unavailable."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"

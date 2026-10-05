@@ -9,11 +9,11 @@
   "i18n": {
     "zh-CN": {
       "name": "美团跑腿下单助手",
-      "shortDesc": "美团跑腿下单助手：帮取送、帮忙（取号/搬装）、帮买全流程下单，含地址搜索与两步费用确认"
+      "shortDesc": "美团跑腿下单助手：帮取送、帮忙（取号/搬装）、帮买全流程下单，含地址搜索与两步费用确认。需美团账号与上游授权工具；真实订单和配送费用须由用户确认。"
     },
     "en-US": {
       "name": "Meituan Paotui Client",
-      "shortDesc": "Meituan Paotui ordering assistant for pickup-delivery, errands and shopping, with address search and two-step cost confirmation"
+      "shortDesc": "Meituan Paotui ordering assistant for pickup-delivery, errands and shopping, with address search and two-step cost confirmation. Requires a Meituan account and the upstream authorization tool; real orders and delivery charges require user confirmation."
     }
   },
   "maintainer": {
@@ -29,6 +29,6 @@
     "kind": "git",
     "repoUrl": "https://github.com/meituan/MT-Paotui-For-Client.git",
     "repoBranch": "main",
-    "ref": "dc5cc223a010c2fe4377088affc2fbe4c6c6473d"
+    "ref": "05ead232ae2b94b9b55b2a1e126e039a1cb6db00"
   }
 }

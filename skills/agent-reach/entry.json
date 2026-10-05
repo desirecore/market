@@ -7,11 +7,11 @@
   "i18n": {
     "zh-CN": {
       "name": "Agent Reach",
-      "shortDesc": "全网调研与社媒搜索：覆盖小红书、X/Twitter、B 站、Reddit、YouTube 等平台的内容检索与信息聚合"
+      "shortDesc": "全网调研与社媒搜索：覆盖小红书、X/Twitter、B 站、Reddit、YouTube 等平台的内容检索与信息聚合。需自行安装 Agent Reach 及所需第三方 CLI，并授权对应平台账号。"
     },
     "en-US": {
       "name": "Agent Reach",
-      "shortDesc": "Web research and social search across Xiaohongshu, X/Twitter, Bilibili, Reddit, YouTube and more"
+      "shortDesc": "Web research and social search across Xiaohongshu, X/Twitter, Bilibili, Reddit, YouTube and more. Install Agent Reach and required third-party CLIs separately, and authorize the relevant platform accounts."
     }
   },
   "maintainer": {
@@ -28,6 +28,6 @@
     "repoUrl": "https://github.com/Panniantong/agent-reach.git",
     "repoBranch": "main",
     "path": "agent_reach/skill",
-    "ref": "e825f6740d24c6c315c3b0dc41907e6c87ff39a5"
+    "ref": "a19a171fa980a0785849596492e0af4db800c82f"
   }
 }

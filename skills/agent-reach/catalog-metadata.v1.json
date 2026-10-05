@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Agent Reach",
-        "summary": "Web research and social search across Xiaohongshu, X/Twitter, Bilibili, Reddit, YouTube and more"
+        "summary": "Web research and social search across Xiaohongshu, X/Twitter, Bilibili, Reddit, YouTube and more. Install Agent Reach and required third-party CLIs separately, and authorize the relevant platform accounts."
       },
       "zh-CN": {
         "name": "Agent Reach",
-        "summary": "全网调研与社媒搜索：覆盖小红书、X/Twitter、B 站、Reddit、YouTube 等平台的内容检索与信息聚合"
+        "summary": "全网调研与社媒搜索：覆盖小红书、X/Twitter、B 站、Reddit、YouTube 等平台的内容检索与信息聚合。需自行安装 Agent Reach 及所需第三方 CLI，并授权对应平台账号。"
       }
     },
     "category": "research",
@@ -35,19 +35,21 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-07-19T06:37:19Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-07-09T13:37:59Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     }
   },
   "provenance": {
@@ -55,14 +57,16 @@
       "kind": "git",
       "url": "https://github.com/Panniantong/agent-reach.git",
       "path": "agent_reach/skill",
-      "ref": "e825f6740d24c6c315c3b0dc41907e6c87ff39a5"
+      "ref": "a19a171fa980a0785849596492e0af4db800c82f"
     }
   },
   "governance": {
     "stewardship": "community",
     "availability": "listing-only",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {
@@ -74,7 +78,17 @@
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "User-installed Agent Reach and the platform CLIs required by the chosen channel. Browser-based channels require a user-controlled browser session; no fixed conda environment is assumed."
+      },
+      {
+        "kind": "permission",
+        "value": "The operator authorizes platform accounts and any cookie or browser-session access. Platform restrictions and optional service costs apply separately; stop when authorization or a channel is unavailable."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"

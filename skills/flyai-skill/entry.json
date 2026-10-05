@@ -30,7 +30,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/alibaba-flyai/flyai-skill.git",
     "repoBranch": "main",
-    "ref": "54277b27b68e53741954c08541faedba1d45cc7b",
+    "ref": "86fe2cc3e25464d0e0bd6a769b27b5f9f3b04128",
     "path": "skills/flyai"
   }
 }

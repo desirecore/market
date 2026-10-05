@@ -36,7 +36,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-30",
+      "value": "2026-10-05",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -46,20 +46,20 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-09-30",
+      "value": "2026-10-05",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-29T00:00:00Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/invoice-organizer.git",
-      "ref": "4970adebc906d83dd35953ea00aa941eb3dcfed5"
+      "ref": "d22395a0c9387b283ab5b86d6a66a47d48e29f75"
     }
   },
   "governance": {
@@ -77,9 +77,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "4970adebc906d83dd35953ea00aa941eb3dcfed5",
-      "reviewedAt": "2026-09-30",
-      "reviewedBy": "Codex",
+      "reviewedRef": "d22395a0c9387b283ab5b86d6a66a47d48e29f75",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "Market upstream maintenance",
       "upstreamEndorsed": true
     }
   },

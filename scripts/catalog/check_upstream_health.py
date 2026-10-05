@@ -14,17 +14,17 @@ script looks at each upstream and reports, without rewriting anything:
   bad-branch  source.repoBranch no longer exists upstream
   bad-ref     pinned source.ref can no longer be fetched (history rewritten)
   bad-path    source.path, the root SKILL.md, or a declared child path is missing at
-              branch head
+              the installed snapshot (source.ref, or branch head when unpinned)
   unreachable network error other than "not found"; treated as unknown, not broken
   new-skill   branch head has collection children that `children` does not declare
               (same discovery rules as scripts/gen-collection-children.py)
-  outdated    pinned source.ref is behind branch head; an update is available
+  upstream-path-change  a declared path moved at branch head but the pin still works
+  outdated    pinned content differs from branch head; review before updating
   unpinned    entry follows a moving branch without source.ref
   ok          nothing to report
 
-Path checks run against branch head: they answer "will this pointer still work
-after the next ref bump", while `bad-ref` answers "does the pinned ref still
-resolve". Only skills get path checks; agents and teams are AgentFS repositories.
+Path checks distinguish the installed snapshot from changes at branch head.
+Only skills get path checks; agents and teams are AgentFS repositories.
 
 Usage:
   uv run scripts/catalog/check_upstream_health.py                  # text table
@@ -55,7 +55,8 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 KINDS = ("skills", "agents", "teams")
 
 BROKEN = ("gone", "bad-branch", "bad-ref", "bad-path")
-ORDER = (*BROKEN, "unreachable", "new-skill", "outdated", "unpinned", "ok")
+ACTIONABLE = (*BROKEN, "upstream-path-change", "new-skill", "outdated", "unpinned")
+ORDER = (*BROKEN, "unreachable", "upstream-path-change", "new-skill", "outdated", "unpinned", "ok")
 
 # Git asks for credentials when a public repository disappears; never prompt.
 GIT_ENV = {**os.environ, "GIT_TERMINAL_PROMPT": "0", "GCM_INTERACTIVE": "never"}
@@ -100,12 +101,14 @@ def check_git(entry: dict, kind: str) -> list[tuple[str, str]]:
     ref = source.get("ref")
     issues: list[tuple[str, str]] = []
 
-    query = ["--heads", url, branch] if branch else [url, "HEAD"]
+    advertised_ref = f"refs/heads/{branch}" if branch else "HEAD"
+    query = ["--heads", url, advertised_ref] if branch else [url, "HEAD"]
     remote = git("ls-remote", *query, timeout=90)
     if remote.returncode != 0:
         detail = last_line(remote.stderr)
         return [("gone" if NOT_FOUND.search(remote.stderr) else "unreachable", detail)]
-    heads = [line.split()[0] for line in remote.stdout.splitlines() if line.strip()]
+    heads = [line.split()[0] for line in remote.stdout.splitlines()
+             if len(line.split()) == 2 and line.split()[1] == advertised_ref]
     if branch and not heads:
         return [("bad-branch", f"branch '{branch}' not found upstream")]
     if not heads:
@@ -121,30 +124,55 @@ def check_git(entry: dict, kind: str) -> list[tuple[str, str]]:
         if cloned.returncode != 0:
             return [("unreachable", f"clone failed: {last_line(cloned.stderr)}")]
 
+        # The branch can advance between advertisement and clone. Inspect the
+        # actual cloned snapshot throughout this check.
+        cloned_head = git("rev-parse", "HEAD", cwd=repo)
+        if cloned_head.returncode != 0:
+            return [("unreachable", f"cannot resolve clone: {last_line(cloned_head.stderr)}")]
+        head = cloned_head.stdout.strip()
+
         if ref and ref != head:
             fetched = git("fetch", "--quiet", "--depth", "1", "origin", ref, cwd=repo, timeout=180)
             if fetched.returncode != 0:
-                issues.append(("bad-ref", f"pinned {ref[:12]} is no longer fetchable"))
+                missing = re.search(r"not our ref|couldn't find remote ref|unadvertised object|not found",
+                                    fetched.stderr, re.IGNORECASE)
+                status = "bad-ref" if missing else "unreachable"
+                return [(status, f"cannot fetch pinned {ref[:12]}: {last_line(fetched.stderr)}")]
 
-        if kind == "skills":
-            issues += check_skill_paths(entry, repo)
+        try:
+            if kind == "skills":
+                if ref and ref != head:
+                    issues += check_skill_paths(entry, repo, ref, discover=False)
+                    upstream = check_skill_paths(entry, repo, head)
+                    issues += [("upstream-path-change" if status == "bad-path" else status, detail)
+                               for status, detail in upstream
+                               if status != "bad-path" or ("bad-path", detail) not in issues]
+                else:
+                    issues += check_skill_paths(entry, repo, head)
+        except RuntimeError as err:
+            return [("unreachable", str(err)[:300])]
 
-    if ref and ref != head:
-        issues.append(("outdated", f"{ref[:7]} -> {head[:7]}"))
+        if ref and ref != head:
+            # A single-skill pointer installs only source.path. Upstream feeds,
+            # site builds and unrelated skills must not cause endless repins.
+            # Root licensing changes still need review even for a subtree.
+            path = (source.get("path") or "").strip("/")
+            scope = ["--", path, ":(top,glob)LICENSE*", ":(top,glob)NOTICE*", ":(top,glob)COPYING*"] \
+                if kind == "skills" and path else []
+            difference = git("diff", "--quiet", ref, head, *scope, cwd=repo)
+            if difference.returncode == 1:
+                issues.append(("outdated", f"{ref[:7]} -> {head[:7]}"))
+            elif difference.returncode != 0:
+                issues.append(("unreachable", f"cannot compare snapshots: {last_line(difference.stderr)}"))
+
     if not ref:
         issues.append(("unpinned", f"follows '{branch or 'HEAD'}' at {head[:7]}"))
     return issues
 
 
-def check_skill_paths(entry: dict, repo: Path) -> list[tuple[str, str]]:
-    # Materialise only SKILL.md files; the generator reads their frontmatter.
-    git("sparse-checkout", "set", "--no-cone", "SKILL.md", cwd=repo)
-    checkout = git("checkout", "--quiet", "HEAD", cwd=repo, timeout=300)
-    if checkout.returncode != 0:
-        return [("unreachable", f"checkout failed: {last_line(checkout.stderr)}")]
-
-    skill_dirs = {p.parent.relative_to(repo).as_posix() for p in repo.rglob("SKILL.md")
-                  if ".git" not in p.parts}
+def check_skill_paths(entry: dict, repo: Path, revision: str = "HEAD", *,
+                      discover: bool = True) -> list[tuple[str, str]]:
+    skill_dirs = {Path(path).parent.as_posix() for path in GENERATOR.skill_paths(repo, revision)}
     skill_dirs = {"" if d == "." else d for d in skill_dirs}
     issues: list[tuple[str, str]] = []
     children = entry.get("children") or []
@@ -154,7 +182,8 @@ def check_skill_paths(entry: dict, repo: Path) -> list[tuple[str, str]]:
         for child in children:
             if child["path"].strip("/") not in skill_dirs:
                 issues.append(("bad-path", f"child '{child['id']}' -> '{child['path']}' has no SKILL.md"))
-        discovered = [c for c in GENERATOR.discover_children(repo) if c["path"] not in declared]
+        discovered = [c for c in GENERATOR.discover_children(repo, revision)
+                      if c["path"] not in declared] if discover else []
         declared_ids = {c["id"] for c in children}
         extra = [c["path"] for c in discovered if c["id"] not in declared_ids]
         if extra:
@@ -216,6 +245,7 @@ def render_markdown(results: list[dict]) -> str:
     sections = [
         ("Broken — installation fails", BROKEN),
         ("Unreachable — network error, status unknown", ("unreachable",)),
+        ("Upstream path changes — pinned installation still resolves", ("upstream-path-change",)),
         ("Undeclared upstream skills", ("new-skill",)),
         ("Updates available", ("outdated",)),
         ("Unpinned", ("unpinned",)),
@@ -235,11 +265,22 @@ def render_markdown(results: list[dict]) -> str:
     return "\n".join(out)
 
 
+def summarize(results: list[dict]) -> dict:
+    statuses = {issue["status"] for result in results for issue in result["issues"]}
+    return {
+        "checked": len(results),
+        "broken": bool(statuses.intersection(BROKEN)),
+        "actionable": bool(statuses.intersection(ACTIONABLE)),
+        "unknown": "unreachable" in statuses,
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("ids", nargs="*", help="entry IDs to check (default: every external entry)")
     parser.add_argument("--format", choices=("text", "markdown", "json"), default="text")
     parser.add_argument("--jobs", type=int, default=8, help="parallel upstream checks")
+    parser.add_argument("--summary-file", type=Path, help="write machine-readable workflow decisions")
     args = parser.parse_args(argv)
 
     paths = [p for kind in KINDS for p in sorted((REPO_ROOT / kind).glob("*/entry.json"))]
@@ -253,13 +294,16 @@ def main(argv: list[str] | None = None) -> int:
     with ThreadPoolExecutor(max_workers=max(1, args.jobs)) as pool:
         results = list(pool.map(check_entry, paths))
 
+    if args.summary_file:
+        args.summary_file.write_text(json.dumps(summarize(results), indent=2) + "\n", encoding="utf-8")
+
     if args.format == "json":
         print(json.dumps(results, ensure_ascii=False, indent=2))
     elif args.format == "markdown":
         print(render_markdown(results))
     else:
         print(render_text(results))
-    return 1 if any(i["status"] in BROKEN for r in results for i in r["issues"]) else 0
+    return 1 if summarize(results)["broken"] else 0
 
 
 if __name__ == "__main__":

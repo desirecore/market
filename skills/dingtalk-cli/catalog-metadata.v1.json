@@ -28,25 +28,28 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-25T07:48:53Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-23T10:09:22Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
-      "url": "https://github.com/DingTalk-Real-AI/dingtalk-workspace-cli.git"
+      "url": "https://github.com/DingTalk-Real-AI/dingtalk-workspace-cli.git",
+      "ref": "3f0fc94111b1f9cd34e47468980b1f1a723ca69a"
     }
   },
   "governance": {
@@ -54,7 +57,8 @@
     "availability": "listing-only",
     "license": {
       "state": "known",
-      "value": "Apache-2.0"
+      "value": "Apache-2.0",
+      "evidencePath": "LICENSE"
     },
     "redistribution": "verify-package-terms",
     "branding": {
@@ -101,8 +105,33 @@
     "riskLevel": "high",
     "collection": {
       "role": "parent",
-      "childCount": 15,
+      "childCount": 16,
       "children": [
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "dingtalk-aicard",
+            "parentId": "dingtalk-cli"
+          },
+          "path": "skills/multi/dingtalk-aicard",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "dingtalk-aicard",
+                "summary": "Create, edit and validate DingTalk AI Card (A2UI) JSON through DWS; send a card only when the user requests a preview."
+              },
+              "zh-CN": {
+                "name": "dingtalk-aicard",
+                "summary": "通过 DWS 创建、编辑和校验钉钉 AI 卡片（A2UI）JSON；用户明确请求预览时才发送卡片。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
         {
           "identity": {
             "kind": "skill",

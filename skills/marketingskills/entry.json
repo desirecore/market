@@ -13,11 +13,11 @@
   "i18n": {
     "zh-CN": {
       "name": "Marketing Skills",
-      "shortDesc": "面向技术型营销人与创始人的 AI Agent 技能集，涵盖转化率优化、文案、SEO、数据分析与增长工程，适配 Claude Code、Cursor 等"
+      "shortDesc": "面向技术型营销人与创始人的 AI Agent 技能集，涵盖转化率优化、文案、SEO、数据分析与增长工程，适配 Claude Code、Cursor 等。第三方营销、广告与分析工具需自行开通；账号、授权和费用另计。"
     },
     "en-US": {
       "name": "Marketing Skills",
-      "shortDesc": "Marketing skills for technical marketers and founders — CRO, copywriting, SEO, analytics and growth engineering, for Claude Code and Cursor"
+      "shortDesc": "Marketing skills for technical marketers and founders — CRO, copywriting, SEO, analytics and growth engineering, for Claude Code and Cursor. Third-party marketing, advertising and analytics tools require separate accounts, authorization and billing."
     }
   },
   "maintainer": {
@@ -33,7 +33,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/coreyhaines31/marketingskills.git",
     "repoBranch": "main",
-    "ref": "7868cb9251fad80a73d26e488a5ad5f6c4a9f335"
+    "ref": "dda3841f0b294e01e93b1541486beefbfab0915e"
   },
   "children": [
     {
@@ -185,10 +185,10 @@
       "path": "skills/competitors",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "When the user wants to create competitor comparison or alternative pages for SEO and sales enablement."
+          "shortDesc": "When the user wants to create competitor comparison or alternative pages for SEO and buyer-facing use."
         },
         "en-US": {
-          "shortDesc": "When the user wants to create competitor comparison or alternative pages for SEO and sales enablement."
+          "shortDesc": "When the user wants to create competitor comparison or alternative pages for SEO and buyer-facing use."
         }
       }
     },
@@ -221,10 +221,10 @@
       "path": "skills/copywriting",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "When the user wants to write, rewrite, or improve marketing copy for any page — including homepage, landing pages, pricing pages, feature pages, about pages, or…"
+          "shortDesc": "When the user wants to write, rewrite, or improve marketing copy for any page, including homepage, landing pages, pricing pages, feature pages, about pages, or…"
         },
         "en-US": {
-          "shortDesc": "When the user wants to write, rewrite, or improve marketing copy for any page — including homepage, landing pages, pricing pages, feature pages, about pages, or…"
+          "shortDesc": "When the user wants to write, rewrite, or improve marketing copy for any page, including homepage, landing pages, pricing pages, feature pages, about pages, or…"
         }
       }
     },
@@ -273,6 +273,18 @@
         },
         "en-US": {
           "shortDesc": "When the user wants to create or optimize an email sequence, drip campaign, automated email flow, or lifecycle email program."
+        }
+      }
+    },
+    {
+      "id": "events",
+      "path": "skills/events",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "规划线上或线下营销活动，包括目标、预算、推广、执行与会后跟进。"
+        },
+        "en-US": {
+          "shortDesc": "Plan online or in-person marketing events, including goals, budget, promotion, execution and follow-up."
         }
       }
     },
@@ -593,10 +605,10 @@
       "path": "skills/sms",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "When the user wants to plan, build, or optimize SMS or MMS marketing — including welcome flows, abandoned cart texts, post-purchase, win-back, promotional sends…"
+          "shortDesc": "When the user wants to plan, build, or optimize SMS, MMS, or WhatsApp marketing — including welcome flows, abandoned cart texts, post-purchase, win-back, promot…"
         },
         "en-US": {
-          "shortDesc": "When the user wants to plan, build, or optimize SMS or MMS marketing — including welcome flows, abandoned cart texts, post-purchase, win-back, promotional sends…"
+          "shortDesc": "When the user wants to plan, build, or optimize SMS, MMS, or WhatsApp marketing — including welcome flows, abandoned cart texts, post-purchase, win-back, promot…"
         }
       }
     },
@@ -605,10 +617,10 @@
       "path": "skills/social",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "When the user wants help creating, scheduling, or optimizing social media content for LinkedIn, Twitter/X, Instagram, TikTok, Facebook, or other platforms, or w…"
+          "shortDesc": "When the user wants help creating, scheduling, or optimizing social media content for LinkedIn, Twitter/X, Instagram, TikTok, or Facebook, or wants to do social…"
         },
         "en-US": {
-          "shortDesc": "When the user wants help creating, scheduling, or optimizing social media content for LinkedIn, Twitter/X, Instagram, TikTok, Facebook, or other platforms, or w…"
+          "shortDesc": "When the user wants help creating, scheduling, or optimizing social media content for LinkedIn, Twitter/X, Instagram, TikTok, or Facebook, or wants to do social…"
         }
       }
     },

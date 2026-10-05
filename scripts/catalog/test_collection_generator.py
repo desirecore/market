@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -76,8 +77,64 @@ class CollectionGeneratorCheckTests(unittest.TestCase):
             [{"id": "child-one", "path": "skills/child-one"}],
         )
 
+    def test_discovery_excludes_internal_and_reference_documents(self) -> None:
+        repo = Path(self.tempdir.name) / "repo"
+        files = {
+            "skills/public/SKILL.md": "---\nname: public\nmetadata:\n  internal: false\n---\n",
+            "skills/mono/SKILL.md": "---\nname: dws\nmetadata:\n  internal: true\n---\n",
+            "skills/public/references/skill.md": "Reference documentation.\n",
+            "skills/invalid/SKILL.md": "Not a skill frontmatter.\n",
+        }
+        for path, text in files.items():
+            target = repo / path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(text, encoding="utf-8")
+        expected = [{"id": "public", "path": "skills/public"}]
+        self.assertEqual(GENERATOR.discover_children(repo), expected)
+
+        for args in (("init", "--quiet"), ("add", "."),
+                     ("-c", "user.name=t", "-c", "user.email=t@example.com",
+                      "commit", "--quiet", "-m", "fixture")):
+            subprocess.run(["git", *args], cwd=repo, check=True, capture_output=True)
+        self.assertEqual(GENERATOR.discover_children(repo), expected)
+
+    def test_discovery_excludes_symlink_skills(self) -> None:
+        repo = Path(self.tempdir.name) / "repo"
+        real = repo / "skills/public/SKILL.md"
+        real.parent.mkdir(parents=True)
+        real.write_text("---\nname: public\n---\n", encoding="utf-8")
+        linked = repo / "skills/link/SKILL.md"
+        linked.parent.mkdir()
+        linked.symlink_to(real)
+        self.assertEqual(GENERATOR.discover_children(repo), [{"id": "public", "path": "skills/public"}])
+
+    def test_child_order_preserves_directory_sorting(self) -> None:
+        repo = Path(self.tempdir.name) / "repo"
+        for child in ("alpha-extra", "alpha"):
+            path = repo / "skills" / child / "SKILL.md"
+            path.parent.mkdir(parents=True)
+            path.write_text(f"---\nname: {child}\n---\n", encoding="utf-8")
+        self.assertEqual([c["id"] for c in GENERATOR.discover_children(repo)], ["alpha", "alpha-extra"])
+
     def test_check_accepts_current_children_without_writing(self) -> None:
         self.assertTrue(self.run_check(self.children))
+
+    def test_reviewed_translation_is_reproducible(self) -> None:
+        overrides = {"child-one": {"i18n": {"zh-CN": {"shortDesc": "已审阅的中文说明。"},
+                                           "en-US": {"shortDesc": "Reviewed summary."}}}}
+        (self.entry_path.parent / "collection-child-overrides.json").write_text(json.dumps(overrides))
+        expected = [{**self.children[0], **overrides["child-one"]}]
+        self.write_entry(expected)
+        self.assertTrue(self.run_check(self.children))
+
+    def test_overrides_cannot_hide_missing_child_or_change_source_facts(self) -> None:
+        path = self.entry_path.parent / "collection-child-overrides.json"
+        for overrides in ({"missing": {"i18n": {}}}, {"child-one": {"path": "elsewhere"}},
+                          {"child-one": {"version": "9.0.0"}},
+                          {"child-one": {"i18n": {"en-US": {"shortDesc": ""}}}}):
+            with self.subTest(overrides=overrides):
+                path.write_text(json.dumps(overrides))
+                self.assertFalse(self.run_check(self.children))
 
     def test_check_rejects_stale_children_without_writing(self) -> None:
         self.assertFalse(self.run_check([{"id": "child-two", "path": "skills/child-two"}]))

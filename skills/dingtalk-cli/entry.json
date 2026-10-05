@@ -29,9 +29,22 @@
   "source": {
     "kind": "git",
     "repoUrl": "https://github.com/DingTalk-Real-AI/dingtalk-workspace-cli.git",
-    "repoBranch": "main"
+    "repoBranch": "main",
+    "ref": "3f0fc94111b1f9cd34e47468980b1f1a723ca69a"
   },
   "children": [
+    {
+      "id": "dingtalk-aicard",
+      "path": "skills/multi/dingtalk-aicard",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "通过 DWS 创建、编辑和校验钉钉 AI 卡片（A2UI）JSON；用户明确请求预览时才发送卡片。"
+        },
+        "en-US": {
+          "shortDesc": "Create, edit and validate DingTalk AI Card (A2UI) JSON through DWS; send a card only when the user requests a preview."
+        }
+      }
+    },
     {
       "id": "dingtalk-aisearch",
       "path": "skills/multi/dingtalk-aisearch",
