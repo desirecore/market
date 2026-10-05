@@ -9,11 +9,11 @@
   "i18n": {
     "zh-CN": {
       "name": "Follow Builders",
-      "shortDesc": "追踪 AI 领域真正在造东西的开发者、研究者与创始人，把播客、X/Twitter 与官方博客的动态汇成每日/每周摘要推送"
+      "shortDesc": "追踪 AI 领域真正在造东西的开发者、研究者与创始人，把播客、X/Twitter 与官方博客的动态汇成每日/每周摘要推送。依赖第三方公共信源；Telegram 或邮件推送须自行配置并明确授权。"
     },
     "en-US": {
       "name": "Follow Builders",
-      "shortDesc": "Tracks top AI builders across podcasts, X/Twitter and company blogs, delivering curated daily or weekly digests"
+      "shortDesc": "Tracks top AI builders across podcasts, X/Twitter and company blogs, delivering curated daily or weekly digests. Depends on a third-party public feed; Telegram or mail delivery requires separate setup and explicit authorization."
     }
   },
   "maintainer": {
@@ -29,6 +29,6 @@
     "kind": "git",
     "repoUrl": "https://github.com/zarazhangrui/follow-builders.git",
     "repoBranch": "main",
-    "ref": "239227ddea46dfb9db6ed23e5864a5fabb9cee83"
+    "ref": "ec5b50e3127ba9cc5e9c54ea7bf409b0654c7f39"
   }
 }

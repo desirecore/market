@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Baoyu Skills",
-        "summary": "Baoyu's 20+ content-creation skills — cover images, illustrations, WeChat publishing, translation and slide decks, for Claude Code and Codex"
+        "summary": "Baoyu's 20+ content-creation skills — cover images, illustrations, WeChat publishing, translation and slide decks, for Claude Code and Codex. External generation services require separately configured accounts, API keys and billing."
       },
       "zh-CN": {
         "name": "宝玉 Skills",
-        "summary": "宝玉分享的 AI Agent 技能集，20+ 技能覆盖封面图、插图、公众号发布、翻译、幻灯片等，适配 Claude Code、Codex 等"
+        "summary": "宝玉分享的 AI Agent 技能集，20+ 技能覆盖封面图、插图、公众号发布、翻译、幻灯片等，适配 Claude Code、Codex 等。外部生成服务的账号、API 密钥和费用须自行配置。"
       }
     },
     "category": "creative",
@@ -32,33 +32,37 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-08-09T08:25:20Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-08-07T15:54:03Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
       "url": "https://github.com/JimLiu/baoyu-skills.git",
-      "ref": "6b7a2e417500561a5ecdd0b168332f4142584617"
+      "ref": "1567581c26ec29f4216c6e6835415bf30343b0e3"
     }
   },
   "governance": {
     "stewardship": "community",
     "availability": "listing-only",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {
@@ -70,7 +74,17 @@
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "The selected child may require Bun/Node.js or another runtime named in its execution instructions; the operator installs these separately."
+      },
+      {
+        "kind": "permission",
+        "value": "Image, video, speech and publication integrations require the operator's own provider accounts, API credentials and any applicable paid entitlements. DesireCore does not provide or pay for these services; unavailable providers must be reported before calling them."
+      }
+    ]
   },
   "spec": {
     "kind": "skill",
@@ -333,18 +347,18 @@
             "i18n": {
               "en-US": {
                 "name": "baoyu-image-gen",
-                "summary": "AI image generation with OpenAI GPT Image 2, Azure OpenAI, Google, OpenRouter, DashScope, Z.AI GLM-Image, MiniMax, Jimeng, Seedream, Replicate and Agnes APIs."
+                "summary": "AI image generation with OpenAI GPT Image 2.5, Azure OpenAI, Google, OpenRouter, DashScope, Z.AI GLM-Image, MiniMax, Jimeng, Seedream, Replicate and Agnes APIs."
               },
               "zh-CN": {
                 "name": "baoyu-image-gen",
-                "summary": "AI image generation with OpenAI GPT Image 2, Azure OpenAI, Google, OpenRouter, DashScope, Z.AI GLM-Image, MiniMax, Jimeng, Seedream, Replicate and Agnes APIs."
+                "summary": "AI image generation with OpenAI GPT Image 2.5, Azure OpenAI, Google, OpenRouter, DashScope, Z.AI GLM-Image, MiniMax, Jimeng, Seedream, Replicate and Agnes APIs."
               }
             },
             "tags": []
           },
           "release": {
             "state": "known",
-            "version": "2.1.0",
+            "version": "2.2.0",
             "versionScheme": "semver"
           }
         },

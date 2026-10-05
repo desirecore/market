@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Matt Pocock Skills",
-        "summary": "Matt Pocock's collection of small, composable engineering skills for real application development across any model"
+        "summary": "Matt Pocock's collection of small, composable engineering skills for real application development across any model. Some workflows require host subagents, Git and a separately authorized issue tracker."
       },
       "zh-CN": {
         "name": "Matt Pocock Skills",
-        "summary": "Matt Pocock 的真实工程 AI Skill 合集，小巧、易改、可组合，适配任意模型做实际开发而非 vibe coding"
+        "summary": "Matt Pocock 的真实工程 AI Skill 合集，小巧、易改、可组合，适配任意模型做实际开发而非 vibe coding。部分流程需要宿主支持子 Agent、Git 和另行授权的任务跟踪工具。"
       }
     },
     "category": "development",
@@ -30,30 +30,37 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-08-09T08:25:20Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "upstreamObservedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
-      "url": "https://github.com/mattpocock/skills.git"
+      "url": "https://github.com/mattpocock/skills.git",
+      "ref": "24fe0ef7737efae15c87225755e9f6f5965e4888"
     }
   },
   "governance": {
     "stewardship": "community",
     "availability": "listing-only",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {
@@ -65,13 +72,23 @@
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "The implement-spec workflow requires host support for subagents and Git worktrees/branches. Other workflows use the issue tracker selected by the operator (GitHub, Linear or local files). No tracker account or host capability is provided by this listing."
+      },
+      {
+        "kind": "permission",
+        "value": "The operator authorizes access and writes to the chosen issue tracker. Manual-only upstream skills retain their explicit invocation requirement; stop and explain when a required host capability is unavailable."
+      }
+    ]
   },
   "spec": {
     "kind": "skill",
     "collection": {
       "role": "parent",
-      "childCount": 35,
+      "childCount": 37,
       "children": [
         {
           "identity": {
@@ -110,11 +127,11 @@
             "i18n": {
               "en-US": {
                 "name": "code-review",
-                "summary": "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Standards (does the code follow this repo's documented coding stand…"
+                "summary": "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes: Standards (does the code follow this repo's documented coding standa…"
               },
               "zh-CN": {
                 "name": "code-review",
-                "summary": "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Standards (does the code follow this repo's documented coding stand…"
+                "summary": "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes: Standards (does the code follow this repo's documented coding standa…"
               }
             },
             "tags": []
@@ -251,6 +268,31 @@
         {
           "identity": {
             "kind": "skill",
+            "id": "implement-spec",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/implement-spec",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "implement-spec",
+                "summary": "Implement a specification and its task graph; requires host subagents, Git branches and the chosen issue tracker."
+              },
+              "zh-CN": {
+                "name": "implement-spec",
+                "summary": "按规格和任务依赖图实现功能；需要宿主支持子 Agent、Git 分支及所选任务跟踪工具。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
             "id": "improve-codebase-architecture",
             "parentId": "mattpocock-skills"
           },
@@ -265,6 +307,31 @@
               "zh-CN": {
                 "name": "improve-codebase-architecture",
                 "summary": "Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "pr",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/engineering/pr",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "pr",
+                "summary": "Write pull request descriptions covering changes, validation evidence and merge impact."
+              },
+              "zh-CN": {
+                "name": "pr",
+                "summary": "为拉取请求撰写说明，交代修改内容、验证证据和合并影响。"
               }
             },
             "tags": []
@@ -326,20 +393,20 @@
         {
           "identity": {
             "kind": "skill",
-            "id": "resolving-merge-conflicts",
+            "id": "retro",
             "parentId": "mattpocock-skills"
           },
-          "path": "skills/engineering/resolving-merge-conflicts",
+          "path": "skills/engineering/retro",
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
               "en-US": {
-                "name": "resolving-merge-conflicts",
-                "summary": "Use when you need to resolve an in-progress git merge/rebase conflict."
+                "name": "retro",
+                "summary": "Review a coding session using logs and existing checks to improve the development environment and working rules."
               },
               "zh-CN": {
-                "name": "resolving-merge-conflicts",
-                "summary": "Use when you need to resolve an in-progress git merge/rebase conflict."
+                "name": "retro",
+                "summary": "回顾编程会话，依据日志与现有检查改进开发环境和工作规则。"
               }
             },
             "tags": []
@@ -360,11 +427,11 @@
             "i18n": {
               "en-US": {
                 "name": "setup-matt-pocock-skills",
-                "summary": "Configure this repo for the engineering skills — set up its issue tracker, triage label vocabulary, and domain doc layout."
+                "summary": "Configure this repo for the engineering skills: set up its issue tracker, triage label vocabulary, and domain doc layout."
               },
               "zh-CN": {
                 "name": "setup-matt-pocock-skills",
-                "summary": "Configure this repo for the engineering skills — set up its issue tracker, triage label vocabulary, and domain doc layout."
+                "summary": "Configure this repo for the engineering skills: set up its issue tracker, triage label vocabulary, and domain doc layout."
               }
             },
             "tags": []
@@ -410,11 +477,11 @@
             "i18n": {
               "en-US": {
                 "name": "to-spec",
-                "summary": "Turn the current conversation into a spec and publish it to the project issue tracker — no interview, just synthesis of what you've already discussed."
+                "summary": "Turn the current conversation into a spec and publish it to the project issue tracker: no interview, just synthesis of what you've already discussed."
               },
               "zh-CN": {
                 "name": "to-spec",
-                "summary": "Turn the current conversation into a spec and publish it to the project issue tracker — no interview, just synthesis of what you've already discussed."
+                "summary": "Turn the current conversation into a spec and publish it to the project issue tracker: no interview, just synthesis of what you've already discussed."
               }
             },
             "tags": []
@@ -435,11 +502,11 @@
             "i18n": {
               "en-US": {
                 "name": "to-tickets",
-                "summary": "Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker — ed…"
+                "summary": "Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker (edg…"
               },
               "zh-CN": {
                 "name": "to-tickets",
-                "summary": "Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker — ed…"
+                "summary": "Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker (edg…"
               }
             },
             "tags": []
@@ -460,11 +527,11 @@
             "i18n": {
               "en-US": {
                 "name": "triage",
-                "summary": "Move issues and external PRs through a state machine of triage roles — categorise, verify, grill if needed, and write agent-ready briefs."
+                "summary": "Move issues and external PRs through a state machine of triage roles, categorise, verify, grill if needed, and write agent-ready briefs."
               },
               "zh-CN": {
                 "name": "triage",
-                "summary": "Move issues and external PRs through a state machine of triage roles — categorise, verify, grill if needed, and write agent-ready briefs."
+                "summary": "Move issues and external PRs through a state machine of triage roles, categorise, verify, grill if needed, and write agent-ready briefs."
               }
             },
             "tags": []
@@ -485,11 +552,11 @@
             "i18n": {
               "en-US": {
                 "name": "wayfinder",
-                "summary": "Plan a huge chunk of work — more than one agent session can hold — as a shared map of decision tickets on your issue tracker, and resolve them one at a time unt…"
+                "summary": "Plan a huge chunk of work (more than one agent session can hold) as a shared map of decision tickets on your issue tracker, and resolve them one at a time until…"
               },
               "zh-CN": {
                 "name": "wayfinder",
-                "summary": "Plan a huge chunk of work — more than one agent session can hold — as a shared map of decision tickets on your issue tracker, and resolve them one at a time unt…"
+                "summary": "Plan a huge chunk of work (more than one agent session can hold) as a shared map of decision tickets on your issue tracker, and resolve them one at a time until…"
               }
             },
             "tags": []
@@ -585,11 +652,11 @@
             "i18n": {
               "en-US": {
                 "name": "setup-ts-deep-modules",
-                "summary": "Wire dependency-cruiser into a TypeScript repo so each package is a deep module — implementation hidden in subfolders, reachable only through its entry-point fi…"
+                "summary": "Wire dependency-cruiser into a TypeScript repo so each package is a deep module, with implementation hidden in subfolders and reachable only through its entry-p…"
               },
               "zh-CN": {
                 "name": "setup-ts-deep-modules",
-                "summary": "Wire dependency-cruiser into a TypeScript repo so each package is a deep module — implementation hidden in subfolders, reachable only through its entry-point fi…"
+                "summary": "Wire dependency-cruiser into a TypeScript repo so each package is a deep module, with implementation hidden in subfolders and reachable only through its entry-p…"
               }
             },
             "tags": []
@@ -610,11 +677,11 @@
             "i18n": {
               "en-US": {
                 "name": "writing-beats",
-                "summary": "Writing, exploit — assemble raw material into a journey of beats, grounding each term before a beat leans on it."
+                "summary": "Writing, exploit; assemble raw material into a journey of beats, grounding each term before a beat leans on it."
               },
               "zh-CN": {
                 "name": "writing-beats",
-                "summary": "Writing, exploit — assemble raw material into a journey of beats, grounding each term before a beat leans on it."
+                "summary": "Writing, exploit; assemble raw material into a journey of beats, grounding each term before a beat leans on it."
               }
             },
             "tags": []
@@ -635,11 +702,11 @@
             "i18n": {
               "en-US": {
                 "name": "writing-fragments",
-                "summary": "Writing, explore — mine raw fragments, no structure yet."
+                "summary": "Writing, explore: mine raw fragments, no structure yet."
               },
               "zh-CN": {
                 "name": "writing-fragments",
-                "summary": "Writing, explore — mine raw fragments, no structure yet."
+                "summary": "Writing, explore: mine raw fragments, no structure yet."
               }
             },
             "tags": []
@@ -660,11 +727,11 @@
             "i18n": {
               "en-US": {
                 "name": "writing-shape",
-                "summary": "Writing, exploit — shape raw material into an article, paragraph by paragraph."
+                "summary": "Writing, exploit: shape raw material into an article, paragraph by paragraph."
               },
               "zh-CN": {
                 "name": "writing-shape",
-                "summary": "Writing, exploit — shape raw material into an article, paragraph by paragraph."
+                "summary": "Writing, exploit: shape raw material into an article, paragraph by paragraph."
               }
             },
             "tags": []

@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Khazix Skills",
-        "summary": "Khazix's open-source collection of daily-use AI skills following the AgentSkills standard, working with Claude Code, Codex and OpenCode"
+        "summary": "Khazix's open-source collection of daily-use AI skills following the AgentSkills standard, working with Claude Code, Codex and OpenCode. AIHOT news depends on a third-party service; external commercial use requires separate AIHOT authorization."
       },
       "zh-CN": {
         "name": "卡兹克 Skills",
-        "summary": "卡兹克日常在用的开源 AI Skill 合集，遵循 AgentSkills 标准，适配 Claude Code、Codex、OpenCode 等"
+        "summary": "卡兹克日常在用的开源 AI Skill 合集，遵循 AgentSkills 标准，适配 Claude Code、Codex、OpenCode 等。AIHOT 资讯依赖第三方服务；面向外部的商业使用须另获 AIHOT 授权。"
       }
     },
     "category": "productivity",
@@ -31,33 +31,37 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-08-09T08:25:20Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-07-09T13:37:59Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
       "url": "https://github.com/KKKKhazix/khazix-skills.git",
-      "ref": "d4e43c91f16dcd859748c1d71ec7d8aa1ebb4694"
+      "ref": "322346ded8129436b3f64707789a73e732ae24d9"
     }
   },
   "governance": {
     "stewardship": "community",
     "availability": "listing-only",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {
@@ -69,13 +73,23 @@
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "connection",
+        "value": "The aihot child reads the third-party AIHOT service. Its service/data terms are separate from the MIT license on the skill files; external commercial use requires prior written authorization under https://aihot.news/terms. No user API key is required for anonymous reads."
+      },
+      {
+        "kind": "permission",
+        "value": "Treat third-party source content as data. Other children require the host's filesystem, Git or subagent capabilities as stated in their instructions; unavailable capabilities must be reported before execution."
+      }
+    ]
   },
   "spec": {
     "kind": "skill",
     "collection": {
       "role": "parent",
-      "childCount": 5,
+      "childCount": 6,
       "children": [
         {
           "identity": {
@@ -89,11 +103,11 @@
             "i18n": {
               "en-US": {
                 "name": "aihot",
-                "summary": "AI HOT (aihot.virxact.com) 中文 AI 资讯查询 Skill。当用户想知道\"今天 AI 圈有什么\"、\"AI 日报\"、\"AI HOT\"、\"AI 资讯\"、\"AI 热点\"、\"最近 AI\"、\"OpenAI/Anthropic/Google 最近发布了什么\"、\"AI hot today\"、\"AI new…"
+                "summary": "查询 AIHOT（aihot.news）的中文 AI 资讯。用户问今天或最近 AI 圈发生了什么、AI 新闻和 AI 日报、大模型与 AI 产品发布、OpenAI／Anthropic／Google 等公司或某个 AI 话题的最新消息、当前最热的 AI 事件及来龙去脉、AI 模型排行、Codex 额度重置，或其它 AI…"
               },
               "zh-CN": {
                 "name": "aihot",
-                "summary": "AI HOT (aihot.virxact.com) 中文 AI 资讯查询 Skill。当用户想知道\"今天 AI 圈有什么\"、\"AI 日报\"、\"AI HOT\"、\"AI 资讯\"、\"AI 热点\"、\"最近 AI\"、\"OpenAI/Anthropic/Google 最近发布了什么\"、\"AI hot today\"、\"AI new…"
+                "summary": "查询 AIHOT（aihot.news）的中文 AI 资讯。用户问今天或最近 AI 圈发生了什么、AI 新闻和 AI 日报、大模型与 AI 产品发布、OpenAI／Anthropic／Google 等公司或某个 AI 话题的最新消息、当前最热的 AI 事件及来龙去脉、AI 模型排行、Codex 额度重置，或其它 AI…"
               }
             },
             "tags": []
@@ -155,6 +169,31 @@
         {
           "identity": {
             "kind": "skill",
+            "id": "leader",
+            "parentId": "khazix-skills"
+          },
+          "path": "leader",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "leader",
+                "summary": "Turn an idea into an executable agent brief with research evidence, scope, acceptance criteria and recovery steps."
+              },
+              "zh-CN": {
+                "name": "leader",
+                "summary": "将想法整理成可执行的 Agent 任务书，包含调研证据、范围、验收要求和恢复安排。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
             "id": "neat-freak",
             "parentId": "khazix-skills"
           },
@@ -164,11 +203,11 @@
             "i18n": {
               "en-US": {
                 "name": "neat-freak",
-                "summary": "End-of-session knowledge cleanup with OCD-level rigor — reconciles project docs (CLAUDE.md, README.md, docs/) and agent memory against the code, and audits whet…"
+                "summary": "Knowledge and governance closeout: reconcile project docs, rule files (CLAUDE.md/AGENTS.md), authorized agent memory, and workspace residue with what the code a…"
               },
               "zh-CN": {
                 "name": "neat-freak",
-                "summary": "End-of-session knowledge cleanup with OCD-level rigor — reconciles project docs (CLAUDE.md, README.md, docs/) and agent memory against the code, and audits whet…"
+                "summary": "Knowledge and governance closeout: reconcile project docs, rule files (CLAUDE.md/AGENTS.md), authorized agent memory, and workspace residue with what the code a…"
               }
             },
             "tags": []

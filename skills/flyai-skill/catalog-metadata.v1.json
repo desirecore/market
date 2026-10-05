@@ -30,19 +30,21 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-07-18T16:45:05Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-07-18T16:45:05Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     }
   },
   "provenance": {
@@ -50,14 +52,16 @@
       "kind": "git",
       "url": "https://github.com/alibaba-flyai/flyai-skill.git",
       "path": "skills/flyai",
-      "ref": "54277b27b68e53741954c08541faedba1d45cc7b"
+      "ref": "86fe2cc3e25464d0e0bd6a769b27b5f9f3b04128"
     }
   },
   "governance": {
     "stewardship": "partner",
     "availability": "listing-only",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {

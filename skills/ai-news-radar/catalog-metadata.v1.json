@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "AI News Radar",
-        "summary": "24/7 AI news radar that curates multiple sources into storylines and delivers daily headlines with three flavors of commentary"
+        "summary": "24/7 AI news radar that curates multiple sources into storylines and delivers daily headlines with three flavors of commentary. Requires a separately configured Python environment and sources; mail access requires separate authorization."
       },
       "zh-CN": {
         "name": "AI 资讯雷达",
-        "summary": "24 小时 AI 资讯雷达：从多信源筛选要闻、合并成故事线，并用三种口味锐评每日头条"
+        "summary": "24 小时 AI 资讯雷达：从多信源筛选要闻、合并成故事线，并用三种口味锐评每日头条。需自行配置 Python 运行环境与信源；邮件接入须另行授权。"
       }
     },
     "category": "productivity",
@@ -30,19 +30,21 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-08-30T18:00:09Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-08-30T18:00:09Z",
-      "precision": "second"
+      "value": "2026-10-05",
+      "precision": "day"
     }
   },
   "provenance": {
@@ -50,14 +52,16 @@
       "kind": "git",
       "url": "https://github.com/LearnPrompt/ai-news-radar.git",
       "path": "skills/ai-news-radar",
-      "ref": "f23ce289695aaf8808f4c19b0b815b51b20730a9"
+      "ref": "689395109cc962a27c369bdd6fa50d1e090eb319"
     }
   },
   "governance": {
     "stewardship": "community",
     "availability": "listing-only",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {
@@ -69,7 +73,17 @@
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "A user-configured Python environment and the dependencies declared by AI News Radar."
+      },
+      {
+        "kind": "connection",
+        "value": "Access to the chosen public feeds. Optional mail adapters require separate credentials and explicit authorization; private message bodies must not be published or persisted as public feed content."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"

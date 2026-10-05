@@ -11,11 +11,11 @@
   "i18n": {
     "zh-CN": {
       "name": "AI 资讯雷达",
-      "shortDesc": "24 小时 AI 资讯雷达：从多信源筛选要闻、合并成故事线，并用三种口味锐评每日头条"
+      "shortDesc": "24 小时 AI 资讯雷达：从多信源筛选要闻、合并成故事线，并用三种口味锐评每日头条。需自行配置 Python 运行环境与信源；邮件接入须另行授权。"
     },
     "en-US": {
       "name": "AI News Radar",
-      "shortDesc": "24/7 AI news radar that curates multiple sources into storylines and delivers daily headlines with three flavors of commentary"
+      "shortDesc": "24/7 AI news radar that curates multiple sources into storylines and delivers daily headlines with three flavors of commentary. Requires a separately configured Python environment and sources; mail access requires separate authorization."
     }
   },
   "maintainer": {
@@ -32,6 +32,6 @@
     "repoUrl": "https://github.com/LearnPrompt/ai-news-radar.git",
     "repoBranch": "master",
     "path": "skills/ai-news-radar",
-    "ref": "f23ce289695aaf8808f4c19b0b815b51b20730a9"
+    "ref": "689395109cc962a27c369bdd6fa50d1e090eb319"
   }
 }

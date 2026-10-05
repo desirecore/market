@@ -12,11 +12,11 @@
   "i18n": {
     "zh-CN": {
       "name": "Archify",
-      "shortDesc": "把代码库或系统描述编译成可交互的系统架构图（架构/流程/时序/数据流/生命周期），产出自带动效、可校验、可导出的单文件 HTML/SVG，适配 Claude Code、Codex、Cursor"
+      "shortDesc": "把代码库或系统描述编译成可交互的系统架构图（架构/流程/时序/数据流/生命周期），产出自带动效、可校验、可导出的单文件 HTML/SVG，适配 Claude Code、Codex、Cursor。需可用的 Node.js 环境；浏览器验证和导出须满足上游运行要求。"
     },
     "en-US": {
       "name": "Archify",
-      "shortDesc": "Compile a codebase or system description into interactive, verifiable architecture/workflow/sequence/data-flow/lifecycle diagrams — self-contained HTML/SVG with motion and crisp export, for Claude Code, Codex and Cursor"
+      "shortDesc": "Compile a codebase or system description into interactive, verifiable architecture/workflow/sequence/data-flow/lifecycle diagrams — self-contained HTML/SVG with motion and crisp export, for Claude Code, Codex and Cursor. Requires Node.js and the upstream browser verification/export prerequisites."
     }
   },
   "maintainer": {
@@ -32,7 +32,8 @@
     "kind": "git",
     "repoUrl": "https://github.com/tt-a1i/archify.git",
     "repoBranch": "main",
-    "ref": "c1443b31b496eebf4a68bf83151816c955ddb796",
+    "ref": "7158026e852f3aa6578c741e673b46d7878c92c1",
     "path": "archify"
-  }
+  },
+  "latestVersion": "3.0"
 }

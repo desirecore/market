@@ -34,25 +34,27 @@ jobs:
         id: check
         run: |
           set +e
-          uv run --quiet scripts/catalog/check_upstream_health.py --format markdown > report.md
+          uv run --quiet scripts/catalog/check_upstream_health.py --format markdown --summary-file summary.json > report.md
           code=$?
           set -e
           if [ "$code" -gt 1 ]; then
             echo "health check crashed with exit code $code" >&2
             exit "$code"
           fi
-          echo "broken=$([ "$code" = 1 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
-          if grep -qE '^### (Broken|Undeclared upstream skills|Updates available) ' report.md; then
-            echo "actionable=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "actionable=false" >> "$GITHUB_OUTPUT"
-          fi
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          summary = json.loads(Path("summary.json").read_text())
+          for key in ("broken", "actionable", "unknown"):
+              print(f"{key}={str(summary[key]).lower()}")
+          PY
           cat report.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Update tracking issue
         env:
           GH_TOKEN: ${{ github.token }}
           ACTIONABLE: ${{ steps.check.outputs.actionable }}
+          UNKNOWN: ${{ steps.check.outputs.unknown }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set -euo pipefail
@@ -69,7 +71,7 @@ jobs:
           } > body.md
 
           issue=$(gh issue list --label "$label" --state open --limit 1 --json number --jq '.[0].number // empty')
-          if [ "$ACTIONABLE" = "true" ]; then
+          if [ "$ACTIONABLE" = "true" ] || [ "$UNKNOWN" = "true" ]; then
             if [ -n "$issue" ]; then
               gh issue edit "$issue" --body-file body.md
             else
