@@ -1,0 +1,38 @@
+{
+  "id": "frontend-slides",
+  "name": "Frontend Slides",
+  "category": "creative",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"9\" cy=\"10\" r=\"1.5\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M4 17l5-4 4 3 3-2 4 3\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "slides",
+    "html",
+    "presentation",
+    "animation"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "HTML 动画演示",
+      "shortDesc": "生成零依赖的动画 HTML 演示文稿。转换 PPT 需 Python 3 与 python-pptx；字体可能来自 Google Fonts/Fontshare。"
+    },
+    "en-US": {
+      "name": "Frontend Slides",
+      "shortDesc": "Create zero-dependency, animation-rich HTML presentations or convert PPT files to the web. PPT conversion needs Python 3 with python-pptx; fonts may load from Google Fonts or Fontshare."
+    }
+  },
+  "maintainer": {
+    "name": "affaan-m",
+    "verified": false,
+    "account": "affaan-m",
+    "url": "https://github.com/affaan-m/ECC"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/affaan-m/ECC.git",
+    "repoBranch": "main",
+    "ref": "ef648e01899ba3e8dc6371642deaaf64b4477775",
+    "path": "skills/frontend-slides"
+  }
+}

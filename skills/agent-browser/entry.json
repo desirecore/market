@@ -1,0 +1,38 @@
+{
+  "id": "agent-browser",
+  "name": "Agent Browser",
+  "category": "development",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M9 8l-4 4 4 4M15 8l4 4-4 4M13 6l-2 12\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "browser",
+    "automation",
+    "cli",
+    "web"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "浏览器自动化",
+      "shortDesc": "通过 agent-browser 命令行完成网页浏览与操作。需自行安装 agent-browser 命令行，并允许执行 Bash。"
+    },
+    "en-US": {
+      "name": "Agent Browser",
+      "shortDesc": "Browse and operate web pages through the agent-browser command line. Requires the agent-browser CLI to be installed separately and permission to run Bash."
+    }
+  },
+  "maintainer": {
+    "name": "nanocoai",
+    "verified": false,
+    "account": "nanocoai",
+    "url": "https://github.com/nanocoai/nanoclaw"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/nanocoai/nanoclaw.git",
+    "repoBranch": "main",
+    "ref": "ad1b50e8a089e4f69cfccc56b9b6b3d02a4b94b7",
+    "path": "container/skills/agent-browser"
+  }
+}

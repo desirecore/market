@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "market-research-reports"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Market Research Reports",
+        "summary": "Build evidence-traceable market research and market-size estimates. Optional scripts need Python 3.11+; LaTeX templates need XeLaTeX or LuaLaTeX; web research needs user approval."
+      },
+      "zh-CN": {
+        "name": "市场研究报告",
+        "summary": "构建证据可追溯的市场研究与市场规模测算。可选脚本需 Python 3.11+，LaTeX 模板需 XeLaTeX/LuaLaTeX；联网调研需用户批准。"
+      }
+    },
+    "category": "business",
+    "tags": [
+      "market-research",
+      "sizing",
+      "report",
+      "strategy"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-05T09:39:10Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/K-Dense-AI/scientific-agent-skills.git",
+      "path": "skills/market-research-reports",
+      "ref": "92ace75ac21efe19a620434e0ca4e356081fe807"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE.md"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "K-Dense-AI",
+      "url": "https://github.com/K-Dense-AI/scientific-agent-skills",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE.md",
+      "reviewedRef": "92ace75ac21efe19a620434e0ca4e356081fe807",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

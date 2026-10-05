@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "deep-research"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Deep Research",
+        "summary": "Multi-source research that splits a topic into sub-questions and produces a cited report with a confidence rating. Requires a Firecrawl or Exa MCP service (usually with its own API key)."
+      },
+      "zh-CN": {
+        "name": "多源深度调研",
+        "summary": "多源检索并输出带引用的研究报告。需配置 Firecrawl 或 Exa 的 MCP 服务（通常需各自的 API Key）。"
+      }
+    },
+    "category": "research",
+    "tags": [
+      "research",
+      "citations",
+      "report",
+      "mcp"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-02T02:01:14Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/affaan-m/ECC.git",
+      "path": "skills/deep-research",
+      "ref": "ef648e01899ba3e8dc6371642deaaf64b4477775"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "affaan-m",
+      "url": "https://github.com/affaan-m/ECC",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "ef648e01899ba3e8dc6371642deaaf64b4477775",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

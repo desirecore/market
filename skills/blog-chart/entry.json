@@ -1,0 +1,38 @@
+{
+  "id": "blog-chart",
+  "name": "Blog Chart",
+  "category": "design",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M4 20h16M7 16v-5M12 16V6M17 16v-8\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "chart",
+    "svg",
+    "blog",
+    "dark-mode"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "博客 SVG 图表",
+      "shortDesc": "生成适配深浅色的内嵌 SVG 数据图。可选脚本需 Python 3。"
+    },
+    "en-US": {
+      "name": "Blog Chart",
+      "shortDesc": "Generate inline SVG data charts that adapt to light and dark themes. Optional script needs Python 3."
+    }
+  },
+  "maintainer": {
+    "name": "AgriciDaniel",
+    "verified": false,
+    "account": "AgriciDaniel",
+    "url": "https://github.com/AgriciDaniel/claude-blog"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/AgriciDaniel/claude-blog.git",
+    "repoBranch": "main",
+    "ref": "2500d4c765034864cede2bf215d00ccd4d7d6fb8",
+    "path": "skills/blog-chart"
+  }
+}

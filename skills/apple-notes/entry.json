@@ -1,0 +1,38 @@
+{
+  "id": "apple-notes",
+  "name": "Apple Notes",
+  "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M9 8h6M9 12h6M9 16h3\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "apple",
+    "notes",
+    "macos",
+    "cli"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Apple 备忘录",
+      "shortDesc": "在终端里增删查改 macOS 备忘录。仅限 macOS；需 Homebrew 安装 memo，并授予备忘录自动化权限。"
+    },
+    "en-US": {
+      "name": "Apple Notes",
+      "shortDesc": "Create, search and edit macOS Notes from the terminal. macOS only; requires Homebrew memo and Automation permission for Notes."
+    }
+  },
+  "maintainer": {
+    "name": "openclaw",
+    "verified": false,
+    "account": "openclaw",
+    "url": "https://github.com/openclaw/openclaw"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/openclaw/openclaw.git",
+    "repoBranch": "main",
+    "ref": "6ddf5a6106c18c4cf803a601b3a099e497d943fb",
+    "path": "skills/apple-notes"
+  }
+}

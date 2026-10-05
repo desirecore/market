@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "sprint-plan"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Sprint Plan",
+        "summary": "Estimate capacity, select stories and flag risks for a sprint"
+      },
+      "zh-CN": {
+        "name": "迭代计划",
+        "summary": "估算容量、选择故事并识别风险"
+      }
+    },
+    "category": "management",
+    "tags": [
+      "sprint",
+      "agile",
+      "planning",
+      "capacity"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-14T21:15:01Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/phuryn/pm-skills.git",
+      "path": "pm-execution/skills/sprint-plan",
+      "ref": "8607e3b077817f89bf4a9b623246219734ac3be0"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "phuryn",
+      "url": "https://github.com/phuryn/pm-skills",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "8607e3b077817f89bf4a9b623246219734ac3be0",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

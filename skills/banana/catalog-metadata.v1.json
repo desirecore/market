@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "banana"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Banana",
+        "summary": "Generate, edit and review images with Gemini image models. Requires Python 3 and GEMINI_API_KEY (Google Gemini Developer API, billed by usage)."
+      },
+      "zh-CN": {
+        "name": "Gemini 图像导演",
+        "summary": "用 Gemini 图像模型生成、编辑并审查图片。需 Python 3 与 GEMINI_API_KEY（Google Gemini 接口，按用量计费）。"
+      }
+    },
+    "category": "creative",
+    "tags": [
+      "image-generation",
+      "gemini",
+      "editing",
+      "review"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-11T13:43:58Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/AgriciDaniel/banana-claude.git",
+      "path": "skills/banana",
+      "ref": "6a2b1b51fdcc35932184f06e513646a6f6f4f7d8"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "AgriciDaniel",
+      "url": "https://github.com/AgriciDaniel/banana-claude",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "6a2b1b51fdcc35932184f06e513646a6f6f4f7d8",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "redbookskills",
+  "name": "RedBook Skills",
+  "category": "communication",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M5 5h14v10H10l-5 4z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M9 9h6M9 12h4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "xiaohongshu",
+    "social",
+    "publishing",
+    "automation"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "小红书自动化运营",
+      "shortDesc": "自动发布、搜索与互动小红书内容。需 Python、Chrome 与小红书账号（扫码登录）；会自动化操作第三方平台，使用前请核对其平台条款。"
+    },
+    "en-US": {
+      "name": "RedBook Skills",
+      "shortDesc": "Publish, search and interact on Xiaohongshu (RedNote) automatically. Requires Python, Chrome and a Xiaohongshu account (QR login); automates a third-party platform, so check its terms of use."
+    }
+  },
+  "maintainer": {
+    "name": "white0dew",
+    "verified": false,
+    "account": "white0dew",
+    "url": "https://github.com/white0dew/XiaohongshuSkills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/white0dew/XiaohongshuSkills.git",
+    "repoBranch": "main",
+    "ref": "5d8e7bfde98ab2b3618adf57670ea0b05650bdca"
+  }
+}

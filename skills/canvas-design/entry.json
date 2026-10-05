@@ -1,0 +1,38 @@
+{
+  "id": "canvas-design",
+  "name": "Canvas Design",
+  "category": "design",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"9\" cy=\"10\" r=\"1.5\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M4 17l5-4 4 3 3-2 4 3\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "design",
+    "poster",
+    "pdf",
+    "art"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "艺术画布设计",
+      "shortDesc": "先写设计哲学，再绘制博物馆级海报。需能绘制并导出 PDF/PNG 的环境。"
+    },
+    "en-US": {
+      "name": "Canvas Design",
+      "shortDesc": "Write a design philosophy first, then paint a museum-quality poster. Needs an environment that can draw and export PDF or PNG."
+    }
+  },
+  "maintainer": {
+    "name": "anthropics",
+    "verified": false,
+    "account": "anthropics",
+    "url": "https://github.com/anthropics/skills"
+  },
+  "stewardship": "community",
+  "license": "Apache-2.0",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/anthropics/skills.git",
+    "repoBranch": "main",
+    "ref": "8a1541c4a3ffa5a20a5a91de0dcf3f0bab1d1ef4",
+    "path": "skills/canvas-design"
+  }
+}

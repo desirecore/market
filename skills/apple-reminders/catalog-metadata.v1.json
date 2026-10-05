@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "apple-reminders"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Apple Reminders",
+        "summary": "Manage macOS Reminders with remindctl. macOS only; requires Homebrew remindctl and Reminders access permission."
+      },
+      "zh-CN": {
+        "name": "Apple 提醒事项",
+        "summary": "用 remindctl 管理 macOS 提醒事项。仅限 macOS；需 Homebrew 安装 remindctl 并授予提醒事项权限。"
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "apple",
+      "reminders",
+      "macos",
+      "cli"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-05T10:21:49Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/openclaw/openclaw.git",
+      "path": "skills/apple-reminders",
+      "ref": "6ddf5a6106c18c4cf803a601b3a099e497d943fb"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "openclaw",
+      "url": "https://github.com/openclaw/openclaw",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "6ddf5a6106c18c4cf803a601b3a099e497d943fb",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

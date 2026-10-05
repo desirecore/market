@@ -1,0 +1,38 @@
+{
+  "id": "creating-financial-models",
+  "name": "Creating Financial Models",
+  "category": "business",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"12\" cy=\"12\" r=\"8\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M12 7v10M9.5 9.5c0-1 1-1.7 2.5-1.7s2.5.7 2.5 1.7-1 1.5-2.5 1.8-2.5.8-2.5 1.8 1 1.7 2.5 1.7 2.5-.7 2.5-1.7\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "finance",
+    "dcf",
+    "valuation",
+    "modeling"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "财务建模套件",
+      "shortDesc": "DCF 估值、敏感性与情景分析。需 Python 3（numpy、pandas）及历史财务数据与估值假设。"
+    },
+    "en-US": {
+      "name": "Creating Financial Models",
+      "shortDesc": "DCF valuation, sensitivity and scenario analysis. Requires Python 3 with numpy and pandas, plus historical financials and valuation assumptions."
+    }
+  },
+  "maintainer": {
+    "name": "anthropics",
+    "verified": false,
+    "account": "anthropics",
+    "url": "https://github.com/anthropics/claude-cookbooks"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/anthropics/claude-cookbooks.git",
+    "repoBranch": "main",
+    "ref": "d7265d6ae994ccd8429db0594b000073b2f9ad43",
+    "path": "skills/custom_skills/creating-financial-models"
+  }
+}

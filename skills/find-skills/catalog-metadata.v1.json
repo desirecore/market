@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "find-skills"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Find Skills",
+        "summary": "Search the skills ecosystem for what you need and install it. Requires Node.js (npx) and access to skills.sh and GitHub."
+      },
+      "zh-CN": {
+        "name": "发现并安装技能",
+        "summary": "按需求搜索 skills 生态并安装合适的技能。需 Node.js（npx）并能访问 skills.sh 与 GitHub。"
+      }
+    },
+    "category": "development",
+    "tags": [
+      "skills",
+      "discovery",
+      "install",
+      "ecosystem"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-02T16:25:54Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/vercel-labs/skills.git",
+      "path": "skills/find-skills",
+      "ref": "18f96ea131dab3b0fcc9b27cf7c6f6cbb6174680"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "vercel-labs",
+      "url": "https://github.com/vercel-labs/skills",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "18f96ea131dab3b0fcc9b27cf7c6f6cbb6174680",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

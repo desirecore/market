@@ -1,0 +1,38 @@
+{
+  "id": "competitor-analysis",
+  "name": "Competitor Analysis",
+  "category": "business",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M4 20h16M7 16v-5M12 16V6M17 16v-8\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "competitors",
+    "strategy",
+    "market",
+    "product"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "竞品分析",
+      "shortDesc": "识别 5 个直接竞品并找差异化机会。需联网搜索能力。"
+    },
+    "en-US": {
+      "name": "Competitor Analysis",
+      "shortDesc": "Identify five direct competitors and find differentiation opportunities. Needs web search capability."
+    }
+  },
+  "maintainer": {
+    "name": "phuryn",
+    "verified": false,
+    "account": "phuryn",
+    "url": "https://github.com/phuryn/pm-skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/phuryn/pm-skills.git",
+    "repoBranch": "main",
+    "ref": "8607e3b077817f89bf4a9b623246219734ac3be0",
+    "path": "pm-market-research/skills/competitor-analysis"
+  }
+}

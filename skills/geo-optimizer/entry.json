@@ -1,0 +1,38 @@
+{
+  "id": "geo-optimizer",
+  "name": "GEO Optimizer",
+  "category": "business",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"11\" cy=\"11\" r=\"6\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M16 16l4 4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "geo",
+    "seo",
+    "ai-search",
+    "content"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "GEO 搜索优化",
+      "shortDesc": "让内容更容易被 AI 搜索引擎引用。需联网读取网页与搜索能力。"
+    },
+    "en-US": {
+      "name": "GEO Optimizer",
+      "shortDesc": "Make content easier for AI search engines to cite. Needs web fetch and search capability."
+    }
+  },
+  "maintainer": {
+    "name": "nowork-studio",
+    "verified": false,
+    "account": "nowork-studio",
+    "url": "https://github.com/nowork-studio/notfair-plugin"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/nowork-studio/notfair-plugin.git",
+    "repoBranch": "main",
+    "ref": "1a53d4e4da69a6060c24de42c23333fb48e927c4",
+    "path": "seo/geo-optimizer"
+  }
+}

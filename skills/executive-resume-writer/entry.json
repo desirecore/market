@@ -1,0 +1,38 @@
+{
+  "id": "executive-resume-writer",
+  "name": "Executive Resume Writer",
+  "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M7 3h7l4 4v14H7z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M14 3v4h4M10 12h5M10 16h5\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "resume",
+    "executive",
+    "career",
+    "writing"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "高管简历撰写",
+      "shortDesc": "面向 VP、C-suite 的战略型简历"
+    },
+    "en-US": {
+      "name": "Executive Resume Writer",
+      "shortDesc": "Strategic resumes for VP and C-suite candidates"
+    }
+  },
+  "maintainer": {
+    "name": "Paramchoudhary",
+    "verified": false,
+    "account": "Paramchoudhary",
+    "url": "https://github.com/Paramchoudhary/ResumeSkills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/Paramchoudhary/ResumeSkills.git",
+    "repoBranch": "main",
+    "ref": "74ae19e7c62b0516d1c298328e5544976c12da5d",
+    "path": "skills/executive-resume-writer"
+  }
+}

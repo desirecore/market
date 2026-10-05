@@ -1,0 +1,38 @@
+{
+  "id": "jira",
+  "name": "Jira",
+  "category": "management",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M12 3l8 4.5v9L12 21l-8-4.5v-9z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M4 7.5L12 12l8-4.5M12 12v9\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "jira",
+    "jql",
+    "agile",
+    "tickets"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Jira 管理专家",
+      "shortDesc": "规范 Jira 工单、迭代规划、JQL 与工作流的实践指南。只提供方法指导；实际操作 Jira 需另行配置工具或手动执行。"
+    },
+    "en-US": {
+      "name": "Jira",
+      "shortDesc": "Practical guidance for Jira tickets, sprint planning, JQL and workflows. Guidance only; operating Jira needs a separately configured tool or manual steps."
+    }
+  },
+  "maintainer": {
+    "name": "RightNow-AI",
+    "verified": false,
+    "account": "RightNow-AI",
+    "url": "https://github.com/RightNow-AI/openfang"
+  },
+  "stewardship": "community",
+  "license": "Apache-2.0 OR MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/RightNow-AI/openfang.git",
+    "repoBranch": "main",
+    "ref": "acf2587e46be174c10200489c9a2d23a39a98aeb",
+    "path": "crates/openfang-skills/bundled/jira"
+  }
+}

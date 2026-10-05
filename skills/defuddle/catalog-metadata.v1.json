@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "defuddle"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Defuddle",
+        "summary": "Extract clean Markdown from web pages with Defuddle. Requires Node.js/npm (installs the defuddle package) and web access."
+      },
+      "zh-CN": {
+        "name": "网页转MD正文",
+        "summary": "用 Defuddle 把网页提取成干净 Markdown。需 Node.js/npm（安装 defuddle）并能联网。"
+      }
+    },
+    "category": "research",
+    "tags": [
+      "markdown",
+      "web",
+      "extraction",
+      "obsidian"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-15T14:43:57Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/kepano/obsidian-skills.git",
+      "path": "skills/defuddle",
+      "ref": "3ccff5338ea700537839b21900aa5358a0402c98"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "kepano",
+      "url": "https://github.com/kepano/obsidian-skills",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "3ccff5338ea700537839b21900aa5358a0402c98",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

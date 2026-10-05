@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "carrier-relationship-management"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Carrier Relationship Management",
+        "summary": "Carrier selection, rate negotiation, tendering and performance scoring. Needs lanes, volumes and historical performance data from you."
+      },
+      "zh-CN": {
+        "name": "承运商关系管理",
+        "summary": "承运商选择、运价谈判、招标与绩效评分经验库。需提供线路、运量、历史绩效数据。"
+      }
+    },
+    "category": "business",
+    "tags": [
+      "carrier",
+      "freight",
+      "rfp",
+      "logistics"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-02T02:01:14Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/affaan-m/ECC.git",
+      "path": "skills/carrier-relationship-management",
+      "ref": "ef648e01899ba3e8dc6371642deaaf64b4477775"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "Apache-2.0",
+      "evidencePath": "skills/carrier-relationship-management/SKILL.md"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "affaan-m",
+      "url": "https://github.com/affaan-m/ECC",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "skills/carrier-relationship-management/SKILL.md",
+      "reviewedRef": "ef648e01899ba3e8dc6371642deaaf64b4477775",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "customs-trade-compliance",
+  "name": "Customs Trade Compliance",
+  "category": "business",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M9 12l2 2 4-4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "customs",
+    "hs-code",
+    "trade",
+    "compliance"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "报关与贸易合规",
+      "shortDesc": "HS 归类、报关单证、FTA 与受限方筛查的合规经验库。需提供商品技术资料、BOM、单证；不构成法律意见。"
+    },
+    "en-US": {
+      "name": "Customs Trade Compliance",
+      "shortDesc": "Playbook for HS classification, customs documents, FTAs and restricted-party screening. Needs product technical data, BOMs and trade documents from you; not legal advice."
+    }
+  },
+  "maintainer": {
+    "name": "affaan-m",
+    "verified": false,
+    "account": "affaan-m",
+    "url": "https://github.com/affaan-m/ECC"
+  },
+  "stewardship": "community",
+  "license": "Apache-2.0",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/affaan-m/ECC.git",
+    "repoBranch": "main",
+    "ref": "ef648e01899ba3e8dc6371642deaaf64b4477775",
+    "path": "skills/customs-trade-compliance"
+  }
+}

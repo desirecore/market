@@ -1,0 +1,38 @@
+{
+  "id": "apple-reminders",
+  "name": "Apple Reminders",
+  "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M12 3l8 4.5v9L12 21l-8-4.5v-9z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M4 7.5L12 12l8-4.5M12 12v9\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "apple",
+    "reminders",
+    "macos",
+    "cli"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Apple 提醒事项",
+      "shortDesc": "用 remindctl 管理 macOS 提醒事项。仅限 macOS；需 Homebrew 安装 remindctl 并授予提醒事项权限。"
+    },
+    "en-US": {
+      "name": "Apple Reminders",
+      "shortDesc": "Manage macOS Reminders with remindctl. macOS only; requires Homebrew remindctl and Reminders access permission."
+    }
+  },
+  "maintainer": {
+    "name": "openclaw",
+    "verified": false,
+    "account": "openclaw",
+    "url": "https://github.com/openclaw/openclaw"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/openclaw/openclaw.git",
+    "repoBranch": "main",
+    "ref": "6ddf5a6106c18c4cf803a601b3a099e497d943fb",
+    "path": "skills/apple-reminders"
+  }
+}

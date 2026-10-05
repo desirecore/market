@@ -1,0 +1,38 @@
+{
+  "id": "mcp-builder",
+  "name": "MCP Builder",
+  "category": "development",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M9 8l-4 4 4 4M15 8l4 4-4 4M13 6l-2 12\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "mcp",
+    "server",
+    "tools",
+    "evaluation"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "MCP 服务器构建",
+      "shortDesc": "设计、实现并测试 MCP 服务器与评测问题。需 Node.js（TypeScript）或 Python 开发环境；可选评测脚本需 Anthropic API Key 并会向该服务发送数据。"
+    },
+    "en-US": {
+      "name": "MCP Builder",
+      "shortDesc": "Design, implement and test MCP servers and evaluation questions. Requires a Node.js (TypeScript) or Python dev environment; the optional evaluation scripts need an Anthropic API key and send data to that service."
+    }
+  },
+  "maintainer": {
+    "name": "anthropics",
+    "verified": false,
+    "account": "anthropics",
+    "url": "https://github.com/anthropics/skills"
+  },
+  "stewardship": "community",
+  "license": "Apache-2.0",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/anthropics/skills.git",
+    "repoBranch": "main",
+    "ref": "8a1541c4a3ffa5a20a5a91de0dcf3f0bab1d1ef4",
+    "path": "skills/mcp-builder"
+  }
+}

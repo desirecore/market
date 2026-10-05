@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "requesthunt"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "RequestHunt",
+        "summary": "Generate demand research reports from real multi-platform user feedback. Requires the requesthunt CLI and a RequestHunt account or REQUESTHUNT_API_KEY; API calls are metered (free tier has monthly credits)."
+      },
+      "zh-CN": {
+        "name": "用户需求调研",
+        "summary": "从多平台真实反馈生成需求调研报告。需 requesthunt 命令行与 RequestHunt 账号或 REQUESTHUNT_API_KEY；接口按积分计费（免费版有月度额度）。"
+      }
+    },
+    "category": "research",
+    "tags": [
+      "feedback",
+      "product",
+      "research",
+      "requests"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-04T12:03:03Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/ReScienceLab/opc-skills.git",
+      "path": "skills/requesthunt",
+      "ref": "0d11580a7d234e8721c37798294479a23d7b8487"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "Apache-2.0",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "ReScienceLab",
+      "url": "https://github.com/ReScienceLab/opc-skills",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "0d11580a7d234e8721c37798294479a23d7b8487",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

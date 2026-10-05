@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "obsidian-cli"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Obsidian CLI Plugin Dev",
+        "summary": "Operate notes and debug plugins with the obsidian CLI. Requires Obsidian with the CLI enabled and the app kept running."
+      },
+      "zh-CN": {
+        "name": "Obsidian CLI",
+        "summary": "用 obsidian CLI 操作笔记并调试插件。需启用命令行的 Obsidian 并保持应用运行。"
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "obsidian",
+      "cli",
+      "plugins",
+      "debugging"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-15T14:43:57Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/kepano/obsidian-skills.git",
+      "path": "skills/obsidian-cli",
+      "ref": "3ccff5338ea700537839b21900aa5358a0402c98"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "kepano",
+      "url": "https://github.com/kepano/obsidian-skills",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "3ccff5338ea700537839b21900aa5358a0402c98",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "verification-before-completion",
+  "name": "Verification Before Completion",
+  "category": "development",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M9 12l2 2 4-4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "verification",
+    "testing",
+    "quality",
+    "workflow"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "完成前强制验证",
+      "shortDesc": "没有新鲜验证证据，不得声称完成或通过。需能运行项目的测试与构建命令。"
+    },
+    "en-US": {
+      "name": "Verification Before Completion",
+      "shortDesc": "No claiming a task is done or passing without fresh verification evidence. Needs the ability to run the project's tests and build commands."
+    }
+  },
+  "maintainer": {
+    "name": "obra",
+    "verified": false,
+    "account": "obra",
+    "url": "https://github.com/obra/superpowers"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/obra/superpowers.git",
+    "repoBranch": "main",
+    "ref": "8ca22dba9a94f28898bbce59f2537ff4d87c747d",
+    "path": "skills/verification-before-completion"
+  }
+}

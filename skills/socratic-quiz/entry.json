@@ -1,0 +1,38 @@
+{
+  "id": "socratic-quiz",
+  "name": "Socratic Quiz",
+  "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M5 5h14v10H10l-5 4z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M9 9h6M9 12h4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "learning",
+    "socratic",
+    "quiz",
+    "thinking"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "苏格拉底式提问",
+      "shortDesc": "用递进式提问引导你自己想明白"
+    },
+    "en-US": {
+      "name": "Socratic Quiz",
+      "shortDesc": "Guide you to figure things out yourself with progressive questions"
+    }
+  },
+  "maintainer": {
+    "name": "pchalasani",
+    "verified": false,
+    "account": "pchalasani",
+    "url": "https://github.com/pchalasani/claude-code-tools"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/pchalasani/claude-code-tools.git",
+    "repoBranch": "main",
+    "ref": "0ca732006a387dfe38a601a4959197ce0df778d8",
+    "path": "plugins/workflow/skills/socratic-quiz"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "quality-nonconformance",
+  "name": "Quality Nonconformance",
+  "category": "business",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M9 12l2 2 4-4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "quality",
+    "ncr",
+    "capa",
+    "spc"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "质量不合格处置",
+      "shortDesc": "NCR、根因分析、CAPA 与 SPC 的质量管理经验库。需提供检验数据、规格与批次追溯信息。"
+    },
+    "en-US": {
+      "name": "Quality Nonconformance",
+      "shortDesc": "NCR, root-cause analysis, CAPA and SPC practice for quality management. Needs inspection data, specifications and lot traceability from you."
+    }
+  },
+  "maintainer": {
+    "name": "affaan-m",
+    "verified": false,
+    "account": "affaan-m",
+    "url": "https://github.com/affaan-m/ECC"
+  },
+  "stewardship": "community",
+  "license": "Apache-2.0",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/affaan-m/ECC.git",
+    "repoBranch": "main",
+    "ref": "ef648e01899ba3e8dc6371642deaaf64b4477775",
+    "path": "skills/quality-nonconformance"
+  }
+}

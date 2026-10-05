@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "logistics-exception-management"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Logistics Exception Management",
+        "summary": "A framework for freight delays, damage, loss and carrier disputes. Needs waybills, delivery receipts and photos from you."
+      },
+      "zh-CN": {
+        "name": "物流异常处理",
+        "summary": "货运延误、破损、丢失与承运商争议的处理框架。需提供运单、签收单、照片等材料。"
+      }
+    },
+    "category": "business",
+    "tags": [
+      "logistics",
+      "claims",
+      "carrier",
+      "operations"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-02T02:01:14Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/affaan-m/ECC.git",
+      "path": "skills/logistics-exception-management",
+      "ref": "ef648e01899ba3e8dc6371642deaaf64b4477775"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "Apache-2.0",
+      "evidencePath": "skills/logistics-exception-management/SKILL.md"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "affaan-m",
+      "url": "https://github.com/affaan-m/ECC",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "skills/logistics-exception-management/SKILL.md",
+      "reviewedRef": "ef648e01899ba3e8dc6371642deaaf64b4477775",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "systematic-debugging",
+  "name": "Systematic Debugging",
+  "category": "development",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M9 8l-4 4 4 4M15 8l4 4-4 4M13 6l-2 12\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "debugging",
+    "root-cause",
+    "workflow",
+    "testing"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "系统化调试",
+      "shortDesc": "先找根因、再动手修复的四阶段调试流程"
+    },
+    "en-US": {
+      "name": "Systematic Debugging",
+      "shortDesc": "A four-phase debugging process: find the root cause first, then fix"
+    }
+  },
+  "maintainer": {
+    "name": "obra",
+    "verified": false,
+    "account": "obra",
+    "url": "https://github.com/obra/superpowers"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/obra/superpowers.git",
+    "repoBranch": "main",
+    "ref": "8ca22dba9a94f28898bbce59f2537ff4d87c747d",
+    "path": "skills/systematic-debugging"
+  }
+}

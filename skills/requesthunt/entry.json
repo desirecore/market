@@ -1,0 +1,38 @@
+{
+  "id": "requesthunt",
+  "name": "RequestHunt",
+  "category": "research",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"11\" cy=\"11\" r=\"6\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M16 16l4 4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "feedback",
+    "product",
+    "research",
+    "requests"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "用户需求调研",
+      "shortDesc": "从多平台真实反馈生成需求调研报告。需 requesthunt 命令行与 RequestHunt 账号或 REQUESTHUNT_API_KEY；接口按积分计费（免费版有月度额度）。"
+    },
+    "en-US": {
+      "name": "RequestHunt",
+      "shortDesc": "Generate demand research reports from real multi-platform user feedback. Requires the requesthunt CLI and a RequestHunt account or REQUESTHUNT_API_KEY; API calls are metered (free tier has monthly credits)."
+    }
+  },
+  "maintainer": {
+    "name": "ReScienceLab",
+    "verified": false,
+    "account": "ReScienceLab",
+    "url": "https://github.com/ReScienceLab/opc-skills"
+  },
+  "stewardship": "community",
+  "license": "Apache-2.0",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/ReScienceLab/opc-skills.git",
+    "repoBranch": "main",
+    "ref": "0d11580a7d234e8721c37798294479a23d7b8487",
+    "path": "skills/requesthunt"
+  }
+}

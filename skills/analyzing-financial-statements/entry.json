@@ -1,0 +1,38 @@
+{
+  "id": "analyzing-financial-statements",
+  "name": "Analyzing Financial Statements",
+  "category": "business",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"12\" cy=\"12\" r=\"8\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M12 7v10M9.5 9.5c0-1 1-1.7 2.5-1.7s2.5.7 2.5 1.7-1 1.5-2.5 1.8-2.5.8-2.5 1.8 1 1.7 2.5 1.7 2.5-.7 2.5-1.7\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "finance",
+    "ratios",
+    "statements",
+    "analysis"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "财报比率分析",
+      "shortDesc": "从财务报表计算并解读关键比率。需 Python 3 及利润表、资产负债表等数据。"
+    },
+    "en-US": {
+      "name": "Analyzing Financial Statements",
+      "shortDesc": "Calculate and interpret key ratios from financial statements. Requires Python 3 and the income statement / balance sheet data."
+    }
+  },
+  "maintainer": {
+    "name": "anthropics",
+    "verified": false,
+    "account": "anthropics",
+    "url": "https://github.com/anthropics/claude-cookbooks"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/anthropics/claude-cookbooks.git",
+    "repoBranch": "main",
+    "ref": "d7265d6ae994ccd8429db0594b000073b2f9ad43",
+    "path": "skills/custom_skills/analyzing-financial-statements"
+  }
+}

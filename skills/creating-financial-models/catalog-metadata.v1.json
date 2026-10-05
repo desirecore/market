@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "creating-financial-models"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Creating Financial Models",
+        "summary": "DCF valuation, sensitivity and scenario analysis. Requires Python 3 with numpy and pandas, plus historical financials and valuation assumptions."
+      },
+      "zh-CN": {
+        "name": "财务建模套件",
+        "summary": "DCF 估值、敏感性与情景分析。需 Python 3（numpy、pandas）及历史财务数据与估值假设。"
+      }
+    },
+    "category": "business",
+    "tags": [
+      "finance",
+      "dcf",
+      "valuation",
+      "modeling"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-28T16:56:35Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/anthropics/claude-cookbooks.git",
+      "path": "skills/custom_skills/creating-financial-models",
+      "ref": "d7265d6ae994ccd8429db0594b000073b2f9ad43"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "anthropics",
+      "url": "https://github.com/anthropics/claude-cookbooks",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "d7265d6ae994ccd8429db0594b000073b2f9ad43",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

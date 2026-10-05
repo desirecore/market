@@ -1,0 +1,38 @@
+{
+  "id": "brainstorming",
+  "name": "Brainstorming",
+  "category": "development",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M12 3l8 4.5v9L12 21l-8-4.5v-9z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M4 7.5L12 12l8-4.5M12 12v9\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "design",
+    "requirements",
+    "planning",
+    "workflow"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "动手前先头脑风暴",
+      "shortDesc": "实现前先澄清需求、给出设计并获得确认"
+    },
+    "en-US": {
+      "name": "Brainstorming",
+      "shortDesc": "Clarify requirements, propose a design and get approval before implementing"
+    }
+  },
+  "maintainer": {
+    "name": "obra",
+    "verified": false,
+    "account": "obra",
+    "url": "https://github.com/obra/superpowers"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/obra/superpowers.git",
+    "repoBranch": "main",
+    "ref": "8ca22dba9a94f28898bbce59f2537ff4d87c747d",
+    "path": "skills/brainstorming"
+  }
+}
