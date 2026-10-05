@@ -136,7 +136,7 @@ mail-operations 是一个**流程型技能（Procedural Skill）**，通过 Desi
 **folder 取值**：
 - 本地缓存列表与搜索：`inbox, sent, drafts, trash, spam, archive, other`，大小写不敏感，也接受服务器原名（如 `INBOX`、`Sent Messages`）；IMAP 的自定义文件夹在本地统一归为 `other`。
 - 远程同步：通用名（`inbox`、`sent` 等）会自动映射到 IMAP 实际文件夹、Outlook 文件夹或 Gmail 标签；IMAP 也可直接传 `GET /imap/folders` 返回的 `path`。Gmail 的 `archive` 没有对应标签，会不加过滤地拉取。
-- **IMAP 单封操作**（详情未命中缓存、标记已读/未读、删除、回复、附件下载）的 `folder` 会原样交给 IMAP 服务器，必须是 `GET /imap/folders` 返回的真实 `path`（如 `INBOX`、`Sent Messages`），省略时默认 `INBOX`。列表项里的 `folder` 是归一化后的值（如 `sent`），不能直接当作 IMAP 文件夹名。
+- **IMAP 单封操作**（详情未命中缓存、标记已读/未读、删除、标记为垃圾邮件 / 不是垃圾邮件、回复、附件下载）的 `folder` 会原样交给 IMAP 服务器，必须是 `GET /imap/folders` 返回的真实 `path`（如 `INBOX`、`Sent Messages`），省略时默认 `INBOX`。列表项里的 `folder` 是归一化后的值（如 `sent`），不能直接当作 IMAP 文件夹名。
 
 **响应格式**（邮件列表项）：
 ```json
@@ -162,8 +162,17 @@ mail-operations 是一个**流程型技能（Procedural Skill）**，通过 Desi
 | 标记已读 | POST `/{id}/read?email=` | POST `/message/read?id={id}&email=` | POST `/{uid}/read?email=&folder=` |
 | 标记未读 | POST `/{id}/unread?email=` | POST `/message/unread?id={id}&email=` | POST `/{uid}/unread?email=&folder=` |
 | 删除 | DELETE `/{id}?email=` | DELETE `/message?id={id}&email=` | DELETE `/{uid}?email=&folder=` |
+| 标记为垃圾邮件 | POST `/{id}/spam?email=` | POST `/message/spam?id={id}&email=` | POST `/{uid}/spam?email=&folder=` |
+| 不是垃圾邮件 | POST `/{id}/not-spam?email=` | POST `/message/not-spam?id={id}&email=` | POST `/{uid}/not-spam?email=&folder=` |
 
 > 所有路径前缀为 `/api/{provider}/messages`（Gmail/IMAP）或 `/api/outlook/`（Outlook 特殊路由）。IMAP 的 `{uid}` 可直接用列表返回的 `id`（`imap:<uid>`），`folder` 规则见第 2 节，INBOX 可省略。
+
+**标记为垃圾邮件 / 不是垃圾邮件**：把邮件移入垃圾邮件文件夹，或从垃圾邮件文件夹移回收件箱，服务器与本地缓存同时修改，返回 `result: {id, folder}`。
+- Gmail 改 `SPAM` / `INBOX` 标签，`id` 不变；Outlook、IMAP 移动后 `id` 会变，之后再操作这封邮件要用返回的新 `id`。IMAP 服务器不支持 UIDPLUS 时 `id` 为 `null`，对目标文件夹做一次 `messages/fetch` 后再取。
+- IMAP 账户在服务器上没有垃圾邮件文件夹时返回 409 `imap_spam_folder_not_found`，如实告知用户，不要重试，也不要改用其他文件夹代替。
+- 邮件已经在目标文件夹时直接返回成功。移回收件箱的邮件不会触发邮件规则，也不会推送新邮件通知。
+- 「不是垃圾邮件」一次只处理一封，不要把一批邮件一起移回收件箱；标记为垃圾邮件可以逐封调用。
+- 需要客户端 10.0.178 及以上；旧客户端返回 404，提示用户升级客户端。
 
 **邮件详情额外字段**：`body: {content, contentType}`, `ccRecipients`, `attachments: [{id, filename, contentType, size}]`。IMAP 附件的 `id` 是附件在该邮件中的序号字符串（`"0"`、`"1"`……）。
 
