@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "tutor-setup"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Tutor Setup",
+        "summary": "Turn materials or a codebase into an Obsidian StudyVault. Requires pdftotext (poppler) and Obsidian; source material must be inside the working directory."
+      },
+      "zh-CN": {
+        "name": "学习库生成器",
+        "summary": "把资料或代码库转成 Obsidian StudyVault。需 pdftotext（poppler）与 Obsidian；资料需位于当前工作目录内。"
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "study",
+      "obsidian",
+      "learning",
+      "pdf"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-02-28T14:39:28Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/bevibing/tutor-skills.git",
+      "path": "skills/tutor-setup",
+      "ref": "397110c9fefbc6bd5444277686600aec28063c05"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "bevibing",
+      "url": "https://github.com/bevibing/tutor-skills",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "397110c9fefbc6bd5444277686600aec28063c05",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

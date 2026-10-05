@@ -1,0 +1,38 @@
+{
+  "id": "production-scheduling",
+  "name": "Production Scheduling",
+  "category": "business",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M4 20h16M7 16v-5M12 16V6M17 16v-8\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "manufacturing",
+    "scheduling",
+    "bottleneck",
+    "operations"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "生产排程",
+      "shortDesc": "离散与批量制造的排产、换线优化与瓶颈处理经验库。需提供订单、工艺路线、换线时间等数据。"
+    },
+    "en-US": {
+      "name": "Production Scheduling",
+      "shortDesc": "Scheduling, changeover optimization and bottleneck handling for discrete and batch manufacturing. Needs your orders, routings and changeover data."
+    }
+  },
+  "maintainer": {
+    "name": "affaan-m",
+    "verified": false,
+    "account": "affaan-m",
+    "url": "https://github.com/affaan-m/ECC"
+  },
+  "stewardship": "community",
+  "license": "Apache-2.0",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/affaan-m/ECC.git",
+    "repoBranch": "main",
+    "ref": "ef648e01899ba3e8dc6371642deaaf64b4477775",
+    "path": "skills/production-scheduling"
+  }
+}

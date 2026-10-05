@@ -1,0 +1,38 @@
+{
+  "id": "webapp-testing",
+  "name": "Webapp Testing",
+  "category": "development",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M9 8l-4 4 4 4M15 8l4 4-4 4M13 6l-2 12\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "testing",
+    "playwright",
+    "web",
+    "python"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "本地网页测试",
+      "shortDesc": "用 Python Playwright 脚本测试本地网页应用。需 Python、playwright 与 Chromium，以及被测应用的启动命令与端口。"
+    },
+    "en-US": {
+      "name": "Webapp Testing",
+      "shortDesc": "Test local web apps with Python Playwright scripts. Requires Python with playwright and Chromium, plus the app's start command and port."
+    }
+  },
+  "maintainer": {
+    "name": "anthropics",
+    "verified": false,
+    "account": "anthropics",
+    "url": "https://github.com/anthropics/skills"
+  },
+  "stewardship": "community",
+  "license": "Apache-2.0",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/anthropics/skills.git",
+    "repoBranch": "main",
+    "ref": "8a1541c4a3ffa5a20a5a91de0dcf3f0bab1d1ef4",
+    "path": "skills/webapp-testing"
+  }
+}

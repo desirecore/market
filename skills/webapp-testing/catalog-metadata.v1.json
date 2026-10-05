@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "webapp-testing"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Webapp Testing",
+        "summary": "Test local web apps with Python Playwright scripts. Requires Python with playwright and Chromium, plus the app's start command and port."
+      },
+      "zh-CN": {
+        "name": "本地网页测试",
+        "summary": "用 Python Playwright 脚本测试本地网页应用。需 Python、playwright 与 Chromium，以及被测应用的启动命令与端口。"
+      }
+    },
+    "category": "development",
+    "tags": [
+      "testing",
+      "playwright",
+      "web",
+      "python"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-29T02:20:03Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/anthropics/skills.git",
+      "path": "skills/webapp-testing",
+      "ref": "8a1541c4a3ffa5a20a5a91de0dcf3f0bab1d1ef4"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "Apache-2.0",
+      "evidencePath": "skills/webapp-testing/LICENSE.txt"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "anthropics",
+      "url": "https://github.com/anthropics/skills",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "skills/webapp-testing/LICENSE.txt",
+      "reviewedRef": "8a1541c4a3ffa5a20a5a91de0dcf3f0bab1d1ef4",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

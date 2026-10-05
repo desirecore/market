@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "article-writing"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Article Writing",
+        "summary": "Write opinionated, evidence-backed long-form articles in a specified voice. Voice matching relies on the separate brand-voice skill from the same repository."
+      },
+      "zh-CN": {
+        "name": "长文写作",
+        "summary": "按指定文风写出有观点、有证据的长文。文风匹配依赖同仓库的 brand-voice 技能（本次未收录）。"
+      }
+    },
+    "category": "creative",
+    "tags": [
+      "writing",
+      "article",
+      "long-form",
+      "voice"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-02T02:01:14Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/affaan-m/ECC.git",
+      "path": "skills/article-writing",
+      "ref": "ef648e01899ba3e8dc6371642deaaf64b4477775"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "affaan-m",
+      "url": "https://github.com/affaan-m/ECC",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "ef648e01899ba3e8dc6371642deaaf64b4477775",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

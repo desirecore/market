@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "qiaomu-mondo-poster-design"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Qiaomu Mondo Poster Design",
+        "summary": "Create Mondo-style posters, covers and album art. Requires Python 3; image generation needs an AI_GATEWAY_API_KEY (prompt-only mode needs none)."
+      },
+      "zh-CN": {
+        "name": "Mondo 风格海报",
+        "summary": "用 Mondo 风格生成海报、封面与专辑图。需 Python 3；直接出图需 AI_GATEWAY_API_KEY（仅生成提示词无需）。"
+      }
+    },
+    "category": "design",
+    "tags": [
+      "poster",
+      "mondo",
+      "illustration",
+      "design"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-03-16T14:23:23Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/joeseesun/qiaomu-mondo-poster-design.git",
+      "ref": "e82e411c403ca5a0327a85682c658ad155cd9cbb"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "joeseesun",
+      "url": "https://github.com/joeseesun/qiaomu-mondo-poster-design",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "e82e411c403ca5a0327a85682c658ad155cd9cbb",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

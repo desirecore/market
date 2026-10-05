@@ -1,0 +1,38 @@
+{
+  "id": "data-analyst",
+  "name": "Data Analyst",
+  "category": "data",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M4 20h16M7 16v-5M12 16V6M17 16v-8\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "data",
+    "statistics",
+    "visualization",
+    "pandas"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "数据分析专家",
+      "shortDesc": "探索数据、统计检验与可视化。需 Python 及 pandas、numpy、matplotlib、seaborn。"
+    },
+    "en-US": {
+      "name": "Data Analyst",
+      "shortDesc": "Explore data, run statistical tests and build visualizations. Requires Python with pandas, numpy, matplotlib and seaborn."
+    }
+  },
+  "maintainer": {
+    "name": "RightNow-AI",
+    "verified": false,
+    "account": "RightNow-AI",
+    "url": "https://github.com/RightNow-AI/openfang"
+  },
+  "stewardship": "community",
+  "license": "Apache-2.0 OR MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/RightNow-AI/openfang.git",
+    "repoBranch": "main",
+    "ref": "acf2587e46be174c10200489c9a2d23a39a98aeb",
+    "path": "crates/openfang-skills/bundled/data-analyst"
+  }
+}

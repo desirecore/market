@@ -1,0 +1,38 @@
+{
+  "id": "sql-queries",
+  "name": "SQL Queries",
+  "category": "data",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M9 8l-4 4 4 4M15 8l4 4-4 4M13 6l-2 12\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "sql",
+    "queries",
+    "analytics",
+    "database"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "自然语言写 SQL",
+      "shortDesc": "把业务问题翻译成可运行的查询。只生成 SQL，不自带数据库连接。"
+    },
+    "en-US": {
+      "name": "SQL Queries",
+      "shortDesc": "Translate business questions into runnable SQL queries. Generates SQL only; it does not connect to a database."
+    }
+  },
+  "maintainer": {
+    "name": "phuryn",
+    "verified": false,
+    "account": "phuryn",
+    "url": "https://github.com/phuryn/pm-skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/phuryn/pm-skills.git",
+    "repoBranch": "main",
+    "ref": "8607e3b077817f89bf4a9b623246219734ac3be0",
+    "path": "pm-data-analytics/skills/sql-queries"
+  }
+}

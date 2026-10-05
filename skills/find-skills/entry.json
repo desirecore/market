@@ -1,0 +1,38 @@
+{
+  "id": "find-skills",
+  "name": "Find Skills",
+  "category": "development",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"11\" cy=\"11\" r=\"6\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M16 16l4 4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "skills",
+    "discovery",
+    "install",
+    "ecosystem"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "发现并安装技能",
+      "shortDesc": "按需求搜索 skills 生态并安装合适的技能。需 Node.js（npx）并能访问 skills.sh 与 GitHub。"
+    },
+    "en-US": {
+      "name": "Find Skills",
+      "shortDesc": "Search the skills ecosystem for what you need and install it. Requires Node.js (npx) and access to skills.sh and GitHub."
+    }
+  },
+  "maintainer": {
+    "name": "vercel-labs",
+    "verified": false,
+    "account": "vercel-labs",
+    "url": "https://github.com/vercel-labs/skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/vercel-labs/skills.git",
+    "repoBranch": "main",
+    "ref": "18f96ea131dab3b0fcc9b27cf7c6f6cbb6174680",
+    "path": "skills/find-skills"
+  }
+}

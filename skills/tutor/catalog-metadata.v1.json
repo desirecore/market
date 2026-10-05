@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "tutor"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Tutor",
+        "summary": "Quiz you from a study vault and track weak concepts. Requires an existing StudyVault (from tutor-setup) and an agent that supports AskUserQuestion."
+      },
+      "zh-CN": {
+        "name": "学习库测验导师",
+        "summary": "基于学习库出题，记录并追踪薄弱概念。需已有 StudyVault（可由 tutor-setup 生成）及支持 AskUserQuestion 的 Agent。"
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "learning",
+      "quiz",
+      "obsidian",
+      "study"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-02-28T14:39:28Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/bevibing/tutor-skills.git",
+      "path": "skills/tutor",
+      "ref": "397110c9fefbc6bd5444277686600aec28063c05"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "bevibing",
+      "url": "https://github.com/bevibing/tutor-skills",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "397110c9fefbc6bd5444277686600aec28063c05",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

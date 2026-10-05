@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "energy-procurement"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Energy Procurement",
+        "summary": "Electricity and gas procurement strategy and tariff optimization for commercial and industrial sites. Needs interval usage data, tariffs and contract details from you."
+      },
+      "zh-CN": {
+        "name": "能源采购",
+        "summary": "商业与工业用电、用气的采购策略与电价优化。需提供用电间隔数据、电价表和合同信息。"
+      }
+    },
+    "category": "business",
+    "tags": [
+      "energy",
+      "tariff",
+      "procurement",
+      "hedging"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-02T02:01:14Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/affaan-m/ECC.git",
+      "path": "skills/energy-procurement",
+      "ref": "ef648e01899ba3e8dc6371642deaaf64b4477775"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "Apache-2.0",
+      "evidencePath": "skills/energy-procurement/SKILL.md"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "affaan-m",
+      "url": "https://github.com/affaan-m/ECC",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "skills/energy-procurement/SKILL.md",
+      "reviewedRef": "ef648e01899ba3e8dc6371642deaaf64b4477775",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

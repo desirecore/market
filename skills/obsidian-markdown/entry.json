@@ -1,0 +1,38 @@
+{
+  "id": "obsidian-markdown",
+  "name": "Obsidian Markdown",
+  "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M9 8h6M9 12h6M9 16h3\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "obsidian",
+    "markdown",
+    "notes",
+    "wikilinks"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Obsidian 语法",
+      "shortDesc": "写出符合 Obsidian 规范的 Markdown 笔记"
+    },
+    "en-US": {
+      "name": "Obsidian Markdown",
+      "shortDesc": "Write Markdown notes that follow Obsidian conventions"
+    }
+  },
+  "maintainer": {
+    "name": "kepano",
+    "verified": false,
+    "account": "kepano",
+    "url": "https://github.com/kepano/obsidian-skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/kepano/obsidian-skills.git",
+    "repoBranch": "main",
+    "ref": "3ccff5338ea700537839b21900aa5358a0402c98",
+    "path": "skills/obsidian-markdown"
+  }
+}

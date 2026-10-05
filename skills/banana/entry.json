@@ -1,0 +1,38 @@
+{
+  "id": "banana",
+  "name": "Banana",
+  "category": "creative",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"9\" cy=\"10\" r=\"1.5\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M4 17l5-4 4 3 3-2 4 3\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "image-generation",
+    "gemini",
+    "editing",
+    "review"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Gemini 图像导演",
+      "shortDesc": "用 Gemini 图像模型生成、编辑并审查图片。需 Python 3 与 GEMINI_API_KEY（Google Gemini 接口，按用量计费）。"
+    },
+    "en-US": {
+      "name": "Banana",
+      "shortDesc": "Generate, edit and review images with Gemini image models. Requires Python 3 and GEMINI_API_KEY (Google Gemini Developer API, billed by usage)."
+    }
+  },
+  "maintainer": {
+    "name": "AgriciDaniel",
+    "verified": false,
+    "account": "AgriciDaniel",
+    "url": "https://github.com/AgriciDaniel/banana-claude"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/AgriciDaniel/banana-claude.git",
+    "repoBranch": "main",
+    "ref": "6a2b1b51fdcc35932184f06e513646a6f6f4f7d8",
+    "path": "skills/banana"
+  }
+}

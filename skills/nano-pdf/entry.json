@@ -1,0 +1,38 @@
+{
+  "id": "nano-pdf",
+  "name": "Nano PDF",
+  "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M7 3h7l4 4v14H7z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M14 3v4h4M10 12h5M10 16h5\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "pdf",
+    "editing",
+    "natural-language",
+    "cli"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "自然语言编辑 PDF",
+      "shortDesc": "用自然语言指令修改 PDF 指定页面。需安装 nano-pdf 命令行（通过 uv）。"
+    },
+    "en-US": {
+      "name": "Nano PDF",
+      "shortDesc": "Edit specific PDF pages with natural-language instructions. Requires the nano-pdf CLI (installed with uv)."
+    }
+  },
+  "maintainer": {
+    "name": "openclaw",
+    "verified": false,
+    "account": "openclaw",
+    "url": "https://github.com/openclaw/openclaw"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/openclaw/openclaw.git",
+    "repoBranch": "main",
+    "ref": "6ddf5a6106c18c4cf803a601b3a099e497d943fb",
+    "path": "skills/nano-pdf"
+  }
+}

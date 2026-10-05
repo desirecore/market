@@ -1,0 +1,90 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "data-analyst"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Data Analyst",
+        "summary": "Explore data, run statistical tests and build visualizations. Requires Python with pandas, numpy, matplotlib and seaborn."
+      },
+      "zh-CN": {
+        "name": "数据分析专家",
+        "summary": "探索数据、统计检验与可视化。需 Python 及 pandas、numpy、matplotlib、seaborn。"
+      }
+    },
+    "category": "data",
+    "tags": [
+      "data",
+      "statistics",
+      "visualization",
+      "pandas"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-05-12T18:42:08Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/RightNow-AI/openfang.git",
+      "path": "crates/openfang-skills/bundled/data-analyst",
+      "ref": "acf2587e46be174c10200489c9a2d23a39a98aeb"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "Apache-2.0 OR MIT",
+      "evidencePath": "LICENSE-APACHE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "RightNow-AI",
+      "url": "https://github.com/RightNow-AI/openfang",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE-APACHE",
+      "reviewedRef": "acf2587e46be174c10200489c9a2d23a39a98aeb",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false,
+      "noticePath": "LICENSE-MIT"
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "planning-with-files-zh"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Planning with Files (zh)",
+        "summary": "Three-file persistent planning with lifecycle hooks that inject context automatically (Chinese edition). Needs an agent that supports skill hooks (run through sh), Git, and Python 3 for session-catchup.py."
+      },
+      "zh-CN": {
+        "name": "文件规划（中文版）",
+        "summary": "三文件持久化规划，生命周期钩子自动注入。需支持技能钩子（sh 脚本）的 Agent 环境与 Git；session-catchup.py 需 Python 3。"
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "planning",
+      "memory",
+      "hooks",
+      "chinese"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-01T19:39:28Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/OthmanAdi/planning-with-files.git",
+      "path": "skills/i18n/planning-with-files-zh",
+      "ref": "dab9d16fbd9314448b319d112e99f497d7638d89"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "OthmanAdi",
+      "url": "https://github.com/OthmanAdi/planning-with-files",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "dab9d16fbd9314448b319d112e99f497d7638d89",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

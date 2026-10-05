@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "brave-search"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Brave Search",
+        "summary": "Search the web through the Brave Search API and extract page content. Requires a Brave Search API key (BRAVE_API_KEY) and Node.js/npm."
+      },
+      "zh-CN": {
+        "name": "Brave 网页搜索",
+        "summary": "通过 Brave Search API 搜索并抽取网页正文。需 Brave Search API Key（BRAVE_API_KEY）与 Node.js/npm。"
+      }
+    },
+    "category": "research",
+    "tags": [
+      "search",
+      "brave",
+      "web",
+      "api"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-06-06T20:27:56Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/badlogic/pi-skills.git",
+      "path": "brave-search",
+      "ref": "90bb51cae36515a648515b633a81c0c6efc8c74d"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "badlogic",
+      "url": "https://github.com/badlogic/pi-skills",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "90bb51cae36515a648515b633a81c0c6efc8c74d",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

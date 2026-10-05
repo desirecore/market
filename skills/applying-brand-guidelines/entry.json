@@ -1,0 +1,38 @@
+{
+  "id": "applying-brand-guidelines",
+  "name": "Applying Brand Guidelines",
+  "category": "design",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"9\" cy=\"10\" r=\"1.5\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M4 17l5-4 4 3 3-2 4 3\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "brand",
+    "style",
+    "documents",
+    "design"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "套用企业品牌规范",
+      "shortDesc": "让生成文档统一采用品牌色、字体与版式。需 Python 3；需把示例品牌规范替换为自己的。"
+    },
+    "en-US": {
+      "name": "Applying Brand Guidelines",
+      "shortDesc": "Apply brand colors, fonts and layouts consistently to generated documents. Requires Python 3; replace the sample brand guidelines with your own."
+    }
+  },
+  "maintainer": {
+    "name": "anthropics",
+    "verified": false,
+    "account": "anthropics",
+    "url": "https://github.com/anthropics/claude-cookbooks"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/anthropics/claude-cookbooks.git",
+    "repoBranch": "main",
+    "ref": "d7265d6ae994ccd8429db0594b000073b2f9ad43",
+    "path": "skills/custom_skills/applying-brand-guidelines"
+  }
+}

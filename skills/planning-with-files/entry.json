@@ -1,0 +1,38 @@
+{
+  "id": "planning-with-files",
+  "name": "Planning with Files",
+  "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M12 3l8 4.5v9L12 21l-8-4.5v-9z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M4 7.5L12 12l8-4.5M12 12v9\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "planning",
+    "memory",
+    "markdown",
+    "agent"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "文件化任务规划",
+      "shortDesc": "用三份 Markdown 文件充当 Agent 的磁盘记忆"
+    },
+    "en-US": {
+      "name": "Planning with Files",
+      "shortDesc": "Use three Markdown files as the agent's on-disk working memory"
+    }
+  },
+  "maintainer": {
+    "name": "OthmanAdi",
+    "verified": false,
+    "account": "OthmanAdi",
+    "url": "https://github.com/OthmanAdi/planning-with-files"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/OthmanAdi/planning-with-files.git",
+    "repoBranch": "master",
+    "ref": "dab9d16fbd9314448b319d112e99f497d7638d89",
+    "path": "skills/planning-with-files"
+  }
+}

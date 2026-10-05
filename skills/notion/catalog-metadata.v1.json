@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "notion"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Notion",
+        "summary": "Manage Notion pages and databases with the official ntn CLI. Requires Node.js/npm (or curl), a Notion account and ntn login or a NOTION_API_TOKEN integration token."
+      },
+      "zh-CN": {
+        "name": "Notion 管理",
+        "summary": "用官方 ntn CLI 管理 Notion 页面与数据库。需 Node.js/npm（或 curl）、Notion 账号与 ntn 登录或 NOTION_API_TOKEN 集成令牌。"
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "notion",
+      "cli",
+      "pages",
+      "databases"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-05T10:21:49Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/openclaw/openclaw.git",
+      "path": "skills/notion",
+      "ref": "6ddf5a6106c18c4cf803a601b3a099e497d943fb"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "openclaw",
+      "url": "https://github.com/openclaw/openclaw",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "6ddf5a6106c18c4cf803a601b3a099e497d943fb",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

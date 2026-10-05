@@ -1,0 +1,38 @@
+{
+  "id": "citation-management",
+  "name": "Citation Management",
+  "category": "research",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M5 17a3 3 0 013-3h9\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "citations",
+    "bibtex",
+    "doi",
+    "academic"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "学术引用管理",
+      "shortDesc": "检索论文、转换 DOI 并生成校验过的 BibTeX。需 Python 3.9+（requests）并能访问 OpenAlex、CrossRef、NCBI、arXiv 接口。"
+    },
+    "en-US": {
+      "name": "Citation Management",
+      "shortDesc": "Find papers, resolve DOIs and generate verified BibTeX entries. Requires Python 3.9+ with requests and access to OpenAlex, CrossRef, NCBI and arXiv APIs."
+    }
+  },
+  "maintainer": {
+    "name": "K-Dense-AI",
+    "verified": false,
+    "account": "K-Dense-AI",
+    "url": "https://github.com/K-Dense-AI/scientific-agent-skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/K-Dense-AI/scientific-agent-skills.git",
+    "repoBranch": "main",
+    "ref": "92ace75ac21efe19a620434e0ca4e356081fe807",
+    "path": "skills/citation-management"
+  }
+}

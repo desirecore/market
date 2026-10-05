@@ -1,0 +1,38 @@
+{
+  "id": "tutor-setup",
+  "name": "Tutor Setup",
+  "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M5 17a3 3 0 013-3h9\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "study",
+    "obsidian",
+    "learning",
+    "pdf"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "学习库生成器",
+      "shortDesc": "把资料或代码库转成 Obsidian StudyVault。需 pdftotext（poppler）与 Obsidian；资料需位于当前工作目录内。"
+    },
+    "en-US": {
+      "name": "Tutor Setup",
+      "shortDesc": "Turn materials or a codebase into an Obsidian StudyVault. Requires pdftotext (poppler) and Obsidian; source material must be inside the working directory."
+    }
+  },
+  "maintainer": {
+    "name": "bevibing",
+    "verified": false,
+    "account": "bevibing",
+    "url": "https://github.com/bevibing/tutor-skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/bevibing/tutor-skills.git",
+    "repoBranch": "main",
+    "ref": "397110c9fefbc6bd5444277686600aec28063c05",
+    "path": "skills/tutor-setup"
+  }
+}

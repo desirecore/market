@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "geo-optimizer"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "GEO Optimizer",
+        "summary": "Make content easier for AI search engines to cite. Needs web fetch and search capability."
+      },
+      "zh-CN": {
+        "name": "GEO 搜索优化",
+        "summary": "让内容更容易被 AI 搜索引擎引用。需联网读取网页与搜索能力。"
+      }
+    },
+    "category": "business",
+    "tags": [
+      "geo",
+      "seo",
+      "ai-search",
+      "content"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-01T05:11:58Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/nowork-studio/notfair-plugin.git",
+      "path": "seo/geo-optimizer",
+      "ref": "1a53d4e4da69a6060c24de42c23333fb48e927c4"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "nowork-studio",
+      "url": "https://github.com/nowork-studio/notfair-plugin",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "1a53d4e4da69a6060c24de42c23333fb48e927c4",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

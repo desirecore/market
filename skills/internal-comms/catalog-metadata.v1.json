@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "internal-comms"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Internal Comms",
+        "summary": "Draft status reports, newsletters, FAQs and incident reports in fixed formats"
+      },
+      "zh-CN": {
+        "name": "内部沟通写作",
+        "summary": "按固定格式起草周报、通讯与故障报告"
+      }
+    },
+    "category": "communication",
+    "tags": [
+      "internal-comms",
+      "status-report",
+      "newsletter",
+      "incident"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-29T02:20:03Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/anthropics/skills.git",
+      "path": "skills/internal-comms",
+      "ref": "8a1541c4a3ffa5a20a5a91de0dcf3f0bab1d1ef4"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "Apache-2.0",
+      "evidencePath": "skills/internal-comms/LICENSE.txt"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "anthropics",
+      "url": "https://github.com/anthropics/skills",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "skills/internal-comms/LICENSE.txt",
+      "reviewedRef": "8a1541c4a3ffa5a20a5a91de0dcf3f0bab1d1ef4",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

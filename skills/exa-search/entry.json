@@ -1,0 +1,38 @@
+{
+  "id": "exa-search",
+  "name": "Exa Search",
+  "category": "research",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"11\" cy=\"11\" r=\"6\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M16 16l4 4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "search",
+    "exa",
+    "web",
+    "mcp"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Exa 神经搜索",
+      "shortDesc": "用 Exa 做网页、代码、公司与人物检索。需 Exa API Key 与 Node.js（用于启动 exa-mcp-server）。"
+    },
+    "en-US": {
+      "name": "Exa Search",
+      "shortDesc": "Neural search with Exa for the web, code examples, companies and people. Requires an Exa API key and Node.js (runs exa-mcp-server)."
+    }
+  },
+  "maintainer": {
+    "name": "affaan-m",
+    "verified": false,
+    "account": "affaan-m",
+    "url": "https://github.com/affaan-m/ECC"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/affaan-m/ECC.git",
+    "repoBranch": "main",
+    "ref": "ef648e01899ba3e8dc6371642deaaf64b4477775",
+    "path": "skills/exa-search"
+  }
+}
