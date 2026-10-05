@@ -1,0 +1,38 @@
+{
+  "id": "scientific-writing",
+  "name": "Scientific Writing",
+  "category": "research",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M5 17a3 3 0 013-3h9\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "writing",
+    "academic",
+    "manuscript",
+    "evidence"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "科研论文写作",
+      "shortDesc": "基于可验证证据起草、修订和审计科研稿件。可选本地脚本需 Python 3.11+，无需 API Key 与联网。"
+    },
+    "en-US": {
+      "name": "Scientific Writing",
+      "shortDesc": "Draft, revise and audit research manuscripts from verifiable evidence. Optional local scripts need Python 3.11+; no API key or network needed."
+    }
+  },
+  "maintainer": {
+    "name": "K-Dense-AI",
+    "verified": false,
+    "account": "K-Dense-AI",
+    "url": "https://github.com/K-Dense-AI/scientific-agent-skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/K-Dense-AI/scientific-agent-skills.git",
+    "repoBranch": "main",
+    "ref": "92ace75ac21efe19a620434e0ca4e356081fe807",
+    "path": "skills/scientific-writing"
+  }
+}

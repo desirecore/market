@@ -1,0 +1,38 @@
+{
+  "id": "deep-research",
+  "name": "Deep Research",
+  "category": "research",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"11\" cy=\"11\" r=\"6\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M16 16l4 4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "research",
+    "citations",
+    "report",
+    "mcp"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "多源深度调研",
+      "shortDesc": "多源检索并输出带引用的研究报告。需配置 Firecrawl 或 Exa 的 MCP 服务（通常需各自的 API Key）。"
+    },
+    "en-US": {
+      "name": "Deep Research",
+      "shortDesc": "Multi-source research that splits a topic into sub-questions and produces a cited report with a confidence rating. Requires a Firecrawl or Exa MCP service (usually with its own API key)."
+    }
+  },
+  "maintainer": {
+    "name": "affaan-m",
+    "verified": false,
+    "account": "affaan-m",
+    "url": "https://github.com/affaan-m/ECC"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/affaan-m/ECC.git",
+    "repoBranch": "main",
+    "ref": "ef648e01899ba3e8dc6371642deaaf64b4477775",
+    "path": "skills/deep-research"
+  }
+}

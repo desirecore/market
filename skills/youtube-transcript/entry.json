@@ -1,0 +1,38 @@
+{
+  "id": "youtube-transcript",
+  "name": "YouTube Transcript",
+  "category": "media",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M10 9.5v5l4.5-2.5z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "youtube",
+    "transcript",
+    "video",
+    "summary"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "视频字幕抓取",
+      "shortDesc": "抓取 YouTube 视频字幕用于总结分析。需 Node.js/npm 并能访问 YouTube。"
+    },
+    "en-US": {
+      "name": "YouTube Transcript",
+      "shortDesc": "Fetch YouTube video transcripts for summarizing and analysis. Requires Node.js/npm and access to YouTube."
+    }
+  },
+  "maintainer": {
+    "name": "badlogic",
+    "verified": false,
+    "account": "badlogic",
+    "url": "https://github.com/badlogic/pi-skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/badlogic/pi-skills.git",
+    "repoBranch": "main",
+    "ref": "90bb51cae36515a648515b633a81c0c6efc8c74d",
+    "path": "youtube-transcript"
+  }
+}

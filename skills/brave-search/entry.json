@@ -1,0 +1,38 @@
+{
+  "id": "brave-search",
+  "name": "Brave Search",
+  "category": "research",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"11\" cy=\"11\" r=\"6\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M16 16l4 4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "search",
+    "brave",
+    "web",
+    "api"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Brave 网页搜索",
+      "shortDesc": "通过 Brave Search API 搜索并抽取网页正文。需 Brave Search API Key（BRAVE_API_KEY）与 Node.js/npm。"
+    },
+    "en-US": {
+      "name": "Brave Search",
+      "shortDesc": "Search the web through the Brave Search API and extract page content. Requires a Brave Search API key (BRAVE_API_KEY) and Node.js/npm."
+    }
+  },
+  "maintainer": {
+    "name": "badlogic",
+    "verified": false,
+    "account": "badlogic",
+    "url": "https://github.com/badlogic/pi-skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/badlogic/pi-skills.git",
+    "repoBranch": "main",
+    "ref": "90bb51cae36515a648515b633a81c0c6efc8c74d",
+    "path": "brave-search"
+  }
+}

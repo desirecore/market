@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "analyzing-financial-statements"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Analyzing Financial Statements",
+        "summary": "Calculate and interpret key ratios from financial statements. Requires Python 3 and the income statement / balance sheet data."
+      },
+      "zh-CN": {
+        "name": "财报比率分析",
+        "summary": "从财务报表计算并解读关键比率。需 Python 3 及利润表、资产负债表等数据。"
+      }
+    },
+    "category": "business",
+    "tags": [
+      "finance",
+      "ratios",
+      "statements",
+      "analysis"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-28T16:56:35Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/anthropics/claude-cookbooks.git",
+      "path": "skills/custom_skills/analyzing-financial-statements",
+      "ref": "d7265d6ae994ccd8429db0594b000073b2f9ad43"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "anthropics",
+      "url": "https://github.com/anthropics/claude-cookbooks",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "d7265d6ae994ccd8429db0594b000073b2f9ad43",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

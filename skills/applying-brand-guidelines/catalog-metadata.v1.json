@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "applying-brand-guidelines"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Applying Brand Guidelines",
+        "summary": "Apply brand colors, fonts and layouts consistently to generated documents. Requires Python 3; replace the sample brand guidelines with your own."
+      },
+      "zh-CN": {
+        "name": "套用企业品牌规范",
+        "summary": "让生成文档统一采用品牌色、字体与版式。需 Python 3；需把示例品牌规范替换为自己的。"
+      }
+    },
+    "category": "design",
+    "tags": [
+      "brand",
+      "style",
+      "documents",
+      "design"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-28T16:56:35Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/anthropics/claude-cookbooks.git",
+      "path": "skills/custom_skills/applying-brand-guidelines",
+      "ref": "d7265d6ae994ccd8429db0594b000073b2f9ad43"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "anthropics",
+      "url": "https://github.com/anthropics/claude-cookbooks",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "d7265d6ae994ccd8429db0594b000073b2f9ad43",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

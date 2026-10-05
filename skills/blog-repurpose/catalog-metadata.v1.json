@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "blog-repurpose"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Blog Repurpose",
+        "summary": "Repurpose one blog post for social, email, video and community channels. Needs a local blog file (Markdown etc.)."
+      },
+      "zh-CN": {
+        "name": "博客多平台改写",
+        "summary": "把一篇博客改写成多平台内容。需一篇本地博客文件（Markdown 等）。"
+      }
+    },
+    "category": "creative",
+    "tags": [
+      "blog",
+      "repurpose",
+      "social",
+      "content"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-11T13:43:41Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/AgriciDaniel/claude-blog.git",
+      "path": "skills/blog-repurpose",
+      "ref": "2500d4c765034864cede2bf215d00ccd4d7d6fb8"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "AgriciDaniel",
+      "url": "https://github.com/AgriciDaniel/claude-blog",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "2500d4c765034864cede2bf215d00ccd4d7d6fb8",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

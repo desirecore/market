@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "citation-management"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Citation Management",
+        "summary": "Find papers, resolve DOIs and generate verified BibTeX entries. Requires Python 3.9+ with requests and access to OpenAlex, CrossRef, NCBI and arXiv APIs."
+      },
+      "zh-CN": {
+        "name": "学术引用管理",
+        "summary": "检索论文、转换 DOI 并生成校验过的 BibTeX。需 Python 3.9+（requests）并能访问 OpenAlex、CrossRef、NCBI、arXiv 接口。"
+      }
+    },
+    "category": "research",
+    "tags": [
+      "citations",
+      "bibtex",
+      "doi",
+      "academic"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-05T09:39:10Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/K-Dense-AI/scientific-agent-skills.git",
+      "path": "skills/citation-management",
+      "ref": "92ace75ac21efe19a620434e0ca4e356081fe807"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE.md"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "K-Dense-AI",
+      "url": "https://github.com/K-Dense-AI/scientific-agent-skills",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE.md",
+      "reviewedRef": "92ace75ac21efe19a620434e0ca4e356081fe807",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

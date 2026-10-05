@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "mcp-builder"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "MCP Builder",
+        "summary": "Design, implement and test MCP servers and evaluation questions. Requires a Node.js (TypeScript) or Python dev environment; the optional evaluation scripts need an Anthropic API key and send data to that service."
+      },
+      "zh-CN": {
+        "name": "MCP 服务器构建",
+        "summary": "设计、实现并测试 MCP 服务器与评测问题。需 Node.js（TypeScript）或 Python 开发环境；可选评测脚本需 Anthropic API Key 并会向该服务发送数据。"
+      }
+    },
+    "category": "development",
+    "tags": [
+      "mcp",
+      "server",
+      "tools",
+      "evaluation"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-29T02:20:03Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/anthropics/skills.git",
+      "path": "skills/mcp-builder",
+      "ref": "8a1541c4a3ffa5a20a5a91de0dcf3f0bab1d1ef4"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "Apache-2.0",
+      "evidencePath": "skills/mcp-builder/LICENSE.txt"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "anthropics",
+      "url": "https://github.com/anthropics/skills",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "skills/mcp-builder/LICENSE.txt",
+      "reviewedRef": "8a1541c4a3ffa5a20a5a91de0dcf3f0bab1d1ef4",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

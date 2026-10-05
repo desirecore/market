@@ -1,0 +1,38 @@
+{
+  "id": "defuddle",
+  "name": "Defuddle",
+  "category": "research",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M7 3h7l4 4v14H7z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M14 3v4h4M10 12h5M10 16h5\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "markdown",
+    "web",
+    "extraction",
+    "obsidian"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "网页转MD正文",
+      "shortDesc": "用 Defuddle 把网页提取成干净 Markdown。需 Node.js/npm（安装 defuddle）并能联网。"
+    },
+    "en-US": {
+      "name": "Defuddle",
+      "shortDesc": "Extract clean Markdown from web pages with Defuddle. Requires Node.js/npm (installs the defuddle package) and web access."
+    }
+  },
+  "maintainer": {
+    "name": "kepano",
+    "verified": false,
+    "account": "kepano",
+    "url": "https://github.com/kepano/obsidian-skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/kepano/obsidian-skills.git",
+    "repoBranch": "main",
+    "ref": "3ccff5338ea700537839b21900aa5358a0402c98",
+    "path": "skills/defuddle"
+  }
+}

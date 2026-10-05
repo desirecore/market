@@ -1,0 +1,38 @@
+{
+  "id": "blog-repurpose",
+  "name": "Blog Repurpose",
+  "category": "creative",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M10 9.5v5l4.5-2.5z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "blog",
+    "repurpose",
+    "social",
+    "content"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "博客多平台改写",
+      "shortDesc": "把一篇博客改写成多平台内容。需一篇本地博客文件（Markdown 等）。"
+    },
+    "en-US": {
+      "name": "Blog Repurpose",
+      "shortDesc": "Repurpose one blog post for social, email, video and community channels. Needs a local blog file (Markdown etc.)."
+    }
+  },
+  "maintainer": {
+    "name": "AgriciDaniel",
+    "verified": false,
+    "account": "AgriciDaniel",
+    "url": "https://github.com/AgriciDaniel/claude-blog"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/AgriciDaniel/claude-blog.git",
+    "repoBranch": "main",
+    "ref": "2500d4c765034864cede2bf215d00ccd4d7d6fb8",
+    "path": "skills/blog-repurpose"
+  }
+}

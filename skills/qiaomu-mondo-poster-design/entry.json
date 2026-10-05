@@ -1,0 +1,37 @@
+{
+  "id": "qiaomu-mondo-poster-design",
+  "name": "Qiaomu Mondo Poster Design",
+  "category": "design",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"9\" cy=\"10\" r=\"1.5\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M4 17l5-4 4 3 3-2 4 3\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "poster",
+    "mondo",
+    "illustration",
+    "design"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Mondo 风格海报",
+      "shortDesc": "用 Mondo 风格生成海报、封面与专辑图。需 Python 3；直接出图需 AI_GATEWAY_API_KEY（仅生成提示词无需）。"
+    },
+    "en-US": {
+      "name": "Qiaomu Mondo Poster Design",
+      "shortDesc": "Create Mondo-style posters, covers and album art. Requires Python 3; image generation needs an AI_GATEWAY_API_KEY (prompt-only mode needs none)."
+    }
+  },
+  "maintainer": {
+    "name": "joeseesun",
+    "verified": false,
+    "account": "joeseesun",
+    "url": "https://github.com/joeseesun/qiaomu-mondo-poster-design"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/joeseesun/qiaomu-mondo-poster-design.git",
+    "repoBranch": "master",
+    "ref": "e82e411c403ca5a0327a85682c658ad155cd9cbb"
+  }
+}

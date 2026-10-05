@@ -1,0 +1,38 @@
+{
+  "id": "returns-reverse-logistics",
+  "name": "Returns & Reverse Logistics",
+  "category": "business",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M12 3l8 4.5v9L12 21l-8-4.5v-9z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M4 7.5L12 12l8-4.5M12 12v9\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "returns",
+    "rma",
+    "logistics",
+    "fraud"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "退货与逆向物流",
+      "shortDesc": "退货授权、验货分级、处置与退货欺诈识别。需提供退货政策、订单与验货记录。"
+    },
+    "en-US": {
+      "name": "Returns & Reverse Logistics",
+      "shortDesc": "Return authorization, inspection grading, disposition and return-fraud detection. Needs your return policy, orders and inspection records."
+    }
+  },
+  "maintainer": {
+    "name": "affaan-m",
+    "verified": false,
+    "account": "affaan-m",
+    "url": "https://github.com/affaan-m/ECC"
+  },
+  "stewardship": "community",
+  "license": "Apache-2.0",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/affaan-m/ECC.git",
+    "repoBranch": "main",
+    "ref": "ef648e01899ba3e8dc6371642deaaf64b4477775",
+    "path": "skills/returns-reverse-logistics"
+  }
+}

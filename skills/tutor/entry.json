@@ -1,0 +1,38 @@
+{
+  "id": "tutor",
+  "name": "Tutor",
+  "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M5 17a3 3 0 013-3h9\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "learning",
+    "quiz",
+    "obsidian",
+    "study"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "学习库测验导师",
+      "shortDesc": "基于学习库出题，记录并追踪薄弱概念。需已有 StudyVault（可由 tutor-setup 生成）及支持 AskUserQuestion 的 Agent。"
+    },
+    "en-US": {
+      "name": "Tutor",
+      "shortDesc": "Quiz you from a study vault and track weak concepts. Requires an existing StudyVault (from tutor-setup) and an agent that supports AskUserQuestion."
+    }
+  },
+  "maintainer": {
+    "name": "bevibing",
+    "verified": false,
+    "account": "bevibing",
+    "url": "https://github.com/bevibing/tutor-skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/bevibing/tutor-skills.git",
+    "repoBranch": "main",
+    "ref": "397110c9fefbc6bd5444277686600aec28063c05",
+    "path": "skills/tutor"
+  }
+}

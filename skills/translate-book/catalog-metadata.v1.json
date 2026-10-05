@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "translate-book"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Translate Book",
+        "summary": "Translate whole PDF, DOCX or EPUB books into a target language. Requires Python 3, pandoc and Calibre ebook-convert; uses many tokens and needs sub-agent support."
+      },
+      "zh-CN": {
+        "name": "整书并行翻译",
+        "summary": "把 PDF/DOCX/EPUB 整本书翻成目标语言。需 Python 3、pandoc 与 Calibre ebook-convert；消耗 token 较多，需支持子智能体。"
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "translation",
+      "ebook",
+      "pdf",
+      "epub"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-05T08:00:00Z",
+      "precision": "second"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-05",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-09-24T10:11:02Z",
+      "precision": "second"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/deusyu/translate-book.git",
+      "ref": "bd5424b82399c8e4b4cf09310f31b21a103dde7f"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "deusyu",
+      "url": "https://github.com/deusyu/translate-book",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "bd5424b82399c8e4b4cf09310f31b21a103dde7f",
+      "reviewedAt": "2026-10-05",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

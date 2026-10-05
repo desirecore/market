@@ -1,0 +1,38 @@
+{
+  "id": "writing-anti-ai",
+  "name": "Writing Anti-AI",
+  "category": "creative",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M7 3h7l4 4v14H7z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M14 3v4h4M10 12h5M10 16h5\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "writing",
+    "humanize",
+    "ai-detection",
+    "chinese"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "去 AI 腔写作",
+      "shortDesc": "识别并改写带有 AI 痕迹的中英文文本"
+    },
+    "en-US": {
+      "name": "Writing Anti-AI",
+      "shortDesc": "Detect and rewrite AI-sounding Chinese and English text"
+    }
+  },
+  "maintainer": {
+    "name": "Galaxy-Dawn",
+    "verified": false,
+    "account": "Galaxy-Dawn",
+    "url": "https://github.com/Galaxy-Dawn/claude-scholar"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/Galaxy-Dawn/claude-scholar.git",
+    "repoBranch": "main",
+    "ref": "903787345d6aec134086afa2b97715a78fbde519",
+    "path": "skills/writing-anti-ai"
+  }
+}

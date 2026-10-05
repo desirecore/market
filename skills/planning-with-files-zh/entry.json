@@ -1,0 +1,38 @@
+{
+  "id": "planning-with-files-zh",
+  "name": "Planning with Files (zh)",
+  "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M12 3l8 4.5v9L12 21l-8-4.5v-9z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M4 7.5L12 12l8-4.5M12 12v9\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "planning",
+    "memory",
+    "hooks",
+    "chinese"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "文件规划（中文版）",
+      "shortDesc": "三文件持久化规划，生命周期钩子自动注入。需支持技能钩子（sh 脚本）的 Agent 环境与 Git；session-catchup.py 需 Python 3。"
+    },
+    "en-US": {
+      "name": "Planning with Files (zh)",
+      "shortDesc": "Three-file persistent planning with lifecycle hooks that inject context automatically (Chinese edition). Needs an agent that supports skill hooks (run through sh), Git, and Python 3 for session-catchup.py."
+    }
+  },
+  "maintainer": {
+    "name": "OthmanAdi",
+    "verified": false,
+    "account": "OthmanAdi",
+    "url": "https://github.com/OthmanAdi/planning-with-files"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/OthmanAdi/planning-with-files.git",
+    "repoBranch": "master",
+    "ref": "dab9d16fbd9314448b319d112e99f497d7638d89",
+    "path": "skills/i18n/planning-with-files-zh"
+  }
+}

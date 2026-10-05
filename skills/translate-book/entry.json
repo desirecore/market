@@ -1,0 +1,37 @@
+{
+  "id": "translate-book",
+  "name": "Translate Book",
+  "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M5 4h9a3 3 0 013 3v13H8a3 3 0 01-3-3z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M5 17a3 3 0 013-3h9\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "translation",
+    "ebook",
+    "pdf",
+    "epub"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "整书并行翻译",
+      "shortDesc": "把 PDF/DOCX/EPUB 整本书翻成目标语言。需 Python 3、pandoc 与 Calibre ebook-convert；消耗 token 较多，需支持子智能体。"
+    },
+    "en-US": {
+      "name": "Translate Book",
+      "shortDesc": "Translate whole PDF, DOCX or EPUB books into a target language. Requires Python 3, pandoc and Calibre ebook-convert; uses many tokens and needs sub-agent support."
+    }
+  },
+  "maintainer": {
+    "name": "deusyu",
+    "verified": false,
+    "account": "deusyu",
+    "url": "https://github.com/deusyu/translate-book"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/deusyu/translate-book.git",
+    "repoBranch": "main",
+    "ref": "bd5424b82399c8e4b4cf09310f31b21a103dde7f"
+  }
+}

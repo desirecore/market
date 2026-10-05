@@ -1,0 +1,38 @@
+{
+  "id": "interview-prep-generator",
+  "name": "Interview Prep Generator",
+  "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M5 5h14v10H10l-5 4z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M9 9h6M9 12h4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "interview",
+    "star",
+    "career",
+    "practice"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "面试准备生成器",
+      "shortDesc": "用简历生成 STAR 故事与模拟题库"
+    },
+    "en-US": {
+      "name": "Interview Prep Generator",
+      "shortDesc": "Build STAR stories and mock interview question banks from a resume"
+    }
+  },
+  "maintainer": {
+    "name": "Paramchoudhary",
+    "verified": false,
+    "account": "Paramchoudhary",
+    "url": "https://github.com/Paramchoudhary/ResumeSkills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/Paramchoudhary/ResumeSkills.git",
+    "repoBranch": "main",
+    "ref": "74ae19e7c62b0516d1c298328e5544976c12da5d",
+    "path": "skills/interview-prep-generator"
+  }
+}

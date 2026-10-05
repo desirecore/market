@@ -1,0 +1,38 @@
+{
+  "id": "sprint-plan",
+  "name": "Sprint Plan",
+  "category": "management",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M12 3l8 4.5v9L12 21l-8-4.5v-9z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M4 7.5L12 12l8-4.5M12 12v9\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "sprint",
+    "agile",
+    "planning",
+    "capacity"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "迭代计划",
+      "shortDesc": "估算容量、选择故事并识别风险"
+    },
+    "en-US": {
+      "name": "Sprint Plan",
+      "shortDesc": "Estimate capacity, select stories and flag risks for a sprint"
+    }
+  },
+  "maintainer": {
+    "name": "phuryn",
+    "verified": false,
+    "account": "phuryn",
+    "url": "https://github.com/phuryn/pm-skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/phuryn/pm-skills.git",
+    "repoBranch": "main",
+    "ref": "8607e3b077817f89bf4a9b623246219734ac3be0",
+    "path": "pm-execution/skills/sprint-plan"
+  }
+}

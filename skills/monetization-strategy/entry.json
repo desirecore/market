@@ -1,0 +1,38 @@
+{
+  "id": "monetization-strategy",
+  "name": "Monetization Strategy",
+  "category": "business",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"12\" cy=\"12\" r=\"8\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M12 7v10M9.5 9.5c0-1 1-1.7 2.5-1.7s2.5.7 2.5 1.7-1 1.5-2.5 1.8-2.5.8-2.5 1.8 1 1.7 2.5 1.7 2.5-.7 2.5-1.7\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "monetization",
+    "pricing",
+    "product",
+    "strategy"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "商业化策略",
+      "shortDesc": "梳理 3–5 种变现方式并设计验证实验"
+    },
+    "en-US": {
+      "name": "Monetization Strategy",
+      "shortDesc": "Map three to five monetization models and design validation experiments"
+    }
+  },
+  "maintainer": {
+    "name": "phuryn",
+    "verified": false,
+    "account": "phuryn",
+    "url": "https://github.com/phuryn/pm-skills"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/phuryn/pm-skills.git",
+    "repoBranch": "main",
+    "ref": "8607e3b077817f89bf4a9b623246219734ac3be0",
+    "path": "pm-product-strategy/skills/monetization-strategy"
+  }
+}

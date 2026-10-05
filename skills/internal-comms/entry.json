@@ -1,0 +1,38 @@
+{
+  "id": "internal-comms",
+  "name": "Internal Comms",
+  "category": "communication",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M5 5h14v10H10l-5 4z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M9 9h6M9 12h4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "internal-comms",
+    "status-report",
+    "newsletter",
+    "incident"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "内部沟通写作",
+      "shortDesc": "按固定格式起草周报、通讯与故障报告"
+    },
+    "en-US": {
+      "name": "Internal Comms",
+      "shortDesc": "Draft status reports, newsletters, FAQs and incident reports in fixed formats"
+    }
+  },
+  "maintainer": {
+    "name": "anthropics",
+    "verified": false,
+    "account": "anthropics",
+    "url": "https://github.com/anthropics/skills"
+  },
+  "stewardship": "community",
+  "license": "Apache-2.0",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/anthropics/skills.git",
+    "repoBranch": "main",
+    "ref": "8a1541c4a3ffa5a20a5a91de0dcf3f0bab1d1ef4",
+    "path": "skills/internal-comms"
+  }
+}
