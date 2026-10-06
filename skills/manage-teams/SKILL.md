@@ -26,7 +26,7 @@ metadata:
       description: >-
         创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 持续协作、建立组织架构，或发布、安装和同步团队仓库时。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:8b5cde6e14317c7f
+      source_hash: sha256:778c6fb42f550a02
       translated_by: human
     en-US:
       name: Team Management
@@ -34,7 +34,7 @@ metadata:
       description: >-
         Create and govern Agent teams. Use when multiple Agents need sustained collaboration, an organizational hierarchy, or a team repository must be published, installed, or synchronized.
       body: ./SKILL.md
-      source_hash: sha256:8b5cde6e14317c7f
+      source_hash: sha256:778c6fb42f550a02
       translated_by: human
 market:
   icon: >-

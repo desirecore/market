@@ -46,7 +46,7 @@
 | `set_member_source` | 声明成员 Agent 的来源 | `teamId`、`agentId`、`memberSource`；`git` 必填 `url`（https，将被 clone）与 `ref`（默认 `main`），`registry` 必填 `id`+`version`，`core`/`local` 无附加字段 |
 | `update` | 部分更新团队配置 | `teamId`；可更新 `name/type/isolation/parentTeamId/description/avatar/avatarImage` |
 | `promote` | 临时团队升级为持久团队 | `teamId`；单向操作，不得隐式执行 |
-| `disband` | 解散团队 | `teamId`；若提交审批；完整归档，恢复需重新绑定目录和核准内容 |
+| `disband` | 解散团队 | `teamId`；提交审批；完整归档，恢复需重新绑定目录和核准内容 |
 | `fork_team` | 从远程仓库安装团队 | `url`；`name?`、`installMembers?`；进入审批闸门 |
 | `push` | 把本地团队仓库推送到已连接的远程 | `teamId`；进入审批闸门 |
 | `pull` | 从已连接的远程拉取并校验团队 | `teamId`；进入审批闸门 |
