@@ -10,7 +10,7 @@ description: >-
   Use when 用户提到 邮件、邮箱、收件箱、发邮件、回复邮件、查邮件、Gmail、
   Outlook、QQ邮箱、163邮箱、附件、标签、草稿、自动回复、邮件规则、
   转发、抄送、未读邮件、收信、发信、邮件同步、邮件搜索。
-version: 1.0.6
+version: 1.1.0
 type: procedural
 risk_level: medium
 status: enabled
@@ -24,7 +24,7 @@ tags:
   - smtp
 metadata:
   author: desirecore
-  updated_at: '2026-09-29'
+  updated_at: '2026-10-05'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -45,9 +45,9 @@ metadata:
       description: >-
         Use this skill whenever the user wants to interact with email. This includes reading inbox, sending emails, replying, searching messages, managing labels and categories, downloading attachments, setting up auto-reply rules, or triggering agents to handle incoming emails. Supports Gmail, Outlook, and IMAP/SMTP (QQ Mail, 163, Yahoo, etc.) through DesireCore's local REST API. Use when the user mentions email, mailbox, inbox, sending email, replying, checking email, Gmail, Outlook, QQ Mail, 163 Mail, attachments, labels, drafts, auto-reply, email rules, forwarding, CC, unread email, receiving, sending, email sync, or email search.
       body: ./SKILL.md
-      source_hash: sha256:02d90959ea1d7e29
+      source_hash: sha256:ec3be525ab586e62
       translated_by: human
-      translated_at: '2026-05-03'
+      translated_at: '2026-10-05'
 market:
   icon: >-
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
@@ -63,7 +63,7 @@ market:
     name: DesireCore Official
     verified: true
   channel: latest
-  required_client_version: 10.0.148
+  required_client_version: 10.0.178
 ---
 
 # mail-operations Skill
@@ -202,7 +202,7 @@ In the following, `{p}` denotes the provider (`gmail`, `outlook`, `imap`); `{ema
 **folder values**:
 - Local cache list and search: `inbox, sent, drafts, trash, spam, archive, other`, case-insensitive; server names (e.g. `INBOX`, `Sent Messages`) are accepted too. IMAP custom folders are all stored locally as `other`.
 - Remote sync: generic names (`inbox`, `sent`, ...) are mapped automatically to the actual IMAP folder, the Outlook folder, or the Gmail label; for IMAP you may also pass a `path` returned by `GET /imap/folders`. Gmail has no label for `archive`, so it fetches without filtering.
-- **IMAP single-message operations** (detail on a cache miss, mark as read/unread, delete, reply, attachment download) pass `folder` verbatim to the IMAP server, so it must be a real `path` returned by `GET /imap/folders` (e.g. `INBOX`, `Sent Messages`); it defaults to `INBOX` when omitted. The `folder` field of a list item is a normalized value (e.g. `sent`) and cannot be used as an IMAP folder name directly.
+- **IMAP single-message operations** (detail on a cache miss, mark as read/unread, delete, mark as junk / not junk, reply, attachment download) pass `folder` verbatim to the IMAP server, so it must be a real `path` returned by `GET /imap/folders` (e.g. `INBOX`, `Sent Messages`); it defaults to `INBOX` when omitted. The `folder` field of a list item is a normalized value (e.g. `sent`) and cannot be used as an IMAP folder name directly.
 
 **Response format** (message list item):
 ```json
@@ -228,8 +228,17 @@ In the following, `{p}` denotes the provider (`gmail`, `outlook`, `imap`); `{ema
 | Mark as read | POST `/{id}/read?email=` | POST `/message/read?id={id}&email=` | POST `/{uid}/read?email=&folder=` |
 | Mark as unread | POST `/{id}/unread?email=` | POST `/message/unread?id={id}&email=` | POST `/{uid}/unread?email=&folder=` |
 | Delete | DELETE `/{id}?email=` | DELETE `/message?id={id}&email=` | DELETE `/{uid}?email=&folder=` |
+| Mark as junk | POST `/{id}/spam?email=` | POST `/message/spam?id={id}&email=` | POST `/{uid}/spam?email=&folder=` |
+| Not junk | POST `/{id}/not-spam?email=` | POST `/message/not-spam?id={id}&email=` | POST `/{uid}/not-spam?email=&folder=` |
 
 > All paths are prefixed with `/api/{provider}/messages` (Gmail/IMAP) or `/api/outlook/` (Outlook's special routing). For IMAP, `{uid}` may be the list's `id` (`imap:<uid>`) as is; see section 2 for `folder`, which may be omitted for INBOX.
+
+**Mark as junk / Not junk**: moves the message into the junk folder, or out of it back to the inbox. The server and the local cache change together, and the response is `result: {id, folder}`.
+- Gmail swaps the `SPAM` / `INBOX` labels and keeps the `id`; Outlook and IMAP assign a new `id` after the move, so use the returned `id` for any later operation on this message. When the IMAP server lacks UIDPLUS the `id` is `null`; run `messages/fetch` on the destination folder before using the message again.
+- If the IMAP account has no junk folder on the server, the call returns 409 `imap_spam_folder_not_found`. Tell the user as is; do not retry and do not substitute another folder.
+- A message already in the destination folder returns success without moving. A message moved back to the inbox does not trigger mail rules or a new-mail notification.
+- Not junk handles one message at a time; do not move a batch back to the inbox together. Mark as junk may be called once per message.
+- Requires client 10.0.178 or later; older clients return 404, in which case ask the user to upgrade the client.
 
 **Extra fields in message detail**: `body: {content, contentType}`, `ccRecipients`, `attachments: [{id, filename, contentType, size}]`. For IMAP, an attachment's `id` is its index within the message as a string (`"0"`, `"1"`, ...).
 
