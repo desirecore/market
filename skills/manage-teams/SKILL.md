@@ -2,7 +2,7 @@
 license: "MIT"
 name: manage-teams
 description: 创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 持续协作、建立组织架构，或发布、安装和同步团队仓库时。
-version: 1.3.0
+version: 1.4.0
 type: procedural
 risk_level: medium
 status: enabled
@@ -13,7 +13,7 @@ tags:
   - organization
 metadata:
   author: desirecore
-  updated_at: '2026-08-25'
+  updated_at: '2026-10-06'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -26,7 +26,7 @@ metadata:
       description: >-
         创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 持续协作、建立组织架构，或发布、安装和同步团队仓库时。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:f6d361c54642cb4d
+      source_hash: sha256:778c6fb42f550a02
       translated_by: human
     en-US:
       name: Team Management
@@ -34,7 +34,7 @@ metadata:
       description: >-
         Create and govern Agent teams. Use when multiple Agents need sustained collaboration, an organizational hierarchy, or a team repository must be published, installed, or synchronized.
       body: ./SKILL.md
-      source_hash: sha256:f6d361c54642cb4d
+      source_hash: sha256:778c6fb42f550a02
       translated_by: human
 market:
   icon: >-
@@ -55,7 +55,7 @@ market:
     fill-opacity="0.7"/><circle cx="21.5" cy="4" r="0.9" fill="#34C759"
     fill-opacity="0.7"/></svg>
   category: productivity
-  required_client_version: 10.0.108
+  required_client_version: 10.0.178
 ---
 
 # manage-teams Skill
@@ -104,10 +104,15 @@ A team defines organization, shared directories, and governance. Actual work is 
 | `set_member_source` | Declare where a member Agent comes from | `teamId`, `agentId`, `memberSource`; `git` needs `url` (https, will be cloned) and `ref` (defaults to `main`), `registry` needs `id`+`version`, `core`/`local` need nothing else |
 | `update` | Partially update team configuration | `teamId`; supports `name/type/isolation/parentTeamId/description/avatar/avatarImage` |
 | `promote` | Promote an ephemeral team to persistent | `teamId`; one-way and never implicit |
-| `disband` | Disband a team | `teamId`; explain impact and confirm unless explicitly requested |
+| `disband` | Disband a team | `teamId`; enters approval; preserves a full archive, requiring workdir binding and content review on restore |
 | `fork_team` | Install a team from a remote repository | `url`; `name?`, `installMembers?`; enters approval |
 | `push` | Push a local team to its connected remote | `teamId`; enters approval |
 | `pull` | Pull and validate a team from its connected remote | `teamId`; enters approval |
+| `add_remote` | Configure or replace a publishing destination | `teamId`, `url`; optional `connectionId`, `branch`, `isPrivate`; does not create a repository |
+| `remove_remote` | Remove remote configuration and the local connection binding | `teamId`; leaves the remote repository intact |
+| `install_members` | Install or repair members from the existing lock | `teamId`; optional `forceUpdate`, default false |
+| `upgrade_members` | Resolve a new lock and attempt safe updates | `teamId`; optional `forceUpdate`, default true; preserves local edits and commits |
+| `release` | Create a local version or publish one exact version | `teamId`; `push` defaults to false, optional `changelogEntry`, `expectedCommit`; retry with `releaseTag` |
 
 ### 3. Create a Team
 
@@ -159,7 +164,7 @@ Example:
 
 - Prefer batch member actions to avoid observable intermediate states.
 - `set_supervisor` uses `agentId`; first verify that the Agent does not already supervise another team.
-- `set_member_source` declares provenance, it does not move files. A team whose roster still contains a `local` member is **not distributable** — `members.lock.json` cannot pin an ID that exists only on this machine, so a fork elsewhere would silently come up short a member. Switch each member to `git` or `registry` before publishing, then `resolve` to write the lock. It cannot change a member's `role`; use `set_supervisor` for that.
+- `set_member_source` declares provenance, it does not move files. A team whose roster still contains a `local` member is **not distributable** — `members.lock.json` cannot pin an ID that exists only on this machine, so a fork elsewhere would silently come up short a member. Switch each member to `git` or `registry` before publishing. The action resolves and writes the lock automatically; inspect its receipt. It cannot change a member's `role`; use `set_supervisor` for that.
 - `update` is a patch: omitted fields remain unchanged.
 - `parentTeamId: null` detaches the team and makes it top-level; an empty string is invalid.
 - `type` only allows `ephemeral → persistent`. Repeating the current value is idempotent; use `promote` for an explicit upgrade.
@@ -182,7 +187,7 @@ For an image avatar, use `avatarImage.source` with `dc-media://<mediaId>`, a bar
 
 - Disband an ephemeral team after its project is complete so the organization does not accumulate stale teams.
 - Use `promote` only for an explicit long-term collaboration requirement; promotion is one-way.
-- `disband` removes the team organization and repository. Execute directly when the user explicitly requested it; otherwise show the `get` result and confirm the intended target first.
+- `disband` archives the complete team directory and ends its local workdir binding, even without Git initialization. Archive failure preserves the original data and reports failure. The action enters approval; the caller's approval mode determines whether a human card appears. To restore, first check that the team ID is free, then bind the workdir and approve its content again.
 
 ### 6. Team Repository and Remote Synchronization
 
@@ -196,10 +201,20 @@ For local Git work:
 
 Remote `fork_team/push/pull` must go through `ManageTeam` because it enforces team Schema validation, roster consistency, the core-Agent supervisor prohibition, workspace types, out-of-bounds symlink checks, and approval. Do not bypass those controls with raw `git push/pull`. This rule is not based on an assumption that Agents can never access credentials.
 
-- `push/pull` require a remote connected through the client. If none is configured, ask the user to connect or publish the team in team settings.
+- `push/pull` require a remote configuration. Use `add_remote` to configure the destination and an existing connection when needed. Client team settings are also available; the Agent chooses the configuration path.
 - Locally created and forked teams do not inherit a directly pushable remote configuration by default.
 - `fork_team` defaults to `installMembers=true`; a same-ID local Agent that has diverged from its lock is protected and skipped rather than overwritten.
 - `pull` may replace local team configuration. Inspect local state first and identify the target remote in the approval card.
+
+Release and member versions:
+
+- `release` defaults to a local version. Set `push=true` for publication; approval identifies the target and version. Only the branch and this exact release tag are pushed, never all tags or private backup/archive refs.
+- Inspect the team with `get`; constrain a new release HEAD with `expectedCommit`. Inspect `tag/version/commitHash` and `branchPushed/tagPushed/pushed` separately.
+- After network failure or an unknown remote outcome, inspect the remote and retry with the returned `releaseTag`; do not create another version. Omit `changelogEntry` on retries.
+- `install_members` follows the exact existing lock. `upgrade_members` resolves declarations and attempts safe updates to new pins. Both preserve local edits and commits, avoid downgrades, and do not approve installed content.
+- `complete=false` or `outdated/diverged/failed/unreachable` means members remain unaligned. Neither `success=true`, skipped counts nor zero failures proves all members were upgraded. Inspect each receipt before choosing repairs.
+- Conflicting pins for an Agent shared by multiple teams do not authorize overwriting a local fork; preserve data and report the conflict.
+- Remote actions, remote-source declarations and destination configuration enter approval. `ask-external` retains approval for them; `allow-all` respects the user's full trust in the acting Agent.
 
 ### 7. Dispatch and Finish
 
@@ -216,6 +231,6 @@ Report the team name and ID, type, supervisor and members, workdir mode, organiz
 - `Agent does not exist`: verify the ID; create or install the Agent, then retry.
 - `Core Agent cannot supervise`: explicitly choose a regular Agent as `supervisor`.
 - `Supervisor already leads another team`: run `set_supervisor` on the existing team before retrying.
-- `Remote not configured`: ask the user to connect a remote in client team settings; do not guess a hidden API.
+- `Remote not configured`: use `add_remote` to configure the destination, or use client team settings; do not guess a hidden API.
 - Local content changed or conflicts exist: obtain the directory with `get`, inspect Git state, preserve user changes, and only then decide whether to commit, pull, or retry.
 - If this Skill is missing or disabled, the minimal operation may still be executed from the `ManageTeam` action/parameter Schema and tool error messages. Never bypass the tool by editing AgentFS directly.
