@@ -187,7 +187,7 @@ For an image avatar, use `avatarImage.source` with `dc-media://<mediaId>`, a bar
 
 - Disband an ephemeral team after its project is complete so the organization does not accumulate stale teams.
 - Use `promote` only for an explicit long-term collaboration requirement; promotion is one-way.
-- `disband` removes the team organization and repository. Execute directly when the user explicitly requested it; otherwise show the `get` result and confirm the intended target first.
+- `disband` archives the complete team directory and ends its local workdir binding, even without Git initialization. Archive failure preserves the original data and reports failure. The action enters approval; the caller's approval mode determines whether a human card appears. To restore, first check that the team ID is free, then bind the workdir and approve its content again.
 
 ### 6. Team Repository and Remote Synchronization
 
@@ -201,7 +201,7 @@ For local Git work:
 
 Remote `fork_team/push/pull` must go through `ManageTeam` because it enforces team Schema validation, roster consistency, the core-Agent supervisor prohibition, workspace types, out-of-bounds symlink checks, and approval. Do not bypass those controls with raw `git push/pull`. This rule is not based on an assumption that Agents can never access credentials.
 
-- `push/pull` require a remote connected through the client. If none is configured, ask the user to connect or publish the team in team settings.
+- `push/pull` require a remote configuration. Use `add_remote` to configure the destination and an existing connection when needed. Client team settings are also available; the Agent chooses the configuration path.
 - Locally created and forked teams do not inherit a directly pushable remote configuration by default.
 - `fork_team` defaults to `installMembers=true`; a same-ID local Agent that has diverged from its lock is protected and skipped rather than overwritten.
 - `pull` may replace local team configuration. Inspect local state first and identify the target remote in the approval card.
@@ -231,6 +231,6 @@ Report the team name and ID, type, supervisor and members, workdir mode, organiz
 - `Agent does not exist`: verify the ID; create or install the Agent, then retry.
 - `Core Agent cannot supervise`: explicitly choose a regular Agent as `supervisor`.
 - `Supervisor already leads another team`: run `set_supervisor` on the existing team before retrying.
-- `Remote not configured`: ask the user to connect a remote in client team settings; do not guess a hidden API.
+- `Remote not configured`: use `add_remote` to configure the destination, or use client team settings; do not guess a hidden API.
 - Local content changed or conflicts exist: obtain the directory with `get`, inspect Git state, preserve user changes, and only then decide whether to commit, pull, or retry.
 - If this Skill is missing or disabled, the minimal operation may still be executed from the `ManageTeam` action/parameter Schema and tool error messages. Never bypass the tool by editing AgentFS directly.
