@@ -14,7 +14,7 @@
 
 ### 更新类型与两条路径
 
-结构化字段一律经 `ManageAgent(action='update')`（白名单 + 校验 + 合并语义）；记忆/技能/工具等自由格式文件用 Read/Write 直接编辑：
+ManageAgent 提供白名单校验、结构化字段合并和回执；既有 AgentFS 文件也支持 Read/Write/Edit，仍遵循相同权限与审批策略，直接编辑不是绕过安全边界。自由格式内容按归属维护：
 
 | 用户意图 | 手段 | 目标（风险） |
 | --- | --- | --- |
@@ -24,6 +24,7 @@
 | 声明头像 | `ManageAgent(update, config={avatar:{...}})` | agent.json（低） |
 | 图片头像 | `ManageAgent(update, avatarImage={...})` | avatar（中） |
 | 性格/风格 | `ManageAgent(update, persona=... 或 markdown)` | persona.md（中） |
+| 稳定职责/交付要求 | `ManageAgent(update, instructions="完整 Markdown")` 或 Read/Write/Edit | instructions.md（沿既有审批策略） |
 | 行为规则 | `ManageAgent(update, principles=... 或 markdown)` | principles.md（高） |
 | 安装/卸载技能 | Read/Write | `skills/`（低/中） |
 | 添加记忆 | Read/Write | `memory/`（低） |
@@ -62,7 +63,7 @@
 
 不要调 HTTP API（实例鉴权后不可达），不要直接操作 git（后端自动提交）。按目标分两路：
 
-**路径 A · 结构化字段 → ManageAgent（强制；禁止直接 Write `agent.json` / `persona.md` / `principles.md`）**
+**路径 A · 经 ManageAgent 便利接口校验并更新**
 
 字段与约束：`name`（1–50 字符）、`description`（≤200）、`config.llm` / `config.avatar`（增量浅合并）、`avatarImage`、`smartRouting`、`persona` / `principles`（结构化对象 `{L0, L1:{...}, L2}` 或 markdown 字符串）。调用：
 
@@ -114,3 +115,9 @@ ManageAgent(action='update', id='<agent-id>', avatarImage={ source: "dc-media://
 通过当前受治理工具目录检查就绪状态：用 `ManageCompute(action="list")` 查看启用/凭据状态，用 `InspectModels(action="list", serviceType="image_gen")` 查看可用图像模型。列表不证明上游额度或调用成功，遵守供应商条款/额度及独立费用；不读取密钥，不用本机 HTTP 旁路。缺少这些工具时，遵循 configuring-compute 技能的受治理 GUI 观察流程。已知生成不可用时，跳过重新生成，保留当前头像并报告限制。就绪状态未知不代表成功，检查后台任务结果，不伪造完成。
 
 用户可自由改变头像外貌、风格、背景、上传已有图片或通过 `avatarImage.remove:true` 移除。提供 `avatarGeneration` 的新客户端可用 `ManageAgent(action="update", avatarGeneration={prompt:"用户要求"})` 重新生成；明确要求背景用 `transparentBackground:false`，`enabled:false` 取消未完成生成。后续设图/移除优先，旧异步结果不会覆盖用户新选择。透明真人风格只作为默认；明确用户要求优先。`avatarImage.requireTransparency:true` 可显式启用透明度检查，不对需要背景的用户强制该检查。用 `ManageAgent(get)` 查看失败，不自动重复付费请求；旧客户端只用实际 Schema 声明的字段。
+
+## 长期指令与内容归属
+
+人格负责身份与表达，原则负责边界与取舍，instructions.md 负责稳定职责、工作策略与交付要求，技能负责详细方法。instructions 只接受完整 Markdown 字符串：省略保留，字符串整份替换，空字符串清空。修改前先读原文，同一要求不复制到多份文件。既有文件也支持 Read/Write/Edit，仍遵循权限、审批、乐观锁和审计。保存后在新输入、显式继续或恢复时读取，同一已接纳工具循环保留快照。用户已明确授权的工作不重复要求对话确认，实际工具审批策略仍适用。
+
+角色与表达归人格，边界归原则，稳定职责归长期指令，方法归技能。用户或团队私有数据不得写入可分发 Agent 本体。

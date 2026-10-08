@@ -2,8 +2,8 @@
 license: "MIT"
 name: create-agent
 description: >-
-  通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。可选头像生成需配置图像服务，适用供应商条款/额度及独立费用。
-version: 2.7.0
+  通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona、principles 和可选 instructions。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。可选头像生成需配置图像服务，适用供应商条款/额度及独立费用。
+version: 2.8.0
 compatibility: "DesireCore ManageAgent; optional avatar generation requires a configured image provider under its own terms and quota, with separate charges; unavailable generation retains the existing avatar."
 type: meta
 risk_level: low
@@ -15,7 +15,7 @@ tags:
   - meta
 metadata:
   author: desirecore
-  updated_at: '2026-10-03'
+  updated_at: '2026-10-08'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -26,17 +26,17 @@ metadata:
       name: 创建智能体
       short_desc: 通过自然语言对话收集需求，一键创建专业化数字智能体
       description: >-
-        通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona 和 principles。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。可选头像生成需配置图像服务，适用供应商条款/额度及独立费用。
+        通过多轮对话收集需求，调用 ManageAgent 内置工具创建新的 AgentFS v2 智能体，支持自定义 persona、principles 和可选 instructions。Use when 用户要求创建新智能体、培养某领域助手、或快速基于模板生成可治理 Agent。可选头像生成需配置图像服务，适用供应商条款/额度及独立费用。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:7ffb7a362c26a91e
+      source_hash: sha256:3c0613f2d9e9479a
       translated_by: human
     en-US:
       name: Create Agent
       short_desc: Collect requirements through natural-language conversation and create a specialized digital Agent in one step
       description: >-
-        Collect requirements through multi-turn conversation and call the ManageAgent builtin tool to create a new AgentFS v2 Agent, with customizable persona and principles. Use when the user asks to create a new Agent, raise a domain assistant, or quickly produce a governable Agent from a template. Optional avatar generation requires a configured image service under provider terms/quota and separate charges.
+        Collect requirements through multi-turn conversation and call the ManageAgent builtin tool to create a new AgentFS v2 Agent, with customizable persona, principles and optional standing instructions. Use when the user asks to create a new Agent, raise a domain assistant, or quickly produce a governable Agent from a template. Optional avatar generation requires a configured image service under provider terms/quota and separate charges.
       body: ./SKILL.md
-      source_hash: sha256:7ffb7a362c26a91e
+      source_hash: sha256:3c0613f2d9e9479a
       translated_by: human
 market:
   icon: >-
@@ -58,7 +58,7 @@ market:
     verified: true
   compatible_agents: []
   channel: latest
-  required_client_version: 10.0.108
+  required_client_version: 10.0.179
 ---
 
 # create-agent skill
@@ -69,7 +69,7 @@ Collect requirements through natural-language conversation and call the ManageAg
 
 ## L1: Overview
 
-Meta-skill: gather requirements over multi-turn conversation → generate persona/principles → land via `ManageAgent(action='create')`. Use it to raise a domain specialist (legal advisor, financial analyst), deploy a customized business Agent quickly, or produce a prototype from a template. The created repo conforms to the AgentFS v2 spec and is version-managed by git (governable, traceable). Its value is what the tool can't give: domain-tailored persona/principles generation + a pre-create preview confirmation.
+Meta-skill: gather requirements over multi-turn conversation → generate persona/principles and standing instructions → land via `ManageAgent(action='create')`. Use it to raise a domain specialist (legal advisor, financial analyst), deploy a customized business Agent quickly, or produce a prototype from a template. The created repo conforms to the AgentFS v2 spec and is version-managed by git (governable, traceable). Its value is what the tool can't give: domain-tailored persona/principles generation + a pre-create preview confirmation.
 
 ## L2: Detailed Spec
 
@@ -87,9 +87,10 @@ Trigger (any): user explicitly says "create an Agent / make me an assistant"; de
 
 ### Stage 3: Content Generation
 
-Organize persona and principles as structured fields (do not emit raw markdown; present field-by-field). Leave uncollected fields empty for the system to fill with defaults:
+Organize persona, principles and optional standing instructions as structured fields (do not emit raw markdown; present field-by-field). Leave uncollected fields empty for the system to fill with defaults:
 
 - **persona**: L0 one-sentence core identity; L1 `role` / `personality` (array of trait tags) / `communication_style`; L2 specialty, values, decision preferences (free-form).
+- **instructions**: optional plain Markdown string for stable responsibilities, default work strategies and delivery requirements; the full text is loaded without L0/L1/L2 parsing or truncation. Detailed procedures and reference material belong to skills. If only the name is known, omit this file.
 - **principles**: L0 one-sentence top principle; L1 `must_do` / `must_not` (safety red lines) / `priority`; L2 governance principles, escalation rules (free-form).
 
 **Domain matching reference** (recommend personality and red lines by domain):
@@ -103,7 +104,7 @@ Organize persona and principles as structured fields (do not emit raw markdown; 
 
 ### Stage 4: User Confirmation
 
-Present the preview in natural language / tables (name, description, persona, principles; **no raw markdown source**), e.g.:
+Present the preview in natural language / tables (name, description, persona, principles, and optional standing instructions; **no raw markdown source**), e.g.:
 
 > About to create "Legal Advisor Assistant" — focused on contract review and legal risk assessment.
 > **Persona**: digital legal advisor; professional, rigorous, prudent; uses legal terms accurately with plain-language explanations.
@@ -122,7 +123,8 @@ ManageAgent({
   "name": "Legal Advisor Assistant",
   "description": "A digital Agent focused on contract review and legal risk assessment",
   "persona": { "L0": "…", "L1": { "role": "…", "personality": ["professional","rigorous","prudent"], "communication_style": "…" } },
-  "principles": { "L0": "…", "L1": { "must_do": ["…"], "must_not": ["…"], "priority": "user safety > accuracy > efficiency" } }
+  "principles": { "L0": "…", "L1": { "must_do": ["…"], "must_not": ["…"], "priority": "user safety > accuracy > efficiency" } },
+  "instructions": "# Responsibilities\nDescribe stable duties here.\n\n## Delivery requirements\nInclude the result location and evidence."
 })
 ```
 
@@ -189,3 +191,5 @@ Present in a user-friendly way (no internal paths / technical details): confirm 
 
 - AgentFS structure, troubleshooting, and protected paths: see `_agentfs-background.md` and `_protected-paths.yaml`.
 - Always create via `ManageAgent`; never use curl / HTTP or write AgentFS directories directly. Requires client ≥ 10.0.90.
+
+Keep role/expression in persona, boundaries in principles, stable duties in instructions, and methods in skills. Never place private user or team data in distributable Agent files.

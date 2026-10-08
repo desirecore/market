@@ -4,7 +4,7 @@ name: update-agent
 description: >-
   安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent
   行为、安装/卸载技能、调整配置、回滚变更或修订规则。可选头像生成需配置图像服务，适用供应商条款/额度及独立费用。
-version: 3.3.0
+version: 3.4.0
 compatibility: "DesireCore ManageAgent; optional avatar generation requires a configured image provider under its own terms and quota, with separate charges; unavailable generation retains the existing avatar."
 type: meta
 risk_level: low
@@ -16,7 +16,7 @@ tags:
   - meta
 metadata:
   author: desirecore
-  updated_at: '2026-10-03'
+  updated_at: '2026-10-08'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -29,7 +29,7 @@ metadata:
       description: >-
         安全更新现有智能体的配置、人格、原则、技能与记忆，输出可审阅 diff 并在确认后应用与提交。Use when 用户要求修改 Agent 行为、安装/卸载技能、调整配置、回滚变更或修订规则。可选头像生成需配置图像服务，适用供应商条款/额度及独立费用。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:b2c95e40c280b162
+      source_hash: sha256:b20d14b1dc7d4afb
       translated_by: human
     en-US:
       name: Update Agent
@@ -37,7 +37,7 @@ metadata:
       description: >-
         Safely update an existing Agent's config, persona, principles, skills, and memory, producing reviewable diffs that are applied and committed only after confirmation. Use when the user asks to modify Agent behavior, install/uninstall skills, adjust config, roll back changes, or revise rules. Optional avatar generation requires a configured image service under provider terms/quota and separate charges.
       body: ./SKILL.md
-      source_hash: sha256:b2c95e40c280b162
+      source_hash: sha256:b20d14b1dc7d4afb
       translated_by: human
 market:
   icon: >-
@@ -59,7 +59,7 @@ market:
     verified: true
   compatible_agents: []
   channel: latest
-  required_client_version: 10.0.108
+  required_client_version: 10.0.179
 ---
 
 # update-agent skill
@@ -76,7 +76,7 @@ Meta-skill: recognize the edit intent → generate a reviewable diff → user co
 
 ### Update Types and the Two Paths
 
-Structured fields always go through `ManageAgent(action='update')` (whitelist + validation + merge semantics); free-form files (memory/skills/tools) are edited directly with Read/Write:
+ManageAgent provides whitelist validation, structured field merging and receipts. Existing AgentFS files also support Read/Write/Edit under the same permissions and approval policy; direct editing is not a bypass. Free-form content remains in its owning file:
 
 | User intent | Means | Target (risk) |
 | --- | --- | --- |
@@ -86,6 +86,7 @@ Structured fields always go through `ManageAgent(action='update')` (whitelist + 
 | Declarative avatar | `ManageAgent(update, config={avatar:{...}})` | agent.json (low) |
 | Image avatar | `ManageAgent(update, avatarImage={...})` | avatar (med) |
 | Personality/style | `ManageAgent(update, persona=... or markdown)` | persona.md (med) |
+| Stable duties/delivery | `ManageAgent(update, instructions="full Markdown")` or Read/Write/Edit | instructions.md (existing approval policy) |
 | Behavior rules | `ManageAgent(update, principles=... or markdown)` | principles.md (high) |
 | Install/uninstall skill | Read/Write | `skills/` (low/med) |
 | Add memory | Read/Write | `memory/` (low) |
@@ -176,3 +177,9 @@ Trigger: user says "undo / roll back / restore the previous settings". Flow:
 Check readiness through the current governed tool catalog: use `ManageCompute(action="list")` for enabled/credential status and `InspectModels(action="list", serviceType="image_gen")` for an eligible image model. Neither listing proves upstream quota or call success; follow provider terms/quota and separate charges. Do not read keys or use local HTTP. If these tools are absent, follow the configuring-compute skill's governed GUI observation. If generation is known unavailable, skip regeneration, preserve the current avatar and report the limitation. Unknown readiness is not success; inspect the background task result and do not fabricate completion.
 
 Users may freely change the avatar's appearance, style, background, upload an existing image, or remove it with `avatarImage.remove:true`. On clients exposing `avatarGeneration`, pass a new generation request to `ManageAgent(action="update", avatarGeneration={prompt:"user requirements"})`; `transparentBackground:false` preserves a requested background and `enabled:false` cancels pending generation. Direct image replacement/removal invalidates older asynchronous results. The default automatic style is transparent and photorealistic; explicit user choices take precedence. `avatarImage.requireTransparency:true` opts into strict transparency checks; do not impose that check on a user who requested a background. Inspect `ManageAgent(get)` for task failures, and do not automatically retry paid requests. Older clients must use only fields in their actual tool schema.
+
+## Standing instructions and content ownership
+
+Persona owns identity and expression; principles own boundaries and tradeoffs; instructions.md owns stable duties, work strategies and delivery requirements; skills own detailed methods. instructions accepts only a full Markdown string: omit to preserve, pass a string to replace, or an empty string to clear. Read the original before editing and do not copy the same requirement into several files. Read/Write/Edit are also supported for existing files with the same permission, approval, optimistic-lock and audit rules. Saved instructions are read for new input, explicit continuation or restoration; an already accepted tool loop keeps its snapshot. Previously authorized work does not require another conversational confirmation; actual tool approval policy still applies.
+
+Keep role/expression in persona, boundaries in principles, stable duties in instructions, and methods in skills. Never place private user or team data in distributable Agent files.
