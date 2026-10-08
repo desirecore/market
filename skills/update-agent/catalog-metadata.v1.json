@@ -28,13 +28,13 @@
   },
   "release": {
     "state": "known",
-    "version": "3.3.0",
+    "version": "3.4.0",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-03",
+      "value": "2026-10-08",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -65,7 +65,7 @@
     "platforms": {
       "state": "unknown"
     },
-    "requiredClientVersion": "10.0.108"
+    "requiredClientVersion": "10.0.179"
   },
   "spec": {
     "kind": "skill",
