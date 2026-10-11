@@ -1,0 +1,39 @@
+{
+  "id": "reverse-engineer-anything",
+  "name": "REA: Reverse Engineer Anything",
+  "category": "development",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"m8 5-6 7 6 7m8-14 6 7-6 7m-5 1 2-16\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "reverse-engineering",
+    "binary-analysis",
+    "evidence",
+    "mcp",
+    "cli"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "REA 逆向分析",
+      "shortDesc": "基于证据分析二进制、软件包与应用行为。需另备受支持的 Node.js/npm、rea-agents CLI 或已注册的 REA MCP；原生分析等流程需另备目标相关工具及权限，商业提供方须另行授权付费。安装本技能仅提供指引，不安装工具或注册服务；依赖不可用时先处理阻碍，不编造结果。"
+    },
+    "en-US": {
+      "name": "REA: Reverse Engineer Anything",
+      "shortDesc": "Evidence-led reverse analysis of binaries, packages and app behavior. Requires supported Node.js/npm and rea-agents CLI or a registered REA MCP server; target-specific tools, permissions and any commercial provider licenses are separate. Installing this skill only supplies instructions; it does not install tools or register services. Resolve missing dependencies before claiming results."
+    }
+  },
+  "maintainer": {
+    "name": "morluto",
+    "verified": false,
+    "account": "morluto",
+    "url": "https://github.com/morluto/rea"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/morluto/rea.git",
+    "repoBranch": "main",
+    "ref": "951c2aae3be1c357df9f23558d8c09680e64c2cb",
+    "path": ".agents/skills/reverse-engineer-anything"
+  }
+}
