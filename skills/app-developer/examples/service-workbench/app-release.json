@@ -54,8 +54,8 @@
     {
       "path": "runtime/运行说明.md",
       "role": "documentation",
-      "sha256": "30985bc6cb739582952f25dfa2d1ce1f30700f5dce3082d6fa2219a6eb595c6c",
-      "size": 2885
+      "sha256": "743e8eaa0ae53e605563eca8620ba09eddf4adaf4ad9dd3c5593d080bedfb8c1",
+      "size": 3081
     },
     {
       "path": "ui/app.js",
@@ -78,13 +78,13 @@
     {
       "path": "说明.md",
       "role": "documentation",
-      "sha256": "1a8231955c3c3729d1aa63ddddf7ef9f1508fb7f7c60efc1bea7cc3cce97b27d",
-      "size": 1710
+      "sha256": "fa186f0464eba89fc47914cfd281fe169c7380d9c1815c7bf8a3a5f1172f36af",
+      "size": 1784
     }
   ],
   "source": {
     "kind": "worktree",
-    "sha256": "c737138b3e1f4cf33b558940b27f511edabeb712330f7692183b0a63b7e44300"
+    "sha256": "07766d5822d8bf2d8599d53c62eab5a7f2c80a3484b477f33c075ddbb3ff0734"
   },
   "supportedPlatforms": [
     "darwin",
@@ -142,5 +142,5 @@
     "formatVersion": "1"
   },
   "instructionsPath": "说明.md",
-  "releaseDigest": "bab351d3372b843afecc014b7a1811480f46ab78c316537b9546898291c8028e"
+  "releaseDigest": "34392c98ffef62e2ab14405e1d7235afceef2bb3ebc42d9eae5ee527f55d3e76"
 }
