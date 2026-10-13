@@ -71,13 +71,13 @@
     {
       "path": "说明.md",
       "role": "documentation",
-      "sha256": "f546e00aaff87de335a763b85bb617fab3d0287e5510cf177b1612f4da22ab61",
-      "size": 2630
+      "sha256": "672c14b8ca2b0f63c006762e2e296a027894a2f49fc447665ce55960f5bbcba2",
+      "size": 3352
     }
   ],
   "source": {
     "kind": "worktree",
-    "sha256": "63bb87907db2ac649021f8d0f98a3ef382a39d61daecae3f3beb8fe9e25cc442"
+    "sha256": "4304f2f884ad7d07702cacdba055beaf7464309296cfa53c97c265173f6071a5"
   },
   "supportedPlatforms": [
     "darwin",
@@ -136,5 +136,5 @@
     "formatVersion": "1"
   },
   "instructionsPath": "说明.md",
-  "releaseDigest": "771430201133ad503ae698ecbc4d2927b42bc3d2897f3cb3ef9d085431288c92"
+  "releaseDigest": "a2ba9ab1975d3991fca6194e4349e740d3ad278d9fe33fa7aa3109d94727a19c"
 }

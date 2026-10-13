@@ -6,7 +6,7 @@ Agent 使用原 `AppManage` 的有限作者动作，直接进入已有 release�
 
 | AppManage action | 参数包络 | 返回事实 |
 |---|---|---|
-| `authoring_capabilities` | 无额外参数 | `capabilities` 的实际 features/policy/hostInstanceId 和当前 Agent 可读的 `fileRoots` |
+| `authoring_capabilities` | 无额外参数 | `capabilities` 的实际 features/policy/hostInstanceId 和当前 Agent 可读的 `fileRoots` 与已登记的 `registryTargetIds`；不授上传或文件写权限 |
 | `read_draft` | `file_ref: FileResourceRef` | 从真实授权文件读取并核验的 `draft: AppDraftRef` |
 | `prepare_release` | `release_request: AppReleasePrepareRequest` | owned candidate、真实 payload/descriptor 摘要、当前 expectedRevision |
 | `commit_release` | `release_request: AppReleaseCommitRequest` | 唯一 writer CAS 保存；activation 与保存分别核验 |
@@ -23,7 +23,8 @@ Agent 使用原 `AppManage` 的有限作者动作，直接进入已有 release�
 | `docker_prepare` | `owner_request: DockerPrepareEnrollmentInput` | 私有短期 CID/env 文件与实际 create 命令，不执行 Docker 命令 |
 | `docker_enroll` | `owner_request:{enrollmentRef,terminalId}` | 真实 daemon/CID/RepoDigest/挂载/端口执行合同，不以 CLI 退出代替健康 |
 | `release_history` | `installation_id` | 保存材料历史，不假称数据备份 |
-| `export_release` | `owner_request: AppReleaseExportRequest` | exportRef、archiveDigest、releaseDigest、实际 files/size 和 downloadPath，不上传 |
+| `export_release` | `owner_request: AppReleaseExportRequest`；可另给顶层 `export_file_ref` 与 `expected_absent:true` 或 `expected_etag` | exportRef、archiveDigest、releaseDigest、实际 files/size；显式导出时 archiveFile 包含真实 ZIP fileRef/sha256/size/etag/replayed，不上传 |
+| `distribution_prepare` | `owner_request: AppDistributionPrepareRequest`（exportRef、registryRepoId、source、metadata） | 从真实 export 与 capability 中的目录目标生成三文件草稿，未上传/未提交 |
 
 例如能力调用为 `AppManage({action:'authoring_capabilities'})`。读草稿使用 `action:'read_draft'` 与返回的授权根对应的 `file_ref`；发布准备/提交分别使用 `release_request`，预览/运行纳管/导出使用 `owner_request`。这些包络不是互换字段，原工具及内部 owner 仍逐个严格核验完整 DTO。
 
@@ -60,7 +61,9 @@ HTTP 接口保留给平台 UI 或具有合法管理凭据的消费者，普通 H
 | `POST /api/apps/releases/export`、export 返回的 `downloadPath` | 生成归档和下载原始 ZIP 字节 |
 | `POST /api/apps/distribution/prepare` | 读取真实 exportRef 生成 Registry 三文件，未上传/未提交 |
 
-当前 export_release 结果中的 downloadPath 仍是平台管理下载路径，不是网页或普通 HTTP 工具的授权。分发需确认真实 ZIP 字节已通过授权的材料/上传通道交付，以及目录生成通道可用。缺少时保留导出事实，不能宣称已上传或目录已提交。
+downloadPath 仍是平台管理下载路径，不授予网页或普通 HTTP 工具访问。Agent 需要实际 ZIP 时，在 export_release 顶层另给 export_file_ref：使用当前 Agent 原写权限内的 FileResourceRef 目标，path 为该根内相对路径；不能把服务 exports 私有目录挂成工作根。首次给 expected_absent:true，覆盖已有文件给原 expected_etag，两者不能同时提供。返回 archiveFile={fileRef,sha256,size,etag,replayed}，sha256/size 必须等于 export 的 archiveDigest/size；这才是可交原授权上传工具的实际文件。只读 fileRoots 不授写权限。响应丢失保持相同目标/条件/完整正文，已有同一固定字节可重放，其他内容必须按实际 ETag 决定，不能盲覆盖。
+
+目录草稿用原 AppManage.distribution_prepare，完整 AppDistributionPrepareRequest 放在 owner_request；registryRepoId 从 authoring_capabilities.registryTargetIds 选本次真实目标，不自报 sourceId 或构造连接。source 指向用户已实际上传并核验的不可变来源，sha256 等于 archiveDigest。返回 draft 三文件及 mapping/facts；upload 仍为 unverified，catalog 仍为 not-submitted，sourceAcl 仍为 source-admin-managed。写入目录仓库、提交 PR、目录准入和第二用户获取各由原工具取得实际回执；没有目标或来源连接时说明不可用。
 
 ## 网页协作合同
 

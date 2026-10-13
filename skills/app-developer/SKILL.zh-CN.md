@@ -7,7 +7,7 @@ Agent 选择技术栈、构建方法与工作方式；平台核验材料、作�
 ## L1：先读能力与当前上下文
 
 1. 读取或创建本任务唯一文件化 Plan，保存实际来源 Agent/会话、目标设备、工作目录及开发 Task。已有用户需求和授权直接沿用。
-2. 使用原 `AppManage` 的 `authoring_capabilities` 动作。返回的 `capabilities` 必须为 `protocol: app-authoring-v1`，分别看 features 的 supported、authorized、available 和 reason；`fileRoots` 是当前 Agent 可读的真实文件根。10.0.180 只是代码基线，已发行的同版本客户端不因此支持新协议。作者动作直接进入原领域 owner，不把平台凭据交给模型。
+2. 使用原 `AppManage` 的 `authoring_capabilities` 动作。返回的 `capabilities` 必须为 `protocol: app-authoring-v1`，分别看 features 的 supported、authorized、available 和 reason；`fileRoots` 是当前 Agent 可读的真实文件根，`registryTargetIds` 是已登记的目录目标；这些只读事实不授予目录上传或文件写权限。10.0.180 只是代码基线，已发行的同版本客户端不因此支持新协议。作者动作直接进入原领域 owner，不把平台凭据交给模型。
 3. 普通自然语言开发不要求新的交接协议。若要登记、安装、更新或卸载，读取 `app-install-manager`；继续沿 ApplicationManagement-v2 解析和唯一 writer，不直接编辑 installed-entries.json。
 4. 按需读 [作者接口](references/authoring-api.zh-CN.md) 和 [分发指南](references/distribution.zh-CN.md)。候选主仓正文为 `docs/功能/市场系统/API/应用开发发布接口.md`，按实际能力读取；外仓 PR 不表示客户端或官方 seed 已发行。两份示例位于 `examples/static-workbench/` 与 `examples/service-workbench/`，只是可修改的教学材料，不能代替真实 Agent 开发和业务验收。
 
@@ -38,6 +38,6 @@ Agent 选择技术栈、构建方法与工作方式；平台核验材料、作�
 
 个人发布默认私有本机，不隐含上传。用户要求分发后，用 `AppManage.export_release` 的 `owner_request` 导出固定版本的完整白名单，审阅确切文件与目标。业务库、.env、凭据、聊天/Task/Plan、日志、机器路径和安装身份不得进入包；环境模板可以包含名称和说明，不能包含真实值。
 
-导出元数据只证明制品已生成。下载 ZIP 和目录生成接口须由具有合法管理凭据的平台通道调用；普通 HttpRequest 不自动注入平台凭据，不能读取实例 token 或变更 Origin 绕过 401。确认确切字节已通过真实授权的材料/上传通道交付后，用已授权 GitHub/Gitea 工具上传并核读不可变提交/制品 SHA，再从同一 exportRef 生成 Registry `manifest.json`、`catalog-metadata.v1.json`、`install.md`。缺少该通道时说明“制品已生成，上传或目录生成通道不可用”。目录身份由目标 Provider 注入，个人安装仍是原实例。archiveDigest、releaseDigest、物化 descriptorDigest 分别核验；同版本异内容创建新修订，不覆盖旧固定材料。
+需要交给上传工具的 ZIP 时，export_release 另在顶层提供 `export_file_ref`（原工具真实写权限目录中的目标 FileResourceRef），并二选一给 `expected_absent:true` 或原 `expected_etag`。返回的 `archiveFile` 包含实际 fileRef/sha256/size/etag/replayed；核验 sha256 等于 archiveDigest，再交已授权的 GitHub/Gitea 上传工具并核读不可变提交/制品 SHA。响应丢失保留同一目标、条件与完整正文查询/重试，不覆盖未知文件；只有只读 fileRoots 不代表有写权限。随后用 `AppManage.distribution_prepare` 的 `owner_request`，以同一 exportRef、能力返回的 registryTargetIds 中的目标、实际固定来源和 metadata 生成 Registry `manifest.json`、`catalog-metadata.v1.json`、`install.md`。草稿仍未上传、未提交目录；缺少真实目标或上传通道时分别说明不可用。普通 HttpRequest 不自动注入平台凭据，不能读取实例 token 或变更 Origin 绕过 401。目录身份由目标 Provider 注入，个人安装仍是原实例。archiveDigest、releaseDigest、物化 descriptorDigest 分别核验；同版本异内容创建新修订，不覆盖旧固定材料。
 
 按真实情况分别报告：代码/业务验证、预览、个人发布、启动、来源上传、目录 PR/准入、第二用户安装。候选 4.3 Schema、外仓 PR 或 ZIP 生成都不代表官方市场已开放，也不能代替客户端能力发行或另一设备运行。外部托管/数据库/Git服务的登录、许可、部署及费用由其真实连接和条款决定，缺少时停止相应外部调用。

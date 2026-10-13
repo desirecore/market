@@ -36,7 +36,7 @@
         "short_desc": "开发个人工作台并发布到我的应用，按需分发固定版本",
         "description": "用户要求开发、修改或发布自己的工作台应用，或把固定应用版本分发到 GitHub/Gitea 与 Registry 时使用。按所选技术栈使用的外部 Node/Docker 运行时、托管、Git 服务和数据库须有真实环境或连接及适用条款，可能另行部署或收费；缺能力时说明原因。",
         "body": "./SKILL.zh-CN.md",
-        "source_hash": "sha256:2db4db8074dcb47c",
+        "source_hash": "sha256:b12f9f3a566f3195",
         "translated_by": "ai:gpt-6",
         "translated_at": "2026-10-13"
       },
@@ -45,7 +45,7 @@
         "short_desc": "Develop a personal workbench, publish it to My Apps, and distribute fixed releases on request",
         "description": "Use when the user asks to develop, modify or publish a personal workbench application, or distribute a fixed release through GitHub/Gitea and Registry. Node/Docker runtimes, hosting, Git services and databases used by the chosen stack need actual environments or connections and applicable terms; separate deployment or costs may apply. Report unavailable capabilities.",
         "body": "./SKILL.md",
-        "source_hash": "sha256:2db4db8074dcb47c",
+        "source_hash": "sha256:b12f9f3a566f3195",
         "translated_by": "ai:gpt-6",
         "translated_at": "2026-10-13"
       }
@@ -72,7 +72,7 @@ The Agent chooses the implementation, framework and working method. The platform
 ## L1: Read Capabilities and Context
 
 1. Read or create the task's single file-based Plan, preserving the actual Agent/session, device, authorized work directory and development Task. Continue within the user's existing requirements and authorization.
-2. Use the original `AppManage` action `authoring_capabilities`. Require `capabilities.protocol: app-authoring-v1` and inspect supported, authorized, available and reason independently. Its `fileRoots` are real readable roots for the current Agent. The minimum version is a code baseline, not proof that a shipped client supports this protocol. Authoring actions enter the original domain owners without passing platform credentials to the model.
+2. Use the original `AppManage` action `authoring_capabilities`. Require `capabilities.protocol: app-authoring-v1` and inspect supported, authorized, available and reason independently. Its `fileRoots` are real readable roots for the current Agent, and `registryTargetIds` are registered catalog targets. These read facts grant neither upload nor filesystem write authority. The minimum version is a code baseline, not proof that a shipped client supports this protocol. Authoring actions enter the original domain owners without passing platform credentials to the model.
 3. Natural-language development needs no additional handoff protocol. Installation, registration, update or uninstall continues through ApplicationManagement-v2 and the single writer. Read `app-install-manager` when available; never edit installed-entries.json directly.
 4. Read [authoring interfaces](references/authoring-api.zh-CN.md) and [distribution](references/distribution.zh-CN.md) on demand. The candidate main-repository authority is `docs/功能/市场系统/API/应用开发发布接口.md`; an external PR does not establish a shipped client or official seed. `examples/static-workbench/` and `examples/service-workbench/` are editable teaching materials, not evidence of autonomous Agent development or production acceptance.
 
@@ -103,6 +103,6 @@ The webpage uses the finite `window.desirecoreApp.call(method,payload)` and `onE
 
 Personal publication is private and local by default. When the user requests distribution, call `AppManage.export_release` with the fixed complete whitelist in `owner_request`, and review the exact files and actual target. Exclude databases, .env, credentials, chats, Task/Plan, logs, machine paths and installation identity. Environment templates can describe names without real secret values.
 
-Export metadata proves only that an archive was generated. ZIP download and catalog generation currently require a platform channel with legitimate management credentials. Ordinary HttpRequest does not automatically inject those credentials; never read instance tokens or change Origin to bypass 401. Once a real authorized material/upload channel delivers the exact bytes, use already authorized GitHub/Gitea tools to upload and inspect immutable source/artifact results. Then generate Registry manifest.json, catalog-metadata.v1.json and install.md from the same exportRef. If the channel is unavailable, report that the artifact was generated but upload/catalog generation is unavailable. The target Provider injects catalog identity; the personal installation remains unchanged. Verify archiveDigest, releaseDigest and source-materialized descriptorDigest independently. A different payload under the same version requires a new revision, not overwriting fixed material.
+To deliver ZIP bytes to an upload tool, also pass top-level `export_file_ref`, a destination FileResourceRef under the original tool's actual write authority, with exactly one of `expected_absent:true` or the original `expected_etag`. The returned `archiveFile` contains the actual fileRef/sha256/size/etag/replayed. Verify sha256 equals archiveDigest before handing the file to an already authorized GitHub/Gitea upload tool and inspecting immutable source/artifact results. For a lost response, preserve the same destination, condition and complete body; never overwrite an unknown file. Readable fileRoots do not grant write authority. Then call `AppManage.distribution_prepare` with `owner_request` containing the same exportRef, a registryTargetIds target, the actual immutable source and metadata to generate Registry manifest.json, catalog-metadata.v1.json and install.md. The draft is still neither uploaded nor submitted; report missing targets and upload channels separately. Ordinary HttpRequest does not automatically inject platform credentials; never extract instance tokens or change Origin to bypass 401. The target Provider injects catalog identity; the personal installation remains unchanged. Verify archiveDigest, releaseDigest and source-materialized descriptorDigest independently. A different payload under the same version requires a new revision, not overwriting fixed material.
 
 Report code/functional verification, preview, personal saving, runtime availability, upload, catalog PR/admission and second-user installation independently. A candidate 4.3 Schema, external PR or generated ZIP does not establish official-market availability, client capability release or another device's runtime acceptance. External hosting, databases and Git services require actual connections and applicable licensing/deployment terms and can carry separate costs; when unavailable, stop the affected external operation.
