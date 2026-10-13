@@ -19,7 +19,7 @@ Agent 选择技术栈、构建方法与工作方式；平台核验材料、作�
 - 向平台交付 `app-draft.json`，记录真实 fileRef、Plan、Agent/session、稳定 draftId 与目标 installationId。workdir 指向实际完成的 release 材料目录，不猜测 release/ 子目录，也不编造 fileRef。返回此文件的可点击绝对路径，说明可在应用开发工作区读取并继续。
 - snapshot 预览与正式安装隔离，数据不自动转移。live 预览必须先固定 snapshot 才可发布；刷新/替换用实际 revision。关闭预览撤销当前桥，不取消后台 Task，不将预览临时 URL/token 保存为正式入口。
 - 个人发布沿 prepare → 用户检查候选 → commit；提交精确 releaseDigest、installationId、expectedRevision 与原提交 ID。旧会话里明确授权的发布可继续，不逐命令重复确认。新目标或超出授权的数据/外部副作用沿现有治理处理。
-- 发布保存与运行可用分开。静态包通过固定映射承载；带服务应用由原执行 owner 的真实 spawn、代际身份和握手接入。端口响应、PID、历史 observation 不能替代运行绑定；失败如实说明“版本已保存，启动待修复”。
+- 发布保存与运行可用分开。静态包通过固定映射承载；带服务应用由原执行 owner 的真实 spawn、代际身份和握手接入。Docker release另声明完整imageRefs（注册表/repository@sha256），通过原容器/执行/服务owner核验镜像、环境和身份；缺adapter时保留Agent管理，不把格式检查当真实容器验收。端口响应、PID、历史 observation 不能替代运行绑定；失败如实说明“版本已保存，启动待修复”。
 - 写入超时、响应丢失或断线，保留原 mutation/submission/clientRequest ID 与正文，查询原结果；unknown 时不创建新 ID 盲重放。修改候选前重读当前版本与数据兼容，迁移中断先观察；代码回退不代表业务数据恢复。
 
 ## L3：网页与 Agent 协作

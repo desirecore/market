@@ -54,7 +54,8 @@
     "availability": "installable",
     "license": {
       "state": "known",
-      "value": "MIT"
+      "value": "MIT",
+      "evidencePath": "LICENSE"
     },
     "redistribution": "verify-package-terms",
     "listingMaintainer": {

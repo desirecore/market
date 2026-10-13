@@ -36,16 +36,18 @@
         "short_desc": "开发个人工作台并发布到我的应用，按需分发固定版本",
         "description": "用户要求开发、修改或发布自己的工作台应用，或把固定应用版本分发到 GitHub/Gitea 与 Registry 时使用。外部托管、Git服务和数据库须有真实连接及适用条款，可能另行部署或收费；缺能力时说明原因。",
         "body": "./SKILL.zh-CN.md",
-        "source_hash": "sha256:e13021fdaa421639",
-        "translated_by": "human"
+        "source_hash": "sha256:c980e6fcd6207a3f",
+        "translated_by": "ai:gpt-6",
+        "translated_at": "2026-10-13"
       },
       "en-US": {
         "name": "Application Development and Publishing",
         "short_desc": "Develop a personal workbench, publish it to My Apps, and distribute fixed releases on request",
         "description": "Use when the user asks to develop, modify or publish a personal workbench application, or distribute a fixed release through GitHub/Gitea and Registry. External hosting, Git services and databases require actual connections and applicable terms and may involve separate deployment or costs; report unavailable capabilities.",
         "body": "./SKILL.md",
-        "source_hash": "sha256:e13021fdaa421639",
-        "translated_by": "human"
+        "source_hash": "sha256:c980e6fcd6207a3f",
+        "translated_by": "ai:gpt-6",
+        "translated_at": "2026-10-13"
       }
     }
   },
@@ -82,7 +84,7 @@ The Agent chooses the implementation, framework and working method. The platform
 - Deliver `app-draft.json` with real fileRef, Plan, Agent/session, stable draftId and target installationId. Its workdir points to the actual release material directory; do not guess a release/ subdirectory or fabricate a fileRef. Return a clickable absolute path so the user can read and continue it in the application development workspace.
 - Snapshot preview and formal installation use separate identities and data. Freeze a snapshot before publishing a live preview. Replacement uses the actual revision. Ending preview revokes its bridge, preserves the Task and never converts a temporary URL/token into a formal entrypoint.
 - Personal publication uses prepare, candidate inspection and commit with exact digest, instance, revision and submission ID. Continue authorized publication without repeated per-command questions; new targets or additional data/external effects follow existing governance.
-- Saving a release and making it runnable are separate facts. Static files use the fixed mapping. A service uses the original execution owner's real spawn, generation and identity handshake. A port response, PID or historical observation cannot prove runtime identity; report saved-but-unavailable activation accurately.
+- Saving a release and making it runnable are separate facts. Static files use the fixed mapping. A service uses the original execution owner's real spawn, generation and identity handshake. Docker releases also declare complete registry/repository@sha256 imageRefs and use the existing container/execution/service owner; missing adapters remain unavailable, and format validation is not actual container acceptance. A port response, PID or historical observation cannot prove runtime identity; report saved-but-unavailable activation accurately.
 - For timeout, lost response or disconnection, preserve the original mutation/submission/clientRequest ID and body and query the original result. Do not blindly replay unknown writes with a new ID. Check current material and data compatibility before an update. Investigate interrupted migrations; code rollback is not data recovery.
 
 ## L3: Webpage and Agent Collaboration

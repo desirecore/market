@@ -22,7 +22,7 @@
 
 release 采用 `schemaVersion:1` / `canonicalization: app-release-c14n-v1`，包括 definition、delivery、files、source、supportedPlatforms、requiredCapabilities。files 的 role 为 definition/ui/runtime/dependency/documentation/license/evidence/data-contract；路径为包内规范 POSIX。definition 文件必须与 manifest.definition 一致。`app-release.json` 本身不放入 files，不能让摘要自引用。
 
-web-bundle.delivery.entrypoints 固定 `{entrypointId,path,spaFallback?}`；native-app/docker-app 保存 runtimeInstructionsPath，平台不解释成命令 DSL。source 是实际 Git 完整 commit 或工作树内容 sha256；supportedPlatforms 为 darwin/win32/linux/web。最低客户端是 minimumClientVersion，实际能力仍从握手确认。
+web-bundle.delivery.entrypoints 固定 `{entrypointId,path,spaFallback?}`；native-app保存runtimeInstructionsPath；docker-app同时必填imageRefs，逐项固定显式注册表/repository@sha256，不附登录凭据；实际仍由原容器owner拉取、执行和身份核验。缺容器环境或adapter时明确不可用，不新建容器管理器。平台不解释说明为命令DSL。source 是实际 Git 完整 commit 或工作树内容 sha256；supportedPlatforms 为 darwin/win32/linux/web。最低客户端是 minimumClientVersion，实际能力仍从握手确认。
 
 数据合同声明 formatVersion、readableVersions、writableVersions、有限 files key/path/maxBytes/contentType 和 uninstallRetention: retain。备份/迁移/恢复说明引用必须在 payload 白名单中；说明不授权自动执行，安装历史不代表真实数据备份。
 
