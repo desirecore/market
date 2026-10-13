@@ -1,0 +1,76 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "app-developer"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "应用开发与发布",
+        "summary": "开发个人工作台并发布到我的应用，按需分发固定版本",
+        "description": "用户要求开发、修改或发布自己的工作台应用，或把固定应用版本分发到 GitHub/Gitea 与 Registry 时使用。外部托管、Git服务和数据库须有真实连接及适用条款，可能另行部署或收费；缺能力时说明原因。"
+      },
+      "en-US": {
+        "name": "Application Development and Publishing",
+        "summary": "Develop a personal workbench, publish it to My Apps, and distribute fixed releases on request",
+        "description": "Use when the user asks to develop, modify or publish a personal workbench application, or distribute a fixed release through GitHub/Gitea and Registry. External hosting, Git services and databases require actual connections and applicable terms and may involve separate deployment or costs; report unavailable capabilities."
+      }
+    },
+    "category": "development",
+    "tags": [
+      "application",
+      "workbench",
+      "development",
+      "publishing"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-13",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requiredClientVersion": "10.0.180"
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "high",
+    "skillType": "procedural"
+  }
+}
