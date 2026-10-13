@@ -1,5 +1,5 @@
 /** 教学SDK适配：桌面有限preload；Web严格parent来源/nonce握手，没有管理token或任意invoke。 */
-const methods = new Set(['connect','capabilities','publishSelection','prepareWork','lookupRequest','readWork','readData','saveData','lookupDataMutation'])
+const methods = new Set(['connect','capabilities','publishSelection','prepareWork','lookupRequest','readWork','controlWork','openResource','readData','saveData','lookupDataMutation','saveViewState'])
 export async function connectBridge() {
   if (window.desirecoreApp?.call) return window.desirecoreApp
   if (window.parent === window) throw new Error('app_bridge_host_unavailable')

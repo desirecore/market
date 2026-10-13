@@ -35,6 +35,7 @@
     "readWork",
     "controlWork",
     "openResource",
+    "readResource",
     "saveViewState"
   ],
   "dataContractPath": "data-contract.json",

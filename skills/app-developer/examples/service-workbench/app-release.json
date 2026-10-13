@@ -66,8 +66,8 @@
     {
       "path": "ui/bridge.js",
       "role": "ui",
-      "sha256": "0a436b5244acfd924b96274377c8758bf92ea665b0591afaddee064f48d0b599",
-      "size": 2939
+      "sha256": "b227966a71d10002fadc2fba8d278ef85b7ab6aa4bb86afca4599734809bcb63",
+      "size": 2984
     },
     {
       "path": "ui/index.html",
@@ -84,7 +84,7 @@
   ],
   "source": {
     "kind": "worktree",
-    "sha256": "91330057be12a7b92307f5730800e9da573e3c6be15860cfe445ced0f823dd29"
+    "sha256": "f2b9a34e87370518a1f9c267c2fce453f1c599ea3c006e8b53b762bb5a354547"
   },
   "supportedPlatforms": [
     "darwin",
@@ -131,6 +131,7 @@
     "readWork",
     "controlWork",
     "openResource",
+    "readResource",
     "saveViewState"
   ],
   "viewStateContract": {
@@ -142,5 +143,5 @@
     "formatVersion": "1"
   },
   "instructionsPath": "说明.md",
-  "releaseDigest": "581b31bf432f58b4e7b420924e40465fab021f62d45f75da3b0608da9df9bf23"
+  "releaseDigest": "c3ef146b7393d530db5ed44eb8de637551abe18b13e98f9c441cbbf36dd92c68"
 }
