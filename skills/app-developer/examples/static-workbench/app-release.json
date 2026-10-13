@@ -53,8 +53,8 @@
     {
       "path": "ui/app.js",
       "role": "ui",
-      "sha256": "3bc131e1afd3063e13373c6b64f86f9202a1bda78ce606e9137133c6e60abdae",
-      "size": 5204
+      "sha256": "5ece9785b32efa8d30531354a8775b93ee1c4b6a470ffc37e86625d9c01b2b35",
+      "size": 9111
     },
     {
       "path": "ui/bridge.js",
@@ -65,19 +65,19 @@
     {
       "path": "ui/index.html",
       "role": "ui",
-      "sha256": "e3c055e13440a8aa472bf2ca73a49c5af26eda0061e17d02a44a3c3de665c3b1",
-      "size": 2282
+      "sha256": "83de1fc2216834dc4326d607af45f2174609772b08a03acf6a98197363eec5a8",
+      "size": 2624
     },
     {
       "path": "说明.md",
       "role": "documentation",
-      "sha256": "6a0feb6f009f91430e0e809da6a4f4e81cd12b4e424f250b6adbaff07f9923dd",
-      "size": 1864
+      "sha256": "4d7acded6df683128241eefa6c822e00e84a4299d4e018f8087e2274b8e9be60",
+      "size": 2542
     }
   ],
   "source": {
     "kind": "worktree",
-    "sha256": "83af9d981f282ca2ceb4103604b33e6cae07056d81a9718b72f13c5ab0b8527d"
+    "sha256": "dcc8715ce3cbbae44a067fc579ab5f232c36512651f13015121b022e71c28bba"
   },
   "supportedPlatforms": [
     "darwin",
@@ -91,7 +91,8 @@
     "release",
     "web-bundle",
     "bridge",
-    "data"
+    "data",
+    "view-state"
   ],
   "dataContract": {
     "schemaVersion": 1,
@@ -121,8 +122,19 @@
     "publishSelection",
     "requestWork",
     "lookupRequest",
-    "readWork"
+    "readWork",
+    "controlWork",
+    "openResource",
+    "saveViewState"
   ],
+  "viewStateContract": {
+    "schemaVersion": 1,
+    "keys": [
+      "selection"
+    ],
+    "maxBytes": 1024,
+    "formatVersion": "1"
+  },
   "instructionsPath": "说明.md",
-  "releaseDigest": "6ff9f35e8a14a2f35c4a0b1ee84755cfc63ef6e4d16860bb9e420b4514ae04b2"
+  "releaseDigest": "d7c42fb1c8165d972e0a09fe00be53c58cdc4ec5f6408ac646a5b7add337c06a"
 }

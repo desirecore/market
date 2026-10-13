@@ -27,6 +27,7 @@ const manifest = { schemaVersion: 1, canonicalization: 'app-release-c14n-v1', de
   minimumClientVersion: '10.0.180', requiredCapabilities: input.requiredCapabilities,
   ...(input.dataContractPath ? { dataContract: JSON.parse(readFileSync(join(directory, input.dataContractPath), 'utf8')) } : {}),
   ...(input.bridgeCapabilities ? { bridgeCapabilities: input.bridgeCapabilities } : {}),
+  ...(input.viewStateContract ? { viewStateContract: input.viewStateContract } : {}),
   instructionsPath: '说明.md' }
 manifest.releaseDigest = hash(JSON.stringify(canonical(manifest)))
 writeFileSync(join(directory, 'app-release.json'), JSON.stringify(manifest, null, 2) + '\n')

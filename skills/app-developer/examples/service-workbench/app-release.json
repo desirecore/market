@@ -54,14 +54,14 @@
     {
       "path": "runtime/运行说明.md",
       "role": "documentation",
-      "sha256": "6225a3e5afdd835a1de54df1287afd8d3bef69a9ae1b44535aae2e7adf3376b6",
-      "size": 1910
+      "sha256": "30985bc6cb739582952f25dfa2d1ce1f30700f5dce3082d6fa2219a6eb595c6c",
+      "size": 2885
     },
     {
       "path": "ui/app.js",
       "role": "ui",
-      "sha256": "3bc131e1afd3063e13373c6b64f86f9202a1bda78ce606e9137133c6e60abdae",
-      "size": 5204
+      "sha256": "5ece9785b32efa8d30531354a8775b93ee1c4b6a470ffc37e86625d9c01b2b35",
+      "size": 9111
     },
     {
       "path": "ui/bridge.js",
@@ -72,19 +72,19 @@
     {
       "path": "ui/index.html",
       "role": "ui",
-      "sha256": "2c028db0db06249768e4222c488554cb8db6e2b75fe5da21630bf59f547044b7",
-      "size": 2282
+      "sha256": "d2796efba92f7a8bf4da5d467311ba191d7f6af1eee1872b0f0707031f876973",
+      "size": 2624
     },
     {
       "path": "说明.md",
       "role": "documentation",
-      "sha256": "7b9f6cbb89fbaa51c3ff717f75fd76eaf80afd2ea82a67e40561e9b845cf51a7",
-      "size": 1032
+      "sha256": "1a8231955c3c3729d1aa63ddddf7ef9f1508fb7f7c60efc1bea7cc3cce97b27d",
+      "size": 1710
     }
   ],
   "source": {
     "kind": "worktree",
-    "sha256": "5f6448e5f8e45f6720a1d9ee7fc677c2a48cee7e148a1785a293940be427a32f"
+    "sha256": "c737138b3e1f4cf33b558940b27f511edabeb712330f7692183b0a63b7e44300"
   },
   "supportedPlatforms": [
     "darwin",
@@ -97,7 +97,8 @@
     "release",
     "runtime-binding",
     "bridge",
-    "data"
+    "data",
+    "view-state"
   ],
   "dataContract": {
     "schemaVersion": 1,
@@ -127,8 +128,19 @@
     "publishSelection",
     "requestWork",
     "lookupRequest",
-    "readWork"
+    "readWork",
+    "controlWork",
+    "openResource",
+    "saveViewState"
   ],
+  "viewStateContract": {
+    "schemaVersion": 1,
+    "keys": [
+      "selection"
+    ],
+    "maxBytes": 1024,
+    "formatVersion": "1"
+  },
   "instructionsPath": "说明.md",
-  "releaseDigest": "9db7813e5c44bb64e2fd53bc4f02f556a8e68e01fa0205e0ce301f7d25661bf8"
+  "releaseDigest": "bab351d3372b843afecc014b7a1811480f46ab78c316537b9546898291c8028e"
 }

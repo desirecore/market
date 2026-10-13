@@ -8,7 +8,8 @@
 <section><label for="note">新笔记</label><textarea id="note" placeholder="输入一条笔记"></textarea>
 <button id="save" class="primary" disabled>保存笔记</button><button id="refresh" disabled>读取最新版本</button><button id="recover" disabled>查询原保存</button>
 <output id="status" aria-live="polite">正在连接应用宿主…</output><ul id="notes"></ul></section>
+<section><button id="remember" disabled>在这台设备记住所选位置</button><output id="view-status" aria-live="polite">只保存所选笔记的位置，不保存笔记正文。</output></section>
 <section><h2>与 Agent 协作</h2><p>教学示例使用实际 Agent ID；应用可以自行设计选择器。工作须由平台控件接纳。</p>
 <label for="agent">本次 Agent ID</label><input id="agent" placeholder="由当前授权的 Agent 配置提供">
-<button id="request" disabled>交给 Agent 讨论选中笔记</button><button id="work" disabled>查询原请求</button><output id="work-status" aria-live="polite">尚未准备请求。</output></section>
+<button id="request" disabled>交给 Agent 讨论选中笔记</button><button id="work" disabled>查询原请求</button><button id="progress" disabled>读取原工作与成果</button><button id="cancel" disabled>停止原工作</button><output id="work-status" aria-live="polite">尚未准备请求。</output><ul id="results"></ul></section>
 <script type="module" src="./app.js"></script></html>

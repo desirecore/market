@@ -1,6 +1,6 @@
 import { connectBridge } from './bridge.js'
 const element = id => document.getElementById(id)
-let bridge, connection, etag, notes = [], selected, pendingSave, pendingWork
+let bridge, connection, etag, notes = [], selected, rememberedNoteId, pendingSave, pendingWork, pendingViewState, viewRevision = 'none'
 const status = message => { element('status').textContent = message }
 function render() {
   element('notes').replaceChildren()
@@ -14,7 +14,7 @@ async function read() {
   const result = await bridge.call('readData',{key:'notes'})
   const value = result.exists ? JSON.parse(result.content) : {schemaVersion:1,notes:[]}
   if (value.schemaVersion !== 1 || !Array.isArray(value.notes)) throw new Error('notes_format_unsupported')
-  notes = value.notes; etag = result.etag; selected = notes.find(note => note.id === selected?.id); render()
+  notes = value.notes; etag = result.etag; selected = notes.find(note => note.id === (selected?.id ?? rememberedNoteId)); render()
   status('已读取当前实例的数据。')
 }
 async function save() {
@@ -56,13 +56,59 @@ element('request').addEventListener('click',async () => {
 })
 element('work').addEventListener('click',async () => {
   if (!pendingWork) return
-  try { element('work-status').textContent = JSON.stringify(await bridge.call('lookupRequest',{clientRequestId:pendingWork.clientRequestId}),null,2) }
+  try { element('work-status').textContent = JSON.stringify(await bridge.call('lookupRequest',{agentId:pendingWork.agentId,clientRequestId:pendingWork.clientRequestId}),null,2) }
   catch (error) { element('work-status').textContent = error.message }
+})
+element('progress').addEventListener('click',async () => {
+  if (!pendingWork) return
+  try {
+    const snapshot = await bridge.call('readWork',{agentId:pendingWork.agentId,clientRequestId:pendingWork.clientRequestId})
+    element('work-status').textContent = `准入：${snapshot.admission}；执行：${snapshot.execution}。执行完成后仍需核读实际成果。`
+    element('cancel').disabled = !connection.capabilities?.includes('controlWork') || !snapshot.availableActions?.includes('abort')
+    element('results').replaceChildren()
+    for (const [index, resource] of (snapshot.resources ?? []).entries()) {
+      const row = document.createElement('li'), button = document.createElement('button')
+      button.textContent = `${resource.role === 'evidence' ? '查看证据' : '打开成果'} ${index + 1}`
+      button.disabled = !connection.capabilities?.includes('openResource')
+      button.addEventListener('click',async () => {
+        try {
+          const result = await bridge.call('openResource',{locator:resource.locator})
+          element('work-status').textContent = result.state === 'navigation-requested' ? '已请求平台定位该成果，文件正文继续由原授权入口核验。' : result.opened === true ? '平台已打开获授权对象。' : '定位结果尚未确认。'
+        } catch (error) { element('work-status').textContent = `成果未打开：${error.message}` }
+      })
+      row.append(button); element('results').append(row)
+    }
+  } catch (error) { element('work-status').textContent = `进度暂不可读：${error.message}` }
+})
+element('cancel').addEventListener('click',async () => {
+  if (!pendingWork) return
+  try {
+    const receipt = await bridge.call('controlWork',{agentId:pendingWork.agentId,clientRequestId:pendingWork.clientRequestId,action:'abort'})
+    element('work-status').textContent = `原工作停止结果：${receipt.status}。requested 仅表示停止意图已接纳，结果未知时沿原请求查询。`
+  } catch (error) { element('work-status').textContent = `停止未确认：${error.message}` }
+})
+element('remember').addEventListener('click',async () => {
+  if (!pendingViewState) pendingViewState = {schemaVersion:1,key:'selection',state:JSON.stringify({selectedNoteId:selected?.id ?? null}),
+    persistence:'device',expectedRevision:viewRevision,mutationId:crypto.randomUUID()}
+  try {
+    const receipt = await bridge.call('saveViewState',pendingViewState)
+    if (receipt.persistence !== 'device' || typeof receipt.revision !== 'string') throw new Error('view_save_result_unknown')
+    viewRevision = receipt.revision; pendingViewState = undefined
+    element('view-status').textContent = '已在这台设备记住所选位置。笔记正文仍由实例数据单独保存。'
+  } catch (error) { element('view-status').textContent = `位置保存未确认：${error.message}。再次点击重试原ID、正文与修订，不覆盖其他更新。` }
 })
 try {
   bridge = await connectBridge(); connection = await bridge.call('connect')
+  const remembered = connection.viewStates?.find(value => value.key === 'selection' && value.persistence === 'device')
+  if (remembered) {
+    viewRevision = remembered.revision
+    try { const state = JSON.parse(remembered.state); if (typeof state.selectedNoteId === 'string') rememberedNoteId = state.selectedNoteId } catch { element('view-status').textContent = '此前位置格式不可读，已保留原偏好。' }
+  }
   bridge.onEvent(event => { if (event?.type === 'work-accepted' && event.clientRequestId === pendingWork?.clientRequestId)
     element('work-status').textContent = `平台接纳回执：${JSON.stringify(event.result)}。通过原请求继续查询，接纳不等于业务完成。` })
   await read(); element('save').disabled = !connection.capabilities?.includes('saveData'); element('refresh').disabled = false
   element('request').disabled = !connection.capabilities?.includes('requestWork')
+  element('progress').disabled = !connection.capabilities?.includes('readWork')
+  element('remember').disabled = !connection.capabilities?.includes('saveViewState') || connection.deviceViewState?.state !== 'available'
+  if (element('remember').disabled) element('view-status').textContent = `设备位置记忆不可用：${connection.deviceViewState?.reason ?? '未授权'}。业务笔记仍可按实际数据能力保存。`
 } catch (error) { status(`当前持久数据或协作能力不可用：${error.message}。未保存任何业务数据。`) }

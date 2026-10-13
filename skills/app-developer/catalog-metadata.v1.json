@@ -11,12 +11,12 @@
       "zh-CN": {
         "name": "应用开发与发布",
         "summary": "开发个人工作台并发布到我的应用，按需分发固定版本",
-        "description": "用户要求开发、修改或发布自己的工作台应用，或把固定应用版本分发到 GitHub/Gitea 与 Registry 时使用。外部托管、Git服务和数据库须有真实连接及适用条款，可能另行部署或收费；缺能力时说明原因。"
+        "description": "用户要求开发、修改或发布自己的工作台应用，或把固定应用版本分发到 GitHub/Gitea 与 Registry 时使用。按所选技术栈使用的外部 Node/Docker 运行时、托管、Git 服务和数据库须有真实环境或连接及适用条款，可能另行部署或收费；缺能力时说明原因。"
       },
       "en-US": {
         "name": "Application Development and Publishing",
         "summary": "Develop a personal workbench, publish it to My Apps, and distribute fixed releases on request",
-        "description": "Use when the user asks to develop, modify or publish a personal workbench application, or distribute a fixed release through GitHub/Gitea and Registry. External hosting, Git services and databases require actual connections and applicable terms and may involve separate deployment or costs; report unavailable capabilities."
+        "description": "Use when the user asks to develop, modify or publish a personal workbench application, or distribute a fixed release through GitHub/Gitea and Registry. Node/Docker runtimes, hosting, Git services and databases used by the chosen stack need actual environments or connections and applicable terms; separate deployment or costs may apply. Report unavailable capabilities."
       }
     },
     "category": "development",

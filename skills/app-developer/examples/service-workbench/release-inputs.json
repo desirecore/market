@@ -14,7 +14,8 @@
     "release",
     "runtime-binding",
     "bridge",
-    "data"
+    "data",
+    "view-state"
   ],
   "bridgeCapabilities": [
     "connect",
@@ -25,7 +26,10 @@
     "publishSelection",
     "requestWork",
     "lookupRequest",
-    "readWork"
+    "readWork",
+    "controlWork",
+    "openResource",
+    "saveViewState"
   ],
   "dataContractPath": "data-contract.json",
   "files": [
@@ -65,5 +69,13 @@
       "path": "runtime/运行说明.md",
       "role": "documentation"
     }
-  ]
+  ],
+  "viewStateContract": {
+    "schemaVersion": 1,
+    "keys": [
+      "selection"
+    ],
+    "maxBytes": 1024,
+    "formatVersion": "1"
+  }
 }

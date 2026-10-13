@@ -45,10 +45,10 @@ Windows 上 `wsl` 字段值类似 `{ "installed": true, "version": "2", "default
   "desirecore_api": "https://127.0.0.1:38291",
   "system_python": { "path": "/opt/homebrew/bin/python3", "version": "3.12.4" },
   "system_pip": { "path": "/opt/homebrew/bin/pip3", "version": "24.0" },
-  "hatch_path": "/Users/wangyi/.desirecore/runtime/hatch/hatch",
+  "hatch_path": "/Users/example/.desirecore/runtime/hatch/hatch",
   "hatch_version": "1.16.5",
   "hatch_versions": ["3.11", "3.12"],
-  "active_venv": "/Users/wangyi/proj/.venv",
+  "active_venv": "/Users/example/proj/.venv",
   "pep668": false,
   "pyenv_path": "",
   "conda_path": ""
@@ -70,7 +70,7 @@ Windows 上 `wsl` 字段值类似 `{ "installed": true, "version": "2", "default
   "desirecore_api": "https://127.0.0.1:38291",
   "system_node": { "path": "/opt/homebrew/bin/node", "version": "22.4.1" },
   "system_npm":  { "path": "/opt/homebrew/bin/npm",  "version": "10.8.1" },
-  "volta_path": "/Users/wangyi/.desirecore/runtime/volta/volta",
+  "volta_path": "/Users/example/.desirecore/runtime/volta/volta",
   "volta_version": "2.0.2",
   "volta_tools": {
     "node": ["22.4.1"],
