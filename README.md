@@ -212,6 +212,9 @@ uv run scripts/i18n/test_validate_i18n.py
 uv run scripts/catalog/test_validate_catalog_metadata.py
 uv run scripts/catalog/test_collection_generator.py
 uv run scripts/catalog/test_check_upstream_health.py
+
+# Compile bundled Office schemas offline and validate Chinese XML with a GBK default.
+uv run scripts/office/test_offline_resources.py
 ```
 
 Passing a skill path narrows skill-body validation, but market-level and sidecar checks still run. Choose the relevant test file for your change rather than treating every documentation edit as a reason to run all test suites.

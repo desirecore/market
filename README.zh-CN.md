@@ -212,6 +212,9 @@ uv run scripts/i18n/test_validate_i18n.py
 uv run scripts/catalog/test_validate_catalog_metadata.py
 uv run scripts/catalog/test_collection_generator.py
 uv run scripts/catalog/test_check_upstream_health.py
+
+# 离线编译内置 Office Schema，并验证 GBK 默认环境中的中文 XML。
+uv run scripts/office/test_offline_resources.py
 ```
 
 传入技能路径只缩小技能正文的校验范围，市场级与 sidecar 检查仍会执行。应根据改动选择相关测试文件，而不是每次修改文档都运行全部测试。
