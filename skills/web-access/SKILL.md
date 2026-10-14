@@ -15,7 +15,8 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: MIT
-version: 3.4.5
+version: 3.5.0
+compatibility: Requires a DesireCore build with the bundled external-browser Playwright runtime; Chrome/Edge/Chromium remains separately installed and manually started with CDP.
 type: procedural
 risk_level: low
 status: enabled
@@ -43,7 +44,7 @@ provides:
     - LocalBookmarks
 metadata:
   author: desirecore
-  updated_at: '2026-10-03'
+  updated_at: '2026-10-14'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -55,14 +56,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:5a2d3f06ce8eca10
+      source_hash: sha256:f623f9ef0bebcd16
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request.
       body: ./SKILL.md
-      source_hash: sha256:5a2d3f06ce8eca10
+      source_hash: sha256:f623f9ef0bebcd16
       translated_by: human
 market:
   icon: >-
@@ -80,7 +81,7 @@ market:
     fill-opacity="0.12"/><path d="M20.5 20.5l2 2" stroke="#34C759"
     stroke-width="1.8" stroke-linecap="round"/></svg>
   category: research
-  required_client_version: 10.0.128
+  required_client_version: 10.0.181
   maintainer:
     name: DesireCore Official
     verified: true
@@ -128,7 +129,7 @@ When you call `Skill('web-access')`, the following tools are injected into the c
 
 > **Important**: before `Skill('web-access')` is called, none of these tools appear in the LLM tools list — default conversations don't pay their token cost. See [references/browser-tools.md](references/browser-tools.md).
 >
-> **Removed in v2.1**: `BrowserListTabs` / `BrowserNavigate` / `BrowserEval` / `BrowserClick` / `BrowserScreenshot` / `BrowserScroll` / `BrowserSetFiles` / `BrowserCloseTab` and the cdp-proxy behind them are retired. Calling them now returns "该旧 BrowserXxx/cdp-proxy 入口已停用". This skill version requires client v10.0.128+; `page.extract-text` / `page.element` / `page.wait` / inline wait blocks / cross-origin iframe snapshots were introduced in v10.0.112+, and `BrowserScript` needs a build containing S17/S18.
+> **Removed in v2.1**: `BrowserListTabs` / `BrowserNavigate` / `BrowserEval` / `BrowserClick` / `BrowserScreenshot` / `BrowserScroll` / `BrowserSetFiles` / `BrowserCloseTab` and the cdp-proxy behind them are retired. Calling them now returns "该旧 BrowserXxx/cdp-proxy 入口已停用". This skill version requires client v10.0.181+ with the bundled external-browser runtime; `page.extract-text` / `page.element` / `page.wait` / inline wait blocks / cross-origin iframe snapshots were introduced in v10.0.112+, and `BrowserScript` needs a build containing S17/S18.
 
 ### Use Cases
 
@@ -143,7 +144,7 @@ When you call `Skill('web-access')`, the following tools are injected into the c
 - **Layered progression**: from lightweight search to heavy JS rendering to logged-in access — pick on demand; plus the user's own browser whenever they name it
 - **Token optimization**: Jina Reader cuts token usage by 50–80% by default; `page.extract-text`'s maxBytes/cursor paging keeps even long logged-in articles under control
 - **Logged-in session reuse**: where the Host has granted `browser.import.*`, BrowserImport brings the user's Cookies into an isolated Space — no re-login required
-- **Zero external dependencies by default**: the built-in browser needs no Python/Playwright install and no manually launched external Chromium browser (L3-external does, and only after explicit user intent)
+- **Zero user package installation**: the built-in browser needs no Python/Playwright; the external route uses the client-bundled runtime and a separately installed, user-started Chromium browser, only after explicit user intent
 
 ## L2: Detailed Specification
 
@@ -221,10 +222,14 @@ invalid, or mismatched endpoint, call the probe again and follow its status guid
 
 Only for advanced interaction after a `ready` probe, identify the current OS **before** creating or running an attach script:
 
-1. **Create or select the DesireCore-owned isolated venv first.** Do not probe a global interpreter
-   for Playwright. A system/bootstrap Python may only run `-m venv` when the venv does not exist.
-2. From that point onward, use only the venv interpreter for import, pinned install, re-import, and
-   attach. Never use bare `python`, bare `pip`, `pip --user`, a global install, or `playwright install`.
+1. **For advanced interaction, call `BrowserExternalProbe` with `prepareAutomationRuntime: true` and require both browser `status: ready` and `automationRuntime.status: ready`. Use the returned `automationRuntime.pythonExecutable`.** Simple opening/navigation uses the default probe and does not wait for Python.
+
+   **Use the application-prepared venv at `<DESIRECORE_HOME>/runtime/external-browser-playwright`.**
+   DesireCore prepares its Python, Playwright and dependencies from the installation package, including offline.
+   Do not create a workspace venv or select system/global Python.
+2. Use only this venv interpreter with `-B` for import and attach. Do not run pip installation,
+   change package indexes/proxies, or run `playwright install`. Missing runtime files indicate a client
+   preparation failure: report the exact error rather than asking the user to install dependencies.
    A missing dependency is separate from browser readiness: report it explicitly and do not attach yet.
 3. On Unix-like hosts, use Bash paths and shell syntax. On Windows, every command in this flow must use
    the `PowerShell` tool and the venv's `Scripts\python.exe`; do not call the `Bash` tool. Use a
@@ -234,7 +239,7 @@ Only for advanced interaction after a `ready` probe, identify the current OS **b
    `Scripts\python.exe` on Windows), remove only the temporary script you created, and leave the
    external browser running.
 
-If the platform cannot be determined or no isolated runtime can be created safely, stop and report
+If the platform cannot be determined or the prepared runtime is unavailable, stop and report
 the missing prerequisite. Do not improvise a cross-shell command and do not fall back to BrowserManage.
 
 ---
