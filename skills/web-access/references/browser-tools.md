@@ -400,4 +400,3 @@ Agent → BrowserManage/Snapshot/Act/Devtools/Script → browser-use service（C
       → BrowserHost（electron-embedded 或 standalone-managed）→ Chromium
                                     ↑ 每步产出带 digest 的回执，写入审计事件流
 ```
-
