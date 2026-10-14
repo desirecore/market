@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "canonicalization": "app-release-c14n-v1",
+  "definition": {
+    "id": "personal-notes-workbench",
+    "name": "个人笔记工作台",
+    "version": "1.0.0",
+    "productKind": "application",
+    "icon": "Notebook",
+    "iconLetter": "记",
+    "entrypoints": [
+      {
+        "id": "main",
+        "name": "笔记",
+        "kind": "embedded-web",
+        "serviceRef": "workbench:main"
+      }
+    ],
+    "placementPolicy": {
+      "showInMyApps": true,
+      "allowNavPin": true,
+      "allowAgentBinding": true
+    }
+  },
+  "delivery": {
+    "type": "web-bundle",
+    "entrypoints": [
+      {
+        "entrypointId": "main",
+        "path": "ui/index.html"
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "LICENSE",
+      "role": "license",
+      "sha256": "e863481f423546e8984c07ffa00609d338b7f7533f60e89392301028163aa89e",
+      "size": 1067
+    },
+    {
+      "path": "application.json",
+      "role": "definition",
+      "sha256": "6f173d257bbb07d85deefe203a18741ec31fed27f244dbce6e37ef42f6662a9a",
+      "size": 371
+    },
+    {
+      "path": "data-contract.json",
+      "role": "data-contract",
+      "sha256": "e195b2fd60a2798141c4c75ab57e0927d115bfba7888b0881b69dffa9dcb26cc",
+      "size": 266
+    },
+    {
+      "path": "ui/app.js",
+      "role": "ui",
+      "sha256": "5ece9785b32efa8d30531354a8775b93ee1c4b6a470ffc37e86625d9c01b2b35",
+      "size": 9111
+    },
+    {
+      "path": "ui/bridge.js",
+      "role": "ui",
+      "sha256": "b227966a71d10002fadc2fba8d278ef85b7ab6aa4bb86afca4599734809bcb63",
+      "size": 2984
+    },
+    {
+      "path": "ui/index.html",
+      "role": "ui",
+      "sha256": "83de1fc2216834dc4326d607af45f2174609772b08a03acf6a98197363eec5a8",
+      "size": 2624
+    },
+    {
+      "path": "说明.md",
+      "role": "documentation",
+      "sha256": "672c14b8ca2b0f63c006762e2e296a027894a2f49fc447665ce55960f5bbcba2",
+      "size": 3352
+    }
+  ],
+  "source": {
+    "kind": "worktree",
+    "sha256": "a28c1ce637a81f4695c6cd642fc202553bdaf79ad9f8d4b790dd9925786c1516"
+  },
+  "supportedPlatforms": [
+    "darwin",
+    "win32",
+    "linux",
+    "web"
+  ],
+  "minimumClientVersion": "10.0.180",
+  "requiredCapabilities": [
+    "app-authoring-v1",
+    "release",
+    "web-bundle",
+    "bridge",
+    "data",
+    "view-state"
+  ],
+  "dataContract": {
+    "schemaVersion": 1,
+    "formatVersion": "notes-v1",
+    "readableVersions": [
+      "notes-v1"
+    ],
+    "writableVersions": [
+      "notes-v1"
+    ],
+    "files": [
+      {
+        "key": "notes",
+        "path": "notes.json",
+        "maxBytes": 131072,
+        "contentType": "application/json"
+      }
+    ],
+    "uninstallRetention": "retain"
+  },
+  "bridgeCapabilities": [
+    "connect",
+    "capabilities",
+    "readData",
+    "saveData",
+    "lookupDataMutation",
+    "publishSelection",
+    "requestWork",
+    "lookupRequest",
+    "readWork",
+    "controlWork",
+    "openResource",
+    "readResource",
+    "saveViewState"
+  ],
+  "viewStateContract": {
+    "schemaVersion": 1,
+    "keys": [
+      "selection"
+    ],
+    "maxBytes": 1024,
+    "formatVersion": "1"
+  },
+  "instructionsPath": "说明.md",
+  "releaseDigest": "87171e43d8196120556f97ff02813fad04e362ffdfd18e12851750b4124d071b"
+}

@@ -1,0 +1,6 @@
+{
+  "id": "personal-notes-workbench", "name": "个人笔记工作台", "version": "1.0.0", "productKind": "application",
+  "icon": "Notebook", "iconLetter": "记",
+  "entrypoints": [{ "id": "main", "name": "笔记", "kind": "embedded-web", "serviceRef": "workbench:main" }],
+  "placementPolicy": { "showInMyApps": true, "allowNavPin": true, "allowAgentBinding": true }
+}

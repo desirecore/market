@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "canonicalization": "app-release-c14n-v1",
+  "definition": {
+    "id": "service-notes-workbench",
+    "name": "服务笔记工作台",
+    "version": "1.0.0",
+    "productKind": "application",
+    "icon": "PanelsTopLeft",
+    "iconLetter": "台",
+    "entrypoints": [
+      {
+        "id": "main",
+        "name": "笔记",
+        "kind": "embedded-web",
+        "serviceRef": "workbench:main"
+      }
+    ],
+    "placementPolicy": {
+      "showInMyApps": true,
+      "allowNavPin": true,
+      "allowAgentBinding": true
+    }
+  },
+  "delivery": {
+    "type": "native-app",
+    "runtimeInstructionsPath": "runtime/运行说明.md"
+  },
+  "files": [
+    {
+      "path": "LICENSE",
+      "role": "license",
+      "sha256": "e863481f423546e8984c07ffa00609d338b7f7533f60e89392301028163aa89e",
+      "size": 1067
+    },
+    {
+      "path": "application.json",
+      "role": "definition",
+      "sha256": "34f3ef80d33f3182f461f93e646d3fdb13865fb07214b505b55a64514c1284e1",
+      "size": 433
+    },
+    {
+      "path": "data-contract.json",
+      "role": "data-contract",
+      "sha256": "e195b2fd60a2798141c4c75ab57e0927d115bfba7888b0881b69dffa9dcb26cc",
+      "size": 266
+    },
+    {
+      "path": "runtime/server.mjs",
+      "role": "runtime",
+      "sha256": "3ccea1e06f3371e98cc8277d2b82d70cdcca7dd43ff8c40ab43a3c14ba0ee456",
+      "size": 2633
+    },
+    {
+      "path": "runtime/运行说明.md",
+      "role": "documentation",
+      "sha256": "743e8eaa0ae53e605563eca8620ba09eddf4adaf4ad9dd3c5593d080bedfb8c1",
+      "size": 3081
+    },
+    {
+      "path": "ui/app.js",
+      "role": "ui",
+      "sha256": "5ece9785b32efa8d30531354a8775b93ee1c4b6a470ffc37e86625d9c01b2b35",
+      "size": 9111
+    },
+    {
+      "path": "ui/bridge.js",
+      "role": "ui",
+      "sha256": "b227966a71d10002fadc2fba8d278ef85b7ab6aa4bb86afca4599734809bcb63",
+      "size": 2984
+    },
+    {
+      "path": "ui/index.html",
+      "role": "ui",
+      "sha256": "d2796efba92f7a8bf4da5d467311ba191d7f6af1eee1872b0f0707031f876973",
+      "size": 2624
+    },
+    {
+      "path": "说明.md",
+      "role": "documentation",
+      "sha256": "2e2393b602ba22fd16d070d1610fe9b9a48f1c2a0134f8dfe13df1220dac5419",
+      "size": 2506
+    }
+  ],
+  "source": {
+    "kind": "worktree",
+    "sha256": "f2b9a34e87370518a1f9c267c2fce453f1c599ea3c006e8b53b762bb5a354547"
+  },
+  "supportedPlatforms": [
+    "darwin",
+    "win32",
+    "linux"
+  ],
+  "minimumClientVersion": "10.0.180",
+  "requiredCapabilities": [
+    "app-authoring-v1",
+    "release",
+    "runtime-binding",
+    "bridge",
+    "data",
+    "view-state"
+  ],
+  "dataContract": {
+    "schemaVersion": 1,
+    "formatVersion": "notes-v1",
+    "readableVersions": [
+      "notes-v1"
+    ],
+    "writableVersions": [
+      "notes-v1"
+    ],
+    "files": [
+      {
+        "key": "notes",
+        "path": "notes.json",
+        "maxBytes": 131072,
+        "contentType": "application/json"
+      }
+    ],
+    "uninstallRetention": "retain"
+  },
+  "bridgeCapabilities": [
+    "connect",
+    "capabilities",
+    "readData",
+    "saveData",
+    "lookupDataMutation",
+    "publishSelection",
+    "requestWork",
+    "lookupRequest",
+    "readWork",
+    "controlWork",
+    "openResource",
+    "readResource",
+    "saveViewState"
+  ],
+  "viewStateContract": {
+    "schemaVersion": 1,
+    "keys": [
+      "selection"
+    ],
+    "maxBytes": 1024,
+    "formatVersion": "1"
+  },
+  "instructionsPath": "说明.md",
+  "releaseDigest": "c3ef146b7393d530db5ed44eb8de637551abe18b13e98f9c441cbbf36dd92c68"
+}

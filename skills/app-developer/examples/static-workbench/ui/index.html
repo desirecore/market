@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>个人笔记工作台</title>
+<style>
+  :root{font:16px/1.6 system-ui,sans-serif;color:#253447;background:#f1f5f9}body{max-width:920px;margin:40px auto;padding:0 24px}h1{font-size:30px;line-height:1.2}p{color:#526174}section{padding:24px;background:#fff;border:1px solid #dbe3ed;border-radius:16px;margin:20px 0}textarea{box-sizing:border-box;width:100%;min-height:140px;padding:14px;font:inherit;border:1px solid #becbdc;border-radius:8px}button,input{font:inherit;padding:9px 14px;border:1px solid #becbdc;border-radius:8px}button{background:#fff;cursor:pointer;margin:10px 6px 0 0}button.primary{background:#274c77;color:#fff;border-color:#274c77}button:disabled{opacity:.5;cursor:default}ul{padding:0;list-style:none}li{border-top:1px solid #e7edf4;padding:12px 0;white-space:pre-wrap}li button{margin-top:6px}output{display:block;margin-top:12px;color:#526174;white-space:pre-wrap;overflow-wrap:anywhere}label{display:block;margin-top:16px}input{max-width:100%;box-sizing:border-box;width:400px}@media(max-width:580px){body{margin:20px auto;padding:0 12px}section{padding:16px}}
+</style>
+<h1>个人笔记工作台</h1><p>先把想法记下来，再把选中的内容交给 Agent。业务数据与应用程序版本分别保存。</p>
+<section><label for="note">新笔记</label><textarea id="note" placeholder="输入一条笔记"></textarea>
+<button id="save" class="primary" disabled>保存笔记</button><button id="refresh" disabled>读取最新版本</button><button id="recover" disabled>查询原保存</button>
+<output id="status" aria-live="polite">正在连接应用宿主…</output><ul id="notes"></ul></section>
+<section><button id="remember" disabled>在这台设备记住所选位置</button><output id="view-status" aria-live="polite">只保存所选笔记的位置，不保存笔记正文。</output></section>
+<section><h2>与 Agent 协作</h2><p>教学示例使用实际 Agent ID；应用可以自行设计选择器。工作须由平台控件接纳。</p>
+<label for="agent">本次 Agent ID</label><input id="agent" placeholder="由当前授权的 Agent 配置提供">
+<button id="request" disabled>交给 Agent 讨论选中笔记</button><button id="work" disabled>查询原请求</button><button id="progress" disabled>读取原工作与成果</button><button id="cancel" disabled>停止原工作</button><output id="work-status" aria-live="polite">尚未准备请求。</output><ul id="results"></ul></section>
+<script type="module" src="./app.js"></script></html>
