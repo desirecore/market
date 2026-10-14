@@ -2,7 +2,7 @@
 
 Detailed recipes for accessing sites through the user-approved external Chromium browser, via Chrome DevTools Protocol (CDP) + Python Playwright.
 
-**Scope**: this manual is only for advanced external-browser interaction such as clicking, reading dynamic content, extraction, or form work. A simple open/navigation must use `BrowserExternalProbe` → `BrowserExternalOpen` and must not invoke shell, Python, pip, or Playwright.
+**Scope**: this manual is only for advanced external-browser interaction such as clicking, reading dynamic content, extraction, or form work. For simple open/navigation, probe first: a ready endpoint uses `BrowserExternalOpen`; a closed endpoint on a capable client uses approved `BrowserExternalLaunch`, which already opens the URL. Do not call Open again for that same URL after a successful launch. Neither route invokes shell, Python, pip, or Playwright.
 
 **Precondition for advanced interaction**: `BrowserExternalProbe` has returned `ready` for the exact browser the user requested, that browser is running with its DesireCore-isolated profile, and the user has manually logged in to the target sites. Never infer readiness from a failed/successful `curl`; see the main SKILL.md status table.
 
@@ -308,7 +308,7 @@ print(clean_md)
 
 Do not guess that the browser is merely closed. Call `BrowserExternalProbe` again:
 
-- `debug_port_closed` → show its current `launchCommand`, end the turn, and wait for the user;
+- `debug_port_closed` → on a client advertising BrowserExternalLaunch, request that approved native launch with the exact browser, port and URL, then re-probe; on older clients only, show the manual fallback and wait;
   `commandPolicy: display_only_never_execute` forbids passing it to Bash, PowerShell, a terminal,
   a script, or any other execution tool even when the user previously said “continue”
 - `browser_mismatch` → report the actual/requested products and ask the user to correct or approve the change

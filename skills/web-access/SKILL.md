@@ -55,16 +55,16 @@ metadata:
     zh-CN:
       name: 联网访问
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
-      description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。
+      description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。 外部浏览器需单独安装并满足其使用条款；提供启动工具的客户端可经审批启动，旧客户端需手动开启调试。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:242b8fdf048eca9a
+      source_hash: sha256:b6a8441c765b4f2d
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
-      description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request.
+      description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request. The external browser is separately installed and subject to its usage terms; clients with the launch tool support approved startup, while older clients require manual debugging startup.
       body: ./SKILL.md
-      source_hash: sha256:242b8fdf048eca9a
+      source_hash: sha256:b6a8441c765b4f2d
       translated_by: human
 market:
   icon: >-
@@ -111,7 +111,7 @@ A note of history on L3-external: v3.0 deleted it outright, on the grounds that 
 
 ### v3.0: governed built-in browser (default-hidden, exposed only after Skill activation)
 
-When you call `Skill('web-access')`, the following tools are injected into the current session. Most `Browser*` tools drive the built-in browser; `BrowserExternalProbe` and `BrowserExternalOpen` are the explicitly named external-browser exceptions:
+When you call `Skill('web-access')`, the following tools are injected into the current session. Most `Browser*` tools drive the built-in browser; `BrowserExternalProbe`, `BrowserExternalOpen`, and `BrowserExternalLaunch` are the explicitly named external-browser exceptions:
 
 | Tool | Purpose |
 |------|---------|

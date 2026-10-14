@@ -22,7 +22,7 @@ web-access 是一个**流程型技能（Procedural Skill）**，提供四层互�
 
 ### v3.0：内置受管浏览器（默认隐藏，激活后才暴露）
 
-调用 `Skill('web-access')` 加载本技能时会注入以下工具。大多数 `Browser*` 工具驱动内置浏览器；`BrowserExternalProbe` 与 `BrowserExternalOpen` 是名称明确的外部浏览器例外：
+调用 `Skill('web-access')` 加载本技能时会注入以下工具。大多数 `Browser*` 工具驱动内置浏览器；`BrowserExternalProbe`、`BrowserExternalOpen` 与 `BrowserExternalLaunch` 是名称明确的外部浏览器例外：
 
 | 工具 | 用途 |
 |------|------|

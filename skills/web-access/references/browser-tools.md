@@ -401,4 +401,3 @@ Agent → BrowserManage/Snapshot/Act/Devtools/Script → browser-use service（C
                                     ↑ 每步产出带 digest 的回执，写入审计事件流
 ```
 
-BrowserExternalLaunch: approved native startup of the exact installed external browser with an isolated profile, loopback CDP verification and URL opening. It reuses the idempotent host mutation; denied approval does not launch.
