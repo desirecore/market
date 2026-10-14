@@ -133,6 +133,8 @@ The raw pointer must pass the [exported agent client schema](schemas/market-agen
 
 An inline agent may include concise, text-only `USAGE.md` notes for prerequisites, authorization, and safety boundaries. Localized variants use `USAGE.<locale>.md`, resolved by requested locale → source locale → default locale → unsuffixed file. Usage is displayed separately from `fullDesc`, which also enters the agent's runtime context. Clients may truncate long notes; put extensive supporting material in skill `references/` instead. Relative images do not render in the usage section.
 
+System-managed listings such as [General Assistant](agents/general-assistant/agent.json) explicitly declare the `system/repository` policy pair in the primary file and use `listing-only` availability in the sidecar. The client ships the runtime content offline and merges updates from the Agent’s own repository; the market does not install or uninstall another copy.
+
 Examples: [inline DesireCore agent](agents/desirecore/agent.json) and [DingTalk Workspace pointer](agents/dingtalk-workspace/entry.json).
 
 ### Teams
