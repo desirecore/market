@@ -22,12 +22,13 @@ web-access 是一个**流程型技能（Procedural Skill）**，提供四层互�
 
 ### v3.0：内置受管浏览器（默认隐藏，激活后才暴露）
 
-调用 `Skill('web-access')` 加载本技能时会注入以下工具。大多数 `Browser*` 工具驱动内置浏览器；`BrowserExternalProbe` 与 `BrowserExternalOpen` 是名称明确的外部浏览器例外：
+调用 `Skill('web-access')` 加载本技能时会注入以下工具。大多数 `Browser*` 工具驱动内置浏览器；`BrowserExternalProbe`、`BrowserExternalOpen` 与 `BrowserExternalLaunch` 是名称明确的外部浏览器例外：
 
 | 工具 | 用途 |
 |------|------|
 | BrowserManage | 建/销隔离 BrowserSpace、启动会话、管理标签页 |
 | BrowserExternalProbe | 只读检查 Chrome/Edge/Chromium 安装与 loopback CDP 就绪状态；绝不启动浏览器或读取 Profile；返回的手工命令只能展示 |
+| BrowserExternalLaunch | 经工具审批原生启动用户点名的已安装浏览器与独立 Profile，验证 CDP 后可见打开 URL；不下载浏览器或依赖 |
 | BrowserExternalOpen | 同一 session 的 probe 返回 `ready` 后，在精确外部浏览器中可见打开一个 HTTP(S) URL；不使用 shell、Python 或 Playwright |
 | BrowserSnapshot | `semantic` / `text` / `accessibility` / `visual` 四种快照——读页面的主通道 |
 | BrowserAct | 一次调用一个受管动作：导航、输入、取文、等待、元素操作、截图…… |
@@ -56,7 +57,7 @@ web-access 是一个**流程型技能（Procedural Skill）**，提供四层互�
 - **分层递进**：从轻量搜索到重度 JS 渲染到登录态访问，按需选择；用户点名时还可直接用他自己的浏览器
 - **Token 优化**：Jina Reader 默认减少 50-80% Token 消耗；`page.extract-text` 的 maxBytes/cursor 分页让登录态长文也可控
 - **登录态复用**：Host 授予 `browser.import.*` 时用 BrowserImport 把 Cookie 导入隔离 Space，不必重新登录
-- **用户无需安装依赖包**：内置浏览器不要求 Python/Playwright；外部路线使用客户端预置运行时，外部 Chromium 浏览器本身仍需单独安装、由用户手动启动调试，且仅在明确用户意图后使用
+- **用户无需安装依赖包**：内置浏览器不要求 Python/Playwright；外部路线使用客户端预置运行时，外部 Chromium 浏览器本身仍需单独安装、支持新启动工具的客户端可经工具审批自动启动调试，且仅在明确用户意图后使用
 
 ## L2：详细规范
 
@@ -87,32 +88,17 @@ If any fetch fails, explicitly tell the user which URL failed and which fallback
 |---|---|
 | `ready` | 简单打开/导航调用 `BrowserExternalOpen`，参数使用返回的精确浏览器 id 与端口；点击、读取、提取等高级交互才继续隔离 Playwright `connect_over_cdp`。如实说出检测到的外部浏览器；`any` 已有 ready 端口时，即使还安装了其他产品，也以该端口作为用户已准备的选择 |
 | `browser_not_installed` | 明确说未检测到用户点名的浏览器；若有 `alternatives`，询问是否改用其中之一，**绝不自动替换** |
-| `debug_port_closed` | 展示返回的 `launchCommand`，结束当前回合，等待用户手工启动并登录；绝不能用工具执行它 |
+| `debug_port_closed` | 客户端提供 BrowserExternalLaunch 时，按用户点名的精确浏览器、端口与 URL 经现有审批启动并打开网页，成功后重新 Probe；不要求用户输入命令。旧客户端没有该工具时才提供只展示的手动备用方式 |
 | `browser_choice_required` | 没有 ready 端口且检测到多个外部浏览器；只列 id/name 并询问用户选哪个，再 probe 精确选择 |
 | `browser_mismatch` | 说明端口上实际是什么、用户点名的是什么；让用户修正端口或明确同意改用实际浏览器 |
 | `invalid_cdp_endpoint` | 说明端口虽有服务但不是合法 Chrome DevTools 端点；不得连接 |
 | `host_unavailable` | 说明当前 Agent Service 无法探测用户桌面宿主；不得猜已安装浏览器，也不得静默改用内置浏览器 |
 
-已发布的 10.0.128 客户端可能在 `debug_port_closed` 以外的状态中也带上 `launchCommand`。
-**任何状态的 `launchCommand` 都绝不能执行。**只有 `debug_port_closed` 可以展示后结束回合；
-其他状态必须忽略该字段，严格按上表对应状态处理。
+`BrowserExternalProbe` 保持只读；受审批的副作用由 `BrowserExternalLaunch` 完成。只传用户点名的精确 browser、loopback port 与 HTTP(S) URL；宿主检测原生路径并使用客户端独立 Profile，验证 CDP 后才宣称 opened。拒绝审批时不启动；端口不匹配、未安装或启动失败须如实报告，不自动换浏览器。已 ready 的端点可验真后复用。
 
-`launchCommand` 使用 DesireCore 专属隔离 Profile；支持相邻字段的客户端必须把它们视为强制契约：
-`requiredAction: wait_for_user_to_launch_browser` 表示**必须结束当前回合**，
-`commandPolicy: display_only_never_execute` 表示**绝不能把命令传给 Bash、PowerShell、终端、脚本或任何其他执行工具**。
-即使用户此前说过「继续」「帮我打开」或其他看似授权继续的表述，这条规则也不改变。当前只能由用户手工运行该建议；
-未来若增加专用浏览器启动能力，必须另行定义并审批其契约。
-新客户端会直接投递这条只展示提示并在模型能调用其他工具前终止本轮；工具返回后不要再追加改写或继续执行。
+启动成功后，高级交互重新 Probe 并设置 `prepareAutomationRuntime: true`，取得预置解释器后填写/点击/提取。完成后保留外部窗口供用户查看。登录仍由用户在该独立 Profile 完成，不访问日常浏览器 Profile。
 
-用户启动后：
-
-1. 用户在该外部浏览器里手工登录所需站点。
-2. 外部浏览器窗口保持打开。
-3. 再调用一次 `BrowserExternalProbe`；只有 `ready` 才允许调用 `BrowserExternalOpen` 或尝试高级 CDP attach。
-
-不得用 `curl` 替代本探测：连接拒绝无法区分「未安装浏览器」与「已安装但没开调试」，普通 HTTP 服务也不能冒充 CDP。
-
-必须按上表的结构化状态提示用户并等待；不要因为内置浏览器也能做就擅自改用内置的。
+`launchCommand` 仍是仅展示的手动备用建议，不得交给 shell 执行。旧客户端返回 `requiredAction: wait_for_user_to_launch_browser` 时走手动备用；新客户端的 `request_approved_browser_launch` 可进入受审批启动工具。Probe 返回端口关闭本身不执行或授予启动。
 
 ⚠️ 用 CDP attach 时**绝不能调 `browser.close()`**，那会关掉用户自己的外部浏览器；只关你开的 page。
 完整配方见 [references/cdp-browser.md](references/cdp-browser.md)。
@@ -133,7 +119,7 @@ ready grant 有短时、一次性、精确 browser+port 绑定。宿主会在同
 
 仅在 probe 返回 `ready` 后需要高级交互时，创建或执行 attach 脚本前**必须先确认当前操作系统**：
 
-1. **使用客户端已准备的 `<DESIRECORE_HOME>/runtime/external-browser-playwright` 专属 venv**。推荐 Python、Playwright 和依赖从安装包离线准备，用户不需要手动安装；不得另建工作区 venv 或选用系统/全局 Python。Chrome/Edge/Chromium 本身仍需单独安装并由用户手动启动 CDP。
+1. **使用客户端已准备的 `<DESIRECORE_HOME>/runtime/external-browser-playwright` 专属 venv**。推荐 Python、Playwright 和依赖从安装包离线准备，用户不需要手动安装；不得另建工作区 venv 或选用系统/全局 Python。Chrome/Edge/Chromium 本身仍需单独安装；支持 BrowserExternalLaunch 的客户端可经工具审批原生启动 CDP。
 2. import 与 attach 只调用这个 venv 的解释器并加 `-B`；不得执行 pip 安装、切换索引/代理或 `playwright install`。运行时缺失属于客户端准备失败：报告原始错误，不要求用户安装依赖；依赖状态与浏览器 ready 状态分别报告。
 3. Unix-like 主机使用 Bash 路径和语法；Windows 的整个流程必须使用 `PowerShell` 工具和 venv 的 `Scripts\python.exe`，不得调用 `Bash` 工具。以 PowerShell here-string 和
    `[IO.File]::WriteAllText(...)` 创建临时 `.py`。**绝不能把 `cat <<EOF`、`/tmp/...` 或其他 POSIX heredoc 交给 PowerShell。**
@@ -153,7 +139,8 @@ User intent
   │          BrowserExternalProbe（精确点名产品），仅 `ready` 后：
   │            简单打开/导航 → BrowserExternalOpen（精确 detected browser + port + URL）
   │            高级搜索/读取/点击/提取 → 隔离 Playwright connect_over_cdp()
-  │          否则按状态提示并等待；绝不能改走 WebSearch、WebFetch、Jina 或内置浏览器
+  │          端口关闭 → 经审批 BrowserExternalLaunch 启动并打开，再为高级交互重新 Probe。
+  │          其它非 ready 状态按提示处理并等待；绝不能改走 WebSearch、WebFetch、Jina 或内置浏览器
   │
   ├─ 只说「本地浏览器」，没有说明内置还是外部
   │     └─→ 选择任何路线/工具前先澄清浏览器身份
@@ -232,7 +219,7 @@ DesireCore 能驱动**两个**浏览器，它们是平级的选项：
 | L1 | Public, static | `WebFetch` | Low |
 | L2 | JS-heavy, long articles, token savings | `Bash curl r.jina.ai` | **Lowest** (Markdown pre-cleaned) |
 | **L3** | **登录态导航、交互与取文 (PRIMARY)** | **内置受管浏览器（BrowserManage / BrowserAct / BrowserSnapshot / BrowserScript）** | Medium |
-| L3-external | **用户点名要用他自己的浏览器**，或 Agent 解释原因后用户明确同意改走此路径 | 简单打开/导航：`BrowserExternalProbe` → `BrowserExternalOpen`；高级交互：ready probe → 平台原生 shell（Windows 必须 PowerShell）+ DesireCore 隔离 venv + Playwright `connect_over_cdp`（见 references/cdp-browser.md） | Medium |
+| L3-external | **用户点名要用他自己的浏览器**，或 Agent 解释原因后用户明确同意改走此路径 | 简单打开/导航：Probe 后 ready 用 Open，端口关闭则经审批用 BrowserExternalLaunch 打开；高级交互：启动后 ready probe → 平台原生 shell（Windows 必须 PowerShell）+ DesireCore 隔离 venv + Playwright `connect_over_cdp`（见 references/cdp-browser.md） | Medium |
 
 **Default priority**: L1 for simple public pages → L2 for heavy → **L3 for login-gated（含正文与站内接口取数）**。
 

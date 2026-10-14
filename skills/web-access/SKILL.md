@@ -15,8 +15,8 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: MIT
-version: 3.5.0
-compatibility: Requires a DesireCore build with the bundled external-browser Playwright runtime; Chrome/Edge/Chromium remains separately installed and manually started with CDP.
+version: 3.6.0
+compatibility: Requires a DesireCore build with the bundled external-browser Playwright runtime; Chrome/Edge/Chromium remains separately installed. Builds advertising BrowserExternalLaunch can start it through tool approval in an isolated profile; older builds require manual CDP startup.
 type: procedural
 risk_level: low
 status: enabled
@@ -34,6 +34,7 @@ provides:
     - BrowserManage
     - BrowserExternalProbe
     - BrowserExternalOpen
+    - BrowserExternalLaunch
     - BrowserSnapshot
     - BrowserAct
     - BrowserScript
@@ -54,16 +55,16 @@ metadata:
     zh-CN:
       name: 联网访问
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
-      description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。
+      description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。 外部浏览器需单独安装并满足其使用条款；提供启动工具的客户端可经审批启动，旧客户端需手动开启调试。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:f623f9ef0bebcd16
+      source_hash: sha256:a81f7a90824259f0
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
-      description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request.
+      description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request. The external browser is separately installed and subject to its usage terms; clients with the launch tool support approved startup, while older clients require manual debugging startup.
       body: ./SKILL.md
-      source_hash: sha256:f623f9ef0bebcd16
+      source_hash: sha256:a81f7a90824259f0
       translated_by: human
 market:
   icon: >-
@@ -110,12 +111,13 @@ A note of history on L3-external: v3.0 deleted it outright, on the grounds that 
 
 ### v3.0: governed built-in browser (default-hidden, exposed only after Skill activation)
 
-When you call `Skill('web-access')`, the following tools are injected into the current session. Most `Browser*` tools drive the built-in browser; `BrowserExternalProbe` and `BrowserExternalOpen` are the explicitly named external-browser exceptions:
+When you call `Skill('web-access')`, the following tools are injected into the current session. Most `Browser*` tools drive the built-in browser; `BrowserExternalProbe`, `BrowserExternalOpen`, and `BrowserExternalLaunch` are the explicitly named external-browser exceptions:
 
 | Tool | Purpose |
 |------|---------|
 | BrowserManage | Create/destroy isolated BrowserSpace, start sessions, manage tabs |
 | BrowserExternalProbe | Read-only check for installed Chrome/Edge/Chromium and loopback CDP readiness; never launches or reads a profile; any returned manual command is display-only |
+| BrowserExternalLaunch | Through tool approval, natively start the exact installed browser in an isolated profile, verify CDP and visibly open the requested URL; never download the browser or dependencies |
 | BrowserExternalOpen | After `BrowserExternalProbe` returns `ready` in the same runtime session, visibly open one HTTP(S) URL in the exact external browser; no shell, Python, or Playwright |
 | BrowserSnapshot | `semantic` / `text` / `accessibility` / `visual` snapshots — the primary way to read a page |
 | BrowserAct | One governed action per call: navigate, input, extract text, wait, element ops, screenshot, … |
@@ -175,30 +177,26 @@ Handle the structured result exactly:
 |---|---|
 | `ready` | For a simple open/navigation, call `BrowserExternalOpen` with the returned exact browser id and port. For advanced click/read/extract interaction, continue with isolated Playwright `connect_over_cdp`. Name the detected external browser honestly. For `any`, the already-ready endpoint is the prepared choice even if other products are installed |
 | `browser_not_installed` | Say the requested browser was not detected. If `alternatives` is non-empty, ask whether the user wants one of them; **never switch automatically** |
-| `debug_port_closed` | Show the returned `launchCommand`, end the turn, and wait for the user to launch it and log in manually; never execute it with a tool |
+| `debug_port_closed` | On a client advertising `BrowserExternalLaunch`, call it with the exact chosen browser, port and URL through the existing approval flow; probe again after success. Do not ask the user to type a command. On older clients without this tool, offer the manual display-only fallback |
 | `browser_choice_required` | No endpoint is ready and multiple external browsers are installed. List id/name only and ask which one the user wants; probe that exact choice next |
 | `browser_mismatch` | Say which browser is actually on the port and which one was requested; ask the user to correct the port or explicitly approve the other browser |
 | `invalid_cdp_endpoint` | Explain that something is listening on the port but it is not a valid Chrome DevTools endpoint; do not attach |
 | `host_unavailable` | Explain that this Agent Service cannot inspect the user's desktop host; do not assume a browser is installed or silently use the built-in browser |
 
-Compatibility rule for released 10.0.128 clients: they may include `launchCommand` in statuses other
-than `debug_port_closed`. **Never execute `launchCommand` from any status.** Only show it and end the
-turn for `debug_port_closed`; for every other status, ignore that field and follow the status row above.
+`BrowserExternalProbe` stays read-only. `BrowserExternalLaunch` is the approved effectful entry:
+use the user's exact browser id, the selected loopback port and requested HTTP(S) URL. It launches
+only the detected native executable with a client-owned isolated profile, waits for verified CDP,
+and returns `opened` with `started`, process id and profile when a new process was started.
+A rejected approval must not start a process. Port mismatch, missing browser or startup failure must
+be reported faithfully; never switch products automatically. Existing ready endpoints may be reused.
+After launch, probe again with `prepareAutomationRuntime: true` before advanced interaction and use
+its returned prepared interpreter. Keep the user's browser window open after completing the task.
 
-`launchCommand` uses an isolated DesireCore profile. On clients that return the adjacent fields, they are normative:
-`requiredAction: wait_for_user_to_launch_browser` means **end the current turn**, and
-`commandPolicy: display_only_never_execute` means **never pass the command to Bash, PowerShell,
-a terminal, a script, or any other execution tool**. This remains true when the user's earlier wording
-said “continue”, “open it for me”, or otherwise sounded like permission to proceed. Only the user may
-manually run this suggestion; a future dedicated browser-launch capability would require its own contract.
-New clients deliver this display-only notice directly and terminate the turn before the model can call
-another tool; do not add a second paraphrase or continue execution after the tool result.
-
-After the user launches it:
-
-1. The user logs in manually to the sites they need.
-2. That external browser window stays open.
-3. Call `BrowserExternalProbe` again. Only `ready` authorizes `BrowserExternalOpen` or an advanced CDP attach attempt.
+`launchCommand` remains a display-only manual fallback; never execute it through shell tools.
+Older clients reporting `requiredAction: wait_for_user_to_launch_browser` require a manual fallback.
+Clients providing `requiredAction: request_approved_browser_launch` allow the governed launch tool;
+a closed-port probe does not itself authorize or perform a launch. Site sign-in remains a user action
+when required; approval to launch does not grant access to a daily browser profile.
 
 Do not replace this probe with `curl`: a refused connection cannot distinguish “browser not installed”
 from “browser installed but debugging disabled”, and a random HTTP service must not be accepted as CDP.
@@ -254,7 +252,8 @@ User intent
   │          BrowserExternalProbe(exact requested browser), then only on `ready`:
   │            simple open/navigation → BrowserExternalOpen(exact detected browser + port + URL)
   │            advanced search/read/click/extract → isolated Playwright connect_over_cdp()
-  │          Otherwise follow the status guidance and wait; never route to WebSearch/WebFetch/Jina/built-in browser
+  │          Closed port → approved BrowserExternalLaunch opens the URL, then re-probe for advanced interaction.
+  │          For other non-ready statuses, follow the guidance and wait; never route to WebSearch/WebFetch/Jina/built-in browser
   │
   ├─ "Local browser" without saying built-in or external
   │     └─→ Ask which browser identity the user means before selecting any route or tool
@@ -337,7 +336,7 @@ When what they asked for and what you're giving differ, the wording has to make 
 | L1 | Public, static | `WebFetch` | Low |
 | L2 | JS-heavy, long articles, token savings | `Bash curl r.jina.ai` | **Lowest** (Markdown pre-cleaned) |
 | **L3** | **Login-gated navigation, interaction & extraction (PRIMARY)** | **built-in browser (BrowserManage / BrowserAct / BrowserSnapshot / BrowserScript)** | Medium |
-| L3-external | **User named their own browser**, or explicitly accepted this route after you explained why it is needed | Simple open/navigation: `BrowserExternalProbe` → `BrowserExternalOpen`; advanced interaction: ready probe → platform-native shell (`PowerShell` on Windows) + DesireCore isolated venv + Playwright `connect_over_cdp` (see references/cdp-browser.md) | Medium |
+| L3-external | **User named their own browser**, or explicitly accepted this route after you explained why it is needed | Simple open/navigation: Probe → Open when ready, or approved BrowserExternalLaunch when closed; advanced interaction: approved launch if closed → ready probe → platform-native shell (`PowerShell` on Windows) + DesireCore isolated venv + Playwright `connect_over_cdp` (see references/cdp-browser.md) | Medium |
 
 **Default priority**: L1 for simple public pages → L2 for heavy → **L3 for login-gated (body text and in-site API data included)**.
 
