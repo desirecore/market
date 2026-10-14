@@ -494,3 +494,5 @@ Read [references/browser-tools.md](references/browser-tools.md) for the full bui
 6. 告知用户：「已通过内置浏览器抓取，原链接：[xhs](url)」
 7. BrowserManage(close_session)
 ```
+
+高级外部浏览器交互前，调用 `BrowserExternalProbe` 并设置 `prepareAutomationRuntime: true`，要求浏览器 `status: ready` 与 `automationRuntime.status: ready` 同时成立，使用返回的 `automationRuntime.pythonExecutable`。简单打开或导航使用默认探测，不等待 Python；运行时不可用时如实报告客户端准备错误。

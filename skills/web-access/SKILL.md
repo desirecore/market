@@ -56,14 +56,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:f4d5ea5da0d7b904
+      source_hash: sha256:f623f9ef0bebcd16
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request.
       body: ./SKILL.md
-      source_hash: sha256:f4d5ea5da0d7b904
+      source_hash: sha256:f623f9ef0bebcd16
       translated_by: human
 market:
   icon: >-
@@ -222,7 +222,9 @@ invalid, or mismatched endpoint, call the probe again and follow its status guid
 
 Only for advanced interaction after a `ready` probe, identify the current OS **before** creating or running an attach script:
 
-1. **Use the application-prepared venv at `<DESIRECORE_HOME>/runtime/external-browser-playwright`.**
+1. **For advanced interaction, call `BrowserExternalProbe` with `prepareAutomationRuntime: true` and require both browser `status: ready` and `automationRuntime.status: ready`. Use the returned `automationRuntime.pythonExecutable`.** Simple opening/navigation uses the default probe and does not wait for Python.
+
+   **Use the application-prepared venv at `<DESIRECORE_HOME>/runtime/external-browser-playwright`.**
    DesireCore prepares its Python, Playwright and dependencies from the installation package, including offline.
    Do not create a workspace venv or select system/global Python.
 2. Use only this venv interpreter with `-B` for import and attach. Do not run pip installation,

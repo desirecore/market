@@ -419,3 +419,5 @@ ask before changing the execution route.
 - **You need thousands of pages** → CDP is not built for scale; look into proper scrapers
 
 CDP is specifically the "right tool" for: **small number of pages + login required + human-like behavior needed**.
+
+Before advanced interaction, probe with `prepareAutomationRuntime: true`; require `automationRuntime.status: ready` and use its returned `pythonExecutable`. Ordinary external URL opening does not require this runtime.
