@@ -56,7 +56,7 @@ web-access 是一个**流程型技能（Procedural Skill）**，提供四层互�
 - **分层递进**：从轻量搜索到重度 JS 渲染到登录态访问，按需选择；用户点名时还可直接用他自己的浏览器
 - **Token 优化**：Jina Reader 默认减少 50-80% Token 消耗；`page.extract-text` 的 maxBytes/cursor 分页让登录态长文也可控
 - **登录态复用**：Host 授予 `browser.import.*` 时用 BrowserImport 把 Cookie 导入隔离 Space，不必重新登录
-- **默认零外部依赖**：内置浏览器不要求 Python/Playwright，也不要求用户手工启动调试外部 Chromium 浏览器（L3-external 需要，且仅在明确用户意图后才用）
+- **用户无需安装依赖包**：内置浏览器不要求 Python/Playwright；外部路线使用客户端预置运行时，外部 Chromium 浏览器本身仍需单独安装、由用户手动启动调试，且仅在明确用户意图后使用
 
 ## L2：详细规范
 

@@ -56,14 +56,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:0d5704c708c9a68e
+      source_hash: sha256:f4d5ea5da0d7b904
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request.
       body: ./SKILL.md
-      source_hash: sha256:0d5704c708c9a68e
+      source_hash: sha256:f4d5ea5da0d7b904
       translated_by: human
 market:
   icon: >-
@@ -144,7 +144,7 @@ When you call `Skill('web-access')`, the following tools are injected into the c
 - **Layered progression**: from lightweight search to heavy JS rendering to logged-in access — pick on demand; plus the user's own browser whenever they name it
 - **Token optimization**: Jina Reader cuts token usage by 50–80% by default; `page.extract-text`'s maxBytes/cursor paging keeps even long logged-in articles under control
 - **Logged-in session reuse**: where the Host has granted `browser.import.*`, BrowserImport brings the user's Cookies into an isolated Space — no re-login required
-- **Zero external dependencies by default**: the built-in browser needs no Python/Playwright install and no manually launched external Chromium browser (L3-external does, and only after explicit user intent)
+- **Zero user package installation**: the built-in browser needs no Python/Playwright; the external route uses the client-bundled runtime and a separately installed, user-started Chromium browser, only after explicit user intent
 
 ## L2: Detailed Specification
 
