@@ -139,7 +139,8 @@ User intent
   │          BrowserExternalProbe（精确点名产品），仅 `ready` 后：
   │            简单打开/导航 → BrowserExternalOpen（精确 detected browser + port + URL）
   │            高级搜索/读取/点击/提取 → 隔离 Playwright connect_over_cdp()
-  │          否则按状态提示并等待；绝不能改走 WebSearch、WebFetch、Jina 或内置浏览器
+  │          端口关闭 → 经审批 BrowserExternalLaunch 启动并打开，再为高级交互重新 Probe。
+  │          其它非 ready 状态按提示处理并等待；绝不能改走 WebSearch、WebFetch、Jina 或内置浏览器
   │
   ├─ 只说「本地浏览器」，没有说明内置还是外部
   │     └─→ 选择任何路线/工具前先澄清浏览器身份
@@ -218,7 +219,7 @@ DesireCore 能驱动**两个**浏览器，它们是平级的选项：
 | L1 | Public, static | `WebFetch` | Low |
 | L2 | JS-heavy, long articles, token savings | `Bash curl r.jina.ai` | **Lowest** (Markdown pre-cleaned) |
 | **L3** | **登录态导航、交互与取文 (PRIMARY)** | **内置受管浏览器（BrowserManage / BrowserAct / BrowserSnapshot / BrowserScript）** | Medium |
-| L3-external | **用户点名要用他自己的浏览器**，或 Agent 解释原因后用户明确同意改走此路径 | 简单打开/导航：`BrowserExternalProbe` → `BrowserExternalOpen`；高级交互：ready probe → 平台原生 shell（Windows 必须 PowerShell）+ DesireCore 隔离 venv + Playwright `connect_over_cdp`（见 references/cdp-browser.md） | Medium |
+| L3-external | **用户点名要用他自己的浏览器**，或 Agent 解释原因后用户明确同意改走此路径 | 简单打开/导航：Probe 后 ready 用 Open，端口关闭则经审批用 BrowserExternalLaunch 打开；高级交互：启动后 ready probe → 平台原生 shell（Windows 必须 PowerShell）+ DesireCore 隔离 venv + Playwright `connect_over_cdp`（见 references/cdp-browser.md） | Medium |
 
 **Default priority**: L1 for simple public pages → L2 for heavy → **L3 for login-gated（含正文与站内接口取数）**。
 

@@ -57,14 +57,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。 外部浏览器需单独安装并满足其使用条款；提供启动工具的客户端可经审批启动，旧客户端需手动开启调试。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:b6a8441c765b4f2d
+      source_hash: sha256:a81f7a90824259f0
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request. The external browser is separately installed and subject to its usage terms; clients with the launch tool support approved startup, while older clients require manual debugging startup.
       body: ./SKILL.md
-      source_hash: sha256:b6a8441c765b4f2d
+      source_hash: sha256:a81f7a90824259f0
       translated_by: human
 market:
   icon: >-
@@ -252,7 +252,8 @@ User intent
   │          BrowserExternalProbe(exact requested browser), then only on `ready`:
   │            simple open/navigation → BrowserExternalOpen(exact detected browser + port + URL)
   │            advanced search/read/click/extract → isolated Playwright connect_over_cdp()
-  │          Otherwise follow the status guidance and wait; never route to WebSearch/WebFetch/Jina/built-in browser
+  │          Closed port → approved BrowserExternalLaunch opens the URL, then re-probe for advanced interaction.
+  │          For other non-ready statuses, follow the guidance and wait; never route to WebSearch/WebFetch/Jina/built-in browser
   │
   ├─ "Local browser" without saying built-in or external
   │     └─→ Ask which browser identity the user means before selecting any route or tool
@@ -335,7 +336,7 @@ When what they asked for and what you're giving differ, the wording has to make 
 | L1 | Public, static | `WebFetch` | Low |
 | L2 | JS-heavy, long articles, token savings | `Bash curl r.jina.ai` | **Lowest** (Markdown pre-cleaned) |
 | **L3** | **Login-gated navigation, interaction & extraction (PRIMARY)** | **built-in browser (BrowserManage / BrowserAct / BrowserSnapshot / BrowserScript)** | Medium |
-| L3-external | **User named their own browser**, or explicitly accepted this route after you explained why it is needed | Simple open/navigation: `BrowserExternalProbe` → `BrowserExternalOpen`; advanced interaction: approved launch if closed → ready probe → platform-native shell (`PowerShell` on Windows) + DesireCore isolated venv + Playwright `connect_over_cdp` (see references/cdp-browser.md) | Medium |
+| L3-external | **User named their own browser**, or explicitly accepted this route after you explained why it is needed | Simple open/navigation: Probe → Open when ready, or approved BrowserExternalLaunch when closed; advanced interaction: approved launch if closed → ready probe → platform-native shell (`PowerShell` on Windows) + DesireCore isolated venv + Playwright `connect_over_cdp` (see references/cdp-browser.md) | Medium |
 
 **Default priority**: L1 for simple public pages → L2 for heavy → **L3 for login-gated (body text and in-site API data included)**.
 
