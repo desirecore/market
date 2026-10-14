@@ -328,7 +328,7 @@ The approved external Chromium browser is running but no windows are open. Ask t
 DesireCore prepares `<DESIRECORE_HOME>/runtime/external-browser-playwright` from the installation
 package using its bundled Python and complete local wheel profile. No user package installation,
 network index, or browser download is needed. Chrome/Edge/Chromium remains separately installed,
-subject to its own terms, and manually started with CDP. Run the import-only check with the prepared
+subject to its own terms, and started with CDP through approved BrowserExternalLaunch when available (manual fallback on older builds). Run the import-only check with the prepared
 interpreter. Missing files or import errors are client preparation failures: report the original
 error and do not install packages, create another venv, or attach until the runtime is available.
 
@@ -421,3 +421,5 @@ ask before changing the execution route.
 CDP is specifically the "right tool" for: **small number of pages + login required + human-like behavior needed**.
 
 Before advanced interaction, probe with `prepareAutomationRuntime: true`; require `automationRuntime.status: ready` and use its returned `pythonExecutable`. Ordinary external URL opening does not require this runtime.
+
+For a closed debugging port on a client advertising BrowserExternalLaunch, use that governed tool with the exact browser, port and requested URL through approval. Do not execute the display-only launchCommand through PowerShell/Bash. After launch, obtain browser and automation runtime readiness from Probe before attaching. The browser product remains separately installed; the tool does not download it.

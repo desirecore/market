@@ -1,7 +1,7 @@
 # 内置受管浏览器工具速查（L3）
 
 > **范围**：本文只描述 DesireCore **内置**受管浏览器，所以 v10.0.98+ 是本层基础能力的最低版本，
-> 不是整个 web-access v3.5.0 的兼容门槛。外部 Chrome/Edge/Chromium 高级操作需要带预置
+> 不是整个 web-access v3.6.0 的兼容门槛。外部 Chrome/Edge/Chromium 高级操作需要带预置
 > external-browser 运行时的客户端；简单打开走 `BrowserExternalProbe → BrowserExternalOpen`，高级 CDP/Playwright
 > 交互见 [cdp-browser.md](cdp-browser.md)。不要把本文的 BrowserManage/Act 路线用于冒充外部浏览器。
 >
@@ -400,3 +400,5 @@ Agent → BrowserManage/Snapshot/Act/Devtools/Script → browser-use service（C
       → BrowserHost（electron-embedded 或 standalone-managed）→ Chromium
                                     ↑ 每步产出带 digest 的回执，写入审计事件流
 ```
+
+BrowserExternalLaunch: approved native startup of the exact installed external browser with an isolated profile, loopback CDP verification and URL opening. It reuses the idempotent host mutation; denied approval does not launch.
