@@ -15,7 +15,8 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: MIT
-version: 3.4.5
+version: 3.5.0
+compatibility: Requires a DesireCore build with the bundled external-browser Playwright runtime; Chrome/Edge/Chromium remains separately installed and manually started with CDP.
 type: procedural
 risk_level: low
 status: enabled
@@ -43,7 +44,7 @@ provides:
     - LocalBookmarks
 metadata:
   author: desirecore
-  updated_at: '2026-10-03'
+  updated_at: '2026-10-14'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -55,14 +56,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:5a2d3f06ce8eca10
+      source_hash: sha256:fa8ed8888e9669e3
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request.
       body: ./SKILL.md
-      source_hash: sha256:5a2d3f06ce8eca10
+      source_hash: sha256:fa8ed8888e9669e3
       translated_by: human
 market:
   icon: >-
@@ -221,10 +222,12 @@ invalid, or mismatched endpoint, call the probe again and follow its status guid
 
 Only for advanced interaction after a `ready` probe, identify the current OS **before** creating or running an attach script:
 
-1. **Create or select the DesireCore-owned isolated venv first.** Do not probe a global interpreter
-   for Playwright. A system/bootstrap Python may only run `-m venv` when the venv does not exist.
-2. From that point onward, use only the venv interpreter for import, pinned install, re-import, and
-   attach. Never use bare `python`, bare `pip`, `pip --user`, a global install, or `playwright install`.
+1. **Use the application-prepared venv at `<DESIRECORE_HOME>/runtime/external-browser-playwright`.**
+   DesireCore prepares its Python, Playwright and dependencies from the installation package, including offline.
+   Do not create a workspace venv or select system/global Python.
+2. Use only this venv interpreter with `-B` for import and attach. Do not run pip installation,
+   change package indexes/proxies, or run `playwright install`. Missing runtime files indicate a client
+   preparation failure: report the exact error rather than asking the user to install dependencies.
    A missing dependency is separate from browser readiness: report it explicitly and do not attach yet.
 3. On Unix-like hosts, use Bash paths and shell syntax. On Windows, every command in this flow must use
    the `PowerShell` tool and the venv's `Scripts\python.exe`; do not call the `Bash` tool. Use a
@@ -234,7 +237,7 @@ Only for advanced interaction after a `ready` probe, identify the current OS **b
    `Scripts\python.exe` on Windows), remove only the temporary script you created, and leave the
    external browser running.
 
-If the platform cannot be determined or no isolated runtime can be created safely, stop and report
+If the platform cannot be determined or the prepared runtime is unavailable, stop and report
 the missing prerequisite. Do not improvise a cross-shell command and do not fall back to BrowserManage.
 
 ---

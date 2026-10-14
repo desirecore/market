@@ -133,13 +133,13 @@ ready grant 有短时、一次性、精确 browser+port 绑定。宿主会在同
 
 仅在 probe 返回 `ready` 后需要高级交互时，创建或执行 attach 脚本前**必须先确认当前操作系统**：
 
-1. **必须先创建或选择 DesireCore 拥有的隔离 venv**，不得先用全局解释器探测 Playwright。venv 不存在时，系统/引导 Python 只能用于执行 `-m venv`。
-2. 此后 import、固定版本安装、重新 import 与 attach 全部只能调用 venv 解释器；严禁裸 `python`、裸 `pip`、`pip --user`、全局安装或 `playwright install`。依赖缺失与浏览器 ready 是两件事：明确报告缺失，暂不 attach。
+1. **使用客户端已准备的 `<DESIRECORE_HOME>/runtime/external-browser-playwright` 专属 venv**。推荐 Python、Playwright 和依赖从安装包离线准备，用户不需要手动安装；不得另建工作区 venv 或选用系统/全局 Python。Chrome/Edge/Chromium 本身仍需单独安装并由用户手动启动 CDP。
+2. import 与 attach 只调用这个 venv 的解释器并加 `-B`；不得执行 pip 安装、切换索引/代理或 `playwright install`。运行时缺失属于客户端准备失败：报告原始错误，不要求用户安装依赖；依赖状态与浏览器 ready 状态分别报告。
 3. Unix-like 主机使用 Bash 路径和语法；Windows 的整个流程必须使用 `PowerShell` 工具和 venv 的 `Scripts\python.exe`，不得调用 `Bash` 工具。以 PowerShell here-string 和
    `[IO.File]::WriteAllText(...)` 创建临时 `.py`。**绝不能把 `cat <<EOF`、`/tmp/...` 或其他 POSIX heredoc 交给 PowerShell。**
 4. 调用 venv 对应平台的 Python（Unix 为 `bin/python`，Windows 为 `Scripts\python.exe`），只删除本轮创建的临时脚本，外部浏览器保持运行。
 
-无法判断平台或无法安全创建隔离运行时时，停止并报告缺失前置；不得即兴混用 shell，也不得回落 BrowserManage。
+无法判断平台或客户端预置运行时不可用时，停止并报告缺失前置；不得即兴混用 shell，也不得回落 BrowserManage。
 
 ---
 

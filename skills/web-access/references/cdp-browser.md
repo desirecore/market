@@ -325,19 +325,18 @@ The approved external Chromium browser is running but no windows are open. Ask t
 
 ### Playwright not installed
 
-First ensure the isolated venv exists, then run the import-only check with **that venv's interpreter**.
-Do not generate or execute the attach script until this succeeds.
+DesireCore prepares `<DESIRECORE_HOME>/runtime/external-browser-playwright` from the installation
+package using its bundled Python and complete local wheel profile. No user package installation,
+network index, or browser download is needed. Chrome/Edge/Chromium remains separately installed,
+subject to its own terms, and manually started with CDP. Run the import-only check with the prepared
+interpreter. Missing files or import errors are client preparation failures: report the original
+error and do not install packages, create another venv, or attach until the runtime is available.
 
 #### Unix-like hosts
 
 ```bash
-test -x "<DESIRECORE_HOME>/runtime/external-browser-playwright/bin/python" || \
-  python3 -m venv "<DESIRECORE_HOME>/runtime/external-browser-playwright"
-if ! "<DESIRECORE_HOME>/runtime/external-browser-playwright/bin/python" -c 'import playwright'; then
-  "<DESIRECORE_HOME>/runtime/external-browser-playwright/bin/python" -m pip install 'playwright==1.55.0' beautifulsoup4
-fi
-"<DESIRECORE_HOME>/runtime/external-browser-playwright/bin/python" -c 'import playwright' || {
-  echo 'Playwright is still unavailable in the isolated venv' >&2
+"<DESIRECORE_HOME>/runtime/external-browser-playwright/bin/python" -B -c 'import playwright.sync_api, bs4' || {
+  echo 'The bundled external-browser runtime is unavailable' >&2
   exit 1
 }
 # No need for `playwright install` — we're attaching to an existing browser, not downloading one
@@ -346,26 +345,19 @@ fi
 #### Windows hosts
 
 Use the `PowerShell` tool. Resolve `<DESIRECORE_HOME>` from the current DesireCore instance; do not
-guess another instance's directory. The only permitted system/bootstrap `python.exe` use is running
-`-m venv` when the isolated venv is missing. Never use the `Bash` tool, bare `python`, bare `pip`,
-`pip --user`, or a global interpreter for any Playwright import, install, re-check, or attach step;
-all of those steps must use the venv's `Scripts\python.exe`.
+guess another instance's directory. Never use the `Bash` tool, bare `python`, bare `pip`,
+`pip --user`, or a global interpreter. Import and attach use the prepared venv's `Scripts\python.exe`
+with `-B`. Keep stdout UTF-8 when returning text, or use JSON ASCII escapes to avoid code-page confusion.
 
 ```powershell
 $venv = Join-Path '<DESIRECORE_HOME>' 'runtime\external-browser-playwright'
 $python = Join-Path $venv 'Scripts\python.exe'
 if (-not (Test-Path -LiteralPath $python)) {
-    $bootstrapPython = (Get-Command python.exe -ErrorAction Stop).Source
-    & $bootstrapPython -m venv $venv
-    if ($LASTEXITCODE -ne 0) { throw 'Failed to create the isolated Playwright venv.' }
+    throw 'The client-prepared external-browser runtime is missing.'
 }
-& $python -c "import playwright"
+& $python -B -c "import playwright.sync_api, bs4"
 if ($LASTEXITCODE -ne 0) {
-    # Explain the missing dependency and obtain any required install approval first.
-    & $python -m pip install 'playwright==1.55.0' beautifulsoup4
-    if ($LASTEXITCODE -ne 0) { throw 'Failed to install Playwright in the isolated venv.' }
-    & $python -c "import playwright"
-    if ($LASTEXITCODE -ne 0) { throw 'Playwright is still unavailable in the isolated venv.' }
+    throw 'The bundled external-browser runtime failed its import check.'
 }
 # Do NOT run `playwright install`; CDP attach uses the already-running external browser.
 ```
@@ -380,7 +372,7 @@ $script = @'
 '@
 try {
     [IO.File]::WriteAllText($scriptPath, $script, (New-Object Text.UTF8Encoding($false)))
-    & $python $scriptPath
+    & $python -B $scriptPath
     if ($LASTEXITCODE -ne 0) { throw "Playwright attach failed with exit code $LASTEXITCODE." }
 } finally {
     Remove-Item -LiteralPath $scriptPath -ErrorAction SilentlyContinue
