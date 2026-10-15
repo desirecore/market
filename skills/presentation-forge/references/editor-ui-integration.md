@@ -29,7 +29,7 @@ canvas-first 不是示意界面。画布和最终 PPTX 必须使用同一份完�
 
 ```bash
 python scripts/editor_bridge.py export --session <session>
-cp assets/editor/render_editor_canvas.py <session>/analysis/render_editor_canvas.py
+cp scripts/render_editor_canvas.py <session>/analysis/render_editor_canvas.py
 python scripts/render_editor_canvas.py \
   --manifest <session>/reports/editor-manifest.json \
   --out <session>/reports/editor-canvas.html

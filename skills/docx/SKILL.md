@@ -14,7 +14,7 @@ description: >-
   PDFs, spreadsheets, Google Docs, or general coding tasks unrelated to document
   generation. Use when 用户提到 Word文档、docx、创建文档、编辑文档、报告、
   备忘录、公文、合同、信函模板。
-version: 1.0.3
+version: 1.0.4
 type: procedural
 risk_level: low
 status: enabled
@@ -26,7 +26,7 @@ tags:
   - office
 metadata:
   author: anthropic
-  updated_at: '2026-06-02'
+  updated_at: '2026-10-14'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
