@@ -3,11 +3,14 @@
   "name": "通用助手",
   "avatar": {
     "t": "助",
-    "bg": "linear-gradient(135deg, #007AFF, #005ECB)"
+    "bg": "linear-gradient(135deg, #007AFF, #005ECB)",
+    "image": {
+      "path": "assets/avatar.webp"
+    }
   },
   "category": "productivity",
-  "version": "1.0.0",
-  "updatedAt": "2026-10-14",
+  "version": "1.0.1",
+  "updatedAt": "2026-10-15",
   "maintainer": {
     "name": "DesireCore Official",
     "verified": true
@@ -67,6 +70,18 @@
     "tools": []
   },
   "changelog": [
+    {
+      "version": "1.0.1",
+      "date": "2026-10-15",
+      "changes": {
+        "zh-CN": [
+          "配置透明背景人物头像，随内置种子与市场自包含分发。"
+        ],
+        "en-US": [
+          "Added a transparent portrait bundled with the Agent seed and marketplace listing."
+        ]
+      }
+    },
     {
       "version": "1.0.0",
       "date": "2026-10-14",
