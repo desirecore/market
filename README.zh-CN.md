@@ -133,6 +133,8 @@ uv run scripts/i18n/validate-i18n.py
 
 内联智能体可以提供简短、纯文本的 `USAGE.md`，说明前置条件、授权步骤和安全边界。多语言版本使用 `USAGE.<locale>.md`，回退顺序为请求语言 → 源语言 → 默认语言 → 无后缀文件。使用说明独立展示，不混入同时会进入智能体运行上下文的 `fullDesc`。客户端可能截断过长内容；详细资料应放入技能的 `references/`。使用说明中的相对路径图片不会渲染。
 
+系统内置展示条目（如[通用助手](agents/general-assistant/agent.json)）在主文件中显式声明 `system/repository` 策略对，sidecar 使用 `listing-only`。运行内容由客户端离线预装，后续从 Agent 自己的仓库合并更新，市场不重复安装或卸载。
+
 参考 [DesireCore 内联智能体](agents/desirecore/agent.json)和[钉钉工作台指针](agents/dingtalk-workspace/entry.json)。
 
 ### 团队
