@@ -1,0 +1,108 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "reverse-engineer-anything"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "REA 逆向分析",
+        "summary": "基于证据分析二进制、软件包与应用行为。需另备受支持的 Node.js/npm、rea-agents CLI 或已注册的 REA MCP；原生分析等流程需另备目标相关工具及权限，商业提供方须另行授权付费。安装本技能仅提供指引，不安装工具或注册服务；依赖不可用时先处理阻碍，不编造结果。"
+      },
+      "en-US": {
+        "name": "REA: Reverse Engineer Anything",
+        "summary": "Evidence-led reverse analysis of binaries, packages and app behavior. Requires supported Node.js/npm and rea-agents CLI or a registered REA MCP server; target-specific tools, permissions and any commercial provider licenses are separate. Installing this skill only supplies instructions; it does not install tools or register services. Resolve missing dependencies before claiming results."
+      }
+    },
+    "category": "development",
+    "tags": [
+      "reverse-engineering",
+      "binary-analysis",
+      "evidence",
+      "mcp",
+      "cli"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-11",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-11",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-11",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/morluto/rea.git",
+      "path": ".agents/skills/reverse-engineer-anything",
+      "ref": "951c2aae3be1c357df9f23558d8c09680e64c2cb"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "morluto",
+      "url": "https://github.com/morluto/rea",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "951c2aae3be1c357df9f23558d8c09680e64c2cb",
+      "reviewedAt": "2026-10-11",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "需 Node.js ^22.19.0 || ^24.11.0 || >=26.0.0 及 npm；requires the supported Node.js range and npm."
+      },
+      {
+        "kind": "connection",
+        "value": "另备 rea-agents CLI；MCP 工作流需另注册 REA MCP，并核对实际工具列表/版本。CLI-only hosts can use the separately acquired CLI; this skill neither installs REA nor registers an MCP server."
+      },
+      {
+        "kind": "runtime",
+        "value": "目标相关工具另备，例如原生分析 Hopper/Ghidra/IDA，Android JADX/JDK/adb，固件 Binwalk/Unblob。Target-specific tools and their supported hosts are separate; commercial Hopper/IDA/JEB providers require their own licenses and costs."
+      },
+      {
+        "kind": "permission",
+        "value": "仅分析已获授权的目标；运行时操作需相应系统权限与授权，缺工具/连接时先解决或停止，不虚构成功。Use authorized targets; runtime observation needs applicable OS/user approvals. Resolve unavailable dependencies or stop before unsupported calls; never fabricate results."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}
