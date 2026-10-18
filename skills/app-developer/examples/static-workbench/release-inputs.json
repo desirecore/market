@@ -1,0 +1,80 @@
+{
+  "description": "显式收录教学程序材料，业务notes.json只属于实例数据根，不进入发行包。",
+  "delivery": {
+    "type": "web-bundle",
+    "entrypoints": [
+      {
+        "entrypointId": "main",
+        "path": "ui/index.html"
+      }
+    ]
+  },
+  "supportedPlatforms": [
+    "darwin",
+    "win32",
+    "linux",
+    "web"
+  ],
+  "requiredCapabilities": [
+    "app-authoring-v1",
+    "release",
+    "web-bundle",
+    "bridge",
+    "data",
+    "view-state"
+  ],
+  "bridgeCapabilities": [
+    "connect",
+    "capabilities",
+    "readData",
+    "saveData",
+    "lookupDataMutation",
+    "publishSelection",
+    "requestWork",
+    "lookupRequest",
+    "readWork",
+    "controlWork",
+    "openResource",
+    "readResource",
+    "saveViewState"
+  ],
+  "dataContractPath": "data-contract.json",
+  "files": [
+    {
+      "path": "application.json",
+      "role": "definition"
+    },
+    {
+      "path": "ui/index.html",
+      "role": "ui"
+    },
+    {
+      "path": "ui/bridge.js",
+      "role": "ui"
+    },
+    {
+      "path": "ui/app.js",
+      "role": "ui"
+    },
+    {
+      "path": "data-contract.json",
+      "role": "data-contract"
+    },
+    {
+      "path": "说明.md",
+      "role": "documentation"
+    },
+    {
+      "path": "LICENSE",
+      "role": "license"
+    }
+  ],
+  "viewStateContract": {
+    "schemaVersion": 1,
+    "keys": [
+      "selection"
+    ],
+    "maxBytes": 1024,
+    "formatVersion": "1"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "description": "显式收录网页与只读分析服务；笔记使用平台有限data key，不写固定程序目录。",
+  "delivery": {
+    "type": "native-app",
+    "runtimeInstructionsPath": "runtime/运行说明.md"
+  },
+  "supportedPlatforms": [
+    "darwin",
+    "win32",
+    "linux"
+  ],
+  "requiredCapabilities": [
+    "app-authoring-v1",
+    "release",
+    "runtime-binding",
+    "bridge",
+    "data",
+    "view-state"
+  ],
+  "bridgeCapabilities": [
+    "connect",
+    "capabilities",
+    "readData",
+    "saveData",
+    "lookupDataMutation",
+    "publishSelection",
+    "requestWork",
+    "lookupRequest",
+    "readWork",
+    "controlWork",
+    "openResource",
+    "readResource",
+    "saveViewState"
+  ],
+  "dataContractPath": "data-contract.json",
+  "files": [
+    {
+      "path": "application.json",
+      "role": "definition"
+    },
+    {
+      "path": "ui/index.html",
+      "role": "ui"
+    },
+    {
+      "path": "ui/bridge.js",
+      "role": "ui"
+    },
+    {
+      "path": "ui/app.js",
+      "role": "ui"
+    },
+    {
+      "path": "data-contract.json",
+      "role": "data-contract"
+    },
+    {
+      "path": "说明.md",
+      "role": "documentation"
+    },
+    {
+      "path": "LICENSE",
+      "role": "license"
+    },
+    {
+      "path": "runtime/server.mjs",
+      "role": "runtime"
+    },
+    {
+      "path": "runtime/运行说明.md",
+      "role": "documentation"
+    }
+  ],
+  "viewStateContract": {
+    "schemaVersion": 1,
+    "keys": [
+      "selection"
+    ],
+    "maxBytes": 1024,
+    "formatVersion": "1"
+  }
+}

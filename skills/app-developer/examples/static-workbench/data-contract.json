@@ -1,0 +1,5 @@
+{
+  "schemaVersion": 1, "formatVersion": "notes-v1", "readableVersions": ["notes-v1"], "writableVersions": ["notes-v1"],
+  "files": [{ "key": "notes", "path": "notes.json", "maxBytes": 131072, "contentType": "application/json" }],
+  "uninstallRetention": "retain"
+}
