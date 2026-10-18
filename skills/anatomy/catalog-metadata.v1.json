@@ -1,0 +1,126 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "anatomy"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Anatomy",
+        "summary": "Build interactive isometric SVG/HTML explanations, with optional WebGL and 3D. Supply Node.js 20.10+; checks need Chrome/Chromium, React output needs React 18+. For agents able to read skills and run local scripts. Dependencies are not auto-installed; stop affected builds/checks when unavailable, never fabricate results.",
+        "description": "Explain a system, algorithm or machine as an interactive isometric object with solid parts and shading, exported as standalone SVG/HTML or React components. This follows Agent Skills; upstream documents Claude Code, Antigravity, OpenCode, Codex and MiniMax Code support, without requiring an exclusive host.\n\nBefore execution, read root SKILL.md and the relevant references at the pinned snapshot, then check the selected scripts, versions, output paths and permissions. Core builds use Node.js 20.10+ built-ins with no npm dependencies. npm/npx is only needed if separately choosing the upstream skills CLI installer; the README states Node.js 22.20+ for skills CLI 1.7.1. Browser checks require separately supplied Chrome/Chromium (CHROME_PATH is supported), browser execution, temporary-profile/output writes and local debugging-port access. Optional shaders require WebGL; static SVG remains readable without it. 3D is beta. React output requires an existing React 18+ project; Next.js depends on the target project.\n\nThe market holds only metadata and a pinned source pointer. It does not copy the implementation, install runtimes/browsers/frameworks, or register MCP. REA and reverse-engineering engines are not prerequisites. Runtimes, browsers, frameworks and optional hosted/model services retain their own terms; host subscriptions, model usage and hosting may incur separate fees. When dependencies or permissions are missing, explain the blocker and stop affected builds/checks; never report a static fallback as successful browser, WebGL or 3D verification. Community publishing is optional and only follows an explicit request and confirmation of the material being sent; GitHub authentication, networking and public-upload permission are separate prerequisites.\n\nMIT evidence is root LICENSE at the same pinned commit; retain copyright and license notices. Maintainers are unverified and upstream has not endorsed this listing. Review covers provenance, metadata, prerequisite disclosure and licensing only; it is neither security certification nor runtime or cross-platform acceptance."
+      },
+      "zh-CN": {
+        "name": "Anatomy 交互等距插图",
+        "summary": "将技术概念制作成可交互的等距 SVG/HTML 插图，可选 WebGL 与 3D。需另备 Node.js 20.10+；检查需 Chrome/Chromium，React 输出另需 React 18+。适用于能读取技能并运行本地脚本的 Agent；不会自动安装这些依赖，缺失时停止相关构建或检查，不虚构结果。",
+        "description": "把系统、算法或机器解释为有实体零件、阴影和交互的等距插图，输出独立 SVG/HTML 或 React 组件。支持标准 Agent Skills；上游声明支持 Claude Code、Antigravity、OpenCode、Codex 和 MiniMax Code，不要求某个专属宿主。\n\n执行前阅读固定快照根目录 SKILL.md 及对应 references，核对所选脚本、版本、输出目录和权限。基础构建使用 Node.js 20.10+ 的内置模块，无需安装 npm 依赖；仅在自行选择上游 skills CLI 安装方式时需要 npm/npx，README 对 skills CLI 1.7.1 另要求 Node.js 22.20+。浏览器检查需另备 Chrome/Chromium，可设置 CHROME_PATH；需允许启动浏览器、写临时配置和输出文件、访问本地调试端口。可选 shader 需可用 WebGL，缺失时保留静态 SVG；3D 为 beta。React 输出需已有 React 18+ 项目，Next.js 仅按目标项目需要。\n\n市场仅提供元数据与固定源码指针，不复制实现，也不自动安装运行时、浏览器或前端框架，不注册 MCP；不需要 REA 或逆向分析引擎。第三方运行时、浏览器、框架和可选托管/模型服务适用各自条款；宿主订阅、模型调用或托管费用另计。依赖或权限不可用时说明阻碍并停止受影响的构建/检查，不把静态降级说成浏览器、WebGL 或 3D 验证通过。仅在用户明确要求发布并确认发送内容后，才使用可选社区发布功能；其 GitHub 登录、联网和公开上传权限另行准备。\n\nMIT 证据为同一固定提交根目录 LICENSE；保留版权及许可声明。维护者未验证，上游未背书。本次审核仅覆盖来源、元数据、依赖说明与许可，不是安全认证，也未做软件实际运行或跨平台验收。"
+      }
+    },
+    "category": "design",
+    "tags": [
+      "isometric",
+      "svg",
+      "interactive",
+      "illustration",
+      "webgl"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-18",
+      "precision": "day"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-18",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-18",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/wheresryan22/anatomy.git",
+      "ref": "e9488296a44211c42701ff71705b7901470ec78f"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "listingMaintainer": {
+      "name": "mashagua",
+      "verified": false
+    },
+    "upstreamMaintainer": {
+      "name": "wheresryan22",
+      "url": "https://github.com/wheresryan22/anatomy",
+      "verified": false
+    },
+    "branding": {
+      "relationship": "independent-listing",
+      "nameUsage": "nominative",
+      "logoStatus": "not-used"
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "e9488296a44211c42701ff71705b7901470ec78f",
+      "reviewedAt": "2026-10-18",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Node.js 20.10+; built-in modules only for core builds. npm/npx only for the optional upstream skills CLI installer (CLI 1.7.1 requires Node.js 22.20+). Installing the skill does not provision runtimes. / 基础构建需 Node.js 20.10+，仅用内置模块；可选 skills CLI 安装器才需 npm/npx，其 1.7.1 要求 Node.js 22.20+；不自动安装运行时。"
+      },
+      {
+        "kind": "runtime",
+        "value": "Chrome/Chromium for capture, drive, line and 3D checks; CHROME_PATH may select a binary. React output needs React 18+; Next.js depends on the target project. These dependencies are separately supplied. / 截图、交互、线条及3D检查需另备 Chrome/Chromium，可用 CHROME_PATH；React 输出另备 React 18+，Next.js 按项目需要。"
+      },
+      {
+        "kind": "hardware",
+        "value": "Optional shaders require WebGL; static SVG is the fallback, not evidence that shader checks passed. 3D is beta. / 可选 shader 需 WebGL，不可用时保留静态 SVG，不能声称 shader 验证通过；3D 为 beta。"
+      },
+      {
+        "kind": "permission",
+        "value": "Before execution read pinned SKILL.md/references and verify tools, versions, output paths and permissions. Browser checks launch Chrome, write temporary profiles/output and use local debugging ports. If unavailable, stop affected steps and report the blocker; do not fabricate results. / 执行前阅读固定技能及参考文档并核实工具、版本、输出和权限；检查需启动浏览器、写临时配置及输出、访问本地调试端口；不可用则停止并说明。"
+      },
+      {
+        "kind": "connection",
+        "value": "A compatible Agent Skills host with local script execution is required, not an exclusive agent. Third-party software and optional model/hosting services retain their own terms and costs. / 需支持技能与本地脚本的宿主，无专属 Agent 绑定；第三方软件与可选模型/托管服务另适用其条款和费用。"
+      },
+      {
+        "kind": "connection",
+        "value": "Optional community publishing needs GitHub authentication/networking and an explicit user request plus confirmation before public upload. It is not needed to build figures. / 可选社区发布另需 GitHub 登录和网络，公开上传前须有明确请求并确认内容；本地制图不依赖发布服务。"
+      }
+    ]
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}
