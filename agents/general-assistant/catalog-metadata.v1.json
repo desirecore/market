@@ -1,0 +1,80 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "agent",
+    "id": "general-assistant"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "通用助手",
+        "summary": "处理问答、检索、写作、分析、编程等通用任务，默认开启手动多会话。",
+        "description": "通用助手是 DesireCore 的第二个系统内置 Agent，直接帮助用户完成问答、资料检索、写作、分析、编程、文件处理和多步任务。根据当前目标选择工具、技能与协作者，交付有依据、可核验的结果。\n\n默认开启手动多会话，各会话独立管理历史，可在现有设置中调整。采用 Smart 模型路由，不固定 Provider 或模型。\n\n客户端离线预装；后续从独立 Agent 仓库检查并合并更新，保留本地演进。市场展示内置状态，不重复安装或卸载。运行能力、权限与审批由平台管理。"
+      },
+      "en-US": {
+        "name": "General Assistant",
+        "summary": "Questions, research, writing, analysis, coding and general tasks, with manual multi-session mode enabled by default.",
+        "description": "General Assistant is the second system-managed Agent built into DesireCore. It helps users complete questions, research, writing, analysis, coding, file work and multi-step tasks. It chooses tools, skills and collaborators according to the current goal and delivers results that can be checked and used.\n\nManual multi-session mode is enabled by default, with independent conversation histories; users can change it in the existing settings. Smart routing does not pin a Provider or model.\n\nThe client includes an offline seed and checks and merges updates from the independent Agent repository, preserving local evolution. The market shows its built-in status without installing or uninstalling another copy. Capabilities, permissions and approvals are owned by the platform."
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "general",
+      "assistant",
+      "multi-session",
+      "official"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-15",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "listing-only",
+    "license": {
+      "state": "unknown"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "agent",
+    "installPolicy": "system",
+    "updatePolicy": "repository",
+    "persona": {
+      "role": "General task assistant",
+      "traits": [
+        "clear communication",
+        "reliable execution",
+        "collaboration when useful"
+      ]
+    }
+  }
+}

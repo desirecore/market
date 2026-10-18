@@ -16,7 +16,7 @@ description: >-
   report, standalone Python script, database pipeline, or Google Sheets API
   integration, even if tabular data is involved. Use when 用户提到 Excel、
   电子表格、xlsx、表格处理、公式计算、数据清洗、图表、CSV导入导出。
-version: 1.0.3
+version: 1.0.4
 type: procedural
 risk_level: low
 status: enabled
@@ -28,7 +28,7 @@ tags:
   - office
 metadata:
   author: anthropic
-  updated_at: '2026-04-13'
+  updated_at: '2026-10-14'
   i18n:
     default_locale: en-US
     source_locale: zh-CN

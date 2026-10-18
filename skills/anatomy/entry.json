@@ -1,0 +1,38 @@
+{
+  "id": "anatomy",
+  "name": "Anatomy",
+  "category": "design",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"m12 3 9 5-9 5-9-5 9-5Zm-9 5v8l9 5 9-5V8M12 13v8\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "isometric",
+    "svg",
+    "interactive",
+    "illustration",
+    "webgl"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Anatomy 交互等距插图",
+      "shortDesc": "将技术概念制作成可交互的等距 SVG/HTML 插图，可选 WebGL 与 3D。需另备 Node.js 20.10+；检查需 Chrome/Chromium，React 输出另需 React 18+。适用于能读取技能并运行本地脚本的 Agent；不会自动安装这些依赖，缺失时停止相关构建或检查，不虚构结果。"
+    },
+    "en-US": {
+      "name": "Anatomy",
+      "shortDesc": "Build interactive isometric SVG/HTML explanations, with optional WebGL and 3D. Supply Node.js 20.10+; checks need Chrome/Chromium, React output needs React 18+. For agents able to read skills and run local scripts. Dependencies are not auto-installed; stop affected builds/checks when unavailable, never fabricate results."
+    }
+  },
+  "maintainer": {
+    "name": "wheresryan22",
+    "verified": false,
+    "account": "wheresryan22",
+    "url": "https://github.com/wheresryan22/anatomy"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/wheresryan22/anatomy.git",
+    "repoBranch": "main",
+    "ref": "e9488296a44211c42701ff71705b7901470ec78f"
+  }
+}
