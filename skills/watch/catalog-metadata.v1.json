@@ -29,13 +29,13 @@
   },
   "release": {
     "state": "known",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-08-07T15:54:22Z",
+      "value": "2026-10-18T10:14:52Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -46,7 +46,7 @@
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-08-07T15:54:22Z",
+      "value": "2026-10-18T10:14:52Z",
       "precision": "second"
     }
   },
@@ -55,7 +55,7 @@
       "kind": "git",
       "url": "https://github.com/desirecore-agent/watch-video-skill.git",
       "path": "skills/watch",
-      "ref": "0fd13b73b7b37318cada0562ba2263d648c8505f"
+      "ref": "6565030289dddc91107b20857f9cd24b8f6fbbae"
     }
   },
   "governance": {
