@@ -133,6 +133,8 @@ The raw pointer must pass the [exported agent client schema](schemas/market-agen
 
 An inline agent may include concise, text-only `USAGE.md` notes for prerequisites, authorization, and safety boundaries. Localized variants use `USAGE.<locale>.md`, resolved by requested locale → source locale → default locale → unsuffixed file. Usage is displayed separately from `fullDesc`, which also enters the agent's runtime context. Clients may truncate long notes; put extensive supporting material in skill `references/` instead. Relative images do not render in the usage section.
 
+System-managed listings such as [General Assistant](agents/general-assistant/agent.json) explicitly declare the `system/repository` policy pair in the primary file and use `listing-only` availability in the sidecar. The client ships the runtime content offline and merges updates from the Agent’s own repository; the market does not install or uninstall another copy.
+
 Examples: [inline DesireCore agent](agents/desirecore/agent.json) and [DingTalk Workspace pointer](agents/dingtalk-workspace/entry.json).
 
 ### Teams
@@ -212,6 +214,9 @@ uv run scripts/i18n/test_validate_i18n.py
 uv run scripts/catalog/test_validate_catalog_metadata.py
 uv run scripts/catalog/test_collection_generator.py
 uv run scripts/catalog/test_check_upstream_health.py
+
+# Compile bundled Office schemas offline and validate Chinese XML with a GBK default.
+uv run scripts/office/test_offline_resources.py
 ```
 
 Passing a skill path narrows skill-body validation, but market-level and sidecar checks still run. Choose the relevant test file for your change rather than treating every documentation edit as a reason to run all test suites.

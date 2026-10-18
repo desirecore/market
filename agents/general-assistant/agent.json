@@ -1,0 +1,98 @@
+{
+  "id": "general-assistant",
+  "name": "通用助手",
+  "avatar": {
+    "t": "助",
+    "bg": "linear-gradient(135deg, #007AFF, #005ECB)",
+    "image": {
+      "path": "assets/avatar.webp"
+    }
+  },
+  "category": "productivity",
+  "version": "1.0.1",
+  "updatedAt": "2026-10-15",
+  "maintainer": {
+    "name": "DesireCore Official",
+    "verified": true
+  },
+  "installPolicy": "system",
+  "updatePolicy": "repository",
+  "i18n": {
+    "default_locale": "en-US",
+    "source_locale": "zh-CN",
+    "locales": [
+      "zh-CN",
+      "en-US"
+    ],
+    "zh-CN": {
+      "name": "通用助手",
+      "shortDesc": "处理问答、检索、写作、分析、编程等通用任务，默认开启手动多会话。",
+      "fullDesc": "通用助手是 DesireCore 的第二个系统内置 Agent，直接帮助用户完成问答、资料检索、写作、分析、编程、文件处理和多步任务。根据当前目标选择工具、技能与协作者，交付有依据、可核验的结果。\n\n默认开启手动多会话，各会话独立管理历史，可在现有设置中调整。采用 Smart 模型路由，不固定 Provider 或模型。\n\n客户端离线预装；后续从独立 Agent 仓库检查并合并更新，保留本地演进。市场展示内置状态，不重复安装或卸载。运行能力、权限与审批由平台管理。",
+      "tags": [
+        "通用",
+        "助手",
+        "多会话",
+        "官方"
+      ],
+      "persona": {
+        "role": "通用任务助手",
+        "traits": [
+          "清楚直接",
+          "可靠执行",
+          "按需协作"
+        ]
+      },
+      "translated_by": "human"
+    },
+    "en-US": {
+      "name": "General Assistant",
+      "shortDesc": "Questions, research, writing, analysis, coding and general tasks, with manual multi-session mode enabled by default.",
+      "fullDesc": "General Assistant is the second system-managed Agent built into DesireCore. It helps users complete questions, research, writing, analysis, coding, file work and multi-step tasks. It chooses tools, skills and collaborators according to the current goal and delivers results that can be checked and used.\n\nManual multi-session mode is enabled by default, with independent conversation histories; users can change it in the existing settings. Smart routing does not pin a Provider or model.\n\nThe client includes an offline seed and checks and merges updates from the independent Agent repository, preserving local evolution. The market shows its built-in status without installing or uninstalling another copy. Capabilities, permissions and approvals are owned by the platform.",
+      "tags": [
+        "general",
+        "assistant",
+        "multi-session",
+        "official"
+      ],
+      "persona": {
+        "role": "General task assistant",
+        "traits": [
+          "clear communication",
+          "reliable execution",
+          "collaboration when useful"
+        ]
+      },
+      "translated_by": "ai:codex",
+      "translated_at": "2026-10-14"
+    }
+  },
+  "persona": {
+    "tools": []
+  },
+  "changelog": [
+    {
+      "version": "1.0.1",
+      "date": "2026-10-15",
+      "changes": {
+        "zh-CN": [
+          "配置透明背景人物头像，随内置种子与市场自包含分发。"
+        ],
+        "en-US": [
+          "Added a transparent portrait bundled with the Agent seed and marketplace listing."
+        ]
+      }
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-10-14",
+      "changes": {
+        "zh-CN": [
+          "新增内置通用助手，默认手动多会话，通过独立仓库更新。"
+        ],
+        "en-US": [
+          "Added the built-in General Assistant with manual multi-session mode and repository updates."
+        ]
+      }
+    }
+  ]
+}

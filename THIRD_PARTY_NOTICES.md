@@ -23,6 +23,18 @@ required NOTICE attribution apply to those skills.
 
 Upstream: https://github.com/anthropics/skills
 
+## Dublin Core XML schemas
+
+Office core-property validation includes DCMI XML schemas in the `docx`, `pptx`,
+and `xlsx` skills. XML schemas Copyright © 2011 [DCMI](https://www.dublincore.org/),
+licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+See the [DCMI Schema Use Notice](https://www.dublincore.org/about/copyright/).
+
+Original authors and annotations are retained; imports are adapted to local paths
+for offline use. Each skill includes a `scripts/office/schemas/NOTICE.md` with the
+original URLs, source digests, and adaptation details, so attribution also travels
+with an independently installed skill.
+
 ## External / pointer skills
 
 Skills described only by an `entry.json` pointer (no vendored source) are

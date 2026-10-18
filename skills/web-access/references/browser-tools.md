@@ -1,8 +1,8 @@
 # 内置受管浏览器工具速查（L3）
 
 > **范围**：本文只描述 DesireCore **内置**受管浏览器，所以 v10.0.98+ 是本层基础能力的最低版本，
-> 不是整个 web-access v3.4.5 的兼容门槛。用户点名自己的外部 Chrome/Edge/Chromium 时需要
-> 客户端 v10.0.128+；简单打开走 `BrowserExternalProbe → BrowserExternalOpen`，高级 CDP/Playwright
+> 不是整个 web-access v3.6.0 的兼容门槛。外部 Chrome/Edge/Chromium 高级操作需要带预置
+> external-browser 运行时的客户端；简单打开走 `BrowserExternalProbe → BrowserExternalOpen`，高级 CDP/Playwright
 > 交互见 [cdp-browser.md](cdp-browser.md)。不要把本文的 BrowserManage/Act 路线用于冒充外部浏览器。
 >
 > v2.1 起本层从「cdp-proxy 驱动用户自己的 Chrome」改为「DesireCore 内置受管浏览器」；v3.0 补全能力面（批量取文 / 元素操作 / 等待 / 代码模式）并移除 Python Playwright 回落。
