@@ -71,6 +71,14 @@ If any fetch fails, explicitly tell the user which URL failed and which fallback
 
 ## Prerequisites：外部浏览器 + CDP（仅 L3-external 需要）
 
+### 系统已安装浏览器与离线就绪
+
+新客户端支持 `BrowserExternalLaunch(browser="system", executablePath=<获授权的浏览器绝对可执行路径>, url=...)`，按路径启动任何本机已安装浏览器。通过 `BrowserExternalProbe(requestedBrowser="any")` 读取系统登记，或使用获授权的明确路径；仅在 Chrome/Edge 固定目录未发现文件不能证明未安装。审批必须显示实际可执行文件。部署方仍须另行安装浏览器并遵守其许可与使用条款。
+
+`system` 返回 `launched` 和 `automation="native"` 只证明创建进程，不证明页面加载或自动化就绪。Agent 应选择可用且获授权的桌面控制方式并核对真实窗口；不得把该回执交给 BrowserAct/BrowserScript，也不得据此声称任务完成。兼容的自定义 Chromium 安装可以在支持 executablePath 的客户端中，按匹配的 CDP 协议族与独立 Profile 启动指定可执行文件，核对回执并重新 Probe 后再交互。不得静默替换用户点名的产品。
+
+高级 CDP 操作只能使用 Probe 返回的 `automationRuntime.pythonExecutable`。客户端从随包固定资产准备解释器与 wheel，不依赖 Hatch/Volta 或系统 Python。不可用时如实报告结构化部署错误；不要尝试系统 Python、联网 pip/npm 安装或杜撰内置会话。包内资产缺失须修复安装；成功打开登录页不证明自动化已就绪。
+
 **只有走 L3-external 时才需要。** 内置浏览器零前置条件。
 
 ### 每次连接前必须先结构化探测

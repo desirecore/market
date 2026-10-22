@@ -15,7 +15,7 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: MIT
-version: 3.6.0
+version: 3.7.0
 compatibility: Requires a DesireCore build with the bundled external-browser Playwright runtime; Chrome/Edge/Chromium remains separately installed. Builds advertising BrowserExternalLaunch can start it through tool approval in an isolated profile; older builds require manual CDP startup.
 type: procedural
 risk_level: low
@@ -45,7 +45,7 @@ provides:
     - LocalBookmarks
 metadata:
   author: desirecore
-  updated_at: '2026-10-14'
+  updated_at: '2026-10-22'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -55,16 +55,16 @@ metadata:
     zh-CN:
       name: 联网访问
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
-      description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。 外部浏览器需单独安装并满足其使用条款；提供启动工具的客户端可经审批启动，旧客户端需手动开启调试。
+      description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。 外部浏览器需单独安装并满足其使用条款；提供启动工具的客户端可经审批启动，旧客户端需手动开启调试。 支持新客户端按显式路径审批启动系统浏览器；原生启动与 CDP 自动化就绪分别核验，依赖从随包资产离线准备。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:a81f7a90824259f0
+      source_hash: sha256:34af3ba530fe4ea8
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
-      description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request. The external browser is separately installed and subject to its usage terms; clients with the launch tool support approved startup, while older clients require manual debugging startup.
+      description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request. The external browser is separately installed and subject to its usage terms; clients with the launch tool support approved startup, while older clients require manual debugging startup. New clients support approved native launch by explicit executable path; native startup and CDP automation readiness are verified separately, with automation dependencies prepared from bundled offline assets.
       body: ./SKILL.md
-      source_hash: sha256:a81f7a90824259f0
+      source_hash: sha256:34af3ba530fe4ea8
       translated_by: human
 market:
   icon: >-
@@ -159,6 +159,14 @@ When you complete a research task, you **MUST** cite all source URLs in your res
 If any fetch fails, explicitly tell the user which URL failed and which fallback you used.
 
 ## Prerequisites: external browser + CDP (L3-external only)
+
+### System-installed browsers and offline readiness
+
+New clients accept `BrowserExternalLaunch(browser="system", executablePath=<authorized absolute browser executable>, url=...)` for any locally installed browser. Use OS registration facts from `BrowserExternalProbe(requestedBrowser="any")` or an authorized executable path; never infer absence from the Chrome/Edge fixed-directory list alone. Approval must identify the actual executable. Operators must separately install the browser and comply with its licence and usage terms.
+
+`system` returns `launched` with `automation="native"`: this proves process creation only, not navigation or automation readiness. Choose an available approved desktop-control method and verify the real window; do not pass this receipt to BrowserAct/BrowserScript or claim task completion. For compatible custom Chromium installations, clients accepting `executablePath` can launch the selected executable with its matching CDP family and isolated profile. Inspect the receipt and fresh Probe before interaction. Never silently replace a named product.
+
+For advanced CDP interaction, use Probe's returned `automationRuntime.pythonExecutable`. The client prepares its interpreter and wheels from fixed bundled assets independently of Hatch/Volta and system Python. If unavailable, report the structured deployment error. Do not try system Python, online pip/npm installation or an invented internal session. Missing packaged assets require installation repair; opening a login page is not evidence that automation is ready.
 
 **Only needed when taking the L3-external route.** The built-in browser has no prerequisites.
 
