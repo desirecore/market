@@ -73,7 +73,7 @@ If any fetch fails, explicitly tell the user which URL failed and which fallback
 
 ### 系统已安装浏览器与离线就绪
 
-新客户端支持 `BrowserExternalLaunch(browser="system", executablePath=<获授权的浏览器绝对可执行路径>, url=...)`，按路径启动任何本机已安装浏览器。通过 `BrowserExternalProbe(requestedBrowser="any")` 读取系统登记，或使用获授权的明确路径；仅在 Chrome/Edge 固定目录未发现文件不能证明未安装。审批必须显示实际可执行文件。部署方仍须另行安装浏览器并遵守其许可与使用条款。
+仅在客户端声明的 Launch Schema 包含 system 和 executablePath 时，支持 `BrowserExternalLaunch(browser="system", executablePath=<获授权的浏览器绝对可执行路径>, url=...)`，按路径启动任何本机已安装浏览器。通过 `BrowserExternalProbe(requestedBrowser="any")` 读取系统登记，或使用获授权的明确路径；仅在 Chrome/Edge 固定目录未发现文件不能证明未安装。审批必须显示实际可执行文件。部署方仍须另行安装浏览器并遵守其许可与使用条款。
 
 `system` 返回 `launched` 和 `automation="native"` 只证明创建进程，不证明页面加载或自动化就绪。Agent 应选择可用且获授权的桌面控制方式并核对真实窗口；不得把该回执交给 BrowserAct/BrowserScript，也不得据此声称任务完成。兼容的自定义 Chromium 安装可以在支持 executablePath 的客户端中，按匹配的 CDP 协议族与独立 Profile 启动指定可执行文件，核对回执并重新 Probe 后再交互。不得静默替换用户点名的产品。
 
@@ -81,7 +81,10 @@ If any fetch fails, explicitly tell the user which URL failed and which fallback
 
 **只有走 L3-external 时才需要。** 内置浏览器零前置条件。
 
-### 每次连接前必须先结构化探测
+
+本前置节以下规则仅适用于 CDP 路线。system 原生启动按上节执行，不要求 CDP ready 或 Python。
+
+### CDP 模式：每次连接前必须先结构化探测
 
 按用户原话映射精确请求：
 
@@ -95,14 +98,14 @@ If any fetch fails, explicitly tell the user which URL failed and which fallback
 | status | 必须采取的动作 |
 |---|---|
 | `ready` | 简单打开/导航调用 `BrowserExternalOpen`，参数使用返回的精确浏览器 id 与端口；点击、读取、提取等高级交互才继续隔离 Playwright `connect_over_cdp`。如实说出检测到的外部浏览器；`any` 已有 ready 端口时，即使还安装了其他产品，也以该端口作为用户已准备的选择 |
-| `browser_not_installed` | 明确说未检测到用户点名的浏览器；若有 `alternatives`，询问是否改用其中之一，**绝不自动替换** |
+| `browser_not_installed` | 明确说未检测到，不等于证明未安装；可用已授权只读工具检查系统登记和桌面快捷方式等非标准安装。找到路径后按客户端支持的显式路径模式启动；替换产品须用户授权，已授权自由选择时无需重复询问 |
 | `debug_port_closed` | 客户端提供 BrowserExternalLaunch 时，按用户点名的精确浏览器、端口与 URL 经现有审批启动并打开网页，成功后重新 Probe；不要求用户输入命令。旧客户端没有该工具时才提供只展示的手动备用方式 |
-| `browser_choice_required` | 没有 ready 端口且检测到多个外部浏览器；只列 id/name 并询问用户选哪个，再 probe 精确选择 |
+| `browser_choice_required` | 多个安装需要选择。用户已委派选择时自主选取已列安装，否则询问；CDP 选择再精确探测，system 选择按返回路径审批原生启动 |
 | `browser_mismatch` | 说明端口上实际是什么、用户点名的是什么；让用户修正端口或明确同意改用实际浏览器 |
 | `invalid_cdp_endpoint` | 说明端口虽有服务但不是合法 Chrome DevTools 端点；不得连接 |
 | `host_unavailable` | 说明当前 Agent Service 无法探测用户桌面宿主；不得猜已安装浏览器，也不得静默改用内置浏览器 |
 
-`BrowserExternalProbe` 保持只读；受审批的副作用由 `BrowserExternalLaunch` 完成。只传用户点名的精确 browser、loopback port 与 HTTP(S) URL；宿主检测原生路径并使用客户端独立 Profile，验证 CDP 后才宣称 opened。拒绝审批时不启动；端口不匹配、未安装或启动失败须如实报告，不自动换浏览器。已 ready 的端点可验真后复用。
+CDP 模式下，`BrowserExternalProbe` 保持只读；受审批的副作用由 `BrowserExternalLaunch` 完成。只传用户点名的精确 browser、loopback port 与 HTTP(S) URL；宿主检测原生路径并使用客户端独立 Profile，验证 CDP 后才宣称 opened。拒绝审批时不启动；端口不匹配、未安装或启动失败须如实报告，不自动换浏览器。已 ready 的端点可验真后复用。
 
 启动成功后，高级交互重新 Probe 并设置 `prepareAutomationRuntime: true`，取得预置解释器后填写/点击/提取。完成后保留外部窗口供用户查看。登录仍由用户在该独立 Profile 完成，不访问日常浏览器 Profile。
 
@@ -111,9 +114,9 @@ If any fetch fails, explicitly tell the user which URL failed and which fallback
 ⚠️ 用 CDP attach 时**绝不能调 `browser.close()`**，那会关掉用户自己的外部浏览器；只关你开的 page。
 完整配方见 [references/cdp-browser.md](references/cdp-browser.md)。
 
-### 简单外部打开/导航：使用专用工具
+### 仅 CDP 模式：简单外部打开/导航
 
-当用户只要求在点名的外部浏览器中打开或导航到一个 HTTP(S) URL：
+在 CDP 路线中，当用户只要求打开或导航到一个 HTTP(S) URL：
 
 1. 调用 `BrowserExternalProbe`，且必须得到 `ready`。
 2. 在同一 runtime session 调用 `BrowserExternalOpen`，传入 `browser: detectedBrowser.id`、probe 的精确 `port` 与 URL。
@@ -138,6 +141,8 @@ ready grant 有短时、一次性、精确 browser+port 绑定。宿主会在同
 ---
 
 ## Tool Selection Decision Tree
+
+其它已安装品牌或明确可执行路径：按需读取安装事实 → 客户端声明支持的 system Launch → 原生桌面控制与真实窗口验证；不以 CDP ready 或 Python 作为前置。下方 Chrome/Edge/Chromium 分支为 CDP 模式。
 
 ```
 User intent
