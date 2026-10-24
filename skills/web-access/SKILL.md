@@ -15,7 +15,7 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: MIT
-version: 3.7.0
+version: 3.7.1
 compatibility: Requires a DesireCore build with the bundled external-browser Playwright runtime; Chrome/Edge/Chromium remains separately installed. Builds advertising BrowserExternalLaunch can start it through tool approval in an isolated profile; older builds require manual CDP startup.
 type: procedural
 risk_level: low
@@ -45,7 +45,7 @@ provides:
     - LocalBookmarks
 metadata:
   author: desirecore
-  updated_at: '2026-10-22'
+  updated_at: '2026-10-24'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -57,14 +57,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。 外部浏览器需单独安装并满足其使用条款；提供启动工具的客户端可经审批启动，旧客户端需手动开启调试。 支持新客户端按显式路径审批启动系统浏览器；原生启动与 CDP 自动化就绪分别核验，依赖从随包资产离线准备。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:5a3b56b621b6edc3
+      source_hash: sha256:9c55a2059eeb4bf1
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request. The external browser is separately installed and subject to its usage terms; clients with the launch tool support approved startup, while older clients require manual debugging startup. New clients support approved native launch by explicit executable path; native startup and CDP automation readiness are verified separately, with automation dependencies prepared from bundled offline assets.
       body: ./SKILL.md
-      source_hash: sha256:5a3b56b621b6edc3
+      source_hash: sha256:9c55a2059eeb4bf1
       translated_by: human
 market:
   icon: >-
@@ -309,7 +309,7 @@ DesireCore can drive **two** browsers. They are peer options:
 | | L3 built-in governed browser | L3-external — the user's own browser |
 |---|---|---|
 | What it is | A browser instance inside the app (the governed built-in browser tools) | The user-named Chrome/Edge/Chromium on their machine, opened through governed CDP tools and attached via isolated Python Playwright only for advanced interaction |
-| Login state | Isolated; needs `browser.import.*` granted by the Host before `BrowserImport` can pull cookies | **Literally the user's own session** — nothing to import |
+| Login state | Isolated; needs `browser.import.*` granted by the Host before `BrowserImport` can pull cookies | The login state the user established manually in the DesireCore-isolated external profile — not their everyday browser profile; nothing is imported |
 | Can the user see it | Agent tabs are offscreen by default; must be presented to the workbench | **It's their own window** — visible throughout, theirs to take over |
 | Prerequisite | None | `BrowserExternalProbe` must report `ready`; otherwise follow its exact status guidance |
 | Default | ✅ yes | When the user names it |
