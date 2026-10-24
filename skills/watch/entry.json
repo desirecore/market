@@ -11,7 +11,7 @@
     "yt-dlp",
     "whisper"
   ],
-  "latestVersion": "1.1.1",
+  "latestVersion": "1.1.2",
   "i18n": {
     "zh-CN": {
       "name": "视频观看与场景分析",
@@ -36,6 +36,6 @@
     "repoUrl": "https://github.com/desirecore-agent/watch-video-skill.git",
     "repoBranch": "main",
     "path": "skills/watch",
-    "ref": "6565030289dddc91107b20857f9cd24b8f6fbbae"
+    "ref": "4fa94ac2e038a4dc579baf3203379e2b3a606074"
   }
 }
