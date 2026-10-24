@@ -45,7 +45,7 @@ jobs:
           import json
           from pathlib import Path
           summary = json.loads(Path("summary.json").read_text())
-          for key in ("broken", "actionable", "unknown"):
+          for key in ("broken", "actionable", "unknown", "held"):
               print(f"{key}={str(summary[key]).lower()}")
           PY
           cat report.md >> "$GITHUB_STEP_SUMMARY"
@@ -55,6 +55,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           ACTIONABLE: ${{ steps.check.outputs.actionable }}
           UNKNOWN: ${{ steps.check.outputs.unknown }}
+          HELD: ${{ steps.check.outputs.held }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set -euo pipefail
@@ -65,7 +66,7 @@ jobs:
           {
             echo "_Updated by [Upstream Health]($RUN_URL) on $(date -u +%Y-%m-%d)._"
             echo
-            echo "Fix entries through a normal PR: repoint or remove \`gone\` entries, correct \`bad-*\` paths, and review upstream changes before bumping \`source.ref\` for \`outdated\` entries (rerun \`scripts/gen-collection-children.py\` for collections). \`unreachable\` means a network error, not a confirmed failure."
+            echo "Fix entries through a normal PR: repoint or remove \`gone\` entries, correct \`bad-*\` paths, and review upstream changes before bumping \`source.ref\` for \`outdated\` entries (rerun \`scripts/gen-collection-children.py\` for collections); a reviewed decision to keep the current pin can be recorded in \`<kind>/<id>/upstream-health-hold.json\`. \`unreachable\` means a network error, not a confirmed failure."
             echo
             cat report.md
           } > body.md
@@ -78,7 +79,11 @@ jobs:
               gh issue create --title "Upstream health report" --label "$label" --body-file body.md
             fi
           elif [ -n "$issue" ]; then
-            gh issue comment "$issue" --body "All external entries resolve upstream and are current as of $RUN_URL. Closing."
+            closing="All external entries resolve upstream and are current as of $RUN_URL."
+            if [ "${HELD:-0}" -gt 0 ]; then
+              closing="All external entries resolve upstream as of $RUN_URL; $HELD finding(s) remain under reviewed holds (see the run summary)."
+            fi
+            gh issue comment "$issue" --body "$closing Closing."
             gh issue close "$issue"
           fi
 
