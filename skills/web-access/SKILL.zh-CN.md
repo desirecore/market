@@ -198,7 +198,7 @@ DesireCore 能驱动**两个**浏览器，它们是平级的选项：
 | | L3 内置受管浏览器 | L3-external 用户自己的浏览器 |
 |---|---|---|
 | 是什么 | 应用内的浏览器实例（内置受管浏览器工具） | 用户点名的 Chrome/Edge/Chromium；简单打开走受治理 CDP 工具，高级交互才经隔离 Python Playwright 接管 |
-| 登录态 | 独立隔离；需 Host 授予 `browser.import.*` 才能用 `BrowserImport` 导 Cookie | **就是用户本人的登录态**，无需导入 |
+| 登录态 | 独立隔离；需 Host 授予 `browser.import.*` 才能用 `BrowserImport` 导 Cookie | DesireCore 隔离外部 Profile 中由用户手工登录形成的状态，不是日常使用的浏览器 Profile；不导入任何内容 |
 | 用户能看到吗 | Agent 开的标签页默认离屏，需展示到工作台 | **就在用户自己的窗口里**，他能全程看着、随时接管 |
 | 前置条件 | 无 | `BrowserExternalProbe` 必须返回 `ready`；否则严格按结构化状态处理 |
 | 默认 | ✅ 是 | 用户点名时 |

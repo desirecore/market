@@ -32,7 +32,7 @@
   },
   "release": {
     "state": "known",
-    "version": "3.7.0",
+    "version": "3.7.1",
     "versionScheme": "semver"
   },
   "timestamps": {
