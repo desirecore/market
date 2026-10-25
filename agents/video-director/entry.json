@@ -1,0 +1,43 @@
+{
+  "id": "video-director",
+  "name": "视频导演",
+  "category": "media",
+  "tags": [
+    "video",
+    "motion",
+    "editing",
+    "visual-review"
+  ],
+  "latestVersion": "0.2.0",
+  "maintainer": {
+    "name": "desirecore-agent",
+    "verified": false,
+    "url": "https://github.com/desirecore-agent/video-director"
+  },
+  "stewardship": "pointer",
+  "license": "MIT",
+  "redistribution": "source-pointer-only",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/desirecore-agent/video-director.git",
+    "repoBranch": "main",
+    "ref": "84787c1172954d30c4d607d860444d4e2a710ec7"
+  },
+  "requiredClientVersion": "10.0.186",
+  "i18n": {
+    "zh-CN": {
+      "name": "视频导演",
+      "shortDesc": "依赖单独安装的视频创作与可用算力，自主创作并按版本/时点看图审片，保留人工锁；模型和可选媒体费用另计。"
+    },
+    "en-US": {
+      "name": "Video Director",
+      "shortDesc": "Needs the separate Video Creation app and DesireCore compute. Authors original scenes and reviews timed versions while preserving human locks; model/media costs are separate."
+    }
+  },
+  "avatar": {
+    "t": "导",
+    "bg": "linear-gradient(135deg, #16a34a, #059669)"
+  },
+  "installPolicy": "market",
+  "updatePolicy": "market"
+}
