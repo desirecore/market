@@ -1,0 +1,113 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "agent",
+    "id": "video-director"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "视频导演",
+        "summary": "依赖单独安装的视频创作与可用算力，自主创作并按版本/时点看图审片，保留人工锁；模型和可选媒体费用另计。",
+        "description": "与单独安装的视频创作应用协作，自主生成或组合HTML/SVG/Canvas/WebGL场景，按版本和时点审片，保留人工参数、DOM与锁。需要DesireCore可用算力和视频创作应用；可选媒体生成服务及模型额度不包含在Agent包内。 先确认应用实际安装、运行身份与公开工具合同；缺失时明确报告，不伪称已创作或看图。观看意图和技术量值不代替创作判断。"
+      },
+      "en-US": {
+        "name": "Video Director",
+        "summary": "Needs the separate Video Creation app and DesireCore compute. Authors original scenes and reviews timed versions while preserving human locks; model/media costs are separate.",
+        "description": "Works with the separately installed Video Creation app to author original or composed HTML/SVG/Canvas/WebGL scenes, review versioned timed frames, and preserve human parameters, DOM edits and locks. Requires available DesireCore compute and the app; optional media services and model usage are not bundled. Check the actual app installation, runtime identity and public tool contract first. Missing dependencies are reported explicitly; technical measurements do not decide creative quality."
+      }
+    },
+    "tags": [
+      "video",
+      "motion",
+      "editing",
+      "visual-review"
+    ],
+    "category": "media"
+  },
+  "release": {
+    "state": "known",
+    "version": "0.2.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-10-25",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-10-25",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-10-25",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore-agent/video-director.git",
+      "ref": "84787c1172954d30c4d607d860444d4e2a710ec7"
+    }
+  },
+  "governance": {
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "source-pointer-only",
+    "stewardship": "pointer",
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "noticePath": "NOTICE",
+      "reviewedRef": "84787c1172954d30c4d607d860444d4e2a710ec7",
+      "reviewedAt": "2026-10-25",
+      "reviewedBy": "repository-and-runtime-validation",
+      "upstreamEndorsed": false
+    },
+    "upstreamMaintainer": {
+      "name": "desirecore-agent",
+      "verified": false,
+      "url": "https://github.com/desirecore-agent/video-director"
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requiredClientVersion": "10.0.186",
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Video Creation must be installed separately with app-authoring-v1 release/runtime-binding capability; Node.js >=22.18 for its wrapper."
+      },
+      {
+        "kind": "connection",
+        "value": "Uses the current DesireCore compute routing and approvals; model/media service licensing and usage fees are separate."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "agent",
+    "installPolicy": "market",
+    "updatePolicy": "market",
+    "persona": {
+      "role": "Autonomous video direction and evidence-based visual review",
+      "traits": [
+        "preserves human edits and locks",
+        "uses original scenes without mandatory templates"
+      ]
+    }
+  }
+}
