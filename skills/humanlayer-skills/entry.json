@@ -13,11 +13,11 @@
   "i18n": {
     "zh-CN": {
       "name": "HumanLayer Skills",
-      "shortDesc": "HumanLayer 出品的 Claude Code 技能合集：可视化讲解、可视化 PR 描述、CLAUDE.md 改写、React 属性收窄与迭代式编码智能体循环搭建"
+      "shortDesc": "HumanLayer 出品的 Claude Code 技能合集：研究-设计-实现工作流、可视化讲解、可视化 PR 描述、CLAUDE.md 改写、React 属性收窄与迭代式编码智能体循环搭建。PR 与循环类流程需要 Git、GitHub CLI/Actions 及另行授权的编码智能体服务。"
     },
     "en-US": {
       "name": "HumanLayer Skills",
-      "shortDesc": "HumanLayer's Claude Code skill collection for visual explanations, visual PR outlines, CLAUDE.md rewrites, React prop narrowing, and iterated coding-agent loops"
+      "shortDesc": "HumanLayer's Claude Code skill collection for research-design-implement workflows, visual explanations, visual PR outlines, CLAUDE.md rewrites, React prop narrowing and iterated coding-agent loops. PR and loop workflows require Git, GitHub CLI/Actions and a separately licensed coding-agent service."
     }
   },
   "maintainer": {
@@ -33,7 +33,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/humanlayer/skills.git",
     "repoBranch": "main",
-    "ref": "ca7c8088db69e315a8b2deea43820270457f8f3c"
+    "ref": "653b6411c1f70c275a18e37673b042ff99f67ceb"
   },
   "children": [
     {
@@ -41,10 +41,10 @@
       "path": "plugins/build-iterated-agentic-loop/skills/build-iterated-agentic-loop",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "build a repo-local skill and install a matching iterated coding-agent GitHub Actions workflow, prompt, memory file, and reference templates"
+          "shortDesc": "搭建仓库内技能，并安装配套的迭代式编码智能体 GitHub Actions 工作流、提示词、记忆文件与参考模板；工作流运行所选编码智能体 CLI，需要运营者自有的 GitHub Actions 与智能体 API 密钥。"
         },
         "en-US": {
-          "shortDesc": "build a repo-local skill and install a matching iterated coding-agent GitHub Actions workflow, prompt, memory file, and reference templates"
+          "shortDesc": "Build a repo-local skill and install a matching iterated coding-agent GitHub Actions workflow, prompt, memory file and reference templates; the workflow runs the chosen coding-agent CLI and needs the operator's own GitHub Actions and agent API secret."
         }
       }
     },
@@ -53,10 +53,10 @@
       "path": "plugins/design-control-loop/skills/design-control-loop",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "interview the user to design an agentic control loop (sensor, controller, actuator under disturbances) tailored to their codebase, then build it as locally-runn…"
+          "shortDesc": "通过访谈与用户共同设计面向代码库的智能体控制回路（传感器、控制器、执行器与扰动），先做成可本地运行的组件，再接入定时编码智能体工作流；CI 运行需要运营者自有的 CI 与智能体 API 密钥。"
         },
         "en-US": {
-          "shortDesc": "interview the user to design an agentic control loop (sensor, controller, actuator under disturbances) tailored to their codebase, then build it as locally-runn…"
+          "shortDesc": "Interview the user to design an agentic control loop (sensor, controller, actuator under disturbances) for their codebase, built as locally runnable components plus a scheduled coding-agent workflow; CI runs need the operator's own CI and agent API secret."
         }
       }
     },
@@ -65,10 +65,10 @@
       "path": "plugins/improve-claude-md/skills/improve-claude-md",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "improve a CLAUDE.md file using <important if> blocks to improve instruction adherence"
+          "shortDesc": "用 <important if> 条件块改写 CLAUDE.md，提升智能体对指令的遵循度。"
         },
         "en-US": {
-          "shortDesc": "improve a CLAUDE.md file using <important if> blocks to improve instruction adherence"
+          "shortDesc": "Improve a CLAUDE.md file using <important if> blocks to improve instruction adherence."
         }
       }
     },
@@ -77,10 +77,22 @@
       "path": "plugins/narrow-react-prop-types/skills/narrow-react-prop-types",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "narrow React component prop types to match live code paths"
+          "shortDesc": "以真实业务调用路径为准收窄 React 组件的属性类型，让 Storybook、测试与模拟数据适配真实契约。"
         },
         "en-US": {
-          "shortDesc": "narrow React component prop types to match live code paths"
+          "shortDesc": "Narrow React component prop types to match live code paths, making stories, tests and mocks adapt to the real contract."
+        }
+      }
+    },
+    {
+      "id": "rpi",
+      "path": "plugins/rpi/skills/rpi",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "仅在用户按名称显式调用时运行：按研究问题、代码库调研、设计讨论 / PRD / 技术设计、实施大纲到实现的流程推进改动，在 .agents/artifacts 下保存可审阅文档；宿主支持时使用子 Agent 与网络搜索，不可用时按说明降级。"
+        },
+        "en-US": {
+          "shortDesc": "Runs only when the user invokes it by name: takes a change through research questions, codebase research, a design discussion, PRD or technical design, an implementation outline and implementation, saving reviewable documents under .agents/artifacts; uses host subagents and web search when available, with documented fallbacks."
         }
       }
     },
@@ -89,10 +101,10 @@
       "path": "plugins/show-me/skills/show-me",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Help the user understand the current topic visually with concise diagrams, code-shape sketches, and focused HTML artifacts."
+          "shortDesc": "用简洁的图示、代码结构草图和聚焦的 HTML 页面，帮助用户直观理解当前话题。"
         },
         "en-US": {
-          "shortDesc": "Help the user understand the current topic visually with concise diagrams, code-shape sketches, and focused HTML artifacts."
+          "shortDesc": "Help the user understand the current topic visually with concise diagrams, code-shape sketches and focused HTML artifacts."
         }
       }
     },
@@ -101,10 +113,10 @@
       "path": "plugins/visual-pr/skills/visual-pr",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Only use when the user explicitly invokes this skill by name."
+          "shortDesc": "仅在用户按名称显式调用时运行：为当前分支创建或更新拉取请求，撰写面向审阅者的简洁说明与结构化改动概览；需要 Git 与已授权的 GitHub CLI（gh），可能提交并推送分支。"
         },
         "en-US": {
-          "shortDesc": "Only use when the user explicitly invokes this skill by name."
+          "shortDesc": "Runs only when the user invokes it by name: creates or updates the current branch's pull request with a concise, reviewer-focused description and structural change outline; requires Git and an authenticated GitHub CLI (gh), and may commit and push the branch."
         }
       }
     }

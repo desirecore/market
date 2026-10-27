@@ -1,0 +1,72 @@
+{
+  "build-iterated-agentic-loop": {
+    "i18n": {
+      "zh-CN": {
+        "shortDesc": "搭建仓库内技能，并安装配套的迭代式编码智能体 GitHub Actions 工作流、提示词、记忆文件与参考模板；工作流运行所选编码智能体 CLI，需要运营者自有的 GitHub Actions 与智能体 API 密钥。"
+      },
+      "en-US": {
+        "shortDesc": "Build a repo-local skill and install a matching iterated coding-agent GitHub Actions workflow, prompt, memory file and reference templates; the workflow runs the chosen coding-agent CLI and needs the operator's own GitHub Actions and agent API secret."
+      }
+    }
+  },
+  "design-control-loop": {
+    "i18n": {
+      "zh-CN": {
+        "shortDesc": "通过访谈与用户共同设计面向代码库的智能体控制回路（传感器、控制器、执行器与扰动），先做成可本地运行的组件，再接入定时编码智能体工作流；CI 运行需要运营者自有的 CI 与智能体 API 密钥。"
+      },
+      "en-US": {
+        "shortDesc": "Interview the user to design an agentic control loop (sensor, controller, actuator under disturbances) for their codebase, built as locally runnable components plus a scheduled coding-agent workflow; CI runs need the operator's own CI and agent API secret."
+      }
+    }
+  },
+  "improve-claude-md": {
+    "i18n": {
+      "zh-CN": {
+        "shortDesc": "用 <important if> 条件块改写 CLAUDE.md，提升智能体对指令的遵循度。"
+      },
+      "en-US": {
+        "shortDesc": "Improve a CLAUDE.md file using <important if> blocks to improve instruction adherence."
+      }
+    }
+  },
+  "narrow-react-prop-types": {
+    "i18n": {
+      "zh-CN": {
+        "shortDesc": "以真实业务调用路径为准收窄 React 组件的属性类型，让 Storybook、测试与模拟数据适配真实契约。"
+      },
+      "en-US": {
+        "shortDesc": "Narrow React component prop types to match live code paths, making stories, tests and mocks adapt to the real contract."
+      }
+    }
+  },
+  "rpi": {
+    "i18n": {
+      "zh-CN": {
+        "shortDesc": "仅在用户按名称显式调用时运行：按研究问题、代码库调研、设计讨论 / PRD / 技术设计、实施大纲到实现的流程推进改动，在 .agents/artifacts 下保存可审阅文档；宿主支持时使用子 Agent 与网络搜索，不可用时按说明降级。"
+      },
+      "en-US": {
+        "shortDesc": "Runs only when the user invokes it by name: takes a change through research questions, codebase research, a design discussion, PRD or technical design, an implementation outline and implementation, saving reviewable documents under .agents/artifacts; uses host subagents and web search when available, with documented fallbacks."
+      }
+    }
+  },
+  "show-me": {
+    "i18n": {
+      "zh-CN": {
+        "shortDesc": "用简洁的图示、代码结构草图和聚焦的 HTML 页面，帮助用户直观理解当前话题。"
+      },
+      "en-US": {
+        "shortDesc": "Help the user understand the current topic visually with concise diagrams, code-shape sketches and focused HTML artifacts."
+      }
+    }
+  },
+  "visual-pr": {
+    "i18n": {
+      "zh-CN": {
+        "shortDesc": "仅在用户按名称显式调用时运行：为当前分支创建或更新拉取请求，撰写面向审阅者的简洁说明与结构化改动概览；需要 Git 与已授权的 GitHub CLI（gh），可能提交并推送分支。"
+      },
+      "en-US": {
+        "shortDesc": "Runs only when the user invokes it by name: creates or updates the current branch's pull request with a concise, reviewer-focused description and structural change outline; requires Git and an authenticated GitHub CLI (gh), and may commit and push the branch."
+      }
+    }
+  }
+}

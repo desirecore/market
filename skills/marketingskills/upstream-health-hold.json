@@ -1,0 +1,7 @@
+{
+  "statuses": ["outdated"],
+  "ref": "dda3841f0b294e01e93b1541486beefbfab0915e",
+  "head": "365b412152b9542499ca1439426f7fc3cc92bb65",
+  "reviewedAt": "2026-10-19",
+  "reason": "The new head adds sponsor messaging to agent-facing skill content: a referral-tagged promotion of the maintainer's commercial agent in ad-creative's data-pull workflow (upstream calls it a distribution nudge) and paid Verified Partner placements of a hosted site platform across six children's references and evals. The reviewed pin stays until that promotion is removed or explicitly accepted."
+}

@@ -11,11 +11,11 @@
   "i18n": {
     "zh-CN": {
       "name": "Taste Skill",
-      "shortDesc": "面向 AI Agent 的“抗平庸”前端框架，帮智能体产出有品味的高级感前端而非千篇一律的模板"
+      "shortDesc": "面向 AI Agent 的“抗平庸”前端美术指导：从 247 个精选网站研究中抽取设计方向，执行无装饰的统一风格，并在真实浏览器中检查网页与应用界面。需 Node.js 22+ 与本地 Chrome/Edge/Chromium；图片检索调用公开馆藏接口，生成页面可能加载第三方字体、图片与脚本。"
     },
     "en-US": {
       "name": "Taste Skill",
-      "shortDesc": "Anti-slop frontend framework for AI agents to build premium, tasteful UIs instead of generic output"
+      "shortDesc": "Anti-slop art direction for AI agents building websites and app screens: deals researched directions from a 247-site study, enforces a no-ornament house style and checks pages in a real browser. Needs Node.js 22+ and a local Chrome/Edge/Chromium; picture search uses public open-collection APIs, and generated pages may load third-party fonts, photos and scripts."
     }
   },
   "maintainer": {
@@ -32,6 +32,6 @@
     "repoUrl": "https://github.com/Leonxlnx/taste-skill.git",
     "repoBranch": "main",
     "path": "skills/taste-skill",
-    "ref": "ce26fc25c0e5e8cab638f883de62d9a86ee5e45b"
+    "ref": "a9c73c3d5dbf401e3e47f86e7b41f29ede1687df"
   }
 }

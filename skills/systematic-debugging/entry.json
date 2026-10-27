@@ -32,7 +32,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/obra/superpowers.git",
     "repoBranch": "main",
-    "ref": "8ca22dba9a94f28898bbce59f2537ff4d87c747d",
+    "ref": "bb92a77741419a4ab5f06e711a283343f1ada0c3",
     "path": "skills/systematic-debugging"
   }
 }

@@ -9,11 +9,11 @@
   "i18n": {
     "zh-CN": {
       "name": "钉钉 CLI",
-      "shortDesc": "钉钉官方命令行工具 dws，面向人与 AI Agent，覆盖消息、文档、钉盘、日历、待办、邮件、AI 听记等 29 个产品域、1200+ 工具。需自行用 npm 安装 dingtalk-workspace-cli 并完成钉钉 OAuth 授权登录（不支持账号密码登录）；DesireCore 不打包、不授权、不安装也不代运营钉钉或该 CLI。"
+      "shortDesc": "钉钉官方命令行工具 dws，面向人与 AI Agent，覆盖消息、文档、钉盘、日历、待办、邮件、AI 听记等产品域。需自行用 npm 安装 dingtalk-workspace-cli 并完成钉钉 OAuth 授权登录（不支持账号密码登录）；DesireCore 不打包、不授权、不安装也不代运营钉钉或该 CLI。"
     },
     "en-US": {
       "name": "DingTalk Workspace CLI",
-      "shortDesc": "Official DingTalk CLI (dws) for humans and AI agents, covering messaging, documents, drive, calendar, to-do, mail and AI minutes across 29 product domains and 1200+ tools. You install the dingtalk-workspace-cli npm package and complete DingTalk OAuth sign-in yourself (no username-and-password login); DesireCore does not bundle, license, install or operate DingTalk or this CLI."
+      "shortDesc": "Official DingTalk CLI (dws) for humans and AI agents, covering messaging, documents, drive, calendar, to-do, mail and AI minutes. You install the dingtalk-workspace-cli npm package and complete DingTalk OAuth sign-in yourself (no username-and-password login); DesireCore does not bundle, license, install or operate DingTalk or this CLI."
     }
   },
   "maintainer": {
@@ -30,7 +30,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/DingTalk-Real-AI/dingtalk-workspace-cli.git",
     "repoBranch": "main",
-    "ref": "3f0fc94111b1f9cd34e47468980b1f1a723ca69a"
+    "ref": "92cb3f513c457b9a3578b72ed870632e891dded3"
   },
   "children": [
     {
@@ -98,10 +98,10 @@
       "path": "skills/multi/dingtalk-contact",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "钉钉通讯录精确查询：按 userId 查用户详情、部门、职位与邮箱，按完整手机号反查用户，查询本人、部门成员与角色。命令前缀 dws contact。"
+          "shortDesc": "钉钉通讯录精确查询：按 userId 查用户详情、部门、职位与邮箱，按完整手机号反查用户，查询本人、部门成员与角色，并管理好友列表与好友申请（删除好友前须经用户确认）。命令前缀 dws contact。"
         },
         "en-US": {
-          "shortDesc": "Precise DingTalk directory lookups: user detail, department, title and email by userId, reverse lookup by full phone number, own profile, department members and roles. Command prefix: dws contact."
+          "shortDesc": "Precise DingTalk directory lookups: user detail, department, title and email by userId, reverse lookup by full phone number, own profile, department members and roles, plus friend lists and friend requests (removing a friend requires user confirmation). Command prefix: dws contact."
         }
       }
     },
@@ -134,10 +134,10 @@
       "path": "skills/multi/dingtalk-event",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "钉钉事件长连接监听：个人 IM 消息、已读与撤回、表情回应、群成员与群状态变化，以及 OA 审批任务与实例事件。命令前缀 dws event。"
+          "shortDesc": "钉钉事件长连接监听：个人 IM 消息、已读与撤回、表情回应、群成员与群状态变化，以及 OA 审批、VoIP 通话邀请、待办、互动卡片回调与好友事件。命令前缀 dws event。"
         },
         "en-US": {
-          "shortDesc": "Long-lived DingTalk event streaming: personal IM messages, read receipts, recalls, reactions, group membership and state changes, plus OA approval task and instance events. Command prefix: dws event."
+          "shortDesc": "Long-lived DingTalk event streaming: personal IM messages, read receipts, recalls, reactions, group membership and state changes, plus OA approval, VoIP call invitation, to-do, interactive card callback and friend events. Command prefix: dws event."
         }
       }
     },
@@ -170,10 +170,10 @@
       "path": "skills/multi/dingtalk-misc",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "长尾产品集合：OA 审批、考勤、日志日报、DING 紧急消息、直播、招聘、目标管理、电子表格、白板、原生 Markdown 与 OpenAPI 逃生舱。命令前缀见技能内产品索引表。"
+          "shortDesc": "长尾产品集合：OA 审批、考勤、日志日报、DING 紧急消息、直播、目标管理、法务合同管理、电子表格、白板、原生 Markdown 与 OpenAPI 逃生舱。命令前缀见技能内产品索引表。"
         },
         "en-US": {
-          "shortDesc": "Long-tail product bundle: OA approvals, attendance, work reports, urgent DING messages, live streams, recruiting, goal management, sheets, whiteboards, native Markdown and a raw OpenAPI escape hatch. Command prefixes come from the skill's own product index."
+          "shortDesc": "Long-tail product bundle: OA approvals, attendance, work reports, urgent DING messages, live streams, goal management, legal contract management, sheets, whiteboards, native Markdown and a raw OpenAPI escape hatch. Command prefixes come from the skill's own product index."
         }
       }
     },

@@ -1,0 +1,12 @@
+{
+  "wecomcli-pptx": {
+    "i18n": {
+      "zh-CN": {
+        "shortDesc": "企业微信在线 PPT：按主题、大纲或材料生成并编辑企微在线演示文稿，或把本地 .ppt/.pptx 导入为在线文档，只交付在线链接、不提供导出；需自行安装 wecom-cli 1.2.1 及以上版本并授权企业微信账号，本地脚本需 Python 3，抽取材料图片另需 python-pptx/python-docx/openpyxl，参考 PPT 转图可选 LibreOffice 与 pypdfium2/Pillow。"
+      },
+      "en-US": {
+        "shortDesc": "WeCom online slides: generate and edit WeCom online presentations from a topic, outline or materials, or import local .ppt/.pptx files, delivering an online link only (no export); requires separately installed wecom-cli 1.2.1+ with WeCom account authorization, Python 3 for local scripts, python-pptx/python-docx/openpyxl to extract material images, and optionally LibreOffice with pypdfium2/Pillow for reference-deck previews."
+      }
+    }
+  }
+}

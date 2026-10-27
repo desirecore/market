@@ -1,0 +1,7 @@
+{
+  "statuses": ["upstream-path-change", "outdated"],
+  "ref": "1a53d4e4da69a6060c24de42c23333fb48e927c4",
+  "head": "c839f30bfea788b822d1ab1b6f1a8cc4c0d3020d",
+  "reviewedAt": "2026-10-19",
+  "reason": "Upstream renamed seo/geo-optimizer/SKILL.md to WORKFLOW.md; the new skills/geo-optimizer/SKILL.md is a one-line shim that reads ../../seo/geo-optimizer/WORKFLOW.md, which in turn references ../../docs/safety.md. The client installs only the declared subtree, so repointing would install a broken skill. The only content change since the pin is a four-line Safety section, so the reviewed pin stays."
+}

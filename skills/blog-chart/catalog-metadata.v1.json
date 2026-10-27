@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Blog Chart",
-        "summary": "Generate inline SVG data charts that adapt to light and dark themes. Optional script needs Python 3."
+        "summary": "Internal helper (not user-invocable) that generates inline SVG data charts for blog drafts, adapting to light and dark themes. Optional script needs Python 3."
       },
       "zh-CN": {
         "name": "博客 SVG 图表",
-        "summary": "生成适配深浅色的内嵌 SVG 数据图。可选脚本需 Python 3。"
+        "summary": "内部辅助能力（不可由用户直接调用），为博客草稿生成适配深浅色的内嵌 SVG 数据图。可选脚本需 Python 3。"
       }
     },
     "category": "design",
@@ -31,21 +31,21 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05T08:00:00Z",
-      "precision": "second"
+      "value": "2026-10-19",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-11T13:43:41Z",
-      "precision": "second"
+      "value": "2026-10-19",
+      "precision": "day"
     }
   },
   "provenance": {
@@ -53,7 +53,7 @@
       "kind": "git",
       "url": "https://github.com/AgriciDaniel/claude-blog.git",
       "path": "skills/blog-chart",
-      "ref": "2500d4c765034864cede2bf215d00ccd4d7d6fb8"
+      "ref": "354442348815a7f0327077ad89af2c43cf4b4ab4"
     }
   },
   "governance": {
@@ -72,9 +72,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "2500d4c765034864cede2bf215d00ccd4d7d6fb8",
-      "reviewedAt": "2026-10-05",
-      "reviewedBy": "mashagua",
+      "reviewedRef": "354442348815a7f0327077ad89af2c43cf4b4ab4",
+      "reviewedAt": "2026-10-19",
+      "reviewedBy": "Market upstream maintenance",
       "upstreamEndorsed": false
     }
   },

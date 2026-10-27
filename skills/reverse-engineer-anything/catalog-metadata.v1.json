@@ -10,11 +10,11 @@
     "i18n": {
       "zh-CN": {
         "name": "REA 逆向分析",
-        "summary": "基于证据分析二进制、软件包与应用行为。需另备受支持的 Node.js/npm、rea-agents CLI 或已注册的 REA MCP；原生分析等流程需另备目标相关工具及权限，商业提供方须另行授权付费。安装本技能仅提供指引，不安装工具或注册服务；依赖不可用时先处理阻碍，不编造结果。"
+        "summary": "基于证据分析二进制、软件包与应用行为。需另备受支持的 Node.js/npm、rea-agents CLI 或已注册的 REA MCP；原生分析、抓包与信号记录等流程需另备目标相关工具及权限，Hopper、IDA、Fiddler Everywhere 等商业提供方须另行授权付费；代为操作浏览器前须获授权。安装本技能仅提供指引，不安装工具或注册服务；依赖不可用时先处理阻碍，不编造结果。"
       },
       "en-US": {
         "name": "REA: Reverse Engineer Anything",
-        "summary": "Evidence-led reverse analysis of binaries, packages and app behavior. Requires supported Node.js/npm and rea-agents CLI or a registered REA MCP server; target-specific tools, permissions and any commercial provider licenses are separate. Installing this skill only supplies instructions; it does not install tools or register services. Resolve missing dependencies before claiming results."
+        "summary": "Evidence-led reverse analysis of binaries, packages and app behavior. Requires supported Node.js/npm and rea-agents CLI or a registered REA MCP server; target-specific tools, permissions and any commercial provider licenses (e.g. Hopper, IDA, Fiddler Everywhere) are separate. Agent-driven browser actions need operator authorization. Installing this skill only supplies instructions; it does not install tools or register services. Resolve missing dependencies before claiming results."
       }
     },
     "category": "development",
@@ -27,12 +27,14 @@
     ]
   },
   "release": {
-    "state": "unknown"
+    "state": "known",
+    "version": "42",
+    "versionScheme": "opaque"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-11",
+      "value": "2026-10-19",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -40,12 +42,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-11",
+      "value": "2026-10-19",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-11",
+      "value": "2026-10-19",
       "precision": "day"
     }
   },
@@ -54,7 +56,7 @@
       "kind": "git",
       "url": "https://github.com/morluto/rea.git",
       "path": ".agents/skills/reverse-engineer-anything",
-      "ref": "951c2aae3be1c357df9f23558d8c09680e64c2cb"
+      "ref": "dfe8378cf5a727e3d93d47a5986233175c6ef898"
     }
   },
   "governance": {
@@ -73,9 +75,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "951c2aae3be1c357df9f23558d8c09680e64c2cb",
-      "reviewedAt": "2026-10-11",
-      "reviewedBy": "mashagua",
+      "reviewedRef": "dfe8378cf5a727e3d93d47a5986233175c6ef898",
+      "reviewedAt": "2026-10-19",
+      "reviewedBy": "Market upstream maintenance",
       "upstreamEndorsed": false
     }
   },
@@ -86,19 +88,19 @@
     "requirements": [
       {
         "kind": "runtime",
-        "value": "需 Node.js ^22.19.0 || ^24.11.0 || >=26.0.0 及 npm；requires the supported Node.js range and npm."
+        "value": "需 Node.js ^22.19.0 || ^24.11.0 || >=26.0.0 及 npm；SQLite 快照检查另需 Node.js 24.15+ 或 26+。Requires the supported Node.js range and npm; SQLite snapshot inspection needs Node.js 24.15+ or 26+."
       },
       {
         "kind": "connection",
-        "value": "另备 rea-agents CLI；MCP 工作流需另注册 REA MCP，并核对实际工具列表/版本。CLI-only hosts can use the separately acquired CLI; this skill neither installs REA nor registers an MCP server."
+        "value": "另备 rea-agents CLI；MCP 工作流需另注册 REA MCP，并核对实际工具列表/版本。上游恢复流程可运行 `npx -y rea-agents@latest`（下载最新 npm 包并写入 npm 缓存），仅在运营者审阅 dry-run 计划并批准后才写入客户端配置、替换捆绑技能或安装 Hopper。This skill neither installs REA nor registers an MCP server; setup writes only after an approved dry-run plan."
       },
       {
         "kind": "runtime",
-        "value": "目标相关工具另备，例如原生分析 Hopper/Ghidra/IDA，Android JADX/JDK/adb，固件 Binwalk/Unblob。Target-specific tools and their supported hosts are separate; commercial Hopper/IDA/JEB providers require their own licenses and costs."
+        "value": "目标相关工具另备，例如原生分析 Hopper/Ghidra/IDA/Kuna，Android JADX/JDK/adb，固件 Binwalk/Unblob，抓包记录 Wireshark 4.x tshark/capinfos，信号记录 sigrok-cli，WASM 用 WABT。Target-specific tools and their supported hosts are separate (recorded packet/signal decoding needs Linux prlimit); commercial Hopper/IDA/JEB and Fiddler Everywhere (live traffic via its own MCP server) require their own licenses and costs."
       },
       {
         "kind": "permission",
-        "value": "仅分析已获授权的目标；运行时操作需相应系统权限与授权，缺工具/连接时先解决或停止，不虚构成功。Use authorized targets; runtime observation needs applicable OS/user approvals. Resolve unavailable dependencies or stop before unsupported calls; never fabricate results."
+        "value": "仅分析已获授权的目标；运行时操作需相应系统权限与授权。代理执行浏览器场景（点击/输入/导航）前须获运营者授权：连接模式会重新导航所选页面并可能丢失未保存状态，优先用临时配置的启动模式。抓包与信号工具只读已有记录。Use authorized targets; get approval before agent-driven browser actions. Resolve unavailable dependencies or stop before unsupported calls; never fabricate results."
       }
     ]
   },

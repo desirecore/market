@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "WeCom CLI",
-        "summary": "Official WeCom (Enterprise WeChat) CLI for humans and AI agents to operate docs, smart sheets and messaging in the terminal. Requires separately installed wecom-cli 1.2.1+ and account authorization; document/sheet generation needs additional Python dependencies."
+        "summary": "Official WeCom (Enterprise WeChat) CLI for humans and AI agents to operate docs, smart sheets, slides and messaging in the terminal. Requires separately installed wecom-cli 1.2.1+ and account authorization; document, sheet and slide generation needs additional Python dependencies, with optional LibreOffice for reference-deck previews."
       },
       "zh-CN": {
         "name": "企业微信 CLI",
-        "summary": "企业微信官方命令行工具，让人与 AI Agent 在终端操作企业微信文档、智能表格、消息等核心业务。需自行安装 wecom-cli 1.2.1 及以上版本并授权；文档和表格生成另需 Python 依赖。"
+        "summary": "企业微信官方命令行工具，让人与 AI Agent 在终端操作企业微信文档、智能表格、演示文稿、消息等核心业务。需自行安装 wecom-cli 1.2.1 及以上版本并授权；文档、表格和演示文稿生成另需 Python 依赖，参考 PPT 转图可选 LibreOffice。"
       }
     },
     "category": "communication",
@@ -28,7 +28,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -36,12 +36,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     }
   },
@@ -49,7 +49,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/WecomTeam/wecom-cli.git",
-      "ref": "c4b9b6610c7ca2854441bfa336a5b458daeeb707"
+      "ref": "4c74ff28838d8fba267eaab5179d9d56f9ca61ae"
     }
   },
   "governance": {
@@ -74,7 +74,7 @@
     "requirements": [
       {
         "kind": "runtime",
-        "value": "A separately installed wecom-cli >= 1.2.1. From-scratch DOCX/XLSX generation additionally requires operator-installed python-docx/openpyxl. DesireCore does not install, license, pay for or operate the CLI or WeCom products."
+        "value": "A separately installed wecom-cli >= 1.2.1. From-scratch DOCX/XLSX generation additionally requires operator-installed python-docx/openpyxl. wecomcli-pptx runs local Python 3 scripts; extracting images from material files needs python-pptx/python-docx/openpyxl, and reference-deck previews optionally use LibreOffice with pypdfium2/Pillow (a standard-library fallback applies). DesireCore does not install, license, pay for or operate the CLI or WeCom products."
       },
       {
         "kind": "permission",
@@ -86,7 +86,7 @@
     "kind": "skill",
     "collection": {
       "role": "parent",
-      "childCount": 14,
+      "childCount": 15,
       "children": [
         {
           "identity": {
@@ -311,6 +311,31 @@
               "zh-CN": {
                 "name": "wecomcli-message",
                 "summary": "查询当前可以发送消息的聊天会话范围，并向会话列表中的单聊或群聊发送文本、Markdown、图片、文件、语音、视频消息。用户要求“给某人发消息”“在某个群里通知”“给最近会话发消息”或“把图片/文件/语音/视频发到企业微信”时使用。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "wecomcli-pptx",
+            "parentId": "wecom-cli"
+          },
+          "path": "skills/wecomcli-pptx",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "wecomcli-pptx",
+                "summary": "WeCom online slides: generate and edit WeCom online presentations from a topic, outline or materials, or import local .ppt/.pptx files, delivering an online link only (no export); requires separately installed wecom-cli 1.2.1+ with WeCom account authorization, Python 3 for local scripts, python-pptx/python-docx/openpyxl to extract material images, and optionally LibreOffice with pypdfium2/Pillow for reference-deck previews."
+              },
+              "zh-CN": {
+                "name": "wecomcli-pptx",
+                "summary": "企业微信在线 PPT：按主题、大纲或材料生成并编辑企微在线演示文稿，或把本地 .ppt/.pptx 导入为在线文档，只交付在线链接、不提供导出；需自行安装 wecom-cli 1.2.1 及以上版本并授权企业微信账号，本地脚本需 Python 3，抽取材料图片另需 python-pptx/python-docx/openpyxl，参考 PPT 转图可选 LibreOffice 与 pypdfium2/Pillow。"
               }
             },
             "tags": []

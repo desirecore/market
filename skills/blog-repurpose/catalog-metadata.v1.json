@@ -31,21 +31,21 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05T08:00:00Z",
-      "precision": "second"
+      "value": "2026-10-19",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-11T13:43:41Z",
-      "precision": "second"
+      "value": "2026-10-19",
+      "precision": "day"
     }
   },
   "provenance": {
@@ -53,7 +53,7 @@
       "kind": "git",
       "url": "https://github.com/AgriciDaniel/claude-blog.git",
       "path": "skills/blog-repurpose",
-      "ref": "2500d4c765034864cede2bf215d00ccd4d7d6fb8"
+      "ref": "354442348815a7f0327077ad89af2c43cf4b4ab4"
     }
   },
   "governance": {
@@ -72,9 +72,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "2500d4c765034864cede2bf215d00ccd4d7d6fb8",
-      "reviewedAt": "2026-10-05",
-      "reviewedBy": "mashagua",
+      "reviewedRef": "354442348815a7f0327077ad89af2c43cf4b4ab4",
+      "reviewedAt": "2026-10-19",
+      "reviewedBy": "Market upstream maintenance",
       "upstreamEndorsed": false
     }
   },

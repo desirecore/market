@@ -29,13 +29,13 @@
   },
   "release": {
     "state": "known",
-    "version": "3.26.0",
+    "version": "3.28.0",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -43,12 +43,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     }
   },
@@ -57,7 +57,7 @@
       "kind": "git",
       "url": "https://github.com/mvanhorn/last30days-skill.git",
       "path": "skills/last30days",
-      "ref": "5103ba478b380552207a3754b74c7655d64208cd"
+      "ref": "13a6cc5fd1f2d8a9b8420bbba6742599b2f4a077"
     }
   },
   "governance": {
@@ -82,11 +82,19 @@
     "requirements": [
       {
         "kind": "runtime",
-        "value": "Python 3 and the third-party source CLIs required by the selected research channels. Setup may install additional tools; the operator authorizes installation separately."
+        "value": "Python 3.12+ (Node.js for the bundled X search client) and the third-party source CLIs required by the selected research channels. The runtime check may provision a uv-managed Python 3.12 when uv is present, and setup may install yt-dlp plus the Digg, arXiv and Techmeme CLIs via npx; the operator authorizes these installations separately. DesireCore does not install, license, pay for or operate these tools."
       },
       {
         "kind": "permission",
-        "value": "Optional X/platform tokens, paid API services and browser-cookie access require the operator's own credentials, entitlements and explicit consent. Declining browser access must leave a cookie-free research path. Any remote API endpoint is operator-configured; missing or failed sources must be reported honestly."
+        "value": "Optional X/platform tokens, paid API services (e.g. ScrapeCreators credits for TikTok/Instagram, Reddit and YouTube backfill and transcripts; xAI, OpenAI, OpenRouter, Perplexity, Brave) and browser-cookie access require the operator's own credentials, entitlements and explicit consent. Declining browser access must leave a cookie-free research path. Any remote API endpoint is operator-configured; missing or failed sources must be reported honestly."
+      },
+      {
+        "kind": "permission",
+        "value": "Writes outside the workspace: setup state, consent markers and saved keys in ~/.config/last30days/.env (owner-only), and research briefs, the SQLite store and topic queue under ~/Documents/Last30Days by default; an empty LAST30DAYS_MEMORY_DIR disables saves. The operator authorizes these local writes."
+      },
+      {
+        "kind": "connection",
+        "value": "Research calls public and operator-configured third-party services (e.g. Reddit, Hacker News, Polymarket, dev.to, YouTube via yt-dlp, ScrapeCreators, X API or xAI). Publishing a brief or library to the hosted ht-ml.app service happens only after explicit opt-in and is public by default unless password-protected. DesireCore does not operate or pay for these services; report a source as unavailable rather than inventing results."
       }
     ]
   },

@@ -31,28 +31,28 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05T08:00:00Z",
-      "precision": "second"
+      "value": "2026-10-19",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-05T09:03:34Z",
-      "precision": "second"
+      "value": "2026-10-19",
+      "precision": "day"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
       "url": "https://github.com/white0dew/XiaohongshuSkills.git",
-      "ref": "5d8e7bfde98ab2b3618adf57670ea0b05650bdca"
+      "ref": "9934a380727a1c2229a753206d7958f132640bb0"
     }
   },
   "governance": {
@@ -71,9 +71,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "5d8e7bfde98ab2b3618adf57670ea0b05650bdca",
-      "reviewedAt": "2026-10-05",
-      "reviewedBy": "mashagua",
+      "reviewedRef": "9934a380727a1c2229a753206d7958f132640bb0",
+      "reviewedAt": "2026-10-19",
+      "reviewedBy": "Market upstream maintenance",
       "upstreamEndorsed": false
     }
   },

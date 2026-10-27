@@ -9,11 +9,11 @@
   "i18n": {
     "zh-CN": {
       "name": "企业微信 CLI",
-      "shortDesc": "企业微信官方命令行工具，让人与 AI Agent 在终端操作企业微信文档、智能表格、消息等核心业务。需自行安装 wecom-cli 1.2.1 及以上版本并授权；文档和表格生成另需 Python 依赖。"
+      "shortDesc": "企业微信官方命令行工具，让人与 AI Agent 在终端操作企业微信文档、智能表格、演示文稿、消息等核心业务。需自行安装 wecom-cli 1.2.1 及以上版本并授权；文档、表格和演示文稿生成另需 Python 依赖，参考 PPT 转图可选 LibreOffice。"
     },
     "en-US": {
       "name": "WeCom CLI",
-      "shortDesc": "Official WeCom (Enterprise WeChat) CLI for humans and AI agents to operate docs, smart sheets and messaging in the terminal. Requires separately installed wecom-cli 1.2.1+ and account authorization; document/sheet generation needs additional Python dependencies."
+      "shortDesc": "Official WeCom (Enterprise WeChat) CLI for humans and AI agents to operate docs, smart sheets, slides and messaging in the terminal. Requires separately installed wecom-cli 1.2.1+ and account authorization; document, sheet and slide generation needs additional Python dependencies, with optional LibreOffice for reference-deck previews."
     }
   },
   "maintainer": {
@@ -29,7 +29,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/WecomTeam/wecom-cli.git",
     "repoBranch": "main",
-    "ref": "c4b9b6610c7ca2854441bfa336a5b458daeeb707"
+    "ref": "4c74ff28838d8fba267eaab5179d9d56f9ca61ae"
   },
   "children": [
     {
@@ -140,6 +140,18 @@
         },
         "en-US": {
           "shortDesc": "查询当前可以发送消息的聊天会话范围，并向会话列表中的单聊或群聊发送文本、Markdown、图片、文件、语音、视频消息。用户要求“给某人发消息”“在某个群里通知”“给最近会话发消息”或“把图片/文件/语音/视频发到企业微信”时使用。"
+        }
+      }
+    },
+    {
+      "id": "wecomcli-pptx",
+      "path": "skills/wecomcli-pptx",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "企业微信在线 PPT：按主题、大纲或材料生成并编辑企微在线演示文稿，或把本地 .ppt/.pptx 导入为在线文档，只交付在线链接、不提供导出；需自行安装 wecom-cli 1.2.1 及以上版本并授权企业微信账号，本地脚本需 Python 3，抽取材料图片另需 python-pptx/python-docx/openpyxl，参考 PPT 转图可选 LibreOffice 与 pypdfium2/Pillow。"
+        },
+        "en-US": {
+          "shortDesc": "WeCom online slides: generate and edit WeCom online presentations from a topic, outline or materials, or import local .ppt/.pptx files, delivering an online link only (no export); requires separately installed wecom-cli 1.2.1+ with WeCom account authorization, Python 3 for local scripts, python-pptx/python-docx/openpyxl to extract material images, and optionally LibreOffice with pypdfium2/Pillow for reference-deck previews."
         }
       }
     },

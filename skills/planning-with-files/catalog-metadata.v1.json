@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Planning with Files",
-        "summary": "Use three Markdown files as the agent's on-disk working memory"
+        "summary": "Use three Markdown files as the agent's on-disk working memory; once invoked, lifecycle hooks inject plan context automatically. Needs an agent that supports skill hooks (run through sh) and Python 3 for plan injection and session-catchup.py."
       },
       "zh-CN": {
         "name": "文件化任务规划",
-        "summary": "用三份 Markdown 文件充当 Agent 的磁盘记忆"
+        "summary": "用三份 Markdown 文件充当 Agent 的磁盘记忆，调用后由生命周期钩子自动注入计划上下文。需支持技能钩子（sh 脚本）的 Agent 环境；计划注入与 session-catchup.py 需 Python 3。"
       }
     },
     "category": "productivity",
@@ -26,26 +26,28 @@
     ]
   },
   "release": {
-    "state": "unknown"
+    "state": "known",
+    "version": "3.24.3",
+    "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05T08:00:00Z",
-      "precision": "second"
+      "value": "2026-10-19",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-01T19:39:28Z",
-      "precision": "second"
+      "value": "2026-10-19",
+      "precision": "day"
     }
   },
   "provenance": {
@@ -53,7 +55,7 @@
       "kind": "git",
       "url": "https://github.com/OthmanAdi/planning-with-files.git",
       "path": "skills/planning-with-files",
-      "ref": "dab9d16fbd9314448b319d112e99f497d7638d89"
+      "ref": "d363544caea69df35ba624b238662ab861d1d92a"
     }
   },
   "governance": {
@@ -72,16 +74,22 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "dab9d16fbd9314448b319d112e99f497d7638d89",
-      "reviewedAt": "2026-10-05",
-      "reviewedBy": "mashagua",
+      "reviewedRef": "d363544caea69df35ba624b238662ab861d1d92a",
+      "reviewedAt": "2026-10-19",
+      "reviewedBy": "Market upstream maintenance",
       "upstreamEndorsed": false
     }
   },
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "An agent host that runs skill lifecycle hooks through sh, plus Python 3 for hook plan injection and session-catchup.py; without Python 3 the hooks skip plan injection instead of failing. Hooks run only after the skill is invoked, read project planning files as framed data, keep a hash-only cache under the user's cache directory (pwf-pretool) and have no network upload path."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"

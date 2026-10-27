@@ -27,13 +27,13 @@
   },
   "release": {
     "state": "known",
-    "version": "4.5.0",
+    "version": "4.6.0",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -41,12 +41,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     }
   },
@@ -55,7 +55,7 @@
       "kind": "git",
       "url": "https://github.com/pbakaus/impeccable.git",
       "path": "plugin/skills/impeccable",
-      "ref": "6e802bd0ed99f53180e2359fddab6da8d97970d9"
+      "ref": "0665bd812ae0908fcab17b96fd4f840defb882d9"
     }
   },
   "governance": {
@@ -80,11 +80,15 @@
     "requirements": [
       {
         "kind": "runtime",
-        "value": "Impeccable 4.5.0 uses its standalone launcher/binary. The operator must permit the upstream binary to run and, if it is absent, authorize its first-run download. Windows uses the upstream .cmd launcher where sh is unavailable. DesireCore does not install or operate the binary."
+        "value": "Impeccable 4.6.0 uses its standalone launcher and engine binary 0.1.15. If the binary is absent, the launcher downloads it from the upstream GitHub release, refuses it unless its SHA-256 sidecar matches, and caches it under ~/.impeccable (or IMPECCABLE_HOME); the operator must permit that download and execution. Windows uses the upstream .cmd launcher where sh is unavailable. DesireCore does not install or operate the binary."
       },
       {
         "kind": "connection",
         "value": "A first-run binary download requires network access to upstream distribution. If the launcher is unavailable, follow the upstream documented direct-context fallback and report that the launcher did not run."
+      },
+      {
+        "kind": "permission",
+        "value": "The optional design-detector hook is written into agent settings (project hook files, or ~/.claude/settings.json for a user-scope Claude install) only when the operator turns it on, and then runs after UI edits. Desktop-app audits attach to an operator-launched app's local DevTools port; keep it on 127.0.0.1 and prefer test profiles and data."
       }
     ]
   },

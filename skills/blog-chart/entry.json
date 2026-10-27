@@ -12,11 +12,11 @@
   "i18n": {
     "zh-CN": {
       "name": "博客 SVG 图表",
-      "shortDesc": "生成适配深浅色的内嵌 SVG 数据图。可选脚本需 Python 3。"
+      "shortDesc": "内部辅助能力（不可由用户直接调用），为博客草稿生成适配深浅色的内嵌 SVG 数据图。可选脚本需 Python 3。"
     },
     "en-US": {
       "name": "Blog Chart",
-      "shortDesc": "Generate inline SVG data charts that adapt to light and dark themes. Optional script needs Python 3."
+      "shortDesc": "Internal helper (not user-invocable) that generates inline SVG data charts for blog drafts, adapting to light and dark themes. Optional script needs Python 3."
     }
   },
   "maintainer": {
@@ -32,7 +32,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/AgriciDaniel/claude-blog.git",
     "repoBranch": "main",
-    "ref": "2500d4c765034864cede2bf215d00ccd4d7d6fb8",
+    "ref": "354442348815a7f0327077ad89af2c43cf4b4ab4",
     "path": "skills/blog-chart"
   }
 }
