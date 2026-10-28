@@ -21,7 +21,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/video-director.git",
     "repoBranch": "main",
-    "ref": "84787c1172954d30c4d607d860444d4e2a710ec7"
+    "ref": "4652b1db11a3d7f38d1b60c9a5f20b367952f4ae"
   },
   "requiredClientVersion": "10.0.186",
   "i18n": {
