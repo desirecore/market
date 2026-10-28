@@ -13,7 +13,7 @@ description: >-
   content afterward. If a .pptx file needs to be opened, created, or touched,
   use this skill. Use when 用户提到 PPT、演示文稿、幻灯片、演讲稿、汇报材料、
   pptx、创建演示、编辑幻灯片。
-version: 1.0.5
+version: 1.0.6
 type: procedural
 risk_level: low
 status: enabled
@@ -26,7 +26,7 @@ tags:
   - office
 metadata:
   author: anthropic
-  updated_at: '2026-10-14'
+  updated_at: '2026-10-28'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -39,7 +39,7 @@ metadata:
       description: >-
         Use this skill any time a .pptx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from any .pptx file (even if the extracted content will be used elsewhere, like in an email or summary); editing, modifying, or updating existing presentations; combining or splitting slide files; working with templates, layouts, speaker notes, or comments. Trigger whenever the user mentions "deck," "slides," "presentation," or references a .pptx filename, regardless of what they plan to do with the content afterward. If a .pptx file needs to be opened, created, or touched, use this skill. Use when 用户提到 PPT、演示文稿、幻灯片、演讲稿、汇报材料、 pptx、创建演示、编辑幻灯片。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:a952bf5622ede8e0
+      source_hash: sha256:c8569b584e23df32
       translated_by: human
     en-US:
       name: Presentation Processing
@@ -47,7 +47,7 @@ metadata:
       description: >-
         Use this skill any time a .pptx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from any .pptx file (even if the extracted content will be used elsewhere, like in an email or summary); editing, modifying, or updating existing presentations; combining or splitting slide files; working with templates, layouts, speaker notes, or comments. Trigger whenever the user mentions "deck," "slides," "presentation," or references a .pptx filename, regardless of what they plan to do with the content afterward. If a .pptx file needs to be opened, created, or touched, use this skill. Use when the user mentions PPT, presentation, slides, speaker notes, briefing materials, pptx, creating presentations, or editing slides.
       body: ./SKILL.md
-      source_hash: sha256:9d8c46a62ef8bfb8
+      source_hash: sha256:c8569b584e23df32
       translated_by: human
 market:
   icon: >-
@@ -95,16 +95,19 @@ pptx is a **Procedural Skill** providing full PowerPoint presentation processing
 
 The Python scripts bundled with this skill live inside the skill installation directory. You **MUST use full paths** when invoking them — never use bare relative paths.
 
-The skill directory is provided by the `<skill-dir>` tag in the context. Prefix all `scripts/` commands accordingly:
+The skill directory is provided by the `<skill-dir>` tag in the context. Run Office XML scripts through the cross-platform `with-deps.py` launcher. It adds the client's prepared `runtime-deps/python-libs` and prefers the prepared `runtime-deps/python-runtime` interpreter, so XML editing needs no online package installation:
 
 ```bash
-python "<skill-dir>/scripts/office/unpack.py" presentation.pptx unpacked/
-python "<skill-dir>/scripts/office/pack.py" unpacked/ output.pptx
+python "<skill-dir>/scripts/with-deps.py" office/unpack.py presentation.pptx unpacked/
+python "<skill-dir>/scripts/with-deps.py" office/pack.py unpacked/ output.pptx
+python "<skill-dir>/scripts/with-deps.py" office/validate.py output.pptx
 python "<skill-dir>/scripts/office/soffice.py" --headless --convert-to pdf output.pptx
-python "<skill-dir>/scripts/thumbnail.py" presentation.pptx
+python "<skill-dir>/scripts/with-deps.py" --current-python thumbnail.py presentation.pptx
 ```
 
-**NEVER** run `python scripts/office/unpack.py` directly — that relative path does not exist in the user's working directory.
+Targets are relative to `scripts/` (absolute paths are also accepted), and arguments/workdir/exit codes are preserved. `--current-python` keeps the interpreter where Pillow is installed for thumbnails while adding the shared pure-Python XML dependency. The launcher does not install Pillow, markitdown, LibreOffice, or any package.
+
+**NEVER** invoke Office XML scripts directly: a bare `scripts/` path is not relative to the user's workdir, and direct invocation bypasses the prepared dependencies. If no prepared interpreter can start, the current Python must be 3.10+; missing libraries or failed validation remain nonzero failures. Restore the client's prepared runtime rather than treating skipped validation as success. Child scripts do not write bytecode into the installed skill.
 
 ## Prerequisites
 
@@ -129,6 +132,8 @@ For more detailed environment setup help: load the `python-runtime` skill for Py
 load the `nodejs-runtime` skill for Node.js (pptxgenjs) issues; load the `dev-environment-setup` skill for everything else (system tools / containers / WSL).
 
 ### Python Package Dependencies
+
+Office XML scripts use `defusedxml` and `lxml` from the client's prepared runtime through `with-deps.py`; do not run `pip install` for these dependencies. Full PPTX validation requires the lxml profile. If it is unavailable, report the failure; do not claim complete validation or silently skip it.
 
 This skill's Python operations depend on the following packages (checked on demand):
 
@@ -163,10 +168,10 @@ When you create or modify a .pptx file, you **MUST** tell the user the absolute 
 python -m markitdown presentation.pptx
 
 # Visual overview
-python scripts/thumbnail.py presentation.pptx
+python "<skill-dir>/scripts/with-deps.py" --current-python thumbnail.py presentation.pptx
 
 # Raw XML
-python scripts/office/unpack.py presentation.pptx unpacked/
+python "<skill-dir>/scripts/with-deps.py" office/unpack.py presentation.pptx unpacked/
 ```
 
 ---
@@ -349,7 +354,7 @@ Report ALL issues found, including minor ones.
 Convert presentations to individual slide images for visual inspection:
 
 ```bash
-python scripts/office/soffice.py --headless --convert-to pdf output.pptx
+python "<skill-dir>/scripts/office/soffice.py" --headless --convert-to pdf output.pptx
 pdftoppm -jpeg -r 150 output.pdf slide
 ```
 
@@ -365,6 +370,7 @@ pdftoppm -jpeg -r 150 -f N -l N output.pdf slide-fixed
 
 ## Dependencies
 
+- `defusedxml` + `lxml` — Office XML editing and full PPTX validation; supplied by the client's prepared runtime and consumed through `scripts/with-deps.py`, independently of the docx skill.
 - `pip install "markitdown[pptx]"` - text extraction
 - `pip install Pillow` - thumbnail grids
 - `npm install -g pptxgenjs` - creating from scratch
