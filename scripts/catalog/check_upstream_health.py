@@ -16,28 +16,32 @@ script looks at each upstream and reports, without rewriting anything:
   bad-path    source.path, the root SKILL.md, or a declared child path is missing at
               the installed snapshot (source.ref, or branch head when unpinned)
   unreachable network error other than "not found"; treated as unknown, not broken
-  stale-hold  a reviewed hold no longer applies (invalid file, pin or installed upstream
-              content changed since review, or nothing left to hold); re-review it
+  stale-hold  a reviewed hold no longer applies (invalid file, pin, installed upstream
+              content or held undeclared children changed since review, or nothing
+              left to hold); re-review it
   new-skill   branch head has collection children that `children` does not declare
               (same discovery rules as scripts/gen-collection-children.py)
   upstream-path-change  a declared path moved at branch head but the pin still works
   outdated    pinned content differs from branch head; review before updating
   unpinned    entry follows a moving branch without source.ref
-  held        upstream-path-change / outdated finding covered by a reviewed hold
+  held        upstream-path-change / new-skill / outdated finding covered by a reviewed hold
   ok          nothing to report
 
 Path checks distinguish the installed snapshot from changes at branch head.
 Only skills get path checks; agents and teams are AgentFS repositories.
 
-Maintainers who review an upstream change and deliberately keep the current pin
-record that decision next to entry.json in `upstream-health-hold.json`:
+Maintainers who review an upstream change and deliberately keep the current pin,
+or leave new upstream children undeclared, record that decision next to
+entry.json in `upstream-health-hold.json`:
 
   {"statuses": ["upstream-path-change", "outdated"], "ref": "<source.ref>",
    "head": "<reviewed upstream commit>", "reviewedAt": "YYYY-MM-DD", "reason": "..."}
 
 The listed findings are reported as `held` while source.ref still equals `ref`
-and the installed content at branch head is unchanged since `head`. Broken,
-unreachable, new-skill and unpinned findings can never be held.
+and the installed content at branch head is unchanged since `head`. A hold that
+lists new-skill also needs the same undeclared child paths at branch head as at
+`head`, with unchanged content. Broken, unreachable and unpinned findings can
+never be held.
 
 Usage:
   uv run scripts/catalog/check_upstream_health.py                  # text table
@@ -77,7 +81,7 @@ ORDER = (*BROKEN, "unreachable", "stale-hold", "upstream-path-change", "new-skil
 # A reviewed decision to keep the current pin, next to entry.json.
 HOLD_NAME = "upstream-health-hold.json"
 HOLD_KEYS = ("statuses", "ref", "head", "reviewedAt", "reason")
-HOLDABLE = ("upstream-path-change", "outdated")
+HOLDABLE = ("upstream-path-change", "new-skill", "outdated")
 SHA = re.compile(r"[0-9a-f]{40}")
 
 # Git asks for credentials when a public repository disappears; never prompt.
@@ -217,17 +221,12 @@ def check_skill_paths(entry: dict, repo: Path, revision: str = "HEAD", *,
     children = entry.get("children") or []
 
     if children:
-        declared = {c["path"].strip("/") for c in children}
         for child in children:
             if child["path"].strip("/") not in skill_dirs:
                 issues.append(("bad-path", f"child '{child['id']}' -> '{child['path']}' has no SKILL.md"))
-        discovered = [c for c in GENERATOR.discover_children(repo, revision)
-                      if c["path"] not in declared] if discover else []
-        declared_ids = {c["id"] for c in children}
-        extra = [c["path"] for c in discovered if c["id"] not in declared_ids]
+        extra = undeclared_children(entry, repo, revision) if discover else []
         if extra:
-            shown = ", ".join(extra[:8]) + (f" (+{len(extra) - 8} more)" if len(extra) > 8 else "")
-            issues.append(("new-skill", shown))
+            issues.append(("new-skill", abbreviate(extra)))
     else:
         path = (entry["source"].get("path") or "").strip("/")
         if path not in skill_dirs:
@@ -236,13 +235,30 @@ def check_skill_paths(entry: dict, repo: Path, revision: str = "HEAD", *,
     return issues
 
 
+def undeclared_children(entry: dict, repo: Path, revision: str) -> list[str]:
+    """Paths of the collection children at `revision` that `children` does not declare."""
+    children = entry.get("children") or []
+    if not children:
+        return []
+    declared = {c["path"].strip("/") for c in children}
+    declared_ids = {c["id"] for c in children}
+    return [c["path"] for c in GENERATOR.discover_children(repo, revision)
+            if c["path"] not in declared and c["id"] not in declared_ids]
+
+
+def abbreviate(paths: list[str]) -> str:
+    return ", ".join(paths[:8]) + (f" (+{len(paths) - 8} more)" if len(paths) > 8 else "")
+
+
 def apply_hold(issues: list[tuple[str, str]], hold: dict, entry: dict, kind: str, repo: Path,
                head: str) -> list[tuple[str, str]]:
     """Report reviewed findings as `held` while the review still covers them.
 
     A hold covers one pinned ref and the installed scope at the reviewed
-    upstream head. Once either moves, or nothing it lists is found any more,
-    the findings are kept as they are and a `stale-hold` explains why.
+    upstream head; a `new-skill` hold also covers the set and content of the
+    undeclared children at that head. Once any of these moves, or nothing it
+    lists is found any more, the findings are kept as they are and a
+    `stale-hold` explains why.
     """
     if any(status == "unreachable" for status, _ in issues):
         return issues  # unknown state: the review can be neither applied nor judged stale
@@ -256,9 +272,26 @@ def apply_hold(issues: list[tuple[str, str]], hold: dict, entry: dict, kind: str
             status = "stale-hold" if MISSING_COMMIT.search(fetched.stderr) else "unreachable"
             return [*issues, (status, f"reviewed head {reviewed[:7]} cannot be fetched: "
                                       f"{last_line(fetched.stderr)}")]
-    difference = git("diff", "--quiet", reviewed, head, *comparison_scope(entry, kind), cwd=repo)
+    scope, undeclared = comparison_scope(entry, kind), []
+    if "new-skill" in hold["statuses"]:
+        # Undeclared children are not installed, so the scope above skips them.
+        try:
+            undeclared = undeclared_children(entry, repo, head)
+            before = undeclared if reviewed == head else undeclared_children(entry, repo, reviewed)
+        except RuntimeError as err:
+            return [*issues, ("unreachable", f"cannot compare undeclared children with reviewed head "
+                                             f"{reviewed[:7]}: {str(err)[:300]}")]
+        added, removed = sorted(set(undeclared) - set(before)), sorted(set(before) - set(undeclared))
+        if added or removed:
+            change = "; ".join(f"{word} {abbreviate(paths)}"
+                               for word, paths in (("added", added), ("removed", removed)) if paths)
+            return [*issues, ("stale-hold", f"undeclared children changed since {reviewed[:7]} ({change})")]
+        if scope:  # an empty scope already compares the whole snapshot
+            scope = [*scope, *undeclared]
+    difference = git("diff", "--quiet", reviewed, head, *scope, cwd=repo)
     if difference.returncode == 1:
-        return [*issues, ("stale-hold", f"upstream changed within the installed scope since {reviewed[:7]}")]
+        within = "the installed scope or undeclared children" if undeclared else "the installed scope"
+        return [*issues, ("stale-hold", f"upstream changed within {within} since {reviewed[:7]}")]
     if difference.returncode != 0:
         return [*issues, ("unreachable", f"cannot compare with reviewed head {reviewed[:7]}: "
                                          f"{last_line(difference.stderr)}")]

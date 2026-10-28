@@ -243,7 +243,7 @@ uv run scripts/catalog/check_upstream_health.py
 
 路径检查以实际安装的快照为准。只有分支头删除路径、固定版本仍可用时，报告 `upstream-path-change`。`outdated` 表示安装内容不同，不表示一定发布了新版本；文件树完全相同的提交不会触发更新提醒。比较范围与安装时复制的内容一致：单技能子目录指针比较 `source.path`，集合比较已声明的子技能路径，两者都包含仓库根的 `LICENSE*`、`NOTICE*` 和 `COPYING*` 文件。因此，无关的资讯数据、网站、CLI 源码、测试或 changeset 更新不会反复要求改动固定提交；未声明的上游技能仍单独报告为 `new-skill`。位于仓库根目录的单技能、智能体和团队比较整个快照。`--summary-file <路径>` 将工作流使用的 `broken`、`actionable` 和 `unknown` 判定以及 `held` 发现数量写入 JSON。未固定版本仍属于待处理事项；网络状态未知时保留跟踪 Issue。
 
-如果保留当前固定版本是经过审阅的决定，在 `entry.json` 旁添加 `<kind>/<id>/upstream-health-hold.json`：
+如果保留当前固定版本，或暂不声明集合在上游新增的子技能，是经过审阅的决定，在 `entry.json` 旁添加 `<kind>/<id>/upstream-health-hold.json`：
 
 ```json
 {
@@ -255,7 +255,7 @@ uv run scripts/catalog/check_upstream_health.py
 }
 ```
 
-只有 `upstream-path-change` 和 `outdated` 可以暂缓；失效状态、`unreachable`、`new-skill` 和 `unpinned` 一律不能暂缓。暂缓记录仅在 `ref` 等于条目的 `source.ref`，且上游分支头与 `head` 在安装范围内的内容完全相同时生效。被暂缓的发现报告为 `held`，列入“Reviewed holds”区块，不属于待处理事项，因此跟踪 Issue 可以关闭；关闭评论会说明仍有多少条被暂缓的发现。如果固定版本已变更、上游在安装范围内有新改动、已审阅的提交已不存在、文件无效，或已不存在被暂缓的发现，暂缓记录即失效：原有发现（如有）重新出现，并附带一条待处理的 `stale-hold`，要求重新审阅或删除该记录。检查已审阅提交时遇到网络错误会报告为 `unreachable`，不视为暂缓失效。CI 测试要求每个暂缓文件格式正确，且其 `ref` 与条目的 `source.ref` 一致，因此更新固定版本时必须同步更新或删除对应的暂缓文件。暂缓记录用于留存经过审阅的决定，不能用来掩盖已失效的条目。
+只有 `upstream-path-change`、`new-skill` 和 `outdated` 可以暂缓；失效状态、`unreachable` 和 `unpinned` 一律不能暂缓。暂缓记录仅在 `ref` 等于条目的 `source.ref`，且上游分支头与 `head` 在安装范围内的内容完全相同时生效；列出 `new-skill` 的暂缓记录还要求上游分支头的未声明子技能路径与 `head` 完全一致，且这些目录的内容没有变化。被暂缓的发现报告为 `held`，列入“Reviewed holds”区块，不属于待处理事项，因此跟踪 Issue 可以关闭；关闭评论会说明仍有多少条被暂缓的发现。如果固定版本已变更、上游在安装范围内有新改动、被暂缓的未声明子技能有增删或改动、已审阅的提交已不存在、文件无效，或已不存在被暂缓的发现，暂缓记录即失效：原有发现（如有）重新出现，并附带一条待处理的 `stale-hold`，要求重新审阅或删除该记录。检查已审阅提交时遇到网络错误会报告为 `unreachable`，不视为暂缓失效。CI 测试要求每个暂缓文件格式正确，且其 `ref` 与条目的 `source.ref` 一致，因此更新固定版本时必须同步更新或删除对应的暂缓文件。暂缓记录用于留存经过审阅的决定，不能用来掩盖已失效的条目。
 
 [校验工作流](.github/workflows/i18n-validate.yml)是 CI 行为的权威来源。它会检测相关路径，纯文档改动可能跳过目录校验。跳过后显示成功的任务，不代表 Markdown 链接或中英文文档已被检查；这些内容仍需单独审查。
 

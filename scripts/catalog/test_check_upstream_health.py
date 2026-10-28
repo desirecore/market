@@ -265,12 +265,75 @@ class UpstreamHealthTests(unittest.TestCase):
         issues = CHECKER.check_entry(entry)["issues"]
         self.assertEqual([i["status"] for i in issues], ["held", "held"])
 
+    def test_hold_covers_undeclared_children_reviewed_at_head(self) -> None:
+        self.commit({"skills/beta/SKILL.md": "---\nname: beta\ndescription: B.\n---\n"})
+        entry = self.entry(ref=self.first, children=[{"id": "alpha", "path": "skills/alpha"}])
+        self.hold(entry, statuses=["new-skill"], reason="Beta is not offered.")
+        self.assertEqual(self.statuses(entry),
+                         {"held": "new-skill: skills/beta — reviewed 2026-10-01: Beta is not offered."})
+        self.commit({"README.md": "New website.\n"})
+        self.assertEqual(set(self.statuses(entry)), {"held"})
+
+    def test_changed_undeclared_child_set_makes_a_new_skill_hold_stale(self) -> None:
+        reviewed = self.commit({"skills/beta/SKILL.md": "---\nname: beta\ndescription: B.\n---\n"})
+        entry = self.entry(ref=self.first, children=[{"id": "alpha", "path": "skills/alpha"}])
+        self.hold(entry, statuses=["new-skill"])
+        self.commit({"skills/gamma/SKILL.md": "---\nname: gamma\ndescription: G.\n---\n"})
+        result = self.statuses(entry)
+        self.assertEqual(result["new-skill"], "skills/beta, skills/gamma")
+        self.assertNotIn("held", result)
+        self.assertEqual(result["stale-hold"],
+                         f"undeclared children changed since {reviewed[:7]} (added skills/gamma)")
+        sh("git", "rm", "--quiet", "-r", "skills/beta", "skills/gamma", cwd=self.upstream)
+        self.commit({})
+        result = self.statuses(entry)
+        self.assertEqual(set(result), {"stale-hold"})
+        self.assertIn("(removed skills/beta)", result["stale-hold"])
+
+    def test_held_undeclared_child_change_makes_the_hold_stale(self) -> None:
+        reviewed = self.commit({"skills/beta/SKILL.md": "---\nname: beta\ndescription: B.\n---\n"})
+        entry = self.entry(ref=self.first, children=[{"id": "alpha", "path": "skills/alpha"}])
+        self.hold(entry, statuses=["new-skill"])
+        self.commit({"skills/beta/references/offer.md": "Sponsored content.\n"})
+        result = self.statuses(entry)
+        self.assertEqual(result["new-skill"], "skills/beta")
+        self.assertNotIn("held", result)
+        self.assertEqual(result["stale-hold"],
+                         f"upstream changed within the installed scope or undeclared children since {reviewed[:7]}")
+
+    def test_outdated_hold_ignores_changes_to_undeclared_children(self) -> None:
+        self.commit({"skills/alpha/SKILL.md": "---\nname: alpha\ndescription: Updated.\n---\n",
+                     "skills/beta/SKILL.md": "---\nname: beta\ndescription: B.\n---\n"})
+        entry = self.entry(ref=self.first, children=[{"id": "alpha", "path": "skills/alpha"}])
+        self.hold(entry)
+        self.commit({"skills/beta/SKILL.md": "---\nname: beta\ndescription: Changed.\n---\n"})
+        result = self.statuses(entry)
+        self.assertEqual(set(result), {"held", "new-skill"})
+        self.assertTrue(result["held"].startswith("outdated: "))
+
+    def test_network_error_listing_reviewed_children_is_unknown_not_stale(self) -> None:
+        reviewed = self.commit({"skills/beta/SKILL.md": "---\nname: beta\ndescription: B.\n---\n"})
+        entry = self.entry(ref=self.first, children=[{"id": "alpha", "path": "skills/alpha"}])
+        self.hold(entry, statuses=["new-skill"])
+        self.commit({"README.md": "New website.\n"})
+        real_undeclared = CHECKER.undeclared_children
+
+        def failing_listing(entry, repo, revision):
+            if revision == reviewed:
+                raise RuntimeError("cannot read skills/beta/SKILL.md: Connection reset by peer")
+            return real_undeclared(entry, repo, revision)
+
+        with patch.object(CHECKER, "undeclared_children", side_effect=failing_listing):
+            result = self.statuses(entry)
+        self.assertEqual(set(result), {"new-skill", "unreachable"})
+
     def test_hold_validation_rejects_unholdable_statuses_bad_shas_and_extra_keys(self) -> None:
         valid = {"statuses": ["upstream-path-change", "outdated"], "ref": "a" * 40, "head": "b" * 40,
                  "reviewedAt": "2026-10-01", "reason": "Kept after review."}
         self.assertEqual(CHECKER.hold_errors(valid), [])
+        self.assertEqual(CHECKER.hold_errors({**valid, "statuses": ["new-skill"]}), [])
         invalid = [{"statuses": [status]} for status in
-                   (*CHECKER.BROKEN, "unreachable", "new-skill", "unpinned", "held", "stale-hold", "ok")]
+                   (*CHECKER.BROKEN, "unreachable", "unpinned", "held", "stale-hold", "ok")]
         invalid += [{"statuses": []}, {"statuses": "outdated"}, {"statuses": ["outdated", "outdated"]},
                     {"ref": "A" * 40}, {"ref": "a" * 12}, {"head": "g" * 40}, {"head": None},
                     {"reviewedAt": "2026-13-01"}, {"reviewedAt": "18/10/2026"}, {"reason": " "}, {"reason": 1},
