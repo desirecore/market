@@ -16,7 +16,7 @@ description: >-
   report, standalone Python script, database pipeline, or Google Sheets API
   integration, even if tabular data is involved. Use when 用户提到 Excel、
   电子表格、xlsx、表格处理、公式计算、数据清洗、图表、CSV导入导出。
-version: 1.0.4
+version: 1.0.5
 type: procedural
 risk_level: low
 status: enabled
@@ -28,7 +28,7 @@ tags:
   - office
 metadata:
   author: anthropic
-  updated_at: '2026-10-14'
+  updated_at: '2026-10-28'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -41,7 +41,7 @@ metadata:
       description: >-
         Use this skill any time a spreadsheet file is the primary input or output. This means any task where the user wants to: open, read, edit, or fix an existing .xlsx, .xlsm, .csv, or .tsv file (e.g., adding columns, computing formulas, formatting, charting, cleaning messy data); create a new spreadsheet from scratch or from other data sources; or convert between tabular file formats. Trigger especially when the user references a spreadsheet file by name or path — even casually (like "the xlsx in my downloads") — and wants something done to it or produced from it. Also trigger for cleaning or restructuring messy tabular data files (malformed rows, misplaced headers, junk data) into proper spreadsheets. The deliverable must be a spreadsheet file. Do NOT trigger when the primary deliverable is a Word document, HTML report, standalone Python script, database pipeline, or Google Sheets API integration, even if tabular data is involved. Use when 用户提到 Excel、 电子表格、xlsx、表格处理、公式计算、数据清洗、图表、CSV导入导出。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:17c76a78ed03d451
+      source_hash: sha256:6cd6c553d8340840
       translated_by: human
     en-US:
       name: Spreadsheet Processing
@@ -49,7 +49,7 @@ metadata:
       description: >-
         Use this skill any time a spreadsheet file is the primary input or output. This means any task where the user wants to: open, read, edit, or fix an existing .xlsx, .xlsm, .csv, or .tsv file (e.g., adding columns, computing formulas, formatting, charting, cleaning messy data); create a new spreadsheet from scratch or from other data sources; or convert between tabular file formats. Trigger especially when the user references a spreadsheet file by name or path — even casually (like "the xlsx in my downloads") — and wants something done to it or produced from it. Also trigger for cleaning or restructuring messy tabular data files (malformed rows, misplaced headers, junk data) into proper spreadsheets. The deliverable must be a spreadsheet file. Do NOT trigger when the primary deliverable is a Word document, HTML report, standalone Python script, database pipeline, or Google Sheets API integration, even if tabular data is involved. Use when the user mentions Excel, spreadsheets, xlsx, table processing, formula computation, data cleaning, charts, or CSV import/export.
       body: ./SKILL.md
-      source_hash: sha256:e399420dae6ea7b4
+      source_hash: sha256:6cd6c553d8340840
       translated_by: human
 market:
   icon: >-
@@ -106,6 +106,17 @@ python "<skill-dir>/scripts/recalc.py" output.xlsx 30
 
 **NEVER** run `python scripts/recalc.py` directly — that relative path does not exist in the user's working directory.
 
+For low-level Office XML unpacking/packing, use this skill's own cross-platform launcher:
+
+```bash
+python "<skill-dir>/scripts/with-deps.py" office/unpack.py workbook.xlsx unpacked/
+python "<skill-dir>/scripts/with-deps.py" office/pack.py unpacked/ output.xlsx
+```
+
+The launcher loads `defusedxml` and `lxml` from the client's prepared `runtime-deps/python-libs` and prefers its `runtime-deps/python-runtime` interpreter. Targets are relative to `scripts/` or absolute; workdir, arguments and failure exit codes are preserved. It installs nothing, requires no docx/pptx skill, and suppresses child bytecode caches. If the prepared interpreter cannot start, the current Python must be 3.10+; missing dependencies fail rather than pretending validation succeeded.
+
+This does **not** add full XLSX XSD validation: `office/validate.py` currently rejects `.xlsx` as unsupported. Packing success alone is not complete validation. Reopen the output with the actual spreadsheet library, check required cells/formulas/styles, and run recalculation as appropriate. Report the unsupported validation boundary. Keep `recalc.py` on the Python where openpyxl is installed; the Office XML profile does not install openpyxl or pandas.
+
 ## Prerequisites
 
 ### Python 3 (required)
@@ -127,6 +138,8 @@ For more detailed environment setup help: for Python-related issues load the `py
 for everything else (LibreOffice / containers / WSL), load the `dev-environment-setup` Skill.
 
 ### Python Package Dependencies
+
+The launcher consumes the client's preinstalled `defusedxml`/`lxml` for Office XML scripts without `pip install`. Restore the prepared runtime if those libraries are unavailable. These shared libraries do not provide the openpyxl/pandas dependencies below or full XLSX validation.
 
 This Skill depends on the following Python packages (checked on demand):
 

@@ -15,7 +15,7 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: MIT
-version: 3.6.0
+version: 3.7.1
 compatibility: Requires a DesireCore build with the bundled external-browser Playwright runtime; Chrome/Edge/Chromium remains separately installed. Builds advertising BrowserExternalLaunch can start it through tool approval in an isolated profile; older builds require manual CDP startup.
 type: procedural
 risk_level: low
@@ -45,7 +45,7 @@ provides:
     - LocalBookmarks
 metadata:
   author: desirecore
-  updated_at: '2026-10-14'
+  updated_at: '2026-10-24'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -55,16 +55,16 @@ metadata:
     zh-CN:
       name: 联网访问
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
-      description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。 外部浏览器需单独安装并满足其使用条款；提供启动工具的客户端可经审批启动，旧客户端需手动开启调试。
+      description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。 外部浏览器需单独安装并满足其使用条款；提供启动工具的客户端可经审批启动，旧客户端需手动开启调试。 支持新客户端按显式路径审批启动系统浏览器；原生启动与 CDP 自动化就绪分别核验，依赖从随包资产离线准备。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:a81f7a90824259f0
+      source_hash: sha256:9c55a2059eeb4bf1
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
-      description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request. The external browser is separately installed and subject to its usage terms; clients with the launch tool support approved startup, while older clients require manual debugging startup.
+      description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request. The external browser is separately installed and subject to its usage terms; clients with the launch tool support approved startup, while older clients require manual debugging startup. New clients support approved native launch by explicit executable path; native startup and CDP automation readiness are verified separately, with automation dependencies prepared from bundled offline assets.
       body: ./SKILL.md
-      source_hash: sha256:a81f7a90824259f0
+      source_hash: sha256:9c55a2059eeb4bf1
       translated_by: human
 market:
   icon: >-
@@ -160,9 +160,17 @@ If any fetch fails, explicitly tell the user which URL failed and which fallback
 
 ## Prerequisites: external browser + CDP (L3-external only)
 
-**Only needed when taking the L3-external route.** The built-in browser has no prerequisites.
+### System-installed browsers and offline readiness
 
-### Always probe before attaching
+Only clients whose declared Launch schema includes system and executablePath accept `BrowserExternalLaunch(browser="system", executablePath=<authorized absolute browser executable>, url=...)` for any locally installed browser. Use OS registration facts from `BrowserExternalProbe(requestedBrowser="any")` or an authorized executable path; never infer absence from the Chrome/Edge fixed-directory list alone. Approval must identify the actual executable. Operators must separately install the browser and comply with its licence and usage terms.
+
+`system` returns `launched` with `automation="native"`: this proves process creation only, not navigation or automation readiness. Choose an available approved desktop-control method and verify the real window; do not pass this receipt to BrowserAct/BrowserScript or claim task completion. For compatible custom Chromium installations, clients accepting `executablePath` can launch the selected executable with its matching CDP family and isolated profile. Inspect the receipt and fresh Probe before interaction. Never silently replace a named product.
+
+For advanced CDP interaction, use Probe's returned `automationRuntime.pythonExecutable`. The client prepares its interpreter and wheels from fixed bundled assets independently of Hatch/Volta and system Python. If unavailable, report the structured deployment error. Do not try system Python, online pip/npm installation or an invented internal session. Missing packaged assets require installation repair; opening a login page is not evidence that automation is ready.
+
+**The remainder of this prerequisite section applies only to the CDP route.** Native system launch follows the section above and does not require a ready CDP endpoint or a Python runtime. The built-in browser has no external prerequisites.
+
+### CDP only: always probe before attaching
 
 Map the user's words to an exact probe request:
 
@@ -176,14 +184,14 @@ Handle the structured result exactly:
 | status | Required response |
 |---|---|
 | `ready` | For a simple open/navigation, call `BrowserExternalOpen` with the returned exact browser id and port. For advanced click/read/extract interaction, continue with isolated Playwright `connect_over_cdp`. Name the detected external browser honestly. For `any`, the already-ready endpoint is the prepared choice even if other products are installed |
-| `browser_not_installed` | Say the requested browser was not detected. If `alternatives` is non-empty, ask whether the user wants one of them; **never switch automatically** |
+| `browser_not_installed` | Say the requested browser was not detected; this does not prove absence. Use authorized read-only OS registration/shortcut inspection for nonstandard installations. If its executable is found, use the supported explicit-path launch mode. Ask before substituting another product unless the user already authorized that choice |
 | `debug_port_closed` | On a client advertising `BrowserExternalLaunch`, call it with the exact chosen browser, port and URL through the existing approval flow; probe again after success. Do not ask the user to type a command. On older clients without this tool, offer the manual display-only fallback |
-| `browser_choice_required` | No endpoint is ready and multiple external browsers are installed. List id/name only and ask which one the user wants; probe that exact choice next |
+| `browser_choice_required` | Multiple installations need a selection. If the user delegated the choice, select a listed installation; otherwise ask. CDP selections use an exact probe; system selections use the returned executable path for approved native launch |
 | `browser_mismatch` | Say which browser is actually on the port and which one was requested; ask the user to correct the port or explicitly approve the other browser |
 | `invalid_cdp_endpoint` | Explain that something is listening on the port but it is not a valid Chrome DevTools endpoint; do not attach |
 | `host_unavailable` | Explain that this Agent Service cannot inspect the user's desktop host; do not assume a browser is installed or silently use the built-in browser |
 
-`BrowserExternalProbe` stays read-only. `BrowserExternalLaunch` is the approved effectful entry:
+For CDP mode, `BrowserExternalProbe` stays read-only and `BrowserExternalLaunch` is the approved effectful entry:
 use the user's exact browser id, the selected loopback port and requested HTTP(S) URL. It launches
 only the detected native executable with a client-owned isolated profile, waits for verified CDP,
 and returns `opened` with `started`, process id and profile when a new process was started.
@@ -204,9 +212,9 @@ from “browser installed but debugging disabled”, and a random HTTP service m
 ⚠️ When attached over CDP, **never call `browser.close()`** — that would close the user's own external browser.
 Only close the page you opened. Full recipes in [references/cdp-browser.md](references/cdp-browser.md).
 
-### Simple external open/navigation: use the dedicated tool
+### CDP only: simple external open/navigation
 
-When the user's requested action is only to open or navigate to an HTTP(S) URL in their named external browser:
+For the CDP route, when the requested action is only to open or navigate to an HTTP(S) URL:
 
 1. Call `BrowserExternalProbe` and require `ready`.
 2. In the same runtime session, call `BrowserExternalOpen` with `browser: detectedBrowser.id`, the exact probe `port`, and the URL.
@@ -246,6 +254,9 @@ the missing prerequisite. Do not improvise a cross-shell command and do not fall
 
 ```
 User intent
+  │
+  ├─ Other installed browser / explicit executable path
+  │     └─→ Inspect installation facts if needed; advertised system Launch → native desktop control and real-window verification. No CDP-ready grant or Python prerequisite
   │
   ├─ **Any request that names "my own / my machine's / external Chrome/Edge/Chromium"**
   │     └─→ L3-external first, whether the verb is search/read/open/click:
@@ -298,7 +309,7 @@ DesireCore can drive **two** browsers. They are peer options:
 | | L3 built-in governed browser | L3-external — the user's own browser |
 |---|---|---|
 | What it is | A browser instance inside the app (the governed built-in browser tools) | The user-named Chrome/Edge/Chromium on their machine, opened through governed CDP tools and attached via isolated Python Playwright only for advanced interaction |
-| Login state | Isolated; needs `browser.import.*` granted by the Host before `BrowserImport` can pull cookies | **Literally the user's own session** — nothing to import |
+| Login state | Isolated; needs `browser.import.*` granted by the Host before `BrowserImport` can pull cookies | The login state the user established manually in the DesireCore-isolated external profile — not their everyday browser profile; nothing is imported |
 | Can the user see it | Agent tabs are offscreen by default; must be presented to the workbench | **It's their own window** — visible throughout, theirs to take over |
 | Prerequisite | None | `BrowserExternalProbe` must report `ready`; otherwise follow its exact status guidance |
 | Default | ✅ yes | When the user names it |
