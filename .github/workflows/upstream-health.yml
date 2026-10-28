@@ -66,7 +66,7 @@ jobs:
           {
             echo "_Updated by [Upstream Health]($RUN_URL) on $(date -u +%Y-%m-%d)._"
             echo
-            echo "Fix entries through a normal PR: repoint or remove \`gone\` entries, correct \`bad-*\` paths, and review upstream changes before bumping \`source.ref\` for \`outdated\` entries (rerun \`scripts/gen-collection-children.py\` for collections); a reviewed decision to keep the current pin can be recorded in \`<kind>/<id>/upstream-health-hold.json\`. \`unreachable\` means a network error, not a confirmed failure."
+            echo "Fix entries through a normal PR: repoint or remove \`gone\` entries, correct \`bad-*\` paths, and review upstream changes before bumping \`source.ref\` for \`outdated\` entries (rerun \`scripts/gen-collection-children.py\` for collections); a reviewed decision to keep the current pin or to leave new upstream children undeclared can be recorded in \`<kind>/<id>/upstream-health-hold.json\`. \`unreachable\` means a network error, not a confirmed failure."
             echo
             cat report.md
           } > body.md
