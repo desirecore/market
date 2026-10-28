@@ -48,7 +48,7 @@ jobs:
               ;;
           esac
           changed=$(git diff --name-only "$range" || true)
-          if echo "$changed" | grep -qE '^(skills/|agents/|teams/|schemas/|manifest\.json$|categories\.json$|scripts/i18n/|scripts/catalog/|scripts/gen-collection-children\.py$)'; then
+          if echo "$changed" | grep -qE '^(skills/|agents/|teams/|schemas/|manifest\.json$|categories\.json$|scripts/i18n/|scripts/catalog/|scripts/office/|scripts/gen-collection-children\.py$)'; then
             echo "relevant=true" >> "$GITHUB_OUTPUT"
           else
             echo "relevant=false" >> "$GITHUB_OUTPUT"
@@ -61,6 +61,10 @@ jobs:
       - name: Run validator unit tests
         if: steps.changes.outputs.relevant == 'true'
         run: uv run --quiet scripts/i18n/test_validate_i18n.py
+
+      - name: Run Office launcher contract tests
+        if: steps.changes.outputs.relevant == 'true'
+        run: python3 -B scripts/office/test_runtime_launcher.py
 
       - name: Run catalog validator unit tests
         if: steps.changes.outputs.relevant == 'true'
