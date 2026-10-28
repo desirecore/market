@@ -27,6 +27,7 @@
 ### 1. 先查再改
 
 - 不知道 `teamId` 时先执行 `ManageTeam(action="list")`。
+- 已解散的团队不在 `list` 里，用 `ManageTeam(action="list_archived")` 查看团队归档。
 - 修改、解散或远程同步前执行 `ManageTeam(action="get", teamId=...)`，核对名称、类型、组长、成员、本地仓库目录和远程状态。
 - 不要猜测 `~/.desirecore` 下的路径；本地仓库绝对路径只使用 `get` 返回值。
 - `list` 可传 `parentTeamId` 过滤；`tree=true` 返回组织树，此时 `teamId` 表示子树根，`parentTeamId` 不生效。
@@ -46,7 +47,9 @@
 | `set_member_source` | 声明成员 Agent 的来源 | `teamId`、`agentId`、`memberSource`；`git` 必填 `url`（https，将被 clone）与 `ref`（默认 `main`），`registry` 必填 `id`+`version`，`core`/`local` 无附加字段 |
 | `update` | 部分更新团队配置 | `teamId`；可更新 `name/type/isolation/parentTeamId/description/avatar/avatarImage` |
 | `promote` | 临时团队升级为持久团队 | `teamId`；单向操作，不得隐式执行 |
-| `disband` | 解散团队 | `teamId`；提交审批；完整归档，恢复需重新绑定目录和核准内容 |
+| `disband` | 解散团队 | `teamId`；提交审批；完整归档，之后可用 `restore` 恢复 |
+| `list_archived` | 列出团队归档 | 无参数；只读，返回 `archiveId`、原团队 ID、归档时间与原因、组长是否存在、缺失成员、原 ID 是否被占用 |
+| `restore` | 从归档恢复团队 | `archiveId`；原 ID 被占用时必填 `name`（以新 ID 恢复），原组长已不存在时必填 `supervisor`；与 `create` 同档，不进入审批 |
 | `fork_team` | 从远程仓库安装团队 | `url`；`name?`、`installMembers?`；进入审批闸门 |
 | `push` | 把本地团队仓库推送到已连接的远程 | `teamId`；进入审批闸门 |
 | `pull` | 从已连接的远程拉取并校验团队 | `teamId`；进入审批闸门 |
@@ -129,7 +132,10 @@
 
 - 临时团队完成一次项目后应解散，避免组织结构长期堆积。
 - 只有明确存在长期协作需求时才 `promote`；这是单向升级。
-- `disband` 完整归档团队目录并结束本机工作目录绑定；不依赖 Git 初始化。归档失败保留原数据并报告失败。该动作提交审批，是否显示真人卡片由调用方的审批模式决定。恢复时先确认 teamId 未被占用，再绑定工作目录、重新核准内容。
+- `disband` 完整归档团队目录并结束本机工作目录绑定；不依赖 Git 初始化。归档失败保留原数据并报告失败。该动作提交审批，是否显示真人卡片由调用方的审批模式决定。之后可用 `restore` 恢复。
+- 恢复：先 `list_archived`，按返回的 `archiveId` 调 `restore`。原 ID 已被占用时提供 `name`，团队以新 ID 恢复，不会覆盖现有团队；原组长已不存在时提供 `supervisor`（本机存在的 Agent，不能是 `desirecore`）。
+- 逐项转达恢复回执：规则核准待审阅时须由用户本人在团队设置中确认；共享工作目录改绑默认目录或未绑定时告知用户；本机已不存在的成员可用 `install_members` 补装或 `remove_members` 移除；警告逐条说明。恢复成功只表示团队回到活动目录，不代表团队已可正常工作。
+- 恢复不会重建已删除的 Agent，也不会把规则当作已核准：归档时的核准记录按内容摘要装回，内容被改过时照常拦下。
 
 ### 6. 团队仓库与远程同步
 
@@ -175,4 +181,6 @@
 - `组长已管理其他团队`：先为原团队执行 `set_supervisor`，再重试。
 - `未配置远程`：调用 `add_remote` 配置目标，或使用客户端团队设置；不要猜测隐藏 API。
 - `本地内容已变化/存在冲突`：先用 `get` 获取目录并检查 Git 状态，保留用户改动后再决定提交、拉取或重试。
+- `原团队 ID 已被占用`：用 `name` 提供新名称后重试 `restore`。
+- `原组长已不存在`：用 `supervisor` 指定本机存在的 Agent 后重试 `restore`。
 - Skill 缺失或禁用时，仍可根据 `ManageTeam` 的 action、参数 Schema 和错误提示执行最小操作，不要因此绕过工具直接修改 AgentFS。

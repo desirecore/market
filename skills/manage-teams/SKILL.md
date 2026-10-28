@@ -2,7 +2,7 @@
 license: "MIT"
 name: manage-teams
 description: 创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 持续协作、建立组织架构，或发布、安装和同步团队仓库时。
-version: 1.4.0
+version: 1.5.0
 type: procedural
 risk_level: medium
 status: enabled
@@ -13,7 +13,7 @@ tags:
   - organization
 metadata:
   author: desirecore
-  updated_at: '2026-10-06'
+  updated_at: '2026-10-28'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -26,7 +26,7 @@ metadata:
       description: >-
         创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 持续协作、建立组织架构，或发布、安装和同步团队仓库时。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:778c6fb42f550a02
+      source_hash: sha256:1695a3d0b629eed5
       translated_by: human
     en-US:
       name: Team Management
@@ -34,7 +34,7 @@ metadata:
       description: >-
         Create and govern Agent teams. Use when multiple Agents need sustained collaboration, an organizational hierarchy, or a team repository must be published, installed, or synchronized.
       body: ./SKILL.md
-      source_hash: sha256:778c6fb42f550a02
+      source_hash: sha256:1695a3d0b629eed5
       translated_by: human
 market:
   icon: >-
@@ -55,7 +55,7 @@ market:
     fill-opacity="0.7"/><circle cx="21.5" cy="4" r="0.9" fill="#34C759"
     fill-opacity="0.7"/></svg>
   category: productivity
-  required_client_version: 10.0.178
+  required_client_version: 10.0.192
 ---
 
 # manage-teams Skill
@@ -85,6 +85,7 @@ A team defines organization, shared directories, and governance. Actual work is 
 ### 1. Inspect Before Mutating
 
 - If `teamId` is unknown, call `ManageTeam(action="list")` first.
+- A disbanded team is not returned by `list`; inspect team archives with `ManageTeam(action="list_archived")`.
 - Before modifying, disbanding, or synchronizing a team, call `ManageTeam(action="get", teamId=...)` and verify its name, type, supervisor, members, local repository directory, and remote state.
 - Never guess a path under `~/.desirecore`; use only the absolute repository path returned by `get`.
 - `list` can filter by `parentTeamId`. With `tree=true`, `teamId` selects the subtree root and `parentTeamId` is ignored.
@@ -104,7 +105,9 @@ A team defines organization, shared directories, and governance. Actual work is 
 | `set_member_source` | Declare where a member Agent comes from | `teamId`, `agentId`, `memberSource`; `git` needs `url` (https, will be cloned) and `ref` (defaults to `main`), `registry` needs `id`+`version`, `core`/`local` need nothing else |
 | `update` | Partially update team configuration | `teamId`; supports `name/type/isolation/parentTeamId/description/avatar/avatarImage` |
 | `promote` | Promote an ephemeral team to persistent | `teamId`; one-way and never implicit |
-| `disband` | Disband a team | `teamId`; enters approval; preserves a full archive, requiring workdir binding and content review on restore |
+| `disband` | Disband a team | `teamId`; enters approval; preserves a full archive that `restore` can bring back |
+| `list_archived` | List team archives | no parameters; read-only; returns `archiveId`, the original team ID, archive time and reason, whether the supervisor still exists, missing members, and whether the original ID is taken |
+| `restore` | Restore a team from an archive | `archiveId`; `name` is required when the original ID is taken (restores under a new ID), `supervisor` when the original supervisor no longer exists; same tier as `create`, no approval |
 | `fork_team` | Install a team from a remote repository | `url`; `name?`, `installMembers?`; enters approval |
 | `push` | Push a local team to its connected remote | `teamId`; enters approval |
 | `pull` | Pull and validate a team from its connected remote | `teamId`; enters approval |
@@ -187,7 +190,10 @@ For an image avatar, use `avatarImage.source` with `dc-media://<mediaId>`, a bar
 
 - Disband an ephemeral team after its project is complete so the organization does not accumulate stale teams.
 - Use `promote` only for an explicit long-term collaboration requirement; promotion is one-way.
-- `disband` archives the complete team directory and ends its local workdir binding, even without Git initialization. Archive failure preserves the original data and reports failure. The action enters approval; the caller's approval mode determines whether a human card appears. To restore, first check that the team ID is free, then bind the workdir and approve its content again.
+- `disband` archives the complete team directory and ends its local workdir binding, even without Git initialization. Archive failure preserves the original data and reports failure. The action enters approval; the caller's approval mode determines whether a human card appears. Bring it back later with `restore`.
+- To restore, call `list_archived`, then `restore` with the returned `archiveId`. When the original ID is taken, pass `name`: the team is restored under a new ID and never overwrites the existing team. When the original supervisor no longer exists, pass `supervisor` (an existing local Agent other than `desirecore`).
+- Relay every item of the restore receipt: a pending rule approval must be confirmed by the user in team settings; tell the user when the shared workdir fell back to the default or is unbound; missing local members can be installed with `install_members` or removed with `remove_members`; explain each warning. Success only means the team is back in the active directory, not that it is ready to work.
+- Restoring never recreates deleted Agents and never treats rules as approved: the archived approval record is reinstated by content digest, so changed content is still blocked.
 
 ### 6. Team Repository and Remote Synchronization
 
@@ -233,4 +239,6 @@ Report the team name and ID, type, supervisor and members, workdir mode, organiz
 - `Supervisor already leads another team`: run `set_supervisor` on the existing team before retrying.
 - `Remote not configured`: use `add_remote` to configure the destination, or use client team settings; do not guess a hidden API.
 - Local content changed or conflicts exist: obtain the directory with `get`, inspect Git state, preserve user changes, and only then decide whether to commit, pull, or retry.
+- `Original team ID is taken`: retry `restore` with a new `name`.
+- `Original supervisor no longer exists`: retry `restore` with `supervisor` set to an existing local Agent.
 - If this Skill is missing or disabled, the minimal operation may still be executed from the `ManageTeam` action/parameter Schema and tool error messages. Never bypass the tool by editing AgentFS directly.
