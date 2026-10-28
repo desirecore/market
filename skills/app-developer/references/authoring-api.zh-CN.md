@@ -6,7 +6,7 @@ Agent 使用原 `AppManage` 的有限作者动作，直接进入已有 release�
 
 | AppManage action | 参数包络 | 返回事实 |
 |---|---|---|
-| `authoring_capabilities` | 无额外参数 | `capabilities` 的实际 features/policy/hostInstanceId 和当前 Agent 可读的 `fileRoots` 与已登记的 `registryTargetIds`；不授上传或文件写权限 |
+| `authoring_capabilities` | 无额外参数 | `capabilities` 的实际 features/policy/hostInstanceId 和当前 Agent 可读的 `fileRoots` 与已登记的 `registryTargetIds`；本次会话可用作草稿来源时给 `draftSource:{agentId,sessionId}`，否则给 `draftSourceUnavailable`（旧客户端两者都没有）；不授上传或文件写权限 |
 | `read_draft` | `file_ref: FileResourceRef` | 从真实授权文件读取并核验的 `draft: AppDraftRef` |
 | `prepare_release` | `release_request: AppReleasePrepareRequest` | owned candidate、真实 payload/descriptor 摘要、当前 expectedRevision |
 | `commit_release` | `release_request: AppReleaseCommitRequest` | 唯一 writer CAS 保存；activation 与保存分别核验 |
@@ -32,7 +32,9 @@ Agent 使用原 `AppManage` 的有限作者动作，直接进入已有 release�
 
 `commit_release` 使用原 prepareRef、expectedRevision（首次为 none，更新取原安装修订）、稳定 submissionId、完整 material（已解析的 ApplicationInstallationRequest）。登记失败先用 lookup_release_submission 查同安装同提交，不重新复制/启动软件。只读动作不触发修改审批；修改动作继续沿原工具审批和最终材料/调用身份复验。调用取消的短授权不保存为长期运行权限，已接纳的后台工作与 owned 临时预览补偿分别按其原 owner 管理。
 
-`AppDraftRef` 文件有 `schemaVersion:1`、稳定 draftId/appId、实际授权 `workdir`、绝对 planPath、真实 `source:{agentId,sessionId}`，可选 targetInstallationId/baselineReleaseDigest。文件引用从当前请求或授权读取工具取得。preview_prepare 用原 draft、mode、expectedRevision，snapshot 还给 release；结束只传原 draftId/revision，不能猜最近草稿或 borrowed 正式作用域。
+`AppDraftRef` 文件有 `schemaVersion:1`、稳定 draftId/appId、实际授权 `workdir`、绝对 planPath、真实 `source:{agentId,sessionId}`，可选 targetInstallationId/baselineReleaseDigest。source 原样取 `authoring_capabilities` 返回的 `draftSource`：默认会话的 sessionId 等于 agentId，手动话题是 `__manual:<uuid>`，两者都不是 runId，模型从上下文得不到，不能猜或自拟。返回 `draftSourceUnavailable`（本次会话不能作为草稿来源），或旧客户端不返回 `draftSource` 时，请用户提供当前会话 ID，或请用户改在该 Agent 的默认会话里继续：新客户端在默认会话里重新探测取 draftSource，旧客户端按 sessionId 等于 agentId 写入。文件引用从当前请求或授权读取工具取得。preview_prepare 用原 draft、mode、expectedRevision，snapshot 还给 release；结束只传原 draftId/revision，不能猜最近草稿或 borrowed 正式作用域。
+
+read_draft、preview_prepare、development_enroll 等动作因来源会话被拒（`application_preview_source_unavailable`、`application_draft_not_authorized`、`application_draft_authority_required`）时，新客户端的错误正文除 error 外还带本次会话的 `draftSource`。按它改正 app-draft.json 的 source，重新 read_draft 后再重试原动作。错误正文没有 draftSource，或 source 已与它一致仍被拒，原因不在会话 ID（如 workdir 的 agentId 或授权根不符，或本次会话不能作为草稿来源），按错误码排查，不反复改 source。
 
 release 采用 `schemaVersion:1` / `canonicalization: app-release-c14n-v1`，包括 definition、delivery、files、source、supportedPlatforms、requiredCapabilities。files 的 role 为 definition/ui/runtime/dependency/documentation/license/evidence/data-contract；路径为包内规范 POSIX。definition 文件必须与 manifest.definition 一致。`app-release.json` 本身不放入 files，不能让摘要自引用。
 
