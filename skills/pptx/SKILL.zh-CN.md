@@ -46,6 +46,8 @@ Node.js（pptxgenjs）相关问题加载 `nodejs-runtime` 技能；其他（系�
 
 ### Python 包依赖
 
+Office XML 脚本通过 `with-deps.py` 读取客户端运行时预装的 `defusedxml` 与 `lxml`，不要为这两项执行 `pip install`。PPTX 完整校验需要 lxml profile；不可用时如实报告失败，不得跳过后宣称完整校验通过。
+
 本技能的 Python 操作依赖以下包（按需检测）：
 
 - `markitdown[pptx]` — PPTX 内容读取
@@ -62,16 +64,19 @@ python3 -c "import markitdown; import PIL" 2>/dev/null || echo "MISSING"
 
 本技能自带的 Python 脚本位于技能安装目录内。执行时**必须使用完整路径**，不能使用相对路径。
 
-技能目录由上下文中的 `<skill-dir>` 标签提供。所有 `scripts/` 开头的命令都应拼接为：
+技能目录由上下文中的 `<skill-dir>` 标签提供。Office XML 脚本统一经过跨平台 `with-deps.py` 启动器：它注入客户端已准备的 `runtime-deps/python-libs`，优先选择 `runtime-deps/python-runtime` 解释器，不需要在线安装 XML 依赖：
 
 ```bash
-python "<skill-dir>/scripts/office/unpack.py" presentation.pptx unpacked/
-python "<skill-dir>/scripts/office/pack.py" unpacked/ output.pptx
+python "<skill-dir>/scripts/with-deps.py" office/unpack.py presentation.pptx unpacked/
+python "<skill-dir>/scripts/with-deps.py" office/pack.py unpacked/ output.pptx
+python "<skill-dir>/scripts/with-deps.py" office/validate.py output.pptx
 python "<skill-dir>/scripts/office/soffice.py" --headless --convert-to pdf output.pptx
-python "<skill-dir>/scripts/thumbnail.py" presentation.pptx
+python "<skill-dir>/scripts/with-deps.py" --current-python thumbnail.py presentation.pptx
 ```
 
-**禁止**直接执行 `python scripts/office/unpack.py`——该相对路径在用户工作目录下不存在。
+目标路径相对 `scripts/` 解析，也接受绝对路径；参数、工作目录与退出码保持不变。缩略图使用 `--current-python`，保留已安装 Pillow 的解释器，同时注入共享的纯 Python XML 依赖。启动器不会安装 Pillow、markitdown、LibreOffice 或任何包。
+
+**禁止**直接执行 Office XML 脚本：裸 `scripts/` 路径不相对用户工作目录，直接调用还会绕过预装依赖。受控解释器无法启动时，当前 Python 必须为 3.10+；缺库或校验失败仍返回非零。应修复客户端运行时，不能把跳过校验当成功。子脚本不在已安装技能中生成字节码缓存。
 
 ## Output Rule
 
@@ -94,10 +99,10 @@ When you create or modify a .pptx file, you **MUST** tell the user the absolute 
 python -m markitdown presentation.pptx
 
 # Visual overview
-python scripts/thumbnail.py presentation.pptx
+python "<skill-dir>/scripts/with-deps.py" --current-python thumbnail.py presentation.pptx
 
 # Raw XML
-python scripts/office/unpack.py presentation.pptx unpacked/
+python "<skill-dir>/scripts/with-deps.py" office/unpack.py presentation.pptx unpacked/
 ```
 
 ---
@@ -280,7 +285,7 @@ Report ALL issues found, including minor ones.
 Convert presentations to individual slide images for visual inspection:
 
 ```bash
-python scripts/office/soffice.py --headless --convert-to pdf output.pptx
+python "<skill-dir>/scripts/office/soffice.py" --headless --convert-to pdf output.pptx
 pdftoppm -jpeg -r 150 output.pdf slide
 ```
 
@@ -296,6 +301,7 @@ pdftoppm -jpeg -r 150 -f N -l N output.pdf slide-fixed
 
 ## Dependencies
 
+- `defusedxml` + `lxml` — Office XML 编辑与 PPTX 完整校验；由客户端运行时预装，通过 `scripts/with-deps.py` 使用，不依赖 docx 技能目录。
 - `pip install "markitdown[pptx]"` - text extraction
 - `pip install Pillow` - thumbnail grids
 - `npm install -g pptxgenjs` - creating from scratch

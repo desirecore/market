@@ -43,6 +43,8 @@ python3 --version 2>/dev/null || python --version 2>/dev/null
 
 ### Python 包依赖
 
+Office XML 脚本经启动器消费客户端运行时预装的 `defusedxml`/`lxml`，无需 `pip install`；缺失时修复客户端已准备的运行时。这些共享库不提供下方的 openpyxl/pandas，也不代表已实现 XLSX 完整校验。
+
 本技能依赖以下 Python 包（按需检测）：
 
 - `openpyxl` — Excel 文件创建和编辑（公式、格式）
@@ -69,6 +71,17 @@ python "<skill-dir>/scripts/recalc.py" output.xlsx 30
 ```
 
 **禁止**直接执行 `python scripts/recalc.py`——该相对路径在用户工作目录下不存在。
+
+如需低层 Office XML 解包/打包，使用本技能自带的跨平台启动器：
+
+```bash
+python "<skill-dir>/scripts/with-deps.py" office/unpack.py workbook.xlsx unpacked/
+python "<skill-dir>/scripts/with-deps.py" office/pack.py unpacked/ output.xlsx
+```
+
+启动器从客户端已准备的 `runtime-deps/python-libs` 加载 `defusedxml` 与 `lxml`，优先使用 `runtime-deps/python-runtime` 解释器。目标路径相对 `scripts/`，也接受绝对路径；工作目录、参数和失败退出码保持不变。它不安装任何包，不依赖 docx/pptx 技能，并抑制子脚本字节码缓存。受控解释器不能启动时，当前 Python 必须为 3.10+；缺依赖时明确失败，不伪装成校验成功。
+
+这**没有**增加 XLSX 完整 XSD 校验：`office/validate.py` 目前对 `.xlsx` 明确返回不支持。打包成功不等于完整校验，应使用实际表格库重新打开，核对所需单元格、公式与样式，并按需重算；交付时说明尚不支持完整校验。`recalc.py` 继续使用装有 openpyxl 的 Python，Office XML profile 不会安装 openpyxl 或 pandas。
 
 ## Output Rule
 
