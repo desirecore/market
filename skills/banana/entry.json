@@ -12,11 +12,11 @@
   "i18n": {
     "zh-CN": {
       "name": "Gemini 图像导演",
-      "shortDesc": "用 Gemini 图像模型生成、编辑并审查图片。需 Python 3 与 GEMINI_API_KEY（Google Gemini 接口，按用量计费）。"
+      "shortDesc": "用 Gemini 图像模型生成、编辑并审查图片。需 Python 3.11+ 与 GEMINI_API_KEY（Google Gemini 接口，按用量计费）。"
     },
     "en-US": {
       "name": "Banana",
-      "shortDesc": "Generate, edit and review images with Gemini image models. Requires Python 3 and GEMINI_API_KEY (Google Gemini Developer API, billed by usage)."
+      "shortDesc": "Generate, edit and review images with Gemini image models. Requires Python 3.11+ and GEMINI_API_KEY (Google Gemini Developer API, billed by usage)."
     }
   },
   "maintainer": {
@@ -32,7 +32,8 @@
     "kind": "git",
     "repoUrl": "https://github.com/AgriciDaniel/banana-claude.git",
     "repoBranch": "main",
-    "ref": "6a2b1b51fdcc35932184f06e513646a6f6f4f7d8",
+    "ref": "08e329b37dae396fc869c10d3494c5950d1d61c2",
     "path": "skills/banana"
-  }
+  },
+  "latestVersion": "3.1.0"
 }

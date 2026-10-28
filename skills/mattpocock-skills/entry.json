@@ -31,7 +31,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/mattpocock/skills.git",
     "repoBranch": "main",
-    "ref": "49dd158d1076134a641b33efb035946536778336"
+    "ref": "59db609eb1e18aaf59b63284d0e52255aff0c63c"
   },
   "children": [
     {
@@ -279,10 +279,10 @@
       "path": "skills/in-progress/chief-of-staff",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "上游 in-progress（测试中）技能，仅在用户显式手动调用时运行：在单个长会话中作为统筹者，把工作分派给后台子 Agent 并在宿主支持时建议定期计划，持续推进长期目标；需要宿主支持子 Agent。"
+          "shortDesc": "上游 in-progress（测试中）技能，仅在用户显式手动调用时运行：在单个长会话中作为统筹者，把工作分派给后台子 Agent，在与用户约定的文件夹中维护注明日期的 Markdown 知识库，并在宿主支持时建议定期计划，持续推进长期目标；需要宿主支持子 Agent。"
         },
         "en-US": {
-          "shortDesc": "Upstream in-progress skill that runs only when the user invokes it explicitly: acts as a chief of staff in one long session, delegating work to background subagents and suggesting recurring schedules where the host supports them; requires host subagent support."
+          "shortDesc": "Upstream in-progress skill that runs only when the user invokes it explicitly: acts as a chief of staff in one long session, delegating work to background subagents, keeping a dated Markdown wiki in a folder agreed with the user and suggesting recurring schedules where the host supports them; requires host subagent support."
         }
       }
     },

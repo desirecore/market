@@ -31,21 +31,21 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05T08:00:00Z",
-      "precision": "second"
+      "value": "2026-10-27",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-27",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-05T10:21:49Z",
-      "precision": "second"
+      "value": "2026-10-27",
+      "precision": "day"
     }
   },
   "provenance": {
@@ -53,7 +53,7 @@
       "kind": "git",
       "url": "https://github.com/openclaw/openclaw.git",
       "path": "skills/himalaya",
-      "ref": "6ddf5a6106c18c4cf803a601b3a099e497d943fb"
+      "ref": "9adda02605eca1f45eb10f009dd4c3e575713032"
     }
   },
   "governance": {
@@ -72,16 +72,26 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "6ddf5a6106c18c4cf803a601b3a099e497d943fb",
-      "reviewedAt": "2026-10-05",
-      "reviewedBy": "mashagua",
+      "reviewedRef": "9adda02605eca1f45eb10f009dd4c3e575713032",
+      "reviewedAt": "2026-10-27",
+      "reviewedBy": "Market upstream maintenance",
       "upstreamEndorsed": false
     }
   },
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "The separately installed, open-source himalaya CLI (upstream metadata offers a Homebrew formula) and a mail account reachable over IMAP/SMTP, or a local Notmuch database, configured in ~/.config/himalaya/config.toml outside the workspace. The market does not install the CLI or provide a mail service. Check readiness with himalaya --version; if the CLI or account is unavailable, stop and report it instead of claiming that mail was read or sent."
+      },
+      {
+        "kind": "permission",
+        "value": "Uses the operator's own mail credentials, such as an app password; upstream recommends a password command or system keyring over a raw password in the config and says never to paste secrets into chat or logs. Sending, replying, forwarding, moving and deleting act on the live mailbox, and the skill itself has no confirmation step, so confirm recipients, content and target messages with the user first."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"

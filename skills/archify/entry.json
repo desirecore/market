@@ -26,13 +26,13 @@
     "url": "https://github.com/tt-a1i/archify"
   },
   "stewardship": "community",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "redistribution": "allowed",
   "source": {
     "kind": "git",
     "repoUrl": "https://github.com/tt-a1i/archify.git",
     "repoBranch": "main",
-    "ref": "654da74e084e5a1faf708779c23d6172766be9c1",
+    "ref": "81c6be8d87090670c45d08a8f97f9d29c5af0bec",
     "path": "archify"
   },
   "latestVersion": "3.2"

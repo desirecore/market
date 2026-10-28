@@ -27,13 +27,13 @@
   },
   "release": {
     "state": "known",
-    "version": "3.24.3",
+    "version": "3.25.2",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-19",
+      "value": "2026-10-27",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -41,12 +41,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-19",
+      "value": "2026-10-27",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-19",
+      "value": "2026-10-27",
       "precision": "day"
     }
   },
@@ -55,7 +55,7 @@
       "kind": "git",
       "url": "https://github.com/OthmanAdi/planning-with-files.git",
       "path": "skills/planning-with-files",
-      "ref": "d363544caea69df35ba624b238662ab861d1d92a"
+      "ref": "dcdfb278de53fdb69b2067ea173dbb1de45345a3"
     }
   },
   "governance": {
@@ -74,8 +74,8 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "d363544caea69df35ba624b238662ab861d1d92a",
-      "reviewedAt": "2026-10-19",
+      "reviewedRef": "dcdfb278de53fdb69b2067ea173dbb1de45345a3",
+      "reviewedAt": "2026-10-27",
       "reviewedBy": "Market upstream maintenance",
       "upstreamEndorsed": false
     }

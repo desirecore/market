@@ -1,0 +1,7 @@
+{
+  "statuses": ["outdated"],
+  "ref": "94f06c1969dfc1834001269d79d3ad0972d9dee6",
+  "head": "14c213405669414492bda0f8d52cc6531d062c45",
+  "reviewedAt": "2026-10-27",
+  "reason": "The 1.6.0 rebuild makes CloakBrowser, a stealth Chromium marketed to pass bot detection and shipped under a restrictive binary license, the default browser for logged-in platform channels, and copies site cookies from a connected Chrome on first use. The installed SKILL.md is also now a template with unrendered {{VERSION}} and {{CHANNEL_TABLE}} placeholders, so the reviewed pin stays until the anti-detection default is removed or explicitly accepted."
+}

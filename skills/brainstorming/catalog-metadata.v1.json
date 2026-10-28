@@ -31,7 +31,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-19",
+      "value": "2026-10-27",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -39,12 +39,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-19",
+      "value": "2026-10-27",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-19",
+      "value": "2026-10-27",
       "precision": "day"
     }
   },
@@ -53,7 +53,7 @@
       "kind": "git",
       "url": "https://github.com/obra/superpowers.git",
       "path": "skills/brainstorming",
-      "ref": "bb92a77741419a4ab5f06e711a283343f1ada0c3"
+      "ref": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b"
     }
   },
   "governance": {
@@ -72,8 +72,8 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "bb92a77741419a4ab5f06e711a283343f1ada0c3",
-      "reviewedAt": "2026-10-19",
+      "reviewedRef": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
+      "reviewedAt": "2026-10-27",
       "reviewedBy": "Market upstream maintenance",
       "upstreamEndorsed": false
     }

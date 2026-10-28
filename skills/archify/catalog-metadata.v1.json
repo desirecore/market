@@ -33,7 +33,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-19",
+      "value": "2026-10-27",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -41,12 +41,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-19",
+      "value": "2026-10-27",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-19",
+      "value": "2026-10-27",
       "precision": "day"
     }
   },
@@ -55,7 +55,7 @@
       "kind": "git",
       "url": "https://github.com/tt-a1i/archify.git",
       "path": "archify",
-      "ref": "654da74e084e5a1faf708779c23d6172766be9c1"
+      "ref": "81c6be8d87090670c45d08a8f97f9d29c5af0bec"
     }
   },
   "governance": {
@@ -63,7 +63,7 @@
     "availability": "listing-only",
     "license": {
       "state": "known",
-      "value": "MIT",
+      "value": "Apache-2.0",
       "evidencePath": "LICENSE"
     },
     "redistribution": "allowed",
