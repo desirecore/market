@@ -1,0 +1,1530 @@
+{
+  "id": "aws-agent-toolkit",
+  "name": "Agent Toolkit for AWS Skills",
+  "category": "development",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M7 18H6a4 4 0 0 1-.6-7.95A6.5 6.5 0 0 1 18 9a4.5 4.5 0 0 1 .5 8.97H17\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"m9 13-3 3 3 3m6-6 3 3-3 3m-2-7-2 8\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "aws",
+    "cloud",
+    "development",
+    "infrastructure",
+    "skill-collection"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "AWS Agent 工具包技能合集",
+      "shortDesc": "AWS 官方工具包中的 118 个技能，涵盖开发、部署、数据、安全与运维。仅安装技能指引；CLI/SDK、MCP、运行环境、账户与 IAM 权限需按所选技能另行配置，云资源及第三方服务可能收费；缺依赖时停止执行。"
+    },
+    "en-US": {
+      "name": "Agent Toolkit for AWS Skills",
+      "shortDesc": "118 skills from the AWS-maintained toolkit for development, deployment, data, security and operations. Instructions only: separately configure each skill’s CLI/SDK, MCP, runtime, account and IAM access. Cloud resources and external services may incur charges; stop when prerequisites are missing."
+    }
+  },
+  "maintainer": {
+    "name": "aws",
+    "verified": false,
+    "account": "aws",
+    "url": "https://github.com/aws/agent-toolkit-for-aws"
+  },
+  "stewardship": "community",
+  "license": "Apache-2.0",
+  "redistribution": "allowed",
+  "riskLevel": "high",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/aws/agent-toolkit-for-aws.git",
+    "repoBranch": "main",
+    "ref": "e8c630949189f03b3dd77388c86b06a7f2f911a9"
+  },
+  "children": [
+    {
+      "id": "amazon-bedrock",
+      "path": "skills/core-skills/amazon-bedrock",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "在 Amazon Bedrock 上构建生成式 AI 应用，涵盖模型调用、RAG、知识库、Agents 与 AgentCore。"
+        },
+        "en-US": {
+          "shortDesc": "Build generative AI applications on Amazon Bedrock, including model invocation, RAG, Knowledge Bases, Agents and AgentCore."
+        }
+      }
+    },
+    {
+      "id": "aws-ai-ml",
+      "path": "skills/core-skills/aws-ai-ml",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "使用 Amazon SageMaker 选择、训练、定制、评估和部署 AI 模型，排查推理端点问题。"
+        },
+        "en-US": {
+          "shortDesc": "Select, train, customize, evaluate and deploy AI models on Amazon SageMaker; diagnose inference endpoints."
+        }
+      }
+    },
+    {
+      "id": "aws-auth",
+      "path": "skills/core-skills/aws-auth",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "通过 Amazon Cognito 与 Amplify 身份验证库，为 Web 和移动应用添加注册、登录及访问控制。"
+        },
+        "en-US": {
+          "shortDesc": "Add sign-up, sign-in and access control to web and mobile apps with Amazon Cognito and Amplify auth libraries."
+        }
+      }
+    },
+    {
+      "id": "aws-billing-and-cost-management",
+      "path": "skills/core-skills/aws-billing-and-cost-management",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "分析 AWS 账单、预算和成本异常，评估 Savings Plans、预留实例及资源规格优化。"
+        },
+        "en-US": {
+          "shortDesc": "Analyze AWS bills, budgets and cost anomalies; evaluate Savings Plans, Reserved Instances and resource right-sizing."
+        }
+      }
+    },
+    {
+      "id": "aws-blocks",
+      "path": "skills/core-skills/aws-blocks",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "使用 AWS Blocks 的 Infrastructure-from-Code 模式构建、调试和部署全栈应用。"
+        },
+        "en-US": {
+          "shortDesc": "Build, debug and deploy full-stack applications with the Infrastructure-from-Code framework AWS Blocks."
+        }
+      }
+    },
+    {
+      "id": "aws-cdk",
+      "path": "skills/core-skills/aws-cdk",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "使用 TypeScript 或 Python 编写、部署和排查 AWS CDK 基础设施与堆栈。"
+        },
+        "en-US": {
+          "shortDesc": "Author, deploy and troubleshoot AWS CDK infrastructure and stacks in TypeScript or Python."
+        }
+      }
+    },
+    {
+      "id": "aws-cloudformation",
+      "path": "skills/core-skills/aws-cloudformation",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "编写、验证和排查 CloudFormation 模板，结合安全检查与堆栈事件诊断部署问题。"
+        },
+        "en-US": {
+          "shortDesc": "Author, validate and troubleshoot CloudFormation templates using security checks and stack-event diagnostics."
+        }
+      }
+    },
+    {
+      "id": "aws-compute",
+      "path": "skills/core-skills/aws-compute",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "选择和运维 EC2 实例，配置 Auto Scaling、启动模板、AMI、Spot 与 Systems Manager。"
+        },
+        "en-US": {
+          "shortDesc": "Select and operate EC2 instances; configure Auto Scaling, launch templates, AMIs, Spot and Systems Manager."
+        }
+      }
+    },
+    {
+      "id": "aws-containers",
+      "path": "skills/core-skills/aws-containers",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "使用 EKS、ECS、Fargate 与 ECR 构建和部署容器工作负载。"
+        },
+        "en-US": {
+          "shortDesc": "Build and deploy containerized workloads with EKS, ECS, Fargate and ECR."
+        }
+      }
+    },
+    {
+      "id": "aws-database",
+      "path": "skills/core-skills/aws-database",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "根据选型、对比、入门或运维需求，将 AWS 数据库任务分派到对应服务技能。"
+        },
+        "en-US": {
+          "shortDesc": "Route AWS database selection, comparison, onboarding and operational tasks to the appropriate service skill."
+        }
+      }
+    },
+    {
+      "id": "aws-deployment",
+      "path": "skills/core-skills/aws-deployment",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "使用 CodePipeline、CodeBuild、CodeDeploy、CodeConnections 与 CodeArtifact 配置 CI/CD。"
+        },
+        "en-US": {
+          "shortDesc": "Configure CI/CD with CodePipeline, CodeBuild, CodeDeploy, CodeConnections and CodeArtifact."
+        }
+      }
+    },
+    {
+      "id": "aws-iam",
+      "path": "skills/core-skills/aws-iam",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "核对 IAM 策略求值、信任策略、STS 会话和 Organizations 等容易误判的权限行为。"
+        },
+        "en-US": {
+          "shortDesc": "Check commonly misunderstood IAM policy evaluation, trust policies, STS sessions and Organizations behavior."
+        }
+      }
+    },
+    {
+      "id": "aws-messaging-and-streaming",
+      "path": "skills/core-skills/aws-messaging-and-streaming",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "指导 AWS 消息与流服务的选用和一般操作。"
+        },
+        "en-US": {
+          "shortDesc": "Guide service selection and general operations for AWS messaging and streaming."
+        }
+      }
+    },
+    {
+      "id": "aws-networking",
+      "path": "skills/core-skills/aws-networking",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "将 AWS 网络需求分派到相应服务技能，指导后续配置。"
+        },
+        "en-US": {
+          "shortDesc": "Route AWS networking requirements to the appropriate service skill for implementation."
+        }
+      }
+    },
+    {
+      "id": "aws-observability",
+      "path": "skills/core-skills/aws-observability",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "构建、配置和排查 AWS 可观测性方案，区分 CloudWatch Omni 与经典工作流。"
+        },
+        "en-US": {
+          "shortDesc": "Build, configure and troubleshoot AWS observability, distinguishing CloudWatch Omni from classic workflows."
+        }
+      }
+    },
+    {
+      "id": "aws-sdk-js-v3-usage",
+      "path": "skills/core-skills/aws-sdk-js-v3-usage",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "指导 AWS SDK for JavaScript v3 的开发模式、依赖和版本要求。"
+        },
+        "en-US": {
+          "shortDesc": "Guide AWS SDK for JavaScript v3 development patterns, dependencies and version requirements."
+        }
+      }
+    },
+    {
+      "id": "aws-sdk-python-usage",
+      "path": "skills/core-skills/aws-sdk-python-usage",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "指导 AWS SDK for Python（boto3/botocore）的开发模式。"
+        },
+        "en-US": {
+          "shortDesc": "Guide AWS SDK for Python development patterns with boto3 and botocore."
+        }
+      }
+    },
+    {
+      "id": "aws-sdk-swift-usage",
+      "path": "skills/core-skills/aws-sdk-swift-usage",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "指导 AWS SDK for Swift 的开发模式。"
+        },
+        "en-US": {
+          "shortDesc": "Guide AWS SDK for Swift development patterns."
+        }
+      }
+    },
+    {
+      "id": "aws-security",
+      "path": "skills/core-skills/aws-security",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "评估 AWS 安全服务的适用性、覆盖范围和费用，包括 WAF、Network Firewall 与 VPC 端点。"
+        },
+        "en-US": {
+          "shortDesc": "Assess AWS security service suitability, coverage and costs, including WAF, Network Firewall and VPC endpoints."
+        }
+      }
+    },
+    {
+      "id": "aws-serverless",
+      "path": "skills/core-skills/aws-serverless",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "根据需求选择无服务器计算形态，并分派到负责该形态的技能。"
+        },
+        "en-US": {
+          "shortDesc": "Select a serverless compute form factor and route the request to its owning skill."
+        }
+      }
+    },
+    {
+      "id": "aws-storage",
+      "path": "skills/core-skills/aws-storage",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "比较 AWS 对象、文件和块存储，分析成本、性能、配置、安全与故障。"
+        },
+        "en-US": {
+          "shortDesc": "Compare AWS object, file and block storage; investigate cost, performance, configuration, security and failures."
+        }
+      }
+    },
+    {
+      "id": "aws-well-architected-review",
+      "path": "skills/core-skills/aws-well-architected-review",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "依据在线框架文档，跨支柱检查 AWS 工作负载的 Well-Architected 问题。"
+        },
+        "en-US": {
+          "shortDesc": "Review AWS workloads across Well-Architected pillars using questions discovered from live framework documentation."
+        }
+      }
+    },
+    {
+      "id": "launch-with-aws",
+      "path": "skills/core-skills/launch-with-aws",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "指导将快速原型 Web 应用迁移到 AWS。"
+        },
+        "en-US": {
+          "shortDesc": "Guide migration of prototype web applications to AWS."
+        }
+      }
+    },
+    {
+      "id": "signing-in-to-aws",
+      "path": "skills/core-skills/signing-in-to-aws",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "通过 aws login 获取 CLI/SDK 凭据；该登录流程要求 AWS CLI 2.32.0 或更高版本。"
+        },
+        "en-US": {
+          "shortDesc": "Obtain CLI/SDK credentials through aws login; this login flow requires AWS CLI 2.32.0 or later."
+        }
+      }
+    },
+    {
+      "id": "amazon-opensearch-service",
+      "path": "skills/specialized-skills/analytics-skills/amazon-opensearch-service",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "指导 Amazon OpenSearch 的迁移、配置、搜索、日志与链路分析，以及 Agentic AI Assistant 工作流。"
+        },
+        "en-US": {
+          "shortDesc": "Guide Amazon OpenSearch migration, provisioning, search, log and trace analytics, and Agentic AI Assistant workflows."
+        }
+      }
+    },
+    {
+      "id": "authoring-mwaa-workflow",
+      "path": "skills/specialized-skills/analytics-skills/authoring-mwaa-workflow",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "为 Amazon MWAA 编写和部署 Airflow Python DAG 或 Serverless YAML 工作流。"
+        },
+        "en-US": {
+          "shortDesc": "Author and deploy Airflow Python DAGs or Serverless YAML workflows for Amazon MWAA."
+        }
+      }
+    },
+    {
+      "id": "aws-cleanrooms",
+      "path": "skills/specialized-skills/analytics-skills/aws-cleanrooms",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "排查 AWS Clean Rooms 协作中的 IAM、S3、KMS、Lake Formation 权限与日志问题。"
+        },
+        "en-US": {
+          "shortDesc": "Troubleshoot AWS Clean Rooms collaboration issues involving IAM, S3, KMS, Lake Formation and logs."
+        }
+      }
+    },
+    {
+      "id": "connecting-to-data-source",
+      "path": "skills/specialized-skills/analytics-skills/connecting-to-data-source",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "创建和排查 AWS Glue 到 JDBC 数据库、Redshift、Snowflake 或 BigQuery 的连接。"
+        },
+        "en-US": {
+          "shortDesc": "Create and troubleshoot AWS Glue connections to JDBC databases, Redshift, Snowflake and BigQuery."
+        }
+      }
+    },
+    {
+      "id": "debugging-mwaa-workflow",
+      "path": "skills/specialized-skills/analytics-skills/debugging-mwaa-workflow",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "诊断 Amazon MWAA Provisioned 与 Serverless 工作流失败的根因。"
+        },
+        "en-US": {
+          "shortDesc": "Diagnose Amazon MWAA Provisioned and Serverless workflow failures."
+        }
+      }
+    },
+    {
+      "id": "developing-applications-on-managed-service-for-apache-flink",
+      "path": "skills/specialized-skills/analytics-skills/developing-applications-on-managed-service-for-apache-flink",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "指导 Flink 与 Amazon Managed Service for Apache Flink 应用开发。"
+        },
+        "en-US": {
+          "shortDesc": "Guide application development with Flink and Amazon Managed Service for Apache Flink."
+        }
+      }
+    },
+    {
+      "id": "exploring-data-catalog",
+      "path": "skills/specialized-skills/analytics-skills/exploring-data-catalog",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "盘点和审计 AWS Glue Data Catalog 中的 S3 Tables、Redshift 联合目录及远程 Iceberg 资产。"
+        },
+        "en-US": {
+          "shortDesc": "Inventory and audit AWS Glue Data Catalog assets across S3 Tables, Redshift-federated and remote Iceberg catalogs."
+        }
+      }
+    },
+    {
+      "id": "finding-data-lake-assets",
+      "path": "skills/specialized-skills/analytics-skills/finding-data-lake-assets",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "在 Glue Data Catalog、S3、S3 Tables 与 Redshift 中定位数据湖和湖仓资产。"
+        },
+        "en-US": {
+          "shortDesc": "Locate data lake and lakehouse assets across Glue Data Catalog, S3, S3 Tables and Redshift."
+        }
+      }
+    },
+    {
+      "id": "ingesting-into-data-lake",
+      "path": "skills/specialized-skills/analytics-skills/ingesting-into-data-lake",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "将文件或数据库数据导入 AWS 数据湖，支持 JDBC、Redshift、Snowflake 等来源。"
+        },
+        "en-US": {
+          "shortDesc": "Import files and database data into the AWS data lake from JDBC databases, Redshift, Snowflake and other sources."
+        }
+      }
+    },
+    {
+      "id": "managing-amazon-kinesis-data-streams",
+      "path": "skills/specialized-skills/analytics-skills/managing-amazon-kinesis-data-streams",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "运维 Amazon Kinesis Data Streams，核对流模式、目标、区域与 IAM 前置条件。"
+        },
+        "en-US": {
+          "shortDesc": "Operate Amazon Kinesis Data Streams and check stream mode, destinations, Region and IAM prerequisites."
+        }
+      }
+    },
+    {
+      "id": "managing-amazon-msk",
+      "path": "skills/specialized-skills/analytics-skills/managing-amazon-msk",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "运维 Amazon MSK Provisioned 集群，包括 Standard 与 Express broker。"
+        },
+        "en-US": {
+          "shortDesc": "Operate Amazon MSK Provisioned clusters with Standard or Express brokers."
+        }
+      }
+    },
+    {
+      "id": "managing-data-asset-access",
+      "path": "skills/specialized-skills/analytics-skills/managing-data-asset-access",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "通过 SageMaker Catalog（DataZone）订阅流程授予、申请、审计和移除数据资产访问权限。"
+        },
+        "en-US": {
+          "shortDesc": "Grant, request, audit and remove data asset access through SageMaker Catalog (DataZone) subscriptions."
+        }
+      }
+    },
+    {
+      "id": "managing-data-catalog",
+      "path": "skills/specialized-skills/analytics-skills/managing-data-catalog",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "维护 SageMaker Catalog（DataZone）或 Glue Data Catalog 中的业务元数据。"
+        },
+        "en-US": {
+          "shortDesc": "Write and curate business metadata in SageMaker Catalog (DataZone) or Glue Data Catalog."
+        }
+      }
+    },
+    {
+      "id": "migrate-to-msk",
+      "path": "skills/specialized-skills/analytics-skills/migrate-to-msk",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "评估并迁移自建 Apache Kafka 工作负载到 Amazon MSK Express。"
+        },
+        "en-US": {
+          "shortDesc": "Assess and migrate self-managed Apache Kafka workloads to Amazon MSK Express."
+        }
+      }
+    },
+    {
+      "id": "migrating-to-amazon-redshift",
+      "path": "skills/specialized-skills/analytics-skills/migrating-to-amazon-redshift",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "指导数据仓库迁移到 Redshift，涵盖发现、SQL/模式转换、数据迁移、验证与性能调优。"
+        },
+        "en-US": {
+          "shortDesc": "Guide data warehouse migration to Redshift: discovery, SQL/schema conversion, data migration, validation and tuning."
+        }
+      }
+    },
+    {
+      "id": "querying-data-lake",
+      "path": "skills/specialized-skills/analytics-skills/querying-data-lake",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "通过 Athena SQL 查询和管理 Glue、S3 Tables、Redshift 等默认或联合目录中的数据。"
+        },
+        "en-US": {
+          "shortDesc": "Run and manage Athena SQL queries across default and federated catalogs, including Glue, S3 Tables and Redshift."
+        }
+      }
+    },
+    {
+      "id": "redshift-guide",
+      "path": "skills/specialized-skills/analytics-skills/redshift-guide",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "指导 Redshift SQL、元数据、连接认证、存储、性能与运维，避免套用 PostgreSQL 假设。"
+        },
+        "en-US": {
+          "shortDesc": "Guide Redshift SQL, metadata, connectivity, authentication, storage, performance and operations without assuming PostgreSQL behavior."
+        }
+      }
+    },
+    {
+      "id": "testing-mwaa-workflow",
+      "path": "skills/specialized-skills/analytics-skills/testing-mwaa-workflow",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "触发 Amazon MWAA 工作流并监控至完成，检查 Provisioned 与 Serverless 的端到端执行。"
+        },
+        "en-US": {
+          "shortDesc": "Trigger and monitor Amazon MWAA workflows to completion for Provisioned and Serverless end-to-end execution checks."
+        }
+      }
+    },
+    {
+      "id": "upgrading-mwaa-environments",
+      "path": "skills/specialized-skills/analytics-skills/upgrading-mwaa-environments",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "升级 MWAA 的 Airflow 版本，涵盖同系列升级及从 2.x 到 3.x 的迁移。"
+        },
+        "en-US": {
+          "shortDesc": "Upgrade MWAA Airflow environments within a release series or across the 2.x-to-3.x boundary."
+        }
+      }
+    },
+    {
+      "id": "aws-marketplace-metering",
+      "path": "skills/specialized-skills/aws-marketplace-skills/aws-marketplace-metering",
+      "version": "2.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "部署、查询和排查 AWS Marketplace 按量计费的用量计量集成。"
+        },
+        "en-US": {
+          "shortDesc": "Deploy, query and troubleshoot usage-based metering integrations for AWS Marketplace."
+        }
+      }
+    },
+    {
+      "id": "amazon-ses",
+      "path": "skills/specialized-skills/customer-communications-skills/amazon-ses",
+      "version": "2.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "指导 Amazon SES 域名邮件发送的接入流程。"
+        },
+        "en-US": {
+          "shortDesc": "Guide onboarding for domain-based email sending with Amazon SES."
+        }
+      }
+    },
+    {
+      "id": "aws-sms-voice",
+      "path": "skills/specialized-skills/customer-communications-skills/aws-sms-voice",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "通过 pinpoint-sms-voice-v2 CLI 接入 RCS Business Messaging 与 Notify OTP。"
+        },
+        "en-US": {
+          "shortDesc": "Onboard RCS Business Messaging and Notify OTP through the pinpoint-sms-voice-v2 CLI."
+        }
+      }
+    },
+    {
+      "id": "aws-social-messaging",
+      "path": "skills/specialized-skills/customer-communications-skills/aws-social-messaging",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "通过 AWS End User Messaging Social 管理 WhatsApp 消息。"
+        },
+        "en-US": {
+          "shortDesc": "Manage WhatsApp messaging through AWS End User Messaging Social."
+        }
+      }
+    },
+    {
+      "id": "amazon-aurora-mysql",
+      "path": "skills/specialized-skills/database-skills/amazon-aurora-mysql",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "创建、修改和运维 Aurora MySQL 集群，涵盖 Serverless 与并行查询。"
+        },
+        "en-US": {
+          "shortDesc": "Create, modify and operate Aurora MySQL clusters, including Serverless and parallel query."
+        }
+      }
+    },
+    {
+      "id": "amazon-aurora-postgresql",
+      "path": "skills/specialized-skills/database-skills/amazon-aurora-postgresql",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "创建、修改和运维 Aurora PostgreSQL 集群，包括 Serverless 等引擎特性。"
+        },
+        "en-US": {
+          "shortDesc": "Create, modify and operate Aurora PostgreSQL clusters, including Serverless and other engine-specific features."
+        }
+      }
+    },
+    {
+      "id": "amazon-documentdb",
+      "path": "skills/specialized-skills/database-skills/amazon-documentdb",
+      "version": "2.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "指导 DocumentDB 集群、TLS/VPC/驱动配置、文档与向量建模及 MongoDB 兼容性。"
+        },
+        "en-US": {
+          "shortDesc": "Guide DocumentDB clusters, TLS/VPC/driver configuration, document and vector modeling, and MongoDB compatibility."
+        }
+      }
+    },
+    {
+      "id": "amazon-dynamodb",
+      "path": "skills/specialized-skills/database-skills/amazon-dynamodb",
+      "version": "2.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "根据访问模式设计和审查 DynamoDB 数据层，选择主键、GSI 与单表或多表方案。"
+        },
+        "en-US": {
+          "shortDesc": "Design and review DynamoDB data layers from access patterns, choosing keys, GSIs and single-table or multi-table designs."
+        }
+      }
+    },
+    {
+      "id": "amazon-elasticache",
+      "path": "skills/specialized-skills/database-skills/amazon-elasticache",
+      "version": "2.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "识别缓存需求，评估和配置 ElastiCache，以处理应用延迟、数据库瓶颈与成本压力。"
+        },
+        "en-US": {
+          "shortDesc": "Identify caching needs and configure ElastiCache for application latency, database bottlenecks and cost pressure."
+        }
+      }
+    },
+    {
+      "id": "amazon-keyspaces",
+      "path": "skills/specialized-skills/database-skills/amazon-keyspaces",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "核对 Amazon Keyspaces 兼容性、价格、连接与预热方案；部分脚本另需 Node.js 和 npm 依赖。"
+        },
+        "en-US": {
+          "shortDesc": "Check Amazon Keyspaces compatibility, pricing, connectivity and pre-warming; some scripts need Node.js and npm dependencies."
+        }
+      }
+    },
+    {
+      "id": "amazon-neptune",
+      "path": "skills/specialized-skills/database-skills/amazon-neptune",
+      "version": "2.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "指导 Neptune Database 与 Neptune Analytics 的图数据库、知识图谱及关系分析工作负载。"
+        },
+        "en-US": {
+          "shortDesc": "Guide graph, knowledge-graph and relationship analytics workloads on Neptune Database and Neptune Analytics."
+        }
+      }
+    },
+    {
+      "id": "aurora-dsql",
+      "path": "skills/specialized-skills/database-skills/aurora-dsql",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "配置和连接 Aurora DSQL，管理模式、执行查询、迁移 MySQL 并诊断执行计划。"
+        },
+        "en-US": {
+          "shortDesc": "Provision and connect to Aurora DSQL, manage schemas, run queries, migrate MySQL and diagnose query plans."
+        }
+      }
+    },
+    {
+      "id": "creating-amazon-aurora-db-cluster-with-instances",
+      "path": "skills/specialized-skills/database-skills/creating-amazon-aurora-db-cluster-with-instances",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "按顺序创建 Aurora 数据库集群和实例，并通过 Secrets Manager 管理密码。"
+        },
+        "en-US": {
+          "shortDesc": "Create an Aurora database cluster and instances in order, with Secrets Manager password management."
+        }
+      }
+    },
+    {
+      "id": "exporting-rds-to-s3",
+      "path": "skills/specialized-skills/database-skills/exporting-rds-to-s3",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "将 RDS 或 Aurora 快照以 Apache Parquet 格式导出到 S3，用于分析、备份或迁移。"
+        },
+        "en-US": {
+          "shortDesc": "Export RDS or Aurora snapshots to S3 in Apache Parquet format for analytics, backup or migration."
+        }
+      }
+    },
+    {
+      "id": "rds-db2",
+      "path": "skills/specialized-skills/database-skills/rds-db2",
+      "version": "2.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "指导 RDS for Db2 的配置、连接、迁移和运维。"
+        },
+        "en-US": {
+          "shortDesc": "Guide provisioning, connectivity, migration and operations for RDS for Db2."
+        }
+      }
+    },
+    {
+      "id": "rds-oracle",
+      "path": "skills/specialized-skills/database-skills/rds-oracle",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "诊断 RDS for Oracle 的连接、身份验证、网络与驱动问题。"
+        },
+        "en-US": {
+          "shortDesc": "Diagnose RDS for Oracle connectivity, authentication, networking and driver issues."
+        }
+      }
+    },
+    {
+      "id": "rds-oss",
+      "path": "skills/specialized-skills/database-skills/rds-oss",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "指导 RDS 开源引擎的实例创建、升级、承诺定价、代理评估与蓝绿部署。"
+        },
+        "en-US": {
+          "shortDesc": "Guide RDS open-source engine provisioning, upgrades, commitment pricing, proxy evaluation and blue/green deployments."
+        }
+      }
+    },
+    {
+      "id": "rds-sqlserver",
+      "path": "skills/specialized-skills/database-skills/rds-sqlserver",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "指导 RDS for SQL Server 的连接、身份验证与故障排查。"
+        },
+        "en-US": {
+          "shortDesc": "Guide connectivity, authentication and troubleshooting for RDS for SQL Server."
+        }
+      }
+    },
+    {
+      "id": "timestream-influxdb",
+      "path": "skills/specialized-skills/database-skills/timestream-influxdb",
+      "version": "2.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "按引擎版本核对 Amazon Timestream for InfluxDB 的使用与运维指引。"
+        },
+        "en-US": {
+          "shortDesc": "Retrieve engine-specific usage and operational guidance for Amazon Timestream for InfluxDB."
+        }
+      }
+    },
+    {
+      "id": "amazon-ec2-image-builder",
+      "path": "skills/specialized-skills/ec2-skills/amazon-ec2-image-builder",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "使用 EC2 Image Builder 自动构建 Linux、Windows、macOS AMI 及 ECR 容器镜像。"
+        },
+        "en-US": {
+          "shortDesc": "Automate Linux, Windows and macOS AMI builds and ECR container images with EC2 Image Builder."
+        }
+      }
+    },
+    {
+      "id": "launching-ec2-instance-with-best-practices",
+      "path": "skills/specialized-skills/ec2-skills/launching-ec2-instance-with-best-practices",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "采用安全和成本意识的默认配置启动 EC2，包括 AMI、实例规格、IAM 与安全组。"
+        },
+        "en-US": {
+          "shortDesc": "Launch EC2 instances with security- and cost-conscious AMI, sizing, IAM and security group defaults."
+        }
+      }
+    },
+    {
+      "id": "setting-up-ec2-instance-profiles",
+      "path": "skills/specialized-skills/ec2-skills/setting-up-ec2-instance-profiles",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "创建并绑定 IAM 实例配置文件，使 EC2 无需硬编码凭据即可访问 AWS 服务。"
+        },
+        "en-US": {
+          "shortDesc": "Create and attach IAM instance profiles so EC2 can access AWS services without hardcoded credentials."
+        }
+      }
+    },
+    {
+      "id": "amazon-workspaces-agent-access",
+      "path": "skills/specialized-skills/end-user-computing-skills/amazon-workspaces-agent-access",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "通过另行配置的 Agent Access MCP，将 AI Agent 接入 WorkSpaces Applications 的远程 Windows 应用。"
+        },
+        "en-US": {
+          "shortDesc": "Connect AI agents to remote Windows apps in WorkSpaces Applications through a separately configured Agent Access MCP server."
+        }
+      }
+    },
+    {
+      "id": "aws-transform",
+      "path": "skills/specialized-skills/migration-and-modernization-skills/aws-transform",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "使用另行安装的 AWS Transform（ATX）CLI 执行代码升级、迁移与转换。"
+        },
+        "en-US": {
+          "shortDesc": "Upgrade, migrate and transform code with the separately installed AWS Transform (ATX) CLI."
+        }
+      }
+    },
+    {
+      "id": "dms-schema-conversion",
+      "path": "skills/specialized-skills/migration-and-modernization-skills/dms-schema-conversion",
+      "version": "4.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "管理 DMS Schema Conversion 的迁移项目、数据库模式转换与兼容性评估流程。"
+        },
+        "en-US": {
+          "shortDesc": "Manage DMS Schema Conversion migration projects, database schema conversion and compatibility assessments."
+        }
+      }
+    },
+    {
+      "id": "cloudfront",
+      "path": "skills/specialized-skills/networking-and-content-delivery-skills/cloudfront",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "配置 CloudFront 内容分发，处理缓存、源站、边缘计算与相关安全服务集成。"
+        },
+        "en-US": {
+          "shortDesc": "Configure CloudFront content delivery, caching, origins, edge compute and related security integrations."
+        }
+      }
+    },
+    {
+      "id": "configuring-vpc-endpoints-for-private-aws-service-access",
+      "path": "skills/specialized-skills/networking-and-content-delivery-skills/configuring-vpc-endpoints-for-private-aws-service-access",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "通过 PrivateLink 配置接口型和网关型 VPC 端点，以私有方式访问 AWS 服务。"
+        },
+        "en-US": {
+          "shortDesc": "Configure interface and gateway VPC endpoints for private AWS service access with PrivateLink."
+        }
+      }
+    },
+    {
+      "id": "connecting-vpcs-with-peering",
+      "path": "skills/specialized-skills/networking-and-content-delivery-skills/connecting-vpcs-with-peering",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "建立两个 VPC 之间的对等连接，配置直接私有网络互通。"
+        },
+        "en-US": {
+          "shortDesc": "Establish VPC peering for direct private connectivity between two VPCs."
+        }
+      }
+    },
+    {
+      "id": "creating-production-vpc-multi-az",
+      "path": "skills/specialized-skills/networking-and-content-delivery-skills/creating-production-vpc-multi-az",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "创建多可用区 VPC，包括公私子网、互联网网关、NAT 网关、路由与安全配置。"
+        },
+        "en-US": {
+          "shortDesc": "Create a multi-AZ VPC with public/private subnets, internet and NAT gateways, routing and security configuration."
+        }
+      }
+    },
+    {
+      "id": "directconnect",
+      "path": "skills/specialized-skills/networking-and-content-delivery-skills/directconnect",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "配置 Direct Connect 的连接模式、交叉连接、虚拟接口与混合网络连接。"
+        },
+        "en-US": {
+          "shortDesc": "Configure Direct Connect connection models, cross connects, virtual interfaces and hybrid connectivity."
+        }
+      }
+    },
+    {
+      "id": "enabling-lambda-vpc-internet-access",
+      "path": "skills/specialized-skills/networking-and-content-delivery-skills/enabling-lambda-vpc-internet-access",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "通过 NAT 网关、公私子网路由与安全组，让 VPC 内的 Lambda 访问互联网。"
+        },
+        "en-US": {
+          "shortDesc": "Enable internet access for VPC-connected Lambda through NAT gateways, subnet routing and security groups."
+        }
+      }
+    },
+    {
+      "id": "route53",
+      "path": "skills/specialized-skills/networking-and-content-delivery-skills/route53",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "配置 Route 53 DNS、路由策略、健康检查、DNS Firewall、Profiles 与 VPC Resolver。"
+        },
+        "en-US": {
+          "shortDesc": "Configure Route 53 DNS, routing policies, health checks, DNS Firewall, Profiles and VPC Resolver."
+        }
+      }
+    },
+    {
+      "id": "routing-traffic-with-route53-and-cloudfront",
+      "path": "skills/specialized-skills/networking-and-content-delivery-skills/routing-traffic-with-route53-and-cloudfront",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "配置 Route 53，将自定义域名的流量路由到 CloudFront 分发。"
+        },
+        "en-US": {
+          "shortDesc": "Configure Route 53 to route a custom domain to a CloudFront distribution."
+        }
+      }
+    },
+    {
+      "id": "shieldadvanced",
+      "path": "skills/specialized-skills/networking-and-content-delivery-skills/shieldadvanced",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "配置 Shield Advanced 的 DDoS 防护、资源保护与自动响应；订阅和服务费用另计。"
+        },
+        "en-US": {
+          "shortDesc": "Configure Shield Advanced DDoS protection and automated response; subscription and service charges apply separately."
+        }
+      }
+    },
+    {
+      "id": "sitetositevpn",
+      "path": "skills/specialized-skills/networking-and-content-delivery-skills/sitetositevpn",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "配置本地网络与 VPC 之间的 Site-to-Site IPsec VPN，并选择目标网关。"
+        },
+        "en-US": {
+          "shortDesc": "Configure Site-to-Site IPsec VPN between an on-premises network and a VPC, selecting the target gateway."
+        }
+      }
+    },
+    {
+      "id": "transitgateway",
+      "path": "skills/specialized-skills/networking-and-content-delivery-skills/transitgateway",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "配置 Transit Gateway、VPC 附件与路由表，实现网络分段、集中出口和流量检查。"
+        },
+        "en-US": {
+          "shortDesc": "Configure Transit Gateway, VPC attachments and route tables for segmentation, centralized egress and inspection."
+        }
+      }
+    },
+    {
+      "id": "waf",
+      "path": "skills/specialized-skills/networking-and-content-delivery-skills/waf",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "在 CloudFront、ALB、API Gateway 或 AppSync 上配置 WAF Web ACL 以过滤流量。"
+        },
+        "en-US": {
+          "shortDesc": "Configure WAF web ACLs on CloudFront, ALB, API Gateway or AppSync to filter web traffic."
+        }
+      }
+    },
+    {
+      "id": "aws-network-monitoring",
+      "path": "skills/specialized-skills/operations-skills/aws-network-monitoring",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "安装、配置和排查 EC2 上的 Network Flow Monitor Agent，监测网络路径健康状况。"
+        },
+        "en-US": {
+          "shortDesc": "Install, configure and troubleshoot Network Flow Monitor agents on EC2 to monitor network path health."
+        }
+      }
+    },
+    {
+      "id": "setting-up-cloudtrail-multi-region",
+      "path": "skills/specialized-skills/operations-skills/setting-up-cloudtrail-multi-region",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "配置多区域 CloudTrail、S3 日志与 CloudWatch 集成，用于审计和安全监控。"
+        },
+        "en-US": {
+          "shortDesc": "Configure multi-Region CloudTrail, S3 logs and CloudWatch integration for auditing and security monitoring."
+        }
+      }
+    },
+    {
+      "id": "setting-up-cloudwatch-alarm-notifications",
+      "path": "skills/specialized-skills/operations-skills/setting-up-cloudwatch-alarm-notifications",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "通过 SNS 主题与订阅配置 CloudWatch 告警通知渠道。"
+        },
+        "en-US": {
+          "shortDesc": "Configure CloudWatch alarm notification channels with SNS topics and subscriptions."
+        }
+      }
+    },
+    {
+      "id": "setting-up-cloudwatch-observability",
+      "path": "skills/specialized-skills/operations-skills/setting-up-cloudwatch-observability",
+      "version": "3.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "首次设置 CloudWatch Omni 应用可观测性或经典 CloudWatch 方案。"
+        },
+        "en-US": {
+          "shortDesc": "Set up CloudWatch Omni application observability or classic CloudWatch for the first time."
+        }
+      }
+    },
+    {
+      "id": "troubleshooting-application-failures",
+      "path": "skills/specialized-skills/operations-skills/troubleshooting-application-failures",
+      "version": "2.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "发现并分析 CloudWatch 日志组，定位应用故障模式、根因和修复措施。"
+        },
+        "en-US": {
+          "shortDesc": "Discover and analyze CloudWatch log groups to identify application failure patterns, root causes and fixes."
+        }
+      }
+    },
+    {
+      "id": "amazon-braket",
+      "path": "skills/specialized-skills/quantum-computing-skills/amazon-braket",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "通过 Amazon Braket 发现量子设备与模拟器，构建并运行量子计算工作流。"
+        },
+        "en-US": {
+          "shortDesc": "Discover quantum devices and simulators and build and run quantum computing workflows with Amazon Braket."
+        }
+      }
+    },
+    {
+      "id": "arc-region-switch",
+      "path": "skills/specialized-skills/resilience-skills/arc-region-switch",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "指导 ARC Region switch 的架构、计划、执行块、工作流和触发条件。"
+        },
+        "en-US": {
+          "shortDesc": "Guide ARC Region switch architecture, plans, execution blocks, workflows and triggers."
+        }
+      }
+    },
+    {
+      "id": "aws-fault-injection-service",
+      "path": "skills/specialized-skills/resilience-skills/aws-fault-injection-service",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "规划、运行和分析 AWS FIS 故障注入实验，验证应用韧性；需事先确认影响范围。"
+        },
+        "en-US": {
+          "shortDesc": "Plan, run and analyze AWS FIS experiments to validate application resilience; confirm the impact scope first."
+        }
+      }
+    },
+    {
+      "id": "aws-resilience-lifecycle",
+      "path": "skills/specialized-skills/resilience-skills/aws-resilience-lifecycle",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "结合 Resilience Hub、FIS 与 ARC，指导 AWS 韧性评估、修复和验证流程。"
+        },
+        "en-US": {
+          "shortDesc": "Guide AWS resilience assessment, remediation and validation with Resilience Hub, FIS and ARC."
+        }
+      }
+    },
+    {
+      "id": "recovery-controller-setup",
+      "path": "skills/specialized-skills/resilience-skills/recovery-controller-setup",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "配置 ARC 路由控制、安全规则及可用区转移，以支持故障恢复。"
+        },
+        "en-US": {
+          "shortDesc": "Configure ARC routing controls, safety rules and zonal shift for operational recovery."
+        }
+      }
+    },
+    {
+      "id": "resilience-hub-failure-mode-assessment",
+      "path": "skills/specialized-skills/resilience-skills/resilience-hub-failure-mode-assessment",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "运行和解读 Resilience Hub v2 的故障模式评估。"
+        },
+        "en-US": {
+          "shortDesc": "Run and interpret Resilience Hub v2 failure mode assessments."
+        }
+      }
+    },
+    {
+      "id": "resilience-hub-getting-started",
+      "path": "skills/specialized-skills/resilience-skills/resilience-hub-getting-started",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "从零设置 Resilience Hub v2，包括韧性策略、SLO、系统、用户旅程与服务接入。"
+        },
+        "en-US": {
+          "shortDesc": "Set up Resilience Hub v2 policies, SLOs, systems, user journeys and service onboarding from scratch."
+        }
+      }
+    },
+    {
+      "id": "resilience-hub-multi-account",
+      "path": "skills/specialized-skills/resilience-skills/resilience-hub-multi-account",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "配置 Resilience Hub v2 的跨账户 IAM 权限与集中评估。"
+        },
+        "en-US": {
+          "shortDesc": "Configure cross-account IAM permissions and centralized assessment for Resilience Hub v2."
+        }
+      }
+    },
+    {
+      "id": "resilience-program-design",
+      "path": "skills/specialized-skills/resilience-skills/resilience-program-design",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "设计组织级韧性计划，包括分层策略、可用性/RTO/RPO 目标、灾备方案和演练频率。"
+        },
+        "en-US": {
+          "shortDesc": "Design organization-wide resilience policies, availability/RTO/RPO targets, disaster recovery approaches and exercise cadence."
+        }
+      }
+    },
+    {
+      "id": "creating-secrets-using-best-practices",
+      "path": "skills/specialized-skills/security-and-identity-skills/creating-secrets-using-best-practices",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "通过 Secrets Manager 创建和管理密钥，配置 KMS、轮换、最小权限及审计。"
+        },
+        "en-US": {
+          "shortDesc": "Create and manage Secrets Manager secrets with KMS, rotation, least privilege and auditing."
+        }
+      }
+    },
+    {
+      "id": "amazon-eventbridge-event-bus",
+      "path": "skills/specialized-skills/serverless-skills/amazon-eventbridge-event-bus",
+      "version": "2.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "使用 EventBridge Event Bus 构建和运维事件驱动应用，支持发布订阅、解耦及治理。"
+        },
+        "en-US": {
+          "shortDesc": "Build and operate event-driven applications with EventBridge Event Bus for publish/subscribe, decoupling and governance."
+        }
+      }
+    },
+    {
+      "id": "aws-lambda-durable-functions",
+      "path": "skills/specialized-skills/serverless-skills/aws-lambda-durable-functions",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "使用 Lambda durable functions 构建长时多步骤应用，处理状态持久化、重试、回放与回调。"
+        },
+        "en-US": {
+          "shortDesc": "Build long-running, multi-step apps with Lambda durable functions, state persistence, retries, replay and callbacks."
+        }
+      }
+    },
+    {
+      "id": "aws-lambda-managed-instances",
+      "path": "skills/specialized-skills/serverless-skills/aws-lambda-managed-instances",
+      "version": "3.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "评估、配置并迁移到 Lambda Managed Instances，在用户账户的 EC2 上运行 Lambda。"
+        },
+        "en-US": {
+          "shortDesc": "Evaluate, configure and migrate to Lambda Managed Instances running Lambda on EC2 in the user's account."
+        }
+      }
+    },
+    {
+      "id": "aws-lambda-microvms",
+      "path": "skills/specialized-skills/serverless-skills/aws-lambda-microvms",
+      "version": "2.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "使用 Lambda MicroVMs 构建和运维隔离、可快照恢复的无服务器执行环境。"
+        },
+        "en-US": {
+          "shortDesc": "Build and operate isolated, snapshot-resumable serverless execution environments with Lambda MicroVMs."
+        }
+      }
+    },
+    {
+      "id": "aws-lambda-web-functions",
+      "path": "skills/specialized-skills/serverless-skills/aws-lambda-web-functions",
+      "version": "2.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "使用 Lambda Web Functions 构建、打包和部署 Node.js HTTP 应用与 API。"
+        },
+        "en-US": {
+          "shortDesc": "Build, package and deploy Node.js HTTP apps and APIs with Lambda Web Functions."
+        }
+      }
+    },
+    {
+      "id": "aws-step-functions",
+      "path": "skills/specialized-skills/serverless-skills/aws-step-functions",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "编写和调试 Step Functions 状态机，处理 JSONata、分支、重试、服务集成与人工审批回调。"
+        },
+        "en-US": {
+          "shortDesc": "Author and debug Step Functions state machines with JSONata, branching, retries, service integrations and approval callbacks."
+        }
+      }
+    },
+    {
+      "id": "connecting-lambda-to-api-gateway",
+      "path": "skills/specialized-skills/serverless-skills/connecting-lambda-to-api-gateway",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "将 Lambda 接入 API Gateway，配置代理集成、权限、CORS、限流与部署。"
+        },
+        "en-US": {
+          "shortDesc": "Connect Lambda to API Gateway with proxy integration, permissions, CORS, throttling and deployment."
+        }
+      }
+    },
+    {
+      "id": "connecting-lambda-to-dynamodb",
+      "path": "skills/specialized-skills/serverless-skills/connecting-lambda-to-dynamodb",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "将 Lambda 接入 DynamoDB，配置 IAM、流事件映射及读写权限。"
+        },
+        "en-US": {
+          "shortDesc": "Connect Lambda to DynamoDB with IAM, stream event mappings and read/write permissions."
+        }
+      }
+    },
+    {
+      "id": "creating-api-gateway-stage",
+      "path": "skills/specialized-skills/serverless-skills/creating-api-gateway-stage",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "创建 API Gateway Stage，配置 CloudWatch 日志、X-Ray、限流、WAF 与 IAM。"
+        },
+        "en-US": {
+          "shortDesc": "Create an API Gateway stage with CloudWatch logs, X-Ray tracing, throttling, WAF and IAM."
+        }
+      }
+    },
+    {
+      "id": "debugging-lambda-timeouts",
+      "path": "skills/specialized-skills/serverless-skills/debugging-lambda-timeouts",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "分析 Lambda 配置、日志、网络、冷启动、内存与下游依赖，定位超时根因。"
+        },
+        "en-US": {
+          "shortDesc": "Diagnose Lambda timeouts through configuration, logs, networking, cold starts, memory and downstream dependencies."
+        }
+      }
+    },
+    {
+      "id": "deploying-custom-domain-rest-api",
+      "path": "skills/specialized-skills/serverless-skills/deploying-custom-domain-rest-api",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "使用 CLI 部署带自定义域名的区域 REST API，配置 Lambda、ACM、授权器与 Route 53。"
+        },
+        "en-US": {
+          "shortDesc": "Deploy a Regional REST API with a custom domain, Lambda, ACM, an authorizer and Route 53 through the CLI."
+        }
+      }
+    },
+    {
+      "id": "processing-s3-uploads-with-step-functions",
+      "path": "skills/specialized-skills/serverless-skills/processing-s3-uploads-with-step-functions",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "通过 EventBridge 与 Step Functions 按文件大小将 S3 上传任务分派到 Lambda 或 Fargate。"
+        },
+        "en-US": {
+          "shortDesc": "Route S3 uploads by file size to Lambda or Fargate using EventBridge and Step Functions."
+        }
+      }
+    },
+    {
+      "id": "creating-data-lake-table",
+      "path": "skills/specialized-skills/storage-skills/creating-data-lake-table",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "通过 S3 Tables 创建托管 Iceberg 表，配置目录、分区、压缩、快照与 IAM 访问。"
+        },
+        "en-US": {
+          "shortDesc": "Create managed Iceberg tables with S3 Tables, configuring catalogs, partitions, compaction, snapshots and IAM access."
+        }
+      }
+    },
+    {
+      "id": "securing-s3-buckets",
+      "path": "skills/specialized-skills/storage-skills/securing-s3-buckets",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "创建和加固 S3 桶，检查访问控制、加密、监控及配置问题。"
+        },
+        "en-US": {
+          "shortDesc": "Create and secure S3 buckets, checking access control, encryption, monitoring and misconfigurations."
+        }
+      }
+    },
+    {
+      "id": "storing-and-querying-vectors",
+      "path": "skills/specialized-skills/storage-skills/storing-and-querying-vectors",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "使用 S3 Vectors 存储和查询向量嵌入，支持语义检索与 RAG 存储。"
+        },
+        "en-US": {
+          "shortDesc": "Store and query vector embeddings with S3 Vectors for semantic search and RAG storage."
+        }
+      }
+    },
+    {
+      "id": "troubleshooting-efs",
+      "path": "skills/specialized-skills/storage-skills/troubleshooting-efs",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "排查 EFS 挂载、NFS 超时、权限、吞吐量与突发额度问题。"
+        },
+        "en-US": {
+          "shortDesc": "Troubleshoot EFS mounting, NFS timeouts, permissions, throughput and burst credit issues."
+        }
+      }
+    },
+    {
+      "id": "troubleshooting-s3-files",
+      "path": "skills/specialized-skills/storage-skills/troubleshooting-s3-files",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "排查 S3 Files 挂载、权限、同步和性能问题。"
+        },
+        "en-US": {
+          "shortDesc": "Troubleshoot S3 Files mounting, permissions, synchronization and performance issues."
+        }
+      }
+    },
+    {
+      "id": "querying-aws-cloudwatch",
+      "path": "skills/specialized-skills/system-table-skills/querying-aws-cloudwatch",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "通过 Athena SQL 分析导出到 S3 Tables 的 CloudWatch 日志与 Iceberg 系统表。"
+        },
+        "en-US": {
+          "shortDesc": "Analyze CloudWatch logs exported as Iceberg tables to S3 Tables using Athena SQL."
+        }
+      }
+    },
+    {
+      "id": "querying-aws-redshift",
+      "path": "skills/specialized-skills/system-table-skills/querying-aws-redshift",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "将 Redshift 系统日志发布到 S3 Tables，并使用 Redshift、Athena 等引擎查询。"
+        },
+        "en-US": {
+          "shortDesc": "Publish Redshift system logs to S3 Tables and query them with Redshift, Athena or other Iceberg-compatible engines."
+        }
+      }
+    },
+    {
+      "id": "querying-aws-s3",
+      "path": "skills/specialized-skills/system-table-skills/querying-aws-s3",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "通过 Athena 查询 S3 Metadata 与 Storage Lens 系统表，分析对象、桶活动和存储指标。"
+        },
+        "en-US": {
+          "shortDesc": "Query S3 Metadata and Storage Lens system tables through Athena to analyze objects, bucket activity and storage metrics."
+        }
+      }
+    },
+    {
+      "id": "querying-aws-sagemaker-catalog",
+      "path": "skills/specialized-skills/system-table-skills/querying-aws-sagemaker-catalog",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "查询导出到 S3 Tables 的 SageMaker Catalog 元数据，分析资产、归属、目录变化与质量。"
+        },
+        "en-US": {
+          "shortDesc": "Query SageMaker Catalog metadata exported to S3 Tables for asset inventory, ownership, catalog changes and quality."
+        }
+      }
+    },
+    {
+      "id": "aws-amplify",
+      "path": "skills/specialized-skills/web-and-mobile-development/aws-amplify",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "使用 Amplify Gen2 构建和部署全栈 Web 与移动应用，包括身份验证、数据、存储、函数和 AI。"
+        },
+        "en-US": {
+          "shortDesc": "Build and deploy full-stack web and mobile apps with Amplify Gen2, including auth, data, storage, functions and AI."
+        }
+      }
+    },
+    {
+      "id": "deploying-containers-to-amazon-lightsail",
+      "path": "skills/specialized-skills/web-and-mobile-development/deploying-containers-to-amazon-lightsail",
+      "version": "1.0.0",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "将容器应用部署到 Lightsail Container Service 并获取 HTTPS 地址；需确认规格及固定月费。"
+        },
+        "en-US": {
+          "shortDesc": "Deploy a container app to Lightsail Container Service with an HTTPS URL; confirm capacity and flat monthly charges first."
+        }
+      }
+    }
+  ]
+}
