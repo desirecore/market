@@ -12,11 +12,11 @@
   "i18n": {
     "zh-CN": {
       "name": "动手前先头脑风暴",
-      "shortDesc": "实现前先澄清需求、给出设计并获得确认"
+      "shortDesc": "实现前先澄清需求、给出设计并获得确认。可选的浏览器可视化助手需 Node.js；其页面默认从上游网站加载带版本号的徽标（遥测），可用环境变量关闭。"
     },
     "en-US": {
       "name": "Brainstorming",
-      "shortDesc": "Clarify requirements, propose a design and get approval before implementing"
+      "shortDesc": "Clarify requirements, propose a design and get approval before implementing. The optional browser visual companion needs Node.js; by default its page loads an upstream logo tagged with a version string (telemetry), which an environment variable turns off."
     }
   },
   "maintainer": {
@@ -32,7 +32,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/obra/superpowers.git",
     "repoBranch": "main",
-    "ref": "8ca22dba9a94f28898bbce59f2537ff4d87c747d",
+    "ref": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
     "path": "skills/brainstorming"
   }
 }

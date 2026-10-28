@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Brainstorming",
-        "summary": "Clarify requirements, propose a design and get approval before implementing"
+        "summary": "Clarify requirements, propose a design and get approval before implementing. The optional browser visual companion needs Node.js; by default its page loads an upstream logo tagged with a version string (telemetry), which an environment variable turns off."
       },
       "zh-CN": {
         "name": "动手前先头脑风暴",
-        "summary": "实现前先澄清需求、给出设计并获得确认"
+        "summary": "实现前先澄清需求、给出设计并获得确认。可选的浏览器可视化助手需 Node.js；其页面默认从上游网站加载带版本号的徽标（遥测），可用环境变量关闭。"
       }
     },
     "category": "development",
@@ -31,21 +31,21 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05T08:00:00Z",
-      "precision": "second"
+      "value": "2026-10-27",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-27",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-25T18:06:27Z",
-      "precision": "second"
+      "value": "2026-10-27",
+      "precision": "day"
     }
   },
   "provenance": {
@@ -53,7 +53,7 @@
       "kind": "git",
       "url": "https://github.com/obra/superpowers.git",
       "path": "skills/brainstorming",
-      "ref": "8ca22dba9a94f28898bbce59f2537ff4d87c747d"
+      "ref": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b"
     }
   },
   "governance": {
@@ -72,16 +72,26 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "8ca22dba9a94f28898bbce59f2537ff4d87c747d",
-      "reviewedAt": "2026-10-05",
-      "reviewedBy": "mashagua",
+      "reviewedRef": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
+      "reviewedAt": "2026-10-27",
+      "reviewedBy": "Market upstream maintenance",
       "upstreamEndorsed": false
     }
   },
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Optional browser visual companion only: an operator-installed Node.js runs the bundled scripts/server.cjs, bound to 127.0.0.1 on a random high port and gated by a per-session key. Screens are written under the project's .superpowers/brainstorm/ (or /tmp), and the browser is opened only after the user accepts the companion. The text-only workflow needs no runtime."
+      },
+      {
+        "kind": "connection",
+        "value": "By default the visual companion page loads a logo from primeradiant.com with a version string in the URL; upstream documents this as usage telemetry that sends no project data. Setting SUPERPOWERS_DISABLE_TELEMETRY, DISABLE_TELEMETRY or CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC removes it. DesireCore does not operate this endpoint."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"

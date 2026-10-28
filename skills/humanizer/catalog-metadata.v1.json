@@ -34,7 +34,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -42,12 +42,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     }
   },
@@ -55,7 +55,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/blader/humanizer.git",
-      "ref": "225a6f39ac85f76ee48dbad772ea4abe4ed6c9d8"
+      "ref": "8c307f367c91bd974002f10f2be2965d642c13df"
     }
   },
   "governance": {

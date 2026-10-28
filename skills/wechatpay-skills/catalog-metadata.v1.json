@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "WeChat Pay Skills",
-        "summary": "Official WeChat Pay integration skills: product selection, sample code, integration quality review and troubleshooting. Live transaction queries require the operator's own WeChat Pay merchant authorization and credentials."
+        "summary": "Official WeChat Pay integration skills: product selection, sample code, coding integration, quality review and troubleshooting. Syncs the official knowledge base online and uses Node.js 20+ with the npm-installed official CLI; live queries and signature tests need the operator's own merchant authorization, credentials and explicit consent."
       },
       "zh-CN": {
         "name": "微信支付 Skills",
-        "summary": "微信支付官方接入技能包：产品选型、官方示例代码、接入质量评估与答疑排障。实际查单需要用户自己的微信支付商户授权和凭据。"
+        "summary": "微信支付官方接入技能包：产品选型、官方示例代码、编码接入、接入质量评估与答疑排障。需联网同步官方知识库，并使用 Node.js 20+ 与 npm 安装的官方 CLI；查单与签名验签实测需用户自己的商户授权和凭据，并经明确同意。"
       }
     },
     "category": "business",
@@ -24,13 +24,13 @@
   },
   "release": {
     "state": "known",
-    "version": "1.2",
+    "version": "1.3",
     "versionScheme": "opaque"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -38,12 +38,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-19",
       "precision": "day"
     }
   },
@@ -52,7 +52,7 @@
       "kind": "git",
       "url": "https://github.com/wechatpay-apiv3/wechatpay-skills.git",
       "path": "wechatpay-payment-integration",
-      "ref": "9df6ba49f6f394f47ca1ee68bf9517d000b2c9d9"
+      "ref": "039b0ae50d6b5d4631be8ea991155f8a7958a2d9"
     }
   },
   "governance": {
@@ -76,8 +76,16 @@
     },
     "requirements": [
       {
+        "kind": "runtime",
+        "value": "Python 3 runs the upstream resource-sync script; Node.js 20+ and npm run the official @tenpay/wechatpay-dev-cli, which the skill may install globally with npm install -g ...@latest; local P12 signing uses bash with OpenSSL or PowerShell. DesireCore does not install, license, pay for or operate the CLI or WeChat Pay services."
+      },
+      {
+        "kind": "connection",
+        "value": "Needs network access to official WeChat Pay domains (wx.gtimg.com, pay.weixin.qq.com, pay.wechatpay.cn, api.mch.weixin.qq.com, api2.mch.weixin.qq.com, support.pay.weixin.qq.com). The sync script downloads the knowledge base on first use and every 12 hours and may replace skill files with the upstream CDN bundle, so content can differ from the pin. CLI search sends a redacted question, context and model name. Upstream asks agents to allow these domains unprompted; the operator decides."
+      },
+      {
         "kind": "permission",
-        "value": "Official document lookup is distinct from live merchant API calls. Live payment/refund queries require the operator's own authorized WeChat Pay merchant account and protected API credentials; service terms and charges remain separate. Never send a live request when authorization or credentials are unavailable."
+        "value": "Document lookup is distinct from live merchant API calls. Live payment/refund queries and APIv3 echo signature tests need the operator's own authorized WeChat Pay merchant account and protected credentials from existing local configuration; private keys stay local, never in chat, tests or logs. Project code or test writes, real API calls and temporary callback URLs each need explicit consent; terms and charges are separate. Never send a live request without authorization or credentials."
       }
     ]
   },

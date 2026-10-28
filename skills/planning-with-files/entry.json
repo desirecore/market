@@ -12,11 +12,11 @@
   "i18n": {
     "zh-CN": {
       "name": "文件化任务规划",
-      "shortDesc": "用三份 Markdown 文件充当 Agent 的磁盘记忆"
+      "shortDesc": "用三份 Markdown 文件充当 Agent 的磁盘记忆，调用后由生命周期钩子自动注入计划上下文。需支持技能钩子（sh 脚本）的 Agent 环境；计划注入与 session-catchup.py 需 Python 3。"
     },
     "en-US": {
       "name": "Planning with Files",
-      "shortDesc": "Use three Markdown files as the agent's on-disk working memory"
+      "shortDesc": "Use three Markdown files as the agent's on-disk working memory; once invoked, lifecycle hooks inject plan context automatically. Needs an agent that supports skill hooks (run through sh) and Python 3 for plan injection and session-catchup.py."
     }
   },
   "maintainer": {
@@ -32,7 +32,8 @@
     "kind": "git",
     "repoUrl": "https://github.com/OthmanAdi/planning-with-files.git",
     "repoBranch": "master",
-    "ref": "dab9d16fbd9314448b319d112e99f497d7638d89",
+    "ref": "dcdfb278de53fdb69b2067ea173dbb1de45345a3",
     "path": "skills/planning-with-files"
-  }
+  },
+  "latestVersion": "3.25.2"
 }

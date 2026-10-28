@@ -13,11 +13,11 @@
   "i18n": {
     "zh-CN": {
       "name": "Anatomy 交互等距插图",
-      "shortDesc": "将技术概念制作成可交互的等距 SVG/HTML 插图，可选 WebGL 与 3D。需另备 Node.js 20.10+；检查需 Chrome/Chromium，React 输出另需 React 18+。适用于能读取技能并运行本地脚本的 Agent；不会自动安装这些依赖，缺失时停止相关构建或检查，不虚构结果。"
+      "shortDesc": "将技术概念制作成可交互的等距 SVG/HTML 插图，可选 WebGL、3D 与 A4/Letter PDF 打印。需另备 Node.js 20.10+；检查与 PDF 打印需 Chrome/Chromium，React 输出另需 React 18+。适用于能读取技能并运行本地脚本的 Agent；不会自动安装这些依赖，缺失时停止相关构建或检查，不虚构结果。"
     },
     "en-US": {
       "name": "Anatomy",
-      "shortDesc": "Build interactive isometric SVG/HTML explanations, with optional WebGL and 3D. Supply Node.js 20.10+; checks need Chrome/Chromium, React output needs React 18+. For agents able to read skills and run local scripts. Dependencies are not auto-installed; stop affected builds/checks when unavailable, never fabricate results."
+      "shortDesc": "Build interactive isometric SVG/HTML explanations, with optional WebGL, 3D and A4/Letter PDF printing. Supply Node.js 20.10+; checks and PDF printing need Chrome/Chromium, React output needs React 18+. For agents able to read skills and run local scripts. Dependencies are not auto-installed; stop affected builds/checks when unavailable, never fabricate results."
     }
   },
   "maintainer": {
@@ -33,6 +33,6 @@
     "kind": "git",
     "repoUrl": "https://github.com/wheresryan22/anatomy.git",
     "repoBranch": "main",
-    "ref": "e9488296a44211c42701ff71705b7901470ec78f"
+    "ref": "1482e8469b0a9e0d8cc18ea2740a01423d29ae80"
   }
 }

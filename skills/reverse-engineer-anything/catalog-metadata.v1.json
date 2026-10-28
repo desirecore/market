@@ -10,11 +10,11 @@
     "i18n": {
       "zh-CN": {
         "name": "REA 逆向分析",
-        "summary": "基于证据分析二进制、软件包与应用行为。需另备受支持的 Node.js/npm、rea-agents CLI 或已注册的 REA MCP；原生分析等流程需另备目标相关工具及权限，商业提供方须另行授权付费。安装本技能仅提供指引，不安装工具或注册服务；依赖不可用时先处理阻碍，不编造结果。"
+        "summary": "基于证据分析二进制、软件包与应用行为，也可录制网页应用生成智能体环境包。需另备受支持的 Node.js/npm、rea-agents CLI 或已注册的 REA MCP；原生分析、插桩调试、抓包与信号记录等流程需另备目标相关工具及权限，Hopper、IDA、Fiddler Everywhere 等商业提供方须另行授权付费，运行环境包还需 AgentEnv 与 Docker；代为操作浏览器、录制环境或插桩调试目标前须获授权。安装本技能仅提供指引，不安装工具或注册服务；依赖不可用时先处理阻碍，不编造结果。"
       },
       "en-US": {
         "name": "REA: Reverse Engineer Anything",
-        "summary": "Evidence-led reverse analysis of binaries, packages and app behavior. Requires supported Node.js/npm and rea-agents CLI or a registered REA MCP server; target-specific tools, permissions and any commercial provider licenses are separate. Installing this skill only supplies instructions; it does not install tools or register services. Resolve missing dependencies before claiming results."
+        "summary": "Evidence-led reverse analysis of binaries, packages and app behavior, plus agent environment bundles recorded from web applications. Requires supported Node.js/npm and rea-agents CLI or a registered REA MCP server; target-specific tools, permissions and any commercial provider licenses (e.g. Hopper, IDA, Fiddler Everywhere) are separate, and running an environment bundle needs AgentEnv and Docker. Agent-driven browser actions, environment recording and native instrumentation or debugging need operator authorization. Installing this skill only supplies instructions; it does not install tools or register services. Resolve missing dependencies before claiming results."
       }
     },
     "category": "development",
@@ -27,12 +27,14 @@
     ]
   },
   "release": {
-    "state": "unknown"
+    "state": "known",
+    "version": "50",
+    "versionScheme": "opaque"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-11",
+      "value": "2026-10-27",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -40,12 +42,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-11",
+      "value": "2026-10-27",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-11",
+      "value": "2026-10-27",
       "precision": "day"
     }
   },
@@ -54,7 +56,7 @@
       "kind": "git",
       "url": "https://github.com/morluto/rea.git",
       "path": ".agents/skills/reverse-engineer-anything",
-      "ref": "951c2aae3be1c357df9f23558d8c09680e64c2cb"
+      "ref": "79d2fc05405c76bc0a8f71b9c10355135da4747b"
     }
   },
   "governance": {
@@ -73,9 +75,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "951c2aae3be1c357df9f23558d8c09680e64c2cb",
-      "reviewedAt": "2026-10-11",
-      "reviewedBy": "mashagua",
+      "reviewedRef": "79d2fc05405c76bc0a8f71b9c10355135da4747b",
+      "reviewedAt": "2026-10-27",
+      "reviewedBy": "Market upstream maintenance",
       "upstreamEndorsed": false
     }
   },
@@ -86,19 +88,31 @@
     "requirements": [
       {
         "kind": "runtime",
-        "value": "需 Node.js ^22.19.0 || ^24.11.0 || >=26.0.0 及 npm；requires the supported Node.js range and npm."
+        "value": "rea-agents 6.8.0 需 Node.js ^22.23.4 || ^24.22.1 || >=26.12.1（含安全修复的版本）及 npm；SQLite 快照检查另需 Node.js 24.15+ 或 26+。Requires the supported Node.js range (patched security releases, per rea-agents 6.8.0) and npm; SQLite snapshot inspection needs Node.js 24.15+ or 26+."
       },
       {
         "kind": "connection",
-        "value": "另备 rea-agents CLI；MCP 工作流需另注册 REA MCP，并核对实际工具列表/版本。CLI-only hosts can use the separately acquired CLI; this skill neither installs REA nor registers an MCP server."
+        "value": "另备 rea-agents CLI；MCP 工作流需另注册 REA MCP，并核对实际工具列表/版本。上游恢复流程可运行 `npx -y rea-agents@latest`（下载最新 npm 包并写入 npm 缓存），仅在运营者审阅 dry-run 计划并批准后才写入客户端配置、替换捆绑技能或安装 Hopper。This skill neither installs REA nor registers an MCP server; setup writes only after an approved dry-run plan."
+      },
+      {
+        "kind": "connection",
+        "value": "导出的智能体环境包会从 npm 安装同版本 rea-agents，运行（`agent-env run`）需另备 AgentEnv 与 Docker，二者均非本技能提供。Exported environment bundles install the matching rea-agents from npm and need separately installed AgentEnv and Docker to run; this skill provides neither."
       },
       {
         "kind": "runtime",
-        "value": "目标相关工具另备，例如原生分析 Hopper/Ghidra/IDA，Android JADX/JDK/adb，固件 Binwalk/Unblob。Target-specific tools and their supported hosts are separate; commercial Hopper/IDA/JEB providers require their own licenses and costs."
+        "value": "目标相关工具另备，例如原生分析 Hopper/Ghidra/IDA/Kuna，Android JADX/JDK/adb，固件 Binwalk/Unblob，抓包记录 Wireshark 4.x tshark/capinfos，信号记录 sigrok-cli，WASM 用 WABT。Target-specific tools and their supported hosts are separate (recorded packet/signal decoding needs Linux prlimit); commercial Hopper/IDA/JEB and Fiddler Everywhere (live traffic via its own MCP server) require their own licenses and costs."
+      },
+      {
+        "kind": "runtime",
+        "value": "原生运行时观察另需：Frida 绑定与设备访问权限，Linux 上的 GDB 或 Rizin/Cutter，macOS 上的 LLDB 调试权限，以及 macOS 14+ 的屏幕录制/辅助功能权限（原生 UI 观察）。Native runtime observation needs installed Frida bindings and device access, GDB or Rizin/Cutter on Linux, LLDB debugger access on macOS, and macOS 14+ Screen Recording/Accessibility access for native UI observation."
       },
       {
         "kind": "permission",
-        "value": "仅分析已获授权的目标；运行时操作需相应系统权限与授权，缺工具/连接时先解决或停止，不虚构成功。Use authorized targets; runtime observation needs applicable OS/user approvals. Resolve unavailable dependencies or stop before unsupported calls; never fabricate results."
+        "value": "仅分析已获授权的目标；运行时操作需相应系统权限与授权。代理执行浏览器场景（点击/输入/导航）前须获运营者授权：连接模式会重新导航所选页面并可能丢失未保存状态，优先用临时配置的启动模式。Frida 插桩、GDB/Rizin 调试控制台、LLDB 调用观察、进程录制与原生 UI 场景会运行或修改目标，须获批准。抓包与信号工具只读已有记录。Use authorized targets; get approval before agent-driven browser actions, instrumentation, debugger control or process runs. Resolve missing dependencies or stop; never fabricate results."
+      },
+      {
+        "kind": "permission",
+        "value": "录制智能体环境仅限用户确认可丢弃或专为此准备的实例，写入步骤前先询问；凭据只经用户指定的环境变量提供；导出的环境包含录制响应与本地路径，不得代为发布或分享。Record agent environments only on an instance the user confirms is disposable, asking before write steps; take credentials only from named environment variables; never publish or share the bundle, which contains recorded responses and local paths."
       }
     ]
   },

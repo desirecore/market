@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Banana",
-        "summary": "Generate, edit and review images with Gemini image models. Requires Python 3 and GEMINI_API_KEY (Google Gemini Developer API, billed by usage)."
+        "summary": "Generate, edit and review images with Gemini image models. Requires Python 3.11+ and GEMINI_API_KEY (Google Gemini Developer API, billed by usage)."
       },
       "zh-CN": {
         "name": "Gemini 图像导演",
-        "summary": "用 Gemini 图像模型生成、编辑并审查图片。需 Python 3 与 GEMINI_API_KEY（Google Gemini 接口，按用量计费）。"
+        "summary": "用 Gemini 图像模型生成、编辑并审查图片。需 Python 3.11+ 与 GEMINI_API_KEY（Google Gemini 接口，按用量计费）。"
       }
     },
     "category": "creative",
@@ -26,26 +26,28 @@
     ]
   },
   "release": {
-    "state": "unknown"
+    "state": "known",
+    "version": "3.1.0",
+    "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05T08:00:00Z",
-      "precision": "second"
+      "value": "2026-10-27",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-27",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-11T13:43:58Z",
-      "precision": "second"
+      "value": "2026-10-27",
+      "precision": "day"
     }
   },
   "provenance": {
@@ -53,7 +55,7 @@
       "kind": "git",
       "url": "https://github.com/AgriciDaniel/banana-claude.git",
       "path": "skills/banana",
-      "ref": "6a2b1b51fdcc35932184f06e513646a6f6f4f7d8"
+      "ref": "08e329b37dae396fc869c10d3494c5950d1d61c2"
     }
   },
   "governance": {
@@ -72,16 +74,30 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "6a2b1b51fdcc35932184f06e513646a6f6f4f7d8",
-      "reviewedAt": "2026-10-05",
-      "reviewedBy": "mashagua",
+      "reviewedRef": "08e329b37dae396fc869c10d3494c5950d1d61c2",
+      "reviewedAt": "2026-10-27",
+      "reviewedBy": "Market upstream maintenance",
       "upstreamEndorsed": false
     }
   },
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Python 3.11+ for the bundled planner, Gemini client and utilities, which use only the standard library and install nothing. ImageMagick or FFmpeg are optional for the local post-processing recipes; the operator supplies them. Run the doctor check first and stop before any paid call when a prerequisite is missing."
+      },
+      {
+        "kind": "connection",
+        "value": "Paid calls go to the Google Gemini Developer API (generativelanguage.googleapis.com) with the operator's own GEMINI_API_KEY on a billing-enabled Google project. Google bills each actual output image, thinking tokens as text output and any Search grounding; Banana's estimate is nominal, not a cap. Every attempt needs a fresh plan that the user explicitly approves. Without a key, stop at the plan and never claim an image was generated."
+      },
+      {
+        "kind": "permission",
+        "value": "Prompts, reference images and any YouTube URL are sent to Google under the Gemini API terms, and the user must hold the rights to uploaded references. Banana turns provider storage off unless the user opts in; Search grounding keeps Google's mandatory 30-day retention. Approvals, presets and the private cost ledger live in ~/.banana (BANANA_HOME relocates it), and outputs default to ~/Documents/banana-claude, both outside the workspace."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"

@@ -30,7 +30,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-27",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -38,12 +38,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-27",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-27",
       "precision": "day"
     }
   },
@@ -51,7 +51,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/mattpocock/skills.git",
-      "ref": "24fe0ef7737efae15c87225755e9f6f5965e4888"
+      "ref": "59db609eb1e18aaf59b63284d0e52255aff0c63c"
     }
   },
   "governance": {
@@ -76,11 +76,11 @@
     "requirements": [
       {
         "kind": "runtime",
-        "value": "The implement-spec workflow requires host support for subagents and Git worktrees/branches. Other workflows use the issue tracker selected by the operator (GitHub, Linear or local files). No tracker account or host capability is provided by this listing."
+        "value": "The implement-spec workflow requires host support for subagents and Git worktrees/branches; code-review and the in-progress, manual-only chief-of-staff workflow also delegate to host subagents. Other workflows use the issue tracker selected by the operator (GitHub, GitLab, Linear or local files). No tracker account or host capability is provided by this listing."
       },
       {
         "kind": "permission",
-        "value": "The operator authorizes access and writes to the chosen issue tracker. Manual-only upstream skills retain their explicit invocation requirement; stop and explain when a required host capability is unavailable."
+        "value": "The operator authorizes access and writes to the chosen issue tracker; issues are filed only into the user's own repository. Manual-only upstream skills retain their explicit invocation requirement, and chief-of-staff writes its wiki only to a location agreed with the user; stop and explain when a required host capability is unavailable."
       }
     ]
   },
@@ -88,7 +88,7 @@
     "kind": "skill",
     "collection": {
       "role": "parent",
-      "childCount": 37,
+      "childCount": 38,
       "children": [
         {
           "identity": {
@@ -582,6 +582,31 @@
               "zh-CN": {
                 "name": "wizard",
                 "summary": "Generate an interactive bash wizard that walks a human through steps only they can perform."
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "chief-of-staff",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/in-progress/chief-of-staff",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "chief-of-staff",
+                "summary": "Upstream in-progress skill that runs only when the user invokes it explicitly: acts as a chief of staff in one long session, delegating work to background subagents, keeping a dated Markdown wiki in a folder agreed with the user and suggesting recurring schedules where the host supports them; requires host subagent support."
+              },
+              "zh-CN": {
+                "name": "chief-of-staff",
+                "summary": "上游 in-progress（测试中）技能，仅在用户显式手动调用时运行：在单个长会话中作为统筹者，把工作分派给后台子 Agent，在与用户约定的文件夹中维护注明日期的 Markdown 知识库，并在宿主支持时建议定期计划，持续推进长期目标；需要宿主支持子 Agent。"
               }
             },
             "tags": []

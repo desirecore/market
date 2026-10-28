@@ -10,14 +10,15 @@
     "mcp",
     "cli"
   ],
+  "latestVersion": "50",
   "i18n": {
     "zh-CN": {
       "name": "REA 逆向分析",
-      "shortDesc": "基于证据分析二进制、软件包与应用行为。需另备受支持的 Node.js/npm、rea-agents CLI 或已注册的 REA MCP；原生分析等流程需另备目标相关工具及权限，商业提供方须另行授权付费。安装本技能仅提供指引，不安装工具或注册服务；依赖不可用时先处理阻碍，不编造结果。"
+      "shortDesc": "基于证据分析二进制、软件包与应用行为，也可录制网页应用生成智能体环境包。需另备受支持的 Node.js/npm、rea-agents CLI 或已注册的 REA MCP；原生分析、插桩调试、抓包与信号记录等流程需另备目标相关工具及权限，Hopper、IDA、Fiddler Everywhere 等商业提供方须另行授权付费，运行环境包还需 AgentEnv 与 Docker；代为操作浏览器、录制环境或插桩调试目标前须获授权。安装本技能仅提供指引，不安装工具或注册服务；依赖不可用时先处理阻碍，不编造结果。"
     },
     "en-US": {
       "name": "REA: Reverse Engineer Anything",
-      "shortDesc": "Evidence-led reverse analysis of binaries, packages and app behavior. Requires supported Node.js/npm and rea-agents CLI or a registered REA MCP server; target-specific tools, permissions and any commercial provider licenses are separate. Installing this skill only supplies instructions; it does not install tools or register services. Resolve missing dependencies before claiming results."
+      "shortDesc": "Evidence-led reverse analysis of binaries, packages and app behavior, plus agent environment bundles recorded from web applications. Requires supported Node.js/npm and rea-agents CLI or a registered REA MCP server; target-specific tools, permissions and any commercial provider licenses (e.g. Hopper, IDA, Fiddler Everywhere) are separate, and running an environment bundle needs AgentEnv and Docker. Agent-driven browser actions, environment recording and native instrumentation or debugging need operator authorization. Installing this skill only supplies instructions; it does not install tools or register services. Resolve missing dependencies before claiming results."
     }
   },
   "maintainer": {
@@ -33,7 +34,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/morluto/rea.git",
     "repoBranch": "main",
-    "ref": "951c2aae3be1c357df9f23558d8c09680e64c2cb",
+    "ref": "79d2fc05405c76bc0a8f71b9c10355135da4747b",
     "path": ".agents/skills/reverse-engineer-anything"
   }
 }

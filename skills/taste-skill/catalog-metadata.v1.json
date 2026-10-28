@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Taste Skill",
-        "summary": "Anti-slop frontend framework for AI agents to build premium, tasteful UIs instead of generic output"
+        "summary": "Anti-slop art direction for AI agents building websites and app screens: deals researched directions from a 247-site study, enforces a no-ornament house style and checks pages in a real browser. Needs Node.js 22+ and a local Chrome/Edge/Chromium; picture search uses public open-collection APIs, and generated pages may load third-party fonts, photos and scripts."
       },
       "zh-CN": {
         "name": "Taste Skill",
-        "summary": "面向 AI Agent 的“抗平庸”前端框架，帮智能体产出有品味的高级感前端而非千篇一律的模板"
+        "summary": "面向 AI Agent 的“抗平庸”前端美术指导：从 247 个精选网站研究中抽取设计方向，执行无装饰的统一风格，并在真实浏览器中检查网页与应用界面。需 Node.js 22+ 与本地 Chrome/Edge/Chromium；图片检索调用公开馆藏接口，生成页面可能加载第三方字体、图片与脚本。"
       }
     },
     "category": "creative",
@@ -30,7 +30,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-27",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -38,12 +38,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-27",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-27",
       "precision": "day"
     }
   },
@@ -52,7 +52,7 @@
       "kind": "git",
       "url": "https://github.com/Leonxlnx/taste-skill.git",
       "path": "skills/taste-skill",
-      "ref": "ce26fc25c0e5e8cab638f883de62d9a86ee5e45b"
+      "ref": "12af471f627f866411b4bd785b19646d3672784c"
     }
   },
   "governance": {
@@ -73,7 +73,21 @@
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Node.js 22+ and a locally installed Chrome, Edge or Chromium (or CHROME_PATH) for the inspect and scenes gates; draw, lint and assets scripts run on Node 18+. The scripts install nothing; the operator supplies the runtime. Without the browser, run lint, review screenshots by other means and report that the inspector did not run."
+      },
+      {
+        "kind": "connection",
+        "value": "assets.mjs queries public APIs without keys (Openverse, Wikimedia Commons, Art Institute of Chicago, The Met; for video also Internet Archive and NASA) and downloads chosen files into the project. Generated pages may load fonts from Google Fonts or Fontshare, sample photos from Lorem Picsum and, for scroll scenes, GSAP/Lenis from jsDelivr. Without network, draw the pictures and say the collections could not be searched."
+      },
+      {
+        "kind": "permission",
+        "value": "Found pictures and footage keep their own licences (CC0, public domain, CC BY or CC BY-SA by default, with credits recorded in the project); Unsplash photos, web fonts and CDN libraries follow their providers' terms, which the operator confirms before publishing. Draw history is kept in ~/.taste-skill/history.json outside the workspace (TASTE_SKILL_HISTORY relocates it)."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"

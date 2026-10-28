@@ -11,7 +11,7 @@
     "hacker-news",
     "web"
   ],
-  "latestVersion": "3.26.0",
+  "latestVersion": "3.31.0",
   "i18n": {
     "zh-CN": {
       "name": "近 30 天研究",
@@ -36,6 +36,6 @@
     "repoUrl": "https://github.com/mvanhorn/last30days-skill.git",
     "repoBranch": "main",
     "path": "skills/last30days",
-    "ref": "5103ba478b380552207a3754b74c7655d64208cd"
+    "ref": "e06af25a9a78487b75e8509e0e1687fec137176e"
   }
 }
