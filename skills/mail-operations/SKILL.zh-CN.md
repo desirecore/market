@@ -40,10 +40,11 @@ mail-operations 是一个**流程型技能（Procedural Skill）**，通过 Desi
 
 ## API 基础信息
 
-- **调用方式**：使用内置工具 `MailOperations`，参数为 `path`（以 `/api/` 开头的相对路径，查询参数直接拼在 path 里）、`method`（默认 `GET`）、`body`（JSON 对象）和 `save_to`（仅下载附件时使用，见第 6 节）。工具自动定位本机 Mail Service 并携带访问凭证，Agent 不需要、也不能自行提供 token。
+- **调用方式**：使用内置工具 `MailOperations`，参数为 `path`（以 `/api/` 开头的相对路径，查询参数直接拼在 path 里）、`method`（默认 `GET`）、`body`（JSON 对象）和 `save_to`（把响应写入文件，见下方「大响应与 `save_to`」；下载附件时必须传，见第 6 节）。工具自动定位本机 Mail Service 并携带访问凭证，Agent 不需要、也不能自行提供 token。
+- **大响应与 `save_to`**：工具返回内容的上限是 100KB。邮件列表、搜索和 `messages/fetch` 的每封邮件都带正文，几十封就可能超限。超限又没传 `save_to` 时，工具截短超长字段（如邮件正文）、把 JSON 按缩进重排后返回，放不下时只保留首尾部分；开头的说明写明响应大小、「不是完整结果」或哪些字段被截短、响应结构（如 `result.messages 20 条，total 411`）以及怎样拿到完整内容。需要完整结果时，用同样的 `path` / `method` / `body` 再调用一次并加上 `save_to`（如 `"./mail-list.json"`），再用 Read 或脚本读取该文件；或减小 `limit` 分页请求。传了 `save_to` 时，完整响应原子写入该文件（JSON 按 2 空格缩进重排），工具只返回绝对路径、字节数、SHA-256 与结构摘要；非 2xx 响应不写文件；响应体超过 32MB 时拒绝写入，需减小 `limit`；目标路径须位于允许写入的工作目录内，缺失的父目录自动创建，同名文件直接覆盖。
 - **路径写法**：下文端点均省略 `/api` 前缀，调用时要补上，例如 `/imap/messages?email=me%40example.com&limit=20` 对应 `path: "/api/imap/messages?email=me%40example.com&limit=20"`。唯一例外是健康检查 `/ping`（不带 `/api`）。
 - **不要直连端口**：不要用 `curl` 访问 `https://127.0.0.1:62000`。端口从 62000 起动态分配（同时运行多个 DesireCore 实例时，62000 可能属于另一个实例），严格能力模式下不带凭证的直连请求一律返回 401。
-- **参数位置**：GET / DELETE 的参数全部放查询串；POST / PUT 按下文表格区分查询串与 body。`messages/fetch`、标记已读/未读、Outlook 单封操作、IMAP 草稿发送等端点的 `email` 必须放在查询串，放进 body 会返回 400 `Missing email parameter`。`/sync` 的 `provider` 与 `email` 都必须放查询串：`provider` 放进 body 返回 400 `Invalid provider`，只有 `email` 放进 body 则不会报参数错误，但同步不会生效。
+- **参数位置**：GET / DELETE 的参数全部放查询串；POST / PUT 按下文表格区分查询串与 body。`messages/fetch`、标记已读/未读、Outlook 单封操作、IMAP 草稿发送等端点的 `email` 必须放在查询串，放进 body 会返回 400 `Missing email parameter`。`/sync` 的 `provider` 与 `email` 都必须放查询串：`provider` 放进 body 返回 400 `Invalid provider`，`email` 放进 body 返回 400 `Email is required`。`method` 缺省为 `GET`，需要请求体的端点（如 `messages/fetch`）要同时传 `method: "POST"`；GET 带 `body` 会在发出前被工具拒绝。
 - **Content-Type**: `application/json`（传 `body` 时工具自动设置）
 - **响应格式**: 成功 `{"code": 1, "msg": "Success", "result": ...}`，失败 `{"code": 0, "msg": "错误信息"}`，部分错误另带稳定错误码字段 `error`（如 `smtp_unverified`）
 
@@ -88,7 +89,7 @@ mail-operations 是一个**流程型技能（Procedural Skill）**，通过 Desi
 |------|-------|---------|------|
 | 授权 | OAuth2 | OAuth2 (MSAL) | 密码/授权码 |
 | Provider 路径 | `/gmail/` | `/outlook/` | `/imap/` |
-| 邮件详情 | 路径参数 `/{id}` | 查询参数 `?id={id}` | 路径参数 `/{uid}`（列表返回的 `imap:<uid>` 或纯数字 UID）+ `?folder=` |
+| 邮件详情 | 路径参数 `/{id}` | 查询参数 `?id={id}` | 路径参数 `/{id}`（列表返回的 `id` 原样传回，`folder` 可选） |
 | 搜索（本地缓存） | 支持 | 支持 | 支持 |
 | 远程同步翻页 | `pageToken`（不支持 `offset`） | `skip` / `offset` | `offset` |
 | 草稿 | 支持（含列表/详情） | 支持（创建/更新/删除/发送） | 支持（创建/更新/删除/发送） |
@@ -129,19 +130,19 @@ mail-operations 是一个**流程型技能（Procedural Skill）**，通过 Desi
 |------|------|------|------|
 | 查询本地缓存 | GET | `/{p}/messages` | 查询串：`email, offset, limit, folder`；返回 `{messages, total, offset, limit}` |
 | 远程同步 | POST | `/{p}/messages/fetch?email=` | `email` 必须放查询串；body（或查询串）：`folder`、`limit`（1–1000，默认 20）；翻页：IMAP `offset`、Outlook `skip` / `offset`、Gmail `pageToken`（Gmail 传 `offset` 返回 400）；返回 `messages` 与分页信息 `pagination` |
-| 手动触发同步 | POST | `/sync?provider=&email=` | 参数放查询串；**仅支持 gmail / outlook**，IMAP 返回 400，请改用 `messages/fetch` |
+| 手动触发同步 | POST | `/sync?provider=&email=` | 参数放查询串；`provider` 为 `gmail`、`outlook` 或 `imap`。立即执行一轮与自动同步相同的同步：IMAP 只拉取收件箱的新邮件，补拉历史邮件或其他文件夹请用 `messages/fetch` |
 
-**IMAP 远程同步较慢**：每封邮件都要下载并解析完整内容（实测约 0.65 封/秒），单批 `limit` 建议不超过 100；更早的邮件用 `offset`（跳过最新的多少封）分批拉取。
+**IMAP 远程同步**：`messages/fetch` 一般只取每封邮件的头字段、结构和限长正文，不下载附件（附件在下载时按 part 单独取）。正文被截断、或 HTML 里引用的内嵌图（`cid:`）没有嵌入时，条目带 `"bodyPartial": true`；需要完整正文时取单封详情（`GET /imap/messages/{id}`），它会回服务器取完整邮件并补全本地缓存，取不到时照旧返回摘要，`bodyPartial` 仍为 `true`。补拉条目里附件的 `size` 是估算值，确切字节数以下载回执为准。一批仍可能耗时较长，单批 `limit` 建议不超过 100；更早的邮件用 `offset`（跳过最新的多少封）分批拉取。
 
 **folder 取值**：
 - 本地缓存列表与搜索：`inbox, sent, drafts, trash, spam, archive, other`，大小写不敏感，也接受服务器原名（如 `INBOX`、`Sent Messages`）；IMAP 的自定义文件夹在本地统一归为 `other`。
 - 远程同步：通用名（`inbox`、`sent` 等）会自动映射到 IMAP 实际文件夹、Outlook 文件夹或 Gmail 标签；IMAP 也可直接传 `GET /imap/folders` 返回的 `path`。Gmail 的 `archive` 没有对应标签，会不加过滤地拉取。
-- **IMAP 单封操作**（详情未命中缓存、标记已读/未读、删除、标记为垃圾邮件 / 不是垃圾邮件、回复、附件下载）的 `folder` 会原样交给 IMAP 服务器，必须是 `GET /imap/folders` 返回的真实 `path`（如 `INBOX`、`Sent Messages`），省略时默认 `INBOX`。列表项里的 `folder` 是归一化后的值（如 `sent`），不能直接当作 IMAP 文件夹名。
+- **IMAP 单封操作**（详情、标记已读/未读、删除、标记为垃圾邮件 / 不是垃圾邮件、回复、附件下载）不需要传 `folder`：服务器上的文件夹由 `id` 本身和本地缓存记下的 `imapFolder` 确定。`folder` 是可选的核对项，可传条目的 `imapFolder`（服务器原名）或通用名（如 `sent`），与 `id` 所在文件夹不一致时返回 409 `imap_folder_mismatch`，详见第 3 节。
 
 **响应格式**（邮件列表项）：
 ```json
 {
-  "id": "消息ID（IMAP 为 imap:<uid>）", "provider": "gmail",
+  "id": "消息ID（IMAP 见下方说明）", "provider": "gmail",
   "subject": "主题",
   "from": {"name": "...", "address": "..."},
   "toRecipients": [{"name": "...", "address": "..."}],
@@ -152,20 +153,26 @@ mail-operations 是一个**流程型技能（Procedural Skill）**，通过 Desi
 }
 ```
 
-`labelIds` 只在 Gmail 邮件中出现，`categories` 只在 Outlook 邮件中出现。
+`labelIds` 只在 Gmail 邮件中出现，`categories` 只在 Outlook 邮件中出现。IMAP 邮件的 `id` 带文件夹：INBOX 为 `imap:<uid>`，其他文件夹为 `imap:<mailboxKey>:<uid>`（`mailboxKey` 是由服务器文件夹原名算出的 16 位十六进制）；另带 `imapFolder`（服务器上的文件夹原名）与 `imapUidValidity`，补拉写入的条目可能带 `bodyPartial`。
 
 ### 3. 单封邮件操作
 
 | 操作 | Gmail | Outlook | IMAP |
 |------|-------|---------|------|
-| 获取详情 | GET `/{id}?email=` | GET `/message?id={id}&email=` | GET `/{uid}?email=&folder=` |
-| 标记已读 | POST `/{id}/read?email=` | POST `/message/read?id={id}&email=` | POST `/{uid}/read?email=&folder=` |
-| 标记未读 | POST `/{id}/unread?email=` | POST `/message/unread?id={id}&email=` | POST `/{uid}/unread?email=&folder=` |
-| 删除 | DELETE `/{id}?email=` | DELETE `/message?id={id}&email=` | DELETE `/{uid}?email=&folder=` |
-| 标记为垃圾邮件 | POST `/{id}/spam?email=` | POST `/message/spam?id={id}&email=` | POST `/{uid}/spam?email=&folder=` |
-| 不是垃圾邮件 | POST `/{id}/not-spam?email=` | POST `/message/not-spam?id={id}&email=` | POST `/{uid}/not-spam?email=&folder=` |
+| 获取详情 | GET `/{id}?email=` | GET `/message?id={id}&email=` | GET `/{id}?email=` |
+| 标记已读 | POST `/{id}/read?email=` | POST `/message/read?id={id}&email=` | POST `/{id}/read?email=` |
+| 标记未读 | POST `/{id}/unread?email=` | POST `/message/unread?id={id}&email=` | POST `/{id}/unread?email=` |
+| 删除 | DELETE `/{id}?email=` | DELETE `/message?id={id}&email=` | DELETE `/{id}?email=` |
+| 标记为垃圾邮件 | POST `/{id}/spam?email=` | POST `/message/spam?id={id}&email=` | POST `/{id}/spam?email=` |
+| 不是垃圾邮件 | POST `/{id}/not-spam?email=` | POST `/message/not-spam?id={id}&email=` | POST `/{id}/not-spam?email=` |
 
-> 所有路径前缀为 `/api/{provider}/messages`（Gmail/IMAP）或 `/api/outlook/`（Outlook 特殊路由）。IMAP 的 `{uid}` 可直接用列表返回的 `id`（`imap:<uid>`），`folder` 规则见第 2 节，INBOX 可省略。
+> 所有路径前缀为 `/api/{provider}/messages`（Gmail/IMAP）或 `/api/outlook/`（Outlook 特殊路由）。IMAP 的 `{id}` 把列表返回的 `id` 原样传回，不要自己拼接或剥掉前缀；裸数字 UID 也接受，不带 `folder` 时指 INBOX 里的邮件。
+
+**IMAP 单封操作的定位与拒绝**：服务器上的文件夹由 `id` 与本地缓存记下的 `imapFolder` 确定，`folder` 可省略，传了只用来核对。下列情况不会执行所请求的操作，不要原样重试：
+- 标记已读/未读、删除、标记为垃圾邮件 / 不是垃圾邮件、回复只认本地缓存里有的邮件，没有时返回 404 `imap_message_not_cached`。先用 `messages/fetch` 取该文件夹，或先取详情，再用结果里的 `id` 操作。
+- 取详情与下载附件不受此限，取详情会把邮件记入本地缓存；但带文件夹键的 `id` 在本地没有缓存时，要传 `folder`（条目的 `imapFolder` 或通用名），否则同样返回 404 `imap_message_not_cached`。
+- `folder` 与 `id` 所在的文件夹不一致：409 `imap_folder_mismatch`。去掉 `folder`，或传条目的 `imapFolder`。
+- 服务器重建了该文件夹（UIDVALIDITY 变化），这个 `id` 已不再指向原来的邮件：409 `imap_uidvalidity_changed`。对该文件夹重新 `messages/fetch`，再用新的 `id`。
 
 **标记为垃圾邮件 / 不是垃圾邮件**：把邮件移入垃圾邮件文件夹，或从垃圾邮件文件夹移回收件箱，服务器与本地缓存同时修改，返回 `result: {id, folder}`。
 - Gmail 改 `SPAM` / `INBOX` 标签，`id` 不变；Outlook、IMAP 移动后 `id` 会变，之后再操作这封邮件要用返回的新 `id`。IMAP 服务器不支持 UIDPLUS 时 `id` 为 `null`，对目标文件夹做一次 `messages/fetch` 后再取。
@@ -174,7 +181,7 @@ mail-operations 是一个**流程型技能（Procedural Skill）**，通过 Desi
 - 「不是垃圾邮件」一次只处理一封，不要把一批邮件一起移回收件箱；标记为垃圾邮件可以逐封调用。
 - 需要客户端 10.0.178 及以上；旧客户端返回 404，提示用户升级客户端。
 
-**邮件详情额外字段**：`body: {content, contentType}`, `ccRecipients`, `attachments: [{id, filename, contentType, size}]`。IMAP 附件的 `id` 是附件在该邮件中的序号字符串（`"0"`、`"1"`……）。
+**邮件详情额外字段**：`body: {content, contentType}`, `ccRecipients`, `attachments: [{id, filename, contentType, size}]`。IMAP 附件的 `id` 原样使用：补拉写入的新条目为 `part:<IMAP part 号>`（如 `part:2`），较早缓存的条目可能是序号字符串（`"0"`、`"1"`……），两种都可直接用于附件下载，其他形态返回 400。
 
 ### 4. 发送与回复
 
@@ -200,7 +207,7 @@ mail-operations 是一个**流程型技能（Procedural Skill）**，通过 Desi
 |----------|------|------|
 | Gmail | POST `/gmail/reply` | `{email, messageId, body, contentType}` |
 | Outlook | POST `/outlook/message/reply?id={id}&email=` | `{body, contentType}` |
-| IMAP | POST `/imap/reply` | `{email, uid, folder, body, contentType}`（`uid` 可用 `imap:<uid>`，`folder` 默认 `INBOX`） |
+| IMAP | POST `/imap/reply` | `{email, uid, body, contentType}`（`uid` 原样用列表返回的 `id`；`folder` 可选，只用来核对；原邮件须在本地缓存中，见第 3 节） |
 
 ### 5. 搜索（三种邮箱均支持）
 
@@ -231,7 +238,7 @@ mail-operations 是一个**流程型技能（Procedural Skill）**，通过 Desi
 | IMAP | POST | `/imap/attachment` | `{email, messageId, attachmentId, folder?}` |
 
 - `attachmentId` 取自邮件详情的 `attachments[].id`，先调用详情接口拿到附件列表。
-- IMAP：`messageId` 直接用列表返回的 `id`（如 `imap:12345`）；`attachmentId` 是附件序号字符串（第一个附件为 `"0"`）；`folder` 为服务器上的真实文件夹路径，INBOX 可省略。
+- IMAP：`messageId` 原样用列表返回的 `id`（如 `imap:12345`）；`attachmentId` 原样用 `attachments[].id`（如 `part:2`，较早缓存的条目可能是 `"0"` 这样的序号）；`folder` 可省略，只用来核对（带文件夹键的 `id` 本地没有缓存时需要传，见第 3 节）。
 - **下载附件时必须给 `MailOperations` 传 `save_to`**（目标文件路径）：工具在进程内完成 base64 解码并写入文件，只返回绝对路径、字节数与 SHA-256；不传 `save_to` 时附件响应会被工具拒绝返回。目标路径须位于允许写入的工作目录内。
 - 端点原始响应为 `result: {data: <base64>, size}`；响应超过约 32MB 时工具会拒绝解析，此时按工具错误提示中的流式落盘办法处理，或请用户在邮箱页面手工导出附件。
 
@@ -241,7 +248,7 @@ mail-operations 是一个**流程型技能（Procedural Skill）**，通过 Desi
 {
   "path": "/api/imap/attachment",
   "method": "POST",
-  "body": {"email": "me@example.com", "messageId": "imap:12345", "attachmentId": "0"},
+  "body": {"email": "me@example.com", "messageId": "imap:12345", "attachmentId": "part:2"},
   "save_to": "./attachments/report.pdf"
 }
 ```
@@ -377,7 +384,7 @@ Outlook 使用 Categories 而非 Labels。
 
 | 操作 | 方法 | 端点 |
 |------|------|------|
-| IMAP 文件夹列表 | GET | `/imap/folders?email=` — 返回 `[{name, path, specialUse, flags}]`，IMAP 单封操作的 `folder` 使用其中的 `path` |
+| IMAP 文件夹列表 | GET | `/imap/folders?email=` — 返回 `[{name, path, specialUse, flags}]`，`messages/fetch` 的 `folder` 可直接用其中的 `path` |
 | Outlook 文件夹列表 | GET | `/outlook/folders?email=` |
 
 > Gmail 文件夹固定：inbox, sent, drafts, trash, spam, archive。
@@ -389,8 +396,8 @@ Outlook 使用 Categories 而非 Labels。
 邮件系统采用**本地缓存 + 定期轮询**：
 
 - **写操作**（发送、标记、删除、Gmail 原生标签、Outlook 分类）：通过对应 provider 端点同时更新本地和远程，无延迟；统一标签接口（第 8 节）和自动规则中的标记、删除、标签动作只修改本地
-- **读操作**（查询、搜索）：返回本地缓存，可能有延迟（默认 30 秒轮询）
-- **远程变更**（用户在官方页面操作）：Gmail / Outlook 需等待下次轮询同步；IMAP 轮询只拉取收件箱的新邮件，其他文件夹需主动调用 `messages/fetch`，服务器上对已缓存邮件做的已读、删除等变更不会回写到本地
+- **读操作**（查询、搜索）：返回本地缓存，可能有延迟。自动同步频率取账户设置的 `syncInterval`，单位为分钟（新账户默认 5，`0` 表示关闭自动同步）；需要立刻同步时调用 `POST /sync`
+- **远程变更**（用户在官方页面操作）：Gmail / Outlook 需等待下次轮询同步或调用 `POST /sync`；IMAP 的轮询和 `POST /sync` 都只拉取收件箱的新邮件，其他文件夹需主动调用 `messages/fetch`，服务器上对已缓存邮件做的已读、删除等变更不会回写到本地
 
 **存储路径**：`${DESIRECORE_ROOT}/mail/{provider}/{email}/`（meta.json, index.json, messages/）
 
@@ -403,7 +410,26 @@ Outlook 使用 Categories 而非 Labels。
 | 400 | 参数错误（包括参数放错位置，如把查询串参数放进 body） | 按 `msg` 检查参数名与位置 |
 | 401 | Gmail/Outlook 授权失效、IMAP 账户未配置，或缺少 Mail Service capability | **按规则 1 处理**，不要尝试其他途径 |
 | 404 | 资源不存在 | 先同步再重试（规则 3） |
+| 404 | IMAP 邮件不在本地缓存（`error: imap_message_not_cached`） | 先 `messages/fetch` 该文件夹或取详情，再用结果里的 `id` 操作（见第 3 节） |
 | 409 | IMAP 账户 SMTP 未验证（`error: smtp_unverified`） | 引导用户重新验证 SMTP（`POST /imap/accounts/verify-smtp`） |
+| 409 | IMAP 的 `folder` 与 `id` 所在文件夹不一致（`error: imap_folder_mismatch`），或文件夹已被服务器重建（`error: imap_uidvalidity_changed`） | 操作没有执行，不要原样重试；按第 3 节去掉 `folder`，或重新取信后用新的 `id` |
 | 500 | 内部错误（IMAP 常见原因：`folder` 不是服务器上存在的文件夹） | 先检查 `folder`，仍失败则告知用户稍后重试 |
 
 **IMAP 注意**：国内邮箱（QQ、163）需使用"授权码"而非登录密码。用 `/imap/test` 预先验证配置，并检查返回的 `result.imap.success` 与 `result.smtp.success`。
+
+### 没有拿到完整响应时
+
+`MailOperations` 最多等待 Mail Service 响应 20 分钟。没有拿到完整响应时，工具按请求走到了哪一步给出不同的提示：等待响应阶段的失败以 `Mail Service 请求失败:` 开头，已收到状态码、读正文时的失败以 `HTTP <状态码>` 开头。
+
+| 提示中的关键句 | 含义 | 处理 |
+|----------------|------|------|
+| `等待 Mail Service 响应超过 20 分钟` | 等待超时，邮件服务端可能仍在处理这次请求 | 不要马上用相同参数重试；缩小批次（如 `messages/fetch` 的 `limit`）后再请求 |
+| `请求已被取消（运行中止）` | 运行被中止，请求可能已经送达 | 改变邮箱的操作先核对结果 |
+| `请求未发出：运行已中止` | 运行已中止，请求没有发出 | 无需核对 |
+| `无法连接 Mail Service` | 请求没有送达，邮件服务可能尚未启动或正在重启 | 稍后重试 |
+| `与 Mail Service 的连接在请求途中断开` | 服务端可能已经处理了这次请求 | 改变邮箱的操作先核对结果；只读请求可以直接重试 |
+| `Mail Service 已返回成功响应，但正文没有读完` | 这次请求已经处理完 | 改变邮箱的操作不要重做；只读请求可以重新请求 |
+| `Mail Service 返回了失败状态码，正文没有读完` | 以状态码为准，这次请求没有成功 | 按状态码处理 |
+| `请求未能发出（不是网络问题）`、`GET 请求不能带 body` | 请求参数不匹配 | 检查 `path`、`method` 与 `body`；带 `body` 的请求要同时传 `method: "POST"` 等 |
+
+Mail Service 不会因为客户端断开而停止处理：超时或中止之后，服务端可能照样把请求做完（`messages/fetch` 做完后照常写入本地缓存）。因此，**发送、回复、删除、移动（含标记为垃圾邮件 / 不是垃圾邮件）这类会改变邮箱的操作失败后，先核对结果再决定是否重试**（如查已发送文件夹、重新取该文件夹或取详情），否则可能重复发信或重复移动；列表、搜索、详情、附件下载等只读请求可以重试（等待超时的除外，按上表缩小批次后再请求）。
