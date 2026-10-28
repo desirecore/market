@@ -12,11 +12,11 @@
   "i18n": {
     "zh-CN": {
       "name": "Impeccable",
-      "shortDesc": "让 AI 更懂设计的前端设计语言：覆盖 UX 审查、视觉层级、可访问性、排版、配色、动效与可复用设计系统，把界面打磨到生产级。新版本使用上游独立二进制启动器，可能在首次运行时下载；需自行满足平台与运行权限。"
+      "shortDesc": "让 AI 更懂设计的前端设计语言：覆盖 UX 审查、视觉层级、可访问性、排版、配色、动效与可复用设计系统，把界面打磨到生产级。新版本使用上游独立二进制启动器，可能在首次运行时下载；需自行满足平台与运行权限。可选的图像草图在设置 OPENAI_API_KEY 时可回退调用 OpenAI 图像 API，费用计入运营者自有账户。"
     },
     "en-US": {
       "name": "Impeccable",
-      "shortDesc": "A design language that makes AI better at frontend: UX review, visual hierarchy, accessibility, typography, color, motion and reusable design systems. Uses an upstream standalone binary launcher that may download on first run; platform and execution permissions must be supplied separately."
+      "shortDesc": "A design language that makes AI better at frontend: UX review, visual hierarchy, accessibility, typography, color, motion and reusable design systems. Uses an upstream standalone binary launcher that may download on first run; platform and execution permissions must be supplied separately. Optional image comps can fall back to OpenAI's image API when OPENAI_API_KEY is set, billed to the operator's own account."
     }
   },
   "maintainer": {
@@ -33,7 +33,7 @@
     "repoUrl": "https://github.com/pbakaus/impeccable.git",
     "repoBranch": "main",
     "path": "plugin/skills/impeccable",
-    "ref": "0665bd812ae0908fcab17b96fd4f840defb882d9"
+    "ref": "d34c87e1a00989ae8dbdd7f6b30b70f23319e860"
   },
-  "latestVersion": "4.6.0"
+  "latestVersion": "4.8.0"
 }

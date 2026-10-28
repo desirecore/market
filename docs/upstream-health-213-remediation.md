@@ -2,7 +2,7 @@
 
 Reviewed on 2026-10-19 against Market baseline `10cb7656db5cbdad21b181e050130942521b1ef7` (the upstream-health checker change in [market#222](https://github.com/desirecore/market/pull/222), on top of `main` at `a514b55b68771ff58d76ed64ac5f42be350f789b`).
 
-Tracking issue: [market#213](https://github.com/desirecore/market/issues/213). This review covers the 28 entries the checker reported on 2026-10-19. It updates 24 pointers and adds three new public children with reviewed translations. Three pins stay on reviewed holds, and the watch finding was superseded on `main` (see below). Top-level inventory remains 8 Agents, 2 Teams and 144 Skills; the nine collections now contain 184 children.
+Tracking issue: [market#213](https://github.com/desirecore/market/issues/213). This review covers the 28 entries the checker reported on 2026-10-19. It updates 24 pointers and adds three new public children with reviewed translations. Three pins stay on reviewed holds, and the watch finding was superseded on `main` (see below). Top-level inventory remains 8 Agents, 2 Teams and 144 Skills; the nine collections now contain 184 children. A [follow-up review](#follow-up-review-2026-10-27) on 2026-10-27 covers the heads that moved after this review.
 
 ## Detector changes
 
@@ -67,6 +67,66 @@ Run on 2026-10-19 against the reviewed heads above:
 
 Catalog and i18n validation retain 104 earlier warnings, down from 106, with no new warning. The two removed warnings are the unverified humanlayer-skills license and its identical child translations. The remaining warnings concern existing license, review and provenance gaps and untranslated child summaries; this change does not claim to resolve those.
 
-Several upstreams moved again after this review, and the 2026-10-26 report lists newer heads. Those heads are not reviewed here. They, and any hold that their changes make stale, are left for the next round.
+Several upstreams moved again after this review, and the 2026-10-26 report lists newer heads. Those heads, and the holds their changes made stale, are reviewed in the [follow-up review](#follow-up-review-2026-10-27) below.
 
 Validation covers catalog contracts, source retrieval, pinned paths, reproducible inventories and the reviewed hold contract. Third-party programs and live account services were not executed; their availability is not implied by a healthy pointer.
+
+## Follow-up review (2026-10-27)
+
+Reviewed on 2026-10-27 against Market baseline `7e7b528b213b72593cebaf32505fc868bb792be9` (the round above, [market#227](https://github.com/desirecore/market/pull/227), stacked on market#222). On that baseline the online check reported 21 outdated pins, two stale holds and the still-valid geo-optimizer hold. This round repins 16 entries, refreshes the two stale holds and adds two new holds; the watch finding is again left to `main`. No children are added or removed, so the inventory above is unchanged.
+
+### Reviewed holds
+
+| Entry | Held findings | Why the pin stays |
+|---|---|---|
+| skill/agent-reach | outdated (new hold at 14c2134) | The 1.6.0 rebuild of the installed `agent_reach/skill` makes CloakBrowser, a stealth Chromium marketed to pass bot detection and shipped under a restrictive binary license, the default browser for logged-in platform channels, and copies site cookies from a connected Chrome on first use. The installed SKILL.md is also an unrendered template with `{{VERSION}}` and `{{CHANNEL_TABLE}}` placeholders. |
+| skill/geo-optimizer | upstream-path-change, outdated | Unchanged from the first round. Upstream moved on to ed835f2, but nothing in the installed scope changed after the reviewed c839f30, so the hold still applies. |
+| skill/marketingskills | outdated (refreshed to 17772c7) | The ad-creative referral promotion and the six children's paid "Verified Partner" placements are unchanged, and ai-seo adds a newly paid partner without a marker. Of the two new children, conversion-tracking is built around a paid partner's tracking service and tells the agent to repeat a fixed partner phrase; link-building carries no promotion. |
+| skill/nuwa-skill | outdated (refreshed to 7c7edfe) | The only new commit removes the README campaign banner. SKILL.md is unchanged and still recommends the author's other projects whenever a request goes beyond the skill's scope. |
+| skill/wecom-cli | outdated (new hold at 55785fa) | The only installed-scope change is a wecomcli-sheet rewrite. Its new `scripts/recalc.py` and `references/xlsx-process.md` are adapted, without attribution, from the source-available xlsx skill in anthropics/skills, whose terms forbid copying, derivative works and redistribution, while the repository declares MIT for everything. The script's LibreOffice macro and LD_PRELOAD socket shim match the market's own `skills/xlsx`, which ships them under that skill's notice; a later bump must disclose both. |
+
+The marketingskills `new-skill` finding (conversion-tracking, link-building) stays actionable. Holds cover only `upstream-path-change` and `outdated`, and the new children cannot be declared while the pin predates them.
+
+### Snapshot decisions
+
+| Entry | Reviewed snapshot or diff | Decision |
+|---|---|---|
+| skill/archify | [654da74 → 81c6be8](https://github.com/tt-a1i/archify/compare/654da74e084e5a1faf708779c23d6172766be9c1...81c6be8d87090670c45d08a8f97f9d29c5af0bec) | Upstream relicensed from MIT to Apache-2.0; the earlier MIT grants stay in LICENSE-MIT and NOTICE, and generated pages now embed these notices. License recorded as Apache-2.0. Version 3.2, the update check and the opt-in global-rules edit are unchanged. |
+| skill/banana | [6a2b1b5 → 08e329b](https://github.com/AgriciDaniel/banana-claude/compare/6a2b1b51fdcc35932184f06e513646a6f6f4f7d8...08e329b37dae396fc869c10d3494c5950d1d61c2) | Skill 3.1.0 makes Nano Banana 2.1 the default model on the same Gemini Developer API and GEMINI_API_KEY. Records the version; Python 3.11+, paid Gemini billing including thinking tokens, Search-grounding retention and local writes outside the workspace are disclosed. |
+| skill/brainstorming | [bb92a77 → 2ce8aa1](https://github.com/obra/superpowers/compare/bb92a77741419a4ab5f06e711a283343f1ada0c3...2ce8aa15d05bd57213e6f746f953aafb7ded7a8b) | SKILL.md-only retune (v7.0.1): read the referenced project context first, lay out approaches, then approve a short or full design doc. The visual companion files are byte-identical, so its Node.js and logo-telemetry disclosure still holds. |
+| skill/dingtalk-cli | [92cb3f5 → ee61f89](https://github.com/DingTalk-Real-AI/dingtalk-workspace-cli/compare/92cb3f513c457b9a3578b72ed870632e891dded3...ee61f8945d8b1df6b840d2303152574f31a6f1f8) | 16 children retained; CLI minimums unchanged. Adds standalone mind maps, AI-table role members, app visibility scope and placeholder A2UI cards on replies; full replacements and deletes need confirmation. Apache-2.0 and NOTICE unchanged. |
+| skill/follow-builders | [1c06b01 → 3b2cf91](https://github.com/zarazhangrui/follow-builders/compare/1c06b01fa3dfb4ff1785c3e93ebf48c746c68586...3b2cf91f0a01a8dece4b4d9ebb29c4c8beb298a6) | Nine bot feed refreshes only; instructions and scripts unchanged. License evidence remains unknown. |
+| skill/frontend-slides | [ef648e0 → 25278e7](https://github.com/affaan-m/ECC/compare/ef648e01899ba3e8dc6371642deaaf64b4477775...25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b) | Three-line `export-pdf.sh` path fix. The pre-existing PDF helper's Playwright and Chromium download and the web-font hosts are now disclosed. |
+| skill/himalaya | [6ddf5a6 → 9adda02](https://github.com/openclaw/openclaw/compare/6ddf5a6106c18c4cf803a601b3a099e497d943fb...9adda02605eca1f45eb10f009dd4c3e575713032) | Documentation fix for copy/move (`--to <folder>`) and raw MIME reads. The separately installed CLI, the operator's mail account and credentials, and the lack of a built-in send/delete confirmation are now disclosed. |
+| skill/impeccable | [0665bd8 → d34c87e](https://github.com/pbakaus/impeccable/compare/0665bd812ae0908fcab17b96fd4f840defb882d9...d34c87e1a00989ae8dbdd7f6b30b70f23319e860) | Skill 4.8.0 with engine 0.1.18. Downloads must now match SHA-256 digests shipped in the pinned skill instead of a sidecar fetched beside the binary. The unsandboxed, non-blocking hook and the existing optional OpenAI image-API fallback are disclosed. |
+| skill/larksuite-cli | [017b19a → a92db87](https://github.com/larksuite/cli/compare/017b19a793ad71794a02887ede04757f3d82e10d...a92db8779c0959bc14beb69d82fb262123cfb79b) | 28 children retained with no version changes; only the lark-apps cloud-dev polling guidance changes. Disclosures still fit. |
+| skill/last30days | [13a6cc5 → e06af25](https://github.com/mvanhorn/last30days-skill/compare/13a6cc5fd1f2d8a9b8420bbba6742599b2f4a077...e06af25a9a78487b75e8509e0e1687fec137176e) | Skill 3.31.0 adds a keyless Arctic Shift comment fallback, `--official-site` homepage lookup, a local audit of each new grok CLI build and Dia in the opt-in cookie list. Bright Data, the grok lane, the audit cache and the new endpoints are disclosed. |
+| skill/mattpocock-skills | [49dd158 → 59db609](https://github.com/mattpocock/skills/compare/49dd158d1076134a641b33efb035946536778336...59db609eb1e18aaf59b63284d0e52255aff0c63c) | 38 children retained. chief-of-staff stays manual-only and now keeps a dated wiki in a folder agreed with the user; tracker setup files issues only in the user's own repository. No new external services. |
+| skill/planning-with-files | [d363544 → dcdfb27](https://github.com/OthmanAdi/planning-with-files/compare/d363544caea69df35ba624b238662ab861d1d92a...dcdfb278de53fdb69b2067ea173dbb1de45345a3) | Skill 3.25.2. New plans start from the bundled initializer, and a read-only `check-complete --validate` checks the format; lifecycle hooks unchanged. |
+| skill/planning-with-files-zh | [d363544 → dcdfb27](https://github.com/OthmanAdi/planning-with-files/compare/d363544caea69df35ba624b238662ab861d1d92a...dcdfb278de53fdb69b2067ea173dbb1de45345a3) | Skill 3.25.2 with the same localized creation contract and format check. Hook scripts are still byte-identical to the English edition. |
+| skill/redbookskills | [9934a38 → 52622b4](https://github.com/white0dew/XiaohongshuSkills/compare/9934a380727a1c2229a753206d7958f132640bb0...52622b4a57ef44ce11e0827938948d9a2a7c5ef8) | Nine bot star-history refreshes only; SKILL.md, scripts and README unchanged. |
+| skill/reverse-engineer-anything | [dfe8378 → 79d2fc0](https://github.com/morluto/rea/compare/dfe8378cf5a727e3d93d47a5986233175c6ef898...79d2fc05405c76bc0a8f71b9c10355135da4747b) | Records upstream revision 50 as an opaque identifier, with rea-agents 6.8.0 on patched Node releases. Adds agent environment bundles recorded from disposable web-app instances (AgentEnv and Docker) and Frida, debugger and process-capture workflows, still without protection-bypass guidance. New tools and authorization gates disclosed; compliance re-reviewed. |
+| skill/taste-skill | [a9c73c3 → 12af471](https://github.com/Leonxlnx/taste-skill/compare/a9c73c3d5dbf401e3e47f86e7b41f29ede1687df...12af471f627f866411b4bd785b19646d3672784c) | Maintenance fixes: quoted frontmatter so the skill loads, safer profile cleanup, escaped chart labels, accessibility guidance and a dev-server warning. Nothing new is fetched, installed or promoted; no skill version is declared. |
+
+Planning-with-files was reviewed once for both editions, which keep an identical pin. Other entries on obra/superpowers, openclaw/openclaw and affaan-m/ECC keep their pins because their installed scope did not change, so brainstorming, himalaya and frontend-slides now sit on newer commits than their siblings.
+
+skill/watch is outdated on this baseline only because the baseline predates [market#221](https://github.com/desirecore/market/pull/221); `main` already pins its current head, 4fa94ac.
+
+### Validation
+
+Run on 2026-10-27 against the reviewed heads above:
+
+- 122 unit tests pass across the i18n (19), catalog-metadata (51), collection-generator (10) and upstream-health (42) suites.
+- Catalog metadata validation with `--require-complete`, i18n validation and translation freshness pass with 0 errors. The 104 earlier warnings are unchanged, and none is new.
+- All nine pinned collection inventories pass the read-only generation check.
+- The online health check covers all 111 external entries on this branch. Nothing is broken or unknown, and six `held` findings cover the five holds above. Two findings remain actionable: the marketingskills `new-skill` finding and the watch pin, which is already current on `main`.
+- The same check on this branch merged with `main` at `aa6a1a6` covers 112 entries, including agent/video-director, which resolves again. It leaves only the held findings and the marketingskills `new-skill` finding. Two transient TLS failures in that run passed when rechecked individually.
+- `git diff --check` passes.
+
+Still open after this round:
+
+- The marketingskills `new-skill` finding, until the sponsor content is removed or accepted, or until a hold can cover undeclared children.
+- follow-builders and redbookskills install their whole repository, so bot commits will flag them as `outdated` again within days.
+- For the next review: at the current wecom-cli pin, `wecomcli-pptx/references/templates/anti-ai-slop.md` names the source-available pptx skill in anthropics/skills as one source of a reworded checklist.
+
+Third-party programs and live account services were not executed.

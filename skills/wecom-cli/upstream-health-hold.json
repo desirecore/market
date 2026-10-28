@@ -1,0 +1,7 @@
+{
+  "statuses": ["outdated"],
+  "ref": "4c74ff28838d8fba267eaab5179d9d56f9ca61ae",
+  "head": "55785fa0a5c922279533a5b5a836b44b56f65ce7",
+  "reviewedAt": "2026-10-27",
+  "reason": "The only change in the installed scope is a wecomcli-sheet rewrite whose new scripts/recalc.py (a LibreOffice recalculation macro plus an LD_PRELOAD socket shim) and references/xlsx-process.md are adapted, without attribution, from the source-available xlsx skill in anthropics/skills, whose terms forbid copying, derivative works and redistribution, while the repository declares MIT for everything. Listing that child as MIT would misstate its license, so the reviewed pin stays until upstream attributes and relicenses or removes that content; a later bump must also disclose that recalc.py writes a macro into the user's LibreOffice profile and may compile a gcc shim in the shared temp directory."
+}

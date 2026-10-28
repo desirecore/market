@@ -12,10 +12,10 @@
   "dingtalk-aitable": {
     "i18n": {
       "zh-CN": {
-        "shortDesc": "钉钉 AI 表格（多维表）：建表、字段与记录增删改查、筛选排序、批量导入导出、仪表盘图表与数据源同步。命令前缀 dws aitable。"
+        "shortDesc": "钉钉 AI 表格（多维表）：建表、字段与记录增删改查、筛选排序、批量导入导出、仪表盘图表、高级权限角色及其成员与数据源同步。命令前缀 dws aitable。"
       },
       "en-US": {
-        "shortDesc": "DingTalk AI Table (multi-dimensional base): create tables, manage fields and records, filter and sort, bulk import and export, dashboards and data-source sync. Command prefix: dws aitable."
+        "shortDesc": "DingTalk AI Table (multi-dimensional base): create tables, manage fields and records, filter and sort, bulk import and export, dashboards, advanced-permission roles and their members, and data-source sync. Command prefix: dws aitable."
       }
     }
   },
@@ -32,10 +32,10 @@
   "dingtalk-chat": {
     "i18n": {
       "zh-CN": {
-        "shortDesc": "钉钉群聊与消息：收发、编辑与撤回消息，建群与群成员管理，话题回复，搜索聊天记录，机器人与 Webhook 通知。命令前缀 dws chat。"
+        "shortDesc": "钉钉群聊与消息：收发、编辑与撤回消息，建群与群成员管理，话题回复，搜索聊天记录，机器人与 Webhook 通知，以及 A2UI 卡片流式更新（回复消息时默认先发占位卡片，再在同一卡片中更新进度和结果）。命令前缀 dws chat。"
       },
       "en-US": {
-        "shortDesc": "DingTalk chats and messages: send, edit and recall messages, create and manage groups, threaded replies, chat history search, bots and webhook notices. Command prefix: dws chat."
+        "shortDesc": "DingTalk chats and messages: send, edit and recall messages, create and manage groups, threaded replies, chat history search, bots and webhook notices, plus streamed A2UI cards (a reply posts a placeholder card by default, then updates that card with progress and the result). Command prefix: dws chat."
       }
     }
   },
@@ -102,10 +102,10 @@
   "dingtalk-misc": {
     "i18n": {
       "zh-CN": {
-        "shortDesc": "长尾产品集合：OA 审批、考勤、日志日报、DING 紧急消息、直播、目标管理、法务合同管理、电子表格、白板、原生 Markdown 与 OpenAPI 逃生舱。命令前缀见技能内产品索引表。"
+        "shortDesc": "长尾产品集合：OA 审批、考勤、日志日报、DING 紧急消息、直播、目标管理、法务合同管理、电子表格、白板、独立脑图、原生 Markdown 与 OpenAPI 逃生舱。命令前缀见技能内产品索引表。"
       },
       "en-US": {
-        "shortDesc": "Long-tail product bundle: OA approvals, attendance, work reports, urgent DING messages, live streams, goal management, legal contract management, sheets, whiteboards, native Markdown and a raw OpenAPI escape hatch. Command prefixes come from the skill's own product index."
+        "shortDesc": "Long-tail product bundle: OA approvals, attendance, work reports, urgent DING messages, live streams, goal management, legal contract management, sheets, whiteboards, standalone mind maps, native Markdown and a raw OpenAPI escape hatch. Command prefixes come from the skill's own product index."
       }
     }
   },

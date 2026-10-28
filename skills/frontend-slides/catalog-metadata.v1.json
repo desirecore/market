@@ -31,21 +31,21 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05T08:00:00Z",
-      "precision": "second"
+      "value": "2026-10-27",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-10-27",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-02T02:01:14Z",
-      "precision": "second"
+      "value": "2026-10-27",
+      "precision": "day"
     }
   },
   "provenance": {
@@ -53,7 +53,7 @@
       "kind": "git",
       "url": "https://github.com/affaan-m/ECC.git",
       "path": "skills/frontend-slides",
-      "ref": "ef648e01899ba3e8dc6371642deaaf64b4477775"
+      "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b"
     }
   },
   "governance": {
@@ -72,16 +72,26 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "ef648e01899ba3e8dc6371642deaaf64b4477775",
-      "reviewedAt": "2026-10-05",
-      "reviewedBy": "mashagua",
+      "reviewedRef": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
+      "reviewedAt": "2026-10-27",
+      "reviewedBy": "Market upstream maintenance",
       "upstreamEndorsed": false
     }
   },
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Decks are self-contained HTML files that run in a browser. PPT/PPTX conversion uses Python 3 with python-pptx; the skill asks before installing python-pptx and otherwise falls back to a manual workflow. The bundled scripts/export-pdf.sh, which SKILL.md does not call, needs Node.js and npm, installs Playwright into a temporary directory, downloads Chromium into Playwright's user cache, serves the deck on 127.0.0.1 and opens the finished PDF."
+      },
+      {
+        "kind": "connection",
+        "value": "Generated decks may load web fonts from Google Fonts or Fontshare when opened, under those providers' terms. The optional PDF helper needs network access on first run to download Playwright from npm and its Chromium build."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"
