@@ -239,9 +239,23 @@ uv run scripts/catalog/check_upstream_health.py
 
 Collection checking requires Git and network access. Mutable collections are reported and skipped because their generated inventory is not reproducible. Omitting `--check` runs the generator in write mode; review both the regenerated children and the corresponding sidecar facts before committing.
 
-The upstream health check is read-only and exits non-zero when an entry is `gone` or has a `bad-branch`, `bad-ref`, or `bad-path`. `unreachable` is a network error, not a confirmed failure. The [upstream health workflow](.github/workflows/upstream-health.yml) runs it weekly and keeps one `upstream-health` issue current; fixes and `source.ref` bumps still go through reviewed PRs.
+The upstream health check is read-only and exits non-zero when an entry is `gone` or has a `bad-branch`, `bad-ref`, or `bad-path`. `unreachable` is a network error, not a confirmed failure. The [upstream health workflow](.github/workflows/upstream-health.yml) runs it weekly and keeps one `upstream-health` issue current, where `outdated` rows for GitHub-hosted upstreams link to the `<ref>...<head>` compare view; fixes and `source.ref` bumps still go through reviewed PRs.
 
-Paths are checked at the installed snapshot. A path removed only at branch head is reported as `upstream-path-change` while a valid pin remains usable. `outdated` means the snapshot content differs, not that a new release version exists; commits with identical trees do not trigger it. For single-skill subtree pointers, comparison covers `source.path` and root license/notice files, so unrelated feed or website updates do not trigger repins. `--summary-file <path>` writes the workflow's `broken`, `actionable` and `unknown` decisions as JSON. Unpinned entries remain actionable, and network uncertainty keeps the tracking issue open.
+Paths are checked at the installed snapshot. A path removed only at branch head is reported as `upstream-path-change` while a valid pin remains usable. `outdated` means the installed content differs, not that a new release version exists; commits with identical trees do not trigger it. Comparison covers what an installation copies: `source.path` for a single-skill subtree pointer or the declared child paths for a collection, plus root `LICENSE*`, `NOTICE*` and `COPYING*` files. Unrelated feeds, websites, CLI sources, tests or changesets therefore do not trigger repins; undeclared upstream skills are still reported separately as `new-skill`. Root-level single skills, agents and teams compare the whole snapshot. `--summary-file <path>` writes the workflow's `broken`, `actionable` and `unknown` decisions and the `held` finding count as JSON. Unpinned entries remain actionable, and network uncertainty keeps the tracking issue open.
+
+When keeping the current pin is a reviewed decision, add `<kind>/<id>/upstream-health-hold.json` beside `entry.json`:
+
+```json
+{
+  "statuses": ["upstream-path-change", "outdated"],
+  "ref": "<40-hex pinned source.ref>",
+  "head": "<40-hex upstream commit that was reviewed>",
+  "reviewedAt": "YYYY-MM-DD",
+  "reason": "Why the current pin stays."
+}
+```
+
+Only `upstream-path-change` and `outdated` can be held; broken statuses, `unreachable`, `new-skill` and `unpinned` never can. A hold applies only while `ref` equals the entry's `source.ref` and the installed-scope content at upstream head is identical to that at `head`. Held findings are reported as `held` in a "Reviewed holds" section and are not actionable, so the tracking issue can close; the closing comment states how many held findings remain. When a hold no longer applies because the pin changed, upstream changed within the installed scope, the reviewed head no longer exists, the file is invalid, or no held finding remains, any original findings return together with an actionable `stale-hold` that asks for re-review or removal. A network error while checking the reviewed head is reported as `unreachable`, not as a stale hold. CI tests require every hold file to be well-formed and its `ref` to match the entry's `source.ref`, so bumping a pin means updating or deleting its hold. A hold records a reviewed decision; it is not a way to silence a broken entry.
 
 The [validation workflow](.github/workflows/i18n-validate.yml) is the source of truth for CI. It detects relevant paths and can skip catalog validation for documentation-only changes. A green skipped job is not evidence that Markdown links or bilingual documentation were checked; review those separately.
 
