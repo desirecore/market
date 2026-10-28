@@ -29,24 +29,28 @@
   },
   "release": {
     "state": "known",
-    "version": "1.1.0",
+    "version": "1.1.2",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-08-07T15:54:22Z",
+      "value": "2026-10-24T14:14:25Z",
       "precision": "second"
     },
     "releasePublishedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-10-24",
+      "precision": "day"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-10-24",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-08-07T15:54:22Z",
+      "value": "2026-10-24T14:14:25Z",
       "precision": "second"
     }
   },
@@ -55,20 +59,29 @@
       "kind": "git",
       "url": "https://github.com/desirecore-agent/watch-video-skill.git",
       "path": "skills/watch",
-      "ref": "0fd13b73b7b37318cada0562ba2263d648c8505f"
+      "ref": "4fa94ac2e038a4dc579baf3203379e2b3a606074"
     }
   },
   "governance": {
     "stewardship": "official",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {
       "name": "DesireCore Agent",
       "url": "https://github.com/desirecore-agent",
       "verified": true
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "4fa94ac2e038a4dc579baf3203379e2b3a606074",
+      "reviewedAt": "2026-10-24",
+      "reviewedBy": "yi-ge",
+      "upstreamEndorsed": true
     }
   },
   "compatibility": {

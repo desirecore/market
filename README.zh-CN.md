@@ -137,6 +137,8 @@ uv run scripts/i18n/validate-i18n.py
 
 参考 [DesireCore 内联智能体](agents/desirecore/agent.json)和[钉钉工作台指针](agents/dingtalk-workspace/entry.json)。
 
+[视频导演](agents/video-director/entry.json)通过固定Git来源提供自主场景创作与带版本的视觉审片。需单独安装视频创作应用并配置DesireCore可用算力；模型/媒体服务许可及用量费用另计。安装Agent不等于安装、启动或授权该应用。
+
 ### 团队
 
 团队由监督者协调多个智能体，**只能以 Git fork 指针发布**：在 `teams/<id>/entry.json` 中登记来源，并提供 sidecar。团队实现，即 `team.json`、`members.json` 和 `shared/`，保留在上游；安装时 fork 该仓库并安装其声明的成员，之后通过 fork 仓库中的 `git pull` 更新。

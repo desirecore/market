@@ -137,6 +137,8 @@ System-managed listings such as [General Assistant](agents/general-assistant/age
 
 Examples: [inline DesireCore agent](agents/desirecore/agent.json) and [DingTalk Workspace pointer](agents/dingtalk-workspace/entry.json).
 
+[Video Director](agents/video-director/entry.json) is a pinned Git pointer for autonomous scene creation and versioned visual review. It requires the separately installed Video Creation app and current DesireCore compute; model/media licenses and usage fees are separate. Installing the Agent does not install, start or authorize that app.
+
 ### Teams
 
 A team is a supervisor-led group of agents, published **only as a Git fork pointer** at `teams/<id>/entry.json`, alongside its sidecar. The implementation (`team.json`, `members.json`, and `shared/`) stays upstream. Installation forks that repository and installs its declared members; subsequent updates use `git pull` on the fork.
