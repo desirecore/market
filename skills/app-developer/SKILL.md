@@ -4,7 +4,7 @@
   "description": "用户要求开发、修改或发布自己的工作台应用，或把固定应用版本分发到 GitHub/Gitea 与 Registry 时使用。按所选技术栈使用的外部 Node/Docker 运行时、托管、Git 服务和数据库须有真实环境或连接及适用条款，可能另行部署或收费；缺能力时说明原因。",
   "license": "MIT",
   "compatibility": "Requires DesireCore app-authoring-v1 capability handshake. Depending on the chosen stack, Node/Docker runtimes, hosting, GitHub/Gitea and databases require actual authorized environments or connections and applicable licensing/deployment terms; separate costs may apply. Unavailable capabilities stop the affected operation.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "requiredClientVersion": "10.0.180",
   "type": "procedural",
   "risk_level": "high",
@@ -23,7 +23,7 @@
   ],
   "metadata": {
     "author": "desirecore",
-    "updated_at": "2026-10-13",
+    "updated_at": "2026-10-28",
     "i18n": {
       "default_locale": "en-US",
       "source_locale": "zh-CN",
@@ -36,18 +36,18 @@
         "short_desc": "开发个人工作台并发布到我的应用，按需分发固定版本",
         "description": "用户要求开发、修改或发布自己的工作台应用，或把固定应用版本分发到 GitHub/Gitea 与 Registry 时使用。按所选技术栈使用的外部 Node/Docker 运行时、托管、Git 服务和数据库须有真实环境或连接及适用条款，可能另行部署或收费；缺能力时说明原因。",
         "body": "./SKILL.zh-CN.md",
-        "source_hash": "sha256:b12f9f3a566f3195",
+        "source_hash": "sha256:9c37c5ad344e380e",
         "translated_by": "ai:gpt-6",
-        "translated_at": "2026-10-13"
+        "translated_at": "2026-10-28"
       },
       "en-US": {
         "name": "Application Development and Publishing",
         "short_desc": "Develop a personal workbench, publish it to My Apps, and distribute fixed releases on request",
         "description": "Use when the user asks to develop, modify or publish a personal workbench application, or distribute a fixed release through GitHub/Gitea and Registry. Node/Docker runtimes, hosting, Git services and databases used by the chosen stack need actual environments or connections and applicable terms; separate deployment or costs may apply. Report unavailable capabilities.",
         "body": "./SKILL.md",
-        "source_hash": "sha256:b12f9f3a566f3195",
-        "translated_by": "ai:gpt-6",
-        "translated_at": "2026-10-13"
+        "source_hash": "sha256:9c37c5ad344e380e",
+        "translated_by": "ai:claude-opus-5-5",
+        "translated_at": "2026-10-28"
       }
     }
   },
@@ -72,7 +72,7 @@ The Agent chooses the implementation, framework and working method. The platform
 ## L1: Read Capabilities and Context
 
 1. Read or create the task's single file-based Plan, preserving the actual Agent/session, device, authorized work directory and development Task. Continue within the user's existing requirements and authorization.
-2. Use the original `AppManage` action `authoring_capabilities`. Require `capabilities.protocol: app-authoring-v1` and inspect supported, authorized, available and reason independently. Its `fileRoots` are real readable roots for the current Agent, and `registryTargetIds` are registered catalog targets. These read facts grant neither upload nor filesystem write authority. The minimum version is a code baseline, not proof that a shipped client supports this protocol. Authoring actions enter the original domain owners without passing platform credentials to the model.
+2. Use the original `AppManage` action `authoring_capabilities`. Require `capabilities.protocol: app-authoring-v1` and inspect supported, authorized, available and reason independently. Its `fileRoots` are real readable roots for the current Agent, and `registryTargetIds` are registered catalog targets. These read facts grant neither upload nor filesystem write authority. `draftSource` is this conversation's draft source `{agentId,sessionId}`; copy it verbatim as the app-draft.json source. If the result carries `draftSourceUnavailable`, or an older client returns no such field, the current conversation ID is unavailable; handle it as described in L2. The minimum version is a code baseline, not proof that a shipped client supports this protocol. Authoring actions enter the original domain owners without passing platform credentials to the model.
 3. Natural-language development needs no additional handoff protocol. Installation, registration, update or uninstall continues through ApplicationManagement-v2 and the single writer. Read `app-install-manager` when available; never edit installed-entries.json directly.
 4. Read [authoring interfaces](references/authoring-api.zh-CN.md) and [distribution](references/distribution.zh-CN.md) on demand. The candidate main-repository authority is `docs/功能/市场系统/API/应用开发发布接口.md`; an external PR does not establish a shipped client or official seed. `examples/static-workbench/` and `examples/service-workbench/` are editable teaching materials, not evidence of autonomous Agent development or production acceptance.
 
@@ -81,7 +81,7 @@ The Agent chooses the implementation, framework and working method. The platform
 - Establish the user's actual work, data ownership and collaboration needs. Choose suitable languages and frameworks; examples do not prescribe a stack. Reuse the actual Task, Plan and originating context.
 - Separate program material, business data and secrets. The portable `application.json` contains no sourceId, installation identity, host path, builtin route or credential. Its product identity, version and entrypoints are the single source for release and catalog views.
 - Create fixed `app-release.json` from an explicit file whitelist, actual byte hashes, entrypoint mappings, data contract and truthful platform evidence. Exclude the manifest itself from files. `scripts/create-release.mjs` builds the example manifest; the service independently verifies actual bytes.
-- Deliver `app-draft.json` with real fileRef, Plan, Agent/session, stable draftId and target installationId. Its workdir points to the actual release material directory; do not guess a release/ subdirectory or fabricate a fileRef. Read the actual authorized file using `AppManage.read_draft` with `file_ref`, preserving the returned draft. Return a clickable absolute path so the user can read and continue it in the application development workspace.
+- Deliver `app-draft.json` with real fileRef, Plan, stable draftId and target installationId. Its source is the `draftSource` returned by `authoring_capabilities`, copied verbatim; never use a runId or make up a value. Without `draftSource` (an older client, or a result with `draftSourceUnavailable`), ask the user for the current conversation ID, or ask the user to continue in this Agent's default conversation, whose sessionId equals the agentId. Never infer it from a runId, topic title or another conversation. Its workdir points to the actual release material directory; do not guess a release/ subdirectory or fabricate a fileRef. Read the actual authorized file using `AppManage.read_draft` with `file_ref`, preserving the returned draft. When read_draft, preview_prepare or development_enroll rejects the source conversation, the error body carries this conversation's `draftSource`; correct the draft's source with it and retry. Return a clickable absolute path so the user can read and continue it in the application development workspace.
 - Call `AppManage.preview_prepare` with the original draft/mode/expectedRevision in `owner_request`, including release for snapshot. Use preview_read to read and preview_end to end it. Snapshot preview and formal installation use separate identities and data. Freeze a snapshot before publishing a live preview. Replacement uses the actual revision. Ending preview revokes its bridge and disposes only its owned temporary runtime while preserving data and development material. Closing a page does not stop a formal application or accepted Task. Never convert a temporary URL/token into a formal entrypoint.
 - Enroll a real authorized source development server using `AppManage.development_enroll` with the original prepareRef/draft/terminalId/endpoint in `owner_request` for live preview. Its development-only contract cannot become formal startup; mutable source and fixed releases remain separate. The original command must respect owner-injected PORT and APP_DATA_DIR, using shell `${VAR:-default}` only for initial defaults rather than overriding preview ports or formal data roots.
 - Use `AppManage.prepare_release` with the complete `release_request` to freeze real material. Construct materialRoot as a FileResourceRef from the returned readable roots. Inspect the candidate, then call commit_release with the complete original AppReleaseCommitRequest in `release_request`, retaining prepareRef, installationId, expectedRevision and submissionId. Do not reduce its installation material to a name or digest. Continue authorized publication without repeated per-command questions; new targets or additional data/external effects follow existing governance.
