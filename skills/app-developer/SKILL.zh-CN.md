@@ -7,7 +7,7 @@ Agent 选择技术栈、构建方法与工作方式；平台核验材料、作�
 ## L1：先读能力与当前上下文
 
 1. 读取或创建本任务唯一文件化 Plan，保存实际来源 Agent/会话、目标设备、工作目录及开发 Task。已有用户需求和授权直接沿用。
-2. 使用原 `AppManage` 的 `authoring_capabilities` 动作。返回的 `capabilities` 必须为 `protocol: app-authoring-v1`，分别看 features 的 supported、authorized、available 和 reason；`fileRoots` 是当前 Agent 可读的真实文件根，`registryTargetIds` 是已登记的目录目标；这些只读事实不授予目录上传或文件写权限。10.0.180 只是代码基线，已发行的同版本客户端不因此支持新协议。作者动作直接进入原领域 owner，不把平台凭据交给模型。
+2. 使用原 `AppManage` 的 `authoring_capabilities` 动作。返回的 `capabilities` 必须为 `protocol: app-authoring-v1`，分别看 features 的 supported、authorized、available 和 reason；`fileRoots` 是当前 Agent 可读的真实文件根，`registryTargetIds` 是已登记的目录目标；这些只读事实不授予目录上传或文件写权限。`draftSource` 是本次会话的草稿来源 `{agentId,sessionId}`，原样写入 app-draft.json 的 source；返回 `draftSourceUnavailable`，或旧客户端没有这个字段时，当前会话 ID 拿不到，按 L2 处理。10.0.180 只是代码基线，已发行的同版本客户端不因此支持新协议。作者动作直接进入原领域 owner，不把平台凭据交给模型。
 3. 普通自然语言开发不要求新的交接协议。若要登记、安装、更新或卸载，读取 `app-install-manager`；继续沿 ApplicationManagement-v2 解析和唯一 writer，不直接编辑 installed-entries.json。
 4. 按需读 [作者接口](references/authoring-api.zh-CN.md) 和 [分发指南](references/distribution.zh-CN.md)。候选主仓正文为 `docs/功能/市场系统/API/应用开发发布接口.md`，按实际能力读取；外仓 PR 不表示客户端或官方 seed 已发行。两份示例位于 `examples/static-workbench/` 与 `examples/service-workbench/`，只是可修改的教学材料，不能代替真实 Agent 开发和业务验收。
 
@@ -16,7 +16,7 @@ Agent 选择技术栈、构建方法与工作方式；平台核验材料、作�
 - 先确认要解决的工作、数据位置与必要协作。可以使用任何适合的语言/框架，示例不固定技术栈。小任务直接完成；复杂工作保留原 Task、Plan 和用户来源，不另造开发状态机。
 - 程序材料、业务数据与秘密分开。作者定义 `application.json` 不包含 sourceId、安装实例、宿主路径、builtin 路由或权限凭据。release 的产品 ID/名称/版本/入口只有这份定义。
 - 固定 `app-release.json`：按显式文件白名单、原始字节摘要、入口映射、数据合同和真实平台证据生成；清单自身不进入 files。可用 `scripts/create-release.mjs` 为示例生成清单，平台仍重新核验实际字节。
-- 向平台交付 `app-draft.json`，记录真实 fileRef、Plan、Agent/session、稳定 draftId 与目标 installationId。workdir 指向实际完成的 release 材料目录，不猜测 release/ 子目录，也不编造 fileRef。用 `AppManage.read_draft` 的 `file_ref` 读取授权根内实际文件，保留返回的 draft。返回此文件的可点击绝对路径，说明可在应用开发工作区读取并继续。
+- 向平台交付 `app-draft.json`，记录真实 fileRef、Plan、稳定 draftId 与目标 installationId。source 原样使用 `authoring_capabilities` 返回的 `draftSource`，不填 runId，也不自己编一个值。没有 `draftSource` 时（旧客户端，或返回 `draftSourceUnavailable`），请用户提供当前会话 ID，或请用户改在该 Agent 的默认会话里继续（默认会话的 sessionId 等于 agentId），不要从 runId、话题标题或别的会话推断。workdir 指向实际完成的 release 材料目录，不猜测 release/ 子目录，也不编造 fileRef。用 `AppManage.read_draft` 的 `file_ref` 读取授权根内实际文件，保留返回的 draft。read_draft、preview_prepare、development_enroll 因来源会话被拒时，错误正文会带回本次会话的 `draftSource`，按它改正草稿的 source 再重试。返回此文件的可点击绝对路径，说明可在应用开发工作区读取并继续。
 - 预览沿 `AppManage.preview_prepare` 的 `owner_request` 传原 draft/mode/expectedRevision，snapshot 另给 release；读取用 preview_read，结束用 preview_end。snapshot 预览与正式安装隔离，数据不自动转移。live 预览必须先固定 snapshot 才可发布；刷新/替换用实际 revision。结束预览撤销当前桥并回收本次 owned 临时运行资源，保留数据与开发材料；普通关页不停止正式应用或已接纳的后台 Task，不将预览临时 URL/token 保存为正式入口。
 - 原开发服务器/HMR 使用真实授权的 draft 工作目录，由 `AppManage.development_enroll` 的 `owner_request` 传原 prepareRef/draft/terminalId/endpoint 接入。它只用于 live 预览，不能成为正式 startup；可变源码与固定 release 分开。原命令须尊重 owner 注入的 PORT 和 APP_DATA_DIR，初次开发默认值用 shell 的 `${VAR:-default}`，不能写死赋值盖掉预览端口或正式数据根。
 - 个人发布由 `AppManage.prepare_release` 的 `release_request` 固定真实材料：materialRoot 使用能力返回的授权根构造 FileResourceRef。检查候选后，`commit_release` 的 `release_request` 使用完整原 AppReleaseCommitRequest，保留精确 prepareRef、installationId、expectedRevision 与原 submissionId；不能把安装 material 对象简化为产品名称或摘要。旧会话里明确授权的发布可继续，不逐命令重复确认。新目标或超出授权的数据/外部副作用沿现有治理处理。
