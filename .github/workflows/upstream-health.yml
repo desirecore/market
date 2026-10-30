@@ -4,7 +4,7 @@ name: Upstream Health
 # still resolves upstream. Results go to one tracking issue labelled
 # `upstream-health`, which is updated in place and closed once nothing is
 # actionable. Fixing an entry stays a normal reviewed PR; this workflow never
-# rewrites the default branch. Outdated Skills get separate unreviewed draft PRs.
+# rewrites the default branch. Verified Skill updates get normal PRs; blocked audits remain explicit drafts.
 
 on:
   schedule:
@@ -24,7 +24,7 @@ jobs:
   check:
     if: github.repository == 'desirecore/market'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 
@@ -91,7 +91,12 @@ jobs:
       - name: Propose reviewed-source updates
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python3 scripts/catalog/propose_upstream_updates.py results.json --publish --limit 5
+        run: |
+          uv run --quiet scripts/catalog/propose_upstream_updates.py results.json --publish --limit 5 --coverage-file coverage.json
+      - name: 展示所有技能的覆盖与阻碍
+        if: always()
+        run: |
+          if [ -f coverage.md ]; then cat coverage.md >> "$GITHUB_STEP_SUMMARY"; else echo '覆盖报告未生成，来源核验未完成。' >> "$GITHUB_STEP_SUMMARY"; fi
 
       - name: Fail when an entry is broken
         if: steps.check.outputs.broken == 'true'

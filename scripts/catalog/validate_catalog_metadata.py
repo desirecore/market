@@ -17,6 +17,8 @@ installation forks the team repository and whose update is a ``git pull``.
 
 from __future__ import annotations
 
+from automated_review import REVIEWER as AUTOMATED_REVIEWER, validate_record as validate_automated_review_record
+
 import argparse
 import json
 import re
@@ -887,6 +889,12 @@ def validate_sidecar(
                 report.add(rel, "installable-evidence", "compliance.reviewedRef must match the immutable content ref/digest")
             if compliance.get("reviewedAt") != _known_timestamp_value(reviewed_at):
                 report.add(rel, "installable-evidence", "compliance.reviewedAt must equal timestamps.reviewedAt")
+            if compliance.get("reviewedBy") == AUTOMATED_REVIEWER:
+                evidence_path = sidecar_path.with_name("upstream-audit.v1.json")
+                evidence = _read_json(evidence_path, report, root, "automated-review-evidence")
+                if evidence is not None:
+                    for problem in validate_automated_review_record(sidecar, evidence):
+                        report.add(rel, "automated-review-evidence", problem)
 
 
 def _discover_sidecars(root: Path) -> list[Path]:
