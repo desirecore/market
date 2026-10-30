@@ -1,19 +1,20 @@
 name: Upstream Health
 
-# Weekly check that every external pointer (skills/agents/teams entry.json)
+# Daily check that every external pointer (skills/agents/teams entry.json)
 # still resolves upstream. Results go to one tracking issue labelled
 # `upstream-health`, which is updated in place and closed once nothing is
 # actionable. Fixing an entry stays a normal reviewed PR; this workflow never
-# rewrites catalog files.
+# rewrites the default branch. Outdated Skills get separate unreviewed draft PRs.
 
 on:
   schedule:
-    - cron: "23 1 * * 1" # Mondays 01:23 UTC
+    - cron: "23 1 * * *" # Daily 01:23 UTC
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   issues: write
+  pull-requests: write
 
 concurrency:
   group: upstream-health
@@ -34,7 +35,7 @@ jobs:
         id: check
         run: |
           set +e
-          uv run --quiet scripts/catalog/check_upstream_health.py --format markdown --summary-file summary.json > report.md
+          uv run --quiet scripts/catalog/check_upstream_health.py --format markdown --summary-file summary.json --results-file results.json > report.md
           code=$?
           set -e
           if [ "$code" -gt 1 ]; then
@@ -86,6 +87,11 @@ jobs:
             gh issue comment "$issue" --body "$closing Closing."
             gh issue close "$issue"
           fi
+
+      - name: Propose reviewed-source updates
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/catalog/propose_upstream_updates.py results.json --publish --limit 5
 
       - name: Fail when an entry is broken
         if: steps.check.outputs.broken == 'true'

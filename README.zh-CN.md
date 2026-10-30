@@ -287,3 +287,5 @@ DesireCore 编写的仓库原创内容采用 [MIT License](LICENSE)。**该许�
 使用前阅读 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)、资源自身的许可文件，以及 `license` / `redistribution` 元数据。特别是，第三方声明将随仓库分发的 `docx`、`pdf`、`pptx` 和 `xlsx` 技能列为源码可见的参考实现，而非 MIT 许可的开源内容；其他随仓库分发的内容可能使用 Apache-2.0 或独立条款。外部指针始终受上游许可证约束。
 
 再分发模式描述内容如何交付，不能替代许可证。再分发或用于生产环境前，应核实适用的上游条款。
+
+每日 upstream-health 检查最多创建五个去重的 Skill 更新草稿 PR，仅推进候选来源 pin 和对应 provenance，保留旧审核回执。因此未审核的可安装候选会被证据校验拦住，维护者核对新快照、版本、依赖、许可与翻译并补齐真实审核记录后才能发布。有 hold、来源损坏或路径迁移的条目不会自动改 pin。仓库设置须允许 GitHub Actions 创建 PR，否则任务会明确报告权限失败。
