@@ -32,6 +32,7 @@ from jsonschema import Draft7Validator, FormatChecker, ValidationError, validato
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCHEMA_PATH = REPO_ROOT / "schemas" / "catalog-metadata.v1.schema.json"
 AGENT_ENTRY_SCHEMA_NAME = "market-agent-entry.client.schema.json"
+SKILL_ENTRY_SCHEMA_NAME = "market-skill-entry.client.schema.json"
 TEAM_ENTRY_SCHEMA_NAME = "market-team-entry.client.schema.json"
 # Catalog roots that may hold a sidecar, in listing order.
 CATALOG_ROOTS = ("agents", "teams", "skills")
@@ -50,6 +51,19 @@ EXPECTED_SCHEMA_REF = "../../schemas/catalog-metadata.v1.schema.json"
 FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.DOTALL)
 FULL_GIT_REF_RE = re.compile(r"^[a-fA-F0-9]{40}(?:[a-fA-F0-9]{24})?$")
 CONTAINER_DIGEST_RE = re.compile(r"^sha256:[a-fA-F0-9]{64}$")
+CLIENT_SEMVER_RE = re.compile(
+    r"(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?", re.ASCII
+)
+CLIENT_CALVER_RE = re.compile(r"\d{4}(?:[.-]\d{1,2}){1,2}(?:[.-][0-9A-Za-z]+)*", re.ASCII)
+CLIENT_RISK_LEVELS = {"low", "medium", "high", "critical"}
+CLIENT_SKILL_TYPES = {"procedural", "declarative", "hybrid"}
+
+
+def _client_version_scheme(version: str) -> str:
+    """Classify a version the way the client's normalizeRelease does: calver wins over semver."""
+    if CLIENT_CALVER_RE.fullmatch(version):
+        return "calver"
+    return "semver" if CLIENT_SEMVER_RE.fullmatch(version) else "opaque"
 
 
 def _client_pattern(validator, pattern, instance, schema):
@@ -195,6 +209,22 @@ def _report_entry_schema_errors(
     return bool(errors)
 
 
+def _report_skill_collection_errors(report: Report, pointer_path: Path, root: Path, data: dict[str, Any]) -> bool:
+    """Report the two collection rules the client enforces outside its JSON Schema."""
+    children = data.get("children")
+    if not children:
+        return False
+    errors = []
+    if data["source"].get("path"):
+        errors.append("children and source.path are mutually exclusive")
+    child_ids = [child["id"] for child in children]
+    if len(child_ids) != len(set(child_ids)):
+        errors.append("children must not repeat a child id")
+    for error in errors:
+        report.add(_rel(pointer_path, root), "skill-entry-schema", error)
+    return bool(errors)
+
+
 def _load_team_pointer(
     sidecar: Path,
     parent: Path,
@@ -276,6 +306,10 @@ def load_legacy(sidecar: Path, report: Report, root: Path, entry_validators: dic
             str(data["version"]) if data.get("version") is not None else None
         )
         i18n, default_locale = _legacy_i18n(data.get("i18n"), short_key="shortDesc")
+        # Inline metadata may localize tags, and the client prefers the default locale's.
+        localized = data.get("i18n", {}).get(default_locale) if isinstance(data.get("i18n"), dict) else None
+        tags = localized.get("tags") if isinstance(localized, dict) else None
+        tags = tags if tags is not None and not is_pointer else data.get("tags")
         return LegacyItem(
             kind="agent",
             item_id=parent.name,
@@ -285,7 +319,7 @@ def load_legacy(sidecar: Path, report: Report, root: Path, entry_validators: dic
             default_locale=default_locale,
             version=version,
             category=data.get("category") if isinstance(data.get("category"), str) else None,
-            tags=data.get("tags") if isinstance(data.get("tags"), list) else None,
+            tags=tags if isinstance(tags, list) else None,
         )
 
     if root_kind == "teams":
@@ -313,6 +347,12 @@ def load_legacy(sidecar: Path, report: Report, root: Path, entry_validators: dic
         data = _read_json(pointer_path, report, root, "legacy-read")
         if data is None:
             return None
+        if _report_entry_schema_errors(
+            report, pointer_path, root, entry_validators["skill"], "skill-entry-schema", data
+        ) or _report_skill_collection_errors(report, pointer_path, root, data):
+            return None
+        if data.get("id") != parent.name:
+            report.add(_rel(pointer_path, root), "legacy-consistency", "entry.id must equal the catalog directory slug")
         i18n, default_locale = _legacy_i18n(data.get("i18n"), short_key="shortDesc")
         return LegacyItem(
             kind="skill",
@@ -321,7 +361,9 @@ def load_legacy(sidecar: Path, report: Report, root: Path, entry_validators: dic
             data=data,
             i18n=i18n,
             default_locale=default_locale,
-            version=str(data["version"]) if data.get("version") is not None else None,
+            # Client indexing reads latestVersion for pointers and ignores a collection
+            # parent's own version, so that parent's release stays unknown.
+            version=None if data.get("children") else data.get("latestVersion"),
             category=data.get("category") if isinstance(data.get("category"), str) else None,
             tags=data.get("tags") if isinstance(data.get("tags"), list) else None,
         )
@@ -449,26 +491,59 @@ def _validate_content_consistency(
         "ref": "ref",
         "sha256": "sha256",
     }
+    label = {"agent": "Agent", "team": "Team", "skill": "skill"}[legacy.kind]
     for sidecar_key, legacy_key in mapping.items():
         legacy_value = source.get(legacy_key)
-        if legacy.kind in {"agent", "team"}:
-            declared_value = content.get(sidecar_key)
-            # A sidecar must describe the exact pointer that the client installs,
-            # not add a different subdirectory or pin that entry.json never uses.
-            if sidecar_key in {"path", "ref"}:
-                declared_value = None if declared_value == "" else declared_value
-                legacy_value = None if legacy_value == "" else legacy_value
-            if declared_value != legacy_value:
-                label = "Agent" if legacy.kind == "agent" else "Team"
-                report.add(rel, "legacy-consistency", f"provenance.content.{sidecar_key} differs from the {label} pointer")
-        elif legacy_value is not None:
-            _compare(
-                report,
-                rel,
-                f"provenance.content.{sidecar_key}",
-                content.get(sidecar_key),
-                legacy_value,
-            )
+        declared_value = content.get(sidecar_key)
+        # A sidecar must describe the exact pointer that the client installs,
+        # not add a different subdirectory or pin that entry.json never uses.
+        if sidecar_key in {"path", "ref"}:
+            declared_value = None if declared_value == "" else declared_value
+            legacy_value = None if legacy_value == "" else legacy_value
+        if declared_value != legacy_value:
+            report.add(rel, "legacy-consistency", f"provenance.content.{sidecar_key} differs from the {label} pointer")
+
+
+def _validate_client_compared_facts(
+    report: Report,
+    rel: str,
+    sidecar: dict[str, Any],
+    legacy: LegacyItem,
+) -> None:
+    """Compare, both ways, the facts the client compares between a sidecar and its legacy file.
+
+    Any difference makes the client reject the whole sidecar, which downgrades an
+    installable listing to listing-only. Clients do not hydrate Team sidecars.
+    """
+    if legacy.kind == "team":
+        return
+    data = legacy.data
+    presentation = sidecar.get("presentation", {})
+    compatibility = sidecar.get("compatibility", {})
+    market = data.get("market") if legacy.source_type == "builtin" and isinstance(data.get("market"), dict) else {}
+    facts = [
+        ("presentation.category", presentation.get("category"), legacy.category),
+        ("presentation.tags", presentation.get("tags") or [], legacy.tags or []),
+        (
+            "compatibility.requiredClientVersion",
+            compatibility.get("requiredClientVersion"),
+            market.get("required_client_version", data.get("requiredClientVersion")),
+        ),
+    ]
+    if legacy.source_type == "pointer":
+        # A pointer has no compatibleAgents field for a sidecar to match.
+        facts.append(("compatibility.compatibleAgents", compatibility.get("compatibleAgents") or None, None))
+    if legacy.kind == "skill":
+        spec = sidecar.get("spec", {})
+        risk_level = data.get("riskLevel") or data.get("risk_level")
+        skill_type = data.get("type")
+        facts += [
+            ("spec.riskLevel", spec.get("riskLevel"), risk_level if risk_level in CLIENT_RISK_LEVELS else None),
+            ("spec.skillType", spec.get("skillType"), skill_type if skill_type in CLIENT_SKILL_TYPES else None),
+        ]
+    for field, sidecar_value, legacy_value in facts:
+        if sidecar_value != legacy_value:
+            report.add(rel, "legacy-consistency", f"{field} differs from the legacy value")
 
 
 def _validate_governance_consistency(
@@ -762,10 +837,11 @@ def validate_sidecar(
     if sidecar.get("$schema") not in (None, EXPECTED_SCHEMA_REF):
         report.add(rel, "fixed-sidecar-path", f"$schema must be {EXPECTED_SCHEMA_REF!r}")
 
-    presentation = sidecar.get("presentation", {})
-    _compare(report, rel, "presentation.category", presentation.get("category"), legacy.category)
-    if legacy.tags is not None:
-        _compare(report, rel, "presentation.tags", presentation.get("tags"), legacy.tags)
+    if legacy.kind == "team":
+        presentation = sidecar.get("presentation", {})
+        _compare(report, rel, "presentation.category", presentation.get("category"), legacy.category)
+        if legacy.tags is not None:
+            _compare(report, rel, "presentation.tags", presentation.get("tags"), legacy.tags)
     _validate_i18n(report, rel, sidecar, legacy, supported_locales)
 
     release = sidecar.get("release")
@@ -786,21 +862,26 @@ def validate_sidecar(
                 "agent-policy",
                 "system Agent metadata revision must not be exposed as a content release timestamp",
             )
-    elif legacy.version is not None and isinstance(release, dict):
-        if release.get("state") != "known":
+    elif isinstance(release, dict):
+        # The client derives a release from the legacy version and rejects the whole
+        # sidecar when the two differ, in either direction and including the scheme.
+        if legacy.version is None:
+            if release.get("state") == "known":
+                report.add(rel, "legacy-consistency", "release declares a version the legacy file does not have")
+        elif release.get("state") != "known":
             report.add(rel, "legacy-consistency", "release must preserve the legacy version")
         else:
             _compare(report, rel, "release.version", release.get("version"), legacy.version)
+            _compare(
+                report, rel, "release.versionScheme",
+                release.get("versionScheme"), _client_version_scheme(legacy.version),
+            )
 
     if legacy.kind == "agent" and legacy.source_type == "pointer":
         for field in ("installPolicy", "updatePolicy"):
             # Ordinary pointers default to market/market in the client. A sidecar
             # cannot turn an omitted pair into a system/repository listing.
             _compare(report, rel, f"spec.{field}", spec.get(field, "market"), legacy.data.get(field, "market"))
-        _compare(
-            report, rel, "compatibility.requiredClientVersion",
-            sidecar["compatibility"].get("requiredClientVersion"), legacy.data.get("requiredClientVersion"),
-        )
 
     if legacy.kind == "team":
         # Teams are always fork-installed and git-pull-updated, so there is no
@@ -813,6 +894,7 @@ def validate_sidecar(
             report.add(rel, "legacy-consistency", "compatibility.requiredClientVersion differs from the Team pointer")
 
     _validate_content_consistency(report, rel, sidecar, legacy)
+    _validate_client_compared_facts(report, rel, sidecar, legacy)
     _validate_governance_consistency(report, rel, sidecar, legacy)
     _validate_license_evidence(report, rel, sidecar, legacy, sidecar_path.parent)
     _validate_collection(report, rel, sidecar, legacy, supported_locales)
@@ -966,6 +1048,7 @@ def validate_repository(root: Path = REPO_ROOT, *, require_complete: bool = Fals
     entry_validators: dict[str, Any] = {}
     for kind, schema_name, rule in (
         ("agent", AGENT_ENTRY_SCHEMA_NAME, "agent-entry-schema"),
+        ("skill", SKILL_ENTRY_SCHEMA_NAME, "skill-entry-schema"),
         ("team", TEAM_ENTRY_SCHEMA_NAME, "team-entry-schema"),
     ):
         entry_schema = _read_json(root / "schemas" / schema_name, report, root, rule)

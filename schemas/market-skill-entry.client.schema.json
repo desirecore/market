@@ -1,0 +1,229 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "stewardship",
+    "license",
+    "redistribution",
+    "source"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "条目唯一标识符，使用小写连字符格式，如 \"flyai-skill\"",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "name": {
+      "type": "string",
+      "description": "默认显示名称（源 locale），本地化变体见 i18n"
+    },
+    "category": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9-]+$",
+      "description": "市场项目分类（slug 格式），由仓库 categories.json 定义"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "标签列表，用于搜索和分类"
+    },
+    "icon": {
+      "type": "string",
+      "description": "市场列表展示的内联 SVG 图标。**只有 Skill 卡片渲染它**——marketAgentSchema 与 marketTeamSchema 都没有 icon 字段，Agent 与团队卡片一律走 avatar，条目声明了 icon 也不会显示。Pointer 技能将其随离线元数据返回。"
+    },
+    "latestVersion": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 160,
+      "pattern": "^[0-9]+\\.[0-9]+(?:\\.[0-9]+)?$",
+      "not": {
+        "pattern": "[\\r\\n]"
+      },
+      "description": "目录收录的上游原始数字版本，允许 1.0 与 1.0.0；canonical 原样保存。旧 runtime latestVersion 另按既有 SemVer 兼容规则投影，不改变实际安装来源或准入。"
+    },
+    "i18n": {
+      "type": "object",
+      "description": "按 locale 提供的本地化展示元数据（仅 name/shortDesc，轻量）",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "该 locale 下的显示名称"
+          },
+          "shortDesc": {
+            "type": "string",
+            "description": "该 locale 下的简短描述"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "maintainer": {
+      "type": "object",
+      "required": [
+        "name",
+        "verified"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "维护者名称，如 \"DesireCore Official\""
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "是否官方认证维护者，认证后显示蓝色勾选标记"
+        },
+        "account": {
+          "type": "string",
+          "description": "维护方账号标识，如 GitHub 组织/用户名 \"desirecore\""
+        },
+        "url": {
+          "type": "string",
+          "description": "维护方主页或仓库 URL"
+        }
+      },
+      "additionalProperties": false
+    },
+    "stewardship": {
+      "type": "string",
+      "enum": [
+        "official",
+        "partner",
+        "community",
+        "pointer"
+      ],
+      "description": "维护方分类：official（官方）/ partner（合作伙伴官方）/ community（社区已收录）/ pointer（仅指针，不分发内容）"
+    },
+    "license": {
+      "type": "string",
+      "minLength": 1,
+      "description": "许可证：SPDX id（MIT/Apache-2.0/MIT-0…）或特殊值 not-declared / source-available / packaged-distribution"
+    },
+    "redistribution": {
+      "type": "string",
+      "enum": [
+        "allowed",
+        "source-pointer-only",
+        "verify-package-terms"
+      ],
+      "description": "再分发策略：allowed（可分发）/ source-pointer-only（仅指针，安装时拉取）/ verify-package-terms（需核验条款）"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "kind",
+        "repoUrl"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "git",
+            "web",
+            "zip"
+          ],
+          "description": "内容来源类型：git（仓库）/ web（网页或文件）/ zip（打包产物）"
+        },
+        "repoUrl": {
+          "type": "string",
+          "description": "源仓库 Git URL 或资源 URL，如 https://github.com/desirecore/skill-foo.git"
+        },
+        "repoBranch": {
+          "type": "string",
+          "description": "源仓库分支名称，默认 main（kind=git 时有效）",
+          "default": "main"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^(?:$|(?![A-Za-z]:[\\\\/])(?![\\\\/])(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$))[^\\u0000]+)$",
+          "description": "内容在源仓库中的安全相对子路径，如 \"skills/foo\"；为空表示仓库根目录。禁止绝对路径、盘符与 .. 路径段。"
+        },
+        "ref": {
+          "type": "string",
+          "description": "锁定的 commit SHA / tag，用于可复现安装；为空表示取分支 HEAD"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{64}$",
+          "description": "web/zip 资源原始响应体的 SHA-256；能力自动安装要求用它绑定发现时的不可变字节。"
+        }
+      },
+      "additionalProperties": false
+    },
+    "requiredClientVersion": {
+      "type": "string",
+      "description": "此条目要求的最低客户端版本（semver），低于此版本时提示升级",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "riskLevel": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "description": "技能的风险等级，决定操作是否需要用户确认和权限检查"
+    },
+    "children": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "path"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "子技能 ID，同时是安装到 skills/ 下的目录名，使用小写连字符格式。长度上界不只是目录名卫生：该 id 会被拼进对外诊断的 `children.<id>.<field>`，而诊断 `field` 有 Ajv `maxLength`——不限长等于把第三方仓库的一个字符串变成详情端点 500 的开关（同步器出口另有截断兜底）。",
+            "pattern": "^[a-z0-9-]+$",
+            "maxLength": 64
+          },
+          "path": {
+            "type": "string",
+            "description": "子技能在源仓库中的子路径，如 \"skills/lark-im\"",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "description": "默认显示名称（源 locale），本地化变体见 i18n"
+          },
+          "i18n": {
+            "type": "object",
+            "description": "按 locale 提供的本地化展示元数据（仅 name/shortDesc，轻量）",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "该 locale 下的显示名称"
+                },
+                "shortDesc": {
+                  "type": "string",
+                  "description": "该 locale 下的简短描述"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "version": {
+            "type": "string",
+            "description": "市场登记的子技能版本（semver），上游 SKILL.md 缺根级 version 时作为兜底",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "description": "合集子技能清单。存在即表示本条目是合集（源仓库内有多个平级技能），安装时由用户勾选装哪几个；与 source.path 互斥。缺省时按单技能条目处理。"
+    }
+  },
+  "additionalProperties": false,
+  "$comment": "Generated from desirecore/desirecore packages/schemas/src/market.ts#marketSkillEntrySchema at commit b7d11e919882ec2cfe3087104e0bf06c10493c83 (v10.0.195), source blob 9fc439c9c662ea086ab8a8024c9e4830b084653b. Keep the complete client contract; regenerate from that export instead of editing fields manually."
+}

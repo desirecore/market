@@ -33,7 +33,7 @@
 
 ### 静态目录事实
 
-条目数量来自文件清单，不是访问量或使用量。禁止静态记录 Stars、下载量、评分、安装数量或运行健康度；证据缺失保留未知。收录版本不代表联网查询的最新版本，应保留上游原始发布标识，不能为填补缺失捏造三段版本。新的团队本地化字段及两段指针版本必须先有已发布的兼容客户端，再进入共享目录。Bootstrap 压缩包由客户端仓库的同步工具生成，不能手工修改 ZIP 内容。
+条目数量来自文件清单，不是访问量或使用量。禁止静态记录 Stars、下载量、评分、安装数量或运行健康度；证据缺失保留未知。收录版本不代表联网查询的最新版本，应保留上游原始发布标识，不能为填补缺失捏造三段版本。新的团队本地化字段及两段指针版本必须先有已发布的兼容客户端，再进入共享目录。在此之前，已发布契约不接受的上游标识（如纯修订号 `50`）不写入 `latestVersion` 和 `release`，发布版本保持未知，不能改写标识去迎合格式。Bootstrap 压缩包由客户端仓库的同步工具生成，不能手工修改 ZIP 内容。
 
 ## 快速开始
 
@@ -115,6 +115,8 @@ uv run scripts/i18n/validate-i18n.py
 
 外部技能使用 `skills/<id>/entry.json` 描述上游来源、展示信息、维护者、分类、许可证和再分发方式。技能条目必须提供内联 SVG `icon`，来源支持 `git`、`web` 和 `zip`。外部条目计入 `manifest.stats.totalSkills`，但不进入内置技能索引。
 
+指针原始数据必须先通过[导出的技能客户端 Schema](schemas/market-skill-entry.client.schema.json)，再进行 sidecar 校验。客户端会跳过未通过的条目，用户看不到它，而清单仍把它计入数量。`latestVersion` 接受 `x.y` 或 `x.y.z` 形式的数字版本，并映射到 `release.version`；sidecar 的 `versionScheme` 必须与客户端据此推导的结果一致，`x.y` 对应 `opaque`。sidecar 的 `category`、`tags`、`riskLevel` 和 `requiredClientVersion` 也必须与指针一致，且不能添加指针无法声明的 `skillType` 和 `compatibleAgents`。任何差异都会让客户端拒绝整份 sidecar，条目退化为仅收录。
+
 技能集合通过一个市场条目组织多个上游技能，并声明 `children` 清单供发现和展示。子技能的元数据保留在父条目的 sidecar 中；每个子技能都有独立的 `skill + parentId + id` 身份和发布事实。父条目的版本可以未知，不得用父版本推断子技能版本。
 
 参考[飞书 CLI 条目](skills/larksuite-cli/entry.json)及其 [sidecar](skills/larksuite-cli/catalog-metadata.v1.json)。[集合生成器](scripts/gen-collection-children.py)从上游 `SKILL.md` 提取子技能，`--check` 模式只验证固定版本、可复现的集合，不重写条目。
@@ -161,7 +163,7 @@ uv run scripts/i18n/validate-i18n.py
 - **证据路径跟随实际内容。** 对随仓库分发的内容，`license.evidencePath`、`compliance.licenseEvidencePath` 和 `compliance.noticePath` 相对于条目目录解析，且文件必须真实存在。对指针，这些路径指向上游快照；离线校验无法获取该证据，并会对未固定来源的证据声明给出警告。
 - **未知也是有效事实。** 使用显式 `known` / `unknown` 状态。已知日期使用 `YYYY-MM-DD` 和 `precision: "day"`；已知秒级时间使用以 `Z` 结尾的 RFC 3339 UTC 时间戳和 `precision: "second"`。不得用当前日期、克隆时间或同步时间填补未知的发布或目录时间。
 
-智能体与团队客户端 Schema 是生成的兼容性快照，其 `$comment` 记录上游来源提交和 blob。兼容性变更时，应从相应 TypeScript 导出重新生成，不得放宽契约或用仅校验 sidecar 的方式替代。
+智能体、技能与团队客户端 Schema 是生成的兼容性快照，其 `$comment` 记录上游来源提交和 blob。兼容性变更时，应从相应 TypeScript 导出重新生成，不得放宽契约或用仅校验 sidecar 的方式替代。
 
 ## 多语言维护
 
