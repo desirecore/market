@@ -32,6 +32,7 @@ from jsonschema import Draft7Validator, FormatChecker, ValidationError, validato
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCHEMA_PATH = REPO_ROOT / "schemas" / "catalog-metadata.v1.schema.json"
 AGENT_ENTRY_SCHEMA_NAME = "market-agent-entry.client.schema.json"
+SKILL_ENTRY_SCHEMA_NAME = "market-skill-entry.client.schema.json"
 TEAM_ENTRY_SCHEMA_NAME = "market-team-entry.client.schema.json"
 # Catalog roots that may hold a sidecar, in listing order.
 CATALOG_ROOTS = ("agents", "teams", "skills")
@@ -50,6 +51,17 @@ EXPECTED_SCHEMA_REF = "../../schemas/catalog-metadata.v1.schema.json"
 FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.DOTALL)
 FULL_GIT_REF_RE = re.compile(r"^[a-fA-F0-9]{40}(?:[a-fA-F0-9]{24})?$")
 CONTAINER_DIGEST_RE = re.compile(r"^sha256:[a-fA-F0-9]{64}$")
+CLIENT_SEMVER_RE = re.compile(
+    r"(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?", re.ASCII
+)
+CLIENT_CALVER_RE = re.compile(r"\d{4}(?:[.-]\d{1,2}){1,2}(?:[.-][0-9A-Za-z]+)*", re.ASCII)
+
+
+def _client_version_scheme(version: str) -> str:
+    """Classify a version the way the client's normalizeRelease does: calver wins over semver."""
+    if CLIENT_CALVER_RE.fullmatch(version):
+        return "calver"
+    return "semver" if CLIENT_SEMVER_RE.fullmatch(version) else "opaque"
 
 
 def _client_pattern(validator, pattern, instance, schema):
@@ -195,6 +207,22 @@ def _report_entry_schema_errors(
     return bool(errors)
 
 
+def _report_skill_collection_errors(report: Report, pointer_path: Path, root: Path, data: dict[str, Any]) -> bool:
+    """Report the two collection rules the client enforces outside its JSON Schema."""
+    children = data.get("children")
+    if not children:
+        return False
+    errors = []
+    if data["source"].get("path"):
+        errors.append("children and source.path are mutually exclusive")
+    child_ids = [child["id"] for child in children]
+    if len(child_ids) != len(set(child_ids)):
+        errors.append("children must not repeat a child id")
+    for error in errors:
+        report.add(_rel(pointer_path, root), "skill-entry-schema", error)
+    return bool(errors)
+
+
 def _load_team_pointer(
     sidecar: Path,
     parent: Path,
@@ -313,6 +341,12 @@ def load_legacy(sidecar: Path, report: Report, root: Path, entry_validators: dic
         data = _read_json(pointer_path, report, root, "legacy-read")
         if data is None:
             return None
+        if _report_entry_schema_errors(
+            report, pointer_path, root, entry_validators["skill"], "skill-entry-schema", data
+        ) or _report_skill_collection_errors(report, pointer_path, root, data):
+            return None
+        if data.get("id") != parent.name:
+            report.add(_rel(pointer_path, root), "legacy-consistency", "entry.id must equal the catalog directory slug")
         i18n, default_locale = _legacy_i18n(data.get("i18n"), short_key="shortDesc")
         return LegacyItem(
             kind="skill",
@@ -321,7 +355,9 @@ def load_legacy(sidecar: Path, report: Report, root: Path, entry_validators: dic
             data=data,
             i18n=i18n,
             default_locale=default_locale,
-            version=str(data["version"]) if data.get("version") is not None else None,
+            # Client indexing reads latestVersion for pointers and ignores a collection
+            # parent's own version, so that parent's release stays unknown.
+            version=None if data.get("children") else data.get("latestVersion"),
             category=data.get("category") if isinstance(data.get("category"), str) else None,
             tags=data.get("tags") if isinstance(data.get("tags"), list) else None,
         )
@@ -786,11 +822,20 @@ def validate_sidecar(
                 "agent-policy",
                 "system Agent metadata revision must not be exposed as a content release timestamp",
             )
-    elif legacy.version is not None and isinstance(release, dict):
-        if release.get("state") != "known":
+    elif isinstance(release, dict):
+        # The client derives a release from the legacy version and rejects the whole
+        # sidecar when the two differ, in either direction and including the scheme.
+        if legacy.version is None:
+            if release.get("state") == "known":
+                report.add(rel, "legacy-consistency", "release declares a version the legacy file does not have")
+        elif release.get("state") != "known":
             report.add(rel, "legacy-consistency", "release must preserve the legacy version")
         else:
             _compare(report, rel, "release.version", release.get("version"), legacy.version)
+            _compare(
+                report, rel, "release.versionScheme",
+                release.get("versionScheme"), _client_version_scheme(legacy.version),
+            )
 
     if legacy.kind == "agent" and legacy.source_type == "pointer":
         for field in ("installPolicy", "updatePolicy"):
@@ -966,6 +1011,7 @@ def validate_repository(root: Path = REPO_ROOT, *, require_complete: bool = Fals
     entry_validators: dict[str, Any] = {}
     for kind, schema_name, rule in (
         ("agent", AGENT_ENTRY_SCHEMA_NAME, "agent-entry-schema"),
+        ("skill", SKILL_ENTRY_SCHEMA_NAME, "skill-entry-schema"),
         ("team", TEAM_ENTRY_SCHEMA_NAME, "team-entry-schema"),
     ):
         entry_schema = _read_json(root / "schemas" / schema_name, report, root, rule)

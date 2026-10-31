@@ -130,3 +130,7 @@ Still open after this round:
 - For the next review: at the current wecom-cli pin, `wecomcli-pptx/references/templates/anti-ai-slop.md` names the source-available pptx skill in anthropics/skills as one source of a reworded checklist.
 
 Third-party programs and live account services were not executed.
+
+## Later correction (2026-10-31)
+
+`skill/reverse-engineer-anything` recorded upstream revision `50` in `latestVersion` and `release.version`. The client pointer contract admits only numeric `x.y` or `x.y.z`, so clients dropped the listing from their index, and the catalog validator did not check skill pointers against that contract. The repin and its review stand. The listing now declares no version (`release: unknown`), and the validator checks skill pointers against the [exported client schema](../schemas/market-skill-entry.client.schema.json).

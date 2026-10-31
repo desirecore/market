@@ -32,6 +32,46 @@ def unknown() -> dict[str, str]:
     return {"state": "unknown"}
 
 
+def known_release(version: str, scheme: str = "opaque"):
+    return lambda payload: payload.update(release={"state": "known", "version": version, "versionScheme": scheme})
+
+
+def add_single_child_collection(payload: dict) -> None:
+    child_presentation = copy.deepcopy(payload["presentation"])
+    child_presentation["tags"] = []
+    child_presentation["i18n"] = {
+        "zh-CN": {"name": "child-one", "summary": "Same child summary"},
+        "en-US": {"name": "child-one", "summary": "Same child summary"},
+    }
+    payload["spec"]["collection"] = {
+        "role": "parent",
+        "childCount": 1,
+        "children": [
+            {
+                "identity": {
+                    "kind": "skill",
+                    "id": "child-one",
+                    "parentId": "example-skill",
+                },
+                "path": "skills/child-one",
+                "presentation": child_presentation,
+                "release": unknown(),
+            }
+        ]
+    }
+
+
+def single_child_entry() -> dict[str, object]:
+    return {
+        "id": "child-one",
+        "path": "skills/child-one",
+        "i18n": {
+            "zh-CN": {"shortDesc": "Same child summary"},
+            "en-US": {"shortDesc": "Same child summary"},
+        },
+    }
+
+
 def valid_entry() -> dict[str, object]:
     return {
         "id": "example-skill",
@@ -178,7 +218,11 @@ class CatalogMetadataValidatorTests(unittest.TestCase):
         self.root = Path(self.tempdir.name)
         (self.root / "schemas").mkdir()
         shutil.copyfile(SOURCE_SCHEMA, self.root / "schemas" / SOURCE_SCHEMA.name)
-        for client_schema in (VALIDATOR.AGENT_ENTRY_SCHEMA_NAME, VALIDATOR.TEAM_ENTRY_SCHEMA_NAME):
+        for client_schema in (
+            VALIDATOR.AGENT_ENTRY_SCHEMA_NAME,
+            VALIDATOR.SKILL_ENTRY_SCHEMA_NAME,
+            VALIDATOR.TEAM_ENTRY_SCHEMA_NAME,
+        ):
             shutil.copyfile(SOURCE_SCHEMA.with_name(client_schema), self.root / "schemas" / client_schema)
         (self.root / "agents").mkdir()
         (self.root / "teams").mkdir()
@@ -210,6 +254,16 @@ class CatalogMetadataValidatorTests(unittest.TestCase):
         payload = valid_sidecar()
         mutate(payload)
         self.write_json(self.sidecar_path, payload)
+
+    def write_skill_pointer_case(self, mutate_entry=None, mutate_sidecar=None) -> None:
+        entry = valid_entry()
+        sidecar = valid_sidecar()
+        if mutate_entry:
+            mutate_entry(entry)
+        if mutate_sidecar:
+            mutate_sidecar(sidecar)
+        self.write_json(self.entry_path, entry)
+        self.write_json(self.sidecar_path, sidecar)
 
     def write_agent_case(self, install_policy: str | None, update_policy: str | None, availability: str) -> None:
         agent_dir = self.root / "agents" / "system-agent"
@@ -652,6 +706,86 @@ class CatalogMetadataValidatorTests(unittest.TestCase):
                 self.write_agent_pointer_case(entry_change, metadata_change)
                 self.assertTrue(any(issue.rule == "agent-entry-schema" for issue in self.validate().issues))
 
+    def test_rejects_skill_pointer_the_client_would_drop_even_if_sidecar_repeats_it(self) -> None:
+        # The client skips such an entry while indexing: the listing disappears for every
+        # user while manifest.stats.totalSkills keeps counting it.
+        cases = [
+            (lambda p: p.update(latestVersion="50"), known_release("50")),
+            (lambda p: p.update(latestVersion="1.2.3.4"), known_release("1.2.3.4")),
+            (lambda p: p.update(latestVersion="1.2.3-beta"), known_release("1.2.3-beta", "semver")),
+            (lambda p: p.update(latestVersion=123), known_release("123")),
+            (lambda p: p.update(latestVersion="١.٢"), known_release("١.٢")),
+            (lambda p: p.update(requiredClientVersion="1.0"), None),
+            (lambda p: p.update(version="1.2.3"), None),
+            (lambda p: p.update(riskLevel="extreme"), None),
+            (lambda p: p.update(id="Example_Skill"), None),
+            (lambda p: p.pop("stewardship"), None),
+            (lambda p: p["source"].update(kind="ftp"), None),
+            (lambda p: p["maintainer"].update(verified="true"), None),
+        ]
+        for index, (entry_change, metadata_change) in enumerate(cases):
+            with self.subTest(index=index):
+                self.write_skill_pointer_case(entry_change, metadata_change)
+                self.assertTrue(any(issue.rule == "skill-entry-schema" for issue in self.validate().issues))
+
+    def test_rejects_skill_collection_shapes_the_client_rejects_outside_json_schema(self) -> None:
+        cases = {
+            "children with source.path": lambda p: (
+                p.update(children=[single_child_entry()]),
+                p["source"].update(path="skills/child-one"),
+            ),
+            "duplicate child id": lambda p: p.update(children=[single_child_entry(), single_child_entry()]),
+        }
+        for name, entry_change in cases.items():
+            with self.subTest(name):
+                self.write_skill_pointer_case(entry_change, add_single_child_collection)
+                self.assertTrue(any(issue.rule == "skill-entry-schema" for issue in self.validate().issues))
+
+    def test_rejects_skill_pointer_entry_id_that_is_not_the_catalog_slug(self) -> None:
+        self.write_skill_pointer_case(lambda p: p.update(id="another-skill"))
+        self.assertTrue(any("entry.id" in issue.message for issue in self.validate().issues))
+
+    def test_skill_pointer_accepts_every_version_form_the_client_admits(self) -> None:
+        for version, scheme in (("1.3", "opaque"), ("1.2.3", "semver"), ("2026.9.19", "calver")):
+            with self.subTest(version=version):
+                self.write_skill_pointer_case(lambda p: p.update(latestVersion=version), known_release(version, scheme))
+                self.assertFalse(self.validate().has_errors)
+
+    def test_release_must_equal_what_the_client_derives_from_the_pointer(self) -> None:
+        # The client derives a release from latestVersion and rejects the whole sidecar on
+        # any difference, which silently turns an installable listing into listing-only.
+        cases = {
+            "pointer knows, sidecar omits": (lambda p: p.update(latestVersion="1.2.3"), None),
+            "different version": (lambda p: p.update(latestVersion="1.2.3"), known_release("1.2.4", "semver")),
+            "only the sidecar knows": (None, known_release("1.2.3", "semver")),
+            "opaque for a semver": (lambda p: p.update(latestVersion="1.2.3"), known_release("1.2.3")),
+            "semver for a calver": (
+                lambda p: p.update(latestVersion="2026.9.19"),
+                known_release("2026.9.19", "semver"),
+            ),
+        }
+        for name, (entry_change, metadata_change) in cases.items():
+            with self.subTest(name):
+                self.write_skill_pointer_case(entry_change, metadata_change)
+                self.assertTrue(
+                    any(issue.rule == "legacy-consistency" and "release" in issue.message
+                        for issue in self.validate().issues)
+                )
+
+    def test_agent_pointer_release_cannot_exceed_what_the_entry_declares(self) -> None:
+        self.write_agent_pointer_case(lambda p: p.pop("latestVersion"))
+        self.assertTrue(
+            any(issue.rule == "legacy-consistency" and "release" in issue.message
+                for issue in self.validate().issues)
+        )
+
+    def test_collection_parent_version_is_ignored_like_the_client_does(self) -> None:
+        def entry_change(payload):
+            payload.update(latestVersion="1.2.3", children=[single_child_entry()])
+
+        self.write_skill_pointer_case(entry_change, add_single_child_collection)
+        self.assertFalse(self.validate().has_errors)
+
     def test_agent_pointer_default_policy_cannot_be_replaced_by_sidecar(self) -> None:
         def default_policy(payload):
             payload.pop("installPolicy")
@@ -871,49 +1005,16 @@ Body.
 
     def test_validates_collection_identity_and_does_not_invent_child_version(self) -> None:
         entry = valid_entry()
-        entry["children"] = [
-            {
-                "id": "child-one",
-                "path": "skills/child-one",
-                "i18n": {
-                    "zh-CN": {"shortDesc": "Same child summary"},
-                    "en-US": {"shortDesc": "Same child summary"},
-                },
-            }
-        ]
+        entry["children"] = [single_child_entry()]
         self.write_json(self.entry_path, entry)
 
-        def mutate(payload):
-            child_presentation = copy.deepcopy(payload["presentation"])
-            child_presentation["tags"] = []
-            child_presentation["i18n"] = {
-                "zh-CN": {"name": "child-one", "summary": "Same child summary"},
-                "en-US": {"name": "child-one", "summary": "Same child summary"},
-            }
-            payload["spec"]["collection"] = {
-                "role": "parent",
-                "childCount": 1,
-                "children": [
-                    {
-                        "identity": {
-                            "kind": "skill",
-                            "id": "child-one",
-                            "parentId": "example-skill",
-                        },
-                        "path": "skills/child-one",
-                        "presentation": child_presentation,
-                        "release": unknown(),
-                    }
-                ]
-            }
-
-        self.rewrite_sidecar(mutate)
+        self.rewrite_sidecar(add_single_child_collection)
         report = self.validate()
         self.assertFalse(report.has_errors)
         self.assertTrue(any(issue.rule == "i18n-freshness" for issue in report.issues))
 
         def invent_version(payload):
-            mutate(payload)
+            add_single_child_collection(payload)
             payload["spec"]["collection"]["children"][0]["release"] = {
                 "state": "known",
                 "version": "1.0.0",

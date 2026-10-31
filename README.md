@@ -99,7 +99,7 @@ Use the schemas and existing listings as implementation references. A shortened 
 
 ### Static catalog facts
 
-Catalog counts are file-derived, not usage statistics. Do not author views, downloads, ratings, Stars, install counts, or runtime health. Missing publisher evidence remains unknown. A listed release is not a live latest-version query. Preserve the upstream release identifier; do not invent a three-part version to fill a missing fact. New team localization fields and two-part pointer versions must wait until the matching client contract is released before being published to the shared catalog. Regenerate bootstrap archives through the client repository's synchronization tools, never by editing ZIP contents manually.
+Catalog counts are file-derived, not usage statistics. Do not author views, downloads, ratings, Stars, install counts, or runtime health. Missing publisher evidence remains unknown. A listed release is not a live latest-version query. Preserve the upstream release identifier; do not invent a three-part version to fill a missing fact. New team localization fields and two-part pointer versions must wait until the matching client contract is released before being published to the shared catalog. Until then, an upstream identifier the released contract does not admit, such as a bare revision number `50`, stays out of `latestVersion` and `release`: keep the release unknown rather than reshaping the identifier. Regenerate bootstrap archives through the client repository's synchronization tools, never by editing ZIP contents manually.
 
 ### Local skills
 
@@ -114,6 +114,8 @@ The `retired` list identifies former built-in skills that clients may retire at 
 ### External skills and collections
 
 An external skill uses `skills/<id>/entry.json` to describe its upstream source, presentation, maintainer, category, license, and redistribution terms. Skill listings require an inline SVG `icon`. Supported source kinds are `git`, `web`, and `zip`; external listings count toward `manifest.stats.totalSkills` but do not belong in the built-in skill index.
+
+The raw pointer must pass the [exported skill client schema](schemas/market-skill-entry.client.schema.json) before sidecar validation. A client skips any entry that fails it, so the listing disappears for its users while the manifest still counts it. `latestVersion` accepts numeric `x.y` or `x.y.z` and maps to `release.version`; the sidecar's `versionScheme` must be the one the client derives from that value, which is `opaque` for `x.y`.
 
 A collection groups multiple upstream skills under one listing, with a declared `children` inventory for discovery. Keep the children's metadata in the parent's sidecar. Each child has its own `skill + parentId + id` identity and release fact; never infer a child's version from its parent, whose version may be unknown.
 
@@ -161,7 +163,7 @@ The [catalog metadata schema](schemas/catalog-metadata.v1.schema.json) covers pr
 - **Evidence paths follow the content.** `license.evidencePath`, `compliance.licenseEvidencePath`, and `compliance.noticePath` are relative to the item directory for vendored content, and the files must exist. For pointers they refer to the upstream snapshot; offline validation cannot fetch that evidence and warns about claims against unpinned sources.
 - **Unknown is a valid fact.** Use explicit `known` / `unknown` states. A known day uses `YYYY-MM-DD` with `precision: "day"`; a known second uses an RFC 3339 UTC timestamp ending in `Z` with `precision: "second"`. Never fill an unknown release or catalog timestamp with the current date, clone time, or synchronization time.
 
-The agent and team client schemas are generated compatibility snapshots. Their `$comment` records the upstream source commit and blob. Refresh them from the corresponding TypeScript exports when compatibility changes; do not weaken them or substitute sidecar-only validation.
+The agent, skill, and team client schemas are generated compatibility snapshots. Their `$comment` records the upstream source commit and blob. Refresh them from the corresponding TypeScript exports when compatibility changes; do not weaken them or substitute sidecar-only validation.
 
 ## Localization
 
