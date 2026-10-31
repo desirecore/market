@@ -55,6 +55,8 @@ CLIENT_SEMVER_RE = re.compile(
     r"(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?", re.ASCII
 )
 CLIENT_CALVER_RE = re.compile(r"\d{4}(?:[.-]\d{1,2}){1,2}(?:[.-][0-9A-Za-z]+)*", re.ASCII)
+CLIENT_RISK_LEVELS = {"low", "medium", "high", "critical"}
+CLIENT_SKILL_TYPES = {"procedural", "declarative", "hybrid"}
 
 
 def _client_version_scheme(version: str) -> str:
@@ -304,6 +306,10 @@ def load_legacy(sidecar: Path, report: Report, root: Path, entry_validators: dic
             str(data["version"]) if data.get("version") is not None else None
         )
         i18n, default_locale = _legacy_i18n(data.get("i18n"), short_key="shortDesc")
+        # Inline metadata may localize tags, and the client prefers the default locale's.
+        localized = data.get("i18n", {}).get(default_locale) if isinstance(data.get("i18n"), dict) else None
+        tags = localized.get("tags") if isinstance(localized, dict) else None
+        tags = tags if tags is not None and not is_pointer else data.get("tags")
         return LegacyItem(
             kind="agent",
             item_id=parent.name,
@@ -313,7 +319,7 @@ def load_legacy(sidecar: Path, report: Report, root: Path, entry_validators: dic
             default_locale=default_locale,
             version=version,
             category=data.get("category") if isinstance(data.get("category"), str) else None,
-            tags=data.get("tags") if isinstance(data.get("tags"), list) else None,
+            tags=tags if isinstance(tags, list) else None,
         )
 
     if root_kind == "teams":
@@ -485,26 +491,59 @@ def _validate_content_consistency(
         "ref": "ref",
         "sha256": "sha256",
     }
+    label = {"agent": "Agent", "team": "Team", "skill": "skill"}[legacy.kind]
     for sidecar_key, legacy_key in mapping.items():
         legacy_value = source.get(legacy_key)
-        if legacy.kind in {"agent", "team"}:
-            declared_value = content.get(sidecar_key)
-            # A sidecar must describe the exact pointer that the client installs,
-            # not add a different subdirectory or pin that entry.json never uses.
-            if sidecar_key in {"path", "ref"}:
-                declared_value = None if declared_value == "" else declared_value
-                legacy_value = None if legacy_value == "" else legacy_value
-            if declared_value != legacy_value:
-                label = "Agent" if legacy.kind == "agent" else "Team"
-                report.add(rel, "legacy-consistency", f"provenance.content.{sidecar_key} differs from the {label} pointer")
-        elif legacy_value is not None:
-            _compare(
-                report,
-                rel,
-                f"provenance.content.{sidecar_key}",
-                content.get(sidecar_key),
-                legacy_value,
-            )
+        declared_value = content.get(sidecar_key)
+        # A sidecar must describe the exact pointer that the client installs,
+        # not add a different subdirectory or pin that entry.json never uses.
+        if sidecar_key in {"path", "ref"}:
+            declared_value = None if declared_value == "" else declared_value
+            legacy_value = None if legacy_value == "" else legacy_value
+        if declared_value != legacy_value:
+            report.add(rel, "legacy-consistency", f"provenance.content.{sidecar_key} differs from the {label} pointer")
+
+
+def _validate_client_compared_facts(
+    report: Report,
+    rel: str,
+    sidecar: dict[str, Any],
+    legacy: LegacyItem,
+) -> None:
+    """Compare, both ways, the facts the client compares between a sidecar and its legacy file.
+
+    Any difference makes the client reject the whole sidecar, which downgrades an
+    installable listing to listing-only. Clients do not hydrate Team sidecars.
+    """
+    if legacy.kind == "team":
+        return
+    data = legacy.data
+    presentation = sidecar.get("presentation", {})
+    compatibility = sidecar.get("compatibility", {})
+    market = data.get("market") if legacy.source_type == "builtin" and isinstance(data.get("market"), dict) else {}
+    facts = [
+        ("presentation.category", presentation.get("category"), legacy.category),
+        ("presentation.tags", presentation.get("tags") or [], legacy.tags or []),
+        (
+            "compatibility.requiredClientVersion",
+            compatibility.get("requiredClientVersion"),
+            market.get("required_client_version", data.get("requiredClientVersion")),
+        ),
+    ]
+    if legacy.source_type == "pointer":
+        # A pointer has no compatibleAgents field for a sidecar to match.
+        facts.append(("compatibility.compatibleAgents", compatibility.get("compatibleAgents") or None, None))
+    if legacy.kind == "skill":
+        spec = sidecar.get("spec", {})
+        risk_level = data.get("riskLevel") or data.get("risk_level")
+        skill_type = data.get("type")
+        facts += [
+            ("spec.riskLevel", spec.get("riskLevel"), risk_level if risk_level in CLIENT_RISK_LEVELS else None),
+            ("spec.skillType", spec.get("skillType"), skill_type if skill_type in CLIENT_SKILL_TYPES else None),
+        ]
+    for field, sidecar_value, legacy_value in facts:
+        if sidecar_value != legacy_value:
+            report.add(rel, "legacy-consistency", f"{field} differs from the legacy value")
 
 
 def _validate_governance_consistency(
@@ -798,10 +837,11 @@ def validate_sidecar(
     if sidecar.get("$schema") not in (None, EXPECTED_SCHEMA_REF):
         report.add(rel, "fixed-sidecar-path", f"$schema must be {EXPECTED_SCHEMA_REF!r}")
 
-    presentation = sidecar.get("presentation", {})
-    _compare(report, rel, "presentation.category", presentation.get("category"), legacy.category)
-    if legacy.tags is not None:
-        _compare(report, rel, "presentation.tags", presentation.get("tags"), legacy.tags)
+    if legacy.kind == "team":
+        presentation = sidecar.get("presentation", {})
+        _compare(report, rel, "presentation.category", presentation.get("category"), legacy.category)
+        if legacy.tags is not None:
+            _compare(report, rel, "presentation.tags", presentation.get("tags"), legacy.tags)
     _validate_i18n(report, rel, sidecar, legacy, supported_locales)
 
     release = sidecar.get("release")
@@ -842,10 +882,6 @@ def validate_sidecar(
             # Ordinary pointers default to market/market in the client. A sidecar
             # cannot turn an omitted pair into a system/repository listing.
             _compare(report, rel, f"spec.{field}", spec.get(field, "market"), legacy.data.get(field, "market"))
-        _compare(
-            report, rel, "compatibility.requiredClientVersion",
-            sidecar["compatibility"].get("requiredClientVersion"), legacy.data.get("requiredClientVersion"),
-        )
 
     if legacy.kind == "team":
         # Teams are always fork-installed and git-pull-updated, so there is no
@@ -858,6 +894,7 @@ def validate_sidecar(
             report.add(rel, "legacy-consistency", "compatibility.requiredClientVersion differs from the Team pointer")
 
     _validate_content_consistency(report, rel, sidecar, legacy)
+    _validate_client_compared_facts(report, rel, sidecar, legacy)
     _validate_governance_consistency(report, rel, sidecar, legacy)
     _validate_license_evidence(report, rel, sidecar, legacy, sidecar_path.parent)
     _validate_collection(report, rel, sidecar, legacy, supported_locales)

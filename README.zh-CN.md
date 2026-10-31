@@ -115,7 +115,7 @@ uv run scripts/i18n/validate-i18n.py
 
 外部技能使用 `skills/<id>/entry.json` 描述上游来源、展示信息、维护者、分类、许可证和再分发方式。技能条目必须提供内联 SVG `icon`，来源支持 `git`、`web` 和 `zip`。外部条目计入 `manifest.stats.totalSkills`，但不进入内置技能索引。
 
-指针原始数据必须先通过[导出的技能客户端 Schema](schemas/market-skill-entry.client.schema.json)，再进行 sidecar 校验。客户端会跳过未通过的条目，用户看不到它，而清单仍把它计入数量。`latestVersion` 接受 `x.y` 或 `x.y.z` 形式的数字版本，并映射到 `release.version`；sidecar 的 `versionScheme` 必须与客户端据此推导的结果一致，`x.y` 对应 `opaque`。
+指针原始数据必须先通过[导出的技能客户端 Schema](schemas/market-skill-entry.client.schema.json)，再进行 sidecar 校验。客户端会跳过未通过的条目，用户看不到它，而清单仍把它计入数量。`latestVersion` 接受 `x.y` 或 `x.y.z` 形式的数字版本，并映射到 `release.version`；sidecar 的 `versionScheme` 必须与客户端据此推导的结果一致，`x.y` 对应 `opaque`。sidecar 的 `category`、`tags`、`riskLevel` 和 `requiredClientVersion` 也必须与指针一致，且不能添加指针无法声明的 `skillType` 和 `compatibleAgents`。任何差异都会让客户端拒绝整份 sidecar，条目退化为仅收录。
 
 技能集合通过一个市场条目组织多个上游技能，并声明 `children` 清单供发现和展示。子技能的元数据保留在父条目的 sidecar 中；每个子技能都有独立的 `skill + parentId + id` 身份和发布事实。父条目的版本可以未知，不得用父版本推断子技能版本。
 

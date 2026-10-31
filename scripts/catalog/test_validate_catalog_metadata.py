@@ -208,7 +208,7 @@ def valid_sidecar() -> dict[str, object]:
             "upstreamMaintainer": {"name": "Example Maintainer", "verified": False},
         },
         "compatibility": {"platforms": unknown()},
-        "spec": {"kind": "skill", "riskLevel": "low"},
+        "spec": {"kind": "skill"},
     }
 
 
@@ -771,6 +771,100 @@ class CatalogMetadataValidatorTests(unittest.TestCase):
                     any(issue.rule == "legacy-consistency" and "release" in issue.message
                         for issue in self.validate().issues)
                 )
+
+    def test_skill_pointer_sidecar_cannot_add_or_drop_facts_the_client_compares(self) -> None:
+        # Each case made the client reject the sidecar while this validator stayed green.
+        cases = {
+            "skillType only in sidecar": (None, lambda p: p["spec"].update(skillType="procedural")),
+            "riskLevel only in sidecar": (None, lambda p: p["spec"].update(riskLevel="high")),
+            "riskLevel only in entry": (lambda p: p.update(riskLevel="high"), None),
+            "riskLevel differs": (lambda p: p.update(riskLevel="low"), lambda p: p["spec"].update(riskLevel="high")),
+            "client floor only in sidecar": (
+                None,
+                lambda p: p["compatibility"].update(requiredClientVersion="10.0.0"),
+            ),
+            "client floor only in entry": (lambda p: p.update(requiredClientVersion="10.0.0"), None),
+            "compatibleAgents only in sidecar": (None, lambda p: p["compatibility"].update(compatibleAgents=["x"])),
+            "category only in sidecar": (lambda p: p.pop("category"), None),
+            "tags only in sidecar": (lambda p: p.pop("tags"), None),
+            "path only in sidecar": (None, lambda p: p["provenance"]["content"].update(path="extra/path")),
+        }
+        for name, (entry_change, metadata_change) in cases.items():
+            with self.subTest(name):
+                self.write_skill_pointer_case(entry_change, metadata_change)
+                self.assertTrue(any(issue.rule == "legacy-consistency" for issue in self.validate().issues))
+
+    def test_agent_pointer_sidecar_cannot_add_facts_the_client_compares(self) -> None:
+        cases = {
+            "client floor only in sidecar": (lambda p: p.pop("requiredClientVersion"), None),
+            "client floor only in entry": (None, lambda p: p["compatibility"].pop("requiredClientVersion")),
+            "compatibleAgents only in sidecar": (None, lambda p: p["compatibility"].update(compatibleAgents=["x"])),
+            "category only in sidecar": (lambda p: p.pop("category"), None),
+        }
+        for name, (entry_change, metadata_change) in cases.items():
+            with self.subTest(name):
+                self.write_agent_pointer_case(entry_change, metadata_change)
+                self.assertTrue(any(issue.rule == "legacy-consistency" for issue in self.validate().issues))
+
+    def test_inline_agent_sidecar_must_match_the_facts_the_client_compares(self) -> None:
+        self.write_agent_case("market", "market", "listing-only")
+        agent_path = self.root / "agents" / "system-agent" / "agent.json"
+        sidecar_path = self.root / "agents" / "system-agent" / VALIDATOR.SIDECAR_NAME
+        self.write_json(self.root / "manifest.json", {
+            "supportedLocales": ["zh-CN", "en-US"], "stats": {"totalAgents": 1, "totalSkills": 1},
+        })
+        agent = json.loads(agent_path.read_text(encoding="utf-8"))
+        agent["i18n"]["en-US"]["tags"] = ["localized"]
+        self.write_json(agent_path, agent)
+        sidecar = json.loads(sidecar_path.read_text(encoding="utf-8"))
+        sidecar["presentation"]["tags"] = ["localized"]
+        self.write_json(sidecar_path, sidecar)
+        self.assertFalse(self.validate().has_errors, "the default locale's tags are the legacy tags")
+
+        cases = {
+            "tags differ": lambda p: p["presentation"].update(tags=["other"]),
+            "client floor only in sidecar": lambda p: p["compatibility"].update(requiredClientVersion="10.0.0"),
+        }
+        for name, mutate in cases.items():
+            with self.subTest(name):
+                changed = copy.deepcopy(sidecar)
+                mutate(changed)
+                self.write_json(sidecar_path, changed)
+                self.assertTrue(any(issue.rule == "legacy-consistency" for issue in self.validate().issues))
+
+    def test_builtin_skill_sidecar_must_match_the_facts_the_client_compares(self) -> None:
+        self.entry_path.unlink()
+        self.entry_path.with_name("SKILL.md").write_text(
+            "---\nname: example-skill\ndescription: Example builtin skill.\nversion: 1.2.3\n"
+            "type: meta\nrisk_level: high\ntags:\n  - example\n"
+            "market:\n  category: development\n  required_client_version: 10.0.0\n"
+            "metadata:\n  i18n:\n    default_locale: en-US\n"
+            "    zh-CN:\n      name: 示例技能\n      short_desc: 中文简介\n"
+            "    en-US:\n      name: Example Skill\n      short_desc: English summary\n---\nBody.\n",
+            encoding="utf-8",
+        )
+
+        def matching(payload):
+            known_release("1.2.3", "semver")(payload)
+            payload["provenance"] = {}
+            payload["spec"] = {"kind": "skill", "riskLevel": "high"}
+            payload["compatibility"]["requiredClientVersion"] = "10.0.0"
+
+        self.rewrite_sidecar(matching)
+        self.assertFalse(
+            any(issue.rule == "legacy-consistency" for issue in self.validate().issues),
+            "an unknown frontmatter type such as meta is no skillType fact for the client",
+        )
+
+        cases = {
+            "skillType only in sidecar": lambda p: p["spec"].update(skillType="procedural"),
+            "riskLevel differs": lambda p: p["spec"].update(riskLevel="low"),
+            "client floor differs": lambda p: p["compatibility"].update(requiredClientVersion="10.0.1"),
+        }
+        for name, mutate in cases.items():
+            with self.subTest(name):
+                self.rewrite_sidecar(lambda p: (matching(p), mutate(p)))
+                self.assertTrue(any(issue.rule == "legacy-consistency" for issue in self.validate().issues))
 
     def test_agent_pointer_release_cannot_exceed_what_the_entry_declares(self) -> None:
         self.write_agent_pointer_case(lambda p: p.pop("latestVersion"))
