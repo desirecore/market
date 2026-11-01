@@ -4,6 +4,11 @@
 
 set +e
 
+# 路径里可能有反斜杠和双引号，写进 JSON 前要转义（调用时仍用原始路径）
+json_escape() {
+  printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
+}
+
 detect_tool() {
   local name="$1"
   local path
@@ -14,7 +19,7 @@ detect_tool() {
   fi
   local version
   version=$("$name" --version 2>&1 | head -n1 | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -n1)
-  printf '{"path":"%s","version":"%s"}' "$path" "${version:-}"
+  printf '{"path":"%s","version":"%s"}' "$(json_escape "$path")" "${version:-}"
 }
 
 # ── 平台 ────────────────────────────────
@@ -48,16 +53,45 @@ SYS_PIP=$(detect_tool pip3)
 [ "$(echo "$SYS_PIP" | grep -c '"path":""')" = "1" ] && SYS_PIP=$(detect_tool pip)
 
 # ── DesireCore Hatch ────────────────────
-HATCH_BIN="${DESIRECORE_ROOT}/runtime/hatch/hatch"
+HATCH_DIR="${DESIRECORE_ROOT}/runtime/hatch"
+HATCH_TARGET="${PLATFORM}-${ARCH}"
+
+# 二进制与服务同序：手动下载的 runtime/hatch/hatch 优先，其次随包工具链。
+# 桌面版的应用目录不在环境变量里，随包路径再看 Volta 入口的链接目标（只读链接，不执行入口；
+# Volta 建入口时指向同一工具链目录下的 volta-shim，旧版升级后可能已断）和默认安装位置。
+VOLTA_SHIM=$(readlink "${VOLTA_HOME:-${DESIRECORE_ROOT}/runtime/volta-home}/bin/node" 2>/dev/null)
 HATCH_PATH=""
-HATCH_VERSION=""
-if [ -x "$HATCH_BIN" ]; then
-  HATCH_PATH="$HATCH_BIN"
-  HATCH_VERSION=$("$HATCH_BIN" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -n1)
+for HATCH_BIN in \
+  "${HATCH_DIR}/hatch" \
+  "${DESIRECORE_STATIC_DIR}/toolchains/${HATCH_TARGET}/hatch/hatch" \
+  "${VOLTA_SHIM%/volta/*}/hatch/hatch" \
+  /Applications/*.app/Contents/static/toolchains/"${HATCH_TARGET}"/hatch/hatch \
+  /opt/*/static/toolchains/"${HATCH_TARGET}"/hatch/hatch
+do
+  if [ -f "$HATCH_BIN" ] && [ -x "$HATCH_BIN" ]; then
+    HATCH_PATH="$HATCH_BIN"
+    break
+  fi
+done
+
+# 随包二进制旁边的 asset.json 写着它的版本；手动下载的二进制没有这个文件
+HATCH_VERSION=$(grep -m1 '"version"' "${HATCH_PATH%/*}/asset.json" 2>/dev/null | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -n1)
+
+# 客户端解包好的 Hatch 分发（10.0.183 起），调用二进制时经 PYAPP_INSTALL_DIR_HATCH 传入。
+# 版本已知时只认同版本的分发（旧版本的分发升级后不会清理），未知时取找到的最后一个
+HATCH_BOOTSTRAP=""
+for BOOTSTRAP_DIR in "${HATCH_DIR}/bootstrap/"${HATCH_VERSION:-*}"-${HATCH_TARGET}"; do
+  [ -f "${BOOTSTRAP_DIR}/.ready" ] && HATCH_BOOTSTRAP="$BOOTSTRAP_DIR"
+done
+
+# 随包 Hatch 是 PyApp 引导程序：没有解包好的分发时，连 --version 都会下载分发并解压到用户目录，
+# 所以只在有分发时才执行二进制
+if [ -n "$HATCH_PATH" ] && [ -n "$HATCH_BOOTSTRAP" ]; then
+  HATCH_VERSION=$(PYAPP_INSTALL_DIR_HATCH="$HATCH_BOOTSTRAP" "$HATCH_PATH" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -n1)
 fi
 
 # Hatch 已安装的 Python 版本（直接读 local/ 目录，避免依赖 hatch 命令）
-HATCH_LOCAL="${DESIRECORE_ROOT}/runtime/hatch/local"
+HATCH_LOCAL="${HATCH_DIR}/local"
 HATCH_VERSIONS="[]"
 if [ -d "$HATCH_LOCAL" ]; then
   versions=$(ls -1 "$HATCH_LOCAL" 2>/dev/null | sort -V | tr '\n' ',' | sed 's/,$//')
@@ -92,12 +126,13 @@ cat <<EOF
   "desirecore_api": "${DESIRECORE_API}",
   "system_python": ${SYS_PY},
   "system_pip": ${SYS_PIP},
-  "hatch_path": "${HATCH_PATH}",
+  "hatch_path": "$(json_escape "$HATCH_PATH")",
   "hatch_version": "${HATCH_VERSION}",
+  "hatch_bootstrap": "$(json_escape "$HATCH_BOOTSTRAP")",
   "hatch_versions": ${HATCH_VERSIONS},
-  "active_venv": "${ACTIVE_VENV}",
+  "active_venv": "$(json_escape "$ACTIVE_VENV")",
   "pep668": ${PEP668},
-  "pyenv_path": "${PYENV_PATH:-}",
-  "conda_path": "${CONDA_PATH:-}"
+  "pyenv_path": "$(json_escape "${PYENV_PATH:-}")",
+  "conda_path": "$(json_escape "${CONDA_PATH:-}")"
 }
 EOF
