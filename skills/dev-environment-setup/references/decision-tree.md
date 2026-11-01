@@ -58,7 +58,8 @@ curl -sk -X POST "${BASE}/python/install" \
 
 **判定失败的信号**
 
-- HTTP 状态码 ≥ 500 或 502（远端镜像不可用，详见 runtime-env-routes.ts 130/162 行）
+- HTTP 状态码 ≥ 500 或 502（远端镜像不可用，见 `runtime-env-routes.ts`）
+- HTTP 401：standalone 部署的接口要求实例令牌，Agent 没有
 - `runtime:complete` 事件 `success: false`
 - Socket.IO 连接断开后超过 30 秒未收到 `runtime:complete`
 
@@ -74,32 +75,33 @@ curl -sk -X POST "${BASE}/python/install" \
 **典型操作（macOS / Linux）**
 
 ```bash
-HATCH=${DESIRECORE_ROOT}/runtime/hatch/hatch
+PY_PROBE=$(bash skills/python-runtime/scripts/probe-python.sh)
+HATCH=$(echo "$PY_PROBE" | jq -r .hatch_path)
 VOLTA=$(bash skills/nodejs-runtime/scripts/probe-node.sh | jq -r .volta_path)
 
-export HATCH_HOME=${DESIRECORE_ROOT}/runtime/hatch
+export PYAPP_INSTALL_DIR_HATCH=$(echo "$PY_PROBE" | jq -r .hatch_bootstrap)
 export VOLTA_HOME="${VOLTA_HOME:-${DESIRECORE_ROOT}/runtime/volta-home}"
 export VOLTA_FEATURE_PNPM=1
 
-"$HATCH" python install 3.12
+"$HATCH" python install 3.12 --private --dir="${DESIRECORE_ROOT}/runtime/hatch/local"
 "$VOLTA" fetch node@22
 ```
 
 **典型操作（Windows PowerShell）**
 
 ```powershell
-$Hatch = "$env:USERPROFILE\.desirecore\runtime\hatch\hatch.exe"
+$Hatch = "<安装目录>\static\toolchains\win32-x64\hatch\hatch.exe"
 $Volta = "<安装目录>\static\toolchains\win32-x64\volta\volta.exe"   # ARM 为 win32-arm64
 
-$env:HATCH_HOME = "$env:USERPROFILE\.desirecore\runtime\hatch"
+$env:PYAPP_INSTALL_DIR_HATCH = "$env:DESIRECORE_ROOT\runtime\hatch\bootstrap\<Hatch 版本>-win32-x64"
 if (-not $env:VOLTA_HOME) { $env:VOLTA_HOME = "$env:DESIRECORE_ROOT\runtime\volta-home" }
 $env:VOLTA_FEATURE_PNPM = "1"
 
-& $Hatch python install 3.12
+& $Hatch python install 3.12 --private "--dir=$env:DESIRECORE_ROOT\runtime\hatch\local"
 & $Volta fetch node@22
 ```
 
-Volta 二进制与 Volta Home 的位置见 `desirecore-runtime.md` 第一节。
+Hatch、Volta 二进制和 Volta Home 的位置见 `desirecore-runtime.md` 第一节。`python install` 必须带 `--private --dir`，否则 Hatch 装到用户数据目录并改写 shell 配置；报 `Unknown distribution source` 时见 `python-runtime/references/hatch-desirecore.md`。
 
 **判定失败的信号**
 
