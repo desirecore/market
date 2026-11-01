@@ -25,7 +25,7 @@ export VOLTA_FEATURE_PNPM=1
 
 ```bash
 BASE="https://127.0.0.1:$(cat ${DESIRECORE_ROOT}/agent-service.port)/api/runtime"
-curl -sk -X POST "${BASE}/pkg/pnpm/install" -H "Content-Type: application/json" -d '{"version":"latest"}'
+curl -sk -X POST "${BASE}/pkg/pnpm/install" -H "Content-Type: application/json" -d '{"version":"9.15.9"}'   # 必须是完整版本号
 ```
 
 装好的 pnpm / yarn 不在 PATH 上（PATH 上只有内置 Node 的目录），这样调用：

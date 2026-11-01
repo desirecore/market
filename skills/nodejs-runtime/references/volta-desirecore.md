@@ -25,7 +25,7 @@ NODE_BIN="$VOLTA_HOME/tools/image/node/<version>/bin"
 PATH="$NODE_BIN:$PATH" npm --version      # npm 要从 PATH 找 node
 ```
 
-> **不要使用 `<Volta Home>/bin`**。这里的 `node`、`npm` 等入口是 Volta shim，它按 `VOLTA_HOME` 选 Home。DesireCore 不导出这个变量，未导出时 shim 看的是 `~/.volta`（不存在还会新建），报 `Node is not available`；这个目录放在 PATH 上还会卡住超过 30 秒。旧版升级的用户这里可能是断链，修好链接同样拿不到 DesireCore 的 Node，不需要修。
+> **不要使用 `<Volta Home>/bin`**。这里的 `node`、`npm` 等入口是 Volta shim，它按 `VOLTA_HOME` 选 Home。DesireCore 不导出这个变量，未导出时 shim 看的是 `~/.volta`（不存在还会新建），拿不到 DesireCore 的 Node：报 `Node is not available`，系统有 Node 时则透传到系统版本。这个目录放在 PATH 上还会卡住超过 30 秒。旧版升级的用户这里可能是断链，修好链接同样拿不到 DesireCore 的 Node，不需要修。
 
 ## L1：通过 HTTP API 操作（推荐，DesireCore 应用内）
 
@@ -77,9 +77,10 @@ TOOL="pnpm"   # 或 yarn / npm
 curl -sk "${BASE}/pkg/${TOOL}/installed"
 curl -sk "${BASE}/pkg/${TOOL}/available"
 
+# 必须是完整版本号，latest、9 这类写法返回 400
 curl -sk -X POST "${BASE}/pkg/${TOOL}/install" \
   -H "Content-Type: application/json" \
-  -d '{"version":"latest"}'
+  -d '{"version":"9.15.9"}'
 
 curl -sk -X POST "${BASE}/pkg/${TOOL}/remove" \
   -H "Content-Type: application/json" \
@@ -88,7 +89,7 @@ curl -sk -X POST "${BASE}/pkg/${TOOL}/remove" \
 
 ### 实时输出 / 缓存刷新
 
-异步任务：监听 Socket.IO 事件 `runtime:terminal` / `runtime:complete`，按 taskId 过滤。没有 Socket.IO 客户端时，轮询 `GET ${BASE}/node/installed`（包管理器为 `GET ${BASE}/pkg/${TOOL}/installed`）直到出现目标版本。
+异步任务：监听 Socket.IO 事件 `runtime:terminal` / `runtime:complete`，按 taskId 过滤。没有 Socket.IO 客户端时，轮询 `GET ${BASE}/node/installed`（包管理器为 `GET ${BASE}/pkg/${TOOL}/installed`）直到出现目标版本。下载失败时轮询不会收到信号，所以要设上限；超时后看 `<Volta Home>/log/` 里最新的 `volta-error-*.log`。
 
 ```bash
 curl -sk -X POST "${BASE}/environment/refresh"   # 安装结束后刷新
@@ -198,7 +199,7 @@ DesireCore 应用 → 资源管理器 → 计算资源 → **运行环境** Tab�
 | `volta: not found` | Volta 不在 PATH 上是正常的，用绝对路径调用，见「找不到 Volta 二进制」 |
 | `Node is not available` | 调到了 `<Volta Home>/bin` 下的 shim，或 Volta 没带 `VOLTA_HOME`：改用 `tools/image/node/<version>/bin`，或同时设置 `VOLTA_HOME` 和 `VOLTA_FEATURE_PNPM`。`volta run` 在项目没有固定版本时也报这个错：传 `--node` |
 | `node` 卡住超过 30 秒 | `<Volta Home>/bin` 在 PATH 上且未导出 `VOLTA_HOME`。把它从 PATH 去掉，需要时改加 `tools/image/node/<version>/bin` |
-| `Volta error: Could not download node v22.x.x` | 网络或下载源问题。Volta 2.0.2 没有镜像环境变量，自定义下载源用 `hooks.json`，否则降级到 L3 |
+| `Could not download ...` | 网络或下载源问题，可以重试。Volta 2.0.2 没有镜像环境变量，自定义下载源用 `hooks.json`，否则降级到 L3 |
 | pnpm 相关报错 | 检查 `VOLTA_FEATURE_PNPM=1` 是否设置 |
 | Windows Defender 隔离 volta.exe | 信任应用安装目录下的 `static\toolchains\` |
 | `cd` 进项目后版本未切换 | DesireCore 里符合预期，用 `"$VOLTA" run` 按 `package.json#volta` 运行 |

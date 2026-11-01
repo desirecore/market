@@ -43,7 +43,7 @@ metadata:
       description: >-
         Use this skill when the user needs to install, upgrade, or troubleshoot Node.js, npm, pnpm, yarn, and JavaScript/TypeScript runtime environments. Covers four-tier fallback strategy: (1) DesireCore HTTP API for in-app installation, (2) DesireCore built-in Volta CLI for Node.js + package manager version management, (3) system package managers (brew/apt/dnf/winget/NodeSource), (4) community nvm/fnm as last resort. Also covers global package management, npm registry/proxy configuration, EACCES permission errors, and PATH troubleshooting. Triggers include: "install node", "node not found", "npm not found", "npm EACCES", "pnpm", "yarn", "volta", "nvm", "fnm", "nodejs version", "package-lock", or any Node.js / npm runtime error. 使用场景：用户需要 安装 Node.js、安装 npm、 pnpm、yarn、配置全局包、解决 EACCES、PATH 问题、镜像/代理配置。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:d826997b2090e2aa
+      source_hash: sha256:8aa0bd6b6101d635
       translated_by: human
     en-US:
       name: Node.js Runtime Management
@@ -51,7 +51,7 @@ metadata:
       description: >-
         Use this skill when the user needs to install, upgrade, or troubleshoot Node.js, npm, pnpm, yarn, and JavaScript/TypeScript runtime environments. Covers four-tier fallback strategy: (1) DesireCore HTTP API for in-app installation, (2) DesireCore built-in Volta CLI for Node.js + package manager version management, (3) system package managers (brew/apt/dnf/winget/NodeSource), (4) community nvm/fnm as last resort. Also covers global package management, npm registry/proxy configuration, EACCES permission errors, and PATH troubleshooting. Triggers include: "install node", "node not found", "npm not found", "npm EACCES", "pnpm", "yarn", "volta", "nvm", "fnm", "nodejs version", "package-lock", or any Node.js / npm runtime error. Use cases: the user needs to install Node.js, install npm, pnpm, yarn, configure global packages, resolve EACCES, PATH issues, registry mirror / proxy configuration.
       body: ./SKILL.md
-      source_hash: sha256:d826997b2090e2aa
+      source_hash: sha256:8aa0bd6b6101d635
       translated_by: human
       translated_at: '2026-11-01'
 market:
@@ -149,10 +149,10 @@ curl -sk -X POST "${BASE}/node/install" \
   -H "Content-Type: application/json" \
   -d '{"version":"22"}'
 
-# 安装包管理器
+# 安装包管理器（必须是完整版本号，可选版本见 ${BASE}/pkg/pnpm/available）
 curl -sk -X POST "${BASE}/pkg/pnpm/install" \
   -H "Content-Type: application/json" \
-  -d '{"version":"latest"}'
+  -d '{"version":"9.15.9"}'
 
 # 完成后刷新缓存
 curl -sk -X POST "${BASE}/environment/refresh"
@@ -215,7 +215,7 @@ See `references/troubleshooting.md` for details:
 2. **Refresh after modifying the environment**: for L1, call `POST /api/runtime/environment/refresh`; for other paths, re-run the probe.
 3. **Cross-skill collaboration**: when `pptx` and others need Node.js, install via this skill's main path; for npm package quick reference, see `../dev-environment-setup/references/office-deps.md`.
 4. **Respect package.json#volta**: when this field is detected, prefer Volta — do not switch to nvm. Run through `"$VOLTA" run`, because `cd` alone does not switch versions in DesireCore.
-5. **Do not use `runtime/volta-home/bin`**: these entries are Volta shims. DesireCore does not export `VOLTA_HOME`, and without it they read `~/.volta` and fail with `Node is not available`; on PATH they also hang for more than 30 seconds. Repairing a broken link there does not help. Use `tools/image/node/<version>/bin` instead.
+5. **Do not use `runtime/volta-home/bin`**: these entries are Volta shims. DesireCore does not export `VOLTA_HOME`, and without it they read `~/.volta`, so they never reach DesireCore's Node: they fail with `Node is not available`, or pass through to a system Node if there is one. On PATH they also hang for more than 30 seconds. Repairing a broken link there does not help. Use `tools/image/node/<version>/bin` instead.
 
 ## References
 

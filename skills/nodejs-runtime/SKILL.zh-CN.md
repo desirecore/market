@@ -75,10 +75,10 @@ curl -sk -X POST "${BASE}/node/install" \
   -H "Content-Type: application/json" \
   -d '{"version":"22"}'
 
-# 安装包管理器
+# 安装包管理器（必须是完整版本号，可选版本见 ${BASE}/pkg/pnpm/available）
 curl -sk -X POST "${BASE}/pkg/pnpm/install" \
   -H "Content-Type: application/json" \
-  -d '{"version":"latest"}'
+  -d '{"version":"9.15.9"}'
 
 # 完成后刷新缓存
 curl -sk -X POST "${BASE}/environment/refresh"
@@ -141,7 +141,7 @@ Windows：`<安装目录>\static\toolchains\win32-<架构>\volta\volta.exe`，`V
 2. **修改环境后必须刷新**：L1 调 `POST /api/runtime/environment/refresh`；其它路径重跑 probe。
 3. **跨 skill 协作**：`pptx` 等需要 Node.js 时，按本 skill 主路径安装；npm 包速查见 `../dev-environment-setup/references/office-deps.md`。
 4. **package.json#volta 必须尊重**：检测到该字段时优先 Volta，不要切到 nvm。用 `"$VOLTA" run` 运行，在 DesireCore 里只 `cd` 不会切换版本。
-5. **不要使用 `runtime/volta-home/bin`**：这里的入口是 Volta shim。DesireCore 不导出 `VOLTA_HOME`，未导出时它们看的是 `~/.volta`，报 `Node is not available`；放在 PATH 上还会卡住超过 30 秒。修好这里的断链也没有用，改用 `tools/image/node/<version>/bin`。
+5. **不要使用 `runtime/volta-home/bin`**：这里的入口是 Volta shim。DesireCore 不导出 `VOLTA_HOME`，未导出时它们看的是 `~/.volta`，拿不到 DesireCore 的 Node：报 `Node is not available`，系统有 Node 时则透传到系统版本。放在 PATH 上还会卡住超过 30 秒。修好这里的断链也没有用，改用 `tools/image/node/<version>/bin`。
 
 ## 引用关系
 

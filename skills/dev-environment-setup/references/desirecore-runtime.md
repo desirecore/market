@@ -28,7 +28,7 @@ DesireCore 内置了完整的开发环境管理基础设施。`python-runtime` �
 
 **内置 Node 已在 PATH 上**：服务把一个版本的可执行文件目录追加到进程 PATH 末尾，Bash 等工具都会继承，所以通常直接用 `node`、`npm`。系统已有 Node 时系统版本优先，要用内置版本就写绝对路径。
 
-**不要使用 `<Volta Home>/bin`**：这里的入口是 Volta shim，未导出 `VOLTA_HOME` 时看的是 `~/.volta`，报 `Node is not available`；放在 PATH 上还会卡住超过 30 秒。
+**不要使用 `<Volta Home>/bin`**：这里的入口是 Volta shim，未导出 `VOLTA_HOME` 时看的是 `~/.volta`，拿不到 DesireCore 的 Node：报 `Node is not available`，系统有 Node 时则透传到系统版本。放在 PATH 上还会卡住超过 30 秒。
 
 ### 优先级规则
 
@@ -94,7 +94,7 @@ BASE="https://127.0.0.1:${PORT}/api/runtime"
 |------|------|------|
 | GET | `/pkg/{tool}/installed` | tool ∈ {pnpm, yarn, npm} |
 | GET | `/pkg/{tool}/available` | 失败返回 502 |
-| POST | `/pkg/{tool}/install` | `{ "version": "9" }` → `{ "taskId": "uuid" }` |
+| POST | `/pkg/{tool}/install` | `{ "version": "9.15.9" }`（必须是完整版本号，否则返回 400）→ `{ "taskId": "uuid" }` |
 | POST | `/pkg/{tool}/remove` | `{ "version": "9.0.0" }` → `{ "taskId": "uuid" }` |
 
 ## 四、Socket.IO 实时输出契约
