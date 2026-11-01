@@ -1,0 +1,121 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "agent",
+    "id": "video-editor"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "视频剪辑师",
+        "summary": "需单独安装视频剪辑和可用算力，处理时间线、声音、调色与原创动效；模型及可选媒体服务费用另计。",
+        "description": "与独立安装的视频剪辑应用协作，组织素材、剪辑时间线、处理节奏、声音、调色、参考重剪和原创可编辑 HTML / SVG / Canvas / WebGL 动效，并核对实际成片。应用、Node.js >=22、浏览器和 FFmpeg 依赖需另行准备；模型额度、可选媒体服务许可与费用不包含在 Agent 中。先核对当前平台 app-authoring-v1 release/runtime-binding 能力、应用安装与当前代际身份，再经独立授权连接同实例 MCP；应用关联仅是入口偏好，不会安装、启动或授权应用。依赖或能力缺失时停止外部调用并明确报告。Windows 与 Ubuntu/WSLg 源码 GUI 已完成限定功能验收；macOS 仍待验，正式安装器与自主模型质量不由该结果保证。"
+      },
+      "en-US": {
+        "name": "Video Editor",
+        "summary": "Needs the separate Video Editing app and DesireCore compute for timeline editing, sound, grading and original motion; model/media fees are separate.",
+        "description": "Works with the separately installed Video Editing app on media organization, timeline edits, pacing, sound, grading, reference remakes, editable original HTML / SVG / Canvas / WebGL motion and actual movie checks. The app, Node.js >=22, browser and FFmpeg dependencies must be prepared separately; model usage and optional media-service licenses and fees are not included. Check app-authoring-v1 release/runtime-binding capabilities, the actual installation and current runtime identity before independently authorizing MCP for that same instance. App association is an entry preference and does not install, start or authorize the app. Stop external calls and report missing dependencies or capabilities. Windows and an Ubuntu/WSLg source GUI passed bounded functional acceptance; macOS remains pending. This does not qualify production installers or autonomous model quality."
+      }
+    },
+    "tags": [
+      "video",
+      "editing",
+      "motion",
+      "audio"
+    ],
+    "category": "media"
+  },
+  "release": {
+    "state": "known",
+    "version": "0.1.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-01",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-01",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-01",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore-agent/video-editor.git",
+      "ref": "a9e87d8f7807853e5076f98298afbb191ab778b3"
+    }
+  },
+  "governance": {
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "source-pointer-only",
+    "stewardship": "pointer",
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "noticePath": "NOTICE",
+      "reviewedRef": "a9e87d8f7807853e5076f98298afbb191ab778b3",
+      "reviewedAt": "2026-11-01",
+      "reviewedBy": "Market source review (see review.md)",
+      "upstreamEndorsed": false
+    },
+    "upstreamMaintainer": {
+      "name": "desirecore-agent",
+      "verified": false,
+      "url": "https://github.com/desirecore-agent/video-editor"
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "windows",
+        "linux"
+      ]
+    },
+    "requiredClientVersion": "10.0.195",
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Install Video Editing separately and explicitly prepare Node.js >=22 plus its pinned browser and FFmpeg runtime assets; these binaries are not included in the Agent seed."
+      },
+      {
+        "kind": "connection",
+        "value": "Requires app-authoring-v1 release/runtime-binding capabilities and independently authorized MCP attached to the actual current app instance. A version number or app association alone does not establish readiness."
+      },
+      {
+        "kind": "permission",
+        "value": "Uses current DesireCore compute routing and approvals. No provider credentials, MCP grant, directory trust or preapproved tools are included; model and optional media-service terms and fees remain separate."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "agent",
+    "installPolicy": "market",
+    "updatePolicy": "market",
+    "persona": {
+      "role": "Editable timeline video editing, sound, grading and original motion",
+      "traits": [
+        "preserves editable timelines and human changes",
+        "checks actual output and runtime identity"
+      ]
+    }
+  }
+}

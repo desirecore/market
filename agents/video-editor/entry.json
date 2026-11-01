@@ -1,0 +1,43 @@
+{
+  "id": "video-editor",
+  "name": "视频剪辑师",
+  "category": "media",
+  "tags": [
+    "video",
+    "editing",
+    "motion",
+    "audio"
+  ],
+  "latestVersion": "0.1.0",
+  "maintainer": {
+    "name": "desirecore-agent",
+    "verified": false,
+    "url": "https://github.com/desirecore-agent/video-editor"
+  },
+  "stewardship": "pointer",
+  "license": "MIT",
+  "redistribution": "source-pointer-only",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/desirecore-agent/video-editor.git",
+    "repoBranch": "main",
+    "ref": "a9e87d8f7807853e5076f98298afbb191ab778b3"
+  },
+  "requiredClientVersion": "10.0.195",
+  "i18n": {
+    "zh-CN": {
+      "name": "视频剪辑师",
+      "shortDesc": "需单独安装视频剪辑和可用算力，处理时间线、声音、调色与原创动效；模型及可选媒体服务费用另计。"
+    },
+    "en-US": {
+      "name": "Video Editor",
+      "shortDesc": "Needs the separate Video Editing app and DesireCore compute for timeline editing, sound, grading and original motion; model/media fees are separate."
+    }
+  },
+  "avatar": {
+    "t": "剪",
+    "bg": "linear-gradient(135deg, #397455, #739e85)"
+  },
+  "installPolicy": "market",
+  "updatePolicy": "market"
+}
