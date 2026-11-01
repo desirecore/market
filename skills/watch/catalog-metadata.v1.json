@@ -14,7 +14,7 @@
       },
       "zh-CN": {
         "name": "视频观看与场景分析",
-        "summary": "结合字幕、Whisper 与场景变化帧分析视频中的语音和画面"
+        "summary": "结合字幕、语音转写与场景变化帧分析视频中的语音和画面"
       }
     },
     "category": "media",
@@ -29,28 +29,28 @@
   },
   "release": {
     "state": "known",
-    "version": "1.1.4",
+    "version": "1.2.0",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-31T05:10:43Z",
+      "value": "2026-11-01T13:31:12Z",
       "precision": "second"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-10-31",
+      "value": "2026-11-01",
       "precision": "day"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-31",
+      "value": "2026-11-01",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-31T05:10:43Z",
+      "value": "2026-11-01T13:31:12Z",
       "precision": "second"
     }
   },
@@ -59,7 +59,7 @@
       "kind": "git",
       "url": "https://github.com/desirecore-agent/watch-video-skill.git",
       "path": "skills/watch",
-      "ref": "3b5743320cd7572d222e550cc238c75053b32840"
+      "ref": "009394838b655a7027f6ca0c7c980c6b69096342"
     }
   },
   "governance": {
@@ -78,8 +78,8 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "3b5743320cd7572d222e550cc238c75053b32840",
-      "reviewedAt": "2026-10-31",
+      "reviewedRef": "009394838b655a7027f6ca0c7c980c6b69096342",
+      "reviewedAt": "2026-11-01",
       "reviewedBy": "yi-ge",
       "upstreamEndorsed": true
     }

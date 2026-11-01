@@ -11,11 +11,11 @@
     "yt-dlp",
     "whisper"
   ],
-  "latestVersion": "1.1.4",
+  "latestVersion": "1.2.0",
   "i18n": {
     "zh-CN": {
       "name": "视频观看与场景分析",
-      "shortDesc": "结合字幕、Whisper 与场景变化帧分析视频中的语音和画面"
+      "shortDesc": "结合字幕、语音转写与场景变化帧分析视频中的语音和画面"
     },
     "en-US": {
       "name": "Watch Video",
@@ -36,6 +36,6 @@
     "repoUrl": "https://github.com/desirecore-agent/watch-video-skill.git",
     "repoBranch": "main",
     "path": "skills/watch",
-    "ref": "3b5743320cd7572d222e550cc238c75053b32840"
+    "ref": "009394838b655a7027f6ca0c7c980c6b69096342"
   }
 }
