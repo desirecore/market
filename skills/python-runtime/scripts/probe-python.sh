@@ -4,6 +4,11 @@
 
 set +e
 
+# 路径里可能有反斜杠和双引号，写进 JSON 前要转义（调用时仍用原始路径）
+json_escape() {
+  printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
+}
+
 detect_tool() {
   local name="$1"
   local path
@@ -14,7 +19,7 @@ detect_tool() {
   fi
   local version
   version=$("$name" --version 2>&1 | head -n1 | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -n1)
-  printf '{"path":"%s","version":"%s"}' "$path" "${version:-}"
+  printf '{"path":"%s","version":"%s"}' "$(json_escape "$path")" "${version:-}"
 }
 
 # ── 平台 ────────────────────────────────
@@ -121,13 +126,13 @@ cat <<EOF
   "desirecore_api": "${DESIRECORE_API}",
   "system_python": ${SYS_PY},
   "system_pip": ${SYS_PIP},
-  "hatch_path": "${HATCH_PATH}",
+  "hatch_path": "$(json_escape "$HATCH_PATH")",
   "hatch_version": "${HATCH_VERSION}",
-  "hatch_bootstrap": "${HATCH_BOOTSTRAP}",
+  "hatch_bootstrap": "$(json_escape "$HATCH_BOOTSTRAP")",
   "hatch_versions": ${HATCH_VERSIONS},
-  "active_venv": "${ACTIVE_VENV}",
+  "active_venv": "$(json_escape "$ACTIVE_VENV")",
   "pep668": ${PEP668},
-  "pyenv_path": "${PYENV_PATH:-}",
-  "conda_path": "${CONDA_PATH:-}"
+  "pyenv_path": "$(json_escape "${PYENV_PATH:-}")",
+  "conda_path": "$(json_escape "${CONDA_PATH:-}")"
 }
 EOF
