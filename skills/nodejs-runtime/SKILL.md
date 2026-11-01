@@ -43,7 +43,7 @@ metadata:
       description: >-
         Use this skill when the user needs to install, upgrade, or troubleshoot Node.js, npm, pnpm, yarn, and JavaScript/TypeScript runtime environments. Covers four-tier fallback strategy: (1) DesireCore HTTP API for in-app installation, (2) DesireCore built-in Volta CLI for Node.js + package manager version management, (3) system package managers (brew/apt/dnf/winget/NodeSource), (4) community nvm/fnm as last resort. Also covers global package management, npm registry/proxy configuration, EACCES permission errors, and PATH troubleshooting. Triggers include: "install node", "node not found", "npm not found", "npm EACCES", "pnpm", "yarn", "volta", "nvm", "fnm", "nodejs version", "package-lock", or any Node.js / npm runtime error. 使用场景：用户需要 安装 Node.js、安装 npm、 pnpm、yarn、配置全局包、解决 EACCES、PATH 问题、镜像/代理配置。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:8aa0bd6b6101d635
+      source_hash: sha256:33f778ab7c9fd66a
       translated_by: human
     en-US:
       name: Node.js Runtime Management
@@ -51,7 +51,7 @@ metadata:
       description: >-
         Use this skill when the user needs to install, upgrade, or troubleshoot Node.js, npm, pnpm, yarn, and JavaScript/TypeScript runtime environments. Covers four-tier fallback strategy: (1) DesireCore HTTP API for in-app installation, (2) DesireCore built-in Volta CLI for Node.js + package manager version management, (3) system package managers (brew/apt/dnf/winget/NodeSource), (4) community nvm/fnm as last resort. Also covers global package management, npm registry/proxy configuration, EACCES permission errors, and PATH troubleshooting. Triggers include: "install node", "node not found", "npm not found", "npm EACCES", "pnpm", "yarn", "volta", "nvm", "fnm", "nodejs version", "package-lock", or any Node.js / npm runtime error. Use cases: the user needs to install Node.js, install npm, pnpm, yarn, configure global packages, resolve EACCES, PATH issues, registry mirror / proxy configuration.
       body: ./SKILL.md
-      source_hash: sha256:8aa0bd6b6101d635
+      source_hash: sha256:33f778ab7c9fd66a
       translated_by: human
       translated_at: '2026-11-01'
 market:
@@ -124,7 +124,7 @@ See `../dev-environment-setup/references/probe-snapshot.md` for field definition
 
 | Condition | Path |
 |------|------|
-| `system_node.path` non-empty and its version is sufficient | Use `node` / `npm` directly; nothing to install |
+| `system_node.path` non-empty and its version is sufficient (`system_npm.path` also non-empty when npm is needed) | Use `node` / `npm` directly; nothing to install |
 | A specific version is needed and `volta_tools.node` lists it | Absolute path `<Volta Home>/tools/image/node/<version>/bin/node` (→ `references/volta-desirecore.md`) |
 | `desirecore_api` non-empty | **L1** HTTP API |
 | `desirecore_api` empty, `volta_path` non-empty | **L2** Volta CLI |
@@ -166,7 +166,7 @@ export VOLTA_HOME="${VOLTA_HOME:-${DESIRECORE_ROOT}/runtime/volta-home}"
 export VOLTA_FEATURE_PNPM=1
 
 "$VOLTA" fetch node@22
-"$VOLTA" fetch pnpm@latest
+"$VOLTA" fetch pnpm@11
 "$VOLTA" fetch yarn@latest
 "$VOLTA" list all
 
@@ -175,7 +175,7 @@ export VOLTA_FEATURE_PNPM=1
 "$VOLTA" run node --version
 ```
 
-Set both variables on every Volta call: DesireCore sets them only for its own calls, not for Bash. The binary ships at `static/toolchains/<platform>-<arch>/volta/volta` under the app directory; `runtime/volta/volta` exists only after a manual Volta download.
+Set both variables on every Volta call: DesireCore sets them only for its own calls, not for Bash. Use pnpm 11 or earlier, because Volta 2.0.2 cannot run pnpm 12. The binary ships at `static/toolchains/<platform>-<arch>/volta/volta` under the app directory; `runtime/volta/volta` exists only after a manual Volta download.
 
 Windows: `<install dir>\static\toolchains\win32-<arch>\volta\volta.exe`, with `VOLTA_HOME` at `$env:DESIRECORE_ROOT\runtime\volta-home`.
 

@@ -63,7 +63,7 @@ for VOLTA_BIN in \
   /Applications/*.app/Contents/static/toolchains/"${VOLTA_TARGET}"/volta/volta \
   /opt/*/static/toolchains/"${VOLTA_TARGET}"/volta/volta
 do
-  if [ -x "$VOLTA_BIN" ]; then
+  if [ -f "$VOLTA_BIN" ] && [ -x "$VOLTA_BIN" ]; then
     VOLTA_PATH="$VOLTA_BIN"
     # 必须带 VOLTA_HOME：不带时 Volta 会新建 ~/.volta
     VOLTA_VERSION=$(VOLTA_HOME="$VOLTA_HOME_DIR" "$VOLTA_BIN" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -n1)

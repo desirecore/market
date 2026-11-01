@@ -106,7 +106,7 @@ BASE="https://127.0.0.1:${PORT}/api/runtime"
 | `runtime:terminal` | `{ taskId, data }` | 每行 stdout/stderr 输出 + 操作开始/结束的状态行 |
 | `runtime:complete` | `{ taskId, success }` | 任务结束（成功 / 失败 / 异常） |
 
-**前端订阅时序**：先 HTTP POST 拿 taskId → 再连 Socket.IO 监听该 taskId → 服务端 100ms 后开工。Skill 在无 Socket.IO 客户端时收不到日志：优先用绝对路径 CLI 同步执行；拿不到 CLI 路径时仍可走异步 HTTP API，再轮询对应的 `installed` 接口确认结果。
+**前端订阅时序**：先 HTTP POST 拿 taskId → 再连 Socket.IO 监听该 taskId → 服务端 100ms 后开工。Skill 在无 Socket.IO 客户端时收不到日志：优先用绝对路径 CLI 同步执行；拿不到 CLI 路径时仍可走异步 HTTP API，再轮询对应的 `installed` 接口确认结果：安装时等目标版本出现，移除时等它消失。任务失败时轮询不会收到信号，所以要设上限。
 
 ## 五、API 可用性探测
 

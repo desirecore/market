@@ -89,7 +89,7 @@ curl -sk -X POST "${BASE}/pkg/${TOOL}/remove" \
 
 ### 实时输出 / 缓存刷新
 
-异步任务：监听 Socket.IO 事件 `runtime:terminal` / `runtime:complete`，按 taskId 过滤。没有 Socket.IO 客户端时，轮询 `GET ${BASE}/node/installed`（包管理器为 `GET ${BASE}/pkg/${TOOL}/installed`）直到出现目标版本。下载失败时轮询不会收到信号，所以要设上限；超时后看 `<Volta Home>/log/` 里最新的 `volta-error-*.log`。
+异步任务：监听 Socket.IO 事件 `runtime:terminal` / `runtime:complete`，按 taskId 过滤。没有 Socket.IO 客户端时，轮询 `GET ${BASE}/node/installed`（包管理器为 `GET ${BASE}/pkg/${TOOL}/installed`）：安装时等目标版本出现，移除时等它消失。任务失败时轮询不会收到信号，所以要设上限；超时后看 `<Volta Home>/log/` 里最新的 `volta-error-*.log`。
 
 ```bash
 curl -sk -X POST "${BASE}/environment/refresh"   # 安装结束后刷新
@@ -110,7 +110,7 @@ export VOLTA_FEATURE_PNPM=1
 # 下载到 Volta Home（与 DesireCore 自身的做法相同，不改默认版本）
 "$VOLTA" fetch node@22                # 最新 22.x
 "$VOLTA" fetch node@20.11.0           # 精确版本
-"$VOLTA" fetch pnpm@latest
+"$VOLTA" fetch pnpm@11                 # pnpm 12 在 Volta 2.0.2 下跑不起来，见下方故障排查
 "$VOLTA" fetch yarn@latest
 "$VOLTA" fetch npm@10
 
@@ -150,7 +150,7 @@ if (-not $env:VOLTA_HOME) { $env:VOLTA_HOME = "$env:DESIRECORE_ROOT\runtime\volt
 $env:VOLTA_FEATURE_PNPM = "1"
 
 & $Volta fetch node@22
-& $Volta fetch pnpm@latest
+& $Volta fetch pnpm@11
 & $Volta list all
 ```
 
@@ -200,6 +200,7 @@ DesireCore 应用 → 资源管理器 → 计算资源 → **运行环境** Tab�
 | `Node is not available` | 调到了 `<Volta Home>/bin` 下的 shim，或 Volta 没带 `VOLTA_HOME`：改用 `tools/image/node/<version>/bin`，或同时设置 `VOLTA_HOME` 和 `VOLTA_FEATURE_PNPM`。`volta run` 在项目没有固定版本时也报这个错：传 `--node` |
 | `node` 卡住超过 30 秒 | `<Volta Home>/bin` 在 PATH 上且未导出 `VOLTA_HOME`。把它从 PATH 去掉，需要时改加 `tools/image/node/<version>/bin` |
 | `Could not download ...` | 网络或下载源问题，可以重试。Volta 2.0.2 没有镜像环境变量，自定义下载源用 `hooks.json`，否则降级到 L3 |
-| pnpm 相关报错 | 检查 `VOLTA_FEATURE_PNPM=1` 是否设置 |
+| `Cannot find module .../pnpm.cjs` | pnpm 12 的包里没有 `pnpm.cjs`，Volta 2.0.2 生成的入口跑不起来，`volta run` 同样失败。改用 pnpm 11 或更早的版本 |
+| 其他 pnpm 相关报错 | 检查 `VOLTA_FEATURE_PNPM=1` 是否设置 |
 | Windows Defender 隔离 volta.exe | 信任应用安装目录下的 `static\toolchains\` |
 | `cd` 进项目后版本未切换 | DesireCore 里符合预期，用 `"$VOLTA" run` 按 `package.json#volta` 运行 |

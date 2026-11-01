@@ -50,7 +50,7 @@ cat /tmp/node-probe.json | jq .
 
 | 条件 | 路径 |
 |------|------|
-| `system_node.path` 非空且版本够用 | 直接用 `node` / `npm`，不需要安装 |
+| `system_node.path` 非空且版本够用（用 npm 时 `system_npm.path` 也非空） | 直接用 `node` / `npm`，不需要安装 |
 | 需要指定版本，且 `volta_tools.node` 已列出 | 绝对路径 `<Volta Home>/tools/image/node/<version>/bin/node`（→ `references/volta-desirecore.md`） |
 | `desirecore_api` 非空 | **L1** HTTP API |
 | `desirecore_api` 空，`volta_path` 非空 | **L2** Volta CLI |
@@ -92,7 +92,7 @@ export VOLTA_HOME="${VOLTA_HOME:-${DESIRECORE_ROOT}/runtime/volta-home}"
 export VOLTA_FEATURE_PNPM=1
 
 "$VOLTA" fetch node@22
-"$VOLTA" fetch pnpm@latest
+"$VOLTA" fetch pnpm@11
 "$VOLTA" fetch yarn@latest
 "$VOLTA" list all
 
@@ -101,7 +101,7 @@ export VOLTA_FEATURE_PNPM=1
 "$VOLTA" run node --version
 ```
 
-每次调用 Volta 都要设置这两个变量：DesireCore 只在自己调用时设置，不传给 Bash。二进制随包位于应用目录下的 `static/toolchains/<平台>-<架构>/volta/volta`；`runtime/volta/volta` 只有手动下载 Volta 后才存在。
+每次调用 Volta 都要设置这两个变量：DesireCore 只在自己调用时设置，不传给 Bash。pnpm 要用 11 或更早的版本，Volta 2.0.2 运行不了 pnpm 12。二进制随包位于应用目录下的 `static/toolchains/<平台>-<架构>/volta/volta`；`runtime/volta/volta` 只有手动下载 Volta 后才存在。
 
 Windows：`<安装目录>\static\toolchains\win32-<架构>\volta\volta.exe`，`VOLTA_HOME` 为 `$env:DESIRECORE_ROOT\runtime\volta-home`。
 

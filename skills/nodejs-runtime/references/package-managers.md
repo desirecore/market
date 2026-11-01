@@ -16,7 +16,7 @@ VOLTA=$(bash skills/nodejs-runtime/scripts/probe-node.sh | jq -r .volta_path)
 export VOLTA_HOME="${VOLTA_HOME:-${DESIRECORE_ROOT}/runtime/volta-home}"
 export VOLTA_FEATURE_PNPM=1
 
-"$VOLTA" fetch pnpm@latest
+"$VOLTA" fetch pnpm@11     # pnpm 12 在 Volta 2.0.2 下跑不起来
 "$VOLTA" fetch yarn@latest
 "$VOLTA" fetch npm@10
 ```
