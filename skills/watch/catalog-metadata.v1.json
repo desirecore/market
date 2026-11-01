@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Watch Video",
-        "summary": "Analyze video speech and scene changes together"
+        "summary": "Analyze video speech and scene changes together. Without subtitles, audio may go to the speech recognition service you configured, under that provider's terms and fees."
       },
       "zh-CN": {
         "name": "视频观看与场景分析",
-        "summary": "结合字幕、Whisper 与场景变化帧分析视频中的语音和画面"
+        "summary": "结合字幕、语音转写与场景变化帧分析视频中的语音和画面。没有字幕时，音频可能发送到你配置的语音识别服务，条款和费用以服务商为准。"
       }
     },
     "category": "media",
@@ -29,28 +29,28 @@
   },
   "release": {
     "state": "known",
-    "version": "1.1.4",
+    "version": "1.2.1",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-31T05:10:43Z",
+      "value": "2026-11-01T15:49:37Z",
       "precision": "second"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-10-31",
+      "value": "2026-11-01",
       "precision": "day"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-31",
+      "value": "2026-11-01",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-31T05:10:43Z",
+      "value": "2026-11-01T15:49:37Z",
       "precision": "second"
     }
   },
@@ -59,7 +59,7 @@
       "kind": "git",
       "url": "https://github.com/desirecore-agent/watch-video-skill.git",
       "path": "skills/watch",
-      "ref": "3b5743320cd7572d222e550cc238c75053b32840"
+      "ref": "5bcd8020c2037b8fced0cd982d3662ceacd09e6b"
     }
   },
   "governance": {
@@ -78,8 +78,8 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "3b5743320cd7572d222e550cc238c75053b32840",
-      "reviewedAt": "2026-10-31",
+      "reviewedRef": "5bcd8020c2037b8fced0cd982d3662ceacd09e6b",
+      "reviewedAt": "2026-11-01",
       "reviewedBy": "yi-ge",
       "upstreamEndorsed": true
     }
@@ -87,7 +87,21 @@
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "ffmpeg, ffprobe and python3, plus yt-dlp for URL input (deno is recommended for YouTube). A local Whisper CLI is optional. The operator installs these; installing the skill does not provision them. The bundled dependency check runs first and stops when a required tool is missing."
+      },
+      {
+        "kind": "connection",
+        "value": "Optional. When a video has no subtitles and the runtime offers TranscribeAudio, audio goes to the default speech recognition service the operator configured, which may be hosted by a third party. This skill does not include or pay for that service; its terms and any fees come from the provider. Without the service, the skill uses local Whisper or a visual-only review and says when no transcript exists."
+      },
+      {
+        "kind": "permission",
+        "value": "Sending audio follows the user's choice of default speech recognition service, and the first line of the tool result names the destination. The tool is not called when the user asks to keep the media on this machine. The user must be authorized to access the media."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"
