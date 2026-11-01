@@ -15,12 +15,20 @@ DesireCore 内置了完整的开发环境管理基础设施。`python-runtime` �
 
 ### Volta（Node.js 工具链管理器，v2.0.2）
 
-| 平台 | 运行时绝对路径 | 静态打包兜底 |
-|------|----------------|--------------|
-| macOS / Linux | `${DESIRECORE_ROOT}/runtime/volta/volta` | 应用包内 `static/volta/volta` |
-| Windows | `%USERPROFILE%\.desirecore\runtime\volta\volta.exe` | 应用包内 `static/volta/volta.exe` |
+| 平台 | 手动下载（存在时优先） | 随包（默认） |
+|------|------------------------|--------------|
+| macOS / Linux | `${DESIRECORE_ROOT}/runtime/volta/volta` | 应用目录下 `static/toolchains/<平台>-<架构>/volta/volta` |
+| Windows | `$env:DESIRECORE_ROOT\runtime\volta\volta.exe` | 应用目录下 `static\toolchains\win32-<架构>\volta\volta.exe` |
 
-**Node.js 安装目录**：`${DESIRECORE_ROOT}/runtime/volta/tools/image/node/<version>/`，包管理器在 `tools/image/{packages,pnpm,yarn,npm}/`。
+应用目录在 macOS 是 `<App>.app/Contents`，其他平台是安装目录。`runtime/volta/` 只有手动下载 Volta 后才有二进制。
+
+**Volta Home**：`${VOLTA_HOME:-${DESIRECORE_ROOT}/runtime/volta-home}`（启动 DesireCore 前显式设置的 `VOLTA_HOME` 优先）。
+
+**Node.js 安装目录**：`<Volta Home>/tools/image/node/<version>/`，可执行文件在其下的 `bin/`（Windows 没有 `bin` 这一层），包管理器在 `tools/image/{packages,pnpm,yarn,npm}/`。
+
+**内置 Node 已在 PATH 上**：服务把一个版本的可执行文件目录追加到进程 PATH 末尾，Bash 等工具都会继承，所以通常直接用 `node`、`npm`。系统已有 Node 时系统版本优先，要用内置版本就写绝对路径。
+
+**不要使用 `<Volta Home>/bin`**：这里的入口是 Volta shim，未导出 `VOLTA_HOME` 时看的是 `~/.volta`，报 `Node is not available`；放在 PATH 上还会卡住超过 30 秒。
 
 ### 优先级规则
 
@@ -32,11 +40,10 @@ DesireCore 内置了完整的开发环境管理基础设施。`python-runtime` �
 |------|------|----------|
 | `HATCH_HOME` | Hatch 工作目录 | `${DESIRECORE_ROOT}/runtime/hatch` |
 | `HATCH_PYTHON_MIRROR_URL` | Python 下载镜像 | 加速节点（中国大陆） |
-| `VOLTA_HOME` | Volta 工作目录 | `${DESIRECORE_ROOT}/runtime/volta` |
-| `VOLTA_NODE_MIRROR` | Node.js 下载镜像 | `https://npmmirror.com/mirrors/node` |
+| `VOLTA_HOME` | Volta 工作目录 | `${DESIRECORE_ROOT}/runtime/volta-home` |
 | `VOLTA_FEATURE_PNPM` | 启用 pnpm 管理 | `1` |
 
-DesireCore 在启动子进程时会自动注入这些变量；外部直接调用绝对路径 CLI 时需手动 export。
+DesireCore 只在自己调用 Hatch / Volta 时设置这些变量，不会传给 Bash 等工具；直接调用绝对路径 CLI 时需手动 export。
 
 ## 三、HTTP API 速查表
 
@@ -61,7 +68,7 @@ BASE="https://127.0.0.1:${PORT}/api/runtime"
 | GET | `/hatch/status` | 检查 Hatch 是否就绪（runtime/static 任一存在即可） |
 | POST | `/hatch/install` | 下载并安装 Hatch 到 `runtime/hatch/`（同步返回成功/失败） |
 | GET | `/volta/status` | 检查 Volta 是否就绪 |
-| POST | `/volta/install` | 下载并安装 Volta 到 `runtime/volta/` |
+| POST | `/volta/install` | 随包 Volta 可用时直接返回成功，否则下载并安装到 `runtime/volta/` |
 
 ### Python 版本管理
 
@@ -99,7 +106,7 @@ BASE="https://127.0.0.1:${PORT}/api/runtime"
 | `runtime:terminal` | `{ taskId, data }` | 每行 stdout/stderr 输出 + 操作开始/结束的状态行 |
 | `runtime:complete` | `{ taskId, success }` | 任务结束（成功 / 失败 / 异常） |
 
-**前端订阅时序**：先 HTTP POST 拿 taskId → 再连 Socket.IO 监听该 taskId → 服务端 100ms 后开工。Skill 在无 Socket.IO 客户端时不要走异步 HTTP API（无法收到日志），改用绝对路径 CLI 同步执行。
+**前端订阅时序**：先 HTTP POST 拿 taskId → 再连 Socket.IO 监听该 taskId → 服务端 100ms 后开工。Skill 在无 Socket.IO 客户端时收不到日志：优先用绝对路径 CLI 同步执行；拿不到 CLI 路径时仍可走异步 HTTP API，再轮询对应的 `installed` 接口确认结果。
 
 ## 五、API 可用性探测
 

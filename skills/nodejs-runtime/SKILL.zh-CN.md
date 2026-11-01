@@ -9,7 +9,8 @@ npm / pnpm / yarn / 排查 `node: command not found`、`npm: command not found`�
 EACCES 全局安装权限错误、node-gyp 编译失败、registry 镜像 / proxy 问题 等
 Node.js 运行时问题，或其他 skill（pptx 用 pptxgenjs 等）报告 "Node.js 不可用" 时。
 
-**怎么做**：优先使用 DesireCore 内置 Volta，按四级降级（HTTP API → Volta CLI →
+**怎么做**：先确认 `node` 是否已可用：DesireCore 把内置 Node 目录追加到了服务 PATH，通常不需要安装。
+需要安装或切换版本时，优先使用 DesireCore 内置 Volta，按四级降级（HTTP API → Volta CLI →
 系统包管理器 brew/apt/NodeSource/winget → 社区方案 nvm/fnm）执行。
 
 ## L1：概述与使用场景
@@ -32,7 +33,7 @@ procedural skill。每次执行 Node.js 环境操作前，先运行 `scripts/pro
 
 - **DesireCore 优先**：Volta + HTTP API 作为 L1/L2，避免污染系统 Node
 - **JSON 决策**：probe 脚本输出结构化数据，Claude 可直接解析
-- **package.json#volta 兼容**：Volta 自动按项目切换版本
+- **package.json#volta 兼容**：`volta run` 按项目固定的版本运行
 
 ## L2：详细规范
 
@@ -49,10 +50,14 @@ cat /tmp/node-probe.json | jq .
 
 | 条件 | 路径 |
 |------|------|
+| `system_node.path` 非空且版本够用 | 直接用 `node` / `npm`，不需要安装 |
+| 需要指定版本，且 `volta_tools.node` 已列出 | 绝对路径 `<Volta Home>/tools/image/node/<version>/bin/node`（→ `references/volta-desirecore.md`） |
 | `desirecore_api` 非空 | **L1** HTTP API |
 | `desirecore_api` 空，`volta_path` 非空 | **L2** Volta CLI |
 | 上述都不满足 | **L3** 系统包管理器（brew / apt / NodeSource / winget） |
 | L1–L3 全部失败或用户明示 | **L4** 社区方案（nvm / fnm） |
+
+`system_node` 是 PATH 解析到的结果，可能就是 DesireCore 的内置 Node：一个内置版本追加在系统目录之后，系统有 `node` 时系统版本优先。`<env>` 块的 Managed runtimes 段列出每个内置版本的绝对路径。
 
 ### 第三步：执行（仅展示主路径，详见各 references）
 
@@ -82,20 +87,23 @@ curl -sk -X POST "${BASE}/environment/refresh"
 #### L2：Volta CLI 绝对路径（→ `references/volta-desirecore.md`）
 
 ```bash
-VOLTA=${DESIRECORE_ROOT}/runtime/volta/volta
-export VOLTA_HOME=${DESIRECORE_ROOT}/runtime/volta
+VOLTA=$(jq -r .volta_path /tmp/node-probe.json)
+export VOLTA_HOME="${VOLTA_HOME:-${DESIRECORE_ROOT}/runtime/volta-home}"
 export VOLTA_FEATURE_PNPM=1
 
-"$VOLTA" install node@22
-"$VOLTA" install pnpm@latest
-"$VOLTA" install yarn@latest
+"$VOLTA" fetch node@22
+"$VOLTA" fetch pnpm@latest
+"$VOLTA" fetch yarn@latest
 "$VOLTA" list all
 
-# 项目级固定（修改 package.json#volta）
+# 项目级固定（修改 package.json#volta），按固定版本运行
 "$VOLTA" pin node@22 pnpm@9
+"$VOLTA" run node --version
 ```
 
-Windows：`%USERPROFILE%\.desirecore\runtime\volta\volta.exe`。
+每次调用 Volta 都要设置这两个变量：DesireCore 只在自己调用时设置，不传给 Bash。二进制随包位于应用目录下的 `static/toolchains/<平台>-<架构>/volta/volta`；`runtime/volta/volta` 只有手动下载 Volta 后才存在。
+
+Windows：`<安装目录>\static\toolchains\win32-<架构>\volta\volta.exe`，`VOLTA_HOME` 为 `$env:DESIRECORE_ROOT\runtime\volta-home`。
 
 #### L3：系统包管理器
 
@@ -132,7 +140,8 @@ Windows：`%USERPROFILE%\.desirecore\runtime\volta\volta.exe`。
 1. **绝不 `sudo npm install -g`**：用户级 prefix 或 Volta/nvm。
 2. **修改环境后必须刷新**：L1 调 `POST /api/runtime/environment/refresh`；其它路径重跑 probe。
 3. **跨 skill 协作**：`pptx` 等需要 Node.js 时，按本 skill 主路径安装；npm 包速查见 `../dev-environment-setup/references/office-deps.md`。
-4. **package.json#volta 必须尊重**：检测到该字段时优先 Volta，不要切到 nvm。
+4. **package.json#volta 必须尊重**：检测到该字段时优先 Volta，不要切到 nvm。用 `"$VOLTA" run` 运行，在 DesireCore 里只 `cd` 不会切换版本。
+5. **不要使用 `runtime/volta-home/bin`**：这里的入口是 Volta shim。DesireCore 不导出 `VOLTA_HOME`，未导出时它们看的是 `~/.volta`，报 `Node is not available`；放在 PATH 上还会卡住超过 30 秒。修好这里的断链也没有用，改用 `tools/image/node/<version>/bin`。
 
 ## 引用关系
 
