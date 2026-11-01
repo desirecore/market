@@ -46,16 +46,33 @@ SYS_NODE=$(detect_tool node)
 SYS_NPM=$(detect_tool npm)
 
 # ── DesireCore Volta ────────────────────
-VOLTA_BIN="${DESIRECORE_ROOT}/runtime/volta/volta"
+# Volta Home：启动 DesireCore 前显式设置的 VOLTA_HOME 优先，否则是实例目录
+VOLTA_HOME_DIR="${VOLTA_HOME:-${DESIRECORE_ROOT}/runtime/volta-home}"
+
+# 二进制与服务同序：手动下载的 runtime/volta/volta 优先，其次随包工具链。
+# 桌面版的应用目录不在环境变量里，随包路径再看 Home 里入口的链接目标（只读链接，不执行入口；
+# Volta 建入口时指向自身目录的 volta-shim，旧版升级后可能已断）和默认安装位置。
+VOLTA_TARGET="${PLATFORM}-${ARCH}"
+VOLTA_SHIM=$(readlink "${VOLTA_HOME_DIR}/bin/node" 2>/dev/null)
 VOLTA_PATH=""
 VOLTA_VERSION=""
-if [ -x "$VOLTA_BIN" ]; then
-  VOLTA_PATH="$VOLTA_BIN"
-  VOLTA_VERSION=$("$VOLTA_BIN" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -n1)
-fi
+for VOLTA_BIN in \
+  "${DESIRECORE_ROOT}/runtime/volta/volta" \
+  "${DESIRECORE_STATIC_DIR}/toolchains/${VOLTA_TARGET}/volta/volta" \
+  "${VOLTA_SHIM%/*}/volta" \
+  /Applications/*.app/Contents/static/toolchains/"${VOLTA_TARGET}"/volta/volta \
+  /opt/*/static/toolchains/"${VOLTA_TARGET}"/volta/volta
+do
+  if [ -f "$VOLTA_BIN" ] && [ -x "$VOLTA_BIN" ]; then
+    VOLTA_PATH="$VOLTA_BIN"
+    # 必须带 VOLTA_HOME：不带时 Volta 会新建 ~/.volta
+    VOLTA_VERSION=$(VOLTA_HOME="$VOLTA_HOME_DIR" "$VOLTA_BIN" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -n1)
+    break
+  fi
+done
 
 # Volta 已装工具（直接读 image 目录最稳）
-VOLTA_IMG="${DESIRECORE_ROOT}/runtime/volta/tools/image"
+VOLTA_IMG="${VOLTA_HOME_DIR}/tools/image"
 list_dir() {
   local dir="$1"
   if [ -d "$dir" ]; then

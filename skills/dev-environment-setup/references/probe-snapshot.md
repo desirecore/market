@@ -70,7 +70,7 @@ Windows 上 `wsl` 字段值类似 `{ "installed": true, "version": "2", "default
   "desirecore_api": "https://127.0.0.1:38291",
   "system_node": { "path": "/opt/homebrew/bin/node", "version": "22.4.1" },
   "system_npm":  { "path": "/opt/homebrew/bin/npm",  "version": "10.8.1" },
-  "volta_path": "/Users/example/.desirecore/runtime/volta/volta",
+  "volta_path": "/Applications/DesireCore.app/Contents/static/toolchains/darwin-arm64/volta/volta",
   "volta_version": "2.0.2",
   "volta_tools": {
     "node": ["22.4.1"],
@@ -87,7 +87,9 @@ Windows 上 `wsl` 字段值类似 `{ "installed": true, "version": "2", "default
 ```
 
 字段语义：
-- `volta_tools` 来自 `<volta> list --format=plain`，按工具分类
+- `system_node` / `system_npm` 是 PATH 解析到的结果，可能是 DesireCore 追加到 PATH 的内置 Node
+- `volta_path` 空字符串表示没找到二进制，查找顺序见 `nodejs-runtime/references/volta-desirecore.md`
+- `volta_tools` 来自 `<Volta Home>/tools/image/` 下的目录列表，按工具分类；Volta Home 为 `${VOLTA_HOME:-${DESIRECORE_ROOT}/runtime/volta-home}`
 - `package_json_volta` 若当前目录存在 `package.json` 且其中有 `"volta"` 字段，填入对象；否则 `null`
 - `registry` / `proxy` 来自 `npm config get registry` / `npm config get https-proxy`
 
