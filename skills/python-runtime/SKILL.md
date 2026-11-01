@@ -44,7 +44,7 @@ metadata:
       description: >-
         Use this skill when the user needs to install, upgrade, or troubleshoot Python and pip environments. Covers four-tier fallback strategy: (1) DesireCore HTTP API for in-app installation, (2) DesireCore built-in Hatch CLI for Python version management, (3) system package managers (brew/apt/dnf/winget), (4) community pyenv as last resort. Also covers virtual environments (venv/pipx/conda), PEP 668 externally-managed errors, and import / PATH troubleshooting. Triggers include: "install python", "pip not found", "python not found", "PEP 668", "externally-managed", "venv", "virtualenv", "pipx", "conda", "miniconda", "pyenv", "hatch", "python version", "pip command not found", or any Python-related runtime error. 使用场景：用户需要 安装 Python、安装 pip、配置虚拟环境、管理多版本、 解决 PEP 668、import 失败、PATH 问题、SSL 证书错误等。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:a21ea741f8a8bc58
+      source_hash: sha256:6d530a7932ec82f6
       translated_by: human
     en-US:
       name: Python Runtime Management
@@ -52,7 +52,7 @@ metadata:
       description: >-
         Use this skill when the user needs to install, upgrade, or troubleshoot Python and pip environments. Covers four-tier fallback strategy: (1) DesireCore HTTP API for in-app installation, (2) DesireCore built-in Hatch CLI for Python version management, (3) system package managers (brew/apt/dnf/winget), (4) community pyenv as last resort. Also covers virtual environments (venv/pipx/conda), PEP 668 externally-managed errors, and import / PATH troubleshooting. Triggers include: "install python", "pip not found", "python not found", "PEP 668", "externally-managed", "venv", "virtualenv", "pipx", "conda", "miniconda", "pyenv", "hatch", "python version", "pip command not found", or any Python-related runtime error. Use when the user needs to install Python, install pip, configure virtual environments, manage multiple versions, resolve PEP 668, import failures, PATH issues, SSL certificate errors, etc.
       body: ./SKILL.md
-      source_hash: sha256:a21ea741f8a8bc58
+      source_hash: sha256:6d530a7932ec82f6
       translated_by: human
       translated_at: '2026-11-01'
 market:
@@ -133,7 +133,7 @@ Decide using `../dev-environment-setup/references/decision-tree.md`:
 
 | Condition | Path |
 |------|------|
-| `system_python.path` non-empty and its version is sufficient (`system_pip.path` also non-empty when pip is needed) | Use `python3` / `pip3` directly; nothing to install |
+| `system_python.path` non-empty and its version is sufficient | Use that interpreter directly, with pip through `"<system_python.path>" -m pip`; nothing to install |
 | A specific version is needed and `hatch_versions` lists it | Absolute path `${DESIRECORE_ROOT}/runtime/hatch/local/<version>/python/bin/python3` (→ `references/hatch-desirecore.md`) |
 | `desirecore_api` is non-empty | **L1** HTTP API |
 | `desirecore_api` empty, `hatch_path` non-empty | **L2** Hatch CLI |
@@ -141,6 +141,8 @@ Decide using `../dev-environment-setup/references/decision-tree.md`:
 | L1–L3 all fail or user explicitly requests | **L4** community solution (pyenv) |
 
 `system_python` is whatever PATH resolves, which may be DesireCore's managed Python: one managed version is appended after the system directories, so a system `python3` wins when there is one. The Managed runtimes section of the `<env>` block lists the absolute path of every managed version.
+
+This bash probe does not look for Hatch on Windows, so `hatch_path` stays empty there. Before falling to L3 on Windows, try the Windows path under L2.
 
 ### Step 3: Execute (only the main path is shown; see references for details)
 

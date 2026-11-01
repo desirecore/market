@@ -69,19 +69,20 @@ do
   fi
 done
 
-# 客户端解包好的 Hatch 分发（10.0.183 起），调用二进制时经 PYAPP_INSTALL_DIR_HATCH 传入
+# 随包二进制旁边的 asset.json 写着它的版本；手动下载的二进制没有这个文件
+HATCH_VERSION=$(grep -m1 '"version"' "${HATCH_PATH%/*}/asset.json" 2>/dev/null | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -n1)
+
+# 客户端解包好的 Hatch 分发（10.0.183 起），调用二进制时经 PYAPP_INSTALL_DIR_HATCH 传入。
+# 版本已知时只认同版本的分发（旧版本的分发升级后不会清理），未知时取找到的最后一个
 HATCH_BOOTSTRAP=""
-for BOOTSTRAP_DIR in "${HATCH_DIR}/bootstrap/"*-"${HATCH_TARGET}"; do
+for BOOTSTRAP_DIR in "${HATCH_DIR}/bootstrap/"${HATCH_VERSION:-*}"-${HATCH_TARGET}"; do
   [ -f "${BOOTSTRAP_DIR}/.ready" ] && HATCH_BOOTSTRAP="$BOOTSTRAP_DIR"
 done
 
-# 随包 Hatch 是 PyApp 引导程序：没有解包好的分发时，连 --version 都会下载分发并解压到用户目录。
-# 这时不执行二进制，版本读它旁边的 asset.json
-HATCH_VERSION=""
+# 随包 Hatch 是 PyApp 引导程序：没有解包好的分发时，连 --version 都会下载分发并解压到用户目录，
+# 所以只在有分发时才执行二进制
 if [ -n "$HATCH_PATH" ] && [ -n "$HATCH_BOOTSTRAP" ]; then
   HATCH_VERSION=$(PYAPP_INSTALL_DIR_HATCH="$HATCH_BOOTSTRAP" "$HATCH_PATH" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -n1)
-elif [ -n "$HATCH_PATH" ]; then
-  HATCH_VERSION=$(grep -m1 '"version"' "${HATCH_PATH%/*}/asset.json" 2>/dev/null | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -n1)
 fi
 
 # Hatch 已安装的 Python 版本（直接读 local/ 目录，避免依赖 hatch 命令）

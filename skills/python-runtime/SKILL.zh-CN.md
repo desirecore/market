@@ -53,7 +53,7 @@ cat /tmp/py-probe.json | jq .
 
 | 条件 | 路径 |
 |------|------|
-| `system_python.path` 非空且版本够用（需要 pip 时 `system_pip.path` 也非空） | 直接用 `python3` / `pip3`，不需要安装 |
+| `system_python.path` 非空且版本够用 | 直接用这个解释器，pip 用 `"<system_python.path>" -m pip`，不需要安装 |
 | 需要指定版本，且 `hatch_versions` 已列出 | 绝对路径 `${DESIRECORE_ROOT}/runtime/hatch/local/<version>/python/bin/python3`（→ `references/hatch-desirecore.md`） |
 | `desirecore_api` 非空 | **L1** HTTP API |
 | `desirecore_api` 空，`hatch_path` 非空 | **L2** Hatch CLI |
@@ -61,6 +61,8 @@ cat /tmp/py-probe.json | jq .
 | L1–L3 全部失败或用户明示 | **L4** 社区方案（pyenv） |
 
 `system_python` 是 PATH 解析到的结果，可能就是 DesireCore 的内置 Python：一个内置版本追加在系统目录之后，系统有 `python3` 时系统版本优先。`<env>` 块的 Managed runtimes 段列出每个内置版本的绝对路径。
+
+这个 bash 探测脚本在 Windows 上不查找 Hatch，`hatch_path` 恒为空。Windows 上降级到 L3 之前，先试 L2 里的 Windows 路径。
 
 ### 第三步：执行（仅展示主路径，详见各 references）
 

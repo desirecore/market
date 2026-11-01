@@ -147,6 +147,8 @@ ls "$LOCAL"
 
 `probe-python.sh` 依次查找 `${DESIRECORE_ROOT}/runtime/hatch/hatch`、`$DESIRECORE_STATIC_DIR` 下的工具链、`runtime/volta-home/bin/node` 的链接目标旁边的工具链，以及默认安装位置（`/Applications/*.app/Contents/static`、`/opt/*/static`）。应用装在别处时 `hatch_path` 为空（AppImage 每次启动的挂载路径都不同），这时走 L1，或按本文开头的表格到应用目录下找。
 
+这个脚本是 bash 写的，在 Windows 上不查找 Hatch，`hatch_path` 恒为空，不代表没有 Hatch：走 L1，或用下面的 PowerShell 写法。
+
 ### Windows PowerShell
 
 ```powershell

@@ -58,8 +58,8 @@ Windows 上 `wsl` 字段值类似 `{ "installed": true, "version": "2", "default
 
 字段语义：
 - `system_python` / `system_pip` 是 PATH 解析到的结果，可能是 DesireCore 追加到 PATH 的内置 Python
-- `hatch_path` 空字符串表示没找到二进制，查找顺序见 `python-runtime/references/hatch-desirecore.md`
-- `hatch_bootstrap` 是客户端解包好的 Hatch 分发目录，直接调用 Hatch 时经 `PYAPP_INSTALL_DIR_HATCH` 传入；空字符串表示解包还没完成或客户端早于 10.0.183
+- `hatch_path` 空字符串表示没找到二进制，查找顺序见 `python-runtime/references/hatch-desirecore.md`；这个脚本在 Windows 上不查找 Hatch，恒为空
+- `hatch_bootstrap` 是客户端解包好的 Hatch 分发目录，直接调用 Hatch 时经 `PYAPP_INSTALL_DIR_HATCH` 传入，版本与二进制一致；空字符串表示解包还没完成或客户端早于 10.0.183
 - `hatch_version` 在 `hatch_bootstrap` 为空时读二进制旁边的 `asset.json`，读不到就是空字符串，不执行二进制（否则会触发下载）
 - `hatch_versions` 是 `${DESIRECORE_ROOT}/runtime/hatch/local/` 下的目录列表（即已通过 Hatch 安装的 Python 版本）
 - `active_venv` 取自 `$VIRTUAL_ENV` 环境变量
