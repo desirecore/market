@@ -170,13 +170,17 @@ class AuditTests(unittest.TestCase):
         path = folder/'catalog-metadata.v1.json'; path.write_text(json.dumps(sidecar))
         audit_path = folder/'upstream-audit.v1.json'; audit_path.write_text(json.dumps(receipt))
         schema = json.loads((Path(__file__).resolve().parents[2]/'schemas/catalog-metadata.v1.schema.json').read_text())
+        entry_schema = json.loads((Path(__file__).resolve().parents[2] / 'schemas' / validator.SKILL_ENTRY_SCHEMA_NAME).read_text())
+        entry_validators = {
+            'skill': validator.ClientEntryValidator(entry_schema, format_checker=FormatChecker()),
+        }
         report = validator.Report()
-        validator.validate_sidecar(path, Draft7Validator(schema, format_checker=FormatChecker()), report, root, {'zh-CN','en-US'}, {})
+        validator.validate_sidecar(path, Draft7Validator(schema, format_checker=FormatChecker()), report, root, {'zh-CN','en-US'}, entry_validators)
         self.assertFalse(report.has_errors, report.issues)
         receipt['source']['ref'] = 'f' * 40
         audit_path.write_text(json.dumps(receipt))
         report = validator.Report()
-        validator.validate_sidecar(path, Draft7Validator(schema, format_checker=FormatChecker()), report, root, {'zh-CN','en-US'}, {})
+        validator.validate_sidecar(path, Draft7Validator(schema, format_checker=FormatChecker()), report, root, {'zh-CN','en-US'}, entry_validators)
         self.assertTrue(any(issue.rule == 'automated-review-evidence' for issue in report.issues))
 
     def test_disallows_non_github_fetch_targets(self):
