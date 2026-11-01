@@ -8,6 +8,7 @@
 # 1. 找一下二进制
 which python3 2>/dev/null; which python 2>/dev/null
 ls /usr/bin/python* /usr/local/bin/python* /opt/homebrew/bin/python* 2>/dev/null
+ls "${DESIRECORE_ROOT}"/runtime/hatch/local/*/python/bin/python3 2>/dev/null   # DesireCore 内置
 
 # 2. 查 PATH
 echo "$PATH" | tr ':' '\n' | head -20
@@ -157,7 +158,8 @@ probe-python.sh 输出后，按字段快速判断：
 |------|------|----------|
 | `system_python.version` | 非空且 ≥ 3.8 | 未装 Python 或版本太低 |
 | `system_pip.version` | 非空 | pip 未装（macOS Apple 自带 Python 没有 pip） |
-| `hatch_path` | 非空 | DesireCore Hatch 未释放，调 `POST /api/runtime/hatch/install` |
+| `hatch_path` | 非空 | 没找到 DesireCore Hatch，通常是应用装在非默认位置。走 L1，见 `hatch-desirecore.md` 的「找不到 Hatch 二进制」 |
+| `hatch_bootstrap` | 非空 | Hatch 分发解包还没完成或客户端早于 10.0.183，直接调用会先联网下载，见 `hatch-desirecore.md` |
 | `pep668: true` | — | 系统 Python 受保护，必须 venv/pipx |
 | `active_venv` | 操作前为空，激活后非空 | venv 未生效，重新 `source .venv/bin/activate` |
 

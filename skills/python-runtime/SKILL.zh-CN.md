@@ -10,7 +10,8 @@ pip / 创建虚拟环境（venv / pipx / conda）/ 排查 `python: command not f
 PATH 异常 等 Python 运行时问题，或其他 skill（docx / pdf / xlsx / pptx）报告
 "Python 不可用" 时。
 
-**怎么做**：优先使用 DesireCore 内置 Hatch，按四级降级（HTTP API → Hatch CLI →
+**怎么做**：先确认 `python3` 是否已可用：DesireCore 把内置 Python 目录追加到了服务 PATH，通常不需要安装。
+需要安装或切换版本时，优先使用 DesireCore 内置 Hatch，按四级降级（HTTP API → Hatch CLI →
 系统包管理器 brew/apt/dnf/winget → 社区方案 pyenv）执行。
 
 ## L1：概述与使用场景
@@ -52,10 +53,14 @@ cat /tmp/py-probe.json | jq .
 
 | 条件 | 路径 |
 |------|------|
+| `system_python.path` 非空且版本够用（需要 pip 时 `system_pip.path` 也非空） | 直接用 `python3` / `pip3`，不需要安装 |
+| 需要指定版本，且 `hatch_versions` 已列出 | 绝对路径 `${DESIRECORE_ROOT}/runtime/hatch/local/<version>/python/bin/python3`（→ `references/hatch-desirecore.md`） |
 | `desirecore_api` 非空 | **L1** HTTP API |
 | `desirecore_api` 空，`hatch_path` 非空 | **L2** Hatch CLI |
 | 上述都不满足 | **L3** 系统包管理器（brew/apt/dnf/winget） |
 | L1–L3 全部失败或用户明示 | **L4** 社区方案（pyenv） |
+
+`system_python` 是 PATH 解析到的结果，可能就是 DesireCore 的内置 Python：一个内置版本追加在系统目录之后，系统有 `python3` 时系统版本优先。`<env>` 块的 Managed runtimes 段列出每个内置版本的绝对路径。
 
 ### 第三步：执行（仅展示主路径，详见各 references）
 
@@ -69,6 +74,7 @@ BASE="https://127.0.0.1:${PORT}/api/runtime"
 curl -sk "${BASE}/python/available"
 
 # 触发安装（异步，订阅 runtime:terminal 看进度）
+# version 填上面列表里的 name，如 3.12，不是 3.12.12
 curl -sk -X POST "${BASE}/python/install" \
   -H "Content-Type: application/json" \
   -d '{"version":"3.12"}'
@@ -80,17 +86,22 @@ curl -sk -X POST "${BASE}/environment/refresh"
 #### L2：Hatch CLI 绝对路径（→ `references/hatch-desirecore.md`）
 
 ```bash
-HATCH=${DESIRECORE_ROOT}/runtime/hatch/hatch
-export HATCH_HOME=${DESIRECORE_ROOT}/runtime/hatch
+HATCH=$(jq -r .hatch_path /tmp/py-probe.json)
+export PYAPP_INSTALL_DIR_HATCH=$(jq -r .hatch_bootstrap /tmp/py-probe.json)
+LOCAL="${DESIRECORE_ROOT}/runtime/hatch/local"
 
-"$HATCH" python install 3.12
-"$HATCH" python show           # 列出已安装/可装版本
+"$HATCH" python install 3.12 --private --dir="$LOCAL"
+"$HATCH" python show --dir "$LOCAL"    # 列出已安装/可装版本
 
 # 直接使用 Hatch 安装的 Python
-${DESIRECORE_ROOT}/runtime/hatch/local/3.12/python/bin/python3 -m venv .venv
+"$LOCAL/3.12/python/bin/python3" -m venv .venv
 ```
 
-Windows：`%USERPROFILE%\.desirecore\runtime\hatch\hatch.exe`。
+必须带 `--private --dir`：不带时 Hatch 装到它的用户数据目录，还会改 `.zshrc`、`.zprofile`，而 DesireCore 看不到这个 Python。每次调用都要设置 `PYAPP_INSTALL_DIR_HATCH`：DesireCore 只在自己调用时设置，不传给 Bash；不设时第一条 Hatch 命令会下载约 45MB 并解压到用户目录。二进制随包位于应用目录下的 `static/toolchains/<平台>-<架构>/hatch/hatch`；`runtime/hatch/hatch` 只有手动下载 Hatch 后才存在。
+
+这些命令报 `ValueError: Unknown distribution source`，或 L1 安装一直等不到结果，说明首启导入留下的来源记录需要修复：见 `references/hatch-desirecore.md` 的「修复首启导入留下的来源记录」。
+
+Windows：`<安装目录>\static\toolchains\win32-x64\hatch\hatch.exe`，`PYAPP_INSTALL_DIR_HATCH` 为 `$env:DESIRECORE_ROOT\runtime\hatch\bootstrap\<Hatch 版本>-win32-x64`。
 
 #### L3：系统包管理器
 
@@ -130,6 +141,7 @@ Windows：`%USERPROFILE%\.desirecore\runtime\hatch\hatch.exe`。
 2. **修改了环境后必须刷新**：L1 调 `POST /api/runtime/environment/refresh`；L2/L3/L4 重新跑 probe。
 3. **跨 skill 协作**：`docx` / `pdf` / `xlsx` / `pptx` 报"Python 不可用"时，进入 L1/L2 安装；办公依赖速查见 `../dev-environment-setup/references/office-deps.md`。
 4. **不污染系统 Python**：项目级别一律使用 venv，全局 CLI 用 pipx。
+5. **`hatch python install` 必须带 `--private --dir`**：否则会写用户的 shell 配置，还装到 DesireCore 看不到的地方。
 
 ## 引用关系
 

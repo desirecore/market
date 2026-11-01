@@ -48,16 +48,44 @@ SYS_PIP=$(detect_tool pip3)
 [ "$(echo "$SYS_PIP" | grep -c '"path":""')" = "1" ] && SYS_PIP=$(detect_tool pip)
 
 # ── DesireCore Hatch ────────────────────
-HATCH_BIN="${DESIRECORE_ROOT}/runtime/hatch/hatch"
+HATCH_DIR="${DESIRECORE_ROOT}/runtime/hatch"
+HATCH_TARGET="${PLATFORM}-${ARCH}"
+
+# 二进制与服务同序：手动下载的 runtime/hatch/hatch 优先，其次随包工具链。
+# 桌面版的应用目录不在环境变量里，随包路径再看 Volta 入口的链接目标（只读链接，不执行入口；
+# Volta 建入口时指向同一工具链目录下的 volta-shim，旧版升级后可能已断）和默认安装位置。
+VOLTA_SHIM=$(readlink "${VOLTA_HOME:-${DESIRECORE_ROOT}/runtime/volta-home}/bin/node" 2>/dev/null)
 HATCH_PATH=""
+for HATCH_BIN in \
+  "${HATCH_DIR}/hatch" \
+  "${DESIRECORE_STATIC_DIR}/toolchains/${HATCH_TARGET}/hatch/hatch" \
+  "${VOLTA_SHIM%/volta/*}/hatch/hatch" \
+  /Applications/*.app/Contents/static/toolchains/"${HATCH_TARGET}"/hatch/hatch \
+  /opt/*/static/toolchains/"${HATCH_TARGET}"/hatch/hatch
+do
+  if [ -f "$HATCH_BIN" ] && [ -x "$HATCH_BIN" ]; then
+    HATCH_PATH="$HATCH_BIN"
+    break
+  fi
+done
+
+# 客户端解包好的 Hatch 分发（10.0.183 起），调用二进制时经 PYAPP_INSTALL_DIR_HATCH 传入
+HATCH_BOOTSTRAP=""
+for BOOTSTRAP_DIR in "${HATCH_DIR}/bootstrap/"*-"${HATCH_TARGET}"; do
+  [ -f "${BOOTSTRAP_DIR}/.ready" ] && HATCH_BOOTSTRAP="$BOOTSTRAP_DIR"
+done
+
+# 随包 Hatch 是 PyApp 引导程序：没有解包好的分发时，连 --version 都会下载分发并解压到用户目录。
+# 这时不执行二进制，版本读它旁边的 asset.json
 HATCH_VERSION=""
-if [ -x "$HATCH_BIN" ]; then
-  HATCH_PATH="$HATCH_BIN"
-  HATCH_VERSION=$("$HATCH_BIN" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -n1)
+if [ -n "$HATCH_PATH" ] && [ -n "$HATCH_BOOTSTRAP" ]; then
+  HATCH_VERSION=$(PYAPP_INSTALL_DIR_HATCH="$HATCH_BOOTSTRAP" "$HATCH_PATH" --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -n1)
+elif [ -n "$HATCH_PATH" ]; then
+  HATCH_VERSION=$(grep -m1 '"version"' "${HATCH_PATH%/*}/asset.json" 2>/dev/null | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -n1)
 fi
 
 # Hatch 已安装的 Python 版本（直接读 local/ 目录，避免依赖 hatch 命令）
-HATCH_LOCAL="${DESIRECORE_ROOT}/runtime/hatch/local"
+HATCH_LOCAL="${HATCH_DIR}/local"
 HATCH_VERSIONS="[]"
 if [ -d "$HATCH_LOCAL" ]; then
   versions=$(ls -1 "$HATCH_LOCAL" 2>/dev/null | sort -V | tr '\n' ',' | sed 's/,$//')
@@ -94,6 +122,7 @@ cat <<EOF
   "system_pip": ${SYS_PIP},
   "hatch_path": "${HATCH_PATH}",
   "hatch_version": "${HATCH_VERSION}",
+  "hatch_bootstrap": "${HATCH_BOOTSTRAP}",
   "hatch_versions": ${HATCH_VERSIONS},
   "active_venv": "${ACTIVE_VENV}",
   "pep668": ${PEP668},
