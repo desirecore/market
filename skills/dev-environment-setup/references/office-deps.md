@@ -169,7 +169,11 @@ DesireCore 内置 Hatch/Volta，但**不直接管理 pip / npm 包安装**——
 ${DESIRECORE_ROOT}/runtime/hatch/local/3.12/python/bin/python3 -m pip install lxml defusedxml
 ```
 
-如果使用 Volta 安装的 Node：
+如果使用 Volta 安装的 Node（内置版本已是 PATH 上的 `node` 时可省略第一行）：
 ```bash
-${DESIRECORE_ROOT}/runtime/volta/bin/npm install -g docx pptxgenjs
+export PATH="${VOLTA_HOME:-${DESIRECORE_ROOT}/runtime/volta-home}/tools/image/node/<version>/bin:$PATH"
+npm install -g docx pptxgenjs
+
+# 全局包装在这个 Node 版本的 lib/node_modules 下，换版本要重装；require 时需要 NODE_PATH
+NODE_PATH="$(npm root -g)" node -e "require('docx')"
 ```

@@ -10,7 +10,6 @@
     "mcp",
     "cli"
   ],
-  "latestVersion": "50",
   "i18n": {
     "zh-CN": {
       "name": "REA 逆向分析",

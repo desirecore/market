@@ -75,27 +75,31 @@ curl -sk -X POST "${BASE}/python/install" \
 
 ```bash
 HATCH=${DESIRECORE_ROOT}/runtime/hatch/hatch
-VOLTA=${DESIRECORE_ROOT}/runtime/volta/volta
+VOLTA=$(bash skills/nodejs-runtime/scripts/probe-node.sh | jq -r .volta_path)
 
 export HATCH_HOME=${DESIRECORE_ROOT}/runtime/hatch
-export VOLTA_HOME=${DESIRECORE_ROOT}/runtime/volta
+export VOLTA_HOME="${VOLTA_HOME:-${DESIRECORE_ROOT}/runtime/volta-home}"
+export VOLTA_FEATURE_PNPM=1
 
 "$HATCH" python install 3.12
-"$VOLTA" install node@22
+"$VOLTA" fetch node@22
 ```
 
 **典型操作（Windows PowerShell）**
 
 ```powershell
 $Hatch = "$env:USERPROFILE\.desirecore\runtime\hatch\hatch.exe"
-$Volta = "$env:USERPROFILE\.desirecore\runtime\volta\volta.exe"
+$Volta = "<安装目录>\static\toolchains\win32-x64\volta\volta.exe"   # ARM 为 win32-arm64
 
 $env:HATCH_HOME = "$env:USERPROFILE\.desirecore\runtime\hatch"
-$env:VOLTA_HOME = "$env:USERPROFILE\.desirecore\runtime\volta"
+if (-not $env:VOLTA_HOME) { $env:VOLTA_HOME = "$env:DESIRECORE_ROOT\runtime\volta-home" }
+$env:VOLTA_FEATURE_PNPM = "1"
 
 & $Hatch python install 3.12
-& $Volta install node@22
+& $Volta fetch node@22
 ```
+
+Volta 二进制与 Volta Home 的位置见 `desirecore-runtime.md` 第一节。
 
 **判定失败的信号**
 
@@ -144,6 +148,7 @@ $env:VOLTA_HOME = "$env:USERPROFILE\.desirecore\runtime\volta"
 
 skill 直接执行用户原话——不要走决策树——的情况：
 
+- 运行时已可用且版本够用：DesireCore 把内置 Python、Node 各一个版本追加在 PATH 末尾，`python3 --version`、`node --version` 成功就不需要安装
 - 用户明示路径："用 brew 装 python"、"在 .venv 里 pip install xxx"
 - 用户在 skill 之外手工修改了环境（识别到 `.python-version`、`.nvmrc`、`package.json#volta`）
 - skill 上下文已经存在激活的虚拟环境（`$VIRTUAL_ENV` 非空）

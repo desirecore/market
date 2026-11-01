@@ -12,19 +12,29 @@
 ## 通过 DesireCore Volta 安装
 
 ```bash
-VOLTA=${DESIRECORE_ROOT}/runtime/volta/volta
+VOLTA=$(bash skills/nodejs-runtime/scripts/probe-node.sh | jq -r .volta_path)
+export VOLTA_HOME="${VOLTA_HOME:-${DESIRECORE_ROOT}/runtime/volta-home}"
 export VOLTA_FEATURE_PNPM=1
 
-"$VOLTA" install pnpm@latest
-"$VOLTA" install yarn@latest
-"$VOLTA" install npm@10
+"$VOLTA" fetch pnpm@11     # pnpm 12 在 Volta 2.0.2 下跑不起来
+"$VOLTA" fetch yarn@latest
+"$VOLTA" fetch npm@10
 ```
 
 或 HTTP API：
 
 ```bash
 BASE="https://127.0.0.1:$(cat ${DESIRECORE_ROOT}/agent-service.port)/api/runtime"
-curl -sk -X POST "${BASE}/pkg/pnpm/install" -H "Content-Type: application/json" -d '{"version":"latest"}'
+curl -sk -X POST "${BASE}/pkg/pnpm/install" -H "Content-Type: application/json" -d '{"version":"9.15.9"}'   # 必须是完整版本号
+```
+
+装好的 pnpm / yarn 不在 PATH 上（PATH 上只有内置 Node 的目录），这样调用：
+
+```bash
+"$VOLTA" run --node 22 --pnpm 9 pnpm --version
+
+# 或直接用 image 目录，PATH 上要能找到 node
+"$VOLTA_HOME/tools/image/pnpm/<version>/bin/pnpm" --version
 ```
 
 ## 项目级固定版本
@@ -40,7 +50,7 @@ curl -sk -X POST "${BASE}/pkg/pnpm/install" -H "Content-Type: application/json" 
 }
 ```
 
-在装了 Volta 的环境中 `cd` 进项目即自动切换。
+用 `"$VOLTA" run <命令>` 按这里的版本运行。`cd` 进项目自动切换要求 Volta shim 在 PATH 最前且已导出 `VOLTA_HOME`，DesireCore 里不是这种配置。
 
 ### packageManager 字段（Corepack 标准）
 
