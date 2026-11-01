@@ -5,6 +5,10 @@
 set +e
 
 # ── 工具检测 ─────────────────────────────
+json_escape() {
+  printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
+}
+
 detect_tool() {
   local name="$1"
   local version_flag="${2:---version}"
@@ -16,7 +20,7 @@ detect_tool() {
   fi
   local version
   version=$("$name" $version_flag 2>&1 | head -n1 | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -n1)
-  printf '{"available":true,"path":"%s","version":"%s"}' "$path" "${version:-}"
+  printf '{"available":true,"path":"%s","version":"%s"}' "$(json_escape "$path")" "${version:-}"
 }
 
 # ── 平台 ────────────────────────────────

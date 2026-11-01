@@ -4,6 +4,10 @@
 
 set +e
 
+json_escape() {
+  printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
+}
+
 detect_tool() {
   local name="$1"
   local path
@@ -14,7 +18,7 @@ detect_tool() {
   fi
   local version
   version=$("$name" --version 2>&1 | head -n1 | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -n1)
-  printf '{"path":"%s","version":"%s"}' "$path" "${version:-}"
+  printf '{"path":"%s","version":"%s"}' "$(json_escape "$path")" "${version:-}"
 }
 
 # ── 平台 ────────────────────────────────
@@ -119,7 +123,7 @@ cat <<EOF
   "desirecore_api": "${DESIRECORE_API}",
   "system_node": ${SYS_NODE},
   "system_npm": ${SYS_NPM},
-  "volta_path": "${VOLTA_PATH}",
+  "volta_path": "$(json_escape "$VOLTA_PATH")",
   "volta_version": "${VOLTA_VERSION}",
   "volta_tools": {
     "node": ${NODE_VERSIONS},
@@ -128,9 +132,9 @@ cat <<EOF
     "npm": ${NPM_VERSIONS}
   },
   "package_json_volta": ${PKG_VOLTA},
-  "nvm_path": "${NVM_PATH}",
-  "fnm_path": "${FNM_PATH:-}",
-  "registry": "${REGISTRY}",
-  "proxy": "${PROXY}"
+  "nvm_path": "$(json_escape "$NVM_PATH")",
+  "fnm_path": "$(json_escape "${FNM_PATH:-}")",
+  "registry": "$(json_escape "$REGISTRY")",
+  "proxy": "$(json_escape "$PROXY")"
 }
 EOF
