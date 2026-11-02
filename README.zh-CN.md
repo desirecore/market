@@ -141,7 +141,7 @@ uv run scripts/i18n/validate-i18n.py
 
 [视频导演](agents/video-director/entry.json)通过固定Git来源提供自主场景创作与带版本的视觉审片。需单独安装视频创作应用并配置DesireCore可用算力；模型/媒体服务许可及用量费用另计。安装Agent不等于安装、启动或授权该应用。
 
-[视频剪辑师](agents/video-editor/entry.json)是独立的固定 Git 指针，配合另行安装的视频剪辑应用处理时间线、声音、调色和原创可编辑动效。需使用具备所需目录支持的正式客户端，并另行核对运行依赖、算力与独立 MCP 授权。应用 0.1.3 的 macOS 源码 GUI、Windows 未签 GUI 与 Ubuntu/WSLg 源码 GUI 限定功能验收已完成；兼容客户端公开发行和全新默认市场安装仍待验证；详见[条目审核](agents/video-editor/review.md)。
+[视频剪辑师](agents/video-editor/entry.json)是独立的固定 Git 指针，配合另行安装的视频剪辑应用处理时间线、声音、调色和原创可编辑动效。需使用具备所需目录支持的正式客户端，并另行核对运行依赖、算力与独立 MCP 授权。应用 0.1.3 的 macOS 源码 GUI、Windows 未签 GUI 与 Ubuntu/WSLg 源码 GUI 限定功能验收已完成；兼容197源码候选已完成全新默认市场安装及使用，公开签名客户端仍需独立验证；详见[条目审核](agents/video-editor/review.md)。
 
 ### 团队
 
