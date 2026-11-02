@@ -15,7 +15,7 @@ description: >-
   新闻、网址、URL、找一下、搜一下、查一下、小红书、B站、微博、飞书、Twitter、
   推特、X、知乎、公众号、已登录、登录状态。
 license: MIT
-version: 3.7.1
+version: 3.7.2
 compatibility: Requires a DesireCore build with the bundled external-browser Playwright runtime; Chrome/Edge/Chromium remains separately installed. Builds advertising BrowserExternalLaunch can start it through tool approval in an isolated profile; older builds require manual CDP startup.
 type: procedural
 risk_level: low
@@ -45,7 +45,7 @@ provides:
     - LocalBookmarks
 metadata:
   author: desirecore
-  updated_at: '2026-10-24'
+  updated_at: '2026-11-02'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -57,14 +57,14 @@ metadata:
       short_desc: 联网搜索、网页抓取、内置受管浏览器登录态访问与取文、研究调研工作流
       description: 联网访问工具包——搜索公开页面、Jina 优化抓取、内置受管浏览器完成登录态访问与取文，以及用户点名时接管他自己的 Chrome/Edge/Chromium。 外部浏览器需单独安装并满足其使用条款；提供启动工具的客户端可经审批启动，旧客户端需手动开启调试。 支持新客户端按显式路径审批启动系统浏览器；原生启动与 CDP 自动化就绪分别核验，依赖从随包资产离线准备。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:9c55a2059eeb4bf1
+      source_hash: sha256:94fb9908192c9a7c
       translated_by: human
     en-US:
       name: Web Access
       short_desc: Web search, page fetching, logged-in access via the governed built-in browser, research workflows
       description: A web-access toolkit — search public pages, fetch heavy pages via Jina Reader, reach and read logged-in sites through the governed built-in browser, and drive the user's named Chrome/Edge/Chromium over CDP on request. The external browser is separately installed and subject to its usage terms; clients with the launch tool support approved startup, while older clients require manual debugging startup. New clients support approved native launch by explicit executable path; native startup and CDP automation readiness are verified separately, with automation dependencies prepared from bundled offline assets.
       body: ./SKILL.md
-      source_hash: sha256:9c55a2059eeb4bf1
+      source_hash: sha256:94fb9908192c9a7c
       translated_by: human
 market:
   icon: >-
@@ -125,9 +125,11 @@ When you call `Skill('web-access')`, the following tools are injected into the c
 | BrowserImport | Import Cookies from the user's Chrome/Edge/Firefox/Safari profile (human-approved; **needs `browser.import.*` granted by the Host — not available to a plain `create_space` session**) |
 | BrowserShare | Delegate a Space/Session to another Agent (isolated / snapshot / copy-on-write / live) |
 | SitePatternRead / SitePatternWrite | Per-domain "site experience" (AgentFS three-layer) |
-| LocalBookmarks | Search local Chrome bookmarks / history |
+| SearchBrowserUrls | Read-only search of local Chrome bookmarks / history; registered ID and older-client declaration: `LocalBookmarks` |
 
-> **Developer-tool actions are not in the table above**: network observe / intercept / modify and network profiles, cookies and site storage, console reads, performance metrics, coverage, cache, service workers, extensions, tracing, opening DevTools and raw CDP (`cdp.raw`) belong to a separate `BrowserDevtools` tool on newer clients, and this skill does not inject it. When you need one, first call `DiscoverTools(query="select:BrowserDevtools")` to load it; its parameters match BrowserAct (`action` + `sessionId` / `tabId` + `params`). If it is not found, the client predates the split: call the same action with the same parameters on `BrowserAct`.
+> **Developer-tool actions are not in the table above**: network observe / intercept / modify and network profiles, cookies and site storage, console reads, performance metrics, coverage, cache, service workers, extensions, tracing, opening DevTools and raw CDP (`cdp.raw`) belong to a separate `BrowserDevtools` tool on newer clients, and this skill does not inject it. Check the actual declarations and schemas first. If `LoadTools` is declared, use `ToolCatalog` when available to read the authorized contract, then call `LoadTools(names=["BrowserDevtools"])`. If the catalog is unavailable, load only an exact name already known from the current contract; the loader still checks current authority. Catalog queries do not load tools or grant permission. Parameters match BrowserAct (`action` + `sessionId` / `tabId` + `params`). Only when the actual declarations have no `LoadTools` and include `DiscoverTools` with a schema accepting `query`, use the older signature `DiscoverTools(query="select:BrowserDevtools")`. A missing or refused tool does not establish the client version; when neither matching loader is available, report the limitation rather than seeking extra permissions. Use the same action and parameters on `BrowserAct` only when its declared schema actually supports that action.
+>
+> **Control status and legacy handback**: only when already declared or available in the current authorized catalog, `BrowserControlStatus` reads the current control state; earlier declarations may use `BrowserTakeover(action="status")`, subject to their actual schema. `BrowserLegacyHandback(action="handback", sessionId, agentId?)` is only for handing a legacy user-owned session back to an Agent, through the original approval and authority checks. This skill does not unlock either tool. A session paused by user interaction requires the user's explicit request to continue before `BrowserResume`; neither status nor legacy handback resumes it, and interrupted commands must not be replayed.
 
 > **Important**: before `Skill('web-access')` is called, none of these tools appear in the LLM tools list — default conversations don't pay their token cost. See [references/browser-tools.md](references/browser-tools.md).
 >
