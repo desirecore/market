@@ -2,27 +2,24 @@
 
 ## 固定来源与许可 / Pinned source and licensing
 
-- 条目 ID / Listing ID: `video-editor`；源 Agent UUID / source Agent UUID: `c5a424f2-d946-47fd-a12e-2602d0da37ed`。市场 slug 与安装后的本地 Agent ID 是不同身份，不改写源 UUID。
-- 版本 / Version: `0.1.0`，取自 [固定源码 agent.json](https://github.com/desirecore-agent/video-editor/blob/a9e87d8f7807853e5076f98298afbb191ab778b3/agent.json)。
-- 固定提交 / Pinned commit: `a9e87d8f7807853e5076f98298afbb191ab778b3`。本目录只保留 Git 指针；不分发 AgentFS、用户数据、运行回执或媒体文件。
-- [MIT](https://github.com/desirecore-agent/video-editor/blob/a9e87d8f7807853e5076f98298afbb191ab778b3/LICENSE)、[NOTICE](https://github.com/desirecore-agent/video-editor/blob/a9e87d8f7807853e5076f98298afbb191ab778b3/NOTICE) 与 [FableCut MIT](https://github.com/desirecore-agent/video-editor/blob/a9e87d8f7807853e5076f98298afbb191ab778b3/licenses/FableCut-MIT.txt) 保留作者与改编说明。新名称表示 DesireCore 独立整合，不声称上游认可。
-- 2026-11-01 已从 GitHub 固定 ref 核对配置、LICENSE 与 NOTICE。版本已在源码声明；正式发布日未知，元数据保持 `releasePublishedAt: unknown`。
+条目 `video-editor`，Agent 版本 `0.1.0`，源 UUID `c5a424f2-d946-47fd-a12e-2602d0da37ed`。固定已合提交 `c6ffbc603348428a89978bd60db1fd9b448115b1` 来自[Agent PR1](https://github.com/desirecore-agent/video-editor/pull/1)，main CI41447980032通过；与已验19个seed文件/81191B相同。实际安装返回的本地Agent ID另取正常响应，不改写源UUID。目录仅保留Git指针，不带AgentFS数据、媒体、凭据、Provider、MCP grant、目录信任或预审批。
 
-The listing slug and source Agent UUID are distinct from the local ID returned by installation. The catalog distributes only a pinned Git pointer, preserves MIT notices and does not claim upstream endorsement. Configuration, LICENSE and NOTICE were checked at the fixed GitHub ref on 2026-11-01. The source declares the version; a formal publication date is unknown.
+[MIT](https://github.com/desirecore-agent/video-editor/blob/c6ffbc603348428a89978bd60db1fd9b448115b1/LICENSE)、[NOTICE](https://github.com/desirecore-agent/video-editor/blob/c6ffbc603348428a89978bd60db1fd9b448115b1/NOTICE)及[FableCut MIT](https://github.com/desirecore-agent/video-editor/blob/c6ffbc603348428a89978bd60db1fd9b448115b1/licenses/FableCut-MIT.txt)保留作者与独立改编说明。2026-11-02核对源配置/许可与当前平台Schema；不冒上游认可。Agent声明版本的正式publication日期没有独立事实，releasePublishedAt保持unknown。
 
-## 安装与关联 / Installation and association
+The listing pins the actual merged Agent source and retains licensing and source identity. The local installed Agent ID is separate. This is a Git pointer without runtime data, credentials or preauthorized permissions; a declared version is not an independently observed publication date.
 
-先按独立[视频剪辑应用](https://github.com/desirecore-agent/video-editing)的正式安装约定安装应用并准备其固定运行依赖，再按 [Agent 使用说明](https://github.com/desirecore-agent/video-editor/blob/a9e87d8f7807853e5076f98298afbb191ab778b3/USAGE.md)从市场安装此指针。Node.js >=22、浏览器、FFmpeg、模型额度及可选媒体服务均不由 Agent 包提供；相应许可、部署条件与使用费用另行核对。
+## 安装、依赖与关联 / Installation, prerequisites and association
 
-客户端版本下限为 `10.0.195`，对应本次受测平台源码版本；还必须实际检查 `app-authoring-v1` 的 release/runtime-binding 能力。版本号不替代能力、应用安装、运行身份或授权证据。关联只设置入口偏好，`contextPermissions` 保持空数组；MCP 经独立管理与授权连接同一个当前代际实例，不启动第二个上游服务。无依赖、能力或授权时明确停止和报告，不伪造完成。
+单独安装[视频剪辑](https://github.com/desirecore-agent/video-editing)应用0.1.3（产品UUID `0171a763-ad35-4b94-98b9-204782817b44`）并显式准备其固定Node >=22、浏览器、FFmpeg/ffprobe依赖，再从默认官方Agent市场安装本条目，遵循[固定使用说明](https://github.com/desirecore-agent/video-editor/blob/c6ffbc603348428a89978bd60db1fd9b448115b1/USAGE.md)。应用源仓库/skill名是video-editing，UUID才是应用目录身份。两个产品独立版本，不替换既有视频创作/视频导演。模型额度、可选媒体服务许可/账号/费用另计。
 
-Install the separate Video Editing app through its managed installation flow and explicitly prepare its pinned dependencies before installing this Agent through the market. Follow the pinned upstream usage guide. Node.js >=22, browser/FFmpeg assets, model usage and optional media services are separate dependencies with their own terms and costs. Client `10.0.195` is the floor for the tested platform source; independently check release/runtime-binding capabilities, current runtime identity and authorization. Association conveys no permission. MCP attaches to that same current instance, and the Agent does not start a second service. Missing prerequisites stop the external operation with an explicit report.
+最低客户端预定10.0.197，必须实际包含[平台PR5598](https://github.com/desirecore/desirecore/pull/5598)的官方UUID目录与manifest内联appRelease读取能力；还需真实release/runtime-binding能力、安装与当前代际观测。197仍在发行准备阶段，公开196标签源不含此reader，不能仅看同版本号或capability字符串推断兼容。关联仅设置入口偏好，contextPermissions为空；经独立MCP管理/授权连接当前同实例，不自启第二个服务。缺失前置条件时停止外部操作并明确报告。
 
-## 当前验收与发布门禁 / Acceptance and publication gates
+Prepare the separate Video Editing app 0.1.3 and its pinned runtime dependencies, then install this independent Agent using the official market and pinned usage guide. Client 10.0.197 is the planned floor and is not publicly released yet; it must actually include the new catalog reader and runtime capabilities. The public 196 source lacks the reader. Association grants no permissions. Independently authorize MCP for the same current instance. Model and optional media-service fees and terms are separate.
 
-- Windows 与 Ubuntu/WSLg 源码 GUI 已完成限定的实际导入、关联、MCP 编辑、导出、明暗与窄布局、取消及同任务中断恢复。Linux 结果不代表正式 Linux 包或裸机 GPU；Windows 结果不代表正式签名安装器。
-- macOS 验收仍待完成，因此当前平台列表只列 Windows/Linux。受控工具协议验证执行与回执，不证明模型自主规划质量。
-- 故障前临时分片的非零字节数未直接采样，专门的后代进程停止分支未单独执行；不扩大对应结论。
-- 本条目 PR 保持 Draft，依赖[应用 PR1](https://github.com/desirecore-agent/video-editing/pull/1)、[Agent PR1](https://github.com/desirecore-agent/video-editor/pull/1)及必要 macOS 验收，不自动合并。目录 Schema/CI 通过不等于已经从市场安装成功；合并后仍需验证客户端同步、获取、关联和打开。
+## 实际资格与发布边界 / Qualification and publication boundaries
 
-Windows and an Ubuntu/WSLg source GUI passed bounded real import, association, MCP editing, export, appearance/layout, cancellation and same-job interruption recovery. That does not qualify an official Linux package, bare-metal GPU, a signed Windows installer or autonomous model reasoning. Pre-fault nonzero part bytes and dedicated descendant-stop branches were not separately observed. macOS remains pending, so the platform list currently includes Windows/Linux only. Keep this listing PR Draft until both source PRs and required macOS acceptance complete. Catalog CI does not prove installation from the published market; client synchronization, acquisition, association and opening still require verification after publication.
+应用0.1.3/R14的macOS源码GUI、Windows x64未签GUI、Ubuntu24.04.5/WSLg普通用户源码GUI均完成限定功能验收：真实受管准备与登记、Agent工具与同实例MCP、编辑/自产影片及全解码/画面声音校准、实际UI明暗。Windows和Linux当前取消与原任务Root故障恢复分别有原件；Mac该不变域承接已验R12，不冒新R14全矩阵。Windows当前UI补验不冒新AgentRun。Linux原观察工装退出竞态保留，以同一case只读续核；不是重跑故障后覆盖失败。自有现场和锁均已闭合。
+
+资格不扩展为正式签名客户端/官方Linux包、裸机GPU、所有系统版本或商业模型自主规划质量。旧Windows窗口归档超过hard13.245秒等原边界保留，不因新窗口关闭通过抹除。目录校验不等于从正式市场安装成功；App固定资产、两个目录main和新兼容客户端公开发行与fresh-home默认市场安装/关联/使用仍须实际验证，当前该闭环未完成。发布门禁满足前保持Draft。
+
+Bounded app 0.1.3 qualification covers the three stated native GUI environments, actual managed tools/MCP, media output validation and appearance. Current Windows/Linux recovery and the unchanged prior macOS recovery domain remain distinct. Original timing and observer failures are retained. This does not qualify production installers, bare-metal GPU or autonomous model quality. Catalog validation is separate from public-client distribution and fresh installation, association and use from the published default markets; that final flow is still pending.

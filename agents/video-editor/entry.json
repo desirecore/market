@@ -21,9 +21,9 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/video-editor.git",
     "repoBranch": "main",
-    "ref": "a9e87d8f7807853e5076f98298afbb191ab778b3"
+    "ref": "c6ffbc603348428a89978bd60db1fd9b448115b1"
   },
-  "requiredClientVersion": "10.0.195",
+  "requiredClientVersion": "10.0.197",
   "i18n": {
     "zh-CN": {
       "name": "视频剪辑师",

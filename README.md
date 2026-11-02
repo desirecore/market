@@ -141,7 +141,7 @@ Examples: [inline DesireCore agent](agents/desirecore/agent.json) and [DingTalk 
 
 [Video Director](agents/video-director/entry.json) is a pinned Git pointer for autonomous scene creation and versioned visual review. It requires the separately installed Video Creation app and current DesireCore compute; model/media licenses and usage fees are separate. Installing the Agent does not install, start or authorize that app.
 
-[Video Editor](agents/video-editor/entry.json) is a separate pinned Agent for timeline editing, sound, grading and editable original motion with the separately installed Video Editing app. Client capabilities, runtime dependencies, compute and independent MCP authorization are required. Windows/Ubuntu-WSLg functional coverage is bounded and macOS acceptance remains pending; see the [listing review](agents/video-editor/review.md).
+[Video Editor](agents/video-editor/entry.json) is a separate pinned Agent for timeline editing, sound, grading and editable original motion with the separately installed Video Editing app. A released client with the required catalog support, runtime dependencies, compute and independent MCP authorization are required. Bounded app 0.1.3 functionality is qualified on macOS source GUI, unsigned Windows GUI and Ubuntu/WSLg source GUI. A compatible public client and fresh default-market installation remain pending. See the [listing review](agents/video-editor/review.md).
 
 ### Teams
 
