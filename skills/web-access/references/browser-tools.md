@@ -225,9 +225,16 @@ BrowserDevtools:
   params: {}
 ```
 
-- 它不隐藏，但也不随 web-access 注入：需要时先 `DiscoverTools(query="select:BrowserDevtools")` 加载。参数形状与
+- 它不隐藏，但也不随 web-access 注入：当前实际声明有 `LoadTools` 时，在目录可用的情况下先用
+  `ToolCatalog(query="select:BrowserDevtools")` 核对说明与参数，再用 `LoadTools(names=["BrowserDevtools"])` 明确加载。
+  目录不可用时只加载当前合同已知的明确名称，仍受加载器的权限核验。
+  查询只读，不会加载工具或增加权限。参数形状与
   BrowserAct 相同（`action` + `sessionId` / `tabId` + 随 action 变化的 `params`），能力、来源、审批与宿主隔离检查也完全一致
-- 查不到这个工具说明客户端早于拆分：同样的 action 与参数直接在 BrowserAct 上调用
+- 只有当前实际声明没有 `LoadTools`、同时有且 Schema 仍接受 `query` 的 `DiscoverTools` 时，
+  才用 `DiscoverTools(query="select:BrowserDevtools")` 加载；不能因 `LoadTools` 缺席或调用失败推断版本或回退旧签名。
+  两种匹配加载器都不可用时如实说明，不要求额外授予权限。
+- `BrowserDevtools` 不可用不代表客户端早于拆分。只有 `BrowserAct` 的当前声明 Schema 仍允许该 action 时，
+  才使用同样的 action 与参数调用 `BrowserAct`；否则按当前目录和工具回执报告不可用，不推断版本或绕过授权
 - 会改变会话网络、存储或扩展状态的动作（如 `storage.clear`、`network.modify`、`extension.install`）按受管能力走审批，
   `cdp.raw` 永远人工审批（见「已知边界」）；只读的 `console.read`、`performance.metrics`、`service-worker.list` 对观察者开放
 
@@ -384,7 +391,7 @@ SitePatternWrite:
 | 错误 | 原因 | 解决 |
 |------|------|------|
 | `该旧 BrowserXxx/cdp-proxy 入口已停用` | 还在调 v2.0 的旧工具 | 改用 BrowserManage / BrowserSnapshot / BrowserAct |
-| `action="…" 已从 BrowserAct 拆到 BrowserDevtools` | 在 BrowserAct 上调了开发者工具类动作 | 先 `DiscoverTools(query="select:BrowserDevtools")` 加载，再用同样的 action 与参数调用 BrowserDevtools |
+| `action="…" 已从 BrowserAct 拆到 BrowserDevtools` | 在 BrowserAct 上调了开发者工具类动作 | 当前实际声明提供时先用 `ToolCatalog(query="select:BrowserDevtools")` 核对，再 `LoadTools(names=["BrowserDevtools"])` 明确加载，用同样的 action 与参数调用 BrowserDevtools；旧客户端加载兼容见上文 BrowserDevtools 节 |
 | `BROWSER_TAB_HOST_NOT_FOUND` | 标签页宿主真的没了（渲染进程崩溃/销毁） | 重建 Session。命令超时**不再**引发此错误——超时只 stop 这一条命令，标签页保留 |
 | `BROWSER_COMMAND_DEADLINE_EXCEEDED` | 单条命令超 30 s | 标签页仍停在上一页/空白页，直接重试；慢加载常态不算故障 |
 | `BROWSER_VIEWPORT_UNAVAILABLE` | embedded 多标签会话的后台 tab 没有可用视口 | 先 `tab.activate` 再截图（秒级快判，不是挂死） |
