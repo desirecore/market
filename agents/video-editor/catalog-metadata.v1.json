@@ -11,12 +11,12 @@
       "zh-CN": {
         "name": "视频剪辑师",
         "summary": "需单独安装视频剪辑和可用算力，处理时间线、声音、调色与原创动效；模型及可选媒体服务费用另计。",
-        "description": "与独立安装的视频剪辑应用协作，组织素材、剪辑时间线、处理节奏、声音、调色、参考重剪和原创可编辑 HTML / SVG / Canvas / WebGL 动效，并核对实际成片。应用、Node.js >=22、浏览器和 FFmpeg 需另行准备；模型额度、可选媒体服务许可与费用不包含在 Agent 中。要求包含官方 UUID 应用目录与 manifest 内联 appRelease 读取能力的 DesireCore 10.0.197 或更新版本，并检查 release/runtime-binding 能力、实际安装与当前代际，再独立授权同实例 MCP。197 客户端尚在发行准备阶段；旧公开 196 包不支持该新目录。关联只设置入口偏好，不安装、启动或授权应用。已完成应用 0.1.3 的 macOS 源码、Windows 未签 GUI 与 Ubuntu/WSLg 源码 GUI 限定功能验收；不声明正式安装器、裸机 GPU 或模型自主规划质量。依赖缺失时停止并报告。"
+        "description": "与独立安装的视频剪辑应用协作，组织素材、剪辑时间线、处理节奏、声音、调色、参考重剪和原创可编辑 HTML / SVG / Canvas / WebGL 动效，并核对实际成片。应用、Node.js >=22、浏览器和 FFmpeg 需另行准备；模型额度、可选媒体服务许可与费用不包含在 Agent 中。要求包含官方 UUID 应用目录与 manifest 内联 appRelease 读取能力的 DesireCore 10.0.197 或更新版本，并检查 release/runtime-binding 能力、实际安装与当前代际，再独立授权同实例 MCP。公开196标签源不含该reader；安装时核对实际发行源码与能力，版本号本身不能证明支持。关联只设置入口偏好，不安装、启动或授权应用。已完成应用 0.1.3 的 macOS 源码、Windows 未签 GUI 与 Ubuntu/WSLg 源码 GUI 限定功能验收；不声明正式安装器、裸机 GPU 或模型自主规划质量。依赖缺失时停止并报告。"
       },
       "en-US": {
         "name": "Video Editor",
         "summary": "Needs the separate Video Editing app and DesireCore compute for timeline editing, sound, grading and original motion; model/media fees are separate.",
-        "description": "Works with the separately installed Video Editing app on media organization, timeline edits, pacing, sound, grading, reference remakes, editable HTML / SVG / Canvas / WebGL motion and actual movie checks. Prepare the app, Node.js >=22, browser and FFmpeg separately; model usage and optional media-service terms and fees are not included. Requires DesireCore 10.0.197 or later containing the official UUID catalog and manifest-inline appRelease reader, plus actual release/runtime-binding capability, installation and current runtime identity before independently authorizing same-instance MCP. Client 197 is being prepared for release; the public 196 package lacks the new reader. Association only sets an entry preference. Bounded app 0.1.3 functionality was qualified on macOS source GUI, unsigned Windows GUI and Ubuntu/WSLg source GUI; production installers, bare-metal GPU and autonomous model reasoning are not qualified. Stop and report missing prerequisites."
+        "description": "Works with the separately installed Video Editing app on media organization, timeline edits, pacing, sound, grading, reference remakes, editable HTML / SVG / Canvas / WebGL motion and actual movie checks. Prepare the app, Node.js >=22, browser and FFmpeg separately; model usage and optional media-service terms and fees are not included. Requires DesireCore 10.0.197 or later containing the official UUID catalog and manifest-inline appRelease reader, plus actual release/runtime-binding capability, installation and current runtime identity before independently authorizing same-instance MCP. The public 196 tag source lacks the reader; verify actual release source and capabilities before installation. Association only sets an entry preference. Bounded app 0.1.3 functionality was qualified on macOS source GUI, unsigned Windows GUI and Ubuntu/WSLg source GUI; production installers, bare-metal GPU and autonomous model reasoning are not qualified. Stop and report missing prerequisites."
       }
     },
     "tags": [
@@ -35,7 +35,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-02",
+      "value": "2026-11-03",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -99,7 +99,7 @@
       },
       {
         "kind": "connection",
-        "value": "DesireCore >=10.0.197 with the official UUID catalog and manifest-inline appRelease reader (PR5598), plus app-authoring-v1 release/runtime-binding. Client 197 is not publicly released yet; the public 196 package lacks this reader. Independently authorize MCP for the actual current app instance. A version, capability string or app association alone does not establish readiness."
+        "value": "DesireCore >=10.0.197 with the official UUID catalog and manifest-inline appRelease reader (PR5598), plus app-authoring-v1 release/runtime-binding. The public 196 tag source lacks this reader; verify the actual release source and capabilities. Independently authorize MCP for the actual current app instance. A version, capability string or app association alone does not establish readiness."
       },
       {
         "kind": "permission",
