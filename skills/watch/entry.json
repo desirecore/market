@@ -11,15 +11,15 @@
     "yt-dlp",
     "whisper"
   ],
-  "latestVersion": "1.1.4",
+  "latestVersion": "1.2.1",
   "i18n": {
     "zh-CN": {
       "name": "视频观看与场景分析",
-      "shortDesc": "结合字幕、Whisper 与场景变化帧分析视频中的语音和画面"
+      "shortDesc": "结合字幕、语音转写与场景变化帧分析视频中的语音和画面。没有字幕时，音频可能发送到你配置的语音识别服务，条款和费用以服务商为准。"
     },
     "en-US": {
       "name": "Watch Video",
-      "shortDesc": "Analyze video speech and scene changes together"
+      "shortDesc": "Analyze video speech and scene changes together. Without subtitles, audio may go to the speech recognition service you configured, under that provider's terms and fees."
     }
   },
   "maintainer": {
@@ -36,6 +36,6 @@
     "repoUrl": "https://github.com/desirecore-agent/watch-video-skill.git",
     "repoBranch": "main",
     "path": "skills/watch",
-    "ref": "3b5743320cd7572d222e550cc238c75053b32840"
+    "ref": "5bcd8020c2037b8fced0cd982d3662ceacd09e6b"
   }
 }

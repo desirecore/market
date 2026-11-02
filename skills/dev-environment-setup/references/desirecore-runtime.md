@@ -6,37 +6,52 @@ DesireCore 内置了完整的开发环境管理基础设施。`python-runtime` �
 
 ### Hatch（Python 项目与版本管理器，v1.16.5）
 
-| 平台 | 运行时绝对路径（用户安装版，优先） | 静态打包兜底 |
-|------|----------------------------------|--------------|
-| macOS / Linux | `${DESIRECORE_ROOT}/runtime/hatch/hatch` | 应用包内 `static/hatch/hatch` |
-| Windows | `%USERPROFILE%\.desirecore\runtime\hatch\hatch.exe` | 应用包内 `static/hatch/hatch.exe` |
+| 平台 | 手动下载（存在时优先） | 随包（默认） |
+|------|------------------------|--------------|
+| macOS / Linux | `${DESIRECORE_ROOT}/runtime/hatch/hatch` | 应用目录下 `static/toolchains/<平台>-<架构>/hatch/hatch` |
+| Windows | `$env:DESIRECORE_ROOT\runtime\hatch\hatch.exe` | 应用目录下 `static\toolchains\win32-x64\hatch\hatch.exe` |
 
-**Python 版本安装目录**：`${DESIRECORE_ROOT}/runtime/hatch/local/<版本>/python/bin/python3`（macOS/Linux），Windows 为 `python.exe`。
+应用目录在 macOS 是 `<App>.app/Contents`，其他平台是安装目录。`runtime/hatch/` 下只有手动下载 Hatch 后才有二进制。Windows ARM64 随包的 `hatch-universal.exe` 是安装器，不能当 CLI 调用。
+
+**Hatch 分发**：`${DESIRECORE_ROOT}/runtime/hatch/bootstrap/<Hatch 版本>-<平台>-<架构>/`（客户端 10.0.183 起），客户端启动后从随包归档解包。随包的 `hatch` 只是 PyApp 引导程序，直接调用时用 `PYAPP_INSTALL_DIR_HATCH` 指向这里，否则任何命令（包括 `--version`）第一次运行都要联网下载约 45MB，并解压到用户目录。
+
+**Python 版本安装目录**：`${DESIRECORE_ROOT}/runtime/hatch/local/<版本>/python/bin/python3`（macOS/Linux），Windows 为 `python\python.exe`，pip 在旁边的 `Scripts\`。安装时必须带 `--private --dir=<这个 local 目录>`，否则 Hatch 装到用户数据目录并改写 `.zshrc`、`.zprofile`。
+
+**内置 Python 已在 PATH 上**：服务把一个版本的可执行文件目录追加到进程 PATH 末尾，Bash 等工具都会继承，所以通常直接用 `python3`、`pip3`。系统已有 Python 时系统版本优先，要用内置版本就写绝对路径。
 
 ### Volta（Node.js 工具链管理器，v2.0.2）
 
-| 平台 | 运行时绝对路径 | 静态打包兜底 |
-|------|----------------|--------------|
-| macOS / Linux | `${DESIRECORE_ROOT}/runtime/volta/volta` | 应用包内 `static/volta/volta` |
-| Windows | `%USERPROFILE%\.desirecore\runtime\volta\volta.exe` | 应用包内 `static/volta/volta.exe` |
+| 平台 | 手动下载（存在时优先） | 随包（默认） |
+|------|------------------------|--------------|
+| macOS / Linux | `${DESIRECORE_ROOT}/runtime/volta/volta` | 应用目录下 `static/toolchains/<平台>-<架构>/volta/volta` |
+| Windows | `$env:DESIRECORE_ROOT\runtime\volta\volta.exe` | 应用目录下 `static\toolchains\win32-<架构>\volta\volta.exe` |
 
-**Node.js 安装目录**：`${DESIRECORE_ROOT}/runtime/volta/tools/image/node/<version>/`，包管理器在 `tools/image/{packages,pnpm,yarn,npm}/`。
+应用目录在 macOS 是 `<App>.app/Contents`，其他平台是安装目录。`runtime/volta/` 只有手动下载 Volta 后才有二进制。
+
+**Volta Home**：`${VOLTA_HOME:-${DESIRECORE_ROOT}/runtime/volta-home}`（启动 DesireCore 前显式设置的 `VOLTA_HOME` 优先）。
+
+**Node.js 安装目录**：`<Volta Home>/tools/image/node/<version>/`，可执行文件在其下的 `bin/`（Windows 没有 `bin` 这一层），包管理器在 `tools/image/{packages,pnpm,yarn,npm}/`。
+
+**内置 Node 已在 PATH 上**：服务把一个版本的可执行文件目录追加到进程 PATH 末尾，Bash 等工具都会继承，所以通常直接用 `node`、`npm`。系统已有 Node 时系统版本优先，要用内置版本就写绝对路径。
+
+**不要使用 `<Volta Home>/bin`**：这里的入口是 Volta shim，未导出 `VOLTA_HOME` 时看的是 `~/.volta`，拿不到 DesireCore 的 Node：报 `Node is not available`，系统有 Node 时则透传到系统版本。放在 PATH 上还会卡住超过 30 秒。
 
 ### 优先级规则
 
-`runtime/` 目录优先于 `static/`。当用户更新过 Hatch/Volta 时，新版本写入 `runtime/`，DesireCore 优先调用之。
+`runtime/` 下的二进制优先于 `static/`。随包二进制可用时不会下载，只有它不可用时，`POST /hatch/install`、`POST /volta/install` 才写入 `runtime/`。
 
 ## 二、关键环境变量
 
 | 变量 | 作用 | 默认/示例 |
 |------|------|----------|
-| `HATCH_HOME` | Hatch 工作目录 | `${DESIRECORE_ROOT}/runtime/hatch` |
-| `HATCH_PYTHON_MIRROR_URL` | Python 下载镜像 | 加速节点（中国大陆） |
-| `VOLTA_HOME` | Volta 工作目录 | `${DESIRECORE_ROOT}/runtime/volta` |
-| `VOLTA_NODE_MIRROR` | Node.js 下载镜像 | `https://npmmirror.com/mirrors/node` |
+| `PYAPP_INSTALL_DIR_HATCH` | Hatch 分发目录 | `${DESIRECORE_ROOT}/runtime/hatch/bootstrap/<Hatch 版本>-<平台>-<架构>` |
+| `HATCH_PYTHON_CUSTOM_SOURCE_<NAME>` | 覆盖某个 Python 版本的下载地址（完整归档 URL，加号写成 `%2B`，路径里必须有 `/python-build-standalone/releases/download/`） | `<NAME>` 是大写的版本名，点换成下划线，如 `3_12` |
+| `VOLTA_HOME` | Volta 工作目录 | `${DESIRECORE_ROOT}/runtime/volta-home` |
 | `VOLTA_FEATURE_PNPM` | 启用 pnpm 管理 | `1` |
 
-DesireCore 在启动子进程时会自动注入这些变量；外部直接调用绝对路径 CLI 时需手动 export。
+DesireCore 只在自己调用 Hatch / Volta 时设置这些变量，不会传给 Bash 等工具；直接调用绝对路径 CLI 时需手动 export。
+
+客户端还会设置 `HATCH_HOME`，但 Hatch 1.16.5 不读这个变量，也没有 `HATCH_PYTHON_MIRROR_URL`，这两个都不用设。Python 的安装目录靠 `--dir` 指定。
 
 ## 三、HTTP API 速查表
 
@@ -58,18 +73,18 @@ BASE="https://127.0.0.1:${PORT}/api/runtime"
 
 | 方法 | 路径 | 说明 |
 |------|------|------|
-| GET | `/hatch/status` | 检查 Hatch 是否就绪（runtime/static 任一存在即可） |
-| POST | `/hatch/install` | 下载并安装 Hatch 到 `runtime/hatch/`（同步返回成功/失败） |
+| GET | `/hatch/status` | 实际执行一次 `hatch --version`，Hatch 分发还没解包完时会先等它；返回 `{ installed, version }` |
+| POST | `/hatch/install` | 随包 Hatch 可用时直接返回成功，否则下载并安装到 `runtime/hatch/`（同步返回成功/失败） |
 | GET | `/volta/status` | 检查 Volta 是否就绪 |
-| POST | `/volta/install` | 下载并安装 Volta 到 `runtime/volta/` |
+| POST | `/volta/install` | 随包 Volta 可用时直接返回成功，否则下载并安装到 `runtime/volta/` |
 
 ### Python 版本管理
 
 | 方法 | 路径 | 请求体 / 返回 |
 |------|------|--------------|
 | GET | `/python/installed` | 返回已安装版本列表（`["3.11", "3.12"]`） |
-| GET | `/python/available` | 返回可安装版本（依赖 Hatch 元数据） |
-| POST | `/python/install` | `{ "version": "3.12" }` → `{ "taskId": "uuid" }`，订阅 `runtime:terminal` 流 |
+| GET | `/python/available` | 返回可安装版本 `{ source, versions: [{ name, version }] }`（Hatch 内置清单，不联网；Hatch 不可用时回落到兜底清单） |
+| POST | `/python/install` | `{ "version": "3.12" }`（填上面的 `name`）→ `{ "taskId": "uuid" }`，订阅 `runtime:terminal` 流；首启导入进行中返回 409 |
 | POST | `/python/remove` | `{ "version": "3.11" }` → `{ "taskId": "uuid" }` |
 
 ### Node.js 版本管理
@@ -87,7 +102,7 @@ BASE="https://127.0.0.1:${PORT}/api/runtime"
 |------|------|------|
 | GET | `/pkg/{tool}/installed` | tool ∈ {pnpm, yarn, npm} |
 | GET | `/pkg/{tool}/available` | 失败返回 502 |
-| POST | `/pkg/{tool}/install` | `{ "version": "9" }` → `{ "taskId": "uuid" }` |
+| POST | `/pkg/{tool}/install` | `{ "version": "9.15.9" }`（必须是完整版本号，否则返回 400）→ `{ "taskId": "uuid" }` |
 | POST | `/pkg/{tool}/remove` | `{ "version": "9.0.0" }` → `{ "taskId": "uuid" }` |
 
 ## 四、Socket.IO 实时输出契约
@@ -99,7 +114,7 @@ BASE="https://127.0.0.1:${PORT}/api/runtime"
 | `runtime:terminal` | `{ taskId, data }` | 每行 stdout/stderr 输出 + 操作开始/结束的状态行 |
 | `runtime:complete` | `{ taskId, success }` | 任务结束（成功 / 失败 / 异常） |
 
-**前端订阅时序**：先 HTTP POST 拿 taskId → 再连 Socket.IO 监听该 taskId → 服务端 100ms 后开工。Skill 在无 Socket.IO 客户端时不要走异步 HTTP API（无法收到日志），改用绝对路径 CLI 同步执行。
+**前端订阅时序**：先 HTTP POST 拿 taskId → 再连 Socket.IO 监听该 taskId → 服务端 100ms 后开工。Skill 在无 Socket.IO 客户端时收不到日志：优先用绝对路径 CLI 同步执行；拿不到 CLI 路径时仍可走异步 HTTP API，再轮询对应的 `installed` 接口确认结果：安装时等目标版本出现，移除时等它消失。任务失败时轮询不会收到信号，所以要设上限。
 
 ## 五、API 可用性探测
 
@@ -119,11 +134,13 @@ fi
 
 ## 六、EnvironmentSnapshot 数据结构
 
-`GET /api/runtime/environment` 返回结构（详见 `lib/agent-service/environment-detection.ts`）：
+`GET /api/runtime/environment` 返回结构（详见主仓库 `packages/agent-service/src/context/environment-detection.ts`）：
 
 ```ts
 type ToolDetection = {
   available: boolean
+  status?: 'available' | 'not_found' | 'detection_failed'  // detection_failed 只表示本次没有结论，不能据此建议安装
+  failureCode?: string
   command?: string   // 实际命令名（python3 / python）
   version?: string   // 提取后的版本号
   path?: string      // which/where 解析的绝对路径
@@ -140,7 +157,11 @@ type EnvironmentSnapshot = {
     docker: ToolDetection
     podman: ToolDetection
     git: ToolDetection
+    brew: ToolDetection
+    gh: ToolDetection
+    cuaDriver: ToolDetection
   }
+  toolkits?: unknown[]  // 命令行工具套件（如 FFmpeg）的检测结果
   wsl?: {
     installed: boolean
     version?: string
@@ -180,9 +201,10 @@ type EnvDiff = {
 
 ## 八、参考源代码
 
-| 模块 | 文件 | 行数（仓库 ~/Project/desirecore） |
-|------|------|----------------------------------|
-| 工具检测 | `lib/agent-service/environment-detection.ts` | 1–310 |
-| 工具链管理（Hatch/Volta + 版本安装） | `lib/agent-service/runtime-manager.ts` | 1–1165 |
-| HTTP 路由 | `lib/agent-service/routes/runtime-env-routes.ts` | 1–186 |
-| 端口文件 | `${DESIRECORE_ROOT}/agent-service.port` | DesireCore 启动时写入 |
+| 模块 | 文件（主仓库） |
+|------|----------------|
+| 工具检测 | `packages/agent-service/src/context/environment-detection.ts` |
+| 工具链管理（Hatch/Volta + 版本安装） | `packages/agent-service/src/session/runtime-manager.ts` |
+| 内置运行时进 PATH | `packages/agent-service/src/session/managed-runtime-path.ts` |
+| HTTP 路由 | `packages/agent-service/src/routes/runtime-env-routes.ts` |
+| 端口文件 | `${DESIRECORE_ROOT}/agent-service.port`，DesireCore 启动时写入 |

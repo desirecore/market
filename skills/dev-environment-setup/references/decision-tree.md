@@ -58,7 +58,8 @@ curl -sk -X POST "${BASE}/python/install" \
 
 **判定失败的信号**
 
-- HTTP 状态码 ≥ 500 或 502（远端镜像不可用，详见 runtime-env-routes.ts 130/162 行）
+- HTTP 状态码 ≥ 500 或 502（远端镜像不可用，见 `runtime-env-routes.ts`）
+- HTTP 401：standalone 部署的接口要求实例令牌，Agent 没有
 - `runtime:complete` 事件 `success: false`
 - Socket.IO 连接断开后超过 30 秒未收到 `runtime:complete`
 
@@ -74,28 +75,33 @@ curl -sk -X POST "${BASE}/python/install" \
 **典型操作（macOS / Linux）**
 
 ```bash
-HATCH=${DESIRECORE_ROOT}/runtime/hatch/hatch
-VOLTA=${DESIRECORE_ROOT}/runtime/volta/volta
+PY_PROBE=$(bash skills/python-runtime/scripts/probe-python.sh)
+HATCH=$(echo "$PY_PROBE" | jq -r .hatch_path)
+VOLTA=$(bash skills/nodejs-runtime/scripts/probe-node.sh | jq -r .volta_path)
 
-export HATCH_HOME=${DESIRECORE_ROOT}/runtime/hatch
-export VOLTA_HOME=${DESIRECORE_ROOT}/runtime/volta
+export PYAPP_INSTALL_DIR_HATCH=$(echo "$PY_PROBE" | jq -r .hatch_bootstrap)
+export VOLTA_HOME="${VOLTA_HOME:-${DESIRECORE_ROOT}/runtime/volta-home}"
+export VOLTA_FEATURE_PNPM=1
 
-"$HATCH" python install 3.12
-"$VOLTA" install node@22
+"$HATCH" python install 3.12 --private --dir="${DESIRECORE_ROOT}/runtime/hatch/local"
+"$VOLTA" fetch node@22
 ```
 
 **典型操作（Windows PowerShell）**
 
 ```powershell
-$Hatch = "$env:USERPROFILE\.desirecore\runtime\hatch\hatch.exe"
-$Volta = "$env:USERPROFILE\.desirecore\runtime\volta\volta.exe"
+$Hatch = "<安装目录>\static\toolchains\win32-x64\hatch\hatch.exe"
+$Volta = "<安装目录>\static\toolchains\win32-x64\volta\volta.exe"   # ARM 为 win32-arm64
 
-$env:HATCH_HOME = "$env:USERPROFILE\.desirecore\runtime\hatch"
-$env:VOLTA_HOME = "$env:USERPROFILE\.desirecore\runtime\volta"
+$env:PYAPP_INSTALL_DIR_HATCH = "$env:DESIRECORE_ROOT\runtime\hatch\bootstrap\<Hatch 版本>-win32-x64"
+if (-not $env:VOLTA_HOME) { $env:VOLTA_HOME = "$env:DESIRECORE_ROOT\runtime\volta-home" }
+$env:VOLTA_FEATURE_PNPM = "1"
 
-& $Hatch python install 3.12
-& $Volta install node@22
+& $Hatch python install 3.12 --private "--dir=$env:DESIRECORE_ROOT\runtime\hatch\local"
+& $Volta fetch node@22
 ```
+
+Hatch、Volta 二进制和 Volta Home 的位置见 `desirecore-runtime.md` 第一节。`python install` 必须带 `--private --dir`，否则 Hatch 装到用户数据目录并改写 shell 配置；报 `Unknown distribution source` 时见 `python-runtime/references/hatch-desirecore.md`。
 
 **判定失败的信号**
 
@@ -144,6 +150,7 @@ $env:VOLTA_HOME = "$env:USERPROFILE\.desirecore\runtime\volta"
 
 skill 直接执行用户原话——不要走决策树——的情况：
 
+- 运行时已可用且版本够用：DesireCore 把内置 Python、Node 各一个版本追加在 PATH 末尾，`python3 --version`、`node --version` 成功就不需要安装
 - 用户明示路径："用 brew 装 python"、"在 .venv 里 pip install xxx"
 - 用户在 skill 之外手工修改了环境（识别到 `.python-version`、`.nvmrc`、`package.json#volta`）
 - skill 上下文已经存在激活的虚拟环境（`$VIRTUAL_ENV` 非空）

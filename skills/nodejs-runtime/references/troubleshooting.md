@@ -13,10 +13,12 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 node --version
 
-# 3. Volta 已装但未在 PATH？
-ls ${DESIRECORE_ROOT}/runtime/volta/volta 2>/dev/null && \
-  echo "运行 ${DESIRECORE_ROOT}/runtime/volta/volta 直接调用，无需 PATH"
+# 3. DesireCore 内置 Node 已装但不在 PATH？用绝对路径调用
+ls "${VOLTA_HOME:-${DESIRECORE_ROOT}/runtime/volta-home}/tools/image/node" 2>/dev/null
+"${VOLTA_HOME:-${DESIRECORE_ROOT}/runtime/volta-home}/tools/image/node/<version>/bin/node" --version
 ```
+
+不要改用 `runtime/volta-home/bin` 下的入口，原因见 `references/volta-desirecore.md`。
 
 **根治**：按主 SKILL.md 决策树重新执行 L1–L3 安装路径。
 
@@ -147,9 +149,9 @@ probe-node.sh 输出后，按字段快速判断：
 
 | 字段 | 期望 | 失败原因 |
 |------|------|----------|
-| `system_node.version` | 非空且 ≥ 18 | 未装或版本太低 |
+| `system_node.version` | 非空且 ≥ 18 | 未装或版本太低（这是 PATH 解析到的 Node，可能是内置版本） |
 | `system_npm.version` | 非空 | 应随 Node 自带 |
-| `volta_path` | 非空 | DesireCore Volta 未释放，调 `POST /api/runtime/volta/install` |
+| `volta_path` | 非空 | 应用不在默认安装位置，走 L1 或到应用目录下找（见 `references/volta-desirecore.md`） |
 | `volta_tools.node` | 非空数组 | 还未装任何 Volta 管理的 Node 版本 |
 | `package_json_volta` | 项目用 Volta | 优先 Volta，不要切到 nvm |
 | `registry` | `*.npmmirror.com` | 已加速；空字符串可能是 npm 未装 |
