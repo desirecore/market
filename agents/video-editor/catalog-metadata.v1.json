@@ -1,0 +1,122 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "agent",
+    "id": "video-editor"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "视频剪辑师",
+        "summary": "需单独安装视频剪辑和可用算力，处理时间线、声音、调色与原创动效；模型及可选媒体服务费用另计。",
+        "description": "与独立安装的视频剪辑应用协作，组织素材、剪辑时间线、处理节奏、声音、调色、参考重剪和原创可编辑 HTML / SVG / Canvas / WebGL 动效，并核对实际成片。应用、Node.js >=22、浏览器和 FFmpeg 需另行准备；模型额度、可选媒体服务许可与费用不包含在 Agent 中。要求包含官方 UUID 应用目录与 manifest 内联 appRelease 读取能力的 DesireCore 10.0.197 或更新版本，并检查 release/runtime-binding 能力、实际安装与当前代际，再独立授权同实例 MCP。197 客户端尚在发行准备阶段；旧公开 196 包不支持该新目录。关联只设置入口偏好，不安装、启动或授权应用。已完成应用 0.1.3 的 macOS 源码、Windows 未签 GUI 与 Ubuntu/WSLg 源码 GUI 限定功能验收；不声明正式安装器、裸机 GPU 或模型自主规划质量。依赖缺失时停止并报告。"
+      },
+      "en-US": {
+        "name": "Video Editor",
+        "summary": "Needs the separate Video Editing app and DesireCore compute for timeline editing, sound, grading and original motion; model/media fees are separate.",
+        "description": "Works with the separately installed Video Editing app on media organization, timeline edits, pacing, sound, grading, reference remakes, editable HTML / SVG / Canvas / WebGL motion and actual movie checks. Prepare the app, Node.js >=22, browser and FFmpeg separately; model usage and optional media-service terms and fees are not included. Requires DesireCore 10.0.197 or later containing the official UUID catalog and manifest-inline appRelease reader, plus actual release/runtime-binding capability, installation and current runtime identity before independently authorizing same-instance MCP. Client 197 is being prepared for release; the public 196 package lacks the new reader. Association only sets an entry preference. Bounded app 0.1.3 functionality was qualified on macOS source GUI, unsigned Windows GUI and Ubuntu/WSLg source GUI; production installers, bare-metal GPU and autonomous model reasoning are not qualified. Stop and report missing prerequisites."
+      }
+    },
+    "tags": [
+      "video",
+      "editing",
+      "motion",
+      "audio"
+    ],
+    "category": "media"
+  },
+  "release": {
+    "state": "known",
+    "version": "0.1.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-02",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-02",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-02",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore-agent/video-editor.git",
+      "ref": "c6ffbc603348428a89978bd60db1fd9b448115b1"
+    }
+  },
+  "governance": {
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "source-pointer-only",
+    "stewardship": "pointer",
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "noticePath": "NOTICE",
+      "reviewedRef": "c6ffbc603348428a89978bd60db1fd9b448115b1",
+      "reviewedAt": "2026-11-02",
+      "reviewedBy": "Market source review (see review.md)",
+      "upstreamEndorsed": false
+    },
+    "upstreamMaintainer": {
+      "name": "desirecore-agent",
+      "verified": false,
+      "url": "https://github.com/desirecore-agent/video-editor"
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "windows",
+        "macos",
+        "linux"
+      ]
+    },
+    "requiredClientVersion": "10.0.197",
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Install Video Editing (application UUID 0171a763-ad35-4b94-98b9-204782817b44) separately and explicitly prepare Node.js >=22 plus its pinned browser and FFmpeg runtime assets; these binaries are not included in the Agent seed."
+      },
+      {
+        "kind": "connection",
+        "value": "DesireCore >=10.0.197 with the official UUID catalog and manifest-inline appRelease reader (PR5598), plus app-authoring-v1 release/runtime-binding. Client 197 is not publicly released yet; the public 196 package lacks this reader. Independently authorize MCP for the actual current app instance. A version, capability string or app association alone does not establish readiness."
+      },
+      {
+        "kind": "permission",
+        "value": "Uses current DesireCore compute routing and approvals. No provider credentials, MCP grant, directory trust or preapproved tools are included; model and optional media-service terms and fees remain separate."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "agent",
+    "installPolicy": "market",
+    "updatePolicy": "market",
+    "persona": {
+      "role": "Editable timeline video editing, sound, grading and original motion",
+      "traits": [
+        "preserves editable timelines and human changes",
+        "checks actual output and runtime identity"
+      ]
+    }
+  }
+}
