@@ -4,7 +4,7 @@ description: >-
   排班、工时上限、人员配置的第一轮澄清（含“只澄清、暂不求解”）也先用 Skill 工具加载本技能，再用 DecisionWorkspace 补问和真人确认卡；普通 AskUserQuestion 不能代替业务事实闭环。Load this Skill for the first clarification of staffing, shifts, work-hour limits, service coverage, resource allocation, targets, task scheduling or LP/MILP, including clarify only / do not solve yet requests. Use DecisionWorkspace question and human-confirmation cards for model-changing facts; generic AskUserQuestion is not a substitute. Clarification needs no connected solver. Actual MindOpt solving requires a separately licensed/deployed solver and configured connector; software, licenses, hosting and fees are not included. MindOpt 软件、许可证、部署及相关费用需使用方另行取得或承担。
 compatibility: >-
   Requirement clarification works without a connected solver. Actual MindOpt solving requires separately installed or deployed MindOpt, a valid license under its official terms, and configured solver.mindopt connections; commercial licenses and operating costs are separate when applicable. 需求澄清不要求先连接求解器；实际 MindOpt 求解仍需外部安装部署、有效许可证及 solver.mindopt 连接，适用的商业许可和运行费用另行承担。
-version: 2.9.1
+version: 2.9.2
 type: procedural
 risk_level: medium
 status: enabled
@@ -27,7 +27,7 @@ provides:
     - OptimizationEvidenceLedger
 metadata:
   author: workforce-optimization-team
-  updated_at: '2026-09-28'
+  updated_at: '2026-11-03'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -40,7 +40,7 @@ metadata:
       description: >-
         用户提出排班、工时上限、人员配置、服务覆盖、资源分配、绩效目标、任务调度或 LP/MILP，即使“只澄清、暂不求解”，也先用 Skill 工具加载本技能。影响模型的事实使用 DecisionWorkspace 补问及真人确认卡，不能用普通 AskUserQuestion 代替。澄清无需连接求解器；实际 MindOpt 求解需使用方另行取得适用许可证、部署并配置连接，软件、许可证、算力托管及费用均不包含在技能中。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:0be8b9c17e844f9d
+      source_hash: sha256:dd76ec99b057aff6
       translated_by: ai:codex
     en-US:
       name: Workforce and Resource Optimization
@@ -48,7 +48,7 @@ metadata:
       description: >-
         Load this Skill for the first clarification of staffing, shifts, work-hour limits, service coverage, resource allocation, targets, task scheduling or LP/MILP, including clarify only / do not solve yet requests. Use DecisionWorkspace question and human-confirmation cards for model-changing facts; generic AskUserQuestion is not a substitute. Clarification needs no connected solver. Actual MindOpt solving requires a separately licensed/deployed solver and configured connector; software, licenses, hosting and fees are not included.
       body: ./SKILL.md
-      source_hash: sha256:0be8b9c17e844f9d
+      source_hash: sha256:dd76ec99b057aff6
       translated_by: ai:codex
 market:
   icon: >-
@@ -99,6 +99,7 @@ Turn natural-language workforce-efficiency requests into reviewable and recovera
 - Every new decision-grade `OptimizationSpec` must use the live TeamArtifact payload branch whose `schema_version` is exactly `2`; legacy v1 payloads are read-only compatibility artifacts and cannot be linked to approve a current decision. Before publishing, read the v2 schema and construct its complete algebraic/CP `model`, `problem_family`, exact `data_refs`, and `semantic_contract`. The contract must declare `solve_intent` and exactly one entry for every material objective, variable, constraint, and data reference actually present, with the confirmed dimension, canonical unit, and time scope where applicable—no missing, unknown, duplicate, display-label, JSON-Pointer, or implicit-unit substitutions. Re-read the published exact revision and verify this closed set before requesting `link_artifact`; a compile-success receipt for legacy or incomplete semantics is not decision-grade evidence.
 - When peer review requests changes to a completed artifact stage, the original owner must reclaim the same canonical Task and Work Context, keep the old stage completed, and call `TeamArtifact(action="begin_rework")` with that completed source stage and the same stable artifact ID. Use only the platform-returned rework stage ID to publish the next revision of that same artifact, then complete the rework stage and resubmit the Task for a new review round. Never reopen a completed stage, create an ordinary replacement stage, switch to a new artifact ID, reuse a prior round's rework stage, or manufacture review/claim/Plan fences; if `begin_rework` is unavailable or rejected, stop and report the missing governance fact instead of publishing.
 - Before confirmation and artifact linking, every actual `OptimizationSpec.data_refs` entry must have a confirmed business-source node whose `modelImpact` is `input` and whose dimension, canonical unit, and optional time scope exactly match the corresponding `semantic_contract` element. Data snapshots with `modelImpact=none` are display evidence, not material trace coverage. Positive/negative/boundary examples belong to deterministic semantic checks and must not be added as duplicate artifact material bindings.
+- The decision-grade mapping criteria can be read in one call: `TeamArtifact(action="schema", artifact_type="optimization_spec", json_pointer="/publish_requirements")`; current clients list them under `type_specific.decision_grade_mapping`. Publishing only checks that the spec compiles, and these criteria surface layer by layer at linking and later, so prepare them all before modeling. Every node mapped to a model element needs `modelSemantics` matching the corresponding `semantic_contract` element; a workspace with `semantic_checks_version=1` also needs `hardness` (plus `softPenalty` for soft constraints), `objectiveSense`, or `variableDomain` according to `modelImpact`, each matching the actual model. These fields, along with node titles, summaries, values, and source relationships, are model input: changing them after binding requires `bind_workspace`, publishing, and linking again, and confirmed statements must be reconfirmed, so bind after they are complete. Governed compilation accepts only the published spec itself: put the model name in `model.name` and the time limit in `requested_limits.time_limit_seconds`, and do not pass `model_name`, `time_limit_seconds`, or `diagnose_infeasible`.
 - If a confirmed business change advances the model-input hash, refresh every consumed parent artifact under that exact binding before publishing its child; do not combine a fresh OptimizationSpec with stale SceneSpec/DataContract parents. After an interrupted/failed attempt, call `begin_rework` again with the same source stage and artifact. The platform may resume the existing stage only when the old Run is no longer running, the same review event/Task/Work Context/Plan remains authoritative, the new claim is strictly newer, and no new artifact revision was committed. Use the returned stage receipt; never invent a second stage to escape a stale or partial chain.
 - Attach file evidence with evidenceLinks whose ref matches the node's evidenceRefs; use only authorized FileResourceRef identities, not guessed paths or arbitrary URLs. Explain report failures using their reason code, exact field/model element, frozen expectation, observed value, impact and next safe action. Direct the user to the graph's issue/source/model controls and change-impact preview; a colored branch, viewed evidence or preview never grants execution approval.
 - After the fact-confirmation gate passes, follow this governed sequence without skipping or reordering its control points:
