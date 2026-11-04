@@ -141,6 +141,8 @@ Examples: [inline DesireCore agent](agents/desirecore/agent.json) and [DingTalk 
 
 [Video Director](agents/video-director/entry.json) is a pinned Git pointer for autonomous scene creation and versioned visual review. It requires the separately installed Video Creation app and current DesireCore compute; model/media licenses and usage fees are separate. Installing the Agent does not install, start or authorize that app.
 
+[Video Editor](agents/video-editor/entry.json) is a separate pinned Agent for timeline editing, sound, grading and editable original motion with the separately installed Video Editing app. A released client with the required catalog support, runtime dependencies, compute and independent MCP authorization are required. Bounded app 0.1.3 functionality is qualified on macOS source GUI, unsigned Windows GUI and Ubuntu/WSLg source GUI. Fresh installation and use from the default official markets passed on a compatible 197 source-GUI candidate; published signed clients remain a separate check. See the [listing review](agents/video-editor/review.md).
+
 ### Teams
 
 A team is a supervisor-led group of agents, published **only as a Git fork pointer** at `teams/<id>/entry.json`, alongside its sidecar. The implementation (`team.json`, `members.json`, and `shared/`) stays upstream. Installation forks that repository and installs its declared members; subsequent updates use `git pull` on the fork.

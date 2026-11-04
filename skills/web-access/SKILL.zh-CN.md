@@ -36,9 +36,11 @@ web-access 是一个**流程型技能（Procedural Skill）**，提供四层互�
 | BrowserImport | 从用户 Chrome/Edge/Firefox/Safari 配置导入 Cookie（需人工审批；**还需 Host 授予 `browser.import.*`，普通 `create_space` 会话拿不到**） |
 | BrowserShare | 把 Space/Session 委派给其他 Agent（隔离 / 快照 / 写时复制 / 实时共享） |
 | SitePatternRead / SitePatternWrite | 按域名累积"站点经验"（AgentFS 三层） |
-| LocalBookmarks | 检索本地 Chrome 书签 / 历史 |
+| SearchBrowserUrls | 只读检索本地 Chrome 书签 / 历史；原注册 ID 与旧客户端声明名为 `LocalBookmarks` |
 
-> **开发者工具类动作不在上表**：网络观察 / 拦截 / 改写与网络配置、Cookie 与站点存储、Console 读取、性能指标、覆盖率、缓存、Service Worker、扩展、Tracing、打开 DevTools 与原始 CDP（`cdp.raw`），在较新的客户端里由独立的 `BrowserDevtools` 承担，它不随本技能注入。需要时先调用 `DiscoverTools(query="select:BrowserDevtools")` 加载，参数与 BrowserAct 相同（`action` + `sessionId` / `tabId` + `params`）；查不到说明客户端早于拆分，同样的 action 与参数直接在 `BrowserAct` 上调用。
+> **开发者工具类动作不在上表**：网络观察 / 拦截 / 改写与网络配置、Cookie 与站点存储、Console 读取、性能指标、覆盖率、缓存、Service Worker、扩展、Tracing、打开 DevTools 与原始 CDP（`cdp.raw`），在较新的客户端里由独立的 `BrowserDevtools` 承担，它不随本技能注入。先检查本次实际声明与 Schema。已声明 `LoadTools` 时，在 `ToolCatalog` 可用的情况下查询已获准合同，再调用 `LoadTools(names=["BrowserDevtools"])` 显式加载；目录不可用时只按当前合同中已知的明确名称加载，仍由加载器核验本次权限。目录查询不会加载工具或增加权限。参数与 BrowserAct 相同（`action` + `sessionId` / `tabId` + `params`）。只有实际声明没有 `LoadTools`、同时提供且 Schema 仍接受 `query` 的 `DiscoverTools` 时，才使用旧签名 `DiscoverTools(query="select:BrowserDevtools")`。工具缺席或拒绝不能证明客户端版本；两种匹配的加载器均不可用时如实说明限制，不要求额外授予权限。只有 `BrowserAct` 当前声明的 Schema 确实支持该 action 时，才在它上面使用同样的 action 与参数。
+>
+> **控制状态与旧版交还**：仅在当前已声明或获准目录提供时，`BrowserControlStatus` 只读查询当前控制状态；历史声明名可能为 `BrowserTakeover(action="status")`，以实际 Schema 为准。`BrowserLegacyHandback(action="handback", sessionId, agentId?)` 仅把旧版 user-owned Session 的控制权交回 Agent，仍走原审批与权限检查；本技能不解锁这两个工具。因用户交互暂停的会话，须用户明确要求继续后才能调用 `BrowserResume`；状态查询与旧版交还均不恢复它，也不得重放被打断的命令。
 
 > **重要**：未调用 Skill('web-access') 之前，这些工具**不会**出现在 LLM 的 tools 列表里——默认对话不消耗其 token。详见 [references/browser-tools.md](references/browser-tools.md)。
 >
