@@ -466,6 +466,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--format", choices=("text", "markdown", "json"), default="text")
     parser.add_argument("--jobs", type=int, default=8, help="parallel upstream checks")
     parser.add_argument("--summary-file", type=Path, help="write machine-readable workflow decisions")
+    parser.add_argument("--results-file", type=Path, help="write checked snapshots for update proposals")
     args = parser.parse_args(argv)
 
     paths = [p for kind in KINDS for p in sorted((REPO_ROOT / kind).glob("*/entry.json"))]
@@ -481,6 +482,8 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.summary_file:
         args.summary_file.write_text(json.dumps(summarize(results), indent=2) + "\n", encoding="utf-8")
+    if args.results_file:
+        args.results_file.write_text(json.dumps(results, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     if args.format == "json":
         print(json.dumps(results, ensure_ascii=False, indent=2))

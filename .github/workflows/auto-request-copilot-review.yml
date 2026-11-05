@@ -1,7 +1,8 @@
 name: Auto-request Copilot review
 
 on:
-  pull_request:
+  # 仅操作主仓 PR 元数据；本流程不检出或执行 PR 代码。
+  pull_request_target:
     types: [opened, reopened, ready_for_review]
 
 permissions:
@@ -17,6 +18,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -e
           if gh api "repos/${{ github.repository }}/pulls/$PR_NUMBER" \
@@ -25,15 +27,17 @@ jobs:
             echo "Copilot already requested as reviewer."
             exit 0
           fi
-          # 422 here usually means Copilot has already submitted a review (so the
-          # request slot is gone). Treat that as benign.
+          # 422 也可能是功能未启用等错误，必须核对真实审核记录，不能直接报成功。
           if ! resp=$(gh api -X POST \
               "repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers" \
               -f 'reviewers[]=copilot-pull-request-reviewer[bot]' 2>&1); then
             echo "$resp"
             if echo "$resp" | grep -q '"status":"422"'; then
-              echo "POST returned 422; Copilot likely already reviewed."
-              exit 0
+              if gh api "repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews" --paginate \
+                  | jq --arg head "$PR_HEAD_SHA" -r '.[] | select(.commit_id == $head) | .user.login' | grep -qE '^(Copilot|copilot-pull-request-reviewer\[bot\])$'; then
+                echo "Copilot review exists for the current head."
+                exit 0
+              fi
             fi
             exit 1
           fi
