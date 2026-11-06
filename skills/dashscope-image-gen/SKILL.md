@@ -1,14 +1,9 @@
 ---
 name: dashscope-image-gen
 description: >-
-  Use this skill when the user wants to generate images. Supports multiple
-  models: gpt-image-2 (default, via DesireCore Cloud), wan2.7-image-pro and
-  wan2.7-image (when user has DashScope configured). Uses OpenAI-compatible
-  /images/generations API for synchronous image generation.
-  Use when the user mentions: generate image, draw, text-to-image, create image,
-  AI painting, illustration, design picture.
+  Generate images using the user’s explicit choice or saved image-generation default and the current runtime catalog. Requires an enabled provider, model access and quota; provider terms and separate usage charges apply. Use for drawing, illustrations, text-to-image and AI image creation.
 license: MIT
-version: 1.4.2
+version: 1.4.3
 type: procedural
 risk_level: low
 status: enabled
@@ -25,7 +20,7 @@ requires:
     - Bash
 metadata:
   author: desirecore
-  updated_at: '2026-07-14'
+  updated_at: '2026-11-07'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -34,21 +29,18 @@ metadata:
       - en-US
     zh-CN:
       name: AI 文生图
-      short_desc: AI 文本生成图片技能（支持 GPT Image / 通义万相）
+      short_desc: 遵循已配置默认与实际模型目录生成图片
       description: >-
-        当用户希望生成图片时使用此技能。支持多种模型：gpt-image-2（默认，通过
-        DesireCore Cloud）、wan2.7-image-pro / wan2.7-image（用户自行配置阿里云
-        DashScope 时可用）。通过 OpenAI 兼容的 /images/generations API 同步生成图片。
-        用户提到 生成图片、画图、文生图、创建图片、AI 绘画、生成插图、画一张、帮我画、设计图片。
+        按用户明确选择或已保存的图片生成默认与当前运行时目录生成图片。需要已启用的供应商、模型访问权限及额度；供应商条款与单独使用费用仍适用。适用于画图、插画、文生图与 AI 图片创作。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:b3d5f7a91c2e4068
+      source_hash: sha256:77a264d25e3bed8c
       translated_by: human
     en-US:
       name: AI Image Generation
-      short_desc: AI text-to-image generation (GPT Image / Wan models)
-      description: "Use this skill when the user wants to generate images. Supports multiple models: gpt-image-2 (default via DesireCore Cloud), wan2.7-image-pro / wan2.7-image (when user has DashScope configured). Uses the OpenAI-compatible /images/generations API. Trigger keywords: generate image, draw, text-to-image, create image, AI painting, illustration, design picture."
+      short_desc: Generate images with configured defaults and the runtime catalog
+      description: "Generate images using the user’s explicit choice or saved image-generation default and the current runtime catalog. Requires an enabled provider, model access and quota; provider terms and separate usage charges apply. Use for drawing, illustrations, text-to-image and AI image creation."
       body: ./SKILL.md
-      source_hash: sha256:8398726504b70586
+      source_hash: sha256:77a264d25e3bed8c
       translated_by: human
 market:
   icon: >-
@@ -59,181 +51,83 @@ market:
     fill-opacity="0.4" stroke="#34C759" stroke-width="1.2"
     stroke-linejoin="round"/><circle cx="15.5" cy="8.5" r="1.5" fill="#34C759"
     fill-opacity="0.6"/></svg>
-  short_desc: AI text-to-image generation (GPT Image / Wan models)
+  short_desc: Generate images with configured defaults and the runtime catalog
   category: media
   maintainer:
     name: DesireCore Official
     verified: true
   channel: latest
+compatibility: Requires a running DesireCore agent-service and an enabled image_gen provider with model access and quota. Hosted services are external and subject to provider terms and separate usage charges.
 ---
 
 # dashscope-image-gen Skill
 
-## Mandatory Rules (violations cause failure)
+## Scope and prerequisites
 
-1. **STRICTLY follow the execution steps below** — do NOT improvise, explore alternative endpoints, or try models not listed in this document
-2. **Must access agent-service over HTTPS** — the API address is already provided in the system prompt under the local API section (e.g. `https://127.0.0.1:PORT`); use it directly with `-k` to skip certificate verification
-3. **Must upload to media-store via `/api/media/upload`** — `/tmp` is only a transient download/decode location, never use a local path as the final output
-4. **Must use the `dc-media://` protocol to display images** — the only form the frontend can render correctly
-5. **Use Bash curl throughout** — do not use the HttpRequest tool or Python
-6. **Use `/images/generations` endpoint** — synchronous call; the response contains b64_json image data
-7. **Only use models listed below** — do NOT try dall-e-3, qwen-vl, or any model not in the Model Selection table
+Generate and deliver images with a configured image-generation service. This skill does not provide a hosted model, credentials, quota, or a subscription. The user needs an enabled `image_gen` provider and access to the selected model; provider terms and separate usage charges apply. A catalog entry is not proof that an upstream channel is currently available.
 
-## Provider & Default Compute
+## Model and provider selection
 
-You do NOT need to specify a provider — just pass `"serviceType": "image_gen"` and the system will automatically route to the correct provider.
+1. Honor the user's explicit model/provider choice. Check the current runtime catalog and applicable API contract rather than guessing from a model family or this skill's name.
+2. When the user does not name a model, use the saved `defaultServiceMap.image_gen` binding, including its provider. Do not replace it with a model named in an example. If no usable default exists, inspect currently enabled image-generation capabilities and choose within the user's requirements; clarify when a choice would change their requested service or cost constraints.
+3. Resolve a binding through available compute-inspection tools or `GET /api/compute/config` on the current agent-service. The configuration API masks keys; extract only the default binding, provider ID/enabled state, and image-model metadata needed for the request. Never request or print credentials. Model `serviceType` can be `image_gen` or an array containing it. For raw API calls, resolve the upstream model ID as `userOverrides.apiModelId`, then `apiModelId`, then `modelName`.
+4. Availability comes from the actual selected provider and response. There is no static model whitelist or guaranteed default in this skill. For example, a Wan model may be offered through an official gateway or a user's own DashScope connection; its name alone does not determine the route.
 
-**Never** try to query provider lists, read compute.json, or explore available models through API calls. The models listed below are guaranteed to work.
+## Choose an execution path
 
-## Model Selection
+Use the current tool/API contract that fits the request. When available and suitable, `GenerateImage` handles provider adaptation, generation, media persistence, and dimension receipts in one call. Discover its current schema if needed. For a saved default, pass its provider ID as `provider` and omit `model` so the tool resolves the saved model; for an explicit model, pass the verified model ID and provider. Preserve the user's prompt, reference images, quantity, and requested dimensions.
 
-| Model | Characteristics | When to use |
-|-------|----------------|-------------|
-| gpt-image-2 | High quality, fast, versatile styles | **Default** — use when user does not specify a model |
-| wan2.7-image | Standard high quality (requires DashScope provider) | Only when user explicitly asks for Wan / DashScope |
-| wan2.7-image-pro | Flagship, 4K resolution (requires DashScope provider) | Only when user explicitly asks for top quality Wan model |
-
-**Default rule**: if the user does not specify a model, use `gpt-image-2`.
-
-**Note**: `wan2.7-image` and `wan2.7-image-pro` only work when the user has configured their own Alibaba Cloud DashScope provider. If you get an error with these models, fall back to `gpt-image-2`.
-
-## Full Execution Flow (strictly follow these steps)
-
-### How to get the API address
-
-The system prompt already contains the agent-service API address under the local API section (e.g. `Agent Service: https://127.0.0.1:61000`). Extract the URL from there and use it directly.
-
-If for any reason you cannot find it in the system prompt, use this fallback:
-
-```bash
-PORT=$(cat "${DESIRECORE_HOME:-$HOME/.desirecore}/agent-service.port")
-# Then use https://127.0.0.1:${PORT}
-```
-
-### Step 1: Generate the image (single curl command)
-
-Call `/images/generations` through media-proxy. **You MUST use this exact request structure** — do not add `messages`, `response_format`, or any other parameters not shown here:
-
-```bash
-# Save response to a temp file to avoid base64 flooding the terminal
-curl -sk -X POST "https://127.0.0.1:${PORT}/api/media-proxy" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "serviceType": "image_gen",
-    "endpoint": "/images/generations",
-    "body": {
-      "model": "gpt-image-2",
-      "prompt": "Replace this with the image description (English usually gives better results)",
-      "size": "1024x1024",
-      "n": 1
-    },
-    "responseType": "json"
-  }' -o /tmp/dashscope-response.json
-
-# Check success and extract b64_json directly to image file (NEVER cat the response to stdout)
-python3 -c "
-import json, base64, sys
-with open('/tmp/dashscope-response.json') as f:
-    resp = json.load(f)
-if not resp.get('success'):
-    print('ERROR:', json.dumps(resp, ensure_ascii=False)[:500])
-    sys.exit(1)
-b64 = resp['data']['data'][0]['b64_json']
-with open('/tmp/dashscope-gen.png', 'wb') as f:
-    f.write(base64.b64decode(b64))
-print('OK: saved to /tmp/dashscope-gen.png')
-"
-```
-
-**CRITICAL**: The response contains a large base64 image (~2MB). NEVER print the raw response or b64_json to the terminal. Always save to file with `-o` and extract with the python3 script above.
-
-**Response format** (saved in `/tmp/dashscope-response.json`):
-```json
-{
-  "success": true,
-  "data": {
-    "created": 1781060911,
-    "data": [{"b64_json": "<very large base64 string>"}],
-    "size": "1024x1024"
-  }
-}
-```
-
-### Step 2: Upload to media-store
-
-```bash
-curl -sk -X POST "https://127.0.0.1:${PORT}/api/media/upload" \
-  -F "file=@/tmp/dashscope-gen.png;type=image/png"
-```
-
-Pick the `mediaId` field from the JSON response (format `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.png`).
-
-### Step 3: Render the image via the dc-media protocol
-
-In your reply text, write Markdown image syntax directly:
-
-```
-![Image description](dc-media://replace-with-mediaId)
-```
-
-For example: `![White fox in a forest](dc-media://a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6.png)`
-
-The frontend will translate `dc-media://` into a reachable image URL and render it.
-
-## Parameter Mapping
-
-### Size selection
-
-Pass `size` in the `body` object:
+Example tool arguments after resolving the saved provider (replace the placeholder, do not send it literally):
 
 ```json
 {
-  "model": "gpt-image-2",
-  "prompt": "your image description",
-  "size": "1024x1024",
+  "provider": "<saved-image-provider-id>",
+  "prompt": "A warm, quiet library illustration, without lettering",
   "n": 1
 }
 ```
 
-| User intent | size value |
-|-------------|-----------|
-| Square / avatar / default | "1024x1024" |
-| Landscape / scenery / wallpaper | "1536x1024" |
-| Portrait / mobile / poster | "1024x1536" |
+The raw API path below remains available for supported native operations or providers that need it. Do not interpret this example as a requirement to bypass a suitable generation tool.
 
-### Optional parameters (top-level body fields)
+## Raw API path
 
-| Parameter | Description |
-|-----------|-------------|
-| `n` | Number of images, 1-4, default 1 |
-| `size` | Image size, e.g. "1024x1024" |
+### Resolve the local service and request
 
-## Multiple Image Generation
+Use the current agent-service address and caller authentication from the system's local API instructions, including the current isolated home. Do not guess another instance's port or obtain an upstream key. For a self-signed local HTTPS certificate, curl can use `-k` as directed by that local API contract.
 
-When `n > 1`, download and upload each image, then render them one by one:
+For an OpenAI-compatible image-generation provider, submit `POST /api/media-proxy` with the resolved provider ID and upstream model ID. The proxy injects upstream authentication. This request is an example structure; model-specific endpoints, supported sizes/counts, and response fields must follow that provider's current contract:
 
+```json
+{
+  "providerId": "<resolved-image-provider-id>",
+  "serviceType": "image_gen",
+  "endpoint": "/images/generations",
+  "body": {
+    "model": "<resolved-upstream-model-id>",
+    "prompt": "A warm, quiet library illustration, without lettering",
+    "n": 1
+  },
+  "responseType": "json"
+}
 ```
-![Image 1 description](dc-media://mediaId1)
-![Image 2 description](dc-media://mediaId2)
+
+`serviceType` alone selects a provider; it does not populate `body.model`. Keep the resolved provider/model binding together. If the saved provider or model is missing, disabled, or unsupported by the chosen path, explain the actual limitation rather than silently choosing a different one. Native DashScope and other protocols may require a different documented request; do not send an OpenAI-compatible payload to an unrelated endpoint.
+
+### Persist and display the result
+
+Save a potentially large response to a unique temporary file (`mktemp` or equivalent). Do not print raw responses, base64 image data, authorization headers, or signed download URLs. Check the proxy's `success` and the provider's actual response. Decode `b64_json` or download returned image URLs as appropriate; Python may be used for local JSON/base64 handling. A failed request is not an image.
+
+Upload each resulting image through `POST /api/media/upload` using multipart field `file`, then read the returned `mediaId`. Temporary paths are staging locations, not final deliverables. Display the persisted image using the actual returned ID:
+
+```text
+![Image description](dc-media://<returned-mediaId>)
 ```
 
-## Error Handling
+When using `GenerateImage`, consume its persisted image content/metadata directly; an additional manual upload is unnecessary. Check the actual image and dimension receipt before claiming the requested size, aspect ratio, lettering constraints, or visual content was achieved.
 
-| Error | Meaning | Action |
-|-------|---------|--------|
-| `"No matching provider"` | No enabled provider supports `image_gen` | Tell user to enable a provider with image_gen support in settings |
-| `"API Key not configured"` | API Key missing | Tell user to configure API key |
-| `statusCode: 401` | API Key invalid or expired | Tell user to check API key |
-| `statusCode: 429` | Rate limited | Wait and retry once |
-| `statusCode: 400` + `model_price_error` | Model not available on current provider | Switch to `gpt-image-2` and retry |
-| `statusCode: 400` | Other bad parameters | Check model name and size are from the tables above |
+## Failures and recovery
 
-**On model error**: If `wan2.7-image` or `wan2.7-image-pro` fails with `model_price_error`, automatically retry with `gpt-image-2`. Do NOT ask the user before retrying.
-
-**On other errors**: Report the error to the user clearly. Do NOT try alternative endpoints or read config files.
-
-## Notes
-
-- Image generation calls are synchronous and typically return in 10-60 seconds
-- English prompts usually produce the best results; Chinese is also supported
-- When the user does not specify a model or size, default to `gpt-image-2` + `1024x1024`
+- Report the selected provider/model, whether the failure was local validation or an upstream response, and a bounded, sanitized error code/message. Do not expose credentials or raw response bodies.
+- Missing configuration, missing credentials, authentication failures, quota/rate limits, unsupported parameters, and upstream channel failures are different conditions. Diagnose from actual evidence; an HTTP status alone does not establish which model or account is at fault.
+- `model_not_found`, `model_price_error`, or “No available channel” can indicate that the selected gateway lacks an authorized route. Recheck the current binding/catalog and report that service limitation. Do not automatically switch to another model or provider, including a model mentioned in an older example.
+- Retry or choose an alternative only when the response and the user's authorization support it. Preserve explicit model/provider and cost constraints; request the user's choice if a different service is needed. Do not claim success until an image has been generated and persisted.
