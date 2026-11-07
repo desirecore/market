@@ -2,7 +2,7 @@
 license: "MIT"
 name: manage-teams
 description: 创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 持续协作、建立组织架构，或发布、安装和同步团队仓库时。
-version: 1.5.0
+version: 1.5.1
 type: procedural
 risk_level: medium
 status: enabled
@@ -13,7 +13,7 @@ tags:
   - organization
 metadata:
   author: desirecore
-  updated_at: '2026-10-28'
+  updated_at: '2026-11-07'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -26,7 +26,7 @@ metadata:
       description: >-
         创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 持续协作、建立组织架构，或发布、安装和同步团队仓库时。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:1695a3d0b629eed5
+      source_hash: sha256:4df2d79d885f382e
       translated_by: human
     en-US:
       name: Team Management
@@ -34,7 +34,7 @@ metadata:
       description: >-
         Create and govern Agent teams. Use when multiple Agents need sustained collaboration, an organizational hierarchy, or a team repository must be published, installed, or synchronized.
       body: ./SKILL.md
-      source_hash: sha256:1695a3d0b629eed5
+      source_hash: sha256:4df2d79d885f382e
       translated_by: human
 market:
   icon: >-
@@ -55,7 +55,7 @@ market:
     fill-opacity="0.7"/><circle cx="21.5" cy="4" r="0.9" fill="#34C759"
     fill-opacity="0.7"/></svg>
   category: productivity
-  required_client_version: 10.0.192
+  required_client_version: 10.0.201
 ---
 
 # manage-teams Skill
@@ -113,8 +113,8 @@ A team defines organization, shared directories, and governance. Actual work is 
 | `pull` | Pull and validate a team from its connected remote | `teamId`; enters approval |
 | `add_remote` | Configure or replace a publishing destination | `teamId`, `url`; optional `connectionId`, `branch`, `isPrivate`; does not create a repository |
 | `remove_remote` | Remove remote configuration and the local connection binding | `teamId`; leaves the remote repository intact |
-| `install_members` | Install or repair members from the existing lock | `teamId`; optional `forceUpdate`, default false |
-| `upgrade_members` | Resolve a new lock and attempt safe updates | `teamId`; optional `forceUpdate`, default true; preserves local edits and commits |
+| `install_members` | Install missing members as upstream forks; retain existing members | `teamId`; `forceUpdate` is deprecated and does not change content |
+| `upgrade_members` | Record actual current member HEADs and versions; install missing members | `teamId`; use Agent Sync to update member content |
 | `release` | Create a local version or publish one exact version | `teamId`; `push` defaults to false, optional `changelogEntry`, `expectedCommit`; retry with `releaseTag` |
 
 ### 3. Create a Team
@@ -167,7 +167,7 @@ Example:
 
 - Prefer batch member actions to avoid observable intermediate states.
 - `set_supervisor` uses `agentId`; first verify that the Agent does not already supervise another team.
-- `set_member_source` declares provenance, it does not move files. A team whose roster still contains a `local` member is **not distributable** — `members.lock.json` cannot pin an ID that exists only on this machine, so a fork elsewhere would silently come up short a member. Switch each member to `git` or `registry` before publishing. The action resolves and writes the lock automatically; inspect its receipt. It cannot change a member's `role`; use `set_supervisor` for that.
+- `set_member_source` declares provenance, it does not move files. A team whose roster still contains a `local` member is **not distributable** — `members.lock.json` cannot provide an installable source for an ID that exists only on this machine, so a fork elsewhere would silently come up short a member. Switch each member to `git` or `registry` before publishing. The action resolves and writes the lock automatically; inspect its receipt. It cannot change a member's `role`; use `set_supervisor` for that.
 - `update` is a patch: omitted fields remain unchanged.
 - `parentTeamId: null` detaches the team and makes it top-level; an empty string is invalid.
 - `type` only allows `ephemeral → persistent`. Repeating the current value is idempotent; use `promote` for an explicit upgrade.
@@ -209,7 +209,7 @@ Remote `fork_team/push/pull` must go through `ManageTeam` because it enforces te
 
 - `push/pull` require a remote configuration. Use `add_remote` to configure the destination and an existing connection when needed. Client team settings are also available; the Agent chooses the configuration path.
 - Locally created and forked teams do not inherit a directly pushable remote configuration by default.
-- `fork_team` defaults to `installMembers=true`; a same-ID local Agent that has diverged from its lock is protected and skipped rather than overwritten.
+- `fork_team` defaults to `installMembers=true`; an existing same-ID Agent keeps its current content. Differences from team records or other sources are observations, not a reason to block work or overwrite it.
 - `pull` may replace local team configuration. Inspect local state first and identify the target remote in the approval card.
 
 Release and member versions:
@@ -217,9 +217,11 @@ Release and member versions:
 - `release` defaults to a local version. Set `push=true` for publication; approval identifies the target and version. Only the branch and this exact release tag are pushed, never all tags or private backup/archive refs.
 - Inspect the team with `get`; constrain a new release HEAD with `expectedCommit`. Inspect `tag/version/commitHash` and `branchPushed/tagPushed/pushed` separately.
 - After network failure or an unknown remote outcome, inspect the remote and retry with the returned `releaseTag`; do not create another version. Omit `changelogEntry` on retries.
-- `install_members` follows the exact existing lock. `upgrade_members` resolves declarations and attempts safe updates to new pins. Both preserve local edits and commits, avoid downgrades, and do not approve installed content.
-- `complete=false` or `outdated/diverged/failed/unreachable` means members remain unaligned. Neither `success=true`, skipped counts nor zero failures proves all members were upgraded. Inspect each receipt before choosing repairs.
-- Conflicting pins for an Agent shared by multiple teams do not authorize overwriting a local fork; preserve data and report the conflict.
+- Team locks record validated/observed versions; they do not pin member delivery. `install_members` creates missing members as forks of their declared branches or approved Market sources. `upgrade_members` records actual current HEADs/versions and installs missing members. `forceUpdate` is a deprecated compatibility field. Use Agent Sync for detection, safe updates, confirmed merges, conflicts and explicit reset; content approval remains separate.
+- Complete repositories follow the declared branch. Market pointers and subdirectories retain the reviewed-pin boundary. If a git source declares only a tag/commit and no tracking branch, preserve existing content and report the precise missing branch choice; do not invent a default branch.
+- Read each member’s `lockRelation`, `upstreamStatus`, `deliverySources` and `sourceConflict`. Ahead/behind/diverged relative to a team record does not block an existing member or cause a downgrade. Multiple sources are presented together; the Agent chooses a source explicitly and keeps work moving. Busy, dirty or conflicting legacy repositories retain all local content and commits until their existing recovery/update path can be used.
+- Inspect per-member failures when `complete=false` or status is `failed/unreachable`. Historical `outdated/diverged` results relative to a team record do not prove a member is unusable. Success, skipped counts or zero failures do not prove all upstream updates were applied or that a business task is complete.
+- Different sources or version records for a shared Agent do not establish an implicit priority. Keep current content, report the sources together, and let the Agent choose.
 - Remote actions, remote-source declarations and destination configuration enter approval. `ask-external` retains approval for them; `allow-all` respects the user's full trust in the acting Agent.
 
 ### 7. Dispatch and Finish
