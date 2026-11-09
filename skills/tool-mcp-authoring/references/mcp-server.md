@@ -6,6 +6,8 @@ Use when operations share connection/state or other MCP clients need the capabil
 
 Keep source, dependency manifests/locks and configuration schemas in authorized directories. Use the actual runtime path. A local stdio process writes only MCP protocol to stdout and diagnostics to stderr. Verify startup directory and module resolution rather than assuming Electron bundles your library or platform-specific native driver.
 
+Shared state belongs to the actual service process. Multiple Agents configuring the same stdio command normally start separate processes and do not automatically share serial handles. For an exclusive shared device, choose an appropriate governed service owner or explicit connection/locking design. MCP does not inherently serialize requests: implement device queues, concurrency and disconnect recovery as the protocol requires. The same mount name or a catalog listing does not resolve resource contention.
+
 Identify the Agent Service host that accesses the device. A remote server's COM/USB devices are not the browser computer's hardware. External libraries, hardware and hosted services require their actual licenses, deployment and authorization; registering a connection does not provide them. Stop the affected operation and report missing prerequisites.
 
 ## Attach to your own Agent
