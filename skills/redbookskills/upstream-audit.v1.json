@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "automated:source-license-metadata-v1",
+  "reviewedAt": "2026-11-09T01:26:05Z",
+  "source": {
+    "url": "https://github.com/white0dew/XiaohongshuSkills.git",
+    "previousRef": "52622b4a57ef44ce11e0827938948d9a2a7c5ef8",
+    "ref": "32bea86ea4bcd3320ef252212a9b2b99808a12b5",
+    "paths": [
+      ""
+    ]
+  },
+  "checks": {
+    "immutableSnapshots": true,
+    "installedScopeBoundedFiles": true,
+    "licenseAndNoticeUnchanged": true,
+    "structuredPrerequisitesUnchanged": true,
+    "presentationMetadataUnchanged": true
+  },
+  "licenseEvidenceSha256": {
+    "LICENSE": "59fe3847a53ba1887150e7c6c9814aaa3c0c252ad61364a5a7841f05f5e81626"
+  },
+  "observedVersions": {},
+  "contentManifestSha256": "2aeb208e98b47cddb8c676dc7f73ee272192e88384664f8570028ae8d088905b",
+  "fileCount": 23,
+  "limitations": [
+    "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
+    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。"
+  ]
+}
