@@ -4,7 +4,7 @@
   "description": "Use when the user needs to build, package or modify a custom Tool, MCP Server or device-protocol integration. Reuse existing execution and approval contracts. Requires actual runtimes, drivers/libraries and authorized devices/services; third-party licenses, deployment and costs depend on the chosen dependencies. Report missing prerequisites.",
   "license": "MIT",
   "compatibility": "Requires DesireCore 10.0.203 or newer and actually available file/execution/configuration capabilities. Runtimes, third-party drivers/libraries, hardware and hosted services are not bundled by this Skill and require their applicable license, deployment, authorization and costs. Report unavailable prerequisites.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "requiredClientVersion": "10.0.203",
   "type": "procedural",
   "risk_level": "medium",
