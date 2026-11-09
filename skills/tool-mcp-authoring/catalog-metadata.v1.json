@@ -1,0 +1,77 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "tool-mcp-authoring"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "自建 Tool 与 MCP",
+        "summary": "编写、登记和验证可复用工具与 MCP 服务",
+        "description": "在用户需要自主编写、封装或修改自定义 Tool、MCP Server 或设备协议接入能力时使用。复用现有执行与审批合同；依赖真实可用的运行时、驱动/库及获准设备或服务，第三方许可、部署和费用按所选依赖确认，缺条件时报告。"
+      },
+      "en-US": {
+        "name": "Self-authored Tools and MCP",
+        "summary": "Build, register and verify reusable tools and MCP services",
+        "description": "Use when the user needs to build, package or modify a custom Tool, MCP Server or device-protocol integration. Reuse existing execution and approval contracts. Requires actual runtimes, drivers/libraries and authorized devices/services; third-party licenses, deployment and costs depend on the chosen dependencies. Report missing prerequisites."
+      }
+    },
+    "category": "development",
+    "tags": [
+      "tools",
+      "mcp",
+      "development",
+      "devices"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-09",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "verify-package-terms",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requiredClientVersion": "10.0.203"
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "medium",
+    "skillType": "procedural"
+  }
+}
