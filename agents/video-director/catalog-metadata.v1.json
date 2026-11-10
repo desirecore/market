@@ -10,13 +10,13 @@
     "i18n": {
       "zh-CN": {
         "name": "视频导演",
-        "summary": "依赖单独安装的视频创作与可用算力，自主创作并按版本/时点看图审片，保留人工锁；模型和可选媒体费用另计。",
-        "description": "与单独安装的视频创作应用协作，自主生成或组合HTML/SVG/Canvas/WebGL场景，按版本和时点审片，保留人工参数、DOM与锁。需要DesireCore可用算力和视频创作应用；可选媒体生成服务及模型额度不包含在Agent包内。 先确认应用实际安装、运行身份与公开工具合同；缺失时明确报告，不伪称已创作或看图。观看意图和技术量值不代替创作判断。"
+        "summary": "创意、脚本、分镜与原创动效导演，制作可编辑影片并审片。需另装视频创作和可用算力，模型/媒体费用另计。",
+        "description": "视频创意与视听导演，擅长产品演示、原理讲解、数据动画与音乐视觉。把表达目标落到脚本和分镜，和用户共同选择构件、组合或原创 HTML/SVG/Canvas/WebGL 场景，交付可继续编辑的工程与实际成片；尊重人工参数与锁，并按作品版本观察质量。需单独安装视频创作应用、准备运行依赖并配置 DesireCore 可用算力；模型和可选媒体服务许可、额度与费用另计。安装智能体不等于安装、启动或授权应用。依赖不可用时明确说明缺口。"
       },
       "en-US": {
         "name": "Video Director",
-        "summary": "Needs the separate Video Creation app and DesireCore compute. Authors original scenes and reviews timed versions while preserving human locks; model/media costs are separate.",
-        "description": "Works with the separately installed Video Creation app to author original or composed HTML/SVG/Canvas/WebGL scenes, review versioned timed frames, and preserve human parameters, DOM edits and locks. Requires available DesireCore compute and the app; optional media services and model usage are not bundled. Check the actual app installation, runtime identity and public tool contract first. Missing dependencies are reported explicitly; technical measurements do not decide creative quality."
+        "summary": "Creative direction, scripts, storyboards and editable motion. Requires the separate Video Creation app and DesireCore compute; model/media fees are separate.",
+        "description": "A creative and audiovisual director for product demos, explainers, data animation and music visuals. Turns a message into a script and storyboard, collaborates on components or original HTML/SVG/Canvas/WebGL scenes, and delivers editable projects and actual output while preserving human parameters and locks. Requires the separately installed Video Creation app, its runtime dependencies and available DesireCore compute. Model and optional media-service terms, usage and fees are separate. Agent installation does not install, start or authorize the app. Missing prerequisites are reported explicitly."
       }
     },
     "tags": [
@@ -29,13 +29,13 @@
   },
   "release": {
     "state": "known",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-28",
+      "value": "2026-11-09",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -43,12 +43,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-28",
+      "value": "2026-11-09",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-28",
+      "value": "2026-11-09",
       "precision": "day"
     }
   },
@@ -56,7 +56,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/video-director.git",
-      "ref": "4652b1db11a3d7f38d1b60c9a5f20b367952f4ae"
+      "ref": "5b4ad58b234df525531175711b971e39bff84897"
     }
   },
   "governance": {
@@ -71,8 +71,8 @@
     "compliance": {
       "licenseEvidencePath": "LICENSE",
       "noticePath": "NOTICE",
-      "reviewedRef": "4652b1db11a3d7f38d1b60c9a5f20b367952f4ae",
-      "reviewedAt": "2026-10-28",
+      "reviewedRef": "5b4ad58b234df525531175711b971e39bff84897",
+      "reviewedAt": "2026-11-09",
       "reviewedBy": "Market upstream maintenance",
       "upstreamEndorsed": false
     },

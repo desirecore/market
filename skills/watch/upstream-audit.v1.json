@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "automated:source-license-metadata-v1",
+  "reviewedAt": "2026-11-08T14:30:51Z",
+  "source": {
+    "url": "https://github.com/desirecore-agent/watch-video-skill.git",
+    "previousRef": "5bcd8020c2037b8fced0cd982d3662ceacd09e6b",
+    "ref": "e1859f1859cd5bac2207b7fc05248229bc204255",
+    "paths": [
+      "skills/watch"
+    ]
+  },
+  "checks": {
+    "immutableSnapshots": true,
+    "installedScopeBoundedFiles": true,
+    "licenseAndNoticeUnchanged": true,
+    "structuredPrerequisitesUnchanged": true,
+    "presentationMetadataUnchanged": true
+  },
+  "licenseEvidenceSha256": {
+    "LICENSE": "eb8e211e42afaee6547c2dca4800eaf741b009a493ff71a1f95e5009e7047ea5"
+  },
+  "observedVersions": {
+    "skills/watch": "1.3.0"
+  },
+  "contentManifestSha256": "16728b0419ce878f6a89b299646b528b570fe53c6667f5647bf74d09e591d842",
+  "fileCount": 7,
+  "limitations": [
+    "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
+    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。"
+  ]
+}

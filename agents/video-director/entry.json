@@ -8,7 +8,7 @@
     "editing",
     "visual-review"
   ],
-  "latestVersion": "0.2.0",
+  "latestVersion": "0.2.1",
   "maintainer": {
     "name": "desirecore-agent",
     "verified": false,
@@ -21,22 +21,25 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/video-director.git",
     "repoBranch": "main",
-    "ref": "4652b1db11a3d7f38d1b60c9a5f20b367952f4ae"
+    "ref": "5b4ad58b234df525531175711b971e39bff84897"
   },
   "requiredClientVersion": "10.0.186",
   "i18n": {
     "zh-CN": {
       "name": "视频导演",
-      "shortDesc": "依赖单独安装的视频创作与可用算力，自主创作并按版本/时点看图审片，保留人工锁；模型和可选媒体费用另计。"
+      "shortDesc": "创意、脚本、分镜与原创动效导演，制作可编辑影片并审片。需另装视频创作和可用算力，模型/媒体费用另计。"
     },
     "en-US": {
       "name": "Video Director",
-      "shortDesc": "Needs the separate Video Creation app and DesireCore compute. Authors original scenes and reviews timed versions while preserving human locks; model/media costs are separate."
+      "shortDesc": "Creative direction, scripts, storyboards and editable motion. Requires the separate Video Creation app and DesireCore compute; model/media fees are separate."
     }
   },
   "avatar": {
     "t": "导",
-    "bg": "linear-gradient(135deg, #16a34a, #059669)"
+    "bg": "linear-gradient(135deg, #16a34a, #059669)",
+    "image": {
+      "path": "assets/avatar.png"
+    }
   },
   "installPolicy": "market",
   "updatePolicy": "market"

@@ -2,9 +2,9 @@
 
 本文是未发行候选协议的知识材料。中文权威接口正文位于主仓 `docs/功能/市场系统/API/应用开发发布接口.md`；该路径与外仓 PR 不声明在线文档、客户端或官方 seed 已更新。每次先读取实际 capability 结果和当前 Schema。
 
-Agent 使用原 `AppManage` 的有限作者动作，直接进入已有 release、preview、runtime 或 Docker owner。原 ToolExecutor 调用源、真实 Run/用户/Agent/宿主、材料读取根、当前策略与审批在效果边界重新核验。参数不自报 owner，也不获得平台管理凭据。以下动作可按目标组合，表格不是固定开发步骤。
+Agent 使用原 `AppAuthoring` 的有限作者动作，直接进入已有 release、preview、runtime 或 Docker owner。原 ToolExecutor 调用源、真实 Run/用户/Agent/宿主、材料读取根、当前策略与审批在效果边界重新核验。参数不自报 owner，也不获得平台管理凭据。以下动作可按目标组合，表格不是固定开发步骤。
 
-| AppManage action | 参数包络 | 返回事实 |
+| AppAuthoring action | 参数包络 | 返回事实 |
 |---|---|---|
 | `authoring_capabilities` | 无额外参数 | `capabilities` 的实际 features/policy/hostInstanceId 和当前 Agent 可读的 `fileRoots` 与已登记的 `registryTargetIds`；本次会话可用作草稿来源时给 `draftSource:{agentId,sessionId}`，否则给 `draftSourceUnavailable`（旧客户端两者都没有）；不授上传或文件写权限 |
 | `read_draft` | `file_ref: FileResourceRef` | 从真实授权文件读取并核验的 `draft: AppDraftRef` |
@@ -26,7 +26,7 @@ Agent 使用原 `AppManage` 的有限作者动作，直接进入已有 release�
 | `export_release` | `owner_request: AppReleaseExportRequest`；可另给顶层 `export_file_ref` 与 `expected_absent:true` 或 `expected_etag` | exportRef、archiveDigest、releaseDigest、实际 files/size；显式导出时 archiveFile 包含真实 ZIP fileRef/sha256/size/etag/replayed，不上传 |
 | `distribution_prepare` | `owner_request: AppDistributionPrepareRequest`（exportRef、registryRepoId、source、metadata） | 从真实 export 与 capability 中的目录目标生成三文件草稿，未上传/未提交 |
 
-例如能力调用为 `AppManage({action:'authoring_capabilities'})`。读草稿使用 `action:'read_draft'` 与返回的授权根对应的 `file_ref`；发布准备/提交分别使用 `release_request`，预览/运行纳管/导出使用 `owner_request`。这些包络不是互换字段，原工具及内部 owner 仍逐个严格核验完整 DTO。
+例如能力调用为 `AppAuthoring({action:'authoring_capabilities'})`。读草稿使用 `action:'read_draft'` 与返回的授权根对应的 `file_ref`；发布准备/提交分别使用 `release_request`，预览/运行纳管/导出使用 `owner_request`。这些包络不是互换字段，原工具及内部 owner 仍逐个严格核验完整 DTO。
 
 `prepare_release` 的 AppReleasePrepareRequest 包含 `mutationId`、已授权 `materialRoot: FileResourceRef`、`manifestPath`、可选 expectedReleaseDigest、`target:{appId,installationId,deviceId,sourceId}`。FileResourceRef 的 schemaVersion/instanceId/agentId/rootId/path 来自真实 fileRoots 与本次材料；path 是授权根内相对路径，不能复制别的宿主/Agent/root。首次个人 sourceId 为服务约定的 `user-managed`，不能用名字冒充目录身份。
 
@@ -42,7 +42,7 @@ web-bundle.delivery.entrypoints 固定 `{entrypointId,path,spaFallback?}`；nati
 
 数据合同声明 formatVersion、readableVersions、writableVersions、有限 files key/path/maxBytes/contentType 和 uninstallRetention: retain。备份/迁移/恢复说明引用必须在 payload 白名单中；说明不授权自动执行，安装历史不代表真实数据备份。
 
-动态 Node 示例的 `/.desirecore-app-identity` 返回当前 TaskHost 注入的 proof/releaseDigest/scopeId/runtimeGeneration；proof 仅用于本次运行身份握手，不当应用 API token，不写日志。`AppManage.runtime_enroll` 使用已 prepare 的材料、installationId、真实 terminalId、endpoint.port/identityPath 与 startupPolicy。服务固定原执行合同后，原 Bash 显式停原命令，正式 commit 后由原 owner 启动新代际再核验。具体环境、执行审批和数据根均由实际 owner 决定。
+动态 Node 示例的 `/.desirecore-app-identity` 返回当前 TaskHost 注入的 proof/releaseDigest/scopeId/runtimeGeneration；proof 仅用于本次运行身份握手，不当应用 API token，不写日志。`AppAuthoring.runtime_enroll` 使用已 prepare 的材料、installationId、真实 terminalId、endpoint.port/identityPath 与 startupPolicy。服务固定原执行合同后，原 Bash 显式停原命令，正式 commit 后由原 owner 启动新代际再核验。具体环境、执行审批和数据根均由实际 owner 决定。
 
 原执行命令的初始默认端口写成 `PORT="${PORT:-32000}" node runtime/server.mjs`，其中默认端口需实际可用。重启仍执行原真实 argv，Harness 注入的 preview PORT 不能被写死赋值盖掉。若应用后端需要数据，APP_DATA_DIR 也用已授权 seed 根作为初次默认，后续严格使用 owner 注入的独立根；不可将 seed/candidate 数据自动迁入正式实例。
 
@@ -50,7 +50,7 @@ Docker prepare 的 owner_request 为 `{prepareRef,installationId,endpoint:{port,
 
 ## 平台 HTTP 管理消费者
 
-HTTP 接口保留给平台 UI 或具有合法管理凭据的消费者，普通 HttpRequest 不自动注入实例凭据。Agent 缺少对应原工具能力时说明不可用，不读取实例 token、不改 Origin 绕过 401，也不把凭据交网页。HTTP 返回包络与原 AppManage 结果各按实际合同读取。
+HTTP 接口保留给平台 UI 或具有合法管理凭据的消费者，普通 HttpRequest 不自动注入实例凭据。Agent 缺少对应原工具能力时说明不可用，不读取实例 token、不改 Origin 绕过 401，也不把凭据交网页。HTTP 返回包络与原 AppAuthoring 结果各按实际合同读取。
 
 | 平台接口 | 用途 |
 |---|---|
@@ -65,7 +65,7 @@ HTTP 接口保留给平台 UI 或具有合法管理凭据的消费者，普通 H
 
 downloadPath 仍是平台管理下载路径，不授予网页或普通 HTTP 工具访问。Agent 需要实际 ZIP 时，在 export_release 顶层另给 export_file_ref：使用当前 Agent 原写权限内的 FileResourceRef 目标，path 为该根内相对路径；不能把服务 exports 私有目录挂成工作根。首次给 expected_absent:true，覆盖已有文件给原 expected_etag，两者不能同时提供。返回 archiveFile={fileRef,sha256,size,etag,replayed}，sha256/size 必须等于 export 的 archiveDigest/size；这才是可交原授权上传工具的实际文件。只读 fileRoots 不授写权限。响应丢失保持相同目标/条件/完整正文，已有同一固定字节可重放，其他内容必须按实际 ETag 决定，不能盲覆盖。
 
-目录草稿用原 AppManage.distribution_prepare，完整 AppDistributionPrepareRequest 放在 owner_request；registryRepoId 从 authoring_capabilities.registryTargetIds 选本次真实目标，不自报 sourceId 或构造连接。source 指向用户已实际上传并核验的不可变来源，sha256 等于 archiveDigest。返回 draft 三文件及 mapping/facts；upload 仍为 unverified，catalog 仍为 not-submitted，sourceAcl 仍为 source-admin-managed。写入目录仓库、提交 PR、目录准入和第二用户获取各由原工具取得实际回执；没有目标或来源连接时说明不可用。
+目录草稿用原 AppAuthoring.distribution_prepare，完整 AppDistributionPrepareRequest 放在 owner_request；registryRepoId 从 authoring_capabilities.registryTargetIds 选本次真实目标，不自报 sourceId 或构造连接。source 指向用户已实际上传并核验的不可变来源，sha256 等于 archiveDigest。返回 draft 三文件及 mapping/facts；upload 仍为 unverified，catalog 仍为 not-submitted，sourceAcl 仍为 source-admin-managed。写入目录仓库、提交 PR、目录准入和第二用户获取各由原工具取得实际回执；没有目标或来源连接时说明不可用。
 
 ## 网页协作合同
 
