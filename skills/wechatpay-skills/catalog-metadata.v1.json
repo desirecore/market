@@ -52,7 +52,7 @@
       "kind": "git",
       "url": "https://github.com/wechatpay-apiv3/wechatpay-skills.git",
       "path": "wechatpay-payment-integration",
-      "ref": "039b0ae50d6b5d4631be8ea991155f8a7958a2d9"
+      "ref": "d951d0d36f9cac04fc462faf6d1e223f1eb0b5a0"
     }
   },
   "governance": {
