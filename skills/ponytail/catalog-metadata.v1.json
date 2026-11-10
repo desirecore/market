@@ -1,0 +1,113 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "ponytail"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Ponytail",
+        "summary": "Guide coding agents toward small, complete changes by reusing project code, standard libraries and platform features. The main Markdown skill requires an Agent Skills host.",
+        "description": "Lists the standalone skills/ponytail instructions from upstream release 5.3.3. The Markdown skill guides small changes and appropriate verification without a separate CLI or MCP requirement. The market installs the main skill directory. Plugin hooks, companion commands and host integration are separate. Check the target project’s tools, versions and permissions before acting. Report unavailable checks and work within the available scope. Review covers pinned source, metadata, prerequisites and license. Runtime and cross-platform behavior remain untested."
+      },
+      "zh-CN": {
+        "name": "Ponytail 精简编码",
+        "summary": "指导编码 Agent 优先复用现有实现、标准库和平台能力，用最小完整改动解决问题。主技能是 Markdown 指引，需支持 Agent Skills 的宿主。",
+        "description": "收录上游 5.3.3 发行版的 skills/ponytail 主技能。它提供精简编码和必要验证指引，可独立读取，无需额外 CLI 或 MCP。市场安装范围限于主技能目录，插件 hooks、附加命令与宿主集成需另行获取和配置。按目标项目核对开发工具、版本和访问权限。缺少工具时说明影响，按实际可用范围继续，避免报告未执行的检查。审核覆盖固定来源、元数据、依赖说明和许可，实际运行及跨平台表现尚未验收。"
+      }
+    },
+    "category": "development",
+    "tags": [
+      "coding",
+      "code-simplification",
+      "development"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "5.3.3",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-07",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "known",
+      "value": "2026-10-29T03:11:08Z",
+      "precision": "second"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-07",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-07",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/DietrichGebert/ponytail.git",
+      "ref": "7801d061243d7b753bad0e0b3c057cd250b11755",
+      "path": "skills/ponytail"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "listingMaintainer": {
+      "name": "mashagua",
+      "verified": false
+    },
+    "upstreamMaintainer": {
+      "name": "Dietrich Gebert",
+      "verified": false,
+      "url": "https://github.com/DietrichGebert/ponytail"
+    },
+    "branding": {
+      "relationship": "independent-listing",
+      "nameUsage": "nominative",
+      "logoStatus": "not-used"
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "7801d061243d7b753bad0e0b3c057cd250b11755",
+      "reviewedAt": "2026-11-07",
+      "reviewedBy": "Market source and metadata review",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "需支持 Agent Skills 的宿主。主技能只包含 Markdown 指引，无额外 CLI 或 MCP 硬依赖。 / Requires an Agent Skills host. The main Markdown skill has no separate CLI or MCP prerequisite."
+      },
+      {
+        "kind": "permission",
+        "value": "实际代码变更和验证需目标项目对应的权限及工具。工具缺失时说明阻碍和未执行的检查。 / Code changes and verification require appropriate project access and tools. Report missing tools and checks that could not run."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}
