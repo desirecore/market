@@ -55,8 +55,8 @@
 | `pull` | 从已连接的远程拉取并校验团队 | `teamId`；进入审批闸门 |
 | `add_remote` | 配置或更换发布目标 | `teamId`、`url`；`connectionId?`、`branch?`、`isPrivate?`；不创建远程仓库 |
 | `remove_remote` | 移除远程配置与本机连接绑定 | `teamId`；不删除远程仓库 |
-| `install_members` | 按现有 lock 补齐成员 | `teamId`；`forceUpdate?`，默认 false |
-| `upgrade_members` | 解析新 lock 并尝试安全升级 | `teamId`；`forceUpdate?`，默认 true；保留本机修改和提交 |
+| `install_members` | 将缺失成员安装为上游 fork，保留已有成员 | `teamId`；`forceUpdate` 已弃用，不改变成员内容 |
+| `upgrade_members` | 记录成员当前实际 HEAD/版本，补齐缺失成员 | `teamId`；更新成员内容使用 Agent Sync |
 | `release` | 创建本地版本或发布精确版本 | `teamId`；`push?` 默认 false、`changelogEntry?`、`expectedCommit?`；重试已有版本用 `releaseTag` |
 
 ### 3. 创建团队
@@ -109,7 +109,7 @@
 
 - 成员增删优先使用批量 action，避免多次调用产生中间状态。
 - `set_supervisor` 使用 `agentId` 指定新组长；先确认其未担任其他团队组长。
-- `set_member_source` 声明来源，不搬运文件。名册里只要还留着 `local` 成员，团队就**不可分发**——`members.lock.json` 无法锁定一个只存在于本机的 ID，别处 fork 出来会静默缺员。发布前把每个成员改为 `git` 或 `registry`；该动作会自动解析并写 lock，核对解析回执即可。它改不了成员的 `role`，换组长用 `set_supervisor`。
+- `set_member_source` 声明来源，不搬运文件。名册里只要还留着 `local` 成员，团队就**不可分发**——`members.lock.json` 无法为只存在于本机的 ID 提供另一设备的安装来源，别处 fork 出来会静默缺员。发布前把每个成员改为 `git` 或 `registry`；该动作会自动解析并写 lock，核对解析回执即可。它改不了成员的 `role`，换组长用 `set_supervisor`。
 - `update` 是部分更新：未传字段保持原值。
 - `parentTeamId: null` 表示摘除父团队成为顶层团队；空字符串非法。
 - `type` 只允许 `ephemeral → persistent`。原值幂等更新可以接受；明确升级优先使用 `promote`。
@@ -151,7 +151,7 @@
 
 - `push/pull` 要求已有远程配置；未连接时使用 `add_remote` 配置目标和已有连接。客户端团队设置也是可选入口。Agent 可以自主选择配置方式。
 - `create` 和 `fork_team` 得到的本地团队默认都不继承可直接推送的远程配置。
-- `fork_team` 默认 `installMembers=true`；本机已偏离锁定版本的同名 Agent 会被跳过保护，不会覆盖。
+- `fork_team` 默认 `installMembers=true`；同名已有 Agent 保留当前内容。它与团队记录或其他来源的差异是观察事实，不作为阻塞工作或覆盖成员的理由。
 - `pull` 可能覆盖本地团队配置；先查看本地状态并说明审批卡中的目标远程。
 
 发布与成员版本：
@@ -159,9 +159,11 @@
 - `release` 默认只创建本地版本；明确要对外发布时传 `push=true`。审批摘要显示实际目标和版本，只推分支及本次正式 tag，不推 `backup/`、`archive/` 或其他 tag。
 - 先用 `get` 核对团队；新版本可传 `expectedCommit` 约束 HEAD。返回 `tag/version/commitHash` 与 `branchPushed/tagPushed/pushed`，本地成功和远端发布分别核验。
 - 网络失败或远端结果未知时，先检查远端；用返回的 `releaseTag` 重试同一版本，不再次运行无 tag 的 release。重试时不得传 `changelogEntry`。
-- `install_members` 按精确 lock 安装；`upgrade_members` 先解析当前声明，再按新 pin 尝试安全更新。它们不覆盖用户修改、本机提交，不自动回退，也不自动核准内容。
-- `complete=false` 或成员 `outdated/diverged/failed/unreachable` 表示未对齐；不要把 `success=true`、`skippedCount` 或 `failedCount=0` 当成全员升级完成。读取逐成员回执，确认后选择修复方法。
-- 同一 Agent 在多个团队有不同 pin 时，不自动覆盖现有分叉；保留数据并报告冲突。
+- 团队 lock 只记录验证/观察版本，不钉住成员交付。`install_members` 把缺失成员安装为声明分支或已获准市场来源的 fork；`upgrade_members` 记录成员当前实际 HEAD/版本并补齐缺失成员。`forceUpdate` 是已弃用的兼容字段。检测、安全更新、确认合并、冲突处理和显式重置均使用 Agent Sync；内容核准仍是独立操作。
+- 完整仓库跟随声明分支，市场 pointer 与子目录仍保留审核 pin 边界。git 来源只有 tag/commit、没有跟踪分支时，保留已有内容并报告缺少的精确分支选择，不猜默认分支。
+- 读取逐成员 `lockRelation`、`upstreamStatus`、`deliverySources` 和 `sourceConflict`。相对团队记录的领先/落后/分叉不阻塞现有成员，也不触发降级。多个来源并列报告，由 Agent 显式选择并继续任务。忙碌、脏工作树或有冲突的存量仓库保留全部本机内容与提交，再走既有恢复/更新入口。
+- `complete=false` 或成员 `failed/unreachable` 需要检查逐成员失败；相对团队记录的旧 `outdated/diverged` 回执不证明成员不可用。`success=true`、跳过计数或零失败都不证明已应用全部上游更新，更不证明业务任务完成。
+- 同一 Agent 在多个团队有不同来源或版本记录时，不设置隐式优先级；保留当前内容、并列报告，由 Agent 选择来源。
 - 远程动作、远程来源声明和远程目标配置提交审批；`ask-external` 对这些动作保留审批，`allow-all` 保留用户对执行主体的全量信任。
 
 ### 7. 分派与收尾
