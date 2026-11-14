@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "automated:source-license-metadata-v1",
+  "reviewedAt": "2026-11-09T01:26:11Z",
+  "source": {
+    "url": "https://github.com/phuryn/pm-skills.git",
+    "previousRef": "8607e3b077817f89bf4a9b623246219734ac3be0",
+    "ref": "9af7bfd0bc47fdad43c2eaa7a43cd13918e7aaef",
+    "paths": [
+      "pm-execution/skills/retro"
+    ]
+  },
+  "checks": {
+    "immutableSnapshots": true,
+    "installedScopeBoundedFiles": true,
+    "licenseAndNoticeUnchanged": true,
+    "structuredPrerequisitesUnchanged": true,
+    "presentationMetadataUnchanged": true
+  },
+  "licenseEvidenceSha256": {
+    "LICENSE": "a2c922f9b81b4f40347ddfa79c38eda0f1278b5a6d108bd4099b4da254c774ee"
+  },
+  "observedVersions": {},
+  "contentManifestSha256": "f919d03642f815ffb7b531b6b53db73c497baa1bd5fa3f89514f11ab34889305",
+  "fileCount": 1,
+  "limitations": [
+    "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
+    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。"
+  ]
+}
