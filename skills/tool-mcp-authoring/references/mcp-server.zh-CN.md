@@ -12,7 +12,7 @@
 
 ## 接入自身 Agent
 
-实际连接请求由当前客户端的 McpConnectionRequest/Schema 决定。通过当前获准且可用的本机 API 路径，可以先 `POST /api/mcp/test-connection`，正文 `{connection: <连接请求>}`；再 `POST /api/agents/<自身 id>/mcp-servers`，正文例如：
+实际连接请求由当前客户端的 McpConnectionRequest/Schema 决定。通过当前获准且可用的本机 API 路径，可以先 `POST /api/mcp/test-connection`，正文 `{connection: <连接请求>}`（stdio 服务端首次启动要下载依赖时，连接测试可能约两分钟才返回；经 `HttpRequest` 调用时传 `timeout: 150000`，缺省 30 秒会先于测试结束，拿不到失败说明与 stderr）；再 `POST /api/agents/<自身 id>/mcp-servers`，正文例如：
 
 ```json
 {

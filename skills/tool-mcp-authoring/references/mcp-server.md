@@ -12,7 +12,7 @@ Identify the Agent Service host that accesses the device. A remote server's COM/
 
 ## Attach to your own Agent
 
-The current McpConnectionRequest/Schema defines the accepted request. Through the current permitted local API path, optionally `POST /api/mcp/test-connection` with `{connection: <connection request>}`, then `POST /api/agents/<own-id>/mcp-servers`, for example:
+The current McpConnectionRequest/Schema defines the accepted request. Through the current permitted local API path, optionally `POST /api/mcp/test-connection` with `{connection: <connection request>}` (on first launch a stdio server may download dependencies, so the connection test can take about two minutes to return; when calling through `HttpRequest`, pass `timeout: 150000`, because the 30-second default ends before the test and returns no failure details or stderr), then `POST /api/agents/<own-id>/mcp-servers`, for example:
 
 ```json
 {
