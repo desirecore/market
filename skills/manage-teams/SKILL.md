@@ -13,7 +13,7 @@ tags:
   - organization
 metadata:
   author: desirecore
-  updated_at: '2026-11-07'
+  updated_at: '2026-11-16'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -26,7 +26,7 @@ metadata:
       description: >-
         创建和管理 Agent 团队，组织多 Agent 协作。Use when 需要多个 Agent 持续协作、建立组织架构，或发布、安装和同步团队仓库时。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:4df2d79d885f382e
+      source_hash: sha256:49059437971354e5
       translated_by: human
     en-US:
       name: Team Management
@@ -34,7 +34,7 @@ metadata:
       description: >-
         Create and govern Agent teams. Use when multiple Agents need sustained collaboration, an organizational hierarchy, or a team repository must be published, installed, or synchronized.
       body: ./SKILL.md
-      source_hash: sha256:4df2d79d885f382e
+      source_hash: sha256:49059437971354e5
       translated_by: human
 market:
   icon: >-
@@ -55,7 +55,7 @@ market:
     fill-opacity="0.7"/><circle cx="21.5" cy="4" r="0.9" fill="#34C759"
     fill-opacity="0.7"/></svg>
   category: productivity
-  required_client_version: 10.0.201
+  required_client_version: 10.0.203
 ---
 
 # manage-teams Skill
@@ -218,11 +218,17 @@ Release and member versions:
 - Inspect the team with `get`; constrain a new release HEAD with `expectedCommit`. Inspect `tag/version/commitHash` and `branchPushed/tagPushed/pushed` separately.
 - After network failure or an unknown remote outcome, inspect the remote and retry with the returned `releaseTag`; do not create another version. Omit `changelogEntry` on retries.
 - Team locks record validated/observed versions; they do not pin member delivery. `install_members` creates missing members as forks of their declared branches or approved Market sources. `upgrade_members` records actual current HEADs/versions and installs missing members. `forceUpdate` is a deprecated compatibility field. Use Agent Sync for detection, safe updates, confirmed merges, conflicts and explicit reset; content approval remains separate.
-- Complete repositories follow the declared branch. Market pointers and subdirectories retain the reviewed-pin boundary. If a git source declares only a tag/commit and no tracking branch, preserve existing content and report the precise missing branch choice; do not invent a default branch.
+- Complete repositories follow the declared branch. Market pointers and subdirectories retain the reviewed-pin boundary. A tag/full 40-character commit source pin remains distinct from its tracking branch: reuse `repository.branch` declared by the same repository at the pinned source, otherwise use the actual remote symbolic HEAD and verify the readable branch OID. Never guess main/master, treat a tag name as a branch, or replace the source pin with a branch tip. This is the current decided rule; release limitations are described below.
 - Read each member’s `lockRelation`, `upstreamStatus`, `deliverySources` and `sourceConflict`. Ahead/behind/diverged relative to a team record does not block an existing member or cause a downgrade. Multiple sources are presented together; the Agent chooses a source explicitly and keeps work moving. Busy, dirty or conflicting legacy repositories retain all local content and commits until their existing recovery/update path can be used.
 - Inspect per-member failures when `complete=false` or status is `failed/unreachable`. Historical `outdated/diverged` results relative to a team record do not prove a member is unusable. Success, skipped counts or zero failures do not prove all upstream updates were applied or that a business task is complete.
 - Different sources or version records for a shared Agent do not establish an implicit priority. Keep current content, report the sources together, and let the Agent choose.
 - Remote actions, remote-source declarations and destination configuration enter approval. `ask-external` retains approval for them; `allow-all` respects the user's full trust in the acting Agent.
+
+### Client Compatibility
+
+- Minimum client: **10.0.203**. The released 203 source includes the main unified-member-update behavior above. It does not include the later tag/commit installation, adoption without an upstream declaration, or remote-default-branch resolution changes from product PR #5930.
+- On 10.0.203, those tag/commit paths fail or defer; an existing member with its own upstream declaration continues using its current content. `sourceConflict` may also reflect a source-pin/tracking-branch difference rather than a distinct repository. Inspect the actual per-member receipt, report the precise unfinished item, and continue unaffected work.
+- This is a 203 implementation limitation, not a request for the user to choose a tracking branch again. Do not change source refs, guess branches, rebind origin or overwrite local content to bypass it. When that sub-capability is required, first verify that the actual released client contains the remote-default-branch implementation; do not assume a future version number or claim that 203 supports it.
 
 ### 7. Dispatch and Finish
 

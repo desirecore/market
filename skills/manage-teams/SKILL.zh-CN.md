@@ -160,11 +160,17 @@
 - 先用 `get` 核对团队；新版本可传 `expectedCommit` 约束 HEAD。返回 `tag/version/commitHash` 与 `branchPushed/tagPushed/pushed`，本地成功和远端发布分别核验。
 - 网络失败或远端结果未知时，先检查远端；用返回的 `releaseTag` 重试同一版本，不再次运行无 tag 的 release。重试时不得传 `changelogEntry`。
 - 团队 lock 只记录验证/观察版本，不钉住成员交付。`install_members` 把缺失成员安装为声明分支或已获准市场来源的 fork；`upgrade_members` 记录成员当前实际 HEAD/版本并补齐缺失成员。`forceUpdate` 是已弃用的兼容字段。检测、安全更新、确认合并、冲突处理和显式重置均使用 Agent Sync；内容核准仍是独立操作。
-- 完整仓库跟随声明分支，市场 pointer 与子目录仍保留审核 pin 边界。git 来源只有 tag/commit、没有跟踪分支时，保留已有内容并报告缺少的精确分支选择，不猜默认分支。
+- 完整仓库跟随声明分支，市场 pointer 与子目录仍保留审核 pin 边界。tag/完整 40 位 commit 的来源 pin 与跟踪分支分别保留：优先沿用来源 pin 内同仓的 `repository.branch`；未声明时取远端实际 symbolic HEAD 指向的分支，并核对可读分支 OID。不猜 main/master、不把 tag 名当分支，也不把来源 pin 改装为分支 tip。这是当前已决定规则；发布版限制见下文。
 - 读取逐成员 `lockRelation`、`upstreamStatus`、`deliverySources` 和 `sourceConflict`。相对团队记录的领先/落后/分叉不阻塞现有成员，也不触发降级。多个来源并列报告，由 Agent 显式选择并继续任务。忙碌、脏工作树或有冲突的存量仓库保留全部本机内容与提交，再走既有恢复/更新入口。
 - `complete=false` 或成员 `failed/unreachable` 需要检查逐成员失败；相对团队记录的旧 `outdated/diverged` 回执不证明成员不可用。`success=true`、跳过计数或零失败都不证明已应用全部上游更新，更不证明业务任务完成。
 - 同一 Agent 在多个团队有不同来源或版本记录时，不设置隐式优先级；保留当前内容、并列报告，由 Agent 选择来源。
 - 远程动作、远程来源声明和远程目标配置提交审批；`ask-external` 对这些动作保留审批，`allow-all` 保留用户对执行主体的全量信任。
+
+### 客户端兼容性
+
+- 最低客户端为 **10.0.203**。已发布的 203 源码包含上述成员统一更新主体，但尚不包含产品 PR #5930 后续补充的 tag/commit 首装、未声明上游的存量采纳及真实远端默认分支解析。
+- 在 10.0.203 上，这些 tag/commit 入口会失败或延后；已有自身上游声明的成员继续使用当前内容。`sourceConflict` 也可能只是来源 pin 与跟踪分支的差异，不一定是不同仓库。按实际逐成员回执说明精确未完成项，并继续不受影响的工作。
+- 这是 203 的实现限制，不是要求用户重新选择跟踪分支。不得为绕过限制擅自修改来源 ref、猜分支、重绑 origin 或覆盖本机内容。需要这项子能力时，先核验实际已发布客户端确已包含真实默认分支实现；不假定未来版本号，也不宣称 203 已支持。
 
 ### 7. 分派与收尾
 
