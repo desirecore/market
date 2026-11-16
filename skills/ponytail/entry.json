@@ -1,0 +1,38 @@
+{
+  "id": "ponytail",
+  "name": "Ponytail",
+  "category": "development",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"m8 6-5 6 5 6m8-12 5 6-5 6m-3-14-2 16\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "coding",
+    "code-simplification",
+    "development"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Ponytail 精简编码",
+      "shortDesc": "指导编码 Agent 优先复用现有实现、标准库和平台能力，用最小完整改动解决问题。主技能是 Markdown 指引，需支持 Agent Skills 的宿主。"
+    },
+    "en-US": {
+      "name": "Ponytail",
+      "shortDesc": "Guide coding agents toward small, complete changes by reusing project code, standard libraries and platform features. The main Markdown skill requires an Agent Skills host."
+    }
+  },
+  "maintainer": {
+    "name": "Dietrich Gebert",
+    "verified": false,
+    "url": "https://github.com/DietrichGebert/ponytail",
+    "account": "DietrichGebert"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "latestVersion": "5.3.3",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/DietrichGebert/ponytail.git",
+    "repoBranch": "main",
+    "ref": "7801d061243d7b753bad0e0b3c057cd250b11755",
+    "path": "skills/ponytail"
+  }
+}

@@ -15,7 +15,7 @@ Checks:
   6. Frontmatter parses cleanly; heading count of locale body matches source body (+/- 0).
   7. categories.json's per-category i18n covers all locales declared in manifest.json.
   8. Top-level description is 1-1024 chars (spec); top-level name is 1-64 chars (spec).
-  9. Skill/Agent/Team counts and builtin skill index match the repository contents.
+  9. Skill/Agent/Team counts match the repository contents; the builtin skill index is a sorted local subset.
   10. Skill, Agent, Team, and entry.json category references exist in categories.json.
   11. entry.json pointers have the required marketplace fields, valid inline SVG icons, and safe source URLs.
       Team pointers additionally accept only git sources, because a team is installed by forking
@@ -437,20 +437,17 @@ def validate_builtin_manifest(
             f"active and retired Skill IDs overlap {overlap}",
         ))
 
-    expected = sorted(skill_md_names)
-    actual = list(skills)
-    if actual != expected:
-        missing = sorted(set(expected) - set(actual))
-        extra = sorted(set(actual) - set(expected))
-        order_issue = not missing and not extra
-        parts = []
-        if missing:
-            parts.append(f"missing local SKILL.md skills {missing}")
-        if extra:
-            parts.append(f"contains non-local skills {extra}")
-        if order_issue:
-            parts.append("skills list is not sorted")
-        report.add(Issue("builtin-skills.json", "builtin-skills", "; ".join(parts)))
+    # Local content also serves optional marketplace installations. Only the
+    # explicitly selected subset is installed automatically by the client.
+    non_local = sorted(set(skills) - set(skill_md_names))
+    if non_local:
+        report.add(Issue(
+            "builtin-skills.json",
+            "builtin-skills",
+            f"contains non-local skills {non_local}",
+        ))
+    if skills != sorted(skills):
+        report.add(Issue("builtin-skills.json", "builtin-skills", "skills list is not sorted"))
 
 
 def validate_agent_json(report: Report, agent_file: Path, category_ids: set[str]) -> None:
