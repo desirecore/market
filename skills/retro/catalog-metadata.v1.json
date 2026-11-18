@@ -31,7 +31,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05T08:00:00Z",
+      "value": "2026-11-09T01:26:11Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -39,12 +39,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-11-09",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-09-14T21:15:01Z",
+      "value": "2026-11-09T01:26:11Z",
       "precision": "second"
     }
   },
@@ -53,7 +53,7 @@
       "kind": "git",
       "url": "https://github.com/phuryn/pm-skills.git",
       "path": "pm-execution/skills/retro",
-      "ref": "8607e3b077817f89bf4a9b623246219734ac3be0"
+      "ref": "9af7bfd0bc47fdad43c2eaa7a43cd13918e7aaef"
     }
   },
   "governance": {
@@ -72,9 +72,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "8607e3b077817f89bf4a9b623246219734ac3be0",
-      "reviewedAt": "2026-10-05",
-      "reviewedBy": "mashagua",
+      "reviewedRef": "9af7bfd0bc47fdad43c2eaa7a43cd13918e7aaef",
+      "reviewedAt": "2026-11-09",
+      "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }
   },
