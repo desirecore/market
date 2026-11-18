@@ -107,9 +107,11 @@ A local skill lives at `skills/<id>/SKILL.md` and combines YAML frontmatter with
 
 Only `SKILL.md` carries frontmatter. Localized `SKILL.<locale>.md` files contain the body, start with the corresponding locale comment, and are referenced by the i18n metadata. For example, `SKILL.zh-CN.md` starts with `<!-- locale: zh-CN -->`. Market skills must set `disable-model-invocation: true` or omit the field; `false` is rejected.
 
-Register every local built-in skill in `builtin-skills.json.skills`, supply its sidecar, and use a valid market category. See the [frontmatter schema](scripts/i18n/schema/skill-frontmatter.schema.json), [Web Access example](skills/web-access/SKILL.md), and [i18n authoring guide](docs/I18N.md) (Chinese).
+Register only the local skills selected for automatic global installation in `builtin-skills.json.skills`, sorted by ID. Other local skills remain available for optional marketplace installation; they do not need an entry in this list. Every local skill still needs its sidecar and a valid market category. See the [frontmatter schema](scripts/i18n/schema/skill-frontmatter.schema.json), [Web Access example](skills/web-access/SKILL.md), and [i18n authoring guide](docs/I18N.md) (Chinese).
 
-The `retired` list identifies former built-in skills that clients may retire at startup. Clients remove only market/bundled copies tracked in `skills.lock` whose `SKILL.md` hash still matches the installation record. Manually installed or locally modified copies are preserved. An ID must never appear in both `skills` and `retired`.
+Removing an ID from `skills` stops automatic installation and updates without removing existing installations or its marketplace listing. Do not add it to `retired` merely to make it optional: retirement may also remove an unchanged official copy that a user installed from the marketplace.
+
+The `retired` list explicitly requests cleanup of former built-in installations at startup. Clients require managed bundled or official-market ownership, an unchanged installed-tree digest, and no local runtime state before removing a copy. Unmanaged, third-party, locally modified, or runtime-bearing copies are preserved. An ID must never appear in both `skills` and `retired`.
 
 ### External skills and collections
 
