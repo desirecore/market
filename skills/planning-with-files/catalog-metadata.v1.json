@@ -27,27 +27,27 @@
   },
   "release": {
     "state": "known",
-    "version": "3.25.2",
+    "version": "3.28.1",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-27",
-      "precision": "day"
+      "value": "2026-11-08T01:26:04Z",
+      "precision": "second"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-27",
+      "value": "2026-11-08",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-27",
-      "precision": "day"
+      "value": "2026-11-08T01:26:04Z",
+      "precision": "second"
     }
   },
   "provenance": {
@@ -55,7 +55,7 @@
       "kind": "git",
       "url": "https://github.com/OthmanAdi/planning-with-files.git",
       "path": "skills/planning-with-files",
-      "ref": "dcdfb278de53fdb69b2067ea173dbb1de45345a3"
+      "ref": "2362ca385ad74f061aa0e7b73f56543a4b7e6df2"
     }
   },
   "governance": {
@@ -74,9 +74,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "dcdfb278de53fdb69b2067ea173dbb1de45345a3",
-      "reviewedAt": "2026-10-27",
-      "reviewedBy": "Market upstream maintenance",
+      "reviewedRef": "2362ca385ad74f061aa0e7b73f56543a4b7e6df2",
+      "reviewedAt": "2026-11-08",
+      "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }
   },
