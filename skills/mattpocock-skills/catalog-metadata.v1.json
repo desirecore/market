@@ -30,7 +30,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-27",
+      "value": "2026-11-15",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -38,7 +38,7 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-27",
+      "value": "2026-11-15",
       "precision": "day"
     },
     "upstreamObservedAt": {
@@ -56,7 +56,7 @@
   },
   "governance": {
     "stewardship": "community",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
       "state": "known",
       "value": "MIT",
@@ -67,6 +67,13 @@
       "name": "Matt Pocock",
       "url": "https://github.com/mattpocock/skills",
       "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "59db609eb1e18aaf59b63284d0e52255aff0c63c",
+      "reviewedAt": "2026-11-15",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
     }
   },
   "compatibility": {

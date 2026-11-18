@@ -33,7 +33,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-27",
+      "value": "2026-11-15",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -41,7 +41,7 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-27",
+      "value": "2026-11-15",
       "precision": "day"
     },
     "upstreamObservedAt": {
@@ -60,7 +60,7 @@
   },
   "governance": {
     "stewardship": "community",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
       "state": "known",
       "value": "Apache-2.0",
@@ -71,6 +71,14 @@
       "name": "tt-a1i",
       "url": "https://github.com/tt-a1i/archify",
       "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "noticePath": "NOTICE",
+      "reviewedRef": "81c6be8d87090670c45d08a8f97f9d29c5af0bec",
+      "reviewedAt": "2026-11-15",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
     }
   },
   "compatibility": {

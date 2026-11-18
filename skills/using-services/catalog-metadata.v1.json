@@ -11,12 +11,12 @@
       "zh-CN": {
         "name": "使用服务",
         "summary": "发现并调用全局目录中已注册的服务",
-        "description": "发现并调用全局应用与服务目录中已经注册过的 HTTP/MCP 服务。Use when 用户让 Agent 调用某个 API、查找已有服务，或访问通过 registering-services 注册的后端。"
+        "description": "查找并调用全局「应用与服务」目录里登记的 HTTP/MCP 服务，或把其中的 MCP 服务接入本 Agent；本 Agent 已接入的 MCP 服务端不用本技能，按服务端 ID 用 ToolCatalog 检索其工具。Use when 用户要调用目录里的 API 或找尚未接入的现成服务。"
       },
       "en-US": {
         "name": "Using Services",
         "summary": "Discover and invoke registered services from the catalog",
-        "description": "Discover and invoke HTTP/MCP services already registered in the global catalog. Use when the user asks the Agent to call an API, search for an existing service, or query a backend that was registered via the registering-services skill."
+        "description": "Find and call HTTP/MCP services registered in the global Apps & Services catalog, or connect a catalog MCP service to this Agent. For an MCP server this Agent already has, skip this skill and search ToolCatalog by the server ID. Use when the user asks to call an API from the catalog or to find an existing service this Agent has not connected yet."
       }
     },
     "category": "productivity",
@@ -30,13 +30,13 @@
   },
   "release": {
     "state": "known",
-    "version": "1.0.4",
+    "version": "1.1.0",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-09-18",
+      "value": "2026-11-17",
       "precision": "day"
     },
     "releasePublishedAt": {

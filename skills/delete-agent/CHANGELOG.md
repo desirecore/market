@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.7.0] - 2026-11-17
+
+- 删除改为可恢复的本机归档；不再询问或传递 deleteRuns:true。
+- 增加 list_archived / restore、name 冲突和 restoreLedTeams 用法，按真实回执交接团队、调度与历史归属。
+- 最低客户端版本为已正式发布并验证归档工具动作的 DesireCore 10.0.204；技能启用，永久删除仍仅由用户在界面完成。
+- Archive deletion locally and retain history; remove the obsolete deleteRuns:true flow.
+- Add list_archived / restore, name conflicts, and restoreLedTeams; report actual team, schedule, and history receipts.
+- Require released DesireCore 10.0.204 and enable the skill; permanent deletion remains a user-only interface action.
+
 ## [2.5.2] - 2026-07-19
 
 - 复盘补回改写压缩时误删的实质信息：create 的 AgentFS v2/git 版本管理定位、基础创建（name+description 自动填充 persona L0）、需求收集引导问题示例；update/delete/discover 的使用场景与版本管理定位。功能对齐原始意图，仍保留结构性压缩。

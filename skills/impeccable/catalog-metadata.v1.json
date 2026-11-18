@@ -33,7 +33,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-27",
+      "value": "2026-11-15",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -41,7 +41,7 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-27",
+      "value": "2026-11-15",
       "precision": "day"
     },
     "upstreamObservedAt": {
@@ -60,7 +60,7 @@
   },
   "governance": {
     "stewardship": "community",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
       "state": "known",
       "value": "Apache-2.0",
@@ -71,6 +71,13 @@
       "name": "Paul Bakaus",
       "url": "https://github.com/pbakaus/impeccable",
       "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "d34c87e1a00989ae8dbdd7f6b30b70f23319e860",
+      "reviewedAt": "2026-11-15",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
     }
   },
   "compatibility": {
