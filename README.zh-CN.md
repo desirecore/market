@@ -107,9 +107,11 @@ uv run scripts/i18n/validate-i18n.py
 
 只有 `SKILL.md` 包含 frontmatter。`SKILL.<locale>.md` 仅包含对应语言正文，以匹配的语言注释开头，并由 i18n 元数据引用。例如，`SKILL.zh-CN.md` 的首行是 `<!-- locale: zh-CN -->`。市场技能的 `disable-model-invocation` 只能设为 `true` 或省略，`false` 会被拒绝。
 
-每个本地内置技能都必须登记到 `builtin-skills.json.skills`，提供 sidecar，并使用有效分类。参考 [frontmatter Schema](scripts/i18n/schema/skill-frontmatter.schema.json)、[联网访问技能](skills/web-access/SKILL.md)和[多语言作者指南](docs/I18N.md)。
+只有需要自动安装到全局的本地技能才登记到 `builtin-skills.json.skills`，并按 ID 排序。其他本地技能仍可从市场按需安装，无需进入此清单。所有本地技能仍须提供 sidecar，并使用有效分类。参考 [frontmatter Schema](scripts/i18n/schema/skill-frontmatter.schema.json)、[联网访问技能](skills/web-access/SKILL.md)和[多语言作者指南](docs/I18N.md)。
 
-`retired` 用于声明客户端可在启动时退役的旧内置技能。客户端只删除同时满足以下条件的副本：由 `skills.lock` 记录为市场或随包内容，且 `SKILL.md` 哈希仍与安装记录一致。手动安装或经过本地修改的副本会被保留。同一个 ID 不得同时出现在 `skills` 和 `retired` 中。
+从 `skills` 移除 ID 只停止自动安装和更新，不删除已有安装或市场条目。仅改为可选安装时不要加入 `retired`：退役机制也可能清理用户从市场主动安装、内容未修改的官方副本。
+
+`retired` 用于明确要求在启动时清理旧内置安装。客户端仅在确认随包或官方市场管理归属、完整安装树摘要未偏离且没有本地运行状态时删除副本。无管理证据、第三方来源、本地修改或带有运行状态的副本均保留。同一个 ID 不得同时出现在 `skills` 和 `retired` 中。
 
 ### 外部技能与技能集合
 
