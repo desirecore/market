@@ -10,13 +10,13 @@
     "i18n": {
       "zh-CN": {
         "name": "AI 文生图",
-        "summary": "AI 文本生成图片技能（支持 GPT Image / 通义万相）",
-        "description": "当用户希望生成图片时使用此技能。支持多种模型：gpt-image-2（默认，通过 DesireCore Cloud）、wan2.7-image-pro / wan2.7-image（用户自行配置阿里云 DashScope 时可用）。通过 OpenAI 兼容的 /images/generations API 同步生成图片。 用户提到 生成图片、画图、文生图、创建图片、AI 绘画、生成插图、画一张、帮我画、设计图片。"
+        "summary": "遵循已配置默认与实际模型目录生成图片",
+        "description": "按用户明确选择或已保存的图片生成默认与当前运行时目录生成图片。需要已启用的供应商、模型访问权限及额度；供应商条款与单独使用费用仍适用。适用于画图、插画、文生图与 AI 图片创作。"
       },
       "en-US": {
         "name": "AI Image Generation",
-        "summary": "AI text-to-image generation (GPT Image / Wan models)",
-        "description": "Use this skill when the user wants to generate images. Supports multiple models: gpt-image-2 (default via DesireCore Cloud), wan2.7-image-pro / wan2.7-image (when user has DashScope configured). Uses the OpenAI-compatible /images/generations API. Trigger keywords: generate image, draw, text-to-image, create image, AI painting, illustration, design picture."
+        "summary": "Generate images with configured defaults and the runtime catalog",
+        "description": "Generate images using the user’s explicit choice or saved image-generation default and the current runtime catalog. Requires an enabled provider, model access and quota; provider terms and separate usage charges apply. Use for drawing, illustrations, text-to-image and AI image creation."
       }
     },
     "category": "media",
@@ -30,14 +30,14 @@
   },
   "release": {
     "state": "known",
-    "version": "1.4.2",
+    "version": "1.4.3",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-07-14T03:55:22Z",
-      "precision": "second"
+      "value": "2026-11-07",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
