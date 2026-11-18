@@ -1,0 +1,40 @@
+{
+  "id": "rea-video",
+  "name": "Rea-Video",
+  "category": "media",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"M7 9h10M7 15h10m-5-6v6\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
+  "tags": [
+    "video-analysis",
+    "shot-detection",
+    "video-production",
+    "videomd"
+  ],
+  "latestVersion": "0.1.0",
+  "riskLevel": "medium",
+  "i18n": {
+    "en-US": {
+      "name": "Rea-Video",
+      "shortDesc": "Analyze how a video was made shot by shot, from live action to AI and motion graphics. Get a VIDEO.md package and an HTML report. Requires the Rea-Video CLI, Python 3.10+ and FFmpeg. Optional visual analysis and remake services require separate setup and may incur fees."
+    },
+    "zh-CN": {
+      "name": "Rea-Video 视频拆解",
+      "shortDesc": "逐镜拆解视频的制作方式、剪辑包装和声音，生成 VIDEO.md 拆片包和 HTML 报告。需另装 Rea-Video CLI、Python 3.10+ 和 FFmpeg。视觉模型和复刻服务可选，需单独配置，可能收费。"
+    }
+  },
+  "maintainer": {
+    "name": "June",
+    "verified": false,
+    "url": "https://github.com/JuneYaooo/rea-video",
+    "account": "JuneYaooo"
+  },
+  "stewardship": "community",
+  "license": "Apache-2.0",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/JuneYaooo/rea-video.git",
+    "repoBranch": "main",
+    "ref": "07dd587119e884f7c50fbfae92e47840de86bea5",
+    "path": "skills/rea-video"
+  }
+}

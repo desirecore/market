@@ -1,10 +1,12 @@
 ---
-license: "MIT"
+license: MIT
 name: delete-agent
-description: 安全删除指定的智能体及其关联数据。删除前会验证智能体状态，支持可选地删除所有会话历史。Use when 用户需要删除不再使用的智能体。
-version: 2.6.0
+description: Archive unused Agents, list local archives and restore them through
+  ManageAgent. Only the user can permanently delete an Agent through the
+  interface.
+version: 2.7.0
 type: meta
-risk_level: high
+risk_level: medium
 status: enabled
 disable-model-invocation: true
 tags:
@@ -13,7 +15,7 @@ tags:
   - meta
 metadata:
   author: desirecore
-  updated_at: '2026-08-25'
+  updated_at: '2026-11-17'
   i18n:
     default_locale: en-US
     source_locale: zh-CN
@@ -21,23 +23,27 @@ metadata:
       - zh-CN
       - en-US
     zh-CN:
-      name: 删除智能体
-      short_desc: 安全删除智能体及其关联数据，支持多重确认与可选历史清理
-      description: 安全删除指定的智能体及其关联数据。删除前会验证智能体状态，支持可选地删除所有会话历史。Use when 用户需要删除不再使用的智能体。
+      name: 删除与恢复智能体
+      short_desc: 归档或恢复智能体，保留历史并报告团队和调度事项
+      description: 通过 ManageAgent 归档不再使用的智能体、查询本机归档与恢复；永久删除仅由用户在界面完成。
       body: ./SKILL.zh-CN.md
-      source_hash: sha256:b401869e91222236
-      translated_by: human
+      source_hash: sha256:4f5aae9c80b22ee9
+      translated_by: ai:gpt-6
+      translated_at: '2026-11-16'
     en-US:
-      name: Delete Agent
-      short_desc: Safely delete an Agent and its associated data, with multi-step confirmation and optional history cleanup
-      description: Safely delete a specified Agent and its associated data. Verifies the Agent's state before deletion and optionally removes all session history. Use when the user needs to delete an Agent that is no longer in use.
+      name: Archive and Restore Agents
+      short_desc: Archive or restore Agents, keep history, and report team and
+        schedule follow-up
+      description: Archive unused Agents, list local archives and restore them through
+        ManageAgent. Only the user can permanently delete an Agent through the
+        interface.
       body: ./SKILL.md
-      source_hash: sha256:b401869e91222236
-      translated_by: human
+      source_hash: sha256:4f5aae9c80b22ee9
+      translated_by: ai:gpt-6
+      translated_at: '2026-11-16'
 market:
-  icon: >-
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
-    24 24" fill="none"><defs><linearGradient id="da2-a" x1="2" y1="7" x2="16"
+  icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0
+    0 24 24" fill="none"><defs><linearGradient id="da2-a" x1="2" y1="7" x2="16"
     y2="21" gradientUnits="userSpaceOnUse"><stop stop-color="#FF9500"/><stop
     offset="1" stop-color="#FF3B30"/></linearGradient></defs><circle cx="9"
     cy="7" r="4" fill="url(#da2-a)" fill-opacity="0.15" stroke="url(#da2-a)"
@@ -52,56 +58,43 @@ market:
     verified: true
   compatible_agents: []
   channel: latest
-  required_client_version: 10.0.90
+  required_client_version: 10.0.204
 ---
 
-# delete-agent skill
+# delete-agent Skill
 
 ## L0: One-Sentence Summary
 
-Safely delete a specified Agent and its associated data (filesystem, in-memory state, optional conversation history).
+Archive unused Agents or restore them from local archives, preserve conversation history, and report team and schedule follow-up from actual receipts.
 
 ## L1: Overview
 
-Meta-skill: list candidates → confirm intent (irreversible) → ask whether to delete history → execute via `ManageAgent(action='delete')`. Use it to clean up Agents that are no longer used, test/experimental, or need storage reclaimed. Its value is what the tool can't give: candidate filtering with status guidance, and intent confirmation before deletion. The tool guarantees the multi-way refusals (core agent / self / active state) and team cascading.
+Use this for deleting an Agent, recovering an accidental deletion, or inspecting local archives. Use `ManageAgent`, without local HTTP calls or manually moving archive directories. Deletion archives the Agent: it can be recovered locally, does not expire automatically, and is excluded from subsequent backups and migration packages. Only the user can permanently delete it through Settings → Data & Privacy → Archive.
 
-## L2: Detailed Spec
+## L2: Detailed Specification
 
-Flow: list deletable Agents → confirm intent and target → ask whether to delete history → execute → receipt.
+### Archive an Agent
 
-### Stage 1: List Candidates
+When the target is unspecified, list candidates with `ManageAgent(action='list')`; use `get` for details. Verify the name and ID, explaining that history is retained and teams it leads are archived too. Do not reconfirm a clearly authorized target; clarify ambiguous targets first. The tool protects built-in Agents, the caller itself, and active Agents. Stop an active target through the interface or wait until it is idle.
 
-When the user hasn't named a specific Agent, fetch the list with `ManageAgent(action='list')` and group by status: `offline` / `error` are safe to delete; `online` / `busy` / `recovery` are marked "stop first" (the tool will refuse them) and excluded from the rest of the flow. For details, use `ManageAgent(action='get', id)`. E.g.:
+Call `ManageAgent(action='delete', id='example-agent')`. Do not ask whether to delete history or pass `deleteRuns=true`: the new tool rejects it. Approval follows the caller's approval mode; do not promise a dialog. Report the actual archive identifier, team and worktree dispositions, and warnings. Unbinding preserves worktrees and branches. Retain `archiveId` for recovery when needed; do not claim archiving reclaims all disk space.
 
-```
-Deletable: Legal Advisor (legal-assistant, offline), Test Bot (test-bot, offline)
-Stop first: Data Analyst (data-analyst, online)
-```
+### List Archives and Restore
 
-### Stage 2: Confirm Intent
+Use `ManageAgent(action='list_archived')` to inspect local archives. This is read-only and does not roll forward or repair incomplete transactions. Explain the actual `phase`, `restorable`, and `originalIdOccupied` values. Query again when an identifier is missing or an archive has disappeared; never invent an `archiveId`.
 
-Confirm the target Agent (name/ID) with the user, **explicitly state it is irreversible** (config, skills, tools will be permanently deleted), show basic info, and wait for confirmation.
+For a restorable entry, call `ManageAgent(action='restore', archiveId='identifier from the list')`. If the original ID is occupied, obtain the user's choice of a new name and pass `name`; never overwrite an existing Agent. When the original ID is free, providing `name` renames without forcing an ID change. `restoreLedTeams` defaults to `true`; pass `false` if the user wants its led teams to remain archived.
 
-### Stage 3: Ask About Deletion Options
+An occupied original ID means restoration under a new ID: conversation history remains under the original ID, schedules are not restored, and absolute-path environments in private skills may need preparation again. Explain these consequences before execution. Restoration has the same approval tier as creation, with no additional confirmation. The owner still validates identity and permissions; do not supply a fabricated `userId` or impersonate the official Renderer.
 
-Ask whether to also delete all of the Agent's conversation history: yes → `deleteRuns=true`; no → `deleteRuns=false` (default, omittable, keeps history).
+### Complete the Handoff from the Receipt
 
-### Stage 4: Execute Deletion
+`agentId` identifies the actual restored Agent. `idChanged` and `runsAttached` describe identity and history attachment. Report `teams.restored`, `teams.pending`, `teams.memberOf`, and `warnings`. Led teams not restored together need handling in the archive page's Teams segment; former memberships are not reinstated.
 
-Before the call, reconfirm the target and the `deleteRuns` choice. The tool submits deletion to the current approval chain; whether an additional dialog appears depends on the caller's approval mode. Do not promise that a dialog will appear unless an approval event is actually shown. Execute:
+Schedules do not enable automatically. `schedules.reenablable` can be enabled through the existing update entry; `recreateRequired` must be recreated, with scripts uploaded again; `dropped` lists definitions not restored under a new ID. Old instance authorization does not revive. MCP OAuth, App links, and worktree bindings are not reinstated. Agent restoration does not establish that all teams, schedules, or authorizations have been restored.
 
-```
-ManageAgent(action='delete', id='legal-assistant', deleteRuns=true)
-```
+### Failures and Permanent Deletion
 
-After confirmation the deletion completes, including team cascading: a team whose supervisor is the target is disbanded; membership is removed where the target is a member.
+Preserve returned error codes, states, and warnings. `AGENT_RESTORE_ID_OCCUPIED` requires `name` or another query to inspect concurrent occupation. Do not bypass `AGENT_RESTORE_USER_MISMATCH` by claiming another identity. Follow the actual failure for incomplete, corrupt, or cleanup-pending archives; do not remove containers yourself. Verify unknown results through the list before retrying a restore or creating another Agent.
 
-### Stage 5: Receipt
-
-From the tool's return (cleaned paths, deleted run count, memory-cleanup details), produce a user-friendly report (no internal paths), e.g. "✅ Deleted XXX; cleaned filesystem / scheduler / subscriptions / MCP / N conversation records / team cascade".
-
-### Deletion Scope and Boundaries
-
-- **Always deleted**: AgentFS directory (config/persona/rules/skills/tools/memory), user preference data, in-memory state (scheduler/queue/message subscriptions/MCP connections), registry entry. **Optionally deleted** (`deleteRuns=true`): conversation history and topic index. **Team cascade** (automatic): supervisor → disband team, member → remove. **Kept**: other Agents, user config, global settings, market cache.
-- Explain tool refusals to the user with a next step: the core agent (desirecore / core / bound UUID) cannot be deleted; the caller can't delete itself; active state (online/busy/recovery) needs stopping in the UI first or waiting until idle; a non-existent ID means the Agent is already gone or the ID is wrong.
-- Always done via `ManageAgent` (`action='list' | 'get' | 'delete'`). Deletion is high risk: complete this skill's explicit intent confirmation first, then follow the approval result returned by the tool.
+If the user explicitly requests permanent deletion or history removal, guide them to the interface to review credential files and history scope and complete confirmation. Do not attempt `purge`, directory deletion through Bash, or Renderer-protected HTTP endpoints. Existing backup copies are unaffected by permanent deletion. Whether marketplace uninstall is recoverable depends on the actual client capability; this Skill does not promise later implementation stages.
