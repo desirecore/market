@@ -1,0 +1,75 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "douyin-video-download"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "zh-CN": {
+        "name": "抖音视频下载",
+        "summary": "抖音视频无水印下载：H5 header 两段式路线，免登录免浏览器",
+        "description": "抖音视频无水印下载（H5 header 路线）：短链解析、两段式请求 iesdouyin 分享页取得 ttwid 并提取 videoInfoRes 播放地址、playwm 改 play 去水印下载、ffprobe 校验。免登录、免浏览器渲染，不读取用户浏览器凭据。Use when 用户要求下载/保存/解析抖音视频、去水印，或消息含 v.douyin.com 短链、iesdouyin 分享链接、纯视频 ID；触发词：下载抖音、抖音无水印、保存抖音视频、解析抖音链接、抖音视频下载。"
+      },
+      "en-US": {
+        "name": "Douyin Video Download",
+        "summary": "Watermark-free Douyin downloads over the H5-header two-pass route, no login or browser needed",
+        "description": "Download Douyin videos without watermark over the H5-header route: resolve the share short link, obtain the ttwid device cookie via a two-pass request to the iesdouyin share page, extract the play address from the embedded videoInfoRes JSON, swap playwm for play, download and verify with ffprobe. No login, no browser rendering, no user-browser credential access. Use when the user asks to download, save, or de-watermark a Douyin video, or when a message contains a v.douyin.com short link, an iesdouyin share link, or a bare video ID."
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "douyin",
+      "video",
+      "download",
+      "watermark-free"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-17",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT"
+    },
+    "redistribution": "allowed",
+    "listingMaintainer": {
+      "name": "yi-ge",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low",
+    "skillType": "procedural"
+  }
+}
