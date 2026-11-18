@@ -57,6 +57,32 @@ class BuiltinSkillManifestTests(unittest.TestCase):
         VALIDATOR.validate_builtin_manifest(report, payload, skills)
         return report.issues
 
+    def test_allows_optional_local_skills_without_retirement(self) -> None:
+        self.assertEqual([], self.validate(
+            {"skills": ["default-skill"], "retired": []},
+            ["default-skill", "optional-skill"],
+        ))
+
+    def test_allows_no_automatic_installations(self) -> None:
+        self.assertEqual([], self.validate(
+            {"skills": [], "retired": []},
+            ["optional-skill"],
+        ))
+
+    def test_rejects_non_local_automatic_installations(self) -> None:
+        issues = self.validate(
+            {"skills": ["missing-skill"], "retired": []},
+            ["optional-skill"],
+        )
+        self.assertTrue(any("contains non-local skills" in issue.message for issue in issues))
+
+    def test_rejects_duplicate_active_skills(self) -> None:
+        issues = self.validate(
+            {"skills": ["default-skill", "default-skill"], "retired": []},
+            ["default-skill", "optional-skill"],
+        )
+        self.assertTrue(any("duplicate Skill IDs" in issue.message for issue in issues))
+
     def test_allows_disjoint_sorted_retired_ids(self) -> None:
         self.assertEqual([], self.validate(
             {"skills": ["new-skill"], "retired": ["old-skill"]},

@@ -1,0 +1,745 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "addy-agent-skills"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Addy Agent Skills",
+        "summary": "25 selectable engineering skills for specification, development, testing, review and release. Browser checks need Chrome DevTools MCP. Provide scripts’ runtimes and deployment tools as required by the selected skill.",
+        "description": "Lists the 25 skills in the canonical skills/ directory of release 0.6.15. Choose individual skills and retain their upstream IDs and paths. Localized summaries aid discovery. The market copies selected skill directories, including their own files. Host plugins, workflow commands, subagents and repository-level references/ remain separate. Consult references/ at the same pinned snapshot when a workflow points to a shared checklist.\n\nBrowser testing requires a separately configured compatible Chrome DevTools MCP server, Chrome and appropriate access. Optional constraint and idea-refinement scripts require Node.js and Bash respectively. Check the Git, test, CI/CD, deployment, credential and access requirements for the task. External services retain their own terms and costs. Review scripts and arguments before execution. Skip or stop affected steps when prerequisites are missing and report incomplete verification. Obtain appropriate authorization before pushing, deploying or sending data to an external service. Review covers pinned source, inventory, metadata, prerequisites and license. Runtime and cross-platform behavior remain untested."
+      },
+      "zh-CN": {
+        "name": "Addy 软件工程技能合集",
+        "summary": "25 个可按需选择的软件工程技能，涵盖规格、开发、测试、评审和发布。浏览器检查需另配 Chrome DevTools MCP，脚本和部署工具按所选技能准备。",
+        "description": "收录 0.6.15 发行版规范 skills/ 目录中的 25 个子技能。按需选择，保留上游 ID 和目录路径。市场中文摘要用于发现技能，安装的正文沿用上游内容。市场安装复制所选技能目录及其中的文件，宿主插件、工作流命令、子 Agent 和仓库级 references/ 不在安装范围内。某些流程引用共享清单时，请在同一固定快照的 references/ 中查阅。\n\n浏览器测试需另配兼容的 Chrome DevTools MCP、Chrome 和对应权限。约束检查与创意澄清的可选脚本分别需 Node.js 和 Bash。按任务核对 Git、测试框架、CI/CD、部署环境、凭据和权限。外部服务适用各自条款和费用。执行脚本前阅读其内容并核对参数，缺依赖时跳过或停止相关操作，并说明未完成的验证。推送、部署或向外部服务传输数据需相应授权。审核覆盖固定来源、清单、元数据、依赖说明和许可，实际运行及跨平台表现尚未验收。"
+      }
+    },
+    "category": "development",
+    "tags": [
+      "development",
+      "engineering",
+      "testing",
+      "skill-collection"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-07",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-07",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-07",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/addyosmani/agent-skills.git",
+      "ref": "8bfcc1f9916f2eea55494d8c1fa7f4bde867dd9e"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "listingMaintainer": {
+      "name": "mashagua",
+      "verified": false
+    },
+    "upstreamMaintainer": {
+      "name": "Addy Osmani",
+      "verified": false,
+      "url": "https://github.com/addyosmani/agent-skills"
+    },
+    "branding": {
+      "relationship": "independent-listing",
+      "nameUsage": "nominative",
+      "logoStatus": "not-used"
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "8bfcc1f9916f2eea55494d8c1fa7f4bde867dd9e",
+      "reviewedAt": "2026-11-07",
+      "reviewedBy": "Market source and metadata review",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "需支持 Agent Skills 的宿主。可选脚本分别需要 Node.js 或 Bash，测试与构建工具按目标项目准备。 / Requires an Agent Skills host. Optional scripts use Node.js or Bash. Supply project-specific testing and build tools."
+      },
+      {
+        "kind": "connection",
+        "value": "浏览器测试另配 Chrome DevTools MCP 和 Chrome。部署和观测按项目另配服务，遵循各自条款和费用。 / Browser testing needs separately configured Chrome DevTools MCP and Chrome. Deployment and observability services follow their own terms and costs."
+      },
+      {
+        "kind": "permission",
+        "value": "实际执行前核对工具版本、参数和权限。缺依赖时停止相关步骤并说明影响。推送、部署和数据外传需授权。 / Verify versions, arguments and permissions before execution. Stop affected steps when prerequisites are missing and explain the impact. Obtain authorization for pushes, deployments and external data transfers."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "high",
+    "collection": {
+      "role": "parent",
+      "childCount": 25,
+      "children": [
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "api-and-interface-design",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/api-and-interface-design",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "api-and-interface-design",
+                "summary": "Guides stable API and interface design."
+              },
+              "zh-CN": {
+                "name": "api-and-interface-design",
+                "summary": "先明确接口契约、兼容性和失败语义，再设计 API 与模块边界。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "browser-testing-with-devtools",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/browser-testing-with-devtools",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "browser-testing-with-devtools",
+                "summary": "Tests in real browsers via Chrome DevTools MCP."
+              },
+              "zh-CN": {
+                "name": "browser-testing-with-devtools",
+                "summary": "使用 Chrome DevTools MCP 检查真实浏览器中的 DOM、控制台、网络请求与性能。需另行配置 MCP 和浏览器。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "ci-cd-and-automation",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/ci-cd-and-automation",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "ci-cd-and-automation",
+                "summary": "Automates CI/CD pipeline setup."
+              },
+              "zh-CN": {
+                "name": "ci-cd-and-automation",
+                "summary": "分层设置 CI/CD 检查、部署和回滚。需按项目另备流水线服务、工具及部署权限。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "code-review-and-quality",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/code-review-and-quality",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "code-review-and-quality",
+                "summary": "Conducts multi-axis code review."
+              },
+              "zh-CN": {
+                "name": "code-review-and-quality",
+                "summary": "从正确性、可读性、架构、安全和性能等角度审查代码。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "code-simplification",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/code-simplification",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "code-simplification",
+                "summary": "Simplifies code for clarity."
+              },
+              "zh-CN": {
+                "name": "code-simplification",
+                "summary": "在保留行为的前提下简化代码和抽象，降低后续维护成本。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "constraint-driven-development",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/constraint-driven-development",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "constraint-driven-development",
+                "summary": "Establishes a project's quality bar as a written contract and stops agents quietly lowering it."
+              },
+              "zh-CN": {
+                "name": "constraint-driven-development",
+                "summary": "先与用户明确质量底线，再设置可执行的验证门槛。可选脚本需 Node.js，检查工具按项目配置。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "context-engineering",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/context-engineering",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "context-engineering",
+                "summary": "Optimizes agent context setup."
+              },
+              "zh-CN": {
+                "name": "context-engineering",
+                "summary": "整理 Agent 所需的项目背景和指引，控制上下文范围，便于后续接手。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "debugging-and-error-recovery",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/debugging-and-error-recovery",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "debugging-and-error-recovery",
+                "summary": "Guides systematic root-cause debugging."
+              },
+              "zh-CN": {
+                "name": "debugging-and-error-recovery",
+                "summary": "从复现、定位和缩小范围入手排障，再修复并验证回归风险。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "deprecation-and-migration",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/deprecation-and-migration",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "deprecation-and-migration",
+                "summary": "Manages deprecation and migration."
+              },
+              "zh-CN": {
+                "name": "deprecation-and-migration",
+                "summary": "分阶段弃用旧接口、迁移数据和配置，并保留验证与回滚路径。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "documentation-and-adrs",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/documentation-and-adrs",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "documentation-and-adrs",
+                "summary": "Records decisions and documentation."
+              },
+              "zh-CN": {
+                "name": "documentation-and-adrs",
+                "summary": "更新项目文档，并通过架构决策记录保留选择、依据与影响。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "doubt-driven-development",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/doubt-driven-development",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "doubt-driven-development",
+                "summary": "Subjects every non-trivial decision to a fresh-context adversarial review before it stands."
+              },
+              "zh-CN": {
+                "name": "doubt-driven-development",
+                "summary": "从独立视角质疑关键假设、提取证据并复核结论。跨模型审查是可选流程，需另行授权。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "frontend-ui-engineering",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/frontend-ui-engineering",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "frontend-ui-engineering",
+                "summary": "Builds production-quality, accessible, responsive user-facing UIs."
+              },
+              "zh-CN": {
+                "name": "frontend-ui-engineering",
+                "summary": "构建和审查前端界面，兼顾组件结构、响应式布局、可访问性和交互状态。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "git-workflow-and-versioning",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/git-workflow-and-versioning",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "git-workflow-and-versioning",
+                "summary": "Structures git workflow practices."
+              },
+              "zh-CN": {
+                "name": "git-workflow-and-versioning",
+                "summary": "组织 Git 提交、分支、评审和版本标记。推送或发版需相应权限。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "idea-refine",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/idea-refine",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "idea-refine",
+                "summary": "Refines raw ideas into sharp, actionable concepts through structured divergent and convergent thinking."
+              },
+              "zh-CN": {
+                "name": "idea-refine",
+                "summary": "澄清问题、探索候选方向并收敛为可验证的方案。可选交互脚本需 Bash。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "incremental-implementation",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/incremental-implementation",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "incremental-implementation",
+                "summary": "Delivers changes incrementally in thin, verifiable slices."
+              },
+              "zh-CN": {
+                "name": "incremental-implementation",
+                "summary": "把实现拆成可独立验证的小步，降低变更和回滚成本。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "interview-me",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/interview-me",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "interview-me",
+                "summary": "Extracts what the user actually wants instead of what they think they should want."
+              },
+              "zh-CN": {
+                "name": "interview-me",
+                "summary": "逐个提出澄清问题，梳理用户需求、约束与取舍。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "observability-and-instrumentation",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/observability-and-instrumentation",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "observability-and-instrumentation",
+                "summary": "Instruments code so production behavior is visible and diagnosable."
+              },
+              "zh-CN": {
+                "name": "observability-and-instrumentation",
+                "summary": "规划和检查日志、指标、追踪与告警；接入观测服务时需另行配置。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "performance-optimization",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/performance-optimization",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "performance-optimization",
+                "summary": "Optimizes application performance across frontend, backend, queries, and databases."
+              },
+              "zh-CN": {
+                "name": "performance-optimization",
+                "summary": "先测量瓶颈，再比较优化前后的性能数据。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "planning-and-task-breakdown",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/planning-and-task-breakdown",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "planning-and-task-breakdown",
+                "summary": "Breaks work into ordered tasks."
+              },
+              "zh-CN": {
+                "name": "planning-and-task-breakdown",
+                "summary": "把规格拆成有依赖顺序、验收标准和验证方式的任务。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "security-and-hardening",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/security-and-hardening",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "security-and-hardening",
+                "summary": "Hardens code against vulnerabilities."
+              },
+              "zh-CN": {
+                "name": "security-and-hardening",
+                "summary": "按实际威胁检查权限、输入、依赖、敏感数据与配置，记录验证范围。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "shipping-and-launch",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/shipping-and-launch",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "shipping-and-launch",
+                "summary": "Prepares production launches."
+              },
+              "zh-CN": {
+                "name": "shipping-and-launch",
+                "summary": "核对上线准备、发布验证和回滚。实际部署需授权及已配置的目标环境。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "source-driven-development",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/source-driven-development",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "source-driven-development",
+                "summary": "Grounds every implementation decision in official documentation."
+              },
+              "zh-CN": {
+                "name": "source-driven-development",
+                "summary": "优先用官方文档和可验证资料支持技术判断，记录适用版本和证据。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "spec-driven-development",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/spec-driven-development",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "spec-driven-development",
+                "summary": "Creates specs before coding."
+              },
+              "zh-CN": {
+                "name": "spec-driven-development",
+                "summary": "在实现前明确目标、约束、边界、命令和验收标准。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "test-driven-development",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/test-driven-development",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "test-driven-development",
+                "summary": "Drives development with tests using the red-green-refactor loop."
+              },
+              "zh-CN": {
+                "name": "test-driven-development",
+                "summary": "用先失败、再通过、再重构的循环验证行为，按项目选择测试工具。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "using-agent-skills",
+            "parentId": "addy-agent-skills"
+          },
+          "path": "skills/using-agent-skills",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "using-agent-skills",
+                "summary": "Discovers and invokes agent skills."
+              },
+              "zh-CN": {
+                "name": "using-agent-skills",
+                "summary": "根据任务选择合适的工程技能，并解释何时切换到其他流程。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        }
+      ]
+    }
+  }
+}
