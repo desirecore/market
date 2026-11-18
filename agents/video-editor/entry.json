@@ -8,7 +8,7 @@
     "motion",
     "audio"
   ],
-  "latestVersion": "0.1.0",
+  "latestVersion": "0.1.1",
   "maintainer": {
     "name": "desirecore-agent",
     "verified": false,
@@ -21,22 +21,25 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/video-editor.git",
     "repoBranch": "main",
-    "ref": "c6ffbc603348428a89978bd60db1fd9b448115b1"
+    "ref": "67b5c7d8e0232102b8abd13d6ff2d4aa11e4afa7"
   },
   "requiredClientVersion": "10.0.197",
   "i18n": {
     "zh-CN": {
       "name": "视频剪辑师",
-      "shortDesc": "需单独安装视频剪辑和可用算力，处理时间线、声音、调色与原创动效；模型及可选媒体服务费用另计。"
+      "shortDesc": "素材整理、剪辑、调色与声音后期，交付可编辑工程和成片。需另装视频剪辑、可用算力与独立 MCP 授权，模型/媒体费用另计。"
     },
     "en-US": {
       "name": "Video Editor",
-      "shortDesc": "Needs the separate Video Editing app and DesireCore compute for timeline editing, sound, grading and original motion; model/media fees are separate."
+      "shortDesc": "Editing, grading, sound and editable delivery. Requires the separate Video Editing app, DesireCore compute and independent MCP authorization; model/media fees are separate."
     }
   },
   "avatar": {
     "t": "剪",
-    "bg": "linear-gradient(135deg, #397455, #739e85)"
+    "bg": "linear-gradient(135deg, #397455, #739e85)",
+    "image": {
+      "path": "assets/avatar.png"
+    }
   },
   "installPolicy": "market",
   "updatePolicy": "market"

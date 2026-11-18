@@ -30,7 +30,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-27",
+      "value": "2026-11-15",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -38,7 +38,7 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-27",
+      "value": "2026-11-15",
       "precision": "day"
     },
     "upstreamObservedAt": {
@@ -57,7 +57,7 @@
   },
   "governance": {
     "stewardship": "community",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
       "state": "known",
       "value": "MIT",
@@ -68,6 +68,13 @@
       "name": "Leonxlnx",
       "url": "https://github.com/Leonxlnx/taste-skill",
       "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "12af471f627f866411b4bd785b19646d3672784c",
+      "reviewedAt": "2026-11-15",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
     }
   },
   "compatibility": {

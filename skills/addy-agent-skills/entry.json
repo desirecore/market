@@ -1,0 +1,340 @@
+{
+  "id": "addy-agent-skills",
+  "name": "Addy Agent Skills",
+  "category": "development",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M4 5h16v14H4zM8 9l3 3-3 3m5 0h3\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "development",
+    "engineering",
+    "testing",
+    "skill-collection"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "Addy 软件工程技能合集",
+      "shortDesc": "25 个可按需选择的软件工程技能，涵盖规格、开发、测试、评审和发布。浏览器检查需另配 Chrome DevTools MCP，脚本和部署工具按所选技能准备。"
+    },
+    "en-US": {
+      "name": "Addy Agent Skills",
+      "shortDesc": "25 selectable engineering skills for specification, development, testing, review and release. Browser checks need Chrome DevTools MCP. Provide scripts’ runtimes and deployment tools as required by the selected skill."
+    }
+  },
+  "maintainer": {
+    "name": "Addy Osmani",
+    "verified": false,
+    "url": "https://github.com/addyosmani/agent-skills",
+    "account": "addyosmani"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "riskLevel": "high",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/addyosmani/agent-skills.git",
+    "repoBranch": "main",
+    "ref": "8bfcc1f9916f2eea55494d8c1fa7f4bde867dd9e"
+  },
+  "children": [
+    {
+      "id": "api-and-interface-design",
+      "path": "skills/api-and-interface-design",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "先明确接口契约、兼容性和失败语义，再设计 API 与模块边界。"
+        },
+        "en-US": {
+          "shortDesc": "Guides stable API and interface design."
+        }
+      }
+    },
+    {
+      "id": "browser-testing-with-devtools",
+      "path": "skills/browser-testing-with-devtools",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "使用 Chrome DevTools MCP 检查真实浏览器中的 DOM、控制台、网络请求与性能。需另行配置 MCP 和浏览器。"
+        },
+        "en-US": {
+          "shortDesc": "Tests in real browsers via Chrome DevTools MCP."
+        }
+      }
+    },
+    {
+      "id": "ci-cd-and-automation",
+      "path": "skills/ci-cd-and-automation",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "分层设置 CI/CD 检查、部署和回滚。需按项目另备流水线服务、工具及部署权限。"
+        },
+        "en-US": {
+          "shortDesc": "Automates CI/CD pipeline setup."
+        }
+      }
+    },
+    {
+      "id": "code-review-and-quality",
+      "path": "skills/code-review-and-quality",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "从正确性、可读性、架构、安全和性能等角度审查代码。"
+        },
+        "en-US": {
+          "shortDesc": "Conducts multi-axis code review."
+        }
+      }
+    },
+    {
+      "id": "code-simplification",
+      "path": "skills/code-simplification",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "在保留行为的前提下简化代码和抽象，降低后续维护成本。"
+        },
+        "en-US": {
+          "shortDesc": "Simplifies code for clarity."
+        }
+      }
+    },
+    {
+      "id": "constraint-driven-development",
+      "path": "skills/constraint-driven-development",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "先与用户明确质量底线，再设置可执行的验证门槛。可选脚本需 Node.js，检查工具按项目配置。"
+        },
+        "en-US": {
+          "shortDesc": "Establishes a project's quality bar as a written contract and stops agents quietly lowering it."
+        }
+      }
+    },
+    {
+      "id": "context-engineering",
+      "path": "skills/context-engineering",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "整理 Agent 所需的项目背景和指引，控制上下文范围，便于后续接手。"
+        },
+        "en-US": {
+          "shortDesc": "Optimizes agent context setup."
+        }
+      }
+    },
+    {
+      "id": "debugging-and-error-recovery",
+      "path": "skills/debugging-and-error-recovery",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "从复现、定位和缩小范围入手排障，再修复并验证回归风险。"
+        },
+        "en-US": {
+          "shortDesc": "Guides systematic root-cause debugging."
+        }
+      }
+    },
+    {
+      "id": "deprecation-and-migration",
+      "path": "skills/deprecation-and-migration",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "分阶段弃用旧接口、迁移数据和配置，并保留验证与回滚路径。"
+        },
+        "en-US": {
+          "shortDesc": "Manages deprecation and migration."
+        }
+      }
+    },
+    {
+      "id": "documentation-and-adrs",
+      "path": "skills/documentation-and-adrs",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "更新项目文档，并通过架构决策记录保留选择、依据与影响。"
+        },
+        "en-US": {
+          "shortDesc": "Records decisions and documentation."
+        }
+      }
+    },
+    {
+      "id": "doubt-driven-development",
+      "path": "skills/doubt-driven-development",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "从独立视角质疑关键假设、提取证据并复核结论。跨模型审查是可选流程，需另行授权。"
+        },
+        "en-US": {
+          "shortDesc": "Subjects every non-trivial decision to a fresh-context adversarial review before it stands."
+        }
+      }
+    },
+    {
+      "id": "frontend-ui-engineering",
+      "path": "skills/frontend-ui-engineering",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "构建和审查前端界面，兼顾组件结构、响应式布局、可访问性和交互状态。"
+        },
+        "en-US": {
+          "shortDesc": "Builds production-quality, accessible, responsive user-facing UIs."
+        }
+      }
+    },
+    {
+      "id": "git-workflow-and-versioning",
+      "path": "skills/git-workflow-and-versioning",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "组织 Git 提交、分支、评审和版本标记。推送或发版需相应权限。"
+        },
+        "en-US": {
+          "shortDesc": "Structures git workflow practices."
+        }
+      }
+    },
+    {
+      "id": "idea-refine",
+      "path": "skills/idea-refine",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "澄清问题、探索候选方向并收敛为可验证的方案。可选交互脚本需 Bash。"
+        },
+        "en-US": {
+          "shortDesc": "Refines raw ideas into sharp, actionable concepts through structured divergent and convergent thinking."
+        }
+      }
+    },
+    {
+      "id": "incremental-implementation",
+      "path": "skills/incremental-implementation",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "把实现拆成可独立验证的小步，降低变更和回滚成本。"
+        },
+        "en-US": {
+          "shortDesc": "Delivers changes incrementally in thin, verifiable slices."
+        }
+      }
+    },
+    {
+      "id": "interview-me",
+      "path": "skills/interview-me",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "逐个提出澄清问题，梳理用户需求、约束与取舍。"
+        },
+        "en-US": {
+          "shortDesc": "Extracts what the user actually wants instead of what they think they should want."
+        }
+      }
+    },
+    {
+      "id": "observability-and-instrumentation",
+      "path": "skills/observability-and-instrumentation",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "规划和检查日志、指标、追踪与告警；接入观测服务时需另行配置。"
+        },
+        "en-US": {
+          "shortDesc": "Instruments code so production behavior is visible and diagnosable."
+        }
+      }
+    },
+    {
+      "id": "performance-optimization",
+      "path": "skills/performance-optimization",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "先测量瓶颈，再比较优化前后的性能数据。"
+        },
+        "en-US": {
+          "shortDesc": "Optimizes application performance across frontend, backend, queries, and databases."
+        }
+      }
+    },
+    {
+      "id": "planning-and-task-breakdown",
+      "path": "skills/planning-and-task-breakdown",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "把规格拆成有依赖顺序、验收标准和验证方式的任务。"
+        },
+        "en-US": {
+          "shortDesc": "Breaks work into ordered tasks."
+        }
+      }
+    },
+    {
+      "id": "security-and-hardening",
+      "path": "skills/security-and-hardening",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "按实际威胁检查权限、输入、依赖、敏感数据与配置，记录验证范围。"
+        },
+        "en-US": {
+          "shortDesc": "Hardens code against vulnerabilities."
+        }
+      }
+    },
+    {
+      "id": "shipping-and-launch",
+      "path": "skills/shipping-and-launch",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "核对上线准备、发布验证和回滚。实际部署需授权及已配置的目标环境。"
+        },
+        "en-US": {
+          "shortDesc": "Prepares production launches."
+        }
+      }
+    },
+    {
+      "id": "source-driven-development",
+      "path": "skills/source-driven-development",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "优先用官方文档和可验证资料支持技术判断，记录适用版本和证据。"
+        },
+        "en-US": {
+          "shortDesc": "Grounds every implementation decision in official documentation."
+        }
+      }
+    },
+    {
+      "id": "spec-driven-development",
+      "path": "skills/spec-driven-development",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "在实现前明确目标、约束、边界、命令和验收标准。"
+        },
+        "en-US": {
+          "shortDesc": "Creates specs before coding."
+        }
+      }
+    },
+    {
+      "id": "test-driven-development",
+      "path": "skills/test-driven-development",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "用先失败、再通过、再重构的循环验证行为，按项目选择测试工具。"
+        },
+        "en-US": {
+          "shortDesc": "Drives development with tests using the red-green-refactor loop."
+        }
+      }
+    },
+    {
+      "id": "using-agent-skills",
+      "path": "skills/using-agent-skills",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "根据任务选择合适的工程技能，并解释何时切换到其他流程。"
+        },
+        "en-US": {
+          "shortDesc": "Discovers and invokes agent skills."
+        }
+      }
+    }
+  ]
+}
