@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Impeccable",
-        "summary": "A design language that makes AI better at frontend: UX review, visual hierarchy, accessibility, typography, color, motion and reusable design systems. Uses an upstream standalone binary launcher that may download on first run; platform and execution permissions must be supplied separately. Optional image comps can fall back to OpenAI's image API when OPENAI_API_KEY is set, billed to the operator's own account."
+        "summary": "Use to design, redesign, critique, audit, polish or animate a frontend: websites, landing pages, dashboards, app UI, components, native iOS/Android screens, or a design system (DESIGN.md). Uses an upstream standalone binary launcher that may download on first run; you must satisfy platform and permission requirements. Optional image sketches may fall back to the OpenAI image API when OPENAI_API_KEY is set; costs go to the operator’s own account."
       },
       "zh-CN": {
         "name": "Impeccable",
-        "summary": "让 AI 更懂设计的前端设计语言：覆盖 UX 审查、视觉层级、可访问性、排版、配色、动效与可复用设计系统，把界面打磨到生产级。新版本使用上游独立二进制启动器，可能在首次运行时下载；需自行满足平台与运行权限。可选的图像草图在设置 OPENAI_API_KEY 时可回退调用 OpenAI 图像 API，费用计入运营者自有账户。"
+        "summary": "用于设计、改版、评审、审计、打磨或为前端做动效：网站、落地页、仪表盘、应用界面、组件、原生 iOS/Android 页面，或设计系统（DESIGN.md）。新版本使用上游独立二进制启动器，可能在首次运行时下载；需自行满足平台与运行权限。可选的图像草图在设置 OPENAI_API_KEY 时可回退调用 OpenAI 图像 API，费用计入运营者自有账户。"
       }
     },
     "category": "design",
@@ -27,27 +27,27 @@
   },
   "release": {
     "state": "known",
-    "version": "4.8.0",
+    "version": "4.9.2",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-15",
-      "precision": "day"
+      "value": "2026-11-18T15:21:35Z",
+      "precision": "second"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-15",
+      "value": "2026-11-18",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-27",
-      "precision": "day"
+      "value": "2026-11-18T15:21:35Z",
+      "precision": "second"
     }
   },
   "provenance": {
@@ -55,7 +55,7 @@
       "kind": "git",
       "url": "https://github.com/pbakaus/impeccable.git",
       "path": "plugin/skills/impeccable",
-      "ref": "d34c87e1a00989ae8dbdd7f6b30b70f23319e860"
+      "ref": "d41d9860b0094dcb68030657da63461212835aaa"
     }
   },
   "governance": {
@@ -74,9 +74,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "d34c87e1a00989ae8dbdd7f6b30b70f23319e860",
-      "reviewedAt": "2026-11-15",
-      "reviewedBy": "mashagua",
+      "reviewedRef": "d41d9860b0094dcb68030657da63461212835aaa",
+      "reviewedAt": "2026-11-18",
+      "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }
   },

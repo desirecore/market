@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "mashagua",
+  "reviewedAt": "2026-11-18",
+  "notes": "Class C special review of khazix-skills 725ac9421901ef7fac6761136969d032737abcf3. Root MIT LICENSE and aihot/LICENSE are byte-identical. Collection membership is unchanged (aihot, hv-analysis, khazix-writer, leader, neat-freak, storage-analyzer). Excluded five pre-existing mode 120000 AGENTS.md symlinks under neat-freak eval fixtures (all target CLAUDE.md, 9 bytes, blob 681311eb9cf453d0faddf3aacaec7357e97ba8e9). aihot frontmatter is unchanged. Accepted updated frontmatter for the other five children (output formats, Linux support, Chinese neat-freak description, leader rewrite, dropped wechat-title cross-references).",
+  "excludePaths": [
+    "neat-freak/evals/fixtures/eval-1-routine-dev-sync/workspace/taskflow/AGENTS.md",
+    "neat-freak/evals/fixtures/eval-2-memory-conflict/workspace/notesapp/AGENTS.md",
+    "neat-freak/evals/fixtures/eval-4-cross-project/workspace/auth-center/AGENTS.md",
+    "neat-freak/evals/fixtures/eval-4-cross-project/workspace/skills-hub/AGENTS.md",
+    "neat-freak/evals/fixtures/eval-6-scope-boundary/workspace/current-app/AGENTS.md"
+  ],
+  "acceptedFrontmatterSha256": {
+    "hv-analysis": "cc67c0b18b61d4579966ad405b7187693e234e9c78e85219968dfd9a6380d600",
+    "khazix-writer": "9b213d099d6aef3aa3db3b4857491cb33992597007adac05d91229e1da66d31e",
+    "leader": "1f044a148843b09b5eb389f471d882a83a7281351d7ea2174abd57cf48fdd46c",
+    "neat-freak": "d6a6a9ca86386fa8c01f6998a49f5805073fa315ce7631e1e209a4ed1c235987",
+    "storage-analyzer": "3838bf5b9f3aa117620255ebb6053f1d8e4ae84271769d6924a709436157e376"
+  }
+}

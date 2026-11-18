@@ -3,15 +3,21 @@
   "name": "Humanizer",
   "category": "creative",
   "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M3.5 6h8M3.5 11h6M3.5 16h9\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"m20 5.6-6.6 6.6-2.6.6.6-2.6L18 3.6a1.4 1.4 0 0 1 2 2Z\" stroke=\"#2563EB\" stroke-width=\"1.6\" stroke-linejoin=\"round\"/></svg>",
-  "tags": ["writing", "editing", "ai-detection", "humanize", "prose"],
+  "tags": [
+    "writing",
+    "editing",
+    "ai-detection",
+    "humanize",
+    "prose"
+  ],
   "i18n": {
     "zh-CN": {
       "name": "Humanizer",
-      "shortDesc": "基于维基百科「AI 写作特征」指南去除文本中的 AI 痕迹，识别并修复夸大象征、宣传腔、破折号滥用、三段式、否定式排比等模式，纯 Markdown 可跨 agent 运行"
+      "shortDesc": "把听起来像 AI 写的文字改得像作者本人写的，但不改原意。用于编辑或检查散文中的 AI 痕迹：不是 X 而是 Y 的对比、单行收束、做作开头、强行三连、破折号泛滥、夸大表述、销售腔、套话、加粗标签或空话。"
     },
     "en-US": {
       "name": "Humanizer",
-      "shortDesc": "Strips signs of AI-generated writing using Wikipedia's \"Signs of AI writing\" guide, fixing inflated symbolism, promotional tone, em dash overuse, rule of three and negative parallelisms; plain Markdown, runs in any harness"
+      "shortDesc": "Rewrite AI-sounding text so it reads like the writer without changing what it says. Use when editing or reviewing prose for AI tells: not-X-but-Y contrasts, one-line closers, staged openers, forced triads, dashes everywhere, inflated claims, sales language, stock AI words, bold labels, or filler."
     }
   },
   "maintainer": {
@@ -27,7 +33,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/blader/humanizer.git",
     "repoBranch": "main",
-    "ref": "8c307f367c91bd974002f10f2be2965d642c13df"
+    "ref": "b48c832f0f809c1b5658edbb838c2521b72f2413"
   },
-  "latestVersion": "3.1.0"
+  "latestVersion": "4.0.0"
 }
