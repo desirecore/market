@@ -183,6 +183,57 @@ class AuditTests(unittest.TestCase):
         validator.validate_sidecar(path, Draft7Validator(schema, format_checker=FormatChecker()), report, root, {'zh-CN','en-US'}, entry_validators)
         self.assertTrue(any(issue.rule == 'automated-review-evidence' for issue in report.issues))
 
+
+    def test_exclude_paths_skip_symlinks_and_cannot_hide_license(self):
+        (self.repo/'skills/sample/evals').mkdir(parents=True)
+        (self.repo/'skills/sample/evals/AGENTS.md').symlink_to('SKILL.md')
+        with self.assertRaisesRegex(AuditBlocked, '符号链接'):
+            self.audit()
+        self.run_git('reset', '--hard', self.old); self.run_git('clean', '-fd')
+        (self.repo/'skills/sample/evals').mkdir(parents=True)
+        (self.repo/'skills/sample/evals/AGENTS.md').symlink_to('SKILL.md')
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        new = self.commit()
+        review = {'schemaVersion': 1, 'excludePaths': ['skills/sample/evals/AGENTS.md']}
+        audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z', special_review=review)
+        review = {'schemaVersion': 1, 'excludePaths': ['skills/sample/evals/AGENTS.md', 'LICENSE']}
+        with self.assertRaisesRegex(AuditBlocked, '排除列表'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z', special_review=review)
+
+    def test_budget_exempt_allows_known_oversize_file(self):
+        big = 'skills/sample/data/index.json'
+        self.write(big, 'x' * (1024 * 1024 + 50))
+        self.old = self.commit()
+        self.entry['source']['ref'] = self.old
+        self.metadata['provenance']['content']['ref'] = self.old
+        self.metadata['governance']['compliance']['reviewedRef'] = self.old
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        new = self.commit()
+        with self.assertRaisesRegex(AuditBlocked, '单文件超过'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z')
+        review = {'schemaVersion': 1, 'budgetExemptPaths': [big]}
+        audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z', special_review=review)
+
+    def test_special_review_accepts_dependency_and_frontmatter_change(self):
+        from audit_skill_update import dependency_identity, frontmatter_identity
+        from check_upstream_health import GENERATOR
+        self.write('package.json', json.dumps({'name':'humanizer','private':True,'license':'MIT'}))
+        path = 'skills/sample/SKILL.md'
+        self.write(path, (self.repo/path).read_text().replace('description: Fixture', 'description: Rewritten blurb'))
+        new = self.commit()
+        with self.assertRaisesRegex(AuditBlocked, '依赖清单'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z')
+        ident = dependency_identity(self.repo, new, 'package.json', ('100644', 'unused', 0))
+        fm = GENERATOR.skill_frontmatter(self.repo, path, new)
+        review = {
+            'schemaVersion': 1,
+            'acceptedDependencyIdentities': {'package.json': ident[1]},
+            'acceptedFrontmatterSha256': {'skills/sample': frontmatter_identity(fm)},
+        }
+        entry, metadata, report = audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z', special_review=review)
+        self.assertEqual(metadata['governance']['compliance']['reviewedBy'], REVIEWER)
+        self.assertEqual(report['specialReview']['reviewedBy'] if report.get('specialReview') else None, None)
+
     def test_disallows_non_github_fetch_targets(self):
         self.entry['source']['repoUrl'] = 'file:///private/source'
         with self.assertRaisesRegex(AuditBlocked, 'HTTPS'): audit_update(self.entry, self.metadata, {})

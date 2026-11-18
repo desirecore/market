@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "mashagua",
+  "reviewedAt": "2026-11-18",
+  "notes": "Class C special review of humanizer b48c832f0f809c1b5658edbb838c2521b72f2413. Accepted the new root package.json pi-package manifest (no dependencies or scripts). Accepted SKILL.md description change that drops the Wikipedia sentence; credit remains in the skill Source section and README. Version 3.1.0 → 4.0.0. MIT LICENSE unchanged.",
+  "acceptedDependencyIdentities": {
+    "package.json": "a92340e5c20d48f01c17641f675c7b7cea7217c45ae4b8a0b5219c227174354a"
+  },
+  "acceptedFrontmatterSha256": {
+    "": "74e8d5382e99a99eb1f877a81cc935ef16fb455a9784d78acd90409760b3eb6c"
+  }
+}

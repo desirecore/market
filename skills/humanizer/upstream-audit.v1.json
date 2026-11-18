@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "automated:source-license-metadata-v1",
+  "reviewedAt": "2026-11-18T15:21:35Z",
+  "source": {
+    "url": "https://github.com/blader/humanizer.git",
+    "previousRef": "8c307f367c91bd974002f10f2be2965d642c13df",
+    "ref": "b48c832f0f809c1b5658edbb838c2521b72f2413",
+    "paths": [
+      ""
+    ]
+  },
+  "checks": {
+    "immutableSnapshots": true,
+    "installedScopeBoundedFiles": true,
+    "licenseAndNoticeUnchanged": true,
+    "structuredPrerequisitesUnchanged": true,
+    "presentationMetadataUnchanged": true
+  },
+  "licenseEvidenceSha256": {
+    "LICENSE": "4ac4810254ab36d45419141aeb8e69bf50652cfafe5b2dab947d06d44e5cbf96"
+  },
+  "observedVersions": {
+    "": "4.0.0"
+  },
+  "contentManifestSha256": "935e1b5f31eccd62cd1e4bbbc3303de577b56d83a0ee38c21ceee5efce8e4826",
+  "fileCount": 15,
+  "limitations": [
+    "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
+    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。",
+    "依赖清单或结构化简介如有变化，已按专项复核记录中的接受哈希核对，不代表这些字段与旧快照逐字节相同。"
+  ],
+  "specialReview": {
+    "reviewedBy": "mashagua",
+    "reviewedAt": "2026-11-18",
+    "excludePaths": [],
+    "budgetExemptPaths": []
+  }
+}

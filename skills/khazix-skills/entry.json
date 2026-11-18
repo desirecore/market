@@ -32,7 +32,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/KKKKhazix/khazix-skills.git",
     "repoBranch": "main",
-    "ref": "322346ded8129436b3f64707789a73e732ae24d9"
+    "ref": "725ac9421901ef7fac6761136969d032737abcf3"
   },
   "children": [
     {
@@ -88,10 +88,10 @@
       "path": "neat-freak",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Knowledge and governance closeout: reconcile project docs, rule files (CLAUDE.md/AGENTS.md), authorized agent memory, and workspace residue with what the code a…"
+          "shortDesc": "知识治理收尾：让项目文档、规则文件、获准维护的记忆与工作区残留和代码及运行态对齐，下一个会话从唯一现役答案开始。触发：用户点名 \"neat-freak\"、\"洁癖\"、\"/neat\"，或明确的知识收尾意图——开发后同步文档与记忆、CLAUDE.md/记忆过期或冲突、交接前清场、审计规则是否被遵守（\"把文档和记忆整理一下\"、…"
         },
         "en-US": {
-          "shortDesc": "Knowledge and governance closeout: reconcile project docs, rule files (CLAUDE.md/AGENTS.md), authorized agent memory, and workspace residue with what the code a…"
+          "shortDesc": "知识治理收尾：让项目文档、规则文件、获准维护的记忆与工作区残留和代码及运行态对齐，下一个会话从唯一现役答案开始。触发：用户点名 \"neat-freak\"、\"洁癖\"、\"/neat\"，或明确的知识收尾意图——开发后同步文档与记忆、CLAUDE.md/记忆过期或冲突、交接前清场、审计规则是否被遵守（\"把文档和记忆整理一下\"、…"
         }
       }
     },
@@ -100,10 +100,10 @@
       "path": "storage-analyzer",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "macOS / Windows 只读存储分析助手（自动识别系统）。扫描整机磁盘占用，找出 占空间大户，把每一项分成 🟢可自动清理 / 🟡需人工判断 / 🔴谨慎清理 三级并给出 可执行处置方案，生成排版精美、可折叠、命令可一键复制的交互式 HTML 报告，并可 起本地服务在网页上一键删除（移废纸篓/直接删）。扫描全程只读…"
+          "shortDesc": "macOS / Windows / Linux 只读存储分析助手（自动识别系统）。扫描整机磁盘占用，找出 占空间大户，把每一项分成 🟢可自动清理 / 🟡需人工判断 / 🔴谨慎清理 三级并给出 可执行处置方案，生成排版精美、可折叠、命令可一键复制的交互式 HTML 报告，并可 起本地服务在网页上一键删除（移废纸篓/直接删…"
         },
         "en-US": {
-          "shortDesc": "macOS / Windows 只读存储分析助手（自动识别系统）。扫描整机磁盘占用，找出 占空间大户，把每一项分成 🟢可自动清理 / 🟡需人工判断 / 🔴谨慎清理 三级并给出 可执行处置方案，生成排版精美、可折叠、命令可一键复制的交互式 HTML 报告，并可 起本地服务在网页上一键删除（移废纸篓/直接删）。扫描全程只读…"
+          "shortDesc": "macOS / Windows / Linux 只读存储分析助手（自动识别系统）。扫描整机磁盘占用，找出 占空间大户，把每一项分成 🟢可自动清理 / 🟡需人工判断 / 🔴谨慎清理 三级并给出 可执行处置方案，生成排版精美、可折叠、命令可一键复制的交互式 HTML 报告，并可 起本地服务在网页上一键删除（移废纸篓/直接删…"
         }
       }
     }

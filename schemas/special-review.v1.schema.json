@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://desirecore.local/schemas/special-review.v1.schema.json",
+  "title": "Market Class C special review record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "reviewedBy": { "type": "string", "minLength": 1 },
+    "reviewedAt": { "type": "string", "minLength": 1 },
+    "notes": { "type": "string" },
+    "excludePaths": {
+      "type": "array",
+      "description": "Repo-relative paths or globs omitted from the audit tree walk only. Must not include LICENSE/NOTICE/COPYING or dependency manifests. The DesireCore installer does not honor this field until the client contract admits it.",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "budgetExemptPaths": {
+      "type": "array",
+      "description": "Repo-relative paths that remain in the audit manifest and must still be regular files, but may exceed MAX_FILE_BYTES. Prefer this for runtime data that must stay installed.",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "acceptedDependencyIdentities": {
+      "type": "object",
+      "description": "Map of dependency path to the identity key of the *new* snapshot: package.json is the SHA-256 of the manifest with version removed; other manifests use the git blob SHA.",
+      "additionalProperties": { "type": "string", "pattern": "^([a-f0-9]{40}|[a-f0-9]{64})$" }
+    },
+    "acceptedFrontmatterSha256": {
+      "type": "object",
+      "description": "Map of install path (empty string for a repo-root skill) to SHA-256 of stable_frontmatter(new SKILL.md).",
+      "additionalProperties": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+    }
+  }
+}

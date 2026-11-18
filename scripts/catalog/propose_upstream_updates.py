@@ -53,7 +53,9 @@ def prepare_proposal(entry: dict, metadata: dict, result: dict):
     if proposed is None:
         return None, None, '不符合固定来源候选条件'
     try:
-        updated, sidecar, audit = audit_update(entry, metadata, result)
+        review_path = ROOT / "skills" / entry["id"] / "special-review.v1.json"
+        special_review = json.loads(review_path.read_text()) if review_path.is_file() else None
+        updated, sidecar, audit = audit_update(entry, metadata, result, special_review=special_review)
         return (updated, sidecar), audit, None
     except (AuditBlocked, OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
         # 保留旧审核证据；失败必须可见，不能改成机器审核已通过。

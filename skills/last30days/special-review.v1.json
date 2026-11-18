@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "mashagua",
+  "reviewedAt": "2026-11-18",
+  "notes": "Class C special review of last30days a854f3bcb2c4344d7498426d653378510f8b253a. MIT LICENSE unchanged. SKILL.md stable frontmatter is unchanged except version 3.31.0 → 4.3.2. Excluded skills/last30days/assets from the audit tree; the five oversized demo files are identical to the old pin and are already listed as non-runtime in upstream .skillignore. Accepted root pyproject.toml (version-only; runtime dependencies remain []) and uv.lock (project version plus dev-only pytest 9.1.1 → 9.2.0 within the existing pytest>=9.1.1,<10 range). Install-scope gained job-board, patent, and reddit-session scripts; this is a major feature expansion, not a license change.",
+  "excludePaths": [
+    "skills/last30days/assets"
+  ],
+  "acceptedDependencyIdentities": {
+    "pyproject.toml": "0bc872254a5708bd9f2fea4f54aa946bf336ec1b",
+    "uv.lock": "ca8d76266f40c157fc7029e5233bd42b3f38da2d"
+  }
+}

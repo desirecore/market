@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "automated:source-license-metadata-v1",
+  "reviewedAt": "2026-11-18T15:21:35Z",
+  "source": {
+    "url": "https://github.com/mvanhorn/last30days-skill.git",
+    "previousRef": "e06af25a9a78487b75e8509e0e1687fec137176e",
+    "ref": "a854f3bcb2c4344d7498426d653378510f8b253a",
+    "paths": [
+      "skills/last30days"
+    ]
+  },
+  "checks": {
+    "immutableSnapshots": true,
+    "installedScopeBoundedFiles": true,
+    "licenseAndNoticeUnchanged": true,
+    "structuredPrerequisitesUnchanged": true,
+    "presentationMetadataUnchanged": true
+  },
+  "licenseEvidenceSha256": {
+    "LICENSE": "31803213a789825dc419de43542381e1d570b4408cf2bcf2e8a9947a6d3fd2ab",
+    "skills/last30days/scripts/lib/vendor/bird-search/LICENSE": "62316704df7426e5a79d2827ff8aca36e9abb3a73b8e68557030749ebefec667"
+  },
+  "observedVersions": {
+    "skills/last30days": "4.3.2"
+  },
+  "contentManifestSha256": "e9ad3c898080422f304b2f538c78c36405e11a1e98d06d51a9f895c7ab0fc9a8",
+  "fileCount": 187,
+  "limitations": [
+    "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
+    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。",
+    "依赖清单或结构化简介如有变化，已按专项复核记录中的接受哈希核对，不代表这些字段与旧快照逐字节相同。",
+    "excludePaths 只从本仓库的自动审核树遍历中省略路径；DesireCore 安装器在支持该字段前仍会从上游 pin 安装这些文件。"
+  ],
+  "specialReview": {
+    "reviewedBy": "mashagua",
+    "reviewedAt": "2026-11-18",
+    "excludePaths": [
+      "skills/last30days/assets"
+    ],
+    "budgetExemptPaths": []
+  }
+}
