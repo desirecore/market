@@ -32,8 +32,8 @@
     "kind": "git",
     "repoUrl": "https://github.com/OthmanAdi/planning-with-files.git",
     "repoBranch": "master",
-    "ref": "dcdfb278de53fdb69b2067ea173dbb1de45345a3",
+    "ref": "2362ca385ad74f061aa0e7b73f56543a4b7e6df2",
     "path": "skills/i18n/planning-with-files-zh"
   },
-  "latestVersion": "3.25.2"
+  "latestVersion": "3.28.1"
 }
