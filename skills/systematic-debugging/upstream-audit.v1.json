@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "automated:source-license-metadata-v1",
+  "reviewedAt": "2026-11-09T01:26:25Z",
+  "source": {
+    "url": "https://github.com/obra/superpowers.git",
+    "previousRef": "bb92a77741419a4ab5f06e711a283343f1ada0c3",
+    "ref": "22f0b463e7a5e579904dd6211a520321035526f7",
+    "paths": [
+      "skills/systematic-debugging"
+    ]
+  },
+  "checks": {
+    "immutableSnapshots": true,
+    "installedScopeBoundedFiles": true,
+    "licenseAndNoticeUnchanged": true,
+    "structuredPrerequisitesUnchanged": true,
+    "presentationMetadataUnchanged": true
+  },
+  "licenseEvidenceSha256": {
+    "LICENSE": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400"
+  },
+  "observedVersions": {},
+  "contentManifestSha256": "265e12da07bed9f3744dad9689fa5dd12a2ff45efbdc536516dcab78751513af",
+  "fileCount": 7,
+  "limitations": [
+    "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
+    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。"
+  ]
+}
