@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "automated:source-license-metadata-v1",
+  "reviewedAt": "2026-11-08T01:25:58Z",
+  "source": {
+    "url": "https://github.com/anthropics/skills.git",
+    "previousRef": "8a1541c4a3ffa5a20a5a91de0dcf3f0bab1d1ef4",
+    "ref": "2c5958ecac7cee2b583967a2c4981d0f4a75c579",
+    "paths": [
+      "skills/mcp-builder"
+    ]
+  },
+  "checks": {
+    "immutableSnapshots": true,
+    "installedScopeBoundedFiles": true,
+    "licenseAndNoticeUnchanged": true,
+    "structuredPrerequisitesUnchanged": true,
+    "presentationMetadataUnchanged": true
+  },
+  "licenseEvidenceSha256": {
+    "skills/mcp-builder/LICENSE.txt": "bc6b3af2f331cbc7fb0da1344efb2cbe5877a31498b4d70dbc7000f3405a1362"
+  },
+  "observedVersions": {},
+  "contentManifestSha256": "b0988dec165b9b23ac6eed7777814d33bc55692a48a133b563e928c526067589",
+  "fileCount": 11,
+  "limitations": [
+    "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
+    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。"
+  ]
+}
