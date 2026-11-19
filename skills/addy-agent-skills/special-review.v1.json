@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "mashagua",
+  "reviewedAt": "2026-11-19",
+  "notes": "Class C special review of addy-agent-skills 8c99fa36d90068c82d547f7c12a9d67a3e95f4ee. Upstream 0.6.15 → 0.6.17. Root MIT LICENSE is unchanged. Collection membership 25 → 26; the only added member is accessibility-engineering (SKILL.md and scripts/audit-a11y.sh), which inherits the root MIT license and uses pinned @axe-core/cli@4.13.0 and pa11y@9.1.1 for WCAG 2.2 AA audit and remediation. mashagua reviewed the new member. Accepted stable-frontmatter changes on existing members skills/code-review-and-quality, skills/debugging-and-error-recovery, skills/documentation-and-adrs, skills/spec-driven-development, skills/test-driven-development. No dependency-manifest changes in the audited scope. New-member catalog presentation uses the upstream first sentence in both locales; no invented translation.",
+  "acceptedCollectionPaths": [
+    "skills/accessibility-engineering",
+    "skills/api-and-interface-design",
+    "skills/browser-testing-with-devtools",
+    "skills/ci-cd-and-automation",
+    "skills/code-review-and-quality",
+    "skills/code-simplification",
+    "skills/constraint-driven-development",
+    "skills/context-engineering",
+    "skills/debugging-and-error-recovery",
+    "skills/deprecation-and-migration",
+    "skills/documentation-and-adrs",
+    "skills/doubt-driven-development",
+    "skills/frontend-ui-engineering",
+    "skills/git-workflow-and-versioning",
+    "skills/idea-refine",
+    "skills/incremental-implementation",
+    "skills/interview-me",
+    "skills/observability-and-instrumentation",
+    "skills/performance-optimization",
+    "skills/planning-and-task-breakdown",
+    "skills/security-and-hardening",
+    "skills/shipping-and-launch",
+    "skills/source-driven-development",
+    "skills/spec-driven-development",
+    "skills/test-driven-development",
+    "skills/using-agent-skills"
+  ],
+  "acceptedFrontmatterSha256": {
+    "skills/accessibility-engineering": "77bb7d01b6f7a27189e8d3757221e3a56a26fe8c1a39d9f2f4b2624e02ebfae6",
+    "skills/code-review-and-quality": "e07b3c643af6fd6ec2f5c96c67a798075f1490f5d1ce88df0c615069e8cf88eb",
+    "skills/debugging-and-error-recovery": "2a4b9e5f6333ffcec6acac9a0cbbd8b0f3edff47bac312f9b1e67ca16b01705c",
+    "skills/documentation-and-adrs": "ad89d162b039546ee8d4b1cf4257f3f177fac14b94ff7e0dfd8406cab2ea622e",
+    "skills/spec-driven-development": "cc2e9e6f8b944e258d572a3a0b2fb99d714ed5e627a95bb213398e35ceaf9da5",
+    "skills/test-driven-development": "53a778ccfb20eaad1b9cb63bf0fe3682dccca9ae71b7fc5da5ae8e0158c32d4a"
+  }
+}
