@@ -188,15 +188,44 @@ def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
     paths = [safe_path(child['path']) for child in entry.get('children', [])]
     if not paths:
         paths = [safe_path(entry['source'].get('path', ''))]
+    old_member_paths = set(paths) if entry.get('children') else set()
+    discovered_children = []
+    if entry.get('children'):
+        discovered_children = GENERATOR.discover_children(repo, new)
+        discovered = {safe_path(child['path']) for child in discovered_children}
+        if discovered != set(paths):
+            accepted_paths = review.get('acceptedCollectionPaths') or []
+            accepted = None
+            if isinstance(accepted_paths, list) and all(isinstance(item, str) for item in accepted_paths):
+                try:
+                    accepted = {safe_path(item) for item in accepted_paths}
+                except AuditBlocked:
+                    accepted = None
+            if accepted is None or len(accepted_paths) != len(accepted) or accepted != discovered:
+                raise AuditBlocked('合集成员集合变化，需核对新增/移除成员及翻译')
+            paths = [safe_path(child['path']) for child in discovered_children]
     old_files, new_files = {}, {}
     for path in paths:
         old_files.update(tree(repo, old, path, exclude_paths, budget_exempt_paths))
         new_files.update(tree(repo, new, path, exclude_paths, budget_exempt_paths))
     if not new_files or len(new_files) > MAX_FILES or sum(item[2] for item in new_files.values()) > MAX_CONTENT_BYTES:
         raise AuditBlocked('新快照为空或超过总预算')
-    licenses = root_evidence(repo, old)
-    if licenses != root_evidence(repo, new):
-        raise AuditBlocked('根许可证或 Notice 有变化，需专项复核')
+    old_root = root_evidence(repo, old)
+    new_root = root_evidence(repo, new)
+    if old_root != new_root:
+        accepted_root = review.get('acceptedRootEvidenceSha256') or {}
+        if set(old_root) - set(new_root):
+            raise AuditBlocked('根许可证或 Notice 有变化，需专项复核')
+        expected_root = {
+            path: digest
+            for path, digest in new_root.items()
+            if old_root.get(path) != digest
+        }
+        if (not isinstance(accepted_root, dict)
+                or any(not isinstance(key, str) or not isinstance(value, str) for key, value in accepted_root.items())
+                or accepted_root != expected_root):
+            raise AuditBlocked('根许可证或 Notice 有变化，需专项复核')
+    licenses = new_root
     # 安装范围内的嵌套许可同样影响再分发，不能只核对根许可证。
     def scoped_evidence(ref, files):
         return {path: hashlib.sha256(blob(repo, ref, path)).hexdigest()
@@ -205,11 +234,15 @@ def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
     if scoped_licenses != scoped_evidence(new, new_files):
         raise AuditBlocked('安装范围内的许可证或 Notice 有变化，需专项复核')
     licenses.update(scoped_licenses)
+    accepted_root = review.get('acceptedRootEvidenceSha256') or {}
     for path in {compliance.get('licenseEvidencePath'), compliance.get('noticePath'),
                  governance.get('license', {}).get('evidencePath')} - {None}:
         old_bytes, new_bytes = blob(repo, old, path), blob(repo, new, path)
         if not old_bytes or old_bytes != new_bytes:
-            raise AuditBlocked('声明的许可证或 Notice 变化，需专项复核')
+            digest = hashlib.sha256(new_bytes).hexdigest() if new_bytes else None
+            if (not old_bytes or not new_bytes or not isinstance(accepted_root, dict)
+                    or accepted_root.get(path) != digest):
+                raise AuditBlocked('声明的许可证或 Notice 变化，需专项复核')
         licenses[path] = hashlib.sha256(new_bytes).hexdigest()
     if not licenses:
         raise AuditBlocked('缺少可重读的许可文件')
@@ -240,16 +273,23 @@ def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
         if accepted != expected:
             raise AuditBlocked('依赖清单有变化，无法自动确认新的前置条件')
     versions = {}
+    accepted_fm = review.get('acceptedFrontmatterSha256') or {}
     for path in paths:
         marker = f'{path}/SKILL.md' if path else 'SKILL.md'
-        old_fm = GENERATOR.skill_frontmatter(repo, marker, old)
         new_fm = GENERATOR.skill_frontmatter(repo, marker, new)
-        if not isinstance(old_fm, dict) or not isinstance(new_fm, dict):
+        if not isinstance(new_fm, dict):
             raise AuditBlocked('技能 frontmatter 必须是对象')
-        if stable_frontmatter(old_fm) != stable_frontmatter(new_fm):
-            accepted_fm = review.get('acceptedFrontmatterSha256') or {}
+        is_new_member = bool(entry.get('children')) and path not in old_member_paths
+        if is_new_member:
             if not isinstance(accepted_fm, dict) or accepted_fm.get(path) != frontmatter_identity(new_fm):
                 raise AuditBlocked('名称、简介、依赖、兼容性或其他结构化声明有变化，需同步审核元数据和翻译')
+        else:
+            old_fm = GENERATOR.skill_frontmatter(repo, marker, old)
+            if not isinstance(old_fm, dict):
+                raise AuditBlocked('技能 frontmatter 必须是对象')
+            if stable_frontmatter(old_fm) != stable_frontmatter(new_fm):
+                if not isinstance(accepted_fm, dict) or accepted_fm.get(path) != frontmatter_identity(new_fm):
+                    raise AuditBlocked('名称、简介、依赖、兼容性或其他结构化声明有变化，需同步审核元数据和翻译')
         raw = new_fm.get('version')
         if raw is None and not entry.get('children'):
             details = new_fm.get('metadata')
@@ -265,20 +305,47 @@ def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
     updated['source']['ref'] = new
     metadata['provenance']['content']['ref'] = new
     if updated.get('children'):
-        # 新增/移除成员及翻译需要单独处理；不能把一个未审成员混入整包审核。
-        discovered = {child['path'] for child in GENERATOR.discover_children(repo, new)}
-        if discovered != set(paths):
-            raise AuditBlocked('合集成员集合变化，需核对新增/移除成员及翻译')
-        for child in updated['children']:
-            if child['path'] in versions:
-                version = versions[child['path']]
-                previous = GENERATOR.normalize_version(child.get('version'))
-                if previous and tuple(map(int, version.split('.'))) < tuple(map(int, previous.split('.'))):
-                    raise AuditBlocked('拒绝自动回退合集成员版本')
-                child['version'] = version
-                for child_catalog in metadata.get('spec', {}).get('collection', {}).get('children', []):
-                    if child_catalog.get('identity', {}).get('id') == child['id']:
-                        child_catalog['release'] = {'state': 'known', 'version': child['version'], 'versionScheme': 'semver'}
+        # 新增/移除成员及翻译需要单独处理；接受后按发现结果重建成员列表，不为新成员编造翻译。
+        if {child['path'] for child in updated['children']} != {child['path'] for child in discovered_children}:
+            existing = {child['path']: child for child in updated['children']}
+            catalog_existing = {
+                child.get('identity', {}).get('id'): child
+                for child in metadata.get('spec', {}).get('collection', {}).get('children', [])
+            }
+            rebuilt, rebuilt_catalog = [], []
+            for discovered_child in discovered_children:
+                path = discovered_child['path']
+                if path in existing:
+                    child = existing[path]
+                    catalog_child = catalog_existing.get(child['id'])
+                else:
+                    child = {'id': discovered_child['id'], 'path': path}
+                    catalog_child = {'identity': {'id': child['id']}, 'path': path}
+                if path in versions:
+                    version = versions[path]
+                    previous = GENERATOR.normalize_version(child.get('version'))
+                    if previous and tuple(map(int, version.split('.'))) < tuple(map(int, previous.split('.'))):
+                        raise AuditBlocked('拒绝自动回退合集成员版本')
+                    child['version'] = version
+                    if catalog_child is not None:
+                        catalog_child['release'] = {'state': 'known', 'version': version, 'versionScheme': 'semver'}
+                rebuilt.append(child)
+                if catalog_child is not None:
+                    rebuilt_catalog.append(catalog_child)
+            updated['children'] = rebuilt
+            if metadata.get('spec', {}).get('collection') is not None:
+                metadata['spec']['collection']['children'] = rebuilt_catalog
+        else:
+            for child in updated['children']:
+                if child['path'] in versions:
+                    version = versions[child['path']]
+                    previous = GENERATOR.normalize_version(child.get('version'))
+                    if previous and tuple(map(int, version.split('.'))) < tuple(map(int, previous.split('.'))):
+                        raise AuditBlocked('拒绝自动回退合集成员版本')
+                    child['version'] = version
+                    for child_catalog in metadata.get('spec', {}).get('collection', {}).get('children', []):
+                        if child_catalog.get('identity', {}).get('id') == child['id']:
+                            child_catalog['release'] = {'state': 'known', 'version': child['version'], 'versionScheme': 'semver'}
     elif paths[0] in versions:
         version = versions[paths[0]]
         previous = GENERATOR.normalize_version(entry.get('latestVersion'))
@@ -311,6 +378,8 @@ def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
             'budgetExemptPaths': list(budget_exempt_paths),
         }
         report['limitations'].append('依赖清单或结构化简介如有变化，已按专项复核记录中的接受哈希核对，不代表这些字段与旧快照逐字节相同。')
+        if review.get('acceptedRootEvidenceSha256') or review.get('acceptedCollectionPaths'):
+            report['limitations'].append('根许可证/Notice 或合集成员如有变化，已按专项复核记录中的接受哈希或路径集合核对，不代表与旧快照逐字节或成员集合相同。')
         if exclude_paths:
             report['limitations'].append('excludePaths 只从本仓库的自动审核树遍历中省略路径；DesireCore 安装器在支持该字段前仍会从上游 pin 安装这些文件。')
     errors = validate_record(metadata, report)

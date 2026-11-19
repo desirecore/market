@@ -234,6 +234,92 @@ class AuditTests(unittest.TestCase):
         self.assertEqual(metadata['governance']['compliance']['reviewedBy'], REVIEWER)
         self.assertEqual(report['specialReview']['reviewedBy'] if report.get('specialReview') else None, None)
 
+    def test_special_review_accepts_new_collection_member(self):
+        from audit_skill_update import frontmatter_identity
+        from check_upstream_health import GENERATOR
+        self.entry['children'] = [{'id': 'sample', 'path': 'skills/sample', 'version': '1.0.0', 'i18n': {'zh-CN': {'name': '示例'}}}]
+        self.metadata['spec'] = {'collection': {'children': [{'identity': {'id':'sample'}, 'path':'skills/sample', 'release': {'state':'known','version':'1.0.0','versionScheme':'semver'}}]}}
+        self.write('skills/another/SKILL.md', '---\nname: another\ndescription: New member\nversion: 0.1.0\n---\nBody\n')
+        new = self.commit()
+        fm = GENERATOR.skill_frontmatter(self.repo, 'skills/another/SKILL.md', new)
+        discovered = [child['path'] for child in GENERATOR.discover_children(self.repo, new)]
+        with self.assertRaisesRegex(AuditBlocked, '合集成员'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z')
+        review = {
+            'schemaVersion': 1,
+            'acceptedCollectionPaths': discovered,
+            'acceptedFrontmatterSha256': {'skills/another': frontmatter_identity(fm)},
+        }
+        entry, metadata, report = audit_snapshots(
+            self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z', special_review=review)
+        ids = [child['id'] for child in entry['children']]
+        self.assertEqual(set(ids), {'sample', 'another'})
+        another = next(child for child in entry['children'] if child['id'] == 'another')
+        self.assertEqual(another['path'], 'skills/another')
+        self.assertEqual(another['version'], '0.1.0')
+        self.assertNotIn('i18n', another)
+        sample = next(child for child in entry['children'] if child['id'] == 'sample')
+        self.assertEqual(sample['i18n'], self.entry['children'][0]['i18n'])
+        catalog_ids = [child['identity']['id'] for child in metadata['spec']['collection']['children']]
+        self.assertEqual(set(catalog_ids), {'sample', 'another'})
+        catalog_another = next(child for child in metadata['spec']['collection']['children'] if child['identity']['id'] == 'another')
+        self.assertNotIn('i18n', catalog_another)
+        self.assertEqual(catalog_another['release']['version'], '0.1.0')
+        self.assertEqual(report['source']['paths'], sorted(['skills/sample', 'skills/another']))
+
+    def test_special_review_rejects_wrong_collection_or_frontmatter_acceptance(self):
+        from audit_skill_update import frontmatter_identity
+        from check_upstream_health import GENERATOR
+        self.entry['children'] = [{'id': 'sample', 'path': 'skills/sample', 'version': '1.0.0'}]
+        self.metadata['spec'] = {'collection': {'children': [{'identity': {'id':'sample'}, 'path':'skills/sample'}]}}
+        self.write('skills/another/SKILL.md', '---\nname: another\ndescription: New member\nversion: 0.1.0\n---\n')
+        new = self.commit()
+        fm = GENERATOR.skill_frontmatter(self.repo, 'skills/another/SKILL.md', new)
+        discovered = [child['path'] for child in GENERATOR.discover_children(self.repo, new)]
+        digest = frontmatter_identity(fm)
+        cases = [
+            {'schemaVersion': 1, 'acceptedCollectionPaths': ['skills/sample'], 'acceptedFrontmatterSha256': {'skills/another': digest}},
+            {'schemaVersion': 1, 'acceptedCollectionPaths': discovered + ['skills/extra'], 'acceptedFrontmatterSha256': {'skills/another': digest}},
+            {'schemaVersion': 1, 'acceptedCollectionPaths': discovered, 'acceptedFrontmatterSha256': {'skills/another': 'a' * 64}},
+            {'schemaVersion': 1, 'acceptedCollectionPaths': discovered},
+        ]
+        for review in cases:
+            with self.subTest(review=review):
+                with self.assertRaisesRegex(AuditBlocked, '合集成员|结构化声明'):
+                    audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z', special_review=review)
+
+    def test_special_review_accepts_root_notice_change(self):
+        from audit_skill_update import root_evidence
+        self.write('NOTICE', 'old notice\n')
+        self.old = self.commit()
+        self.entry['source']['ref'] = self.old
+        self.metadata['provenance']['content']['ref'] = self.old
+        self.metadata['governance']['compliance']['reviewedRef'] = self.old
+        self.write('NOTICE', 'new notice documenting a font license\n')
+        new = self.commit()
+        with self.assertRaisesRegex(AuditBlocked, '许可证|Notice'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z')
+        digest = root_evidence(self.repo, new)['NOTICE']
+        with self.assertRaisesRegex(AuditBlocked, '许可证|Notice'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z',
+                            special_review={'schemaVersion': 1, 'acceptedRootEvidenceSha256': {'NOTICE': 'b' * 64}})
+        _, _, report = audit_snapshots(
+            self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z',
+            special_review={'schemaVersion': 1, 'acceptedRootEvidenceSha256': {'NOTICE': digest}})
+        self.assertEqual(report['licenseEvidenceSha256']['NOTICE'], digest)
+
+    def test_deleted_root_license_is_not_accepted(self):
+        (self.repo / 'LICENSE').unlink()
+        new = self.commit()
+        reviews = [
+            {'schemaVersion': 1, 'acceptedRootEvidenceSha256': {}},
+            {'schemaVersion': 1},
+        ]
+        for review in reviews:
+            with self.subTest(review=review):
+                with self.assertRaisesRegex(AuditBlocked, '许可证|Notice'):
+                    audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z', special_review=review)
+
     def test_disallows_non_github_fetch_targets(self):
         self.entry['source']['repoUrl'] = 'file:///private/source'
         with self.assertRaisesRegex(AuditBlocked, 'HTTPS'): audit_update(self.entry, self.metadata, {})
