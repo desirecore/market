@@ -1,17 +1,20 @@
 {
   "schemaVersion": 1,
   "reviewedBy": "mashagua",
-  "reviewedAt": "2026-11-18",
-  "notes": "Class C special review of impeccable d41d9860b0094dcb68030657da63461212835aaa. LICENSE and NOTICE.md are byte-identical to the old pin. font-index.json (1100013 bytes, blob 9d2029971df232a72ff6584d264c104490521742) is unchanged and is typography runtime data; budget-exempt it, do not install-exclude it. Accepted shortened SKILL.md description and version 4.8.0 → 4.9.2. Accepted root package.json optionalDependencies and Cargo.toml/Cargo.lock engine pin 0.1.18 → 0.1.25 (launchers and engine-checksums.txt in the install path also move to 0.1.25). Catalog keeps the existing first-run download and optional OpenAI API cost warnings.",
+  "reviewedAt": "2026-11-19",
+  "notes": "Class C special review of impeccable b49177d32788f2dc585c42831d845dacf1ebed2c. Root Apache-2.0 LICENSE is unchanged. NOTICE.md adds documentation of browser-extension fonts Albert Sans / Alumni Sans (SIL OFL 1.1, extension/fonts/) and DuckDuckGo autoconsent (MPL-2.0, extension/walks/consent-rules.js); those files are not under the install path plugin/skills/impeccable. mashagua reviewed this NOTICE addition and the install-path engine bump 0.1.25 → 0.1.27 (package.json, Cargo.toml, Cargo.lock, and engine checksums in the install path). font-index.json remains 1,100,013 bytes of typography runtime data and stays budget-exempt. SKILL.md stable frontmatter is unchanged aside from version 4.9.2 → 4.10.0.",
   "budgetExemptPaths": [
     "plugin/skills/impeccable/scripts/data/font-index.json"
   ],
   "acceptedDependencyIdentities": {
-    "package.json": "e55367374216fdf40065a20f4b73b0b83529ba5cdb6295e7528f7fb48f5e5d0b",
-    "Cargo.toml": "00e018950c69462710be8e88697e67b9e5c9cc33",
-    "Cargo.lock": "cb2f623628a2a37b0c77906ca753f71e18846f52"
+    "Cargo.lock": "10dfa98ccd7695acfb8c7103a82b6f32a5e4367a",
+    "Cargo.toml": "b89c4a072188562a6b819daea34314ba7fa73902",
+    "package.json": "7e129e288d950fb1f3b8f0c39ee1a7b1bc4c6f8127864c2e0f1a548c38715264"
   },
   "acceptedFrontmatterSha256": {
     "plugin/skills/impeccable": "b1807ab57d0cfa49ed367575ca1425c1747c9d01edc48f3a10714cc3862eb209"
+  },
+  "acceptedRootEvidenceSha256": {
+    "NOTICE.md": "01bf53e5d24d64e19e9e1c33b24c37cef0d314323df7bf678c6ba22d4528a115"
   }
 }
