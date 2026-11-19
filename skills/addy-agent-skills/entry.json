@@ -12,11 +12,11 @@
   "i18n": {
     "zh-CN": {
       "name": "Addy 软件工程技能合集",
-      "shortDesc": "25 个可按需选择的软件工程技能，涵盖规格、开发、测试、评审和发布。浏览器检查需另配 Chrome DevTools MCP，脚本和部署工具按所选技能准备。"
+      "shortDesc": "26 个可按需选择的软件工程技能，涵盖规格、开发、测试、评审和发布。浏览器检查需另配 Chrome DevTools MCP，脚本和部署工具按所选技能准备。"
     },
     "en-US": {
       "name": "Addy Agent Skills",
-      "shortDesc": "25 selectable engineering skills for specification, development, testing, review and release. Browser checks need Chrome DevTools MCP. Provide scripts’ runtimes and deployment tools as required by the selected skill."
+      "shortDesc": "26 selectable engineering skills for specification, development, testing, review and release. Browser checks need Chrome DevTools MCP. Provide scripts’ runtimes and deployment tools as required by the selected skill."
     }
   },
   "maintainer": {
@@ -33,9 +33,21 @@
     "kind": "git",
     "repoUrl": "https://github.com/addyosmani/agent-skills.git",
     "repoBranch": "main",
-    "ref": "8bfcc1f9916f2eea55494d8c1fa7f4bde867dd9e"
+    "ref": "8c99fa36d90068c82d547f7c12a9d67a3e95f4ee"
   },
   "children": [
+    {
+      "id": "accessibility-engineering",
+      "path": "skills/accessibility-engineering",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Audits existing interfaces for WCAG 2.2 AA conformance and remediates the violations found."
+        },
+        "en-US": {
+          "shortDesc": "Audits existing interfaces for WCAG 2.2 AA conformance and remediates the violations found."
+        }
+      }
+    },
     {
       "id": "api-and-interface-design",
       "path": "skills/api-and-interface-design",

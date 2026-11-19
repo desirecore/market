@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "automated:source-license-metadata-v1",
+  "reviewedAt": "2026-11-19T13:50:00Z",
+  "source": {
+    "url": "https://github.com/addyosmani/agent-skills.git",
+    "previousRef": "8bfcc1f9916f2eea55494d8c1fa7f4bde867dd9e",
+    "ref": "8c99fa36d90068c82d547f7c12a9d67a3e95f4ee",
+    "paths": [
+      "skills/accessibility-engineering",
+      "skills/api-and-interface-design",
+      "skills/browser-testing-with-devtools",
+      "skills/ci-cd-and-automation",
+      "skills/code-review-and-quality",
+      "skills/code-simplification",
+      "skills/constraint-driven-development",
+      "skills/context-engineering",
+      "skills/debugging-and-error-recovery",
+      "skills/deprecation-and-migration",
+      "skills/documentation-and-adrs",
+      "skills/doubt-driven-development",
+      "skills/frontend-ui-engineering",
+      "skills/git-workflow-and-versioning",
+      "skills/idea-refine",
+      "skills/incremental-implementation",
+      "skills/interview-me",
+      "skills/observability-and-instrumentation",
+      "skills/performance-optimization",
+      "skills/planning-and-task-breakdown",
+      "skills/security-and-hardening",
+      "skills/shipping-and-launch",
+      "skills/source-driven-development",
+      "skills/spec-driven-development",
+      "skills/test-driven-development",
+      "skills/using-agent-skills"
+    ]
+  },
+  "checks": {
+    "immutableSnapshots": true,
+    "installedScopeBoundedFiles": true,
+    "licenseAndNoticeUnchanged": true,
+    "structuredPrerequisitesUnchanged": true,
+    "presentationMetadataUnchanged": true
+  },
+  "licenseEvidenceSha256": {
+    "LICENSE": "6f202f8bd568cd730dbb2b0d1f8e243bc74c2fa1f64dbce9b2c7ea08bd5c9fd7"
+  },
+  "observedVersions": {},
+  "contentManifestSha256": "8597c055cba28918834b341cea1f40878e9d445635abbf282c36dd23e0ef7519",
+  "fileCount": 35,
+  "limitations": [
+    "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
+    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。",
+    "依赖清单或结构化简介如有变化，已按专项复核记录中的接受哈希核对，不代表这些字段与旧快照逐字节相同。",
+    "根许可证/Notice 或合集成员如有变化，已按专项复核记录中的接受哈希或路径集合核对，不代表与旧快照逐字节或成员集合相同。"
+  ],
+  "specialReview": {
+    "reviewedBy": "mashagua",
+    "reviewedAt": "2026-11-19",
+    "excludePaths": [],
+    "budgetExemptPaths": []
+  }
+}
