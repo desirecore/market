@@ -30,28 +30,28 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-15",
-      "precision": "day"
+      "value": "2026-11-19T01:25:31Z",
+      "precision": "second"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-15",
+      "value": "2026-11-19",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-27",
-      "precision": "day"
+      "value": "2026-11-19T01:25:31Z",
+      "precision": "second"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
       "url": "https://github.com/mattpocock/skills.git",
-      "ref": "59db609eb1e18aaf59b63284d0e52255aff0c63c"
+      "ref": "5863806dd4e15c63174bee4e7515a4256792ecfa"
     }
   },
   "governance": {
@@ -70,9 +70,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "59db609eb1e18aaf59b63284d0e52255aff0c63c",
-      "reviewedAt": "2026-11-15",
-      "reviewedBy": "mashagua",
+      "reviewedRef": "5863806dd4e15c63174bee4e7515a4256792ecfa",
+      "reviewedAt": "2026-11-19",
+      "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }
   },
