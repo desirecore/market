@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "reviewer": "automated:source-license-metadata-v1",
-  "reviewedAt": "2026-11-18T15:21:35Z",
+  "reviewedAt": "2026-11-19T04:02:34Z",
   "source": {
     "url": "https://github.com/KKKKhazix/khazix-skills.git",
-    "previousRef": "322346ded8129436b3f64707789a73e732ae24d9",
-    "ref": "725ac9421901ef7fac6761136969d032737abcf3",
+    "previousRef": "725ac9421901ef7fac6761136969d032737abcf3",
+    "ref": "76fc0f8e8245b40a809d8eed89b27f04cbcf81bb",
     "paths": [
       "aihot",
       "hv-analysis",
@@ -27,7 +27,7 @@
     "aihot/LICENSE": "0fa36ff9f01aaa76bce32e5ebe7aa131efb315d1505822e7c11010855f218658"
   },
   "observedVersions": {},
-  "contentManifestSha256": "321897306c4518b45e42820a85aff3f944411457bb4400ac704abf2ccd245079",
+  "contentManifestSha256": "e9dbd4f1c4f963269bf36fd5e4f4250f3bb7749e02e47e321519a3595bf61cfd",
   "fileCount": 116,
   "limitations": [
     "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
@@ -37,7 +37,7 @@
   ],
   "specialReview": {
     "reviewedBy": "mashagua",
-    "reviewedAt": "2026-11-18",
+    "reviewedAt": "2026-11-19",
     "excludePaths": [
       "neat-freak/evals/fixtures/eval-1-routine-dev-sync/workspace/taskflow/AGENTS.md",
       "neat-freak/evals/fixtures/eval-2-memory-conflict/workspace/notesapp/AGENTS.md",
