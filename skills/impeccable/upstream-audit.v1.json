@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "reviewer": "automated:source-license-metadata-v1",
-  "reviewedAt": "2026-11-18T15:21:35Z",
+  "reviewedAt": "2026-11-19T13:50:00Z",
   "source": {
     "url": "https://github.com/pbakaus/impeccable.git",
-    "previousRef": "d34c87e1a00989ae8dbdd7f6b30b70f23319e860",
-    "ref": "d41d9860b0094dcb68030657da63461212835aaa",
+    "previousRef": "d41d9860b0094dcb68030657da63461212835aaa",
+    "ref": "b49177d32788f2dc585c42831d845dacf1ebed2c",
     "paths": [
       "plugin/skills/impeccable"
     ]
@@ -19,21 +19,22 @@
   },
   "licenseEvidenceSha256": {
     "LICENSE": "02bb8c3b4e70190e3986c0404ad2fd8d639b4f534252d82379cc1b502b6d1812",
-    "NOTICE.md": "c60a093c2845fd9fb82f9c6f742ece31f379f8190b535309d32d66c45ccffdcb"
+    "NOTICE.md": "01bf53e5d24d64e19e9e1c33b24c37cef0d314323df7bf678c6ba22d4528a115"
   },
   "observedVersions": {
-    "plugin/skills/impeccable": "4.9.2"
+    "plugin/skills/impeccable": "4.10.0"
   },
-  "contentManifestSha256": "95a2414cd3ed48339fb70c4fc0ba5418939faf1b4c7af432ad395a59ec941c09",
+  "contentManifestSha256": "b39db9a29973c8f8290010901235265d9cc1e4e11b621214c3a861ed450cadd1",
   "fileCount": 66,
   "limitations": [
     "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
     "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。",
-    "依赖清单或结构化简介如有变化，已按专项复核记录中的接受哈希核对，不代表这些字段与旧快照逐字节相同。"
+    "依赖清单或结构化简介如有变化，已按专项复核记录中的接受哈希核对，不代表这些字段与旧快照逐字节相同。",
+    "根许可证/Notice 或合集成员如有变化，已按专项复核记录中的接受哈希或路径集合核对，不代表与旧快照逐字节或成员集合相同。"
   ],
   "specialReview": {
     "reviewedBy": "mashagua",
-    "reviewedAt": "2026-11-18",
+    "reviewedAt": "2026-11-19",
     "excludePaths": [],
     "budgetExemptPaths": [
       "plugin/skills/impeccable/scripts/data/font-index.json"
