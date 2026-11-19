@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import fnmatch
 import hashlib
 import json
 import re
@@ -41,20 +42,27 @@ def safe_path(value: str) -> str:
     return '' if str(path) == '.' else str(path)
 
 
-def tree(repo: Path, ref: str, path: str = '') -> dict[str, tuple[str, str, int]]:
-    records = git(repo, 'ls-tree', '-rlz', ref, '--', path or '.').split(b'\0')
+def tree(repo: Path, ref: str, path: str = '', exclude_paths=(), budget_exempt_paths=()) -> dict[str, tuple[str, str, int]]:
+    # Do not use ls-tree -l: in a partial clone it fetches every blob just to read
+    # the size, including files we are about to exclude (multi-megabyte demos).
+    records = git(repo, 'ls-tree', '-rz', ref, '--', path or '.').split(b'\0')
     result = {}
     for record in records:
         if not record:
             continue
         meta, filename = record.split(b'\t', 1)
-        mode, kind, oid, size = meta.decode().split()
+        mode, kind, oid = meta.decode().split()[:3]
         name = filename.decode('utf-8')
+        if path_matches(name, exclude_paths):
+            if protected_audit_path(name):
+                raise AuditBlocked('排除列表不能用于许可、Notice 或依赖清单')
+            continue
         if kind != 'blob' or mode not in ('100644', '100755'):
             raise AuditBlocked('来源包含符号链接、子模块或不支持的节点')
-        if int(size) > MAX_FILE_BYTES:
+        size = int(git(repo, 'cat-file', '-s', oid))
+        if size > MAX_FILE_BYTES and not path_matches(name, budget_exempt_paths):
             raise AuditBlocked('单文件超过自动审核预算')
-        result[name] = (mode, oid, int(size))
+        result[name] = (mode, oid, size)
     if len(result) > MAX_FILES or sum(item[2] for item in result.values()) > MAX_CONTENT_BYTES:
         raise AuditBlocked('来源超过自动审核内容预算')
     return result
@@ -101,6 +109,39 @@ def dependency_file(path: str) -> bool:
 
 
 
+
+def path_matches(name: str, patterns: list[str] | tuple[str, ...] | None) -> bool:
+    """Exact path, directory prefix, or fnmatch glob. Patterns are repo-relative."""
+    for raw in patterns or ():
+        pattern = raw[:-1] if raw.endswith('/') else raw
+        if name == pattern or name.startswith(pattern + '/'):
+            return True
+        if fnmatch.fnmatch(name, raw) or fnmatch.fnmatch(name, pattern):
+            return True
+    return False
+
+
+def protected_audit_path(path: str) -> bool:
+    name = PurePosixPath(path).name.upper()
+    return name.startswith(('LICENSE', 'NOTICE', 'COPYING')) or dependency_file(path)
+
+
+def frontmatter_identity(fm: dict) -> str:
+    return hashlib.sha256(json.dumps(stable_frontmatter(fm), sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+
+
+def dependency_acceptance_key(identity: tuple) -> str:
+    return identity[1]
+
+
+def load_special_review(record) -> dict:
+    if not record:
+        return {}
+    if not isinstance(record, dict) or record.get('schemaVersion') != 1:
+        raise AuditBlocked('专项复核记录格式无效')
+    return record
+
+
 def dependency_identity(repo: Path, ref: str, path: str, record):
     if PurePosixPath(path).name.lower() == 'package.json':
         try:
@@ -116,7 +157,7 @@ def dependency_identity(repo: Path, ref: str, path: str, record):
 
 
 def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
-                    observed_at: str | None = None) -> tuple[dict, dict, dict]:
+                    observed_at: str | None = None, special_review: dict | None = None) -> tuple[dict, dict, dict]:
     old, new = result['ref'], result['head']
     if not all(re.fullmatch('[0-9a-f]{40}', ref) for ref in (old, new)):
         raise AuditBlocked('审核必须绑定完整 SHA')
@@ -135,12 +176,22 @@ def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
     now = observed_at or datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
     if not re.fullmatch(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z', now):
         raise AuditBlocked('审核时间格式不正确')
+    review = load_special_review(special_review)
+    exclude_paths = review.get('excludePaths') or []
+    budget_exempt_paths = review.get('budgetExemptPaths') or []
+    if not isinstance(exclude_paths, list) or not isinstance(budget_exempt_paths, list):
+        raise AuditBlocked('专项复核的排除或预算豁免列表无效')
+    if any(not isinstance(item, str) or item != safe_path(item) for item in [*exclude_paths, *budget_exempt_paths]):
+        raise AuditBlocked('专项复核路径不安全')
+    if any(protected_audit_path(item) for item in exclude_paths):
+        raise AuditBlocked('排除列表不能用于许可、Notice 或依赖清单')
     paths = [safe_path(child['path']) for child in entry.get('children', [])]
     if not paths:
         paths = [safe_path(entry['source'].get('path', ''))]
     old_files, new_files = {}, {}
     for path in paths:
-        old_files.update(tree(repo, old, path)); new_files.update(tree(repo, new, path))
+        old_files.update(tree(repo, old, path, exclude_paths, budget_exempt_paths))
+        new_files.update(tree(repo, new, path, exclude_paths, budget_exempt_paths))
     if not new_files or len(new_files) > MAX_FILES or sum(item[2] for item in new_files.values()) > MAX_CONTENT_BYTES:
         raise AuditBlocked('新快照为空或超过总预算')
     licenses = root_evidence(repo, old)
@@ -176,7 +227,18 @@ def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
     old_dependencies = {path: dependency_identity(repo, old, path, value) for path, value in old_files.items() if dependency_file(path)}
     new_dependencies = {path: dependency_identity(repo, new, path, value) for path, value in new_files.items() if dependency_file(path)}
     if old_dependencies != new_dependencies:
-        raise AuditBlocked('依赖清单有变化，无法自动确认新的前置条件')
+        accepted = review.get('acceptedDependencyIdentities') or {}
+        if not isinstance(accepted, dict) or any(not isinstance(k, str) or not isinstance(v, str) for k, v in accepted.items()):
+            raise AuditBlocked('依赖清单有变化，无法自动确认新的前置条件')
+        if set(old_dependencies) - set(new_dependencies):
+            raise AuditBlocked('依赖清单有变化，无法自动确认新的前置条件')
+        expected = {
+            path: dependency_acceptance_key(value)
+            for path, value in new_dependencies.items()
+            if path not in old_dependencies or dependency_acceptance_key(old_dependencies[path]) != dependency_acceptance_key(value)
+        }
+        if accepted != expected:
+            raise AuditBlocked('依赖清单有变化，无法自动确认新的前置条件')
     versions = {}
     for path in paths:
         marker = f'{path}/SKILL.md' if path else 'SKILL.md'
@@ -185,7 +247,9 @@ def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
         if not isinstance(old_fm, dict) or not isinstance(new_fm, dict):
             raise AuditBlocked('技能 frontmatter 必须是对象')
         if stable_frontmatter(old_fm) != stable_frontmatter(new_fm):
-            raise AuditBlocked('名称、简介、依赖、兼容性或其他结构化声明有变化，需同步审核元数据和翻译')
+            accepted_fm = review.get('acceptedFrontmatterSha256') or {}
+            if not isinstance(accepted_fm, dict) or accepted_fm.get(path) != frontmatter_identity(new_fm):
+                raise AuditBlocked('名称、简介、依赖、兼容性或其他结构化声明有变化，需同步审核元数据和翻译')
         raw = new_fm.get('version')
         if raw is None and not entry.get('children'):
             details = new_fm.get('metadata')
@@ -239,13 +303,24 @@ def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
               'fileCount': len(new_files),
               'limitations': ['自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。',
                               '未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。']}
+    if review:
+        report['specialReview'] = {
+            'reviewedBy': review.get('reviewedBy'),
+            'reviewedAt': review.get('reviewedAt'),
+            'excludePaths': list(exclude_paths),
+            'budgetExemptPaths': list(budget_exempt_paths),
+        }
+        report['limitations'].append('依赖清单或结构化简介如有变化，已按专项复核记录中的接受哈希核对，不代表这些字段与旧快照逐字节相同。')
+        if exclude_paths:
+            report['limitations'].append('excludePaths 只从本仓库的自动审核树遍历中省略路径；DesireCore 安装器在支持该字段前仍会从上游 pin 安装这些文件。')
     errors = validate_record(metadata, report)
     if errors:
         raise AuditBlocked('; '.join(errors))
     return updated, metadata, report
 
 
-def audit_update(entry: dict, sidecar: dict, result: dict) -> tuple[dict, dict, dict]:
+def audit_update(entry: dict, sidecar: dict, result: dict,
+                 special_review: dict | None = None) -> tuple[dict, dict, dict]:
     url = entry['source']['repoUrl']
     if not re.fullmatch(r'https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:\.git)?/?', url):
         raise AuditBlocked('自动获取仅使用已登记的 GitHub HTTPS 来源')
@@ -253,4 +328,4 @@ def audit_update(entry: dict, sidecar: dict, result: dict) -> tuple[dict, dict, 
         repo = Path(temporary)
         git(repo, 'init', '--quiet')
         git(repo, 'fetch', '--quiet', '--no-tags', '--depth=1', url, result['ref'], result['head'])
-        return audit_snapshots(repo, entry, sidecar, result)
+        return audit_snapshots(repo, entry, sidecar, result, special_review=special_review)

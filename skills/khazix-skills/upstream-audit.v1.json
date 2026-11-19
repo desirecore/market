@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "automated:source-license-metadata-v1",
+  "reviewedAt": "2026-11-19T04:02:34Z",
+  "source": {
+    "url": "https://github.com/KKKKhazix/khazix-skills.git",
+    "previousRef": "725ac9421901ef7fac6761136969d032737abcf3",
+    "ref": "76fc0f8e8245b40a809d8eed89b27f04cbcf81bb",
+    "paths": [
+      "aihot",
+      "hv-analysis",
+      "khazix-writer",
+      "leader",
+      "neat-freak",
+      "storage-analyzer"
+    ]
+  },
+  "checks": {
+    "immutableSnapshots": true,
+    "installedScopeBoundedFiles": true,
+    "licenseAndNoticeUnchanged": true,
+    "structuredPrerequisitesUnchanged": true,
+    "presentationMetadataUnchanged": true
+  },
+  "licenseEvidenceSha256": {
+    "LICENSE": "b7f53d07ea4ae2eef26a4f8b28cb7d4df95586e2aa713df408f1ffde9f5a0fea",
+    "aihot/LICENSE": "0fa36ff9f01aaa76bce32e5ebe7aa131efb315d1505822e7c11010855f218658"
+  },
+  "observedVersions": {},
+  "contentManifestSha256": "e9dbd4f1c4f963269bf36fd5e4f4250f3bb7749e02e47e321519a3595bf61cfd",
+  "fileCount": 116,
+  "limitations": [
+    "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
+    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。",
+    "依赖清单或结构化简介如有变化，已按专项复核记录中的接受哈希核对，不代表这些字段与旧快照逐字节相同。",
+    "excludePaths 只从本仓库的自动审核树遍历中省略路径；DesireCore 安装器在支持该字段前仍会从上游 pin 安装这些文件。"
+  ],
+  "specialReview": {
+    "reviewedBy": "mashagua",
+    "reviewedAt": "2026-11-19",
+    "excludePaths": [
+      "neat-freak/evals/fixtures/eval-1-routine-dev-sync/workspace/taskflow/AGENTS.md",
+      "neat-freak/evals/fixtures/eval-2-memory-conflict/workspace/notesapp/AGENTS.md",
+      "neat-freak/evals/fixtures/eval-4-cross-project/workspace/auth-center/AGENTS.md",
+      "neat-freak/evals/fixtures/eval-4-cross-project/workspace/skills-hub/AGENTS.md",
+      "neat-freak/evals/fixtures/eval-6-scope-boundary/workspace/current-app/AGENTS.md"
+    ],
+    "budgetExemptPaths": []
+  }
+}

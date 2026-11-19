@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Humanizer",
-        "summary": "Strips signs of AI-generated writing using Wikipedia's \"Signs of AI writing\" guide, fixing inflated symbolism, promotional tone, em dash overuse, rule of three and negative parallelisms; plain Markdown, runs in any harness"
+        "summary": "Rewrite AI-sounding text so it reads like the writer without changing what it says. Use when editing or reviewing prose for AI tells: not-X-but-Y contrasts, one-line closers, staged openers, forced triads, dashes everywhere, inflated claims, sales language, stock AI words, bold labels, or filler."
       },
       "zh-CN": {
         "name": "Humanizer",
-        "summary": "基于维基百科「AI 写作特征」指南去除文本中的 AI 痕迹，识别并修复夸大象征、宣传腔、破折号滥用、三段式、否定式排比等模式，纯 Markdown 可跨 agent 运行"
+        "summary": "把听起来像 AI 写的文字改得像作者本人写的，但不改原意。用于编辑或检查散文中的 AI 痕迹：不是 X 而是 Y 的对比、单行收束、做作开头、强行三连、破折号泛滥、夸大表述、销售腔、套话、加粗标签或空话。"
       }
     },
     "category": "creative",
@@ -28,34 +28,34 @@
   },
   "release": {
     "state": "known",
-    "version": "3.1.0",
+    "version": "4.0.0",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-15",
-      "precision": "day"
+      "value": "2026-11-18T15:21:35Z",
+      "precision": "second"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-15",
+      "value": "2026-11-18",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-19",
-      "precision": "day"
+      "value": "2026-11-18T15:21:35Z",
+      "precision": "second"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
       "url": "https://github.com/blader/humanizer.git",
-      "ref": "8c307f367c91bd974002f10f2be2965d642c13df"
+      "ref": "b48c832f0f809c1b5658edbb838c2521b72f2413"
     }
   },
   "governance": {
@@ -74,9 +74,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "8c307f367c91bd974002f10f2be2965d642c13df",
-      "reviewedAt": "2026-11-15",
-      "reviewedBy": "mashagua",
+      "reviewedRef": "b48c832f0f809c1b5658edbb838c2521b72f2413",
+      "reviewedAt": "2026-11-18",
+      "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }
   },

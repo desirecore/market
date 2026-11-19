@@ -31,28 +31,28 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-15",
-      "precision": "day"
+      "value": "2026-11-19T04:02:34Z",
+      "precision": "second"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-15",
+      "value": "2026-11-19",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-05",
-      "precision": "day"
+      "value": "2026-11-19T04:02:34Z",
+      "precision": "second"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
       "url": "https://github.com/KKKKhazix/khazix-skills.git",
-      "ref": "322346ded8129436b3f64707789a73e732ae24d9"
+      "ref": "76fc0f8e8245b40a809d8eed89b27f04cbcf81bb"
     }
   },
   "governance": {
@@ -71,9 +71,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "322346ded8129436b3f64707789a73e732ae24d9",
-      "reviewedAt": "2026-11-15",
-      "reviewedBy": "mashagua",
+      "reviewedRef": "76fc0f8e8245b40a809d8eed89b27f04cbcf81bb",
+      "reviewedAt": "2026-11-19",
+      "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }
   },
@@ -135,11 +135,11 @@
             "i18n": {
               "en-US": {
                 "name": "hv-analysis",
-                "summary": "横纵分析法（Horizontal-Vertical Analysis）深度研究Skill。由数字生命卡兹克提出，融合了索绪尔的历时-共时分析、社会科学的纵向-横截面研究设计、商学院案例研究法与竞争战略分析的核心思想。"
+                "summary": "横纵分析法深度研究：系统地研究一个产品、公司、概念、技术或人物。纵轴把它从诞生讲到今天，写成有因果的故事；横轴把它和当下的竞品或同类逐一对比；最后把两条线交叉，给出只看历史或只看现状都得不出的判断。必须联网取证。默认交付万字级的 PDF 报告和 Markdown 源稿，也可以按用户指定输出 HTML、只要 Markdo…"
               },
               "zh-CN": {
                 "name": "hv-analysis",
-                "summary": "横纵分析法（Horizontal-Vertical Analysis）深度研究Skill。由数字生命卡兹克提出，融合了索绪尔的历时-共时分析、社会科学的纵向-横截面研究设计、商学院案例研究法与竞争战略分析的核心思想。"
+                "summary": "横纵分析法深度研究：系统地研究一个产品、公司、概念、技术或人物。纵轴把它从诞生讲到今天，写成有因果的故事；横轴把它和当下的竞品或同类逐一对比；最后把两条线交叉，给出只看历史或只看现状都得不出的判断。必须联网取证。默认交付万字级的 PDF 报告和 Markdown 源稿，也可以按用户指定输出 HTML、只要 Markdo…"
               }
             },
             "tags": []
@@ -210,11 +210,11 @@
             "i18n": {
               "en-US": {
                 "name": "neat-freak",
-                "summary": "Knowledge and governance closeout: reconcile project docs, rule files (CLAUDE.md/AGENTS.md), authorized agent memory, and workspace residue with what the code a…"
+                "summary": "干完活的知识收尾：把项目文档、CLAUDE.md/AGENTS.md 等规则文件、Agent 记忆和会话留下的临时文件，对齐到代码和线上的真实现状，让下一个会话或接手的人读到的是唯一、正确的现役答案。触发：用户点名 \"neat-freak\"、\"洁癖\"、\"/neat\"，或明确的知识收尾意图——开发后同步文档与记忆、CLA…"
               },
               "zh-CN": {
                 "name": "neat-freak",
-                "summary": "Knowledge and governance closeout: reconcile project docs, rule files (CLAUDE.md/AGENTS.md), authorized agent memory, and workspace residue with what the code a…"
+                "summary": "干完活的知识收尾：把项目文档、CLAUDE.md/AGENTS.md 等规则文件、Agent 记忆和会话留下的临时文件，对齐到代码和线上的真实现状，让下一个会话或接手的人读到的是唯一、正确的现役答案。触发：用户点名 \"neat-freak\"、\"洁癖\"、\"/neat\"，或明确的知识收尾意图——开发后同步文档与记忆、CLA…"
               }
             },
             "tags": []
@@ -235,11 +235,11 @@
             "i18n": {
               "en-US": {
                 "name": "storage-analyzer",
-                "summary": "macOS / Windows 只读存储分析助手（自动识别系统）。扫描整机磁盘占用，找出 占空间大户，把每一项分成 🟢可自动清理 / 🟡需人工判断 / 🔴谨慎清理 三级并给出 可执行处置方案，生成排版精美、可折叠、命令可一键复制的交互式 HTML 报告，并可 起本地服务在网页上一键删除（移废纸篓/直接删）。扫描全程只读…"
+                "summary": "macOS / Windows / Linux 只读存储分析助手（自动识别系统）。扫描整机磁盘占用，找出 占空间大户，把每一项分成 🟢可自动清理 / 🟡需人工判断 / 🔴谨慎清理 三级并给出 可执行处置方案，生成排版精美、可折叠、命令可一键复制的交互式 HTML 报告，并可 起本地服务在网页上一键删除（移废纸篓/直接删…"
               },
               "zh-CN": {
                 "name": "storage-analyzer",
-                "summary": "macOS / Windows 只读存储分析助手（自动识别系统）。扫描整机磁盘占用，找出 占空间大户，把每一项分成 🟢可自动清理 / 🟡需人工判断 / 🔴谨慎清理 三级并给出 可执行处置方案，生成排版精美、可折叠、命令可一键复制的交互式 HTML 报告，并可 起本地服务在网页上一键删除（移废纸篓/直接删）。扫描全程只读…"
+                "summary": "macOS / Windows / Linux 只读存储分析助手（自动识别系统）。扫描整机磁盘占用，找出 占空间大户，把每一项分成 🟢可自动清理 / 🟡需人工判断 / 🔴谨慎清理 三级并给出 可执行处置方案，生成排版精美、可折叠、命令可一键复制的交互式 HTML 报告，并可 起本地服务在网页上一键删除（移废纸篓/直接删…"
               }
             },
             "tags": []

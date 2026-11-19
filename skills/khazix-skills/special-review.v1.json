@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "mashagua",
+  "reviewedAt": "2026-11-19",
+  "notes": "Class C special review of khazix-skills 76fc0f8e8245b40a809d8eed89b27f04cbcf81bb. Root MIT LICENSE (LICENSE, sha256 b7f53d07ea4ae2eef26a4f8b28cb7d4df95586e2aa713df408f1ffde9f5a0fea, Copyright 2026 数字生命卡兹克) and aihot/LICENSE (sha256 0fa36ff9f01aaa76bce32e5ebe7aa131efb315d1505822e7c11010855f218658, Copyright 2026 Virxact) are byte-identical to the old pin 725ac9421901ef7fac6761136969d032737abcf3. Collection membership is unchanged (aihot, hv-analysis, khazix-writer, leader, neat-freak, storage-analyzer). The same five neat-freak eval fixture AGENTS.md symlinks remain (mode 120000, target CLAUDE.md, 9 bytes, blob 681311eb9cf453d0faddf3aacaec7357e97ba8e9) and stay excluded from the audit tree. aihot and storage-analyzer frontmatter are unchanged. Accepted updated frontmatter and instruction rewrites for hv-analysis, khazix-writer, leader, and neat-freak from upstream 1.3.0 (1cff16da300db915032a213b28bc7fbe91784986), plus leader 1.3.1 (76fc0f8e8245b40a809d8eed89b27f04cbcf81bb) which creates BLOCKED.md only when there is a blocked item. Script changes reviewed: hv-analysis/scripts/md_to_pdf.py (cover metadata de-duplication and Windows UTF-8 stdio), neat-freak/scripts/audit-inventory.sh (also inventories GEMINI.md), storage-analyzer/scripts/build_report.py (documents extra disk fields). Curated leader shortDesc override in collection-child-overrides.json is kept.",
+  "excludePaths": [
+    "neat-freak/evals/fixtures/eval-1-routine-dev-sync/workspace/taskflow/AGENTS.md",
+    "neat-freak/evals/fixtures/eval-2-memory-conflict/workspace/notesapp/AGENTS.md",
+    "neat-freak/evals/fixtures/eval-4-cross-project/workspace/auth-center/AGENTS.md",
+    "neat-freak/evals/fixtures/eval-4-cross-project/workspace/skills-hub/AGENTS.md",
+    "neat-freak/evals/fixtures/eval-6-scope-boundary/workspace/current-app/AGENTS.md"
+  ],
+  "acceptedFrontmatterSha256": {
+    "hv-analysis": "eb985380ccc9985f41a92f14c36bf010b4370825da99a360145b1d1c722fc948",
+    "khazix-writer": "36eeffc66bddf33e2c8d50cbad6d5f90b641d16d0a8618994f55d0bfdda27241",
+    "leader": "04b94e017b015c370abf1e8f5298ba8146a3bcec451d2497c51c252dc0e357f8",
+    "neat-freak": "6b815c7ddca78ee0b8be6c99158c6fbfe417ed24fde179b4a200e430ed7ea3dd"
+  }
+}
