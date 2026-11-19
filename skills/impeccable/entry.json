@@ -33,7 +33,7 @@
     "repoUrl": "https://github.com/pbakaus/impeccable.git",
     "repoBranch": "main",
     "path": "plugin/skills/impeccable",
-    "ref": "d41d9860b0094dcb68030657da63461212835aaa"
+    "ref": "b49177d32788f2dc585c42831d845dacf1ebed2c"
   },
   "latestVersion": "4.9.2"
 }
