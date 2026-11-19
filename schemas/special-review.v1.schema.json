@@ -31,6 +31,17 @@
       "type": "object",
       "description": "Map of install path (empty string for a repo-root skill) to SHA-256 of stable_frontmatter(new SKILL.md).",
       "additionalProperties": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+    },
+    "acceptedRootEvidenceSha256": {
+      "type": "object",
+      "description": "Map of repo-root LICENSE/NOTICE/COPYING path to SHA-256 of the *new* snapshot file bytes. When root evidence changes, this map must exactly equal the added or changed paths; deletions of LICENSE/NOTICE/COPYING are never accepted.",
+      "additionalProperties": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+    },
+    "acceptedCollectionPaths": {
+      "type": "array",
+      "description": "Exact set of new collection membership install paths when discovered children differ from the old entry. Must equal the discovered path set. Newly added members also require acceptedFrontmatterSha256 for that path.",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
     }
   }
 }
