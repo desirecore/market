@@ -30,28 +30,28 @@
   },
   "release": {
     "state": "known",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-11-20",
       "precision": "day"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-09-30",
+      "value": "2026-11-20",
       "precision": "day"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-11-20",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-11-20",
       "precision": "day"
     }
   },
@@ -59,7 +59,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/feishu-orchestrator.git",
-      "ref": "3b22436d4c0a98124946fe935f816fde1b49fa4f"
+      "ref": "dd0fe37ffaabd96d323d6a03ead68db6cf40955c"
     }
   },
   "governance": {
@@ -87,8 +87,8 @@
     "compliance": {
       "licenseEvidencePath": "LICENSE",
       "noticePath": "NOTICE",
-      "reviewedRef": "3b22436d4c0a98124946fe935f816fde1b49fa4f",
-      "reviewedAt": "2026-10-05",
+      "reviewedRef": "dd0fe37ffaabd96d323d6a03ead68db6cf40955c",
+      "reviewedAt": "2026-11-20",
       "reviewedBy": "Market upstream maintenance",
       "upstreamEndorsed": true
     }
