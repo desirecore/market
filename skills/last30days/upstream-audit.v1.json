@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "reviewer": "automated:source-license-metadata-v1",
-  "reviewedAt": "2026-11-18T15:21:35Z",
+  "reviewedAt": "2026-11-20T01:26:12Z",
   "source": {
     "url": "https://github.com/mvanhorn/last30days-skill.git",
-    "previousRef": "e06af25a9a78487b75e8509e0e1687fec137176e",
-    "ref": "a854f3bcb2c4344d7498426d653378510f8b253a",
+    "previousRef": "a854f3bcb2c4344d7498426d653378510f8b253a",
+    "ref": "262391603f3c2807606bffa0170547273fc273e5",
     "paths": [
       "skills/last30days"
     ]
@@ -24,8 +24,8 @@
   "observedVersions": {
     "skills/last30days": "4.3.2"
   },
-  "contentManifestSha256": "e9ad3c898080422f304b2f538c78c36405e11a1e98d06d51a9f895c7ab0fc9a8",
-  "fileCount": 187,
+  "contentManifestSha256": "43f724bc01e604b33fdc2ad8311fdf0b6b7c026604bb6d25f3b0cc2c7c86dbaf",
+  "fileCount": 188,
   "limitations": [
     "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
     "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。",

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "source-license-metadata-review",
+  "reviewedAt": "2026-11-21",
+  "reviewedRef": "b507e4fe1644107b872ec96bf99b7a9c66386db9",
+  "notes": "Fresh review of the new snapshot, without inheriting a previous installable review. README.md has an explicit License / MIT declaration at lines 128-130; the pinned tree has no standalone LICENSE file. MIT identifies the upstream code declaration; public feed content and third-party posts remain governed by their respective rights and operator terms. Node.js runs the included ESM scripts; scripts/package.json declares dotenv ^16.4.0 and proper-lockfile ^4.1.0. Public feed access requires networking. Telegram/Resend delivery requires operator credentials and explicit send/schedule authorization. Missing dependencies, credentials or feed data must be reported rather than fabricated. Review covers pinned source, licensing and catalog metadata. Upstream programs were not executed; runtime and GUI acceptance remain untested.",
+  "licenseEvidenceSha256": {
+    "README.md": "ed622ec7b1c36417b3b5d684cb995611ce55c2f1987d8a7a6815c314f4447db7"
+  },
+  "contentManifestSha256": "5877c661246acd11e36b3db636278707093641b365d165cc2ea53afd20a956bd",
+  "fileCount": 22
+}

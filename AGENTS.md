@@ -35,18 +35,17 @@ customer-neutral, and safe to index publicly.
 
 Before committing or opening/updating a PR:
 
-1. Obtain the sensitive tokens through a private channel and keep them outside the
-   repository.
-2. Scan the complete working tree, including hidden files while excluding `.git`.
-3. Scan new path names, branch names, commit subjects and bodies, and the proposed
-   PR/issue/review text.
-4. Review examples semantically: changing a proper noun is insufficient when an
-   example still exposes a customer-specific organization shape or private fact.
-5. Run the repository validation and translation-freshness checks documented in
+1. Check the working tree for disclosures covered by the public information boundary,
+   including hidden files except `.git`.
+2. Review new paths, branch names, commit messages, and proposed PR, issue, and
+   review text under the same boundary.
+3. Review examples in context. Remove customer-specific organization shapes,
+   operating details, and private facts even when names have been generalized.
+4. Run the repository validation and translation-freshness checks documented in
    `README.md`.
 
-A zero-result scan is a release requirement. Record only that the check passed;
-never persist the confidential search tokens or command history in the repository.
+Resolve any disclosures before publication. Record only the outcome in public
+review notes.
 
 ## Incident response
 
