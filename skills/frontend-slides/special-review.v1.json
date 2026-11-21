@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "source-license-metadata-review",
+  "reviewedAt": "2026-11-21",
+  "reviewedRef": "4adeee6732a12d1540f49a4d50a38ce8c97f9a53",
+  "notes": "Root MIT LICENSE and the selected skills/frontend-slides stable frontmatter are unchanged. Selected scope changes only SKILL.md and STYLE_PRESETS.md; it adds @page PDF sizing guidance and a documented palette source. Root manifests and lockfiles change ECC development/package tooling: js-yaml 4.3.2 -> 5.5.0, sql.js 1.14.2 -> 1.16.0, x402/Express/jsonc-parser dev dependencies, ESLint/globals/Node types, and Python dev-only httpx/httpx2. The market pointer installs only skills/frontend-slides and never runs ECC root package scripts. Browser HTML, optional Python/python-pptx conversion and optional Node/npm/Playwright/Chromium PDF export prerequisites are disclosed. Review covers pinned source, licensing and catalog metadata. Upstream programs were not executed; runtime and GUI acceptance remain untested.",
+  "acceptedDependencyIdentities": {
+    "package-lock.json": "1d44ca87c6e10462b0743a945e19462deb55c42d",
+    "package.json": "918978ceb8633c253733c2f16ae52d97473ecd3dffac3636b61620250132c7df",
+    "pyproject.toml": "25f60d36e68dc108beaaf0b97271d73225fc908b",
+    "yarn.lock": "8ddc618fda529deeb13be64338c7f2692a355960"
+  }
+}
