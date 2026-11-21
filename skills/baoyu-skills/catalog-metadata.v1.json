@@ -32,21 +32,21 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-15",
-      "precision": "day"
+      "value": "2026-11-21T14:22:21Z",
+      "precision": "second"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-15",
+      "value": "2026-11-21",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-05",
-      "precision": "day"
+      "value": "2026-11-21T14:22:21Z",
+      "precision": "second"
     }
   },
   "provenance": {
@@ -72,9 +72,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "1567581c26ec29f4216c6e6835415bf30343b0e3",
-      "reviewedAt": "2026-11-15",
-      "reviewedBy": "mashagua",
+      "reviewedRef": "bf1ff076e25f8da4a339eb1c8cf03361fea5ea4c",
+      "reviewedAt": "2026-11-21",
+      "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }
   },
@@ -90,6 +90,10 @@
       {
         "kind": "permission",
         "value": "Image, video, speech and publication integrations require the operator's own provider accounts, API credentials and any applicable paid entitlements. DesireCore does not provide or pay for these services; unavailable providers must be reported before calling them."
+      },
+      {
+        "kind": "runtime",
+        "value": "baoyu-diagram 的 PNG 导出使用 sharp 0.34.5，需另装兼容的 Node.js 运行时及依赖。播客摘要支持粘贴或本地逐字稿；YouTube 输入需同合集的 baoyu-youtube-transcript 及网络检索，缺少字幕或工具时报告阻碍。 / Diagram PNG export requires separately installed sharp 0.34.5 and a compatible Node.js runtime. Podcast summaries accept pasted/local transcripts; YouTube input requires baoyu-youtube-transcript and web search. Report missing transcripts or tools."
       }
     ]
   },
@@ -97,7 +101,7 @@
     "kind": "skill",
     "collection": {
       "role": "parent",
-      "childCount": 21,
+      "childCount": 22,
       "children": [
         {
           "identity": {
@@ -109,11 +113,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-article-illustrator",
-                "summary": "Analyzes article structure, identifies positions requiring visual aids, generates illustrations with Type × Style × Palette three-dimension approach."
-              },
               "zh-CN": {
+                "name": "baoyu-article-illustrator",
+                "summary": "分析文章结构，定位需要配图的位置，按类型、风格和配色生成插图。"
+              },
+              "en-US": {
                 "name": "baoyu-article-illustrator",
                 "summary": "Analyzes article structure, identifies positions requiring visual aids, generates illustrations with Type × Style × Palette three-dimension approach."
               }
@@ -136,11 +140,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-comic",
-                "summary": "Knowledge comic creator supporting multiple art styles and tones."
-              },
               "zh-CN": {
+                "name": "baoyu-comic",
+                "summary": "制作知识漫画，支持多种画风、分镜设计和批量生成。"
+              },
+              "en-US": {
                 "name": "baoyu-comic",
                 "summary": "Knowledge comic creator supporting multiple art styles and tones."
               }
@@ -163,11 +167,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-compress-image",
-                "summary": "Compresses images to WebP (default) or PNG with automatic tool selection."
-              },
               "zh-CN": {
+                "name": "baoyu-compress-image",
+                "summary": "自动选择工具，将图片压缩为 WebP 或 PNG。"
+              },
+              "en-US": {
                 "name": "baoyu-compress-image",
                 "summary": "Compresses images to WebP (default) or PNG with automatic tool selection."
               }
@@ -190,11 +194,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-cover-image",
-                "summary": "Generates article cover images with 5 dimensions (type, palette, rendering, text, mood) combining 11 color palettes and 7 rendering styles."
-              },
               "zh-CN": {
+                "name": "baoyu-cover-image",
+                "summary": "结合版式、配色、渲染、文字和情绪生成文章封面。"
+              },
+              "en-US": {
                 "name": "baoyu-cover-image",
                 "summary": "Generates article cover images with 5 dimensions (type, palette, rendering, text, mood) combining 11 color palettes and 7 rendering styles."
               }
@@ -217,11 +221,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-danger-gemini-web",
-                "summary": "Generates images and text via reverse-engineered Gemini Web API."
-              },
               "zh-CN": {
+                "name": "baoyu-danger-gemini-web",
+                "summary": "经逆向 Gemini Web 接口生成图片与文字，使用前须确认账号授权和服务条款。"
+              },
+              "en-US": {
                 "name": "baoyu-danger-gemini-web",
                 "summary": "Generates images and text via reverse-engineered Gemini Web API."
               }
@@ -244,11 +248,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-danger-x-to-markdown",
-                "summary": "Converts X (Twitter) tweets and articles to markdown with YAML front matter."
-              },
               "zh-CN": {
+                "name": "baoyu-danger-x-to-markdown",
+                "summary": "经逆向接口将 X 推文和文章转为带 YAML 元数据的 Markdown，使用前须取得用户同意。"
+              },
+              "en-US": {
                 "name": "baoyu-danger-x-to-markdown",
                 "summary": "Converts X (Twitter) tweets and articles to markdown with YAML front matter."
               }
@@ -271,20 +275,20 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-diagram",
-                "summary": "Create professional, dark-themed SVG diagrams of any type — architecture diagrams, flowcharts, sequence diagrams, structural diagrams, mind maps, timelines, ill…"
-              },
               "zh-CN": {
                 "name": "baoyu-diagram",
-                "summary": "Create professional, dark-themed SVG diagrams of any type — architecture diagrams, flowcharts, sequence diagrams, structural diagrams, mind maps, timelines, ill…"
+                "summary": "制作技术图与流程图，输出深浅两套 SVG 及各自的 2 倍 PNG；PNG 导出依赖 sharp。"
+              },
+              "en-US": {
+                "name": "baoyu-diagram",
+                "summary": "Create professional diagrams with configurable dark/light theme via CSS custom properties."
               }
             },
             "tags": []
           },
           "release": {
             "state": "known",
-            "version": "1.117.3",
+            "version": "1.118.0",
             "versionScheme": "semver"
           }
         },
@@ -298,11 +302,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-electron-extract",
-                "summary": "Extracts resources and JavaScript from any installed Electron app (`.asar` bundle), restoring original sources from `.js.map` files when available or formatting…"
-              },
               "zh-CN": {
+                "name": "baoyu-electron-extract",
+                "summary": "从已安装 Electron 应用提取资源与 JavaScript，有 source map 时恢复源码，否则格式化代码。"
+              },
+              "en-US": {
                 "name": "baoyu-electron-extract",
                 "summary": "Extracts resources and JavaScript from any installed Electron app (`.asar` bundle), restoring original sources from `.js.map` files when available or formatting…"
               }
@@ -325,11 +329,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-format-markdown",
-                "summary": "Formats plain text or markdown files with frontmatter, titles, summaries, headings, bold, lists, and code blocks."
-              },
               "zh-CN": {
+                "name": "baoyu-format-markdown",
+                "summary": "为文本或 Markdown 整理元数据、标题、摘要、列表和代码块。"
+              },
+              "en-US": {
                 "name": "baoyu-format-markdown",
                 "summary": "Formats plain text or markdown files with frontmatter, titles, summaries, headings, bold, lists, and code blocks."
               }
@@ -352,11 +356,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-image-gen",
-                "summary": "AI image generation with OpenAI GPT Image 2.5, Azure OpenAI, Google, OpenRouter, DashScope, Z.AI GLM-Image, MiniMax, Jimeng, Seedream, Replicate and Agnes APIs."
-              },
               "zh-CN": {
+                "name": "baoyu-image-gen",
+                "summary": "通过多家外部服务生成图片，支持文生图、参考图、比例与批量生成，账号和费用需另配。"
+              },
+              "en-US": {
                 "name": "baoyu-image-gen",
                 "summary": "AI image generation with OpenAI GPT Image 2.5, Azure OpenAI, Google, OpenRouter, DashScope, Z.AI GLM-Image, MiniMax, Jimeng, Seedream, Replicate and Agnes APIs."
               }
@@ -379,11 +383,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-infographic",
-                "summary": "Generate professional infographics with 21 layout types and 22 visual styles."
-              },
               "zh-CN": {
+                "name": "baoyu-infographic",
+                "summary": "结合 21 种版式和 22 种视觉风格生成信息图。"
+              },
+              "en-US": {
                 "name": "baoyu-infographic",
                 "summary": "Generate professional infographics with 21 layout types and 22 visual styles."
               }
@@ -406,11 +410,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-markdown-to-html",
-                "summary": "Converts Markdown to styled HTML with WeChat-compatible themes."
-              },
               "zh-CN": {
+                "name": "baoyu-markdown-to-html",
+                "summary": "将 Markdown 转为适配微信公众号的 HTML，支持代码高亮、公式、Mermaid 和脚注。"
+              },
+              "en-US": {
                 "name": "baoyu-markdown-to-html",
                 "summary": "Converts Markdown to styled HTML with WeChat-compatible themes."
               }
@@ -426,6 +430,33 @@
         {
           "identity": {
             "kind": "skill",
+            "id": "baoyu-podcast-summary",
+            "parentId": "baoyu-skills"
+          },
+          "path": "skills/baoyu-podcast-summary",
+          "release": {
+            "state": "known",
+            "version": "2.5.2",
+            "versionScheme": "semver"
+          },
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "zh-CN": {
+                "name": "baoyu-podcast-summary",
+                "summary": "将播客、访谈或对话稿整理为有说话人归属的摘要；YouTube 输入需配套字幕技能和网络检索。"
+              },
+              "en-US": {
+                "name": "baoyu-podcast-summary",
+                "summary": "Summarizes podcasts, interviews, panels, and other conversation transcripts into an objective, reader-first summary written in the user's preferred language."
+              }
+            },
+            "tags": []
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
             "id": "baoyu-post-to-wechat",
             "parentId": "baoyu-skills"
           },
@@ -433,11 +464,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-post-to-wechat",
-                "summary": "Posts content to WeChat Official Account (微信公众号) via API or Chrome CDP."
-              },
               "zh-CN": {
+                "name": "baoyu-post-to-wechat",
+                "summary": "通过 API 或 Chrome CDP 发布微信公众号文章与图片内容，需账号授权和发布权限。"
+              },
+              "en-US": {
                 "name": "baoyu-post-to-wechat",
                 "summary": "Posts content to WeChat Official Account (微信公众号) via API or Chrome CDP."
               }
@@ -460,11 +491,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-post-to-weibo",
-                "summary": "Posts content to Weibo (微博)."
-              },
               "zh-CN": {
+                "name": "baoyu-post-to-weibo",
+                "summary": "通过 Chrome CDP 发布微博文字、图片、视频与头条文章，需登录并授权发布。"
+              },
+              "en-US": {
                 "name": "baoyu-post-to-weibo",
                 "summary": "Posts content to Weibo (微博)."
               }
@@ -487,11 +518,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-post-to-x",
-                "summary": "Posts content and articles to X (Twitter)."
-              },
               "zh-CN": {
+                "name": "baoyu-post-to-x",
+                "summary": "发布 X 推文及长文，支持图片、视频和 Markdown，需登录并授权发布。"
+              },
+              "en-US": {
                 "name": "baoyu-post-to-x",
                 "summary": "Posts content and articles to X (Twitter)."
               }
@@ -514,11 +545,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-slide-deck",
-                "summary": "Generates professional slide deck images from content."
-              },
               "zh-CN": {
+                "name": "baoyu-slide-deck",
+                "summary": "从内容生成演示大纲、风格说明及逐页幻灯片图片，图像服务需另配。"
+              },
+              "en-US": {
                 "name": "baoyu-slide-deck",
                 "summary": "Generates professional slide deck images from content."
               }
@@ -541,11 +572,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-translate",
-                "summary": "This skill should be used when the user asks to \"translate\", \"翻译\", \"精翻\", \"translate article\", \"translate to Chinese\", \"translate to English\", \"改成中文\", \"改成英文\", \"c…"
-              },
               "zh-CN": {
+                "name": "baoyu-translate",
+                "summary": "翻译与精修文章，按原文结构、术语和目标语言整理译文。"
+              },
+              "en-US": {
                 "name": "baoyu-translate",
                 "summary": "This skill should be used when the user asks to \"translate\", \"翻译\", \"精翻\", \"translate article\", \"translate to Chinese\", \"translate to English\", \"改成中文\", \"改成英文\", \"c…"
               }
@@ -568,11 +599,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-url-to-markdown",
-                "summary": "Fetch any URL and convert to markdown using baoyu-fetch CLI (Chrome CDP with site-specific adapters)."
-              },
               "zh-CN": {
+                "name": "baoyu-url-to-markdown",
+                "summary": "借助 baoyu-fetch CLI 和 Chrome CDP 将网页转为 Markdown，登录或验证码需用户处理。"
+              },
+              "en-US": {
                 "name": "baoyu-url-to-markdown",
                 "summary": "Fetch any URL and convert to markdown using baoyu-fetch CLI (Chrome CDP with site-specific adapters)."
               }
@@ -595,11 +626,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-wechat-summary",
-                "summary": "Summarizes WeChat group chat highlights into a structured digest using the local wx-cli binary (https://github.com/jackwener/wx-cli)."
-              },
               "zh-CN": {
+                "name": "baoyu-wechat-summary",
+                "summary": "用本地 wx-cli 汇总微信群聊天，需另装工具并授权读取；吐槽风格仅在用户要求时启用。"
+              },
+              "en-US": {
                 "name": "baoyu-wechat-summary",
                 "summary": "Summarizes WeChat group chat highlights into a structured digest using the local wx-cli binary (https://github.com/jackwener/wx-cli)."
               }
@@ -622,11 +653,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-xhs-images",
-                "summary": "Generates infographic image card series with 12 visual styles, 8 layouts, and 3 color palettes."
-              },
               "zh-CN": {
+                "name": "baoyu-xhs-images",
+                "summary": "生成适合小红书的系列图文卡片，支持多种视觉风格、版式和配色。"
+              },
+              "en-US": {
                 "name": "baoyu-xhs-images",
                 "summary": "Generates infographic image card series with 12 visual styles, 8 layouts, and 3 color palettes."
               }
@@ -649,11 +680,11 @@
           "presentation": {
             "defaultLocale": "en-US",
             "i18n": {
-              "en-US": {
-                "name": "baoyu-youtube-transcript",
-                "summary": "Downloads YouTube video transcripts/subtitles and cover images by URL or video ID."
-              },
               "zh-CN": {
+                "name": "baoyu-youtube-transcript",
+                "summary": "按 URL 或视频 ID 获取 YouTube 字幕与封面，支持多语言、章节和缓存，需联网。"
+              },
+              "en-US": {
                 "name": "baoyu-youtube-transcript",
                 "summary": "Downloads YouTube video transcripts/subtitles and cover images by URL or video ID."
               }

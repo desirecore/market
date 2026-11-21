@@ -35,7 +35,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-18T15:21:35Z",
+      "value": "2026-11-20T01:26:12Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -43,12 +43,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-18",
+      "value": "2026-11-20",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-11-18T15:21:35Z",
+      "value": "2026-11-20T01:26:12Z",
       "precision": "second"
     }
   },
@@ -57,7 +57,7 @@
       "kind": "git",
       "url": "https://github.com/mvanhorn/last30days-skill.git",
       "path": "skills/last30days",
-      "ref": "a854f3bcb2c4344d7498426d653378510f8b253a"
+      "ref": "262391603f3c2807606bffa0170547273fc273e5"
     }
   },
   "governance": {
@@ -76,8 +76,8 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "a854f3bcb2c4344d7498426d653378510f8b253a",
-      "reviewedAt": "2026-11-18",
+      "reviewedRef": "262391603f3c2807606bffa0170547273fc273e5",
+      "reviewedAt": "2026-11-20",
       "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }

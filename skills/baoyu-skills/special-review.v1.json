@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "source-license-metadata-review",
+  "reviewedAt": "2026-11-21",
+  "reviewedRef": "bf1ff076e25f8da4a339eb1c8cf03361fea5ea4c",
+  "notes": "Root MIT LICENSE is unchanged. Collection grows from 21 to 22 members by adding baoyu-podcast-summary 2.5.2. The new member accepts supplied transcripts; YouTube input requires baoyu-youtube-transcript and internet search. baoyu-diagram 1.118.0 adds dual-theme SVG/@2x PNG output and a new private manifest pinned to sharp 0.34.5. Root package-lock.json changes transitive packages; root package.json has unchanged dependencies/scripts after version normalization. All 22 child summaries have matching English and reviewed Chinese catalog text. Review covers pinned source, licensing and catalog metadata. Upstream programs were not executed; runtime and GUI acceptance remain untested.",
+  "acceptedDependencyIdentities": {
+    "package-lock.json": "c62b17952c24608bd59bfc40211bd3b4711ac277",
+    "skills/baoyu-diagram/scripts/package.json": "d114ce3e14c5993061a0c242d4748251750e37d9bd93a9fbadfef268887faf12"
+  },
+  "acceptedFrontmatterSha256": {
+    "skills/baoyu-diagram": "187b36b1460e45744909ca615d58bf1a30c39efa84f62d87c8f7a975e3901f38",
+    "skills/baoyu-podcast-summary": "ea29721b4c92c0082a84868a8003e2a3c28d87a9e3b30b83dcb75110c63bf8f6"
+  },
+  "acceptedCollectionPaths": [
+    "skills/baoyu-article-illustrator",
+    "skills/baoyu-comic",
+    "skills/baoyu-compress-image",
+    "skills/baoyu-cover-image",
+    "skills/baoyu-danger-gemini-web",
+    "skills/baoyu-danger-x-to-markdown",
+    "skills/baoyu-diagram",
+    "skills/baoyu-electron-extract",
+    "skills/baoyu-format-markdown",
+    "skills/baoyu-image-gen",
+    "skills/baoyu-infographic",
+    "skills/baoyu-markdown-to-html",
+    "skills/baoyu-podcast-summary",
+    "skills/baoyu-post-to-wechat",
+    "skills/baoyu-post-to-weibo",
+    "skills/baoyu-post-to-x",
+    "skills/baoyu-slide-deck",
+    "skills/baoyu-translate",
+    "skills/baoyu-url-to-markdown",
+    "skills/baoyu-wechat-summary",
+    "skills/baoyu-xhs-images",
+    "skills/baoyu-youtube-transcript"
+  ]
+}

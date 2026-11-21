@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "automated:source-license-metadata-v1",
+  "reviewedAt": "2026-11-21T14:22:21Z",
+  "source": {
+    "url": "https://github.com/JimLiu/baoyu-skills.git",
+    "previousRef": "1567581c26ec29f4216c6e6835415bf30343b0e3",
+    "ref": "bf1ff076e25f8da4a339eb1c8cf03361fea5ea4c",
+    "paths": [
+      "skills/baoyu-article-illustrator",
+      "skills/baoyu-comic",
+      "skills/baoyu-compress-image",
+      "skills/baoyu-cover-image",
+      "skills/baoyu-danger-gemini-web",
+      "skills/baoyu-danger-x-to-markdown",
+      "skills/baoyu-diagram",
+      "skills/baoyu-electron-extract",
+      "skills/baoyu-format-markdown",
+      "skills/baoyu-image-gen",
+      "skills/baoyu-infographic",
+      "skills/baoyu-markdown-to-html",
+      "skills/baoyu-podcast-summary",
+      "skills/baoyu-post-to-wechat",
+      "skills/baoyu-post-to-weibo",
+      "skills/baoyu-post-to-x",
+      "skills/baoyu-slide-deck",
+      "skills/baoyu-translate",
+      "skills/baoyu-url-to-markdown",
+      "skills/baoyu-wechat-summary",
+      "skills/baoyu-xhs-images",
+      "skills/baoyu-youtube-transcript"
+    ]
+  },
+  "checks": {
+    "immutableSnapshots": true,
+    "installedScopeBoundedFiles": true,
+    "licenseAndNoticeUnchanged": true,
+    "structuredPrerequisitesUnchanged": true,
+    "presentationMetadataUnchanged": true
+  },
+  "licenseEvidenceSha256": {
+    "LICENSE": "601839401f6ce68b7a8aec0f7ba247ab8ef0848113378220bec4b2615cc84ee7"
+  },
+  "observedVersions": {
+    "skills/baoyu-article-illustrator": "1.117.4",
+    "skills/baoyu-comic": "1.117.4",
+    "skills/baoyu-compress-image": "1.56.1",
+    "skills/baoyu-cover-image": "1.117.5",
+    "skills/baoyu-danger-gemini-web": "1.56.2",
+    "skills/baoyu-danger-x-to-markdown": "1.117.3",
+    "skills/baoyu-diagram": "1.118.0",
+    "skills/baoyu-electron-extract": "1.119.0",
+    "skills/baoyu-format-markdown": "1.57.0",
+    "skills/baoyu-image-gen": "2.2.0",
+    "skills/baoyu-infographic": "1.117.4",
+    "skills/baoyu-markdown-to-html": "1.117.3",
+    "skills/baoyu-podcast-summary": "2.5.2",
+    "skills/baoyu-post-to-wechat": "1.118.2",
+    "skills/baoyu-post-to-weibo": "1.117.3",
+    "skills/baoyu-post-to-x": "1.58.1",
+    "skills/baoyu-slide-deck": "1.117.4",
+    "skills/baoyu-translate": "1.117.3",
+    "skills/baoyu-url-to-markdown": "1.61.0",
+    "skills/baoyu-wechat-summary": "1.119.0",
+    "skills/baoyu-xhs-images": "2.0.1",
+    "skills/baoyu-youtube-transcript": "1.1.0"
+  },
+  "contentManifestSha256": "dad969ca30fa3e6f28fd5479fe610b9e017489c65cdc3ecd2ced6c83228afb06",
+  "fileCount": 491,
+  "limitations": [
+    "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
+    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。",
+    "依赖清单或结构化简介如有变化，已按专项复核记录中的接受哈希核对，不代表这些字段与旧快照逐字节相同。",
+    "根许可证/Notice 或合集成员如有变化，已按专项复核记录中的接受哈希或路径集合核对，不代表与旧快照逐字节或成员集合相同。"
+  ],
+  "specialReview": {
+    "reviewedBy": "source-license-metadata-review",
+    "reviewedAt": "2026-11-21",
+    "excludePaths": [],
+    "budgetExemptPaths": []
+  }
+}

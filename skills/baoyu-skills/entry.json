@@ -42,7 +42,7 @@
       "version": "1.117.4",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Analyzes article structure, identifies positions requiring visual aids, generates illustrations with Type × Style × Palette three-dimension approach."
+          "shortDesc": "分析文章结构，定位需要配图的位置，按类型、风格和配色生成插图。"
         },
         "en-US": {
           "shortDesc": "Analyzes article structure, identifies positions requiring visual aids, generates illustrations with Type × Style × Palette three-dimension approach."
@@ -55,7 +55,7 @@
       "version": "1.117.4",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Knowledge comic creator supporting multiple art styles and tones."
+          "shortDesc": "制作知识漫画，支持多种画风、分镜设计和批量生成。"
         },
         "en-US": {
           "shortDesc": "Knowledge comic creator supporting multiple art styles and tones."
@@ -68,7 +68,7 @@
       "version": "1.56.1",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Compresses images to WebP (default) or PNG with automatic tool selection."
+          "shortDesc": "自动选择工具，将图片压缩为 WebP 或 PNG。"
         },
         "en-US": {
           "shortDesc": "Compresses images to WebP (default) or PNG with automatic tool selection."
@@ -81,7 +81,7 @@
       "version": "1.117.5",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Generates article cover images with 5 dimensions (type, palette, rendering, text, mood) combining 11 color palettes and 7 rendering styles."
+          "shortDesc": "结合版式、配色、渲染、文字和情绪生成文章封面。"
         },
         "en-US": {
           "shortDesc": "Generates article cover images with 5 dimensions (type, palette, rendering, text, mood) combining 11 color palettes and 7 rendering styles."
@@ -94,7 +94,7 @@
       "version": "1.56.2",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Generates images and text via reverse-engineered Gemini Web API."
+          "shortDesc": "经逆向 Gemini Web 接口生成图片与文字，使用前须确认账号授权和服务条款。"
         },
         "en-US": {
           "shortDesc": "Generates images and text via reverse-engineered Gemini Web API."
@@ -107,7 +107,7 @@
       "version": "1.117.3",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Converts X (Twitter) tweets and articles to markdown with YAML front matter."
+          "shortDesc": "经逆向接口将 X 推文和文章转为带 YAML 元数据的 Markdown，使用前须取得用户同意。"
         },
         "en-US": {
           "shortDesc": "Converts X (Twitter) tweets and articles to markdown with YAML front matter."
@@ -117,13 +117,13 @@
     {
       "id": "baoyu-diagram",
       "path": "skills/baoyu-diagram",
-      "version": "1.117.3",
+      "version": "1.118.0",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Create professional, dark-themed SVG diagrams of any type — architecture diagrams, flowcharts, sequence diagrams, structural diagrams, mind maps, timelines, ill…"
+          "shortDesc": "制作技术图与流程图，输出深浅两套 SVG 及各自的 2 倍 PNG；PNG 导出依赖 sharp。"
         },
         "en-US": {
-          "shortDesc": "Create professional, dark-themed SVG diagrams of any type — architecture diagrams, flowcharts, sequence diagrams, structural diagrams, mind maps, timelines, ill…"
+          "shortDesc": "Create professional diagrams with configurable dark/light theme via CSS custom properties."
         }
       }
     },
@@ -133,7 +133,7 @@
       "version": "1.119.0",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Extracts resources and JavaScript from any installed Electron app (`.asar` bundle), restoring original sources from `.js.map` files when available or formatting…"
+          "shortDesc": "从已安装 Electron 应用提取资源与 JavaScript，有 source map 时恢复源码，否则格式化代码。"
         },
         "en-US": {
           "shortDesc": "Extracts resources and JavaScript from any installed Electron app (`.asar` bundle), restoring original sources from `.js.map` files when available or formatting…"
@@ -146,7 +146,7 @@
       "version": "1.57.0",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Formats plain text or markdown files with frontmatter, titles, summaries, headings, bold, lists, and code blocks."
+          "shortDesc": "为文本或 Markdown 整理元数据、标题、摘要、列表和代码块。"
         },
         "en-US": {
           "shortDesc": "Formats plain text or markdown files with frontmatter, titles, summaries, headings, bold, lists, and code blocks."
@@ -159,7 +159,7 @@
       "version": "2.2.0",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "AI image generation with OpenAI GPT Image 2.5, Azure OpenAI, Google, OpenRouter, DashScope, Z.AI GLM-Image, MiniMax, Jimeng, Seedream, Replicate and Agnes APIs."
+          "shortDesc": "通过多家外部服务生成图片，支持文生图、参考图、比例与批量生成，账号和费用需另配。"
         },
         "en-US": {
           "shortDesc": "AI image generation with OpenAI GPT Image 2.5, Azure OpenAI, Google, OpenRouter, DashScope, Z.AI GLM-Image, MiniMax, Jimeng, Seedream, Replicate and Agnes APIs."
@@ -172,7 +172,7 @@
       "version": "1.117.4",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Generate professional infographics with 21 layout types and 22 visual styles."
+          "shortDesc": "结合 21 种版式和 22 种视觉风格生成信息图。"
         },
         "en-US": {
           "shortDesc": "Generate professional infographics with 21 layout types and 22 visual styles."
@@ -185,10 +185,23 @@
       "version": "1.117.3",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Converts Markdown to styled HTML with WeChat-compatible themes."
+          "shortDesc": "将 Markdown 转为适配微信公众号的 HTML，支持代码高亮、公式、Mermaid 和脚注。"
         },
         "en-US": {
           "shortDesc": "Converts Markdown to styled HTML with WeChat-compatible themes."
+        }
+      }
+    },
+    {
+      "id": "baoyu-podcast-summary",
+      "path": "skills/baoyu-podcast-summary",
+      "version": "2.5.2",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "将播客、访谈或对话稿整理为有说话人归属的摘要；YouTube 输入需配套字幕技能和网络检索。"
+        },
+        "en-US": {
+          "shortDesc": "Summarizes podcasts, interviews, panels, and other conversation transcripts into an objective, reader-first summary written in the user's preferred language."
         }
       }
     },
@@ -198,7 +211,7 @@
       "version": "1.118.2",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Posts content to WeChat Official Account (微信公众号) via API or Chrome CDP."
+          "shortDesc": "通过 API 或 Chrome CDP 发布微信公众号文章与图片内容，需账号授权和发布权限。"
         },
         "en-US": {
           "shortDesc": "Posts content to WeChat Official Account (微信公众号) via API or Chrome CDP."
@@ -211,7 +224,7 @@
       "version": "1.117.3",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Posts content to Weibo (微博)."
+          "shortDesc": "通过 Chrome CDP 发布微博文字、图片、视频与头条文章，需登录并授权发布。"
         },
         "en-US": {
           "shortDesc": "Posts content to Weibo (微博)."
@@ -224,7 +237,7 @@
       "version": "1.58.1",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Posts content and articles to X (Twitter)."
+          "shortDesc": "发布 X 推文及长文，支持图片、视频和 Markdown，需登录并授权发布。"
         },
         "en-US": {
           "shortDesc": "Posts content and articles to X (Twitter)."
@@ -237,7 +250,7 @@
       "version": "1.117.4",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Generates professional slide deck images from content."
+          "shortDesc": "从内容生成演示大纲、风格说明及逐页幻灯片图片，图像服务需另配。"
         },
         "en-US": {
           "shortDesc": "Generates professional slide deck images from content."
@@ -250,7 +263,7 @@
       "version": "1.117.3",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "This skill should be used when the user asks to \"translate\", \"翻译\", \"精翻\", \"translate article\", \"translate to Chinese\", \"translate to English\", \"改成中文\", \"改成英文\", \"c…"
+          "shortDesc": "翻译与精修文章，按原文结构、术语和目标语言整理译文。"
         },
         "en-US": {
           "shortDesc": "This skill should be used when the user asks to \"translate\", \"翻译\", \"精翻\", \"translate article\", \"translate to Chinese\", \"translate to English\", \"改成中文\", \"改成英文\", \"c…"
@@ -263,7 +276,7 @@
       "version": "1.61.0",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Fetch any URL and convert to markdown using baoyu-fetch CLI (Chrome CDP with site-specific adapters)."
+          "shortDesc": "借助 baoyu-fetch CLI 和 Chrome CDP 将网页转为 Markdown，登录或验证码需用户处理。"
         },
         "en-US": {
           "shortDesc": "Fetch any URL and convert to markdown using baoyu-fetch CLI (Chrome CDP with site-specific adapters)."
@@ -276,7 +289,7 @@
       "version": "1.119.0",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Summarizes WeChat group chat highlights into a structured digest using the local wx-cli binary (https://github.com/jackwener/wx-cli)."
+          "shortDesc": "用本地 wx-cli 汇总微信群聊天，需另装工具并授权读取；吐槽风格仅在用户要求时启用。"
         },
         "en-US": {
           "shortDesc": "Summarizes WeChat group chat highlights into a structured digest using the local wx-cli binary (https://github.com/jackwener/wx-cli)."
@@ -289,7 +302,7 @@
       "version": "2.0.1",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Generates infographic image card series with 12 visual styles, 8 layouts, and 3 color palettes."
+          "shortDesc": "生成适合小红书的系列图文卡片，支持多种视觉风格、版式和配色。"
         },
         "en-US": {
           "shortDesc": "Generates infographic image card series with 12 visual styles, 8 layouts, and 3 color palettes."
@@ -302,7 +315,7 @@
       "version": "1.1.0",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "Downloads YouTube video transcripts/subtitles and cover images by URL or video ID."
+          "shortDesc": "按 URL 或视频 ID 获取 YouTube 字幕与封面，支持多语言、章节和缓存，需联网。"
         },
         "en-US": {
           "shortDesc": "Downloads YouTube video transcripts/subtitles and cover images by URL or video ID."
