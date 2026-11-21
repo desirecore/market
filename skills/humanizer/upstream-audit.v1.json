@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "reviewer": "automated:source-license-metadata-v1",
-  "reviewedAt": "2026-11-18T15:21:35Z",
+  "reviewedAt": "2026-11-20T01:26:04Z",
   "source": {
     "url": "https://github.com/blader/humanizer.git",
-    "previousRef": "8c307f367c91bd974002f10f2be2965d642c13df",
-    "ref": "b48c832f0f809c1b5658edbb838c2521b72f2413",
+    "previousRef": "b48c832f0f809c1b5658edbb838c2521b72f2413",
+    "ref": "a32f24407364c74c812b43c15926d638bee1e072",
     "paths": [
       ""
     ]
@@ -23,7 +23,7 @@
   "observedVersions": {
     "": "4.0.0"
   },
-  "contentManifestSha256": "935e1b5f31eccd62cd1e4bbbc3303de577b56d83a0ee38c21ceee5efce8e4826",
+  "contentManifestSha256": "bfaeae102ed8cea7ac575bb42f454458fc4f12678a3c6cf18c74327aee2c2a30",
   "fileCount": 15,
   "limitations": [
     "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "automated:source-license-metadata-v1",
+  "reviewedAt": "2026-11-21T14:22:21Z",
+  "source": {
+    "url": "https://github.com/JuneYaooo/rea-video.git",
+    "previousRef": "07dd587119e884f7c50fbfae92e47840de86bea5",
+    "ref": "131d1527557d2cccacb64059d47560964235acd7",
+    "paths": [
+      "skills/rea-video"
+    ]
+  },
+  "checks": {
+    "immutableSnapshots": true,
+    "installedScopeBoundedFiles": true,
+    "licenseAndNoticeUnchanged": true,
+    "structuredPrerequisitesUnchanged": true,
+    "presentationMetadataUnchanged": true
+  },
+  "licenseEvidenceSha256": {
+    "LICENSE": "2beb280b855389587b12dfda5f61a7baf09d1c4a20aac833b1c96f9569c5e458",
+    "NOTICE": "abffceeef67cb20d0fd6cf997eec7c7ac4b2de19f389a08b67a1f75bc7dd025b"
+  },
+  "observedVersions": {},
+  "contentManifestSha256": "716dd89521eb5d5f7346cbfd3efa8f2b6e5cdbf6590a952c4fdd8563f019c280",
+  "fileCount": 15,
+  "limitations": [
+    "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
+    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。",
+    "依赖清单或结构化简介如有变化，已按专项复核记录中的接受哈希核对，不代表这些字段与旧快照逐字节相同。"
+  ],
+  "specialReview": {
+    "reviewedBy": "source-license-metadata-review",
+    "reviewedAt": "2026-11-21",
+    "excludePaths": [],
+    "budgetExemptPaths": []
+  }
+}

@@ -14,11 +14,11 @@
   "i18n": {
     "en-US": {
       "name": "Rea-Video",
-      "shortDesc": "Analyze how a video was made shot by shot, from live action to AI and motion graphics. Get a VIDEO.md package and an HTML report. Requires the Rea-Video CLI, Python 3.10+ and FFmpeg. Optional visual analysis and remake services require separate setup and may incur fees."
+      "shortDesc": "Analyze shots, editing and audio, including reveals, reversals and bloopers with frame illustrations and slow motion. Requires separate CLI, Python 3.10+ and FFmpeg; optional vision/remake services need setup and may charge fees."
     },
     "zh-CN": {
       "name": "Rea-Video 视频拆解",
-      "shortDesc": "逐镜拆解视频的制作方式、剪辑包装和声音，生成 VIDEO.md 拆片包和 HTML 报告。需另装 Rea-Video CLI、Python 3.10+ 和 FFmpeg。视觉模型和复刻服务可选，需单独配置，可能收费。"
+      "shortDesc": "逐镜拆解视频的画面、剪辑和声音，分析魔术揭秘、反转或穿帮时刻，输出逐帧图解与慢放。需另装 CLI、Python 3.10+ 和 FFmpeg；视觉与复刻服务另配，可能收费。"
     }
   },
   "maintainer": {

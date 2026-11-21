@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "source-license-metadata-review",
+  "reviewedAt": "2026-11-21",
+  "reviewedRef": "131d1527557d2cccacb64059d47560964235acd7",
+  "notes": "The Apache-2.0 LICENSE and NOTICE are byte-identical across both pins. Stable frontmatter adds evidence-based special-moment analysis (magic reveals, reversals, highlights, bloopers), frame illustrations and slow motion. Source still requires separately installed Python >=3.10, FFmpeg/ffprobe and Rea-Video CLI. Optional OCR/ASR/VLM and remake integrations retain separate setup, data-transfer permission and provider fees. No dependency-manifest changes. Review covers pinned source, licensing and catalog metadata. Upstream programs were not executed; runtime and GUI acceptance remain untested.",
+  "acceptedFrontmatterSha256": {
+    "skills/rea-video": "a9ca48bd2eb6b29f95d4e853add54229101cb4b7d2217700ea500969905a7680"
+  }
+}

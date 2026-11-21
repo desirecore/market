@@ -10,13 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "Rea-Video",
-        "summary": "Analyze how a video was made shot by shot, from live action to AI and motion graphics. Get a VIDEO.md package and an HTML report. Requires the Rea-Video CLI, Python 3.10+ and FFmpeg. Optional visual analysis and remake services require separate setup and may incur fees.",
-        "description": "Break down shots, edits, subtitles and audio, then get a remake plan. The market installs the upstream instructions and references. For the CLI, use the [upstream setup guide](https://github.com/JuneYaooo/rea-video/blob/07dd587119e884f7c50fbfae92e47840de86bea5/skills/rea-video/references/setup.md) and install from the catalog commit for matching output. Confirm `rea-video --help`, `ffmpeg -version` and `ffprobe -version` before analyzing a clip. Local processing may download audio models on first use.\n\nOptional visual analysis sends shot clips or keyframes to your configured provider. Verify the endpoint, credentials and authorization before enabling it. Provider terms and usage fees apply. When the connection is unavailable, run locally and flag low-confidence findings. Remakes through capsule-cinema require a configured local deployment and model access. ChatCut requires a separate account and paid access for generation. Check availability and costs before using either. The analysis and remake plan can be produced locally.\n\n[中文说明](https://github.com/JuneYaooo/rea-video/blob/07dd587119e884f7c50fbfae92e47840de86bea5/i18n/README_zh.md)"
+        "summary": "Analyze shots, editing and audio, including reveals, reversals and bloopers with frame illustrations and slow motion. Requires separate CLI, Python 3.10+ and FFmpeg; optional vision/remake services need setup and may charge fees.",
+        "description": "Break down shots, edits, subtitles and audio, then get a remake plan. The market installs the upstream instructions and references. For the CLI, use the [upstream setup guide](https://github.com/JuneYaooo/rea-video/blob/131d1527557d2cccacb64059d47560964235acd7/skills/rea-video/references/setup.md) and install from the catalog commit for matching output. Confirm `rea-video --help`, `ffmpeg -version` and `ffprobe -version` before analyzing a clip. Local processing may download audio models on first use.\n\nOptional visual analysis sends shot clips or keyframes to your configured provider. Verify the endpoint, credentials and authorization before enabling it. Provider terms and usage fees apply. When the connection is unavailable, run locally and flag low-confidence findings. Remakes through capsule-cinema require a configured local deployment and model access. ChatCut requires a separate account and paid access for generation. Check availability and costs before using either. The analysis and remake plan can be produced locally.\n\n[中文说明](https://github.com/JuneYaooo/rea-video/blob/131d1527557d2cccacb64059d47560964235acd7/i18n/README_zh.md)"
       },
       "zh-CN": {
         "name": "Rea-Video 视频拆解",
-        "summary": "逐镜拆解视频的制作方式、剪辑包装和声音，生成 VIDEO.md 拆片包和 HTML 报告。需另装 Rea-Video CLI、Python 3.10+ 和 FFmpeg。视觉模型和复刻服务可选，需单独配置，可能收费。",
-        "description": "分析镜头、剪辑、字幕和声音，并给出复刻方案。市场安装上游技能说明和参考资料。CLI 请按[上游安装说明](https://github.com/JuneYaooo/rea-video/blob/07dd587119e884f7c50fbfae92e47840de86bea5/skills/rea-video/references/setup.md)另装，使用市场固定的提交可保持输出一致。拆解前运行 `rea-video --help`、`ffmpeg -version` 和 `ffprobe -version` 确认环境。本地处理首次运行可能下载音频模型。\n\n启用可选视觉模型会把镜头片段或关键帧发给配置的服务商。启用前核对端点、凭据和素材传输授权，费用及使用条款以服务商为准。连接不可用时可本地拆解，并标注低置信度结论。使用 capsule-cinema 复刻需自行部署并配置模型。ChatCut 需单独注册，生成需付费权限。调用前确认服务可用及费用，拆解和复刻方案可在本地完成。\n\n[上游中文说明](https://github.com/JuneYaooo/rea-video/blob/07dd587119e884f7c50fbfae92e47840de86bea5/i18n/README_zh.md)"
+        "summary": "逐镜拆解视频的画面、剪辑和声音，分析魔术揭秘、反转或穿帮时刻，输出逐帧图解与慢放。需另装 CLI、Python 3.10+ 和 FFmpeg；视觉与复刻服务另配，可能收费。",
+        "description": "分析镜头、剪辑、字幕和声音，并给出复刻方案。市场安装上游技能说明和参考资料。CLI 请按[上游安装说明](https://github.com/JuneYaooo/rea-video/blob/131d1527557d2cccacb64059d47560964235acd7/skills/rea-video/references/setup.md)另装，使用市场固定的提交可保持输出一致。拆解前运行 `rea-video --help`、`ffmpeg -version` 和 `ffprobe -version` 确认环境。本地处理首次运行可能下载音频模型。\n\n启用可选视觉模型会把镜头片段或关键帧发给配置的服务商。启用前核对端点、凭据和素材传输授权，费用及使用条款以服务商为准。连接不可用时可本地拆解，并标注低置信度结论。使用 capsule-cinema 复刻需自行部署并配置模型。ChatCut 需单独注册，生成需付费权限。调用前确认服务可用及费用，拆解和复刻方案可在本地完成。\n\n[上游中文说明](https://github.com/JuneYaooo/rea-video/blob/131d1527557d2cccacb64059d47560964235acd7/i18n/README_zh.md)"
       }
     },
     "category": "media",
@@ -35,21 +35,21 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-17",
-      "precision": "day"
+      "value": "2026-11-21T14:22:21Z",
+      "precision": "second"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-17",
+      "value": "2026-11-21",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-11-17",
-      "precision": "day"
+      "value": "2026-11-21T14:22:21Z",
+      "precision": "second"
     }
   },
   "provenance": {
@@ -82,9 +82,9 @@
     "compliance": {
       "licenseEvidencePath": "LICENSE",
       "noticePath": "NOTICE",
-      "reviewedRef": "07dd587119e884f7c50fbfae92e47840de86bea5",
-      "reviewedAt": "2026-11-17",
-      "reviewedBy": "Market source and metadata review",
+      "reviewedRef": "131d1527557d2cccacb64059d47560964235acd7",
+      "reviewedAt": "2026-11-21",
+      "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }
   },
