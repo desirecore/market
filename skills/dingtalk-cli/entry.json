@@ -38,10 +38,10 @@
       "path": "skills/multi/dingtalk-aicard",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "通过 DWS 创建、编辑和校验钉钉 AI 卡片（A2UI）JSON；用户明确请求预览时才发送卡片。"
+          "shortDesc": "通过 DWS 创建、编辑和校验钉钉 AI 卡片 JSON，支持图表、组件与函数查询；仅在用户请求预览时发送卡片。"
         },
         "en-US": {
-          "shortDesc": "Create, edit and validate DingTalk AI Card (A2UI) JSON through DWS; send a card only when the user requests a preview."
+          "shortDesc": "Create, edit and validate DingTalk AI Card JSON through DWS, including charts and component/function lookup; send cards only when a preview is requested."
         }
       }
     },
@@ -170,10 +170,10 @@
       "path": "skills/multi/dingtalk-misc",
       "i18n": {
         "zh-CN": {
-          "shortDesc": "长尾产品集合：OA 审批、考勤、日志日报、DING 紧急消息、直播、目标管理、法务合同管理、电子表格、白板、独立脑图、原生 Markdown 与 OpenAPI 逃生舱。命令前缀见技能内产品索引表。"
+          "shortDesc": "钉钉长尾产品操作，新增 AI 语音外呼及任务状态查询，覆盖审批、白板、脑图、开放平台和组织功能；需相应权限及产品权益。"
         },
         "en-US": {
-          "shortDesc": "Long-tail product bundle: OA approvals, attendance, work reports, urgent DING messages, live streams, goal management, legal contract management, sheets, whiteboards, standalone mind maps, native Markdown and a raw OpenAPI escape hatch. Command prefixes come from the skill's own product index."
+          "shortDesc": "Operate long-tail DingTalk products, including AI outbound calls and task status, approvals, whiteboards, mind maps and developer/organization features; requires relevant permissions and product entitlements."
         }
       }
     },

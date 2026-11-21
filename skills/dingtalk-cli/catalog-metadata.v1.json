@@ -10,11 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "DingTalk Workspace CLI",
-        "summary": "Official DingTalk CLI (dws) for humans and AI agents, covering messaging, documents, drive, calendar, to-do, mail and AI minutes. You install the dingtalk-workspace-cli npm package and complete DingTalk OAuth sign-in yourself (no username-and-password login); DesireCore does not bundle, license, install or operate DingTalk or this CLI."
+        "summary": "Official DingTalk CLI (dws) for humans and AI agents, covering messaging, documents, drive, calendar, to-do, mail and AI minutes. You install the dingtalk-workspace-cli npm package and complete DingTalk OAuth sign-in yourself (no username-and-password login); DesireCore does not bundle, license, install or operate DingTalk or this CLI.",
+        "description": "The market installs 16 pinned skill instruction sets. DWS CLI installation, DingTalk sign-in, scopes and product entitlements are separate. The update adds AI Card charts and outbound-call guidance; the operator confirms call permissions and applicable charges. Upstream code is Apache-2.0; preserve root, AI Card and A2UI protocol LICENSE/NOTICE files, including the new Unicode-3.0 notice. CLI binaries and dependencies remain under their own terms. Report missing tools, login or permissions."
       },
       "zh-CN": {
         "name": "钉钉 CLI",
-        "summary": "钉钉官方命令行工具 dws，面向人与 AI Agent，覆盖消息、文档、钉盘、日历、待办、邮件、AI 听记等产品域。需自行用 npm 安装 dingtalk-workspace-cli 并完成钉钉 OAuth 授权登录（不支持账号密码登录）；DesireCore 不打包、不授权、不安装也不代运营钉钉或该 CLI。"
+        "summary": "钉钉官方命令行工具 dws，面向人与 AI Agent，覆盖消息、文档、钉盘、日历、待办、邮件、AI 听记等产品域。需自行用 npm 安装 dingtalk-workspace-cli 并完成钉钉 OAuth 授权登录（不支持账号密码登录）；DesireCore 不打包、不授权、不安装也不代运营钉钉或该 CLI。",
+        "description": "市场安装的是固定快照的 16 项技能说明，dws CLI 和钉钉产品需另行安装、登录和授权。新版补充 AI 卡片图表及语音外呼，外呼权限、产品开通和费用须由使用者确认。上游代码采用 Apache-2.0，保留根 NOTICE、AI Card 及 A2UI 协议目录的许可与 NOTICE；AI Card NOTICE 新增 Unicode-3.0 声明，CLI 二进制和依赖仍遵循各自条款。缺少工具、登录或权限时报告阻碍。"
       }
     },
     "category": "communication",
@@ -28,21 +30,21 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-27",
-      "precision": "day"
+      "value": "2026-11-21T14:22:21Z",
+      "precision": "second"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-27",
+      "value": "2026-11-21",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-27",
-      "precision": "day"
+      "value": "2026-11-21T14:22:21Z",
+      "precision": "second"
     }
   },
   "provenance": {
@@ -54,7 +56,7 @@
   },
   "governance": {
     "stewardship": "partner",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
       "state": "known",
       "value": "Apache-2.0",
@@ -70,6 +72,14 @@
       "name": "DingTalk-Real-AI",
       "url": "https://www.npmjs.com/package/dingtalk-workspace-cli",
       "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "df0fb53b5dcc8de64d49cfe0cce900eef4bc1d15",
+      "reviewedAt": "2026-11-21",
+      "reviewedBy": "source-license-metadata-review",
+      "upstreamEndorsed": false,
+      "noticePath": "NOTICE"
     }
   },
   "compatibility": {
@@ -97,6 +107,10 @@
       {
         "kind": "permission",
         "value": "Capability coverage depends on the OAuth scopes and DingTalk entitlements the operator's organization has granted; commands outside them fail explicitly instead of degrading silently."
+      },
+      {
+        "kind": "runtime",
+        "value": "较新产品技能的上游 metadata 要求 dws >=1.0.61；依实际命令 Schema 与安装版本判断能力。AI 语音外呼需另开通钉钉能力、授权联系目标并确认费用，未获授权时停止。 / Newer product skills declare dws >=1.0.61; check the installed version and actual command schema. AI outbound calls require separate DingTalk entitlement, permission to contact the recipient and confirmation of applicable charges; stop when authorization is unavailable."
       }
     ]
   },
@@ -119,11 +133,11 @@
             "i18n": {
               "en-US": {
                 "name": "dingtalk-aicard",
-                "summary": "Create, edit and validate DingTalk AI Card (A2UI) JSON through DWS; send a card only when the user requests a preview."
+                "summary": "Create, edit and validate DingTalk AI Card JSON through DWS, including charts and component/function lookup; send cards only when a preview is requested."
               },
               "zh-CN": {
                 "name": "dingtalk-aicard",
-                "summary": "通过 DWS 创建、编辑和校验钉钉 AI 卡片（A2UI）JSON；用户明确请求预览时才发送卡片。"
+                "summary": "通过 DWS 创建、编辑和校验钉钉 AI 卡片 JSON，支持图表、组件与函数查询；仅在用户请求预览时发送卡片。"
               }
             },
             "tags": []
@@ -394,11 +408,11 @@
             "i18n": {
               "en-US": {
                 "name": "dingtalk-misc",
-                "summary": "Long-tail product bundle: OA approvals, attendance, work reports, urgent DING messages, live streams, goal management, legal contract management, sheets, whiteboards, standalone mind maps, native Markdown and a raw OpenAPI escape hatch. Command prefixes come from the skill's own product index."
+                "summary": "Operate long-tail DingTalk products, including AI outbound calls and task status, approvals, whiteboards, mind maps and developer/organization features; requires relevant permissions and product entitlements."
               },
               "zh-CN": {
                 "name": "dingtalk-misc",
-                "summary": "长尾产品集合：OA 审批、考勤、日志日报、DING 紧急消息、直播、目标管理、法务合同管理、电子表格、白板、独立脑图、原生 Markdown 与 OpenAPI 逃生舱。命令前缀见技能内产品索引表。"
+                "summary": "钉钉长尾产品操作，新增 AI 语音外呼及任务状态查询，覆盖审批、白板、脑图、开放平台和组织功能；需相应权限及产品权益。"
               }
             },
             "tags": []

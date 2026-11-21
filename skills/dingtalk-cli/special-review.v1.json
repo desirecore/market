@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "source-license-metadata-review",
+  "reviewedAt": "2026-11-21",
+  "reviewedRef": "df0fb53b5dcc8de64d49cfe0cce900eef4bc1d15",
+  "notes": "Fresh review of the new snapshot, without inheriting a previous installable review. Root LICENSE is Apache-2.0 and root NOTICE is unchanged. All 16 published skills/multi members remain present; two frontmatters change (AI Card chart support, miscellaneous AI outbound calls). The new skills/multi/dingtalk-aicard/NOTICE appends the Unicode 17.0 / Unicode-3.0 attribution and permission text; preserve it with nested protocol LICENSE/NOTICE. The market entry installs skill instructions only. The separately installed DWS CLI, OAuth identity/scopes, DingTalk product entitlements, outbound-call permission and applicable charges remain operator prerequisites. SKILL metadata sets dws >=1.0.61 for newer product skills; never infer feature access from installation alone. Review covers pinned source, licensing and catalog metadata. Upstream programs were not executed; runtime and GUI acceptance remain untested.",
+  "acceptedFrontmatterSha256": {
+    "skills/multi/dingtalk-aicard": "48fe8a3ec30baf4db260993d60576748d15521af1104ee49a888eb86c4345b43",
+    "skills/multi/dingtalk-misc": "a18e98f855c9d89847d7b30a823a32e9c495abde419a38516cc88cf7944cdd5e"
+  },
+  "licenseEvidenceSha256": {
+    "LICENSE": "1d951e8ca1019e1ad6fc14b8450df1b7ba788b9f242002873ca79df70ee376fd",
+    "NOTICE": "b7d8a7d7c3c61cb0d4d78fa422fb81028c76d0e7ff1a23b1be68f058a9920d80",
+    "skills/multi/dingtalk-aicard/NOTICE": "e43a7a76036ed7bba29bc4a004881844fa70826ac7490b474983c746ce562ef1",
+    "skills/multi/dingtalk-aicard/references/protocol/LICENSE": "aac73b3148f6d1d7111dbca32099f68d26c644c6813ae1e4f05f6579aa2663fe",
+    "skills/multi/dingtalk-aicard/references/protocol/NOTICE": "1416e46cd8e91578bbbd57fe24a5fb35d6548f5dedd875295426a6556cfb2784"
+  },
+  "contentManifestSha256": "76456f37c39397a0f22c70492bf5ba852457013b159c871e4b53ad71993c6e47",
+  "fileCount": 416
+}
