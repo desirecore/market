@@ -33,7 +33,8 @@
     "kind": "git",
     "repoUrl": "https://github.com/morluto/rea.git",
     "repoBranch": "main",
-    "ref": "79d2fc05405c76bc0a8f71b9c10355135da4747b",
+    "ref": "87889b8729da8a02a4159bc7274c92be52464031",
     "path": ".agents/skills/reverse-engineer-anything"
-  }
+  },
+  "latestVersion": "63.0.0"
 }
