@@ -1,0 +1,75 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "zh-editor"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Chinese Editing",
+        "summary": "Polish Chinese drafts and translations while preserving author voice, facts, and conditions",
+        "description": "Edit articles, emails, announcements, and document prose. Smooth awkward phrasing while keeping responsibilities, approval conditions, scope, and commitments intact. Consult Chinese examples for tricky passages."
+      },
+      "zh-CN": {
+        "name": "中文编辑",
+        "summary": "润色中文稿和译稿，理顺句子，保留作者语气、事实与限定条件",
+        "description": "适合文章、邮件、公告和文档正文。轻改翻译腔和套话，核对责任主体、审批条件、范围和承诺。需要时查阅中文改写示例。"
+      }
+    },
+    "category": "creative",
+    "tags": [
+      "writing",
+      "editing",
+      "chinese"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-22",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "unknown"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {},
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "low",
+    "skillType": "procedural"
+  }
+}

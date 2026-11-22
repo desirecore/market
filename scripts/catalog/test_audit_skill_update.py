@@ -320,6 +320,345 @@ class AuditTests(unittest.TestCase):
                 with self.assertRaisesRegex(AuditBlocked, '许可证|Notice'):
                     audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z', special_review=review)
 
+
+    def _scoped_notice_review(self, old, new, path, previous, current, **overrides):
+        review = {
+            'schemaVersion': 1,
+            'reviewedBy': 'mashagua',
+            'reviewedAt': '2026-11-22',
+            'notes': 'Accept an additive nested NOTICE that retains prior attribution.',
+            'acceptedScopedNotice': {
+                'fromRef': old,
+                'toRef': new,
+                'files': [{'path': path, 'previousSha256': previous, 'sha256': current}],
+            },
+        }
+        review.update(overrides)
+        return review
+
+    def test_special_review_accepts_additive_scoped_notice(self):
+        import hashlib
+        path = 'skills/sample/NOTICE'
+        old_text = 'retained vendor attribution\n'
+        new_text = old_text + 'appended Unicode-3.0 notice\n'
+        self.write(path, old_text)
+        self.old = self.commit()
+        self.entry['source']['ref'] = self.old
+        self.metadata['provenance']['content']['ref'] = self.old
+        self.metadata['governance']['compliance']['reviewedRef'] = self.old
+        self.write(path, new_text)
+        new = self.commit()
+        previous = hashlib.sha256(old_text.encode()).hexdigest()
+        digest = hashlib.sha256(new_text.encode()).hexdigest()
+        with self.assertRaisesRegex(AuditBlocked, '许可证|Notice'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z')
+        _, _, report = audit_snapshots(
+            self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z',
+            special_review=self._scoped_notice_review(self.old, new, path, previous, digest))
+        self.assertEqual(report['licenseEvidenceSha256'][path], digest)
+        self.assertTrue(any('安装范围内的 Notice' in item for item in report['limitations']))
+
+    def test_special_review_rejects_invalid_scoped_notice_changes(self):
+        import hashlib
+        path = 'skills/sample/NOTICE'
+        old_text = 'retained vendor attribution\n'
+        new_text = old_text + 'appended Unicode-3.0 notice\n'
+        rewrite = 'completely replaced notice, attribution dropped\n'
+        self.write(path, old_text)
+        self.old = self.commit()
+        self.entry['source']['ref'] = self.old
+        self.metadata['provenance']['content']['ref'] = self.old
+        self.metadata['governance']['compliance']['reviewedRef'] = self.old
+        previous = hashlib.sha256(old_text.encode()).hexdigest()
+
+        # Rewrite that drops existing attribution, even with matching hashes.
+        self.write(path, rewrite)
+        rewritten = self.commit()
+        rewrite_digest = hashlib.sha256(rewrite.encode()).hexdigest()
+        with self.assertRaisesRegex(AuditBlocked, '未保留原有声明'):
+            audit_snapshots(
+                self.repo, self.entry, self.metadata, {'ref': self.old, 'head': rewritten}, '2026-10-31T01:02:03Z',
+                special_review=self._scoped_notice_review(self.old, rewritten, path, previous, rewrite_digest))
+
+        self.run_git('reset', '--hard', self.old); self.run_git('clean', '-fd')
+        self.write(path, new_text)
+        new = self.commit()
+        digest = hashlib.sha256(new_text.encode()).hexdigest()
+        valid = self._scoped_notice_review(self.old, new, path, previous, digest)
+        cases = [
+            ('哈希不匹配', self._scoped_notice_review(self.old, new, path, previous, 'ab' * 32)),
+            ('哈希不匹配', self._scoped_notice_review(self.old, new, path, 'cd' * 32, digest)),
+            ('未绑定当前固定快照', self._scoped_notice_review('a' * 40, new, path, previous, digest)),
+            ('未绑定当前固定快照', self._scoped_notice_review(self.old, 'b' * 40, path, previous, digest)),
+            ('必须包含审核人、日期和理由', {**valid, 'reviewedBy': '  '}),
+            ('必须包含审核人、日期和理由', {k: v for k, v in valid.items() if k != 'notes'}),
+            ('与实际变更文件不一致', {**valid, 'acceptedScopedNotice': {
+                'fromRef': self.old, 'toRef': new,
+                'files': [
+                    {'path': path, 'previousSha256': previous, 'sha256': digest},
+                    {'path': 'skills/sample/extra/NOTICE', 'previousSha256': previous, 'sha256': digest},
+                ],
+            }}),
+            ('路径不安全', {**valid, 'acceptedScopedNotice': {
+                'fromRef': self.old, 'toRef': new,
+                'files': [{'path': 'skills/*/NOTICE', 'previousSha256': previous, 'sha256': digest}],
+            }}),
+            ('路径不安全', {**valid, 'acceptedScopedNotice': {
+                'fromRef': self.old, 'toRef': new,
+                'files': [{'path': '../NOTICE', 'previousSha256': previous, 'sha256': digest}],
+            }}),
+        ]
+        for pattern, review in cases:
+            with self.subTest(pattern=pattern):
+                with self.assertRaisesRegex(AuditBlocked, pattern):
+                    audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                                    '2026-10-31T01:02:03Z', special_review=review)
+
+    def test_special_review_cannot_accept_scoped_license_or_notice_deletion(self):
+        import hashlib
+        license_path = 'skills/sample/vendor/LICENSE'
+        notice_path = 'skills/sample/NOTICE'
+        old_license = 'old vendor terms\n'
+        new_license = 'new vendor terms\n'
+        old_notice = 'retained vendor attribution\n'
+        new_notice = old_notice + 'appended note\n'
+        self.write(license_path, old_license)
+        self.write(notice_path, old_notice)
+        self.old = self.commit()
+        self.entry['source']['ref'] = self.old
+        self.metadata['provenance']['content']['ref'] = self.old
+        self.metadata['governance']['compliance']['reviewedRef'] = self.old
+
+        self.write(license_path, new_license)
+        new = self.commit()
+        review = self._scoped_notice_review(
+            self.old, new, license_path,
+            hashlib.sha256(old_license.encode()).hexdigest(),
+            hashlib.sha256(new_license.encode()).hexdigest())
+        with self.assertRaisesRegex(AuditBlocked, '许可证|Notice|不能用于接受嵌套许可证'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                            '2026-10-31T01:02:03Z', special_review=review)
+
+        self.run_git('reset', '--hard', self.old); self.run_git('clean', '-fd')
+        (self.repo / notice_path).unlink()
+        deleted = self.commit()
+        previous = hashlib.sha256(old_notice.encode()).hexdigest()
+        with self.assertRaisesRegex(AuditBlocked, '许可证|Notice'):
+            audit_snapshots(
+                self.repo, self.entry, self.metadata, {'ref': self.old, 'head': deleted}, '2026-10-31T01:02:03Z',
+                special_review=self._scoped_notice_review(self.old, deleted, notice_path, previous, previous))
+
+        self.run_git('reset', '--hard', self.old); self.run_git('clean', '-fd')
+        (self.repo / notice_path).unlink()
+        self.write('skills/sample/docs/NOTICE', new_notice)
+        renamed = self.commit()
+        with self.assertRaisesRegex(AuditBlocked, '许可证|Notice'):
+            audit_snapshots(
+                self.repo, self.entry, self.metadata, {'ref': self.old, 'head': renamed}, '2026-10-31T01:02:03Z',
+                special_review=self._scoped_notice_review(
+                    self.old, renamed, 'skills/sample/docs/NOTICE',
+                    hashlib.sha256(old_notice.encode()).hexdigest(),
+                    hashlib.sha256(new_notice.encode()).hexdigest()))
+
+    def test_exclude_paths_still_cannot_hide_scoped_notice(self):
+        path = 'skills/sample/NOTICE'
+        self.write(path, 'old notice\n')
+        self.old = self.commit()
+        self.entry['source']['ref'] = self.old
+        self.metadata['provenance']['content']['ref'] = self.old
+        self.metadata['governance']['compliance']['reviewedRef'] = self.old
+        self.write(path, 'old notice\nappended\n')
+        new = self.commit()
+        review = {'schemaVersion': 1, 'excludePaths': [path], 'reviewedBy': 'mashagua',
+                  'reviewedAt': '2026-11-22', 'notes': 'should not hide NOTICE'}
+        with self.assertRaisesRegex(AuditBlocked, '排除列表'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                            '2026-10-31T01:02:03Z', special_review=review)
+
+    def test_symlink_scoped_notice_is_blocked_even_with_review(self):
+        path = 'skills/sample/NOTICE'
+        self.write(path, 'retained vendor attribution\n')
+        self.old = self.commit()
+        self.entry['source']['ref'] = self.old
+        self.metadata['provenance']['content']['ref'] = self.old
+        self.metadata['governance']['compliance']['reviewedRef'] = self.old
+        (self.repo / path).unlink()
+        (self.repo / path).symlink_to('SKILL.md')
+        new = self.commit()
+        review = self._scoped_notice_review(self.old, new, path, 'ab' * 32, 'cd' * 32)
+        with self.assertRaisesRegex(AuditBlocked, '符号链接'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                            '2026-10-31T01:02:03Z', special_review=review)
+
+    def test_special_review_rejects_partial_or_new_file_scoped_notice(self):
+        import hashlib
+        first = 'skills/sample/NOTICE'
+        second = 'skills/sample/docs/NOTICE'
+        old_first = 'retained first attribution\n'
+        new_first = old_first + 'appended first\n'
+        old_second = 'retained second attribution\n'
+        new_second = old_second + 'appended second\n'
+        self.write(first, old_first)
+        self.write(second, old_second)
+        self.old = self.commit()
+        self.entry['source']['ref'] = self.old
+        self.metadata['provenance']['content']['ref'] = self.old
+        self.metadata['governance']['compliance']['reviewedRef'] = self.old
+        self.write(first, new_first)
+        self.write(second, new_second)
+        new = self.commit()
+        review = self._scoped_notice_review(
+            self.old, new, first,
+            hashlib.sha256(old_first.encode()).hexdigest(),
+            hashlib.sha256(new_first.encode()).hexdigest())
+        with self.assertRaisesRegex(AuditBlocked, '与实际变更文件不一致'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                            '2026-10-31T01:02:03Z', special_review=review)
+
+        self.run_git('reset', '--hard', self.old); self.run_git('clean', '-fd')
+        created = 'skills/sample/vendor/NOTICE'
+        created_text = 'brand new notice\n'
+        self.write(created, created_text)
+        created_ref = self.commit()
+        with self.assertRaisesRegex(AuditBlocked, '许可证|Notice'):
+            audit_snapshots(
+                self.repo, self.entry, self.metadata, {'ref': self.old, 'head': created_ref}, '2026-10-31T01:02:03Z',
+                special_review=self._scoped_notice_review(
+                    self.old, created_ref, created,
+                    hashlib.sha256(b'').hexdigest(),
+                    hashlib.sha256(created_text.encode()).hexdigest()))
+
+    def test_special_review_rejects_prepended_scoped_notice(self):
+        import hashlib
+        path = 'skills/sample/NOTICE'
+        old_text = 'retained vendor attribution\n'
+        prepended = 'new preface\n' + old_text
+        self.write(path, old_text)
+        self.old = self.commit()
+        self.entry['source']['ref'] = self.old
+        self.metadata['provenance']['content']['ref'] = self.old
+        self.metadata['governance']['compliance']['reviewedRef'] = self.old
+        self.write(path, prepended)
+        new = self.commit()
+        with self.assertRaisesRegex(AuditBlocked, '未保留原有声明'):
+            audit_snapshots(
+                self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z',
+                special_review=self._scoped_notice_review(
+                    self.old, new, path,
+                    hashlib.sha256(old_text.encode()).hexdigest(),
+                    hashlib.sha256(prepended.encode()).hexdigest()))
+
+
+    def _rebind_old(self, sha):
+        self.old = sha
+        self.entry['source']['ref'] = sha
+        self.metadata['provenance']['content']['ref'] = sha
+        self.metadata['governance']['compliance']['reviewedRef'] = sha
+
+    def test_root_licenses_directory_is_not_a_broken_license_file(self):
+        """A normal licenses/ directory plus an unchanged MIT LICENSE must pass (old and new pins)."""
+        self.write('licenses/thirdparty-MIT.txt', 'Permission is hereby granted, MIT third-party text.\n')
+        self._rebind_old(self.commit())
+        # Unchanged directory already present on the admitted old pin should not block a script change.
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        entry, metadata, report = self.audit()
+        self.assertEqual(entry['source']['ref'], metadata['governance']['compliance']['reviewedRef'])
+        self.assertTrue(report['checks']['licenseAndNoticeUnchanged'])
+        self.assertIn('LICENSE', report['licenseEvidenceSha256'])
+        self.assertIn('licenses/thirdparty-MIT.txt', report['licenseEvidenceSha256'])
+
+    def test_root_license_symlink_or_nonregular_still_blocked(self):
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        (self.repo / 'LICENSE').unlink()
+        (self.repo / 'LICENSE').symlink_to('skills/sample/SKILL.md')
+        with self.assertRaisesRegex(AuditBlocked, '根许可或 Notice 不是普通文件'):
+            self.audit()
+        self.run_git('reset', '--hard', self.old)
+        self.run_git('clean', '-fd')
+        self.write('licenses/thirdparty-MIT.txt', 'MIT third-party text\n')
+        self._rebind_old(self.commit())
+        (self.repo / 'licenses' / 'alias').symlink_to('thirdparty-MIT.txt')
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        with self.assertRaisesRegex(AuditBlocked, '根许可或 Notice 不是普通文件'):
+            self.audit()
+
+    def test_root_license_file_content_change_still_detected(self):
+        self.write('licenses/thirdparty-MIT.txt', 'MIT third-party text\n')
+        self._rebind_old(self.commit())
+        self.write('LICENSE', 'different terms, no longer the admitted MIT text\n')
+        with self.assertRaisesRegex(AuditBlocked, '许可证|Notice'):
+            self.audit()
+
+    def test_root_license_directory_changes_are_not_claimed_unchanged(self):
+        from audit_skill_update import license_directory_manifest_sha256, root_license_directory_files
+        self.write('licenses/ghidra-12.1.4.txt', 'Ghidra license text\n')
+        self._rebind_old(self.commit())
+        (self.repo / 'licenses' / 'ghidra-12.1.4.txt').unlink()
+        self.write('licenses/ghidra-12.2.txt', 'Ghidra license text\n')
+        self.write('licenses/microsoft-uf2-MIT.txt', 'UF2 MIT notice\n')
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        new = self.commit()
+        with self.assertRaisesRegex(AuditBlocked, '根许可目录内的第三方许可文本有变化'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z')
+        digest = license_directory_manifest_sha256(root_license_directory_files(self.repo, new)['licenses'])
+        with self.assertRaisesRegex(AuditBlocked, '根许可目录专项复核必须包含审核人、日期和理由'):
+            audit_snapshots(
+                self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z',
+                special_review={'schemaVersion': 1, 'acceptedRootLicenseDirectoryManifestSha256': {'licenses': digest}})
+        with self.assertRaisesRegex(AuditBlocked, '根许可目录内的第三方许可文本有变化'):
+            audit_snapshots(
+                self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z',
+                special_review={
+                    'schemaVersion': 1,
+                    'reviewedBy': 'mashagua',
+                    'reviewedAt': '2026-11-22',
+                    'notes': 'wrong digest must not pass',
+                    'acceptedRootLicenseDirectoryManifestSha256': {'licenses': 'b' * 64},
+                })
+        entry, metadata, report = audit_snapshots(
+            self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z',
+            special_review={
+                'schemaVersion': 1,
+                'reviewedBy': 'mashagua',
+                'reviewedAt': '2026-11-22',
+                'notes': 'Reviewed ghidra 12.1.4 to 12.2 rename with identical text and the added UF2 MIT notice.',
+                'acceptedRootLicenseDirectoryManifestSha256': {'licenses': digest},
+            })
+        self.assertEqual(report['licenseEvidenceSha256']['licenses/ghidra-12.2.txt'],
+                         __import__('hashlib').sha256(b'Ghidra license text\n').hexdigest())
+        self.assertNotIn('licenses/ghidra-12.1.4.txt', report['licenseEvidenceSha256'])
+        self.assertIn('licenses/microsoft-uf2-MIT.txt', report['licenseEvidenceSha256'])
+        self.assertTrue(any('许可目录' in item for item in report['limitations']))
+        self.assertEqual(metadata['governance']['compliance']['reviewedRef'], entry['source']['ref'])
+
+    def test_deleted_root_license_directory_is_not_accepted(self):
+        self.write('licenses/thirdparty-MIT.txt', 'MIT third-party text\n')
+        self._rebind_old(self.commit())
+        (self.repo / 'licenses' / 'thirdparty-MIT.txt').unlink()
+        (self.repo / 'licenses').rmdir()
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        with self.assertRaisesRegex(AuditBlocked, '根许可目录被删除'):
+            self.audit()
+
+    def test_scoped_notice_append_still_works_with_licenses_directory(self):
+        import hashlib
+        self.write('licenses/thirdparty-MIT.txt', 'MIT third-party text\n')
+        path = 'skills/sample/NOTICE'
+        old_text = 'retained vendor attribution\n'
+        new_text = old_text + 'appended Unicode-3.0 notice\n'
+        self.write(path, old_text)
+        self._rebind_old(self.commit())
+        self.write(path, new_text)
+        new = self.commit()
+        previous = hashlib.sha256(old_text.encode()).hexdigest()
+        digest = hashlib.sha256(new_text.encode()).hexdigest()
+        _, _, report = audit_snapshots(
+            self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z',
+            special_review=self._scoped_notice_review(self.old, new, path, previous, digest))
+        self.assertEqual(report['licenseEvidenceSha256'][path], digest)
+        self.assertIn('licenses/thirdparty-MIT.txt', report['licenseEvidenceSha256'])
+        self.assertTrue(any('安装范围内的 Notice' in item for item in report['limitations']))
+
     def test_disallows_non_github_fetch_targets(self):
         self.entry['source']['repoUrl'] = 'file:///private/source'
         with self.assertRaisesRegex(AuditBlocked, 'HTTPS'): audit_update(self.entry, self.metadata, {})

@@ -28,8 +28,8 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-22",
-      "precision": "day"
+      "value": "2026-11-22T05:35:12Z",
+      "precision": "second"
     },
     "releasePublishedAt": {
       "state": "unknown"
@@ -41,15 +41,15 @@
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-27",
-      "precision": "day"
+      "value": "2026-11-22T05:35:12Z",
+      "precision": "second"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
       "url": "https://github.com/larksuite/cli.git",
-      "ref": "a92db8779c0959bc14beb69d82fb262123cfb79b"
+      "ref": "c5fbf1a52df77d5cb9cac2b1501770b2fb9af7d2"
     }
   },
   "governance": {
@@ -68,9 +68,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "a92db8779c0959bc14beb69d82fb262123cfb79b",
+      "reviewedRef": "c5fbf1a52df77d5cb9cac2b1501770b2fb9af7d2",
       "reviewedAt": "2026-11-22",
-      "reviewedBy": "mashagua",
+      "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }
   },
@@ -93,7 +93,7 @@
     "kind": "skill",
     "collection": {
       "role": "parent",
-      "childCount": 28,
+      "childCount": 25,
       "children": [
         {
           "identity": {
@@ -447,33 +447,6 @@
         {
           "identity": {
             "kind": "skill",
-            "id": "lark-minutes",
-            "parentId": "larksuite-cli"
-          },
-          "path": "skills/lark-minutes",
-          "presentation": {
-            "defaultLocale": "en-US",
-            "i18n": {
-              "en-US": {
-                "name": "lark-minutes",
-                "summary": "仅当用户或上游配置显式指定 lark-minutes 时使用，相关请求统一交由 lark-meeting 技能处理。"
-              },
-              "zh-CN": {
-                "name": "lark-minutes",
-                "summary": "仅当用户或上游配置显式指定 lark-minutes 时使用，相关请求统一交由 lark-meeting 技能处理。"
-              }
-            },
-            "tags": []
-          },
-          "release": {
-            "state": "known",
-            "version": "1.0.0",
-            "versionScheme": "semver"
-          }
-        },
-        {
-          "identity": {
-            "kind": "skill",
             "id": "lark-note",
             "parentId": "larksuite-cli"
           },
@@ -677,60 +650,6 @@
               "zh-CN": {
                 "name": "lark-task",
                 "summary": "飞书任务：管理任务、清单和任务智能体。创建待办任务、查看和更新任务状态、拆分子任务、组织任务清单、分配协作成员、上传任务附件、注册或注销任务智能体、更新任务智能体的主页数据、写入智能体任务记录。当用户需要创建待办事项、查看任务列表、跟踪任务进度、管理项目清单或给他人分配任务、为任务上传附件文件、注册注销任务智能体、更新…"
-              }
-            },
-            "tags": []
-          },
-          "release": {
-            "state": "known",
-            "version": "1.0.0",
-            "versionScheme": "semver"
-          }
-        },
-        {
-          "identity": {
-            "kind": "skill",
-            "id": "lark-vc",
-            "parentId": "larksuite-cli"
-          },
-          "path": "skills/lark-vc",
-          "presentation": {
-            "defaultLocale": "en-US",
-            "i18n": {
-              "en-US": {
-                "name": "lark-vc",
-                "summary": "仅当用户或上游配置显式指定 lark-vc 时使用，相关请求统一交由 lark-meeting 技能处理。"
-              },
-              "zh-CN": {
-                "name": "lark-vc",
-                "summary": "仅当用户或上游配置显式指定 lark-vc 时使用，相关请求统一交由 lark-meeting 技能处理。"
-              }
-            },
-            "tags": []
-          },
-          "release": {
-            "state": "known",
-            "version": "1.0.0",
-            "versionScheme": "semver"
-          }
-        },
-        {
-          "identity": {
-            "kind": "skill",
-            "id": "lark-vc-agent",
-            "parentId": "larksuite-cli"
-          },
-          "path": "skills/lark-vc-agent",
-          "presentation": {
-            "defaultLocale": "en-US",
-            "i18n": {
-              "en-US": {
-                "name": "lark-vc-agent",
-                "summary": "仅当用户或上游配置显式指定 lark-vc-agent 时使用，相关请求统一交由 lark-meeting 技能处理。"
-              },
-              "zh-CN": {
-                "name": "lark-vc-agent",
-                "summary": "仅当用户或上游配置显式指定 lark-vc-agent 时使用，相关请求统一交由 lark-meeting 技能处理。"
               }
             },
             "tags": []
