@@ -28,7 +28,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-27",
+      "value": "2026-11-22",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -36,7 +36,7 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-27",
+      "value": "2026-11-22",
       "precision": "day"
     },
     "upstreamObservedAt": {
@@ -54,7 +54,7 @@
   },
   "governance": {
     "stewardship": "partner",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
       "state": "known",
       "value": "MIT",
@@ -65,6 +65,13 @@
       "name": "larksuite",
       "url": "https://github.com/larksuite/cli",
       "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "a92db8779c0959bc14beb69d82fb262123cfb79b",
+      "reviewedAt": "2026-11-22",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
     }
   },
   "compatibility": {
