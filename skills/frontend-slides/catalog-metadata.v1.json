@@ -31,21 +31,21 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-27",
-      "precision": "day"
+      "value": "2026-11-21T14:22:21Z",
+      "precision": "second"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-27",
+      "value": "2026-11-21",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-27",
-      "precision": "day"
+      "value": "2026-11-21T14:22:21Z",
+      "precision": "second"
     }
   },
   "provenance": {
@@ -53,7 +53,7 @@
       "kind": "git",
       "url": "https://github.com/affaan-m/ECC.git",
       "path": "skills/frontend-slides",
-      "ref": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b"
+      "ref": "4adeee6732a12d1540f49a4d50a38ce8c97f9a53"
     }
   },
   "governance": {
@@ -72,9 +72,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b",
-      "reviewedAt": "2026-10-27",
-      "reviewedBy": "Market upstream maintenance",
+      "reviewedRef": "4adeee6732a12d1540f49a4d50a38ce8c97f9a53",
+      "reviewedAt": "2026-11-21",
+      "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }
   },
@@ -90,6 +90,10 @@
       {
         "kind": "connection",
         "value": "Generated decks may load web fonts from Google Fonts or Fontshare when opened, under those providers' terms. The optional PDF helper needs network access on first run to download Playwright from npm and its Chromium build."
+      },
+      {
+        "kind": "runtime",
+        "value": "市场仅获取 skills/frontend-slides；ECC 根目录的 npm、Yarn 和 Python 开发依赖不随技能安装。HTML 演示用浏览器打开，PPTX 转换另需 Python 3/python-pptx，PDF 辅助导出另需 Node.js/npm、Playwright 和 Chromium，下载和安装依赖前须取得用户许可。 / The pointer installs only skills/frontend-slides. ECC root npm/Yarn/Python development packages are outside the installed scope. Browser HTML needs no ECC root installation; optional PPTX/PDF workflows require the separately disclosed Python or Node/Playwright tools and authorization before installing dependencies."
       }
     ]
   },
