@@ -548,6 +548,117 @@ class AuditTests(unittest.TestCase):
                     hashlib.sha256(old_text.encode()).hexdigest(),
                     hashlib.sha256(prepended.encode()).hexdigest()))
 
+
+    def _rebind_old(self, sha):
+        self.old = sha
+        self.entry['source']['ref'] = sha
+        self.metadata['provenance']['content']['ref'] = sha
+        self.metadata['governance']['compliance']['reviewedRef'] = sha
+
+    def test_root_licenses_directory_is_not_a_broken_license_file(self):
+        """A normal licenses/ directory plus an unchanged MIT LICENSE must pass (old and new pins)."""
+        self.write('licenses/thirdparty-MIT.txt', 'Permission is hereby granted, MIT third-party text.\n')
+        self._rebind_old(self.commit())
+        # Unchanged directory already present on the admitted old pin should not block a script change.
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        entry, metadata, report = self.audit()
+        self.assertEqual(entry['source']['ref'], metadata['governance']['compliance']['reviewedRef'])
+        self.assertTrue(report['checks']['licenseAndNoticeUnchanged'])
+        self.assertIn('LICENSE', report['licenseEvidenceSha256'])
+        self.assertIn('licenses/thirdparty-MIT.txt', report['licenseEvidenceSha256'])
+
+    def test_root_license_symlink_or_nonregular_still_blocked(self):
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        (self.repo / 'LICENSE').unlink()
+        (self.repo / 'LICENSE').symlink_to('skills/sample/SKILL.md')
+        with self.assertRaisesRegex(AuditBlocked, '根许可或 Notice 不是普通文件'):
+            self.audit()
+        self.run_git('reset', '--hard', self.old)
+        self.run_git('clean', '-fd')
+        self.write('licenses/thirdparty-MIT.txt', 'MIT third-party text\n')
+        self._rebind_old(self.commit())
+        (self.repo / 'licenses' / 'alias').symlink_to('thirdparty-MIT.txt')
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        with self.assertRaisesRegex(AuditBlocked, '根许可或 Notice 不是普通文件'):
+            self.audit()
+
+    def test_root_license_file_content_change_still_detected(self):
+        self.write('licenses/thirdparty-MIT.txt', 'MIT third-party text\n')
+        self._rebind_old(self.commit())
+        self.write('LICENSE', 'different terms, no longer the admitted MIT text\n')
+        with self.assertRaisesRegex(AuditBlocked, '许可证|Notice'):
+            self.audit()
+
+    def test_root_license_directory_changes_are_not_claimed_unchanged(self):
+        from audit_skill_update import license_directory_manifest_sha256, root_license_directory_files
+        self.write('licenses/ghidra-12.1.4.txt', 'Ghidra license text\n')
+        self._rebind_old(self.commit())
+        (self.repo / 'licenses' / 'ghidra-12.1.4.txt').unlink()
+        self.write('licenses/ghidra-12.2.txt', 'Ghidra license text\n')
+        self.write('licenses/microsoft-uf2-MIT.txt', 'UF2 MIT notice\n')
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        new = self.commit()
+        with self.assertRaisesRegex(AuditBlocked, '根许可目录内的第三方许可文本有变化'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z')
+        digest = license_directory_manifest_sha256(root_license_directory_files(self.repo, new)['licenses'])
+        with self.assertRaisesRegex(AuditBlocked, '根许可目录专项复核必须包含审核人、日期和理由'):
+            audit_snapshots(
+                self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z',
+                special_review={'schemaVersion': 1, 'acceptedRootLicenseDirectoryManifestSha256': {'licenses': digest}})
+        with self.assertRaisesRegex(AuditBlocked, '根许可目录内的第三方许可文本有变化'):
+            audit_snapshots(
+                self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z',
+                special_review={
+                    'schemaVersion': 1,
+                    'reviewedBy': 'mashagua',
+                    'reviewedAt': '2026-11-22',
+                    'notes': 'wrong digest must not pass',
+                    'acceptedRootLicenseDirectoryManifestSha256': {'licenses': 'b' * 64},
+                })
+        entry, metadata, report = audit_snapshots(
+            self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z',
+            special_review={
+                'schemaVersion': 1,
+                'reviewedBy': 'mashagua',
+                'reviewedAt': '2026-11-22',
+                'notes': 'Reviewed ghidra 12.1.4 to 12.2 rename with identical text and the added UF2 MIT notice.',
+                'acceptedRootLicenseDirectoryManifestSha256': {'licenses': digest},
+            })
+        self.assertEqual(report['licenseEvidenceSha256']['licenses/ghidra-12.2.txt'],
+                         __import__('hashlib').sha256(b'Ghidra license text\n').hexdigest())
+        self.assertNotIn('licenses/ghidra-12.1.4.txt', report['licenseEvidenceSha256'])
+        self.assertIn('licenses/microsoft-uf2-MIT.txt', report['licenseEvidenceSha256'])
+        self.assertTrue(any('许可目录' in item for item in report['limitations']))
+        self.assertEqual(metadata['governance']['compliance']['reviewedRef'], entry['source']['ref'])
+
+    def test_deleted_root_license_directory_is_not_accepted(self):
+        self.write('licenses/thirdparty-MIT.txt', 'MIT third-party text\n')
+        self._rebind_old(self.commit())
+        (self.repo / 'licenses' / 'thirdparty-MIT.txt').unlink()
+        (self.repo / 'licenses').rmdir()
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        with self.assertRaisesRegex(AuditBlocked, '根许可目录被删除'):
+            self.audit()
+
+    def test_scoped_notice_append_still_works_with_licenses_directory(self):
+        import hashlib
+        self.write('licenses/thirdparty-MIT.txt', 'MIT third-party text\n')
+        path = 'skills/sample/NOTICE'
+        old_text = 'retained vendor attribution\n'
+        new_text = old_text + 'appended Unicode-3.0 notice\n'
+        self.write(path, old_text)
+        self._rebind_old(self.commit())
+        self.write(path, new_text)
+        new = self.commit()
+        previous = hashlib.sha256(old_text.encode()).hexdigest()
+        digest = hashlib.sha256(new_text.encode()).hexdigest()
+        _, _, report = audit_snapshots(
+            self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z',
+            special_review=self._scoped_notice_review(self.old, new, path, previous, digest))
+        self.assertEqual(report['licenseEvidenceSha256'][path], digest)
+        self.assertIn('licenses/thirdparty-MIT.txt', report['licenseEvidenceSha256'])
+        self.assertTrue(any('安装范围内的 Notice' in item for item in report['limitations']))
+
     def test_disallows_non_github_fetch_targets(self):
         self.entry['source']['repoUrl'] = 'file:///private/source'
         with self.assertRaisesRegex(AuditBlocked, 'HTTPS'): audit_update(self.entry, self.metadata, {})
