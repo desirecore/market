@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "mashagua",
+  "reviewedAt": "2026-11-22",
+  "notes": "Special review of exact PR #310 target df0fb53b5dcc8de64d49cfe0cce900eef4bc1d15 from admitted pin 38d49e4e68997bca23621a272a27b0fbbfbed668, not later a0de865. Root Apache-2.0 LICENSE and root NOTICE are unchanged (LICENSE sha256 1d951e8ca1019e1ad6fc14b8450df1b7ba788b9f242002873ca79df70ee376fd; NOTICE sha256 b7d8a7d7c3c61cb0d4d78fa422fb81028c76d0e7ff1a23b1be68f058a9920d80). Nested protocol LICENSE/NOTICE unchanged. Collection membership remains 16 skills/multi members. skills/multi/dingtalk-aicard/NOTICE is a regular file and a strict prefix-preserving append: previous sha256 01f9592938bc715d5243ba968e38375027100d96da8639f33944a466a50908bd, new sha256 e43a7a76036ed7bba29bc4a004881844fa70826ac7490b474983c746ce562ef1. Existing A2UI/Apache attribution is retained; the appended text is Unicode License V3 / SPDX Unicode-3.0 for the identifier table in CLI-internal internal/card/a2ui/assets.json. Two SKILL.md descriptions also change (AI Card charts; miscellaneous AI outbound calls) and are accepted below. Operator-installed DWS CLI, OAuth, entitlements, outbound-call permission and charges remain prerequisites; no CLI binary is bundled. This review does not execute upstream code and is not a security or runtime certification.",
+  "acceptedScopedNotice": {
+    "fromRef": "38d49e4e68997bca23621a272a27b0fbbfbed668",
+    "toRef": "df0fb53b5dcc8de64d49cfe0cce900eef4bc1d15",
+    "files": [
+      {
+        "path": "skills/multi/dingtalk-aicard/NOTICE",
+        "previousSha256": "01f9592938bc715d5243ba968e38375027100d96da8639f33944a466a50908bd",
+        "sha256": "e43a7a76036ed7bba29bc4a004881844fa70826ac7490b474983c746ce562ef1"
+      }
+    ]
+  },
+  "acceptedFrontmatterSha256": {
+    "skills/multi/dingtalk-aicard": "48fe8a3ec30baf4db260993d60576748d15521af1104ee49a888eb86c4345b43",
+    "skills/multi/dingtalk-misc": "a18e98f855c9d89847d7b30a823a32e9c495abde419a38516cc88cf7944cdd5e"
+  }
+}
