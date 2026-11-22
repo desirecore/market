@@ -11,12 +11,12 @@
       "en-US": {
         "name": "Follow Builders",
         "summary": "Curate AI-builder updates from a public podcast, X and blog feed. Requires networking; scripts need Node.js/npm dependencies. Telegram or email delivery needs separately configured accounts and authorization.",
-        "description": "The pinned README.md License section declares MIT; this snapshot has no standalone LICENSE file. The declaration concerns upstream code; public-feed and third-party content retain their respective rights and service terms. On-demand summaries can stay in chat. Scripts require separately installed Node.js and dependencies. Telegram/Resend delivery requires operator credentials, applicable fees and explicit send/schedule authorization. Report unavailable feeds, dependencies or permissions."
+        "description": "This snapshot still has no standalone LICENSE file. The README contains only a one-line MIT mention, which is not treated as sufficient license evidence; the catalog keeps the license unknown and listing-only. Public-feed and third-party content retain their respective rights and service terms. Scripts require separately installed Node.js and the declared npm dependencies (dotenv ^16.4.0 and proper-lockfile ^4.1.0). Telegram/Resend delivery requires operator credentials, applicable fees and explicit send/schedule authorization. Report unavailable feeds, dependencies or permissions."
       },
       "zh-CN": {
         "name": "Follow Builders",
         "summary": "追踪 AI 开发者、研究者与创始人的公开动态，整理播客、X 和博客摘要。需联网；脚本另需 Node.js 和 npm 依赖，Telegram/邮件推送需自备账号并授权。",
-        "description": "固定快照 README.md 的 License 一节声明 MIT，仓库未提供独立 LICENSE 文件。该声明针对上游代码，公共信源与第三方文章的使用遵循各自权利和服务条款。按需阅读可直接在聊天中整理，脚本需另装 Node.js 和依赖；Telegram/Resend 推送需自备凭据、确认费用并授权发送或定时。信源、依赖或权限不可用时说明阻碍。"
+        "description": "该快照仍无独立 LICENSE 文件。README 仅有一行 MIT 提及，不足以为许可证据，目录维持许可证未知且仅收录。公共信源与第三方内容仍受其各自权利和服务条款约束。脚本需另装 Node.js 及已声明的 npm 依赖（dotenv ^16.4.0 和 proper-lockfile ^4.1.0）。Telegram/Resend 推送需自备凭据、确认费用并明确授权发送或定时。信源、依赖或权限不可用时说明阻碍。"
       }
     },
     "category": "productivity",
@@ -30,20 +30,18 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-21T14:22:21Z",
+      "value": "2026-11-22T23:18:52Z",
       "precision": "second"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "known",
-      "value": "2026-11-21",
-      "precision": "day"
+      "state": "unknown"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-11-21T14:22:21Z",
+      "value": "2026-11-22T23:18:52Z",
       "precision": "second"
     }
   },
@@ -56,24 +54,15 @@
   },
   "governance": {
     "stewardship": "community",
-    "availability": "installable",
+    "availability": "listing-only",
     "license": {
-      "state": "known",
-      "value": "MIT",
-      "evidencePath": "README.md"
+      "state": "unknown"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {
       "name": "zarazhangrui",
       "url": "https://github.com/zarazhangrui/follow-builders",
       "verified": false
-    },
-    "compliance": {
-      "licenseEvidencePath": "README.md",
-      "reviewedRef": "b507e4fe1644107b872ec96bf99b7a9c66386db9",
-      "reviewedAt": "2026-11-21",
-      "reviewedBy": "source-license-metadata-review",
-      "upstreamEndorsed": false
     }
   },
   "compatibility": {
