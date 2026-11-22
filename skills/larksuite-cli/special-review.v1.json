@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "mashagua",
+  "reviewedAt": "2026-11-22",
+  "notes": "Class C special review of larksuite-cli c5fbf1a52df77d5cb9cac2b1501770b2fb9af7d2. Root MIT LICENSE is byte-identical to a92db8779c0959bc14beb69d82fb262123cfb79b (sha256 c969fc7e3af68e6bf40b0d8dd9c3dcc377eb685a2139535b203b39fdcad739ee). Collection membership 28 → 25: removed only the compatibility stub skills lark-minutes, lark-vc, and lark-vc-agent, which contained no business logic and instructed agents to follow lark-meeting. No new members. Accepted SKILL.md description updates: lark-apps runtime domain *.aiforce.cloud → *.feishuapp.com; lark-event adds Drive doc comment notices. Root package.json identity is unchanged after stripping version (1.0.98 → 1.0.100); accepted the matching package-lock.json version-only bump. go.mod and go.sum are unchanged. This does not bundle or install the Lark CLI binary; operator-installed lark-cli and OAuth prerequisites remain.",
+  "acceptedCollectionPaths": [
+    "skills/lark-approval",
+    "skills/lark-apps",
+    "skills/lark-attendance",
+    "skills/lark-base",
+    "skills/lark-calendar",
+    "skills/lark-contact",
+    "skills/lark-doc",
+    "skills/lark-drive",
+    "skills/lark-event",
+    "skills/lark-im",
+    "skills/lark-mail",
+    "skills/lark-markdown",
+    "skills/lark-meeting",
+    "skills/lark-note",
+    "skills/lark-okr",
+    "skills/lark-openapi-explorer",
+    "skills/lark-shared",
+    "skills/lark-sheets",
+    "skills/lark-skill-maker",
+    "skills/lark-slides",
+    "skills/lark-task",
+    "skills/lark-whiteboard",
+    "skills/lark-wiki",
+    "skills/lark-workflow-meeting-summary",
+    "skills/lark-workflow-standup-report"
+  ],
+  "acceptedFrontmatterSha256": {
+    "skills/lark-apps": "12fcd7b6e78149e03c5a0fd1739d215202781875cf47a63ca473b6eefe3be82b",
+    "skills/lark-event": "1762b29bc5c1094e225496099b3a1e3c2d653ac028ff20bc0aa395951f77cdc4"
+  },
+  "acceptedDependencyIdentities": {
+    "package-lock.json": "59038756146712699f98c2709a3469ae90e04313"
+  }
+}
