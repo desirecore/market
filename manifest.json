@@ -31,8 +31,8 @@
   "stats": {
     "totalAgents": 10,
     "totalTeams": 2,
-    "totalSkills": 150,
-    "lastUpdated": "2026-11-17"
+    "totalSkills": 151,
+    "lastUpdated": "2026-11-22"
   },
   "features": [
     "curated-index",
