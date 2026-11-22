@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "automated:source-license-metadata-v1",
+  "reviewedAt": "2026-11-22T11:46:49Z",
+  "source": {
+    "url": "https://github.com/DingTalk-Real-AI/dingtalk-workspace-cli.git",
+    "previousRef": "38d49e4e68997bca23621a272a27b0fbbfbed668",
+    "ref": "df0fb53b5dcc8de64d49cfe0cce900eef4bc1d15",
+    "paths": [
+      "skills/multi/dingtalk-aicard",
+      "skills/multi/dingtalk-aisearch",
+      "skills/multi/dingtalk-aitable",
+      "skills/multi/dingtalk-calendar",
+      "skills/multi/dingtalk-chat",
+      "skills/multi/dingtalk-contact",
+      "skills/multi/dingtalk-doc",
+      "skills/multi/dingtalk-drive",
+      "skills/multi/dingtalk-event",
+      "skills/multi/dingtalk-mail",
+      "skills/multi/dingtalk-minutes",
+      "skills/multi/dingtalk-misc",
+      "skills/multi/dingtalk-shared",
+      "skills/multi/dingtalk-tag",
+      "skills/multi/dingtalk-todo",
+      "skills/multi/dingtalk-wiki"
+    ]
+  },
+  "checks": {
+    "immutableSnapshots": true,
+    "installedScopeBoundedFiles": true,
+    "licenseAndNoticeUnchanged": true,
+    "structuredPrerequisitesUnchanged": true,
+    "presentationMetadataUnchanged": true
+  },
+  "licenseEvidenceSha256": {
+    "LICENSE": "1d951e8ca1019e1ad6fc14b8450df1b7ba788b9f242002873ca79df70ee376fd",
+    "NOTICE": "b7d8a7d7c3c61cb0d4d78fa422fb81028c76d0e7ff1a23b1be68f058a9920d80",
+    "skills/multi/dingtalk-aicard/LICENSE": "e6f2d2b02243c2d70b63084fef1e78a20743747e6beb06eb36ab577153902963",
+    "skills/multi/dingtalk-aicard/NOTICE": "e43a7a76036ed7bba29bc4a004881844fa70826ac7490b474983c746ce562ef1",
+    "skills/multi/dingtalk-aicard/references/protocol/LICENSE": "aac73b3148f6d1d7111dbca32099f68d26c644c6813ae1e4f05f6579aa2663fe",
+    "skills/multi/dingtalk-aicard/references/protocol/NOTICE": "1416e46cd8e91578bbbd57fe24a5fb35d6548f5dedd875295426a6556cfb2784"
+  },
+  "observedVersions": {},
+  "contentManifestSha256": "4d2ca2b90f35ae430537e580e4d01835813409bbf64ff251abd3aaff47b4e8c2",
+  "fileCount": 418,
+  "limitations": [
+    "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
+    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。",
+    "依赖清单或结构化简介如有变化，已按专项复核记录中的接受哈希核对，不代表这些字段与旧快照逐字节相同。",
+    "安装范围内的 Notice 如有变化，已按专项复核记录中绑定的快照、路径和哈希核对，且新文件必须完整保留旧 Notice 字节；不代表与旧快照逐字节相同，也不接受嵌套许可证变更。"
+  ],
+  "specialReview": {
+    "reviewedBy": "mashagua",
+    "reviewedAt": "2026-11-22",
+    "excludePaths": [],
+    "budgetExemptPaths": []
+  }
+}
