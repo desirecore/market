@@ -66,8 +66,21 @@
           }
         }
       }
+    },
+    "acceptedRootLicenseDirectoryManifestSha256": {
+      "type": "object",
+      "description": "Map of a repo-root LICENSE*/NOTICE*/COPYING* directory name (for example licenses) to the SHA-256 of the canonical JSON manifest of regular files under that directory at the *new* snapshot (sorted path to file SHA-256). Required when those directory file sets change, including renames. This does not accept changes to, replacements of, or deletions of root LICENSE/NOTICE/COPYING files (deletions remain forbidden; file changes still use acceptedRootEvidenceSha256). Symlinks, submodules, and other non-regular files at those root names or inside the directory remain blocked.",
+      "additionalProperties": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
     }
   },
-  "if": { "required": ["acceptedScopedNotice"] },
-  "then": { "required": ["reviewedBy", "reviewedAt", "notes"] }
+  "allOf": [
+    {
+      "if": { "required": ["acceptedScopedNotice"] },
+      "then": { "required": ["reviewedBy", "reviewedAt", "notes"] }
+    },
+    {
+      "if": { "required": ["acceptedRootLicenseDirectoryManifestSha256"] },
+      "then": { "required": ["reviewedBy", "reviewedAt", "notes"] }
+    }
+  ]
 }

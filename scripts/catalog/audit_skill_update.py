@@ -76,21 +76,57 @@ def blob(repo: Path, ref: str, path: str) -> bytes:
     return git(repo, 'show', f'{ref}:{path}')
 
 
+LICENSE_NAME_PREFIXES = ('LICENSE', 'NOTICE', 'COPYING')
+
+
 def root_evidence(repo: Path, ref: str) -> dict[str, str]:
-    # 只读根目录，避免整个上游仓库的无关文件消耗预算。
+    # 只读根目录的普通许可文件。名为 licenses/ 的目录不是损坏的 LICENSE 文件。
     result = {}
     for record in git(repo, 'ls-tree', '-z', ref).split(b'\0'):
         if not record:
             continue
         meta, name = record.split(b'\t', 1)
         path = name.decode()
-        if not path.upper().startswith(('LICENSE', 'NOTICE', 'COPYING')):
+        if not path.upper().startswith(LICENSE_NAME_PREFIXES):
             continue
         mode, kind, _ = meta.decode().split()
+        if kind == 'tree' and mode == '040000':
+            continue
         if kind != 'blob' or mode not in ('100644', '100755'):
             raise AuditBlocked('根许可或 Notice 不是普通文件')
         result[path] = hashlib.sha256(blob(repo, ref, path)).hexdigest()
     return result
+
+
+def root_license_directory_files(repo: Path, ref: str) -> dict[str, dict[str, str]]:
+    """普通文件清单，按根上 LICENSE*/NOTICE*/COPYING* 目录分组。目录内的符号链接或子模块仍硬拦截。"""
+    grouped: dict[str, dict[str, str]] = {}
+    for record in git(repo, 'ls-tree', '-z', ref).split(b'\0'):
+        if not record:
+            continue
+        meta, name = record.split(b'\t', 1)
+        path = name.decode()
+        if not path.upper().startswith(LICENSE_NAME_PREFIXES):
+            continue
+        mode, kind, _ = meta.decode().split()
+        if kind != 'tree' or mode != '040000':
+            continue
+        files: dict[str, str] = {}
+        for child in git(repo, 'ls-tree', '-rz', ref, '--', path).split(b'\0'):
+            if not child:
+                continue
+            cmeta, cname = child.split(b'\t', 1)
+            cpath = cname.decode()
+            cmode, ckind, _ = cmeta.decode().split()
+            if ckind != 'blob' or cmode not in ('100644', '100755'):
+                raise AuditBlocked('根许可或 Notice 不是普通文件')
+            files[cpath] = hashlib.sha256(blob(repo, ref, cpath)).hexdigest()
+        grouped[path] = files
+    return grouped
+
+
+def license_directory_manifest_sha256(files: dict[str, str]) -> str:
+    return hashlib.sha256(json.dumps(files, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
 
 
 def stable_frontmatter(fm: dict) -> dict:
@@ -305,7 +341,27 @@ def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
                 or any(not isinstance(key, str) or not isinstance(value, str) for key, value in accepted_root.items())
                 or accepted_root != expected_root):
             raise AuditBlocked('根许可证或 Notice 有变化，需专项复核')
-    licenses = new_root
+    old_license_dirs = root_license_directory_files(repo, old)
+    new_license_dirs = root_license_directory_files(repo, new)
+    if set(old_license_dirs) - set(new_license_dirs):
+        raise AuditBlocked('根许可目录被删除，需专项复核')
+    expected_dir_manifests = {
+        directory: license_directory_manifest_sha256(files)
+        for directory, files in new_license_dirs.items()
+        if old_license_dirs.get(directory) != files
+    }
+    if expected_dir_manifests:
+        accepted_dirs = review.get('acceptedRootLicenseDirectoryManifestSha256') or {}
+        if (not isinstance(accepted_dirs, dict)
+                or any(not isinstance(key, str) or not isinstance(value, str) for key, value in accepted_dirs.items())
+                or accepted_dirs != expected_dir_manifests):
+            raise AuditBlocked('根许可目录内的第三方许可文本有变化，需专项复核')
+        if not all(isinstance(review.get(key), str) and review[key].strip()
+                   for key in ('reviewedBy', 'reviewedAt', 'notes')):
+            raise AuditBlocked('根许可目录专项复核必须包含审核人、日期和理由')
+    licenses = dict(new_root)
+    for files in new_license_dirs.values():
+        licenses.update(files)
     # 安装范围内的嵌套许可同样影响再分发，不能只核对根许可证。
     def scoped_evidence(ref, files):
         return {path: hashlib.sha256(blob(repo, ref, path)).hexdigest()
@@ -463,6 +519,8 @@ def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
             report['limitations'].append('根许可证/Notice 或合集成员如有变化，已按专项复核记录中的接受哈希或路径集合核对，不代表与旧快照逐字节或成员集合相同。')
         if review.get('acceptedScopedNotice'):
             report['limitations'].append('安装范围内的 Notice 如有变化，已按专项复核记录中绑定的快照、路径和哈希核对，且新文件必须完整保留旧 Notice 字节；不代表与旧快照逐字节相同，也不接受嵌套许可证变更。')
+        if review.get('acceptedRootLicenseDirectoryManifestSha256'):
+            report['limitations'].append('根 licenses/ 等许可目录内的第三方许可文本如有变化，已按专项复核记录中的目录清单哈希核对，不代表与旧快照逐文件相同；不接受根 LICENSE/NOTICE/COPYING 文件被删除或改成非普通文件。')
         if exclude_paths:
             report['limitations'].append('excludePaths 只从本仓库的自动审核树遍历中省略路径；DesireCore 安装器在支持该字段前仍会从上游 pin 安装这些文件。')
     errors = validate_record(metadata, report)
