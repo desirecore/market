@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "automated:source-license-metadata-v1",
+  "reviewedAt": "2026-11-22T14:17:33Z",
+  "source": {
+    "url": "https://github.com/affaan-m/ECC.git",
+    "previousRef": "ef648e01899ba3e8dc6371642deaaf64b4477775",
+    "ref": "4adeee6732a12d1540f49a4d50a38ce8c97f9a53",
+    "paths": [
+      "skills/security-review"
+    ]
+  },
+  "checks": {
+    "immutableSnapshots": true,
+    "installedScopeBoundedFiles": true,
+    "licenseAndNoticeUnchanged": true,
+    "structuredPrerequisitesUnchanged": true,
+    "presentationMetadataUnchanged": true
+  },
+  "licenseEvidenceSha256": {
+    "LICENSE": "326146379f01bb137c0a5d3c54770c1aa31076705c8b88a7f6b26a460f6221b2"
+  },
+  "observedVersions": {},
+  "contentManifestSha256": "069d9ea167843aaca3e7133b7e71fcd35d4512bd0fe75e793b0cc6400b32507c",
+  "fileCount": 6,
+  "limitations": [
+    "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
+    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。",
+    "依赖清单或结构化简介如有变化，已按专项复核记录中的接受哈希核对，不代表这些字段与旧快照逐字节相同。"
+  ],
+  "specialReview": {
+    "reviewedBy": "mashagua",
+    "reviewedAt": "2026-11-22",
+    "excludePaths": [],
+    "budgetExemptPaths": []
+  }
+}
