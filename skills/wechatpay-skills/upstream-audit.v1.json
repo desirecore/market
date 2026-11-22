@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "automated:source-license-metadata-v1",
+  "reviewedAt": "2026-11-22T05:32:05Z",
+  "source": {
+    "url": "https://github.com/wechatpay-apiv3/wechatpay-skills.git",
+    "previousRef": "039b0ae50d6b5d4631be8ea991155f8a7958a2d9",
+    "ref": "1220a8404e3aa38d8f12f8310f9c1d292a28c4bd",
+    "paths": [
+      "wechatpay-payment-integration"
+    ]
+  },
+  "checks": {
+    "immutableSnapshots": true,
+    "installedScopeBoundedFiles": true,
+    "licenseAndNoticeUnchanged": true,
+    "structuredPrerequisitesUnchanged": true,
+    "presentationMetadataUnchanged": true
+  },
+  "licenseEvidenceSha256": {
+    "LICENSE.md": "a8dbe95ff684ca39567ba8d238cc10b9b5380b9c25c4e91e0e5ebc9b349a0a8e"
+  },
+  "observedVersions": {
+    "wechatpay-payment-integration": "1.5.0"
+  },
+  "contentManifestSha256": "827e067e8bc893c1f6b20c79c28a0d68357fb101dfd72f85c32efff49218c47d",
+  "fileCount": 12,
+  "limitations": [
+    "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
+    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。"
+  ]
+}
