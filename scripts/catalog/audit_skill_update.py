@@ -134,6 +134,86 @@ def dependency_acceptance_key(identity: tuple) -> str:
     return identity[1]
 
 
+
+def evidence_filename(path: str) -> str:
+    return PurePosixPath(path).name.upper()
+
+
+def is_notice_filename(path: str) -> bool:
+    return evidence_filename(path).startswith('NOTICE')
+
+
+def is_license_or_copying_filename(path: str) -> bool:
+    return evidence_filename(path).startswith(('LICENSE', 'COPYING'))
+
+
+def _sha256_hex(value: object) -> bool:
+    return isinstance(value, str) and bool(re.fullmatch(r'[a-f0-9]{64}', value))
+
+
+def accept_scoped_notice_changes(review: dict, repo: Path, old: str, new: str,
+                                 old_map: dict[str, str], new_map: dict[str, str]) -> None:
+    """Accept only exact, additive, in-place NOTICE edits bound to this snapshot pair.
+
+    Nested LICENSE/COPYING changes, deletions, renames, new files, rewrites that
+    drop existing text, symlinks, path escape, globs, hash or ref mismatches,
+    and unexpected extra files remain rejected. Root LICENSE/NOTICE/COPYING stay
+    on acceptedRootEvidenceSha256.
+    """
+    old_paths, new_paths = set(old_map), set(new_map)
+    if any(is_license_or_copying_filename(path) and old_map.get(path) != new_map.get(path)
+           for path in old_paths | new_paths):
+        raise AuditBlocked('安装范围内的许可证或 Notice 有变化，需专项复核')
+    if old_paths - new_paths or new_paths - old_paths:
+        raise AuditBlocked('安装范围内的许可证或 Notice 有变化，需专项复核')
+    changed = sorted(path for path in old_paths & new_paths if old_map[path] != new_map[path])
+    if not changed or any(not is_notice_filename(path) for path in changed):
+        raise AuditBlocked('安装范围内的许可证或 Notice 有变化，需专项复核')
+
+    accepted = review.get('acceptedScopedNotice')
+    if not isinstance(accepted, dict):
+        raise AuditBlocked('安装范围内的许可证或 Notice 有变化，需专项复核')
+    if not all(isinstance(review.get(key), str) and review[key].strip()
+               for key in ('reviewedBy', 'reviewedAt', 'notes')):
+        raise AuditBlocked('嵌套 Notice 专项复核必须包含审核人、日期和理由')
+    if accepted.get('fromRef') != old or accepted.get('toRef') != new:
+        raise AuditBlocked('嵌套 Notice 专项复核未绑定当前固定快照')
+
+    files = accepted.get('files')
+    if not isinstance(files, list) or not files:
+        raise AuditBlocked('嵌套 Notice 专项复核文件列表无效')
+
+    seen: set[str] = set()
+    for item in files:
+        if not isinstance(item, dict):
+            raise AuditBlocked('嵌套 Notice 专项复核文件列表无效')
+        raw_path = item.get('path')
+        if not isinstance(raw_path, str) or any(symbol in raw_path for symbol in '*?[]'):
+            raise AuditBlocked('嵌套 Notice 路径不安全')
+        path = safe_path(raw_path)
+        if path != raw_path or not path or is_license_or_copying_filename(path) or not is_notice_filename(path):
+            raise AuditBlocked('专项复核不能用于接受嵌套许可证变更或根路径 Notice')
+        if '/' not in path:
+            raise AuditBlocked('专项复核不能用于接受嵌套许可证变更或根路径 Notice')
+        if path in seen:
+            raise AuditBlocked('嵌套 Notice 专项复核路径重复')
+        seen.add(path)
+        previous_digest, digest = item.get('previousSha256'), item.get('sha256')
+        if not _sha256_hex(previous_digest) or not _sha256_hex(digest):
+            raise AuditBlocked('嵌套 Notice 专项复核哈希无效')
+        if path not in old_map or path not in new_map:
+            raise AuditBlocked('嵌套 Notice 专项复核与实际变更文件不一致')
+        old_bytes, new_bytes = blob(repo, old, path), blob(repo, new, path)
+        if (old_map[path] != previous_digest or new_map[path] != digest
+                or hashlib.sha256(old_bytes).hexdigest() != previous_digest
+                or hashlib.sha256(new_bytes).hexdigest() != digest):
+            raise AuditBlocked('嵌套 Notice 专项复核哈希不匹配')
+        if not old_bytes or not new_bytes or new_bytes == old_bytes or not new_bytes.startswith(old_bytes):
+            raise AuditBlocked('嵌套 Notice 变更未保留原有声明，不能作为附加 Notice 接受')
+    if seen != set(changed):
+        raise AuditBlocked('嵌套 Notice 专项复核与实际变更文件不一致')
+
+
 def load_special_review(record) -> dict:
     if not record:
         return {}
@@ -231,9 +311,10 @@ def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
         return {path: hashlib.sha256(blob(repo, ref, path)).hexdigest()
                 for path in files if PurePosixPath(path).name.upper().startswith(('LICENSE', 'NOTICE', 'COPYING'))}
     scoped_licenses = scoped_evidence(old, old_files)
-    if scoped_licenses != scoped_evidence(new, new_files):
-        raise AuditBlocked('安装范围内的许可证或 Notice 有变化，需专项复核')
-    licenses.update(scoped_licenses)
+    new_scoped = scoped_evidence(new, new_files)
+    if scoped_licenses != new_scoped:
+        accept_scoped_notice_changes(review, repo, old, new, scoped_licenses, new_scoped)
+    licenses.update(new_scoped)
     accepted_root = review.get('acceptedRootEvidenceSha256') or {}
     for path in {compliance.get('licenseEvidencePath'), compliance.get('noticePath'),
                  governance.get('license', {}).get('evidencePath')} - {None}:
@@ -380,6 +461,8 @@ def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
         report['limitations'].append('依赖清单或结构化简介如有变化，已按专项复核记录中的接受哈希核对，不代表这些字段与旧快照逐字节相同。')
         if review.get('acceptedRootEvidenceSha256') or review.get('acceptedCollectionPaths'):
             report['limitations'].append('根许可证/Notice 或合集成员如有变化，已按专项复核记录中的接受哈希或路径集合核对，不代表与旧快照逐字节或成员集合相同。')
+        if review.get('acceptedScopedNotice'):
+            report['limitations'].append('安装范围内的 Notice 如有变化，已按专项复核记录中绑定的快照、路径和哈希核对，且新文件必须完整保留旧 Notice 字节；不代表与旧快照逐字节相同，也不接受嵌套许可证变更。')
         if exclude_paths:
             report['limitations'].append('excludePaths 只从本仓库的自动审核树遍历中省略路径；DesireCore 安装器在支持该字段前仍会从上游 pin 安装这些文件。')
     errors = validate_record(metadata, report)
