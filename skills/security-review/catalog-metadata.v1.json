@@ -31,7 +31,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05T08:00:00Z",
+      "value": "2026-11-22T14:17:33Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -39,12 +39,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-11-22",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-02T02:01:14Z",
+      "value": "2026-11-22T14:17:33Z",
       "precision": "second"
     }
   },
@@ -53,7 +53,7 @@
       "kind": "git",
       "url": "https://github.com/affaan-m/ECC.git",
       "path": "skills/security-review",
-      "ref": "ef648e01899ba3e8dc6371642deaaf64b4477775"
+      "ref": "4adeee6732a12d1540f49a4d50a38ce8c97f9a53"
     }
   },
   "governance": {
@@ -72,9 +72,9 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "ef648e01899ba3e8dc6371642deaaf64b4477775",
-      "reviewedAt": "2026-10-05",
-      "reviewedBy": "mashagua",
+      "reviewedRef": "4adeee6732a12d1540f49a4d50a38ce8c97f9a53",
+      "reviewedAt": "2026-11-22",
+      "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }
   },
