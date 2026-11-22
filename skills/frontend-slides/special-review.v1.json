@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "mashagua",
+  "reviewedAt": "2026-11-22",
+  "notes": "Root MIT LICENSE is byte-identical across 25278e7d7b6cf6e6a4e7a6c8e10f14ff22f0eb5b and 4adeee6732a12d1540f49a4d50a38ce8c97f9a53 (sha256 326146379f01bb137c0a5d3c54770c1aa31076705c8b88a7f6b26a460f6221b2); no root NOTICE or COPYING. Install scope is only skills/frontend-slides. In that scope, SKILL.md frontmatter is unchanged; SKILL.md body adds explicit one-slide/one-pager count confirmation, and STYLE_PRESETS.md adds a single-slide/one-pager dense-grid and container-query (cqw) layout note. Root package.json / package-lock.json / yarn.lock / pyproject.toml change ECC development tooling (js-yaml 4.3.2 -> 5.5.0, sql.js 1.14.2 -> 1.16.0, added devDependencies @x402/express, @x402/core, @x402/evm, express, jsonc-parser, plus ESLint/globals/Node types/markdownlint bumps). The market pointer installs only skills/frontend-slides and does not run ECC root package scripts. Browser HTML, optional Python 3/python-pptx conversion, and optional Node/npm/Playwright/Chromium PDF export remain separately disclosed. Review covers pinned source, licensing and catalog metadata. Upstream programs were not executed; runtime and GUI acceptance remain untested.",
+  "acceptedDependencyIdentities": {
+    "package-lock.json": "1d44ca87c6e10462b0743a945e19462deb55c42d",
+    "package.json": "918978ceb8633c253733c2f16ae52d97473ecd3dffac3636b61620250132c7df",
+    "pyproject.toml": "25f60d36e68dc108beaaf0b97271d73225fc908b",
+    "yarn.lock": "8ddc618fda529deeb13be64338c7f2692a355960"
+  }
+}
