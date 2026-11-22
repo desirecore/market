@@ -1,9 +1,8 @@
 {
   "schemaVersion": 1,
-  "reviewedBy": "source-license-metadata-review",
-  "reviewedAt": "2026-11-21",
-  "reviewedRef": "bf1ff076e25f8da4a339eb1c8cf03361fea5ea4c",
-  "notes": "Root MIT LICENSE is unchanged. Collection grows from 21 to 22 members by adding baoyu-podcast-summary 2.5.2. The new member accepts supplied transcripts; YouTube input requires baoyu-youtube-transcript and internet search. baoyu-diagram 1.118.0 adds dual-theme SVG/@2x PNG output and a new private manifest pinned to sharp 0.34.5. Root package-lock.json changes transitive packages; root package.json has unchanged dependencies/scripts after version normalization. All 22 child summaries have matching English and reviewed Chinese catalog text. Review covers pinned source, licensing and catalog metadata. Upstream programs were not executed; runtime and GUI acceptance remain untested.",
+  "reviewedBy": "mashagua",
+  "reviewedAt": "2026-11-22",
+  "notes": "Root MIT LICENSE is byte-identical across 1567581c26ec29f4216c6e6835415bf30343b0e3 and bf1ff076e25f8da4a339eb1c8cf03361fea5ea4c (sha256 601839401f6ce68b7a8aec0f7ba247ab8ef0848113378220bec4b2615cc84ee7); no root NOTICE or COPYING. Collection grows from 21 to 22 members by adding baoyu-podcast-summary 2.5.2. The new member accepts pasted or local transcripts; YouTube input requires the collection's baoyu-youtube-transcript skill and web search, and missing transcripts or tools should be reported. baoyu-diagram stable frontmatter now describes configurable dark/light themes and dual-theme SVG plus @2x PNG output; its new private scripts/package.json is pinned to sharp 0.34.5, which must be installed separately with a compatible Node.js runtime and is disclosed in catalog requirements. Root package-lock.json changes transitive packages (git blob sha c62b17952c24608bd59bfc40211bd3b4711ac277); root package.json identity is unchanged after version normalization. All 22 child catalog overrides include both en-US and zh-CN shortDesc. Review covers pinned source, licensing and catalog metadata. Upstream programs were not executed; runtime and GUI acceptance remain untested.",
   "acceptedDependencyIdentities": {
     "package-lock.json": "c62b17952c24608bd59bfc40211bd3b4711ac277",
     "skills/baoyu-diagram/scripts/package.json": "d114ce3e14c5993061a0c242d4748251750e37d9bd93a9fbadfef268887faf12"
