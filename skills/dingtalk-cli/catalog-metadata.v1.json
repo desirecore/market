@@ -28,7 +28,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-27",
+      "value": "2026-11-22",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -36,7 +36,7 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-27",
+      "value": "2026-11-22",
       "precision": "day"
     },
     "upstreamObservedAt": {
@@ -54,7 +54,7 @@
   },
   "governance": {
     "stewardship": "partner",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
       "state": "known",
       "value": "Apache-2.0",
@@ -70,6 +70,14 @@
       "name": "DingTalk-Real-AI",
       "url": "https://www.npmjs.com/package/dingtalk-workspace-cli",
       "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "noticePath": "NOTICE",
+      "reviewedRef": "38d49e4e68997bca23621a272a27b0fbbfbed668",
+      "reviewedAt": "2026-11-22",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
     }
   },
   "compatibility": {
