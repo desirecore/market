@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "mashagua",
+  "reviewedAt": "2026-11-22",
+  "notes": "Class C review of security-review 4adeee6732a12d1540f49a4d50a38ce8c97f9a53 against this skill's own previous pin ef648e01899ba3e8dc6371642deaaf64b4477775 (not a copy of the frontend-slides #312 receipt, which used a later intermediate baseline). Root MIT LICENSE is byte-identical (git blob b832b6f642312312367c07688dc7426db40a82ed). Root package.json identities and lockfiles change ECC development/tooling manifests: dependencies add zod 4.6.7, js-yaml 4.3.2 → 5.5.0, sql.js 1.14.2 → 1.16.0; devDependencies add @x402/core, @x402/evm, @x402/express 2.31.0, express 4.22.3 and jsonc-parser 3.3.1, bump eslint/globals/markdownlint-cli/@types/node, and change @opencode-ai/plugin 1.18.25 → 1.4.3 (a version-number decrease; recorded, not executed). pyproject.toml only adds optional dev packages httpx and httpx2. engines remains node >=18. The market pointer installs only skills/security-review and does not install or run ECC root package scripts or those root dependencies. SKILL.md body is otherwise unchanged; stable frontmatter rephrases the description (accepted hash 011cb397d95cb61d62c57b586dcf643098e32a9943e60835a61bddbaf4e7dc68). Review covers the pinned source, licensing and catalog metadata. Upstream programs were not executed; this is not a security certification or runtime acceptance.",
+  "acceptedDependencyIdentities": {
+    "package-lock.json": "1d44ca87c6e10462b0743a945e19462deb55c42d",
+    "package.json": "918978ceb8633c253733c2f16ae52d97473ecd3dffac3636b61620250132c7df",
+    "pyproject.toml": "25f60d36e68dc108beaaf0b97271d73225fc908b",
+    "yarn.lock": "8ddc618fda529deeb13be64338c7f2692a355960"
+  },
+  "acceptedFrontmatterSha256": {
+    "skills/security-review": "011cb397d95cb61d62c57b586dcf643098e32a9943e60835a61bddbaf4e7dc68"
+  }
+}
