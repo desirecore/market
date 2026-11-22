@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "automated:source-license-metadata-v1",
+  "reviewedAt": "2026-11-22T05:35:12Z",
+  "source": {
+    "url": "https://github.com/larksuite/cli.git",
+    "previousRef": "a92db8779c0959bc14beb69d82fb262123cfb79b",
+    "ref": "c5fbf1a52df77d5cb9cac2b1501770b2fb9af7d2",
+    "paths": [
+      "skills/lark-approval",
+      "skills/lark-apps",
+      "skills/lark-attendance",
+      "skills/lark-base",
+      "skills/lark-calendar",
+      "skills/lark-contact",
+      "skills/lark-doc",
+      "skills/lark-drive",
+      "skills/lark-event",
+      "skills/lark-im",
+      "skills/lark-mail",
+      "skills/lark-markdown",
+      "skills/lark-meeting",
+      "skills/lark-note",
+      "skills/lark-okr",
+      "skills/lark-openapi-explorer",
+      "skills/lark-shared",
+      "skills/lark-sheets",
+      "skills/lark-skill-maker",
+      "skills/lark-slides",
+      "skills/lark-task",
+      "skills/lark-whiteboard",
+      "skills/lark-wiki",
+      "skills/lark-workflow-meeting-summary",
+      "skills/lark-workflow-standup-report"
+    ]
+  },
+  "checks": {
+    "immutableSnapshots": true,
+    "installedScopeBoundedFiles": true,
+    "licenseAndNoticeUnchanged": true,
+    "structuredPrerequisitesUnchanged": true,
+    "presentationMetadataUnchanged": true
+  },
+  "licenseEvidenceSha256": {
+    "LICENSE": "c969fc7e3af68e6bf40b0d8dd9c3dcc377eb685a2139535b203b39fdcad739ee"
+  },
+  "observedVersions": {
+    "skills/lark-approval": "1.2.0",
+    "skills/lark-apps": "1.0.0",
+    "skills/lark-attendance": "1.0.0",
+    "skills/lark-base": "1.2.23",
+    "skills/lark-calendar": "1.0.0",
+    "skills/lark-contact": "1.0.0",
+    "skills/lark-drive": "1.0.0",
+    "skills/lark-event": "1.0.0",
+    "skills/lark-im": "1.0.0",
+    "skills/lark-mail": "1.0.0",
+    "skills/lark-markdown": "1.2.2",
+    "skills/lark-meeting": "1.0.0",
+    "skills/lark-note": "1.0.0",
+    "skills/lark-okr": "1.0.0",
+    "skills/lark-openapi-explorer": "1.0.0",
+    "skills/lark-shared": "1.1.0",
+    "skills/lark-sheets": "3.5.2",
+    "skills/lark-skill-maker": "1.0.0",
+    "skills/lark-slides": "1.0.0",
+    "skills/lark-task": "1.0.0",
+    "skills/lark-whiteboard": "1.0.0",
+    "skills/lark-wiki": "1.0.3",
+    "skills/lark-workflow-meeting-summary": "1.0.0",
+    "skills/lark-workflow-standup-report": "1.0.0"
+  },
+  "contentManifestSha256": "e21fe114707765956d524bc61e9ed31cfcd234864772f8d5c67df3e1f2b147c6",
+  "fileCount": 530,
+  "limitations": [
+    "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
+    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。",
+    "依赖清单或结构化简介如有变化，已按专项复核记录中的接受哈希核对，不代表这些字段与旧快照逐字节相同。",
+    "根许可证/Notice 或合集成员如有变化，已按专项复核记录中的接受哈希或路径集合核对，不代表与旧快照逐字节或成员集合相同。"
+  ],
+  "specialReview": {
+    "reviewedBy": "mashagua",
+    "reviewedAt": "2026-11-22",
+    "excludePaths": [],
+    "budgetExemptPaths": []
+  }
+}
