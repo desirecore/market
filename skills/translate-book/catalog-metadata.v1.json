@@ -31,28 +31,28 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-19",
-      "precision": "day"
+      "value": "2026-11-22T14:20:32Z",
+      "precision": "second"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-19",
+      "value": "2026-11-22",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-19",
-      "precision": "day"
+      "value": "2026-11-22T14:20:32Z",
+      "precision": "second"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
       "url": "https://github.com/deusyu/translate-book.git",
-      "ref": "a663b1b4f1e625b286cd2a81dffd16571e6f2aa2"
+      "ref": "1c531b49c688a7e8e601b176ce489790bcd10284"
     }
   },
   "governance": {
@@ -71,16 +71,26 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "a663b1b4f1e625b286cd2a81dffd16571e6f2aa2",
-      "reviewedAt": "2026-10-19",
-      "reviewedBy": "Market upstream maintenance",
+      "reviewedRef": "1c531b49c688a7e8e601b176ce489790bcd10284",
+      "reviewedAt": "2026-11-22",
+      "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }
   },
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Requires separately installed Python 3, pandoc and Calibre ebook-convert; translation uses many tokens and needs sub-agent support. DesireCore does not install or run these tools. / 需另行安装 Python 3、pandoc 与 Calibre ebook-convert；整书翻译消耗较多 token，并需支持子智能体。DesireCore 不安装或运行这些工具。"
+      },
+      {
+        "kind": "runtime",
+        "value": "Install scope is the upstream repository root, so the DesireCore installer may also copy tests/baselines/standard-alice/standard-alice.epub (10,635,439 bytes), a test fixture not required at runtime. The catalog audit exempts that file from the 1 MiB size budget; this is not an install exclusion. / 安装范围是上游仓库根目录，因此 DesireCore 安装器仍可能一并复制 tests/baselines/standard-alice/standard-alice.epub（10,635,439 字节）。该文件是测试基线，运行时并不需要。目录审核仅豁免其 1 MiB 大小上限，并不等于安装排除。"
+      }
+    ]
   },
   "spec": {
     "kind": "skill"

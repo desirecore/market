@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "mashagua",
+  "reviewedAt": "2026-11-22",
+  "notes": "Class C review of translate-book 1c531b49c688a7e8e601b176ce489790bcd10284 against a663b1b4f1e625b286cd2a81dffd16571e6f2aa2. Root MIT LICENSE is byte-identical (git blob c4af18ae2ff18b550d7fbeec0ccb15981cb97dca). The only file over the 1 MiB audit budget is tests/baselines/standard-alice/standard-alice.epub (10,635,439 bytes, git blob 95f8c2387f2475bab8a56b6fb7e3ffc22bc0c75a), a conversion test baseline already present at the same blob on the old pin; it is not a runtime skill file. budgetExemptPaths names that exact path so the audit may finish; this is not an install exclusion and does not raise the global file budget. Because the catalog source has no path prefix, install scope is the repository root, so the DesireCore installer may still copy this test EPUB. LICENSE, SKILL.md and scripts remain in scope. SKILL.md has no YAML frontmatter; the body and scripts (including convert.py, merge_and_build.py, new figure_text.py, templates and tests) were reviewed as documentation and tooling updates for book conversion, not executed. Review covers the pinned source, licensing and catalog metadata. Upstream programs were not executed; runtime acceptance remains untested.",
+  "budgetExemptPaths": [
+    "tests/baselines/standard-alice/standard-alice.epub"
+  ]
+}
