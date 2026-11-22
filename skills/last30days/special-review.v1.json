@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "reviewedBy": "mashagua",
-  "reviewedAt": "2026-11-18",
-  "notes": "Class C special review of last30days a854f3bcb2c4344d7498426d653378510f8b253a. MIT LICENSE unchanged. SKILL.md stable frontmatter is unchanged except version 3.31.0 → 4.3.2. Excluded skills/last30days/assets from the audit tree; the five oversized demo files are identical to the old pin and are already listed as non-runtime in upstream .skillignore. Accepted root pyproject.toml (version-only; runtime dependencies remain []) and uv.lock (project version plus dev-only pytest 9.1.1 → 9.2.0 within the existing pytest>=9.1.1,<10 range). Install-scope gained job-board, patent, and reddit-session scripts; this is a major feature expansion, not a license change.",
+  "reviewedAt": "2026-11-22",
+  "notes": "Class C review of last30days e63f8e8732f1b934449b363f211b3654531b8ef2 against 262391603f3c2807606bffa0170547273fc273e5. Root MIT LICENSE is byte-identical (git blob c7d2838bcc549a5cda7b7a3556a422e0074e56a5). Root pyproject.toml and uv.lock change only the project version 4.3.2 → 4.5.0 (new blobs b205247c78d6ddbdaf24356f695cebab788ee248 and 2488d1c8d4b3da149a294ce9cf66a26e3fa1141f); runtime dependencies remain [], requires-python remains >=3.12, and the existing dev group (pytest/pytest-cov/pytest-xdist/pyyaml/towncrier) is unchanged. SKILL.md stable frontmatter is unchanged except that version field. Install-scope adds person/LinkedIn enrichment, a silent brief-capture hook, transcript harvest, employer-site helpers, and an optional OpenCode browse lane; person runs may optionally spend operator Deepline credits when DEEPLINE_API_KEY is set. excludePaths keeps skills/last30days/assets out of the audit tree only: the five demo files are byte-identical to the old pin, already listed as non-runtime in upstream .skillignore, and this audit exclusion is not an install exclusion — the DesireCore installer still copies those files from the pin until the client contract honors excludePaths. Review covers the pinned source, licensing and catalog metadata. Upstream programs were not executed; runtime acceptance remains untested.",
   "excludePaths": [
     "skills/last30days/assets"
   ],
   "acceptedDependencyIdentities": {
-    "pyproject.toml": "0bc872254a5708bd9f2fea4f54aa946bf336ec1b",
-    "uv.lock": "ca8d76266f40c157fc7029e5233bd42b3f38da2d"
+    "pyproject.toml": "b205247c78d6ddbdaf24356f695cebab788ee248",
+    "uv.lock": "2488d1c8d4b3da149a294ce9cf66a26e3fa1141f"
   }
 }
