@@ -29,7 +29,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/larksuite/cli.git",
     "repoBranch": "main",
-    "ref": "a92db8779c0959bc14beb69d82fb262123cfb79b"
+    "ref": "c5fbf1a52df77d5cb9cac2b1501770b2fb9af7d2"
   },
   "children": [
     {
@@ -201,19 +201,6 @@
       }
     },
     {
-      "id": "lark-minutes",
-      "path": "skills/lark-minutes",
-      "version": "1.0.0",
-      "i18n": {
-        "zh-CN": {
-          "shortDesc": "仅当用户或上游配置显式指定 lark-minutes 时使用，相关请求统一交由 lark-meeting 技能处理。"
-        },
-        "en-US": {
-          "shortDesc": "仅当用户或上游配置显式指定 lark-minutes 时使用，相关请求统一交由 lark-meeting 技能处理。"
-        }
-      }
-    },
-    {
       "id": "lark-note",
       "path": "skills/lark-note",
       "version": "1.0.0",
@@ -314,32 +301,6 @@
         },
         "en-US": {
           "shortDesc": "飞书任务：管理任务、清单和任务智能体。创建待办任务、查看和更新任务状态、拆分子任务、组织任务清单、分配协作成员、上传任务附件、注册或注销任务智能体、更新任务智能体的主页数据、写入智能体任务记录。当用户需要创建待办事项、查看任务列表、跟踪任务进度、管理项目清单或给他人分配任务、为任务上传附件文件、注册注销任务智能体、更新…"
-        }
-      }
-    },
-    {
-      "id": "lark-vc",
-      "path": "skills/lark-vc",
-      "version": "1.0.0",
-      "i18n": {
-        "zh-CN": {
-          "shortDesc": "仅当用户或上游配置显式指定 lark-vc 时使用，相关请求统一交由 lark-meeting 技能处理。"
-        },
-        "en-US": {
-          "shortDesc": "仅当用户或上游配置显式指定 lark-vc 时使用，相关请求统一交由 lark-meeting 技能处理。"
-        }
-      }
-    },
-    {
-      "id": "lark-vc-agent",
-      "path": "skills/lark-vc-agent",
-      "version": "1.0.0",
-      "i18n": {
-        "zh-CN": {
-          "shortDesc": "仅当用户或上游配置显式指定 lark-vc-agent 时使用，相关请求统一交由 lark-meeting 技能处理。"
-        },
-        "en-US": {
-          "shortDesc": "仅当用户或上游配置显式指定 lark-vc-agent 时使用，相关请求统一交由 lark-meeting 技能处理。"
         }
       }
     },
