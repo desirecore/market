@@ -10,11 +10,11 @@
   "i18n": {
     "zh-CN": {
       "name": "FlyAI",
-      "shortDesc": "通过自然语言搜索并预订机票、酒店、门票等出行服务，基于飞猪 MCP 实时查询与预订"
+      "shortDesc": "通过自然语言搜索并预订机票、酒店、门票等出行服务，基于飞猪 MCP 实时查询与预订。需自行用 npm 安装第三方 @fly-ai/flyai-cli；DesireCore 不打包、不安装也不代运营该 CLI 或飞猪/FlyAI 服务。可选配置 FLYAI_API_KEY 以增强结果；产品条款和费用另计。"
     },
     "en-US": {
       "name": "FlyAI",
-      "shortDesc": "Search and book flights, hotels, attractions and travel deals in natural language via Fliggy MCP"
+      "shortDesc": "Search and book flights, hotels, attractions and travel deals in natural language via Fliggy MCP. Install the third-party @fly-ai/flyai-cli npm package separately; DesireCore does not bundle, install or operate the CLI or Fliggy/FlyAI services. An optional FLYAI_API_KEY can enhance results; terms and charges are separate."
     }
   },
   "maintainer": {

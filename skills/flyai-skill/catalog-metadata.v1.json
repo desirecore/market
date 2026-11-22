@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "FlyAI",
-        "summary": "Search and book flights, hotels, attractions and travel deals in natural language via Fliggy MCP"
+        "summary": "Search and book flights, hotels, attractions and travel deals in natural language via Fliggy MCP. Install the third-party @fly-ai/flyai-cli npm package separately; DesireCore does not bundle, install or operate the CLI or Fliggy/FlyAI services. An optional FLYAI_API_KEY can enhance results; terms and charges are separate."
       },
       "zh-CN": {
         "name": "FlyAI",
-        "summary": "通过自然语言搜索并预订机票、酒店、门票等出行服务，基于飞猪 MCP 实时查询与预订"
+        "summary": "通过自然语言搜索并预订机票、酒店、门票等出行服务，基于飞猪 MCP 实时查询与预订。需自行用 npm 安装第三方 @fly-ai/flyai-cli；DesireCore 不打包、不安装也不代运营该 CLI 或飞猪/FlyAI 服务。可选配置 FLYAI_API_KEY 以增强结果；产品条款和费用另计。"
       }
     },
     "category": "productivity",
@@ -30,7 +30,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-11-22",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -38,7 +38,7 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-11-22",
       "precision": "day"
     },
     "upstreamObservedAt": {
@@ -57,7 +57,7 @@
   },
   "governance": {
     "stewardship": "partner",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
       "state": "known",
       "value": "MIT",
@@ -68,12 +68,29 @@
       "name": "alibaba-flyai",
       "url": "https://github.com/alibaba-flyai/flyai-skill",
       "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "86fe2cc3e25464d0e0bd6a769b27b5f9f3b04128",
+      "reviewedAt": "2026-11-22",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
     }
   },
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "A separately installed FlyAI CLI (flyai-cli) from the public npm package @fly-ai/flyai-cli, which needs Node.js on the operator's machine. DesireCore does not bundle, license, install, pay for or operate the CLI or Fliggy/FlyAI services."
+      },
+      {
+        "kind": "connection",
+        "value": "The CLI calls Fliggy MCP / FlyAI online services for search and booking. A trial may run without API keys; an optional FLYAI_API_KEY can enhance results. Service availability, terms and charges are separate. If the CLI or service is unavailable, stop before the external call and never fabricate a successful result."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"
