@@ -29,13 +29,13 @@
   },
   "release": {
     "state": "known",
-    "version": "4.3.2",
+    "version": "4.5.0",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-20T01:26:12Z",
+      "value": "2026-11-22T14:20:32Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -43,12 +43,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-20",
+      "value": "2026-11-22",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-11-20T01:26:12Z",
+      "value": "2026-11-22T14:20:32Z",
       "precision": "second"
     }
   },
@@ -57,7 +57,7 @@
       "kind": "git",
       "url": "https://github.com/mvanhorn/last30days-skill.git",
       "path": "skills/last30days",
-      "ref": "262391603f3c2807606bffa0170547273fc273e5"
+      "ref": "e63f8e8732f1b934449b363f211b3654531b8ef2"
     }
   },
   "governance": {
@@ -76,8 +76,8 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "262391603f3c2807606bffa0170547273fc273e5",
-      "reviewedAt": "2026-11-20",
+      "reviewedRef": "e63f8e8732f1b934449b363f211b3654531b8ef2",
+      "reviewedAt": "2026-11-22",
       "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }
@@ -106,6 +106,14 @@
       {
         "kind": "connection",
         "value": "Research calls public and operator-configured third-party services (e.g. Reddit and the Arctic Shift archive, Hacker News, Polymarket, dev.to, YouTube via yt-dlp, ScrapeCreators, Bright Data, X API or xAI); --official-site also reads the topic's homepage. Publishing to the hosted ht-ml.app service needs explicit opt-in and is public unless password-protected. DesireCore does not operate or pay for these services; report a source as unavailable rather than inventing results."
+      },
+      {
+        "kind": "permission",
+        "value": "Person/LinkedIn enrichment may optionally call Deepline (code.deepline.com) when the operator sets DEEPLINE_API_KEY; this spends the operator's own credits and is not required for cookie-free or non-person research. DesireCore does not provide, license or pay for Deepline. / 人物或 LinkedIn 增强在设置 DEEPLINE_API_KEY 时可选用 Deepline（code.deepline.com），消耗运营者自己的额度，并非无 Cookie 或非人物调研的前提。DesireCore 不提供、授权或支付 Deepline。"
+      },
+      {
+        "kind": "permission",
+        "value": "An optional OpenCode browse lane uses the host's browse tools when present. DesireCore does not provide, license or pay for OpenCode. / 可选 OpenCode browse 通道仅在宿主已提供浏览工具时使用。DesireCore 不提供、授权或支付 OpenCode。"
       }
     ]
   },
