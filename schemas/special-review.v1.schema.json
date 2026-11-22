@@ -42,6 +42,32 @@
       "description": "Exact set of new collection membership install paths when discovered children differ from the old entry. Must equal the discovered path set. Newly added members also require acceptedFrontmatterSha256 for that path.",
       "items": { "type": "string", "minLength": 1 },
       "uniqueItems": true
+    },
+    "acceptedScopedNotice": {
+      "type": "object",
+      "description": "Exact in-place additive NOTICE changes inside the install scope. LICENSE/COPYING, deletions, renames, new files, rewrites that drop existing bytes, globs, and root-level NOTICE (use acceptedRootEvidenceSha256) cannot be accepted here. fromRef/toRef must equal the audit's old and new snapshot SHAs, and files must be exactly the changed NOTICE paths with matching previous and new SHA-256 hashes.",
+      "additionalProperties": false,
+      "required": ["fromRef", "toRef", "files"],
+      "properties": {
+        "fromRef": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "toRef": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "files": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "previousSha256", "sha256"],
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "previousSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+              "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+            }
+          }
+        }
+      }
     }
-  }
+  },
+  "if": { "required": ["acceptedScopedNotice"] },
+  "then": { "required": ["reviewedBy", "reviewedAt", "notes"] }
 }
