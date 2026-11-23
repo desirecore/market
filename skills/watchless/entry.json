@@ -1,6 +1,6 @@
 {
   "id": "watchless",
-  "name": "Watchless",
+  "name": "Watchless (DesireCore fork)",
   "category": "media",
   "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"m10 9 5 3-5 3V9Z\" fill=\"#2563EB\"/><path d=\"M3 17h18\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
   "tags": [
@@ -11,12 +11,12 @@
   ],
   "i18n": {
     "zh-CN": {
-      "name": "Watchless",
-      "shortDesc": "把视频转成以关键帧截图为主线的完整视觉文档：转写为事实来源、截图保留画面证据，输出 HTML/PDF/ZIP，读者无需再看原视频。默认使用腾讯云 ASR，需自行开通账号、授权与计费；Python、ffmpeg 等运行依赖另行配置。"
+      "name": "Watchless（DesireCore 维护版）",
+      "shortDesc": "将授权视频转为截图笔记和 HTML/PDF/ZIP。完整流程需要 macOS、Python 3.10+、ffmpeg/ffprobe、Pandoc、Poppler 和 Chrome/Chromium，YouTube 输入另需 yt-dlp 和 Node.js。可使用已有字幕或本地 Whisper；腾讯云和火山引擎转写需自备账号、凭据及费用，并在上传前确认。浏览器 Cookie 默认关闭。"
     },
     "en-US": {
-      "name": "Watchless",
-      "shortDesc": "Turns a video into a complete keyframe-led visual document with faithful transcript-based notes, exported as HTML, PDF or a shareable ZIP. Defaults to Tencent Cloud ASR, with separate account authorization and billing; configure Python, ffmpeg and other prerequisites separately."
+      "name": "Watchless (DesireCore fork)",
+      "shortDesc": "Turn authorized video into screenshot-led notes and HTML/PDF/ZIP. The full workflow needs macOS, Python 3.10+, ffmpeg/ffprobe, Pandoc, Poppler and Chrome/Chromium. YouTube input also needs yt-dlp and Node.js. Use existing subtitles or local Whisper, or approve Tencent Cloud or Volcengine upload with your own account, credentials and billing. Browser cookies are off by default."
     }
   },
   "maintainer": {
@@ -30,8 +30,8 @@
   "redistribution": "allowed",
   "source": {
     "kind": "git",
-    "repoUrl": "https://github.com/chenzixin1/watchless.git",
-    "repoBranch": "main",
-    "ref": "34e2fa861a2e31bb4197e9e0a7b8d90e76ebeb6b"
+    "repoUrl": "https://github.com/desirecore/watchless.git",
+    "repoBranch": "desirecore",
+    "ref": "229d30235139ff3f8f3c4042b7a4386756f6ed58"
   }
 }
