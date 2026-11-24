@@ -78,6 +78,7 @@ class CandidateTests(unittest.TestCase):
                     seen['audit'] = json.loads((cwd/'skills/sample/upstream-audit.v1.json').read_text()) if (cwd/'skills/sample/upstream-audit.v1.json').exists() else None
                 return ''
             with patch.object(proposer, 'ROOT', root), patch.object(proposer, 'run', side_effect=run), \
+                 patch.object(proposer, 'check_identity') as identity_check, \
                  patch.object(proposer, 'audit_update', return_value=(updated, metadata, {'reviewer':'automated:test'}),
                               side_effect=None if audited else proposer.AuditBlocked('license changed')), \
                  patch.dict(os.environ, {'GITHUB_REPOSITORY':'desirecore/market', 'GITHUB_ACTOR':'example-user'}), \
@@ -86,6 +87,7 @@ class CandidateTests(unittest.TestCase):
                     with self.assertRaises(subprocess.CalledProcessError): proposer.main()
                 else:
                     proposer.main()
+            identity_check.assert_called_once_with()
             seen['coverage'] = json.loads((root/'coverage.json').read_text())
             return seen
 
@@ -110,6 +112,15 @@ class CandidateTests(unittest.TestCase):
     def test_publish_failure_still_writes_truthful_coverage(self):
         result = self.exercise_publish(publish_failure=True)
         self.assertEqual(result['coverage'][0]['status'], 'publish-failed')
+
+    def test_failed_identity_prevents_any_publish_side_effect(self):
+        with patch.object(proposer, 'check_identity', side_effect=proposer.AuditBlocked('not designated maintainer')), \
+             patch.object(proposer, 'run') as run, \
+             patch.dict(os.environ, {'GITHUB_REPOSITORY':'desirecore/market', 'MARKET_MAINTAINER_LOGIN':'mashagua'}), \
+             patch('sys.argv', ['propose', 'not-read-before-identity.json', '--publish']):
+            with self.assertRaises(proposer.AuditBlocked):
+                proposer.main()
+            run.assert_not_called()
 
     def test_coverage_includes_builtins_and_http_blockers(self):
         with tempfile.TemporaryDirectory() as temporary:
