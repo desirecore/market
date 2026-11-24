@@ -14,6 +14,7 @@ import subprocess
 import tempfile
 import urllib.parse
 import urllib.request
+import unicodedata
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
@@ -40,6 +41,9 @@ def safe_path(value, empty=False):
     if (not isinstance(value, str) or '\\' in value or p.is_absolute() or '..' in p.parts
             or (not empty and (not value or str(p) == '.')) or str(p) != value):
         raise AuditBlocked('unsafe/non-canonical tracked path')
+    if (any(ord(c) < 32 for c in value) or ':' in value
+            or any(part.endswith((' ', '.')) or re.fullmatch(r'(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\..*)?', part, re.I) for part in p.parts)):
+        raise AuditBlocked('path is unsafe on a supported desktop platform')
     if any(part in ('.git', '.github') for part in p.parts):
         raise AuditBlocked('repository control path cannot be tracked content')
     return value
@@ -171,9 +175,10 @@ def unpack(source, data):
             total += info.file_size
             if info.file_size > MAX_FILE or total > MAX_BYTES:
                 raise AuditBlocked('ZIP expansion exceeds ordinary audit budget')
-            if path.casefold() in folded:
+            key = unicodedata.normalize('NFC', path).casefold()
+            if key in folded:
                 raise AuditBlocked('duplicate/case-colliding ZIP path')
-            folded.add(path.casefold())
+            folded.add(key)
             result.modes[path] = mode
             result[path] = archive.read(info)
     if prefix:

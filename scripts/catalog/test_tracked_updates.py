@@ -35,7 +35,7 @@ def test_untrusted_urls_rejected(url):
     with pytest.raises(t.AuditBlocked): t.allowed_url(url)
 
 
-@pytest.mark.parametrize('path',['../x','/x','a/../x','a\\b','.git/config','.github/workflows/x.yml','a//x'])
+@pytest.mark.parametrize('path',['../x','/x','a/../x','a\\b','.git/config','.github/workflows/x.yml','a//x','C:/escape','folder/NUL.txt','folder/end.','folder/end '])
 def test_zip_paths_rejected(path):
     with pytest.raises(t.AuditBlocked):unz(archive([('SKILL.md','x'),(path,'x')]))
 
@@ -267,3 +267,23 @@ def test_candidate_cannot_self_authorize_with_same_path_json(tmp_path):
     expected={'skills/sample/upstream-audit.v1.json':t.encoded({'checks':{'licenseAndNoticeUnchanged':False}})}
     with patch.object(m,'discover_target',return_value={}),patch.object(m,'plan',return_value=(expected,{'identicalInstalledPayload':True})),patch.object(m,'pages',return_value=[{'filename':next(iter(expected)),'status':'modified'}]),patch.object(m,'read_json',return_value={'checks':{'licenseAndNoticeUnchanged':True}}),pytest.raises(t.AuditBlocked,match='differs from fresh'):
         m.assess(tmp_path,pr,{'tracking':{'sample':{}}})
+
+
+def test_unicode_aliases_in_zip_are_not_silently_overwritten():
+    with pytest.raises(t.AuditBlocked):
+        unz(archive([('SKILL.md','body'),('é.md','one'),('e\u0301.md','two')]))
+
+
+@pytest.mark.parametrize('branch,expected',[(None,'HEAD'),('master','refs/heads/master')])
+def test_git_merge_gate_tracks_default_head_when_branch_not_declared(tmp_path,branch,expected):
+    folder=tmp_path/'skills/sample';folder.mkdir(parents=True)
+    source={'kind':'git','repoUrl':'https://github.com/example/project.git','ref':'a'*40}
+    if branch:source['repoBranch']=branch
+    (folder/'entry.json').write_text(json.dumps({'id':'sample','source':source}))
+    (folder/'catalog-metadata.v1.json').write_text(json.dumps(metadata('a'*40,'git')))
+    class Result:stdout='b'*40+'\tHEAD\n'
+    with patch.object(m.subprocess,'run',return_value=Result()) as run, \
+         patch.object(m,'audit_update',side_effect=t.AuditBlocked('stop after branch resolution')), \
+         pytest.raises(t.AuditBlocked,match='branch resolution'):
+        m.git_plan(tmp_path,'sample','b'*40)
+    assert run.call_args.args[0][-1]==expected

@@ -80,7 +80,7 @@ def git_plan(root,item_id,head):
     entry=json.loads((folder/'entry.json').read_text())
     metadata=json.loads((folder/'catalog-metadata.v1.json').read_text())
     source=entry['source']
-    remote=subprocess.run(['git','ls-remote',source['repoUrl'],'refs/heads/'+source.get('repoBranch','main')],check=True,capture_output=True,text=True).stdout.split()
+    remote=subprocess.run(['git','ls-remote',source['repoUrl'],('refs/heads/'+source['repoBranch']) if source.get('repoBranch') else 'HEAD'],check=True,capture_output=True,text=True).stdout.split()
     if not remote or remote[0]!=head:
         raise AuditBlocked('upstream HEAD moved; a fresh proposal/audit is required')
     review_path=folder/'special-review.v1.json'
