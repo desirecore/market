@@ -72,9 +72,17 @@ trust roots. For each same-repository maintainer update PR it:
    allowed proposal using trusted-main policy and special-review records.
 2. Requires the complete PR diff to equal that result. Tooling/workflow changes,
    changed review exceptions, foreign paths or forged receipts cannot enter.
-3. Conservatively permits automatic merge only when the **installed payload is
-   byte/mode-identical**. Real content/behavior changes still need human review.
-   Passing structural metadata checks alone cannot prove permissions unchanged.
+3. Automatically clears byte/mode-identical installed payloads. Real content
+   changes additionally require an **APPROVED human maintainer review on the exact
+   final head**, from a different account with verified admin/maintain/write
+   permission. The review must explicitly attest inspection and no licensing,
+   permission, dependency or installed-file scope expansion, with this exact line:
+   `market-reviewed-no-expansion: <full-final-head-sha>`.
+   The marker alone is not authority: PR bodies, labels, bot/self reviews, stale
+   approvals and unprivileged accounts cannot authorize anything. Fresh machine
+   license/dependency/scope audits still run and cannot be waived. Git file sets
+   and modes must remain unchanged even with this review. Unreviewed behavior
+   changes remain manual, not inferred safe from structural checks.
 4. Requires all applicable check/context results complete and successful on the
    exact final head, including validate, translate, CodeQL/Analyze and Copilot
    wait; outstanding changes-requested reviews block. No ignored CodeQL failures.
@@ -84,9 +92,9 @@ trust roots. For each same-repository maintainer update PR it:
 6. Merges at most one PR per run, then stops because main has advanced. Behind
    branches remain held for a normal merge update and new final-head checks.
 
-Thus this does **not** promise autonomous merging of arbitrary changed skill
-scripts/prompts. Such a broader behavioral/permission approval policy has not
-been established. This mechanism PR itself is outside the allowed diff and must
+Thus this does **not** promise unreviewed autonomous merging of arbitrary changed
+skill scripts/prompts. A real exact-head human no-expansion review is the
+additional behavioral authority; automation does not invent that attestation. This mechanism PR itself is outside the allowed diff and must
 be reviewed/merged separately by a maintainer.
 
 Daily discovery remains 09:23 Asia/Singapore (GitHub can delay execution). Git
@@ -107,5 +115,5 @@ uv run --with pytest --with jsonschema --with pyyaml --with 'lxml>=5.3,<7' --wit
 `uv run scripts/catalog/publish_tracked_updates.py` performs real discovery and
 audit planning without publication. `merge_verified_updates.py` defaults to
 verification-only and must run from current main; `--merge` additionally requires
-the maintainer credential and every gate above. Do not run publishing/merge flags
+the maintainer credential, collaborator-permission read access and every gate above. Do not run publishing/merge flags
 as a smoke test against real PRs.

@@ -13,6 +13,7 @@ import argparse
 import base64
 import copy
 import json
+import re
 import subprocess
 import tempfile
 from pathlib import Path
@@ -75,7 +76,7 @@ def trusted_pr(pr):
             and pr.get('head',{}).get('repo',{}).get('full_name')==REPO)
 
 
-def git_plan(root,item_id,head):
+def git_plan(root,item_id,head,reviewed=False):
     folder=root/'skills'/item_id
     entry=json.loads((folder/'entry.json').read_text())
     metadata=json.loads((folder/'catalog-metadata.v1.json').read_text())
@@ -95,13 +96,17 @@ def git_plan(root,item_id,head):
         git(repo,'fetch','--quiet','--no-tags','--depth=1',source['repoUrl'],source['ref'],head)
         paths=[c['path'] for c in entry.get('children',[])] or [source.get('path','')]
         budgets=(review or {}).get('budgetExemptPaths',[])
-        if any(tree(repo,source['ref'],p,[],budgets)!=tree(repo,head,p,[],budgets) for p in paths):
-            raise AuditBlocked('installed payload changed: manual behavioral/permission review required')
+        for path in paths:
+            before,after=tree(repo,source['ref'],path,[],budgets),tree(repo,head,path,[],budgets)
+            if set(before)!=set(after) or any(before[p][0]!=after[p][0] for p in before):
+                raise AuditBlocked('installed file scope or permissions changed; explicit policy review required')
+            if before!=after and not reviewed:
+                raise AuditBlocked('installed payload changed: exact-head maintainer no-expansion review required')
     return {f'skills/{item_id}/entry.json':updated,f'skills/{item_id}/catalog-metadata.v1.json':sidecar,
             f'skills/{item_id}/upstream-audit.v1.json':report}
 
 
-def assess(root,pr,cfg):
+def assess(root,pr,cfg,reviewed=False):
     if not trusted_pr(pr):
         raise AuditBlocked('not a designated-maintainer same-repository update PR')
     branch=pr['head']['ref']
@@ -119,12 +124,12 @@ def assess(root,pr,cfg):
     if prefix=='tracked-updates/':
         target=discover_target(root,item_id,cfg['tracking'][item_id])
         result=plan(root,item_id,cfg,target)
-        if result is None or result[1].get('identicalInstalledPayload') is not True:
+        if result is None or (result[1].get('identicalInstalledPayload') is not True and not reviewed):
             raise AuditBlocked('installed payload changed or proposal stale; manual review required')
         expected={p:json.loads(b) if p.endswith('.json') else b for p,b in result[0].items()}
     else:
         proposed=read_json(pr['head']['sha'],f'skills/{item_id}/entry.json')
-        expected=git_plan(root,item_id,proposed['source']['ref'])
+        expected=git_plan(root,item_id,proposed['source']['ref'],reviewed=reviewed)
     files=pages(f"repos/{REPO}/pulls/{pr['number']}/files?per_page=100")
     if len(files)!=len(expected) or {f['filename'] for f in files}!=set(expected) or any(f['status'] in ('removed','renamed') for f in files):
         raise AuditBlocked('candidate diff differs from independently regenerated scope')
@@ -136,6 +141,31 @@ def assess(root,pr,cfg):
     if validate_record(metadata,report):
         raise AuditBlocked('candidate receipt binding is invalid')
     return True
+
+
+def reviewed_no_expansion(pr,reviews):
+    """Only a real human maintainer's APPROVED review on this exact head grants
+    behavioral clearance. A PR body, label, receipt or author self-review cannot.
+    License/dependency/scope audits still run independently and cannot be waived.
+    """
+    latest={}
+    for review in reviews:
+        if review.get('state') in ('APPROVED','CHANGES_REQUESTED','DISMISSED'):
+            latest[review['user']['login']]=review
+    if any(r['state']=='CHANGES_REQUESTED' for r in latest.values()):
+        return False
+    marker='market-reviewed-no-expansion: '+pr['head']['sha']
+    for login,review in latest.items():
+        if (login==pr['user']['login'] or review['state']!='APPROVED'
+                or review.get('commit_id')!=pr['head']['sha']
+                or review.get('user',{}).get('type')!='User'
+                or marker not in (review.get('body') or '').splitlines()
+                or not re.fullmatch(r'[A-Za-z0-9-]+',login)):
+            continue
+        permission=api(f'repos/{REPO}/collaborators/{login}/permission')
+        if permission.get('permission') in ('admin','maintain','write'):
+            return True
+    return False
 
 
 def strict_updates_required(rules):
@@ -171,14 +201,19 @@ def main():
             comparison=api(f"repos/{REPO}/compare/{base}...{pr['head']['sha']}")
             if comparison.get('behind_by')!=0 or comparison.get('merge_base_commit',{}).get('sha')!=base:
                 raise AuditBlocked('behind main; normal branch update and fresh checks required')
-            assess(ROOT,pr,cfg)
+            reviews=pages(f'repos/{REPO}/pulls/{number}/reviews?per_page=100')
+            reviewed=reviewed_no_expansion(pr,reviews)
+            assess(ROOT,pr,cfg,reviewed=reviewed)
             checks=pages(f"repos/{REPO}/commits/{pr['head']['sha']}/check-runs?filter=latest&per_page=100",'check_runs')
             statuses=pages(f"repos/{REPO}/commits/{pr['head']['sha']}/statuses?per_page=100")
             runs=pages(f"repos/{REPO}/actions/runs?head_sha={pr['head']['sha']}&per_page=100",'workflow_runs')
             if not runs or any(r.get('status')!='completed' or r.get('conclusion')!='success' for r in runs):
                 raise AuditBlocked('exact-head workflow runs are unfinished/not successful')
+            reviews=pages(f'repos/{REPO}/pulls/{number}/reviews?per_page=100')
+            if reviewed and not reviewed_no_expansion(pr,reviews):
+                raise AuditBlocked('exact-head maintainer clearance was withdrawn or became stale')
             latest={}
-            for review in pages(f'repos/{REPO}/pulls/{number}/reviews?per_page=100'):
+            for review in reviews:
                 if review['state'] in ('APPROVED','CHANGES_REQUESTED','DISMISSED'):
                     latest[review['user']['login']]=review['state']
             if 'CHANGES_REQUESTED' in latest.values() or not checks_pass(checks,statuses,cfg['requiredChecks']):
@@ -187,7 +222,7 @@ def main():
             if (not trusted_pr(fresh) or fresh.get('mergeable') is not True or fresh.get('mergeable_state')!='clean'
                     or fresh['head']['sha']!=pr['head']['sha']) or api(f'repos/{REPO}/branches/main')['commit']['sha']!=base:
                 raise AuditBlocked('head/base moved; rerun audit for the new SHA')
-            print(number,'eligible unchanged-payload update',pr['head']['sha'])
+            print(number,'eligible independently audited update',pr['head']['sha'])
             if args.merge:
                 # GitHub must atomically reject a behind-base merge if main moves after our final read.
                 if not strict_updates_required(api(f'repos/{REPO}/rules/branches/main')):

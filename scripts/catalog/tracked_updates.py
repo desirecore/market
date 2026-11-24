@@ -92,7 +92,7 @@ def check_identity():
 
 def load_config(root):
     cfg = json.loads((root / CONFIG).read_text())
-    if cfg.get('schemaVersion') != 1 or cfg.get('autoMerge') != 'identical-installed-payload':
+    if cfg.get('schemaVersion') != 1 or cfg.get('autoMerge') != 'reviewed-or-identical-installed-payload':
         raise AuditBlocked('unsupported automation policy')
     required = cfg.get('requiredChecks')
     if (not isinstance(required, list) or not all(isinstance(x, str) for x in required)

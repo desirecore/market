@@ -62,7 +62,7 @@ def publish(root, item_id, target, changes, reason=None):
             body = Path(tmp) / 'body.md'
             body.write_text(f'Configured upstream update for `{item_id}`.\n\n'
                 + ('Blocked: '+reason if reason else 'Pinned old/new payloads passed the existing license, prerequisite and metadata delta audit. This is not runtime/security certification.')
-                + '\n\nMarket wrappers and patches are preserved. Content-changing updates require human review; only unchanged installed payloads may pass the separate trusted exact-head merge gate.\n')
+                + '\n\nMarket wrappers and patches are preserved. Content-changing updates require an exact-head human maintainer no-expansion review; identical installed payloads need no additional behavioral clearance. The separate trusted gate always reaudits bytes and checks.\n')
             args = ['pr','create','--repo','desirecore/market','--base','main','--head',branch,
                     '--title',f'chore(market): review {item_id} tracked upstream','--body-file',str(body)]
             if reason:

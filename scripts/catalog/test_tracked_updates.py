@@ -287,3 +287,34 @@ def test_git_merge_gate_tracks_default_head_when_branch_not_declared(tmp_path,br
          pytest.raises(t.AuditBlocked,match='branch resolution'):
         m.git_plan(tmp_path,'sample','b'*40)
     assert run.call_args.args[0][-1]==expected
+
+
+def review_fixture():
+    pr={'user':{'login':'mashagua'},'head':{'sha':'b'*40}}
+    review={'user':{'login':'maintainer','type':'User'},'state':'APPROVED','commit_id':'b'*40,
+            'body':'Inspected installed delta; no licensing, permission, dependency or scope expansion.\nmarket-reviewed-no-expansion: '+'b'*40}
+    return pr,review
+
+
+def test_changed_payload_requires_real_exact_head_maintainer_attestation():
+    pr,review=review_fixture()
+    with patch.object(m,'api',return_value={'permission':'write'}):assert m.reviewed_no_expansion(pr,[review])
+    with patch.object(m,'api',return_value={'permission':'read'}):assert not m.reviewed_no_expansion(pr,[review])
+
+
+@pytest.mark.parametrize('field,value',[
+    ('commit_id','a'*40),('body','market-reviewed-no-expansion: '+'a'*40),
+    ('state','COMMENTED'),('user',{'login':'mashagua','type':'User'}),
+    ('user',{'login':'maintainer','type':'Bot'}),
+])
+def test_stale_fake_bot_or_self_review_cannot_authorize(field,value):
+    pr,review=review_fixture();review[field]=value
+    with patch.object(m,'api') as api:
+        assert not m.reviewed_no_expansion(pr,[review]);api.assert_not_called()
+
+
+def test_dismissed_or_requested_changes_invalidate_clearance():
+    pr,review=review_fixture()
+    for state in ('DISMISSED','CHANGES_REQUESTED'):
+        with patch.object(m,'api') as api:
+            assert not m.reviewed_no_expansion(pr,[review,{**review,'state':state}]);api.assert_not_called()

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "autoMerge": "identical-installed-payload",
+  "autoMerge": "reviewed-or-identical-installed-payload",
   "requiredChecks": [
     "validate",
     "translate",
