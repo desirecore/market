@@ -52,3 +52,19 @@ MIT/Apache 条件中的通知保留，与目录链接到许可明确的原仓库
 - #350 AI News Radar 本地完整包是用户显式要求的派生交付，不一刀切撤回；其外部依赖/运行授权边界保留。
 - #356 仅纠正 Follow Builders 中英文长描述与 #350 已审核状态冲突，保留 README 一行 MIT 的固定快照例外，不扩大成所有版本的许可回执；无需另开重复修复。
 - #355 只改 manifest 和外贸团队 entry/sidecar，不改共同安装/预算机制，本轮不改他人业务。
+
+## 进一步反查 #350：不能只纠正 #353
+
+相同客户端复制规则还暴露了 #350 原结论的遗漏。拟在此待审修复中暂停三项市场安装（原 source、资源和子项点选不动）：
+
+- Agent Reach@94f06c1969dfc1834001269d79d3ad0972d9dee6：`agent_reach/skill` 的 9 文件无 LICENSE，MIT 根通知在路径外。
+- marketingskills@dda3841f0b294e01e93b1541486beefbfab0915e：50/50 子路径无根 MIT LICENSE。
+- wecom-cli@4c74ff28838d8fba267eaab5179d9d56f9ca61ae：15/15 子路径无根 MIT LICENSE；PPTX 中 `LICENSE-beautiful-html-templates.txt` 是模板第三方许可，不可替代 root LICENSE。已逐一读取这两合集全部 65 个原始 SKILL.md，未发现内联完整 MIT 通知。保留原许可 evidence 与历史审核日期，不把旧许可审核冒称新安装验收。
+
+相反，不能只看有没有独立 LICENSE 就一刀切撤回：
+
+- Karpathy@2c606141936f1eeef17fa3043a72095b4765b9c2：根 README 只有 `MIT`，而实际路径 `skills/karpathy-guidelines/SKILL.md` 第 4 行也有原始 `license: MIT`。沿用 #350 接受一行声明的既有快照边界，把 evidencePath 改为实际安装内原文件，保持可安装；不伪造完整许可文本或新上游授权。
+- 网易@58ff0771d6977feb847d6bfe322280eec4bec004：3/3 子项各有自身 LICENSE.txt，不能跟着根许可问题降级。
+- Follow Builders 的 README 在整库安装范围内；#356 纠正文案而非绕过实际安装缺失，方向成立。
+
+这些是待审修复的拟定状态，不宣称已部署到 main；#350/#353 历史合并事实不变。AI News Radar 显式授权的本地完整派生包保持不动。
