@@ -1,6 +1,6 @@
 {
   "id": "taste-skill",
-  "name": "Taste Skill",
+  "name": "Taste Skill (DesireCore fork)",
   "category": "creative",
   "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"m12 3 .9 3.1L16 7l-3.1.9L12 11l-.9-3.1L8 7l3.1-.9L12 3Zm5 9 .7 2.3L20 15l-2.3.7L17 18l-.7-2.3L14 15l2.3-.7L17 12ZM7 13l.8 2.7L10.5 17l-2.7.8L7 20.5l-.8-2.7L3.5 17l2.7-1.3L7 13Z\" stroke=\"#2563EB\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/></svg>",
   "tags": [
@@ -10,12 +10,12 @@
   ],
   "i18n": {
     "zh-CN": {
-      "name": "Taste Skill",
-      "shortDesc": "面向 AI Agent 的“抗平庸”前端美术指导：从 247 个精选网站研究中抽取设计方向，执行无装饰的统一风格，并在真实浏览器中检查网页与应用界面。需 Node.js 22+ 与本地 Chrome/Edge/Chromium；图片检索调用公开馆藏接口，生成页面可能加载第三方字体、图片与脚本。"
+      "name": "Taste Skill（DesireCore 维护版）",
+      "shortDesc": "基于 v2.5.0 构建网站和落地页，提供组件、样式与手动浏览器检查。需 Node.js 22+ 和 Chrome、Edge 或 Chromium，FFmpeg 可选。在线素材、地图与字体走第三方服务，发布时保留素材许可和署名。"
     },
     "en-US": {
-      "name": "Taste Skill",
-      "shortDesc": "Anti-slop art direction for AI agents building websites and app screens: deals researched directions from a 247-site study, enforces a no-ornament house style and checks pages in a real browser. Needs Node.js 22+ and a local Chrome/Edge/Chromium; picture search uses public open-collection APIs, and generated pages may load third-party fonts, photos and scripts."
+      "name": "Taste Skill (DesireCore fork)",
+      "shortDesc": "Build websites and landing pages with the v2.5.0 component kit and manual browser checks. Requires Node.js 22+ and Chrome, Edge or Chromium; FFmpeg is optional. Online media, maps and fonts use external providers. Keep the relevant asset licenses and credits."
     }
   },
   "maintainer": {
@@ -29,9 +29,10 @@
   "redistribution": "allowed",
   "source": {
     "kind": "git",
-    "repoUrl": "https://github.com/Leonxlnx/taste-skill.git",
-    "repoBranch": "main",
+    "repoUrl": "https://github.com/desirecore/taste-skill.git",
+    "repoBranch": "desirecore",
     "path": "skills/taste-skill",
-    "ref": "6c0b5c78f5d31776e2210305abaa210cdc0030bf"
-  }
+    "ref": "d84aa8d653768174e114bf4b00311d3605116830"
+  },
+  "latestVersion": "2.5.0"
 }
