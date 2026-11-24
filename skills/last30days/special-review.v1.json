@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "reviewedBy": "mashagua",
-  "reviewedAt": "2026-11-22",
-  "notes": "Class C review of last30days e63f8e8732f1b934449b363f211b3654531b8ef2 against 262391603f3c2807606bffa0170547273fc273e5. Root MIT LICENSE is byte-identical (git blob c7d2838bcc549a5cda7b7a3556a422e0074e56a5). Root pyproject.toml and uv.lock change only the project version 4.3.2 → 4.5.0 (new blobs b205247c78d6ddbdaf24356f695cebab788ee248 and 2488d1c8d4b3da149a294ce9cf66a26e3fa1141f); runtime dependencies remain [], requires-python remains >=3.12, and the existing dev group (pytest/pytest-cov/pytest-xdist/pyyaml/towncrier) is unchanged. SKILL.md stable frontmatter is unchanged except that version field. Install-scope adds person/LinkedIn enrichment, a silent brief-capture hook, transcript harvest, employer-site helpers, and an optional OpenCode browse lane; person runs may optionally spend operator Deepline credits when DEEPLINE_API_KEY is set. excludePaths keeps skills/last30days/assets out of the audit tree only: the five demo files are byte-identical to the old pin, already listed as non-runtime in upstream .skillignore, and this audit exclusion is not an install exclusion — the DesireCore installer still copies those files from the pin until the client contract honors excludePaths. Review covers the pinned source, licensing and catalog metadata. Upstream programs were not executed; runtime acceptance remains untested.",
+  "reviewedBy": "DesireCore",
+  "reviewedAt": "2026-11-24",
+  "notes": "Read-only review of Last30Days 4.6.0 against the installed 4.5.0 pin. Root pyproject.toml and uv.lock change only the project version. The new short-form lane finds public TikTok and Instagram URLs via configured search services or the host, then uses yt-dlp with --ignore-config and no browser cookie option. The existing operator-configured yt-dlp SSH/proxy route now also applies to this lane. Root and scoped license evidence was rechecked by the catalog auditor. The inherited assets omission applies only to the audit, and dependencies and scripts were not executed.",
+  "acceptedDependencyIdentities": {
+    "pyproject.toml": "b2c07f01993df4d5fa0a2c7296266c1092bad227",
+    "uv.lock": "60bde91fdf2d51abf52ee14380505a12f3a7174b"
+  },
   "excludePaths": [
     "skills/last30days/assets"
-  ],
-  "acceptedDependencyIdentities": {
-    "pyproject.toml": "b205247c78d6ddbdaf24356f695cebab788ee248",
-    "uv.lock": "2488d1c8d4b3da149a294ce9cf66a26e3fa1141f"
-  }
+  ]
 }
