@@ -9,11 +9,11 @@
   "i18n": {
     "zh-CN": {
       "name": "钉钉 API 技能",
-      "shortDesc": "调用钉钉开放平台 API：用户与部门查询、机器人单聊/群聊消息发送、群机器人列表、离职记录查询等"
+      "shortDesc": "钉钉 API 脚本。实际查询需自行安装 Node.js/npm 依赖，私下配置 DINGTALK_APP_KEY、DINGTALK_APP_SECRET 并授权接口权限。命令启动不等于查询成功；适用平台条款及可能的费用。"
     },
     "en-US": {
       "name": "DingTalk API Skill",
-      "shortDesc": "Call DingTalk Open Platform APIs: user/department lookup, bot messaging in chats and groups, and HR records"
+      "shortDesc": "DingTalk API scripts. Real queries require Node.js/npm dependencies, DINGTALK_APP_KEY, DINGTALK_APP_SECRET and authorized API permissions. Command startup is not a successful query; platform terms and any fees apply."
     }
   },
   "maintainer": {
@@ -23,7 +23,7 @@
     "url": "https://clawhub.ai/ogenes/skills/dingtalk-api"
   },
   "stewardship": "community",
-  "license": "MIT-0",
+  "license": "MIT",
   "redistribution": "allowed",
   "source": {
     "kind": "git",

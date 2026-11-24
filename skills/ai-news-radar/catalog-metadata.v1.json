@@ -10,11 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "AI News Radar",
-        "summary": "24/7 AI news radar that curates multiple sources into storylines and delivers daily headlines with three flavors of commentary. Requires a separately configured Python environment and sources; mail access requires separate authorization."
+        "summary": "Generate AI daily-brief JSON with a complete MIT Python package. Requires Python 3.11+, dependencies and feed access; optional mail/API sources need separate authorization.",
+        "description": "Optional local MIT edition based on LearnPrompt/ai-news-radar@689395109cc962a27c369bdd6fa50d1e090eb319. Includes generation scripts, feed example, glossary, source-analysis helper, referenced docs and reader assets. Outputs belong outside the installed skill; external services and optional credentials are separately configured."
       },
       "zh-CN": {
         "name": "AI 资讯雷达",
-        "summary": "24 小时 AI 资讯雷达：从多信源筛选要闻、合并成故事线，并用三种口味锐评每日头条。需自行配置 Python 运行环境与信源；邮件接入须另行授权。"
+        "summary": "完整 MIT 本地包生成 AI 日报 JSON。需 Python 3.11+、依赖和信源访问；可选邮件/API 集成须独立授权。",
+        "description": "基于 LearnPrompt/ai-news-radar@689395109cc962a27c369bdd6fa50d1e090eb319 的可选 MIT 本地版，包含生成脚本、信源示例、词表、分析工具、引用文档和阅读器资源。运行结果须写入安装目录之外；外部服务与可选凭据需单独配置。"
       }
     },
     "category": "productivity",
@@ -25,12 +27,14 @@
     ]
   },
   "release": {
-    "state": "unknown"
+    "state": "known",
+    "version": "2026.11.24",
+    "versionScheme": "calver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-11-24",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -38,12 +42,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-11-24",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-11-24",
       "precision": "day"
     }
   },
@@ -51,13 +55,12 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/LearnPrompt/ai-news-radar.git",
-      "path": "skills/ai-news-radar",
       "ref": "689395109cc962a27c369bdd6fa50d1e090eb319"
     }
   },
   "governance": {
     "stewardship": "community",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
       "state": "known",
       "value": "MIT",
@@ -68,6 +71,19 @@
       "name": "LearnPrompt",
       "url": "https://github.com/LearnPrompt/ai-news-radar",
       "verified": false
+    },
+    "listingMaintainer": {
+      "name": "mashagua",
+      "url": "https://github.com/mashagua",
+      "verified": true
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "noticePath": "UPSTREAM.md",
+      "reviewedRef": "689395109cc962a27c369bdd6fa50d1e090eb319",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
     }
   },
   "compatibility": {
@@ -77,15 +93,25 @@
     "requirements": [
       {
         "kind": "runtime",
-        "value": "A user-configured Python environment and the dependencies declared by AI News Radar."
+        "value": "Python 3.11+ and the pinned packages in requirements.txt. The local package includes all required Python helpers and referenced reader assets; install dependencies in a separate environment."
+      },
+      {
+        "kind": "runtime",
+        "value": "Use scripts/run_daily_brief.py with an absolute private output directory outside the installed skill. Historical data is intentionally excluded and generated on first run; do not write bytecode, logs or private configuration into the package."
       },
       {
         "kind": "connection",
-        "value": "Access to the chosen public feeds. Optional mail adapters require separate credentials and explicit authorization; private message bodies must not be published or persisted as public feed content."
+        "value": "Normal generation needs authorized public-feed access; source availability and rate limits are external. Optional email/X/cookie/paid APIs require separate private host/vault configuration, explicit authorization and applicable service fees. No live/authenticated test is implied by fixture smoke results."
+      },
+      {
+        "kind": "connection",
+        "value": "The optional bundled reader references the separately licensed GSAP 3.13.0 script on jsDelivr. Optional persona scoring can run rules-only with PERSONA_ENABLED=0; authenticated DeepSeek calls require separate explicit approval, private DEEPSEEK_API_KEY configuration and applicable fees. Neither is a prerequisite for the daily-brief JSON generator."
       }
     ]
   },
   "spec": {
-    "kind": "skill"
+    "kind": "skill",
+    "riskLevel": "medium",
+    "skillType": "hybrid"
   }
 }

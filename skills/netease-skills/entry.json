@@ -9,11 +9,11 @@
   "i18n": {
     "zh-CN": {
       "name": "网易云音乐 Skills",
-      "shortDesc": "基于 ncm-cli 的网易云音乐 AI Agent 技能包，支持音乐搜索、播放与账号配置等操作"
+      "shortDesc": "网易云音乐技能集。需自行安装 Node.js/ncm-cli；搜索还须在主机私下配置 appId 和 privateKey。CLI 启动不代表搜索已验证；账号授权、内容权益、会员及费用另计。"
     },
     "en-US": {
       "name": "NetEase Skills",
-      "shortDesc": "NetEase Cloud Music agent skills built on ncm-cli, for music search, playback and account setup"
+      "shortDesc": "NetEase Cloud Music skills. Requires separately installed Node.js/ncm-cli; search needs privately configured appId and privateKey. CLI startup is not verified search. Account authorization, content rights, membership and charges are separate."
     }
   },
   "maintainer": {
@@ -23,7 +23,7 @@
     "url": "https://github.com/NetEase/skills"
   },
   "stewardship": "pointer",
-  "license": "not-declared",
+  "license": "Apache-2.0",
   "redistribution": "source-pointer-only",
   "source": {
     "kind": "git",

@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "NetEase Skills",
-        "summary": "NetEase Cloud Music agent skills built on ncm-cli, for music search, playback and account setup"
+        "summary": "NetEase Cloud Music skills. Requires separately installed Node.js/ncm-cli; search needs privately configured appId and privateKey. CLI startup is not verified search. Account authorization, content rights, membership and charges are separate."
       },
       "zh-CN": {
         "name": "网易云音乐 Skills",
-        "summary": "基于 ncm-cli 的网易云音乐 AI Agent 技能包，支持音乐搜索、播放与账号配置等操作"
+        "summary": "网易云音乐技能集。需自行安装 Node.js/ncm-cli；搜索还须在主机私下配置 appId 和 privateKey。CLI 启动不代表搜索已验证；账号授权、内容权益、会员及费用另计。"
       }
     },
     "category": "productivity",
@@ -35,7 +35,9 @@
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
@@ -52,21 +54,40 @@
   },
   "governance": {
     "stewardship": "pointer",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "Apache-2.0",
+      "evidencePath": "ncm-cli-setup/LICENSE.txt"
     },
     "redistribution": "source-pointer-only",
     "upstreamMaintainer": {
       "name": "NetEase",
       "url": "https://github.com/NetEase/skills",
       "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "ncm-cli-setup/LICENSE.txt",
+      "reviewedRef": "58ff0771d6977feb847d6bfe322280eec4bec004",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
     }
   },
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Separately installed Node.js/npm and ncm-cli following ncm-cli-setup/SKILL.md. Search requires the operator to configure appId and privateKey through ncm-cli config set as documented upstream. The package includes ncm-cli-setup/scripts/install_mpv.py for optional local playback. Installing skills does not install or configure the CLI or provision API credentials."
+      },
+      {
+        "kind": "permission",
+        "value": "Apply for appId/privateKey through the NetEase Cloud Music developer platform and keep privateKey in private host configuration, never chat or this public catalog. Account-specific operations additionally need the relevant account authorization. CLI startup is not proof of a successful search; no credentialed search was verified. Service terms, content/region rights, membership and charges apply separately. Verify configuration and stop on missing access or service errors."
+      }
+    ]
   },
   "spec": {
     "kind": "skill",
