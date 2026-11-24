@@ -14,11 +14,11 @@
   "i18n": {
     "en-US": {
       "name": "Rea-Video",
-      "shortDesc": "Analyze shots, editing and audio, including reveals, reversals and bloopers with frame illustrations and slow motion. Requires separate CLI, Python 3.10+ and FFmpeg; optional vision/remake services need setup and may charge fees."
+      "shortDesc": "Analyze shots, editing and audio with frame illustrations and slow motion. Install the Rea-Video CLI, Python 3.10+ and FFmpeg separately. The updated CLI requires videomd 1.2+. Optional vision or remake providers require setup and approval before uploads or paid calls."
     },
     "zh-CN": {
       "name": "Rea-Video 视频拆解",
-      "shortDesc": "逐镜拆解视频的画面、剪辑和声音，分析魔术揭秘、反转或穿帮时刻，输出逐帧图解与慢放。需另装 CLI、Python 3.10+ 和 FFmpeg；视觉与复刻服务另配，可能收费。"
+      "shortDesc": "逐镜拆解画面、剪辑和声音，输出关键时刻图解与慢放。需另装 Rea-Video CLI、Python 3.10+ 和 FFmpeg（新版 CLI 依赖 videomd 1.2+）；视觉分析与复刻服务另配，上传或计费前需用户确认。"
     }
   },
   "maintainer": {
