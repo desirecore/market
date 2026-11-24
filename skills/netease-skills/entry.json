@@ -9,11 +9,11 @@
   "i18n": {
     "zh-CN": {
       "name": "网易云音乐 Skills",
-      "shortDesc": "网易云音乐搜索、播放与账户配置技能集。需自行安装 Node.js/ncm-cli，并按需完成账号授权；会员、内容权益及服务费用另计。"
+      "shortDesc": "网易云音乐技能集。需自行安装 Node.js/ncm-cli；搜索还须在主机私下配置 appId 和 privateKey。CLI 启动不代表搜索已验证；账号授权、内容权益、会员及费用另计。"
     },
     "en-US": {
       "name": "NetEase Skills",
-      "shortDesc": "NetEase Cloud Music skills for search, playback and setup. Requires separately installed Node.js/ncm-cli and account authorization where needed; membership, content rights and service charges are separate."
+      "shortDesc": "NetEase Cloud Music skills. Requires separately installed Node.js/ncm-cli; search needs privately configured appId and privateKey. CLI startup is not verified search. Account authorization, content rights, membership and charges are separate."
     }
   },
   "maintainer": {

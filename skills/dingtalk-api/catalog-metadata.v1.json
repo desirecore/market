@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "DingTalk API Skill",
-        "summary": "Call DingTalk Open Platform APIs for users, departments, messaging and HR. Requires Node.js/npm dependencies, a separately authorized DingTalk application and API permissions; platform terms and any service fees apply."
+        "summary": "DingTalk API scripts. Real queries require Node.js/npm dependencies, DINGTALK_APP_KEY, DINGTALK_APP_SECRET and authorized API permissions. Command startup is not a successful query; platform terms and any fees apply."
       },
       "zh-CN": {
         "name": "钉钉 API 技能",
-        "summary": "调用钉钉开放平台的用户、部门、消息与人事接口。需自行安装 Node.js/npm 依赖并授权钉钉应用及接口权限；适用平台条款及可能的服务费用。"
+        "summary": "钉钉 API 脚本。实际查询需自行安装 Node.js/npm 依赖，私下配置 DINGTALK_APP_KEY、DINGTALK_APP_SECRET 并授权接口权限。命令启动不等于查询成功；适用平台条款及可能的费用。"
       }
     },
     "category": "communication",
@@ -81,11 +81,11 @@
     "requirements": [
       {
         "kind": "runtime",
-        "value": "Node.js/npm, TypeScript/ts-node and the dependencies declared by the pinned package.json, including the Alibaba Cloud DingTalk SDK."
+        "value": "Node.js/npm, TypeScript/ts-node and the dependencies declared by the pinned package.json, including the Alibaba Cloud DingTalk SDK. The packaged scripts/search-user.ts exists and validates configuration before requesting an access token or performing a query."
       },
       {
         "kind": "permission",
-        "value": "Operator-controlled DingTalk application credentials, account/API permissions and network access. Credentials remain private. Verify authorization before calls; stop on missing access or API errors. DingTalk products, entitlements and any fees are separate from this skill."
+        "value": "Real searches require DINGTALK_APP_KEY and DINGTALK_APP_SECRET from an operator-authorized DingTalk application, plus the corresponding API scopes and account access. Configure credentials privately on the host; do not paste them into chat or this catalog. Missing credentials produce MISSING_CREDENTIALS and exit before a query. Startup/help is not proof of a successful query; no authenticated query was verified. DingTalk terms, entitlements and any fees apply separately."
       }
     ]
   },

@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "NetEase Skills",
-        "summary": "NetEase Cloud Music skills for search, playback and setup. Requires separately installed Node.js/ncm-cli and account authorization where needed; membership, content rights and service charges are separate."
+        "summary": "NetEase Cloud Music skills. Requires separately installed Node.js/ncm-cli; search needs privately configured appId and privateKey. CLI startup is not verified search. Account authorization, content rights, membership and charges are separate."
       },
       "zh-CN": {
         "name": "网易云音乐 Skills",
-        "summary": "网易云音乐搜索、播放与账户配置技能集。需自行安装 Node.js/ncm-cli，并按需完成账号授权；会员、内容权益及服务费用另计。"
+        "summary": "网易云音乐技能集。需自行安装 Node.js/ncm-cli；搜索还须在主机私下配置 appId 和 privateKey。CLI 启动不代表搜索已验证；账号授权、内容权益、会员及费用另计。"
       }
     },
     "category": "productivity",
@@ -81,11 +81,11 @@
     "requirements": [
       {
         "kind": "runtime",
-        "value": "Separately installed Node.js/npm and ncm-cli following the upstream ncm-cli-setup instructions. Installation of marketplace skill files does not install or operate the CLI or music service."
+        "value": "Separately installed Node.js/npm and ncm-cli following ncm-cli-setup/SKILL.md. Search requires the operator to configure appId and privateKey through ncm-cli config set as documented upstream. The package includes ncm-cli-setup/scripts/install_mpv.py for optional local playback. Installing skills does not install or configure the CLI or provision API credentials."
       },
       {
         "kind": "permission",
-        "value": "The operator authorizes the relevant NetEase Cloud Music account. Service terms, regional/content rights, membership and charges apply separately. Verify CLI/account readiness before calls; stop when the service or authorization is unavailable."
+        "value": "Apply for appId/privateKey through the NetEase Cloud Music developer platform and keep privateKey in private host configuration, never chat or this public catalog. Account-specific operations additionally need the relevant account authorization. CLI startup is not proof of a successful search; no credentialed search was verified. Service terms, content/region rights, membership and charges apply separately. Verify configuration and stop on missing access or service errors."
       }
     ]
   },

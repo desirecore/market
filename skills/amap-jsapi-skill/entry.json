@@ -9,11 +9,11 @@
   "i18n": {
     "zh-CN": {
       "name": "高德地图 JSAPI 技能",
-      "shortDesc": "高德地图 JSAPI v2.0 WebGL 开发指导。需自行授权高德 API Key、安全配置及网络连接；适用平台条款、配额与可能的服务费用。"
+      "shortDesc": "高德地图 JSAPI v2.0（WebGL）开发技能，涵盖地图生命周期、安全配置、3D 视图、覆盖物绘制与 LBS 服务集成"
     },
     "en-US": {
       "name": "AMap JSAPI Skill",
-      "shortDesc": "AMap JSAPI v2.0 WebGL development guidance. Requires separately authorized AMap API keys/security configuration and network access; platform terms, quotas and any service charges apply."
+      "shortDesc": "AMap JSAPI v2.0 (WebGL) development skill covering map lifecycle, security config, 3D views, overlays and LBS services"
     }
   },
   "maintainer": {
