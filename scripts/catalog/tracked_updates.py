@@ -85,6 +85,32 @@ def gh(*args):
     return subprocess.run(['gh', *args], check=True, capture_output=True, text=True).stdout.strip()
 
 
+def version_only_change(before: bytes, after: bytes, path: str) -> bool:
+    """Prove only the top-level SKILL.md frontmatter version scalar changed.
+
+    Not a semantic security classifier: instructions, scripts, nested metadata,
+    dependencies, permissions, file inventory and all other bytes stay identical.
+    """
+    if PurePosixPath(path).name != 'SKILL.md':
+        return False
+    def mask(data):
+        if not data.startswith(b'---\n'):
+            return None
+        end = data.find(b'\n---\n', 4)
+        if end < 0:
+            return None
+        front = data[4:end]
+        pattern = rb'''(?m)^version: (?P<quote>["']?)[0-9]+\.[0-9]+\.[0-9]+(?:[-+][A-Za-z0-9.-]+)?(?P=quote)[ \t]*$'''
+        matches = list(re.finditer(pattern, front))
+        # A duplicate/multiline/ambiguous version declaration is never automatic.
+        if len(matches) != 1 or len(re.findall(rb'(?m)^version\s*:', front)) != 1:
+            return None
+        masked = re.sub(pattern, b'version: <audited-version>', front)
+        return data[:4] + masked + data[end:]
+    old, new = mask(before), mask(after)
+    return old is not None and old == new
+
+
 def check_identity():
     if gh('api', 'user', '--jq', '.login') != LOGIN:
         raise AuditBlocked('publishing/merge requires the designated human maintainer; no bot fallback')
@@ -92,11 +118,11 @@ def check_identity():
 
 def load_config(root):
     cfg = json.loads((root / CONFIG).read_text())
-    if cfg.get('schemaVersion') != 1 or cfg.get('autoMerge') != 'reviewed-or-identical-installed-payload':
+    if cfg.get('schemaVersion') != 1 or cfg.get('autoMerge') != 'reviewed-or-no-behavior-change':
         raise AuditBlocked('unsupported automation policy')
     required = cfg.get('requiredChecks')
     if (not isinstance(required, list) or not all(isinstance(x, str) for x in required)
-            or not {'validate', 'translate', 'CodeQL'} <= set(required)):
+            or not {'validate', 'translate'} <= set(required)):
         raise AuditBlocked('required exact-head checks cannot be omitted')
     if not isinstance(cfg.get('tracking'), dict):
         raise AuditBlocked('missing explicit tracking map')
@@ -236,6 +262,9 @@ def audit_payload(entry, metadata, old_files, new_files, old_ref, new_ref, new_c
     report['source'] = {'kind': new_content['kind'], 'url': new_content['url'], 'previousUrl': metadata['provenance']['content']['url'],
                         'previousRef': old_ref, 'ref': new_ref, 'paths': ['']}
     report['identicalInstalledPayload'] = old_files == new_files
+    report['versionOnlyInstalledPayload'] = all(
+        old_files[p] == new_files[p] or version_only_change(old_files[p], new_files[p], p)
+        for p in old_files)
     report['limitations'].append('Artifact/local bytes materialized solely for the existing delta audit; receipt pins refer to real upstream commits or SHA-256, not temporary Git commits. Upstream code was not executed.')
     problems = validate_record(updated, report)
     if problems:

@@ -335,3 +335,27 @@ def test_workflow_rerun_replaces_obsolete_cancelled_run_only():
     assert not m.workflow_runs_pass(runs+[{'id':3,'workflow_id':9,'status':'queued','conclusion':None}])
     assert not m.workflow_runs_pass(runs+[{'id':4,'workflow_id':10,'status':'completed','conclusion':'failure'}])
     assert not m.workflow_runs_pass([])
+
+
+@pytest.mark.parametrize('path,before,after,expected', [
+    ('SKILL.md', b'---\nname: demo\nversion: 1.0.0\n---\nKeep instructions.\n', b'---\nname: demo\nversion: 1.0.1\n---\nKeep instructions.\n', True),
+    ('skills/demo/SKILL.md', b'---\nversion: "1.0.0"\n---\nBody\n', b'---\nversion: "1.0.1"\n---\nBody\n', True),
+    ('SKILL.md', b'---\nversion: 1.0.0\n---\nOld', b'---\nversion: 1.0.1\n---\nNew', False),
+    ('SKILL.md', b'---\nversion: 1.0.0\nrequiredClientVersion: 2.0.0\n---\nBody', b'---\nversion: 1.0.1\nrequiredClientVersion: 3.0.0\n---\nBody', False),
+    ('SKILL.md', b'---\nversion: 1.0.0\nversion: 1.0.0\n---\nBody', b'---\nversion: 1.0.1\nversion: 1.0.0\n---\nBody', False),
+    ('SKILL.md', b'---\nversion: unknown\n---\nBody', b'---\nversion: latest\n---\nBody', False),
+    ('script.py', b'version: 1.0.0', b'version: 1.0.1', False),
+    ('README.md', b'---\nversion: 1.0.0\n---\nBody', b'---\nversion: 1.0.1\n---\nBody', False),
+])
+def test_only_proven_top_level_skill_version_change_is_automatic(path, before, after, expected):
+    assert t.version_only_change(before, after, path) is expected
+
+
+def test_absent_inapplicable_language_jobs_do_not_block_but_present_failures_do():
+    # Registry-only pointer diffs may never schedule CodeQL or all language jobs.
+    mandatory=['validate','translate','wait-for-copilot-review']
+    baseline=[check(name) for name in mandatory]
+    assert m.checks_pass(baseline, [], mandatory)
+    assert not m.checks_pass(baseline + [{**check('CodeQL'), 'conclusion':'failure'}], [], mandatory)
+    assert not m.checks_pass(baseline + [{**check('Analyze (python)'), 'conclusion':'failure'}], [], mandatory)
+    assert not m.checks_pass(baseline + [{**check('CodeQL'), 'status':'in_progress'}], [], mandatory)

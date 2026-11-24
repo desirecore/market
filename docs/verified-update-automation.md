@@ -72,20 +72,22 @@ trust roots. For each same-repository maintainer update PR it:
    allowed proposal using trusted-main policy and special-review records.
 2. Requires the complete PR diff to equal that result. Tooling/workflow changes,
    changed review exceptions, foreign paths or forged receipts cannot enter.
-3. Automatically clears byte/mode-identical installed payloads. Real content
-   changes additionally require an **APPROVED human maintainer review on the exact
-   final head**, from a different account with verified admin/maintain/write
-   permission. The review must explicitly attest inspection and no licensing,
-   permission, dependency or installed-file scope expansion, with this exact line:
-   `market-reviewed-no-expansion: <full-final-head-sha>`.
-   The marker alone is not authority: PR bodies, labels, bot/self reviews, stale
-   approvals and unprivileged accounts cannot authorize anything. Fresh machine
-   license/dependency/scope audits still run and cannot be waived. Git file sets
-   and modes must remain unchanged even with this review. Unreviewed behavior
-   changes remain manual, not inferred safe from structural checks.
+3. Automatically clears byte/mode-identical installed payloads and proven
+   top-level `SKILL.md` semver-only changes (all other bytes, inventory and modes
+   identical). A version bump alone no longer needs a second human or a special
+   approval marker. This is not a behavioral security audit: instructions, scripts,
+   dependencies, license/NOTICE and install-scope changes are not covered by that
+   proof. Substantive installed-content changes still need an **APPROVED human
+   maintainer review on the exact head**, with:
+   `market-reviewed-no-expansion: <full-head-SHA>`.
+   The reviewer must be a different non-bot user with write/maintain/admin access;
+   stale/dismissed/self reviews do not count. This clearance cannot override
+   license, dependency, inventory, permission or receipt failures. No PR JSON,
+   label or timeout of the Copilot wait check serves as behavioral approval.
 4. Requires all applicable check/context results complete and successful on the
-   exact final head, including validate, translate, CodeQL/Analyze and Copilot
-   wait; outstanding changes-requested reviews block. No ignored CodeQL failures.
+   exact final head, including mandatory validate, translate and Copilot wait. CodeQL/Analyze
+   are required to pass when actually scheduled, not required to exist on a
+   JSON-only update where GitHub does not schedule them; outstanding changes-requested reviews block. No ignored CodeQL failures.
 5. Requires current-base ancestry, a clean server state, and active strict
    server-side up-to-date rules for validate/translate to close the base race.
    The merge API binds the expected head SHA, uses squash, and has no bypass.
@@ -117,3 +119,16 @@ audit planning without publication. `merge_verified_updates.py` defaults to
 verification-only and must run from current main; `--merge` additionally requires
 the maintainer credential, collaborator-permission read access and every gate above. Do not run publishing/merge flags
 as a smoke test against real PRs.
+
+## Direction-review correction (2026-11-25)
+
+The original implementation incorrectly required every CodeQL language job on
+all updates, including JSON-pointer changes that do not schedule those jobs.
+Only baseline jobs are mandatory by name; every latest applicable returned check,
+status and workflow run must still succeed. No CodeQL failure is ignored.
+The byte-change gate was also too broad: an independently proven SKILL version-only
+change is now automatic. This deliberately does not promise that metadata checks
+can prove arbitrary upstream script/instruction behavior safe. Expanding that
+coverage needs a real behavioral review mechanism, not deletion of the safeguard.
+Identity verification, trusted-main re-audit, local-patch preservation, finite
+budgets, exact-head binding, strict server rules and no-admin/no-force stay intact.

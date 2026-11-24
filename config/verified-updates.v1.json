@@ -1,13 +1,9 @@
 {
   "schemaVersion": 1,
-  "autoMerge": "reviewed-or-identical-installed-payload",
+  "autoMerge": "reviewed-or-no-behavior-change",
   "requiredChecks": [
     "validate",
     "translate",
-    "CodeQL",
-    "Analyze (actions)",
-    "Analyze (javascript-typescript)",
-    "Analyze (python)",
     "wait-for-copilot-review"
   ],
   "tracking": {

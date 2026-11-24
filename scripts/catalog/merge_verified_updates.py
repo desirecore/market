@@ -19,7 +19,7 @@ import tempfile
 from pathlib import Path
 from audit_skill_update import AuditBlocked, audit_update, git, tree
 from automated_review import validate_record
-from tracked_updates import CONFIG, LOGIN, check_identity, discover_target, gh, load_config, plan
+from tracked_updates import CONFIG, LOGIN, check_identity, discover_target, gh, load_config, plan, version_only_change
 
 ROOT = Path(__file__).resolve().parents[2]
 REPO = 'desirecore/market'
@@ -111,7 +111,13 @@ def git_plan(root,item_id,head,reviewed=False):
             if set(before)!=set(after) or any(before[p][0]!=after[p][0] for p in before):
                 raise AuditBlocked('installed file scope or permissions changed; explicit policy review required')
             if before!=after and not reviewed:
-                raise AuditBlocked('installed payload changed: exact-head maintainer no-expansion review required')
+                for name in before:
+                    if before[name] == after[name]:
+                        continue
+                    old_bytes = git(repo, 'show', source['ref'] + ':' + name)
+                    new_bytes = git(repo, 'show', head + ':' + name)
+                    if not version_only_change(old_bytes, new_bytes, name):
+                        raise AuditBlocked('behavioral payload changed: exact-head maintainer no-expansion review required')
     return {f'skills/{item_id}/entry.json':updated,f'skills/{item_id}/catalog-metadata.v1.json':sidecar,
             f'skills/{item_id}/upstream-audit.v1.json':report}
 
@@ -134,7 +140,7 @@ def assess(root,pr,cfg,reviewed=False):
     if prefix=='tracked-updates/':
         target=discover_target(root,item_id,cfg['tracking'][item_id])
         result=plan(root,item_id,cfg,target)
-        if result is None or (result[1].get('identicalInstalledPayload') is not True and not reviewed):
+        if result is None or (not (result[1].get('identicalInstalledPayload') is True or result[1].get('versionOnlyInstalledPayload') is True) and not reviewed):
             raise AuditBlocked('installed payload changed or proposal stale; manual review required')
         expected={p:json.loads(b) if p.endswith('.json') else b for p,b in result[0].items()}
     else:
