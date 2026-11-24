@@ -10,13 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "GIF Factory",
-        "summary": "GIF factory skill for stickers, lenticular cards, motion posters and related styles, plus five companion skills. MIT license is present, but this snapshot stays listing-only: the pin contains hundreds of files over 1 MiB (about 676 MiB), including assets inside skills/, so a full git install exceeds the ordinary audit budget.",
-        "description": "Pinned at e89003a4a6ca4fd0e9e39c8859851b58c82bc368. Root LICENSE is MIT. The tree has a root SKILL.md plus five skills/* companions and 245 files over 1 MiB (about 676 MiB), including 179 under skills/. excludePaths would only skip automatic audit traversal and would not stop a git installer from fetching those files. No slim local package was admitted in this change."
+        "summary": "GIF creation skill with five companions, retaining the complete upstream Git source. Listing-only describes Market review/default-client budgets, not upstream unusability or an unknown license.",
+        "description": "Pinned at e89003a4a6ca4fd0e9e39c8859851b58c82bc368; the root MIT LICENSE is inside the whole-repository install scope. The repository has 1295 files totaling 925968044 bytes (883.07 MiB); 245 files over 1 MiB sum to 676.31 MiB, not the total package size. Most bytes are examples (452.21 MiB) and skills resources (405.13 MiB). Automatic Market audit budgets are 1 MiB/file, 50 MiB total and 2000 files; budgetExemptPaths only exempts the per-file limit. At client e817d57e, the pinned-Git cache defaults are 200 MiB checkout and 256 MiB object repository, overridable through internal SourceFetchOptions.limits; ZIP settings do not configure Git. These are not absolute upstream Git limits. Original pin, structure, demos, resources and install method are preserved; no slim package, custom fetch or fabricated admission receipt."
       },
       "zh-CN": {
         "name": "GIF 工厂",
-        "summary": "GIF 工厂技能，用于表情包、光栅卡、动态海报等风格，另含五个配套技能。已有 MIT 许可，但本快照保持仅收录：固定版本含数百个超过 1 MiB 的文件（约 676 MiB），且技能目录内也有大资源，完整 Git 安装超出普通审核预算。",
-        "description": "固定版本 e89003a4a6ca4fd0e9e39c8859851b58c82bc368。根 LICENSE 为 MIT。树中有根 SKILL.md 和五个 skills/* 配套技能，以及 245 个超过 1 MiB 的文件（约 676 MiB），其中 179 个位于 skills/。excludePaths 只会跳过自动审核遍历，不能阻止 Git 安装器拉取这些文件。本次未准入精简本地包。"
+        "summary": "保持上游完整 Git 来源的 GIF 创作技能，含五个配套技能。仅收录是市场自动审核/默认客户端预算状态，不代表上游技能不可用或许可未知。",
+        "description": "固定版本 e89003a4a6ca4fd0e9e39c8859851b58c82bc368，MIT LICENSE 位于整库安装范围内。整库 1295 个文件，共 925968044 bytes（883.07 MiB）；245 个超过 1 MiB 的文件合计 676.31 MiB，后者不是整个包大小。主要是 examples 演示（452.21 MiB）和 skills 资源（405.13 MiB）。市场自动审核阈值为单文件 1 MiB/总计 50 MiB/2000 文件；budgetExemptPaths 只豁免单文件阈值，不提高总预算。客户端 e817d57e 的固定 SHA Git 缓存路径默认检出 200 MiB、对象库 256 MiB，内部 SourceFetchOptions.limits 可覆盖；ZIP 设置不覆盖 Git 预算。不是上游 Git 的绝对大小限制。保留原 pin、结构、演示、资源与安装方式，未提供精简包或按需 fetch，未伪造准入回执。"
       }
     },
     "category": "media",
@@ -33,7 +33,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-24",
+      "value": "2026-11-25",
       "precision": "day"
     },
     "releasePublishedAt": {

@@ -11,12 +11,12 @@
       "en-US": {
         "name": "SAG Wiki Skill",
         "summary": "SAG CLI skill for setup, semantic search, indexed folders, ignore rules and MCP configuration. Install and run the separately licensed @zleap-ai/sag CLI; this entry points at cli/skills/sag only, not the full SAG Wiki app. Admission is paused at listing-only: the current DesireCore installer copies only that path and does not attach the repository-root MIT LICENSE.",
-        "description": "The repository is a knowledge-base application. This catalog entry is the cli/skills/sag Agent Skill only, pinned at b6940ac834b3b1ec651c0b49dc1b0c45d4d74c4a. Upstream root LICENSE is MIT, but it lives outside the skill path, so a path-scoped install does not receive the license text. There is no existing market field or client behavior that attaches a parent LICENSE to the selected contentDir. Source remains the original upstream git pointer; installable admission is paused. Demo videos and third-party binaries in the app tree are outside the skill path."
+        "description": "The repository is a knowledge-base application. This catalog entry is the cli/skills/sag Agent Skill only, pinned at b6940ac834b3b1ec651c0b49dc1b0c45d4d74c4a. Upstream root LICENSE is MIT, but it lives outside the skill path, so a path-scoped install does not receive the license text. There is no existing market field or client behavior that attaches a parent LICENSE to the selected contentDir. Source remains the original upstream git pointer; installable admission is paused. Demo videos and third-party binaries in the app tree are outside the skill path. This is a notice-delivery issue in the Market installed copy, not an unknown license or a lack of permission to reference upstream. Original pointers/collection selection and upstream installation remain unchanged. The client should carry the MIT/Apache notices into selected-path staging rather than Market repackaging upstream without approval."
       },
       "zh-CN": {
         "name": "SAG Wiki 技能",
         "summary": "SAG CLI 技能，用于安装配置、语义检索、索引目录、忽略规则和 MCP。需另行安装并运行独立许可的 @zleap-ai/sag CLI；本条目只指向 cli/skills/sag，不含完整 SAG Wiki 应用。准入暂停为仅收录：现行 DesireCore 安装器只复制该路径，不会把仓库根目录的 MIT LICENSE 附进安装产物。",
-        "description": "该仓库是知识库应用。本目录条目仅收录 cli/skills/sag 这一 Agent Skill，固定版本 b6940ac834b3b1ec651c0b49dc1b0c45d4d74c4a。上游根 LICENSE 为 MIT，但位于技能路径之外，因此按路径安装时不会得到许可文本。现行目录与客户端都不会把父目录 LICENSE 附到所选 contentDir。来源仍为原先的上游 Git 指针；可安装准入暂停。应用树中的演示视频与第三方二进制不在技能路径内。"
+        "description": "该仓库是知识库应用。本目录条目仅收录 cli/skills/sag 这一 Agent Skill，固定版本 b6940ac834b3b1ec651c0b49dc1b0c45d4d74c4a。上游根 LICENSE 为 MIT，但位于技能路径之外，因此按路径安装时不会得到许可文本。现行目录与客户端都不会把父目录 LICENSE 附到所选 contentDir。来源仍为原先的上游 Git 指针；可安装准入暂停。应用树中的演示视频与第三方二进制不在技能路径内。 这是市场安装产物的通知携带问题，不是许可未知或市场无权引用上游；保留原指针/合集点选及上游安装方式。MIT/Apache 通知应由客户端在所选路径暂存时正确附带，不能为此擅自重打包上游。"
       }
     },
     "category": "productivity",
@@ -33,7 +33,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-24",
+      "value": "2026-11-25",
       "precision": "day"
     },
     "releasePublishedAt": {
