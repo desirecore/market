@@ -30,8 +30,8 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-22T23:18:52Z",
-      "precision": "second"
+      "value": "2026-11-24",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
@@ -41,15 +41,15 @@
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-11-22T23:18:52Z",
-      "precision": "second"
+      "value": "2026-11-24",
+      "precision": "day"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
       "url": "https://github.com/zarazhangrui/follow-builders.git",
-      "ref": "424f37c6dddaee9d561a33e0c20611878a2012ab"
+      "ref": "22c2e72e1a4bb0fc0f3e19f992fc55615b48989e"
     }
   },
   "governance": {
