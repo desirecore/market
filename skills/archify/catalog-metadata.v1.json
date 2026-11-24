@@ -9,12 +9,12 @@
     "defaultLocale": "en-US",
     "i18n": {
       "en-US": {
-        "name": "Archify",
-        "summary": "Compile a codebase or system description into interactive, verifiable diagrams (architecture, workflow, sequence, data flow, lifecycle, ERD, class, tree, timeline, waterfall) or a one-page explainer — self-contained HTML/SVG with motion and export, for Claude Code, Codex and Cursor. Requires Node.js 18+ and a local Chrome, Chromium or Edge; delivery runs a bounded upstream update check, and proactive explainer mode edits the agent's global rules only after the user agrees."
+        "name": "Archify (DesireCore diagrams)",
+        "summary": "Create architecture, workflow, sequence and other native diagrams, explainers and stories. The 3.3.0-based drawing edition supports live preview, self-contained HTML and SVG export. Requires Node.js 18+ and a local Chromium-family browser; FFmpeg is needed for MP4 story export."
       },
       "zh-CN": {
-        "name": "Archify",
-        "summary": "把代码库或系统描述编译成可交互、可校验的图（架构/流程/时序/数据流/生命周期/ER/类/树/时间线/瀑布），或做成一页式讲解页，产出自带动效、可导出的单文件 HTML/SVG，适配 Claude Code、Codex、Cursor。需 Node.js 18+ 与本地 Chrome、Chromium 或 Edge；交付时会做有限的上游更新检查，主动讲解模式仅在用户同意后写入智能体全局规则。"
+        "name": "Archify（DesireCore 绘图版）",
+        "summary": "生成架构图、流程图、时序图等可交互图表，以及讲解页和故事。基于 3.3.0 的绘图版支持实时预览、单文件 HTML 和 SVG 导出。需 Node.js 18+ 和本地 Chromium 系浏览器；故事导出为 MP4 需 FFmpeg。"
       }
     },
     "category": "development",
@@ -27,35 +27,35 @@
   },
   "release": {
     "state": "known",
-    "version": "3.2.0",
+    "version": "3.3.0",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-17T07:50:29Z",
-      "precision": "second"
+      "value": "2026-11-24",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-17",
+      "value": "2026-11-24",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-11-17T07:50:29Z",
-      "precision": "second"
+      "value": "2026-11-24",
+      "precision": "day"
     }
   },
   "provenance": {
     "content": {
       "kind": "git",
-      "url": "https://github.com/tt-a1i/archify.git",
+      "url": "https://github.com/desirecore/archify.git",
       "path": "archify",
-      "ref": "6cafc5a9875a795c6932ac0c196dacf3097fafe6"
+      "ref": "a8bf93c475f45537fa0e679ddbfe5feadfd9de18"
     }
   },
   "governance": {
@@ -64,7 +64,7 @@
     "license": {
       "state": "known",
       "value": "Apache-2.0",
-      "evidencePath": "LICENSE"
+      "evidencePath": "archify/LICENSE"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {
@@ -73,12 +73,17 @@
       "verified": false
     },
     "compliance": {
-      "licenseEvidencePath": "LICENSE",
-      "noticePath": "NOTICE",
-      "reviewedRef": "a7ed6fd6657da90414831d1d42cf95987188750c",
-      "reviewedAt": "2026-11-17",
-      "reviewedBy": "automated:source-license-metadata-v1",
+      "licenseEvidencePath": "archify/LICENSE",
+      "noticePath": "archify/NOTICE",
+      "reviewedRef": "a8bf93c475f45537fa0e679ddbfe5feadfd9de18",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "DesireCore",
       "upstreamEndorsed": false
+    },
+    "listingMaintainer": {
+      "name": "DesireCore",
+      "url": "https://github.com/desirecore/archify",
+      "verified": true
     }
   },
   "compatibility": {
@@ -88,7 +93,7 @@
     "requirements": [
       {
         "kind": "runtime",
-        "value": "Node.js 18+ for the included Archify renderers and checks, and a locally installed Chrome, Chromium or Microsoft Edge (or ARCHIFY_CHROME) for native-diagram browser verification and export. Archify downloads no browser or packages; the operator supplies and maintains the runtime. Stop before claiming delivery when prerequisites are unavailable."
+        "value": "Node.js 18+ for the renderers, plus Chrome, Chromium or Microsoft Edge (or set ARCHIFY_CHROME) for browser verification and export. Optional MP4 story export needs a separately installed FFmpeg. The generated validators ship with the skill and require no npm install."
       },
       {
         "kind": "connection",
@@ -97,6 +102,10 @@
       {
         "kind": "permission",
         "value": "Proactive or always-on explainer modes are enabled only when the user explicitly accepts, by adding one line to the agent's global rules file (outside the workspace, such as ~/.claude/CLAUDE.md); the agent names the file and deleting the line turns the mode off. Never add or change that line without the user's consent."
+      },
+      {
+        "kind": "permission",
+        "value": "The drawing edition installs native diagrams, explainers, stories, preview and export. Generated artifacts carry software notices. The installed scope excludes the standalone Code Analysis workbench and its vendor payload."
       }
     ]
   },
