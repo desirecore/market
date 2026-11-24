@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "video-use",
-        "summary": "A DesireCore-maintained fork of Browser Use’s video editor for cutting, captioning and rendering video. Audio goes to ElevenLabs Scribe only after you approve the files and track. Transcription requires your own API key and may incur separate charges. Requires Python 3.10+, uv, ffmpeg and ffprobe."
+        "summary": "Cut, caption and render video with the DesireCore-maintained Browser Use fork. Local word-level transcription is the default and downloads pinned models on first use. Requires Python 3.12, uv, ffmpeg and ffprobe. Optional ElevenLabs Scribe requires explicit selection, upload approval and your own API key. Service charges may apply."
       },
       "zh-CN": {
         "name": "video-use 视频剪辑",
-        "summary": "基于 Browser Use 的 DesireCore 维护版。可剪辑、制作字幕和渲染视频。仅在你确认素材和音轨后，才将音频发送给 ElevenLabs Scribe。转写需自备 API 密钥，可能另行收费。运行需要 Python 3.10+、uv、ffmpeg 和 ffprobe。"
+        "summary": "基于 Browser Use 的 DesireCore 维护版，支持剪辑、字幕和渲染。默认本地词级转写，首次运行下载固定版本的模型。需要 Python 3.12、uv、ffmpeg 和 ffprobe。可手动选择 ElevenLabs Scribe，需确认所选音轨的上传并自备 API 密钥，服务可能另行收费。"
       }
     },
     "category": "media",
@@ -28,7 +28,7 @@
   },
   "release": {
     "state": "known",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "versionScheme": "semver"
   },
   "timestamps": {
@@ -39,7 +39,7 @@
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-11-23T16:02:10Z",
+      "value": "2026-11-24T07:06:09Z",
       "precision": "second"
     },
     "reviewedAt": {
@@ -57,7 +57,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore/video-use.git",
-      "ref": "76123f9e9749ba0b13600b54fadff3c2ead2dc14"
+      "ref": "370f946e085e978b5460d63964850c91031e76d5"
     }
   },
   "governance": {
@@ -77,7 +77,7 @@
     "compliance": {
       "licenseEvidencePath": "LICENSE",
       "noticePath": "THIRD_PARTY_NOTICES.md",
-      "reviewedRef": "76123f9e9749ba0b13600b54fadff3c2ead2dc14",
+      "reviewedRef": "370f946e085e978b5460d63964850c91031e76d5",
       "reviewedAt": "2026-11-24",
       "reviewedBy": "desirecore/video-use",
       "upstreamEndorsed": false
@@ -90,11 +90,11 @@
     "requirements": [
       {
         "kind": "runtime",
-        "value": "Python 3.10+, uv, ffmpeg and ffprobe on the runtime PATH. The first helper run can install the locked Python dependencies. yt-dlp and animation engines are optional and configured separately."
+        "value": "Python 3.12, uv, ffmpeg and ffprobe. The first local run sets up locked dependencies and downloads pinned public model assets. Local transcription runs on the machine holding the media and needs about 4 GB for English model weights."
       },
       {
         "kind": "connection",
-        "value": "ElevenLabs Scribe is a separate hosted service. Uncached transcription requires an operator-provided ELEVENLABS_API_KEY in the runtime environment, access to api.elevenlabs.io, and consent to send the selected audio. ElevenLabs terms and privacy policy apply and service usage may be billed separately. If consent or the key is unavailable, use available transcript caches or stop before upload."
+        "value": "Model downloads use Hugging Face and GitHub Releases. ElevenLabs Scribe is optional and runs only when explicitly selected. Upload requires approval of the chosen media and track, an operator-provided ELEVENLABS_API_KEY, and access to api.elevenlabs.io. The provider's terms, privacy policy and possible fees apply."
       }
     ]
   },

@@ -10,16 +10,16 @@
     "subtitles",
     "ffmpeg"
   ],
-  "latestVersion": "0.1.1",
+  "latestVersion": "0.2.0",
   "riskLevel": "medium",
   "i18n": {
     "zh-CN": {
       "name": "video-use 视频剪辑",
-      "shortDesc": "基于 Browser Use 的 DesireCore 维护版。可剪辑、制作字幕和渲染视频。仅在你确认素材和音轨后，才将音频发送给 ElevenLabs Scribe。转写需自备 API 密钥，可能另行收费。运行需要 Python 3.10+、uv、ffmpeg 和 ffprobe。"
+      "shortDesc": "基于 Browser Use 的 DesireCore 维护版，支持剪辑、字幕和渲染。默认本地词级转写，首次运行下载固定版本的模型。需要 Python 3.12、uv、ffmpeg 和 ffprobe。可手动选择 ElevenLabs Scribe，需确认所选音轨的上传并自备 API 密钥，服务可能另行收费。"
     },
     "en-US": {
       "name": "video-use",
-      "shortDesc": "A DesireCore-maintained fork of Browser Use’s video editor for cutting, captioning and rendering video. Audio goes to ElevenLabs Scribe only after you approve the files and track. Transcription requires your own API key and may incur separate charges. Requires Python 3.10+, uv, ffmpeg and ffprobe."
+      "shortDesc": "Cut, caption and render video with the DesireCore-maintained Browser Use fork. Local word-level transcription is the default and downloads pinned models on first use. Requires Python 3.12, uv, ffmpeg and ffprobe. Optional ElevenLabs Scribe requires explicit selection, upload approval and your own API key. Service charges may apply."
     }
   },
   "maintainer": {
@@ -35,6 +35,6 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore/video-use.git",
     "repoBranch": "main",
-    "ref": "76123f9e9749ba0b13600b54fadff3c2ead2dc14"
+    "ref": "370f946e085e978b5460d63964850c91031e76d5"
   }
 }
