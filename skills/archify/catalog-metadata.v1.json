@@ -55,7 +55,7 @@
       "kind": "git",
       "url": "https://github.com/desirecore/archify.git",
       "path": "archify",
-      "ref": "a8bf93c475f45537fa0e679ddbfe5feadfd9de18"
+      "ref": "c2a27f4154c39610429212cb5573e38ffdeb2508"
     }
   },
   "governance": {
@@ -75,7 +75,7 @@
     "compliance": {
       "licenseEvidencePath": "archify/LICENSE",
       "noticePath": "archify/NOTICE",
-      "reviewedRef": "a8bf93c475f45537fa0e679ddbfe5feadfd9de18",
+      "reviewedRef": "c2a27f4154c39610429212cb5573e38ffdeb2508",
       "reviewedAt": "2026-11-24",
       "reviewedBy": "DesireCore",
       "upstreamEndorsed": false

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "reviewedBy": "DesireCore",
   "reviewedAt": "2026-11-24",
-  "notes": "DesireCore diagram distribution a8bf93c475f45537fa0e679ddbfe5feadfd9de18 is based on Archify v3.3.0 af3aaf3c36762f2afb62a4a09533f6c7273b07e5. The install tree excludes the standalone Code Analysis module. LICENSE, LICENSE-MIT and applicable third-party notices are preserved. The only oversized file is the byte-identical generated validator used by the renderers (1510815 bytes; SHA-256 fe356eeadd25c5372c39ea8fe023382d6a4b4289da97653364960d79d3886d11). It was checked against the locked Ajv generation command, and the package includes the Ajv MIT text.",
+  "notes": "DesireCore diagram distribution a8bf93c475f45537fa0e679ddbfe5feadfd9de18 is based on Archify v3.3.0 af3aaf3c36762f2afb62a4a09533f6c7273b07e5. The install tree excludes the standalone Code Analysis module. LICENSE, LICENSE-MIT and applicable third-party notices are preserved. The only oversized file is the byte-identical generated validator used by the renderers (1510815 bytes; SHA-256 fe356eeadd25c5372c39ea8fe023382d6a4b4289da97653364960d79d3886d11). It was checked against the locked Ajv generation command, and the package includes the Ajv MIT text. The independently fetched market delivery commit c2a27f4154c39610429212cb5573e38ffdeb2508 contains the identical archify/ tree and no large history. The source-maintenance branch keeps the original ancestry.",
   "budgetExemptPaths": [
     "archify/renderers/shared/generated-validators.mjs"
   ]

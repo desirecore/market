@@ -31,8 +31,8 @@
   "source": {
     "kind": "git",
     "repoUrl": "https://github.com/desirecore/archify.git",
-    "repoBranch": "desirecore",
-    "ref": "a8bf93c475f45537fa0e679ddbfe5feadfd9de18",
+    "repoBranch": "market",
+    "ref": "c2a27f4154c39610429212cb5573e38ffdeb2508",
     "path": "archify"
   },
   "latestVersion": "3.3.0"
