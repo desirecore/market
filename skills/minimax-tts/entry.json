@@ -11,11 +11,11 @@
   "i18n": {
     "zh-CN": {
       "name": "MiniMax 语音合成",
-      "shortDesc": "MiniMax 语音合成"
+      "shortDesc": "通过 MiniMax 合成语音。需运行 DesireCore agent-service/media store 并单独配置 MiniMax 语音授权；适用服务条款和用量费用。"
     },
     "en-US": {
       "name": "MiniMax Text-to-Speech",
-      "shortDesc": "MiniMax Text-to-Speech"
+      "shortDesc": "Generate speech through MiniMax. Requires a running DesireCore agent-service/media store and separately configured MiniMax voice access; provider terms and usage charges apply."
     }
   },
   "maintainer": {

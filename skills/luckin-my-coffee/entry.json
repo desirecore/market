@@ -9,11 +9,11 @@
   "i18n": {
     "zh-CN": {
       "name": "瑞幸下单助手",
-      "shortDesc": "瑞幸咖啡下单助手：用自然语言查询菜单、选品下单与管理瑞幸咖啡订单"
+      "shortDesc": "查询和管理瑞幸咖啡订单。需另行配置瑞幸 MCP 并完成账户授权；实际消费另付费且需确认。适用 CC BY-ND 4.0：再分发须保留署名且不得分发修改版。"
     },
     "en-US": {
       "name": "Luckin My Coffee",
-      "shortDesc": "Luckin Coffee ordering assistant to browse the menu, place and manage Luckin orders in natural language"
+      "shortDesc": "Browse and manage Luckin Coffee orders. Requires separately configured Luckin MCP access and account authorization; purchases cost extra and require confirmation. CC BY-ND 4.0: redistribute only unchanged with attribution."
     }
   },
   "maintainer": {
@@ -23,8 +23,8 @@
     "url": "https://unpkg.luckincoffeecdn.com/@luckin/my-coffee-skill@latest/dist/my-coffee-skill.zip"
   },
   "stewardship": "pointer",
-  "license": "packaged-distribution",
-  "redistribution": "verify-package-terms",
+  "license": "CC-BY-ND-4.0",
+  "redistribution": "allowed",
   "source": {
     "kind": "zip",
     "repoUrl": "https://unpkg.luckincoffeecdn.com/@luckin/my-coffee-skill@0.8.4/dist/my-coffee-skill.zip",

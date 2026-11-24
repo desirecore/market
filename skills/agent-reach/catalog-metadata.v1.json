@@ -43,7 +43,7 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-19",
+      "value": "2026-11-24",
       "precision": "day"
     },
     "upstreamObservedAt": {
@@ -62,7 +62,7 @@
   },
   "governance": {
     "stewardship": "community",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
       "state": "known",
       "value": "MIT",
@@ -73,6 +73,13 @@
       "name": "Panniantong",
       "url": "https://github.com/Panniantong/agent-reach",
       "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "94f06c1969dfc1834001269d79d3ad0972d9dee6",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
     }
   },
   "compatibility": {

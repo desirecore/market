@@ -37,7 +37,9 @@
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
@@ -54,15 +56,24 @@
   },
   "governance": {
     "stewardship": "community",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "README.md"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {
       "name": "zarazhangrui",
       "url": "https://github.com/zarazhangrui/follow-builders",
       "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "README.md",
+      "reviewedRef": "22c2e72e1a4bb0fc0f3e19f992fc55615b48989e",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
     }
   },
   "compatibility": {

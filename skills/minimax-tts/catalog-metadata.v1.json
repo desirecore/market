@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "MiniMax Text-to-Speech",
-        "summary": "MiniMax Text-to-Speech"
+        "summary": "Generate speech through MiniMax. Requires a running DesireCore agent-service/media store and separately configured MiniMax voice access; provider terms and usage charges apply."
       },
       "zh-CN": {
         "name": "MiniMax 语音合成",
-        "summary": "MiniMax 语音合成"
+        "summary": "通过 MiniMax 合成语音。需运行 DesireCore agent-service/media store 并单独配置 MiniMax 语音授权；适用服务条款和用量费用。"
       }
     },
     "category": "media",
@@ -38,7 +38,9 @@
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
@@ -56,21 +58,40 @@
   },
   "governance": {
     "stewardship": "official",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {
       "name": "DesireCore",
       "url": "https://github.com/desirecore",
       "verified": true
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "6e39eee2ad39632a21f43ed997983e70594b2b8a",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
     }
   },
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "A running DesireCore agent-service and media store, DESIRECORE_ROOT/agent-service.port, curl and network access. The skill does not deploy or operate these services."
+      },
+      {
+        "kind": "permission",
+        "value": "Separately configured MiniMax speech/voice access and applicable provider terms/billing. Verify service readiness, voice availability and authorization before calling; stop and report missing prerequisites or API errors rather than claiming success."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"

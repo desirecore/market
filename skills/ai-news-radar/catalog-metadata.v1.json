@@ -38,7 +38,7 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-11-24",
       "precision": "day"
     },
     "upstreamObservedAt": {
@@ -57,7 +57,7 @@
   },
   "governance": {
     "stewardship": "community",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
       "state": "known",
       "value": "MIT",
@@ -68,6 +68,13 @@
       "name": "LearnPrompt",
       "url": "https://github.com/LearnPrompt/ai-news-radar",
       "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "689395109cc962a27c369bdd6fa50d1e090eb319",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
     }
   },
   "compatibility": {

@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Luckin My Coffee",
-        "summary": "Luckin Coffee ordering assistant to browse the menu, place and manage Luckin orders in natural language"
+        "summary": "Browse and manage Luckin Coffee orders. Requires separately configured Luckin MCP access and account authorization; purchases cost extra and require confirmation. CC BY-ND 4.0: redistribute only unchanged with attribution."
       },
       "zh-CN": {
         "name": "瑞幸下单助手",
-        "summary": "瑞幸咖啡下单助手：用自然语言查询菜单、选品下单与管理瑞幸咖啡订单"
+        "summary": "查询和管理瑞幸咖啡订单。需另行配置瑞幸 MCP 并完成账户授权；实际消费另付费且需确认。适用 CC BY-ND 4.0：再分发须保留署名且不得分发修改版。"
       }
     },
     "category": "business",
@@ -37,7 +37,9 @@
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
@@ -55,21 +57,40 @@
   },
   "governance": {
     "stewardship": "pointer",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "CC-BY-ND-4.0",
+      "evidencePath": "my-coffee/LICENSE"
     },
-    "redistribution": "verify-package-terms",
+    "redistribution": "allowed",
     "upstreamMaintainer": {
       "name": "luckin",
       "url": "https://unpkg.luckincoffeecdn.com/@luckin/my-coffee-skill@latest/dist/my-coffee-skill.zip",
       "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "my-coffee/LICENSE",
+      "reviewedRef": "5b079e6c52bc7db188e0a3b8af0b631e63accfa84bbb200e723c24b6da32ff3f",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
     }
   },
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "connection",
+        "value": "Separately configured Luckin MCP service and an operator-authorized Luckin account/token. Keep credentials in private host configuration, not chat transcripts or this public catalog; verify connection readiness before any call."
+      },
+      {
+        "kind": "permission",
+        "value": "Luckin platform terms and real purchase charges apply separately. Obtain explicit confirmation before order/payment actions and stop when authorization, required details or services are unavailable. CC BY-ND 4.0 permits attributed redistribution of the unchanged upstream package, not distribution of modified material."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"

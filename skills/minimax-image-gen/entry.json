@@ -11,11 +11,11 @@
   "i18n": {
     "zh-CN": {
       "name": "MiniMax 图像生成",
-      "shortDesc": "MiniMax 图像生成"
+      "shortDesc": "通过 MiniMax 生成图片。需运行 DesireCore agent-service/media store 并单独配置 MiniMax 授权；适用服务条款和用量费用。"
     },
     "en-US": {
       "name": "MiniMax Image Generation",
-      "shortDesc": "MiniMax Image Generation"
+      "shortDesc": "Generate images through MiniMax. Requires a running DesireCore agent-service/media store and separately configured MiniMax access; provider terms and usage charges apply."
     }
   },
   "maintainer": {

@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "DingTalk API Skill",
-        "summary": "Call DingTalk Open Platform APIs: user/department lookup, bot messaging in chats and groups, and HR records"
+        "summary": "Call DingTalk Open Platform APIs for users, departments, messaging and HR. Requires Node.js/npm dependencies, a separately authorized DingTalk application and API permissions; platform terms and any service fees apply."
       },
       "zh-CN": {
         "name": "钉钉 API 技能",
-        "summary": "调用钉钉开放平台 API：用户与部门查询、机器人单聊/群聊消息发送、群机器人列表、离职记录查询等"
+        "summary": "调用钉钉开放平台的用户、部门、消息与人事接口。需自行安装 Node.js/npm 依赖并授权钉钉应用及接口权限；适用平台条款及可能的服务费用。"
       }
     },
     "category": "communication",
@@ -35,7 +35,9 @@
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
@@ -52,21 +54,40 @@
   },
   "governance": {
     "stewardship": "community",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
-      "state": "unknown"
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "README.md"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {
       "name": "ogenes",
       "url": "https://clawhub.ai/ogenes/skills/dingtalk-api",
       "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "README.md",
+      "reviewedRef": "83465bf60b522ad19f7822d167489c3c4f79b302",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
     }
   },
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Node.js/npm, TypeScript/ts-node and the dependencies declared by the pinned package.json, including the Alibaba Cloud DingTalk SDK."
+      },
+      {
+        "kind": "permission",
+        "value": "Operator-controlled DingTalk application credentials, account/API permissions and network access. Credentials remain private. Verify authorization before calls; stop on missing access or API errors. DingTalk products, entitlements and any fees are separate from this skill."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"
