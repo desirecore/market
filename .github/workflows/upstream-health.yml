@@ -27,6 +27,8 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Install uv
         uses: astral-sh/setup-uv@v3
@@ -90,9 +92,21 @@ jobs:
 
       - name: Propose reviewed-source updates
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.MARKET_MAINTAINER_TOKEN || github.token }}
+          MAINTAINER_TOKEN_AVAILABLE: ${{ secrets.MARKET_MAINTAINER_TOKEN != '' }}
+          MARKET_MAINTAINER_LOGIN: mashagua
+          GIT_CONFIG_COUNT: '1'
+          GIT_CONFIG_KEY_0: credential.helper
+          GIT_CONFIG_VALUE_0: '!gh auth git-credential'
         run: |
-          uv run --quiet scripts/catalog/propose_upstream_updates.py results.json --publish --limit 5 --coverage-file coverage.json
+          publish=()
+          if [ "$MAINTAINER_TOKEN_AVAILABLE" = true ]; then
+            publish=(--publish)
+          else
+            echo 'Maintainer authentication not configured: audit-only, no bot-authored PR fallback.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+          uv run --quiet scripts/catalog/propose_upstream_updates.py results.json "${publish[@]}" --limit 5 --coverage-file coverage.json
+          uv run --quiet scripts/catalog/publish_tracked_updates.py "${publish[@]}" --limit 5
       - name: 展示所有技能的覆盖与阻碍
         if: always()
         run: |

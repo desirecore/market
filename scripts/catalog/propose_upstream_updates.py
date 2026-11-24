@@ -16,6 +16,7 @@ import tempfile
 from pathlib import Path
 
 from audit_skill_update import audit_update, AuditBlocked
+from tracked_updates import check_identity, EMAIL
 
 ROOT = Path(__file__).resolve().parents[2]
 SHA = re.compile(r"[0-9a-f]{40}")
@@ -125,11 +126,13 @@ def main() -> None:
     parser.add_argument("--coverage-file", type=Path, help="输出所有 Skill 的更新覆盖与阻碍")
     args = parser.parse_args()
     repository = os.environ.get("GITHUB_REPOSITORY", "desirecore/market")
-    actor = os.environ.get("GITHUB_ACTOR", "")
-    if args.publish and (repository != "desirecore/market" or not re.fullmatch(r"[A-Za-z0-9-]+", actor)):
+    actor = os.environ.get("MARKET_MAINTAINER_LOGIN", "mashagua")
+    if args.publish and (repository != "desirecore/market" or actor != "mashagua"):
         parser.error("发布仅限官方仓库，且必须有触发用户身份")
     if args.limit < 1:
         parser.error("limit 必须大于零")
+    if args.publish:
+        check_identity()
     results = json.loads(args.results.read_text())
     rows = coverage(results, ROOT)
     by_id = {row["id"]: row for row in rows}
@@ -206,7 +209,7 @@ def main() -> None:
                         paths.append(audit_path)
 
                     run("git", "add", "--", *paths, cwd=checkout)
-                    run("git", "-c", f"user.name={actor}", "-c", f"user.email={actor}@users.noreply.github.com",
+                    run("git", "-c", f"user.name={actor}", "-c", f"user.email={EMAIL}",
                         "commit", "-m", f"chore(market): 提议更新 {item_id} 上游快照", cwd=checkout)
                     run("git", "push", "origin", f"HEAD:refs/heads/{branch}", cwd=checkout)
                     body = Path(tmp) / "body.md"
