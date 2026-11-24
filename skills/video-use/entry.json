@@ -10,7 +10,7 @@
     "subtitles",
     "ffmpeg"
   ],
-  "latestVersion": "0.2.0",
+  "latestVersion": "0.2.1",
   "riskLevel": "medium",
   "i18n": {
     "zh-CN": {
@@ -35,6 +35,6 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore/video-use.git",
     "repoBranch": "main",
-    "ref": "370f946e085e978b5460d63964850c91031e76d5"
+    "ref": "ee6827e2707cce19fd47f89028b0562a3812a38f"
   }
 }
