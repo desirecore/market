@@ -64,9 +64,12 @@ def checks_pass(checks, statuses, required):
         app='github-advanced-security' if name=='CodeQL' else 'github-actions'
         if by_name[name].get('app',{}).get('slug')!=app:
             return False
-    # Every applicable check/context, not only required names, must be finished and green.
+    latest_statuses={}
+    for status in sorted(statuses,key=lambda s:s.get('id',0)):
+        latest_statuses[status.get('context','')]=status
+    # Every latest applicable check/context, not only required names, must be green.
     return (bool(checks) and all(c.get('status')=='completed' and c.get('conclusion')=='success' for c in by_name.values())
-            and all(s.get('state')=='success' for s in statuses))
+            and all(s.get('state')=='success' for s in latest_statuses.values()))
 
 
 def trusted_pr(pr):

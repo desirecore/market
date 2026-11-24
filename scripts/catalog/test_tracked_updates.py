@@ -318,3 +318,11 @@ def test_dismissed_or_requested_changes_invalidate_clearance():
     for state in ('DISMISSED','CHANGES_REQUESTED'):
         with patch.object(m,'api') as api:
             assert not m.reviewed_no_expansion(pr,[review,{**review,'state':state}]);api.assert_not_called()
+
+
+def test_status_reruns_use_latest_context_not_obsolete_failure():
+    statuses=[{'id':2,'context':'external-ci','state':'success'},
+              {'id':1,'context':'external-ci','state':'failure'}]
+    assert m.checks_pass([check('validate')],statuses,['validate'])
+    statuses.append({'id':3,'context':'external-ci','state':'pending'})
+    assert not m.checks_pass([check('validate')],statuses,['validate'])
