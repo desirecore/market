@@ -1,0 +1,989 @@
+{
+  "id": "gamedev-agent-skills",
+  "name": "Game Dev Agent Skills",
+  "category": "development",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"4\" y=\"7\" width=\"16\" height=\"10\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"M8 12h0.01M16 12h0.01M9.5 15c.8 1 2.2 1 3 0\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M9 4v3M15 4v3\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
+  "tags": [
+    "gamedev",
+    "godot",
+    "unity",
+    "unreal",
+    "skill-collection"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "游戏开发 Agent 技能",
+      "shortDesc": "79 个原创游戏开发 Agent 技能合集，覆盖 Godot、Unity、Unreal 等引擎，许可为 Apache-2.0，并有根 NOTICE。引擎运行时不随技能分发。仓库另有 router/SKILL.md 路由技能，不是合集子项。"
+    },
+    "en-US": {
+      "name": "Game Dev Agent Skills",
+      "shortDesc": "Collection of 79 original game-dev agent skills for Godot, Unity, Unreal and other engines, licensed Apache-2.0 with a root NOTICE. Engine runtimes are not bundled. The repo also has a router skill at router/SKILL.md that is not a collection child."
+    }
+  },
+  "maintainer": {
+    "name": "gamedev-skills",
+    "verified": false,
+    "account": "gamedev-skills",
+    "url": "https://github.com/gamedev-skills/awesome-gamedev-agent-skills"
+  },
+  "stewardship": "community",
+  "license": "Apache-2.0",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/gamedev-skills/awesome-gamedev-agent-skills.git",
+    "repoBranch": "main",
+    "ref": "c6ca6c41c839b68319ffc08430b99ab768debc32"
+  },
+  "riskLevel": "high",
+  "children": [
+    {
+      "id": "ai-behavior-trees-utility-ai",
+      "path": "skills/disciplines/ai-behavior-trees-utility-ai",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Engine-neutral behavior tree and utility AI code for NPCs in any language: Blackboard, reactive composites, decorators and response-curve scoring."
+        },
+        "en-US": {
+          "shortDesc": "Engine-neutral behavior tree and utility AI code for NPCs in any language: Blackboard, reactive composites, decorators and response-curve scoring."
+        }
+      }
+    },
+    {
+      "id": "audio-design",
+      "path": "skills/disciplines/audio-design",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Engine-neutral game audio technique: bus layout, volume sliders in decibels, loudness, ducking music under dialogue, adaptive music and SFX variation, with Godo…"
+        },
+        "en-US": {
+          "shortDesc": "Engine-neutral game audio technique: bus layout, volume sliders in decibels, loudness, ducking music under dialogue, adaptive music and SFX variation, with Godo…"
+        }
+      }
+    },
+    {
+      "id": "camera-systems",
+      "path": "skills/disciplines/camera-systems",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Builds and tunes game cameras, engine-neutral with Godot and Cinemachine 3 mappings: 2D follow with deadzone and look-ahead, third-person orbit, first-person lo…"
+        },
+        "en-US": {
+          "shortDesc": "Builds and tunes game cameras, engine-neutral with Godot and Cinemachine 3 mappings: 2D follow with deadzone and look-ahead, third-person orbit, first-person lo…"
+        }
+      }
+    },
+    {
+      "id": "create-game-assets",
+      "path": "skills/disciplines/create-game-assets",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Plans, generates or sources, and validates consistent game art: style guides, sprites, pixel art, tilesets, icons and textures, with QA and licence records."
+        },
+        "en-US": {
+          "shortDesc": "Plans, generates or sources, and validates consistent game art: style guides, sprites, pixel art, tilesets, icons and textures, with QA and licence records."
+        }
+      }
+    },
+    {
+      "id": "dialogue-systems",
+      "path": "skills/disciplines/dialogue-systems",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Builds engine-neutral branching dialogue with Ink, Yarn Spinner or a small JSON graph runner: lines, choices, conditions, variables and localization IDs."
+        },
+        "en-US": {
+          "shortDesc": "Builds engine-neutral branching dialogue with Ink, Yarn Spinner or a small JSON graph runner: lines, choices, conditions, variables and localization IDs."
+        }
+      }
+    },
+    {
+      "id": "game-ai",
+      "path": "skills/disciplines/game-ai",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Designs engine-neutral enemy and NPC AI: picks FSM, behavior tree, utility or GOAP, and builds perception, steering and A* pathfinding."
+        },
+        "en-US": {
+          "shortDesc": "Designs engine-neutral enemy and NPC AI: picks FSM, behavior tree, utility or GOAP, and builds perception, steering and A* pathfinding."
+        }
+      }
+    },
+    {
+      "id": "game-feel",
+      "path": "skills/disciplines/game-feel",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Adds engine-neutral juice to a working mechanic: trauma-based screen shake, hit-stop, eased tweens, squash and stretch, and knockback."
+        },
+        "en-US": {
+          "shortDesc": "Adds engine-neutral juice to a working mechanic: trauma-based screen shake, hit-stop, eased tweens, squash and stretch, and knockback."
+        }
+      }
+    },
+    {
+      "id": "game-ui-ux",
+      "path": "skills/disciplines/game-ui-ux",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Engine-neutral design rules for game HUDs and menus: anchors and containers, scaling, safe areas, gamepad focus, HUDs driven by events instead of polling, and a…"
+        },
+        "en-US": {
+          "shortDesc": "Engine-neutral design rules for game HUDs and menus: anchors and containers, scaling, safe areas, gamepad focus, HUDs driven by events instead of polling, and a…"
+        }
+      }
+    },
+    {
+      "id": "input-systems",
+      "path": "skills/disciplines/input-systems",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Engine-neutral input architecture with Godot InputMap code: named actions, stick deadzones, buffered presses and rebinding with conflict checks."
+        },
+        "en-US": {
+          "shortDesc": "Engine-neutral input architecture with Godot InputMap code: named actions, stick deadzones, buffered presses and rebinding with conflict checks."
+        }
+      }
+    },
+    {
+      "id": "level-design",
+      "path": "skills/disciplines/level-design",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Engine-neutral level design with Godot checks: player metrics from the real controller, key and ability gating with a soft-lock check, and pacing."
+        },
+        "en-US": {
+          "shortDesc": "Engine-neutral level design with Godot checks: player metrics from the real controller, key and ability gating with a soft-lock check, and pacing."
+        }
+      }
+    },
+    {
+      "id": "performance-optimization",
+      "path": "skills/disciplines/performance-optimization",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Finds and fixes game frame-rate problems by measurement in Godot, Unity, Unreal or Roblox: CPU- vs GPU-bound, then the biggest fix (draw calls, pooling, GC spik…"
+        },
+        "en-US": {
+          "shortDesc": "Finds and fixes game frame-rate problems by measurement in Godot, Unity, Unreal or Roblox: CPU- vs GPU-bound, then the biggest fix (draw calls, pooling, GC spik…"
+        }
+      }
+    },
+    {
+      "id": "physics-tuning",
+      "path": "skills/disciplines/physics-tuning",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Engine-neutral physics tuning with Godot checks: fixed timestep and interpolation, CCD against tunnelling, damping, solver iterations and collision layer matric…"
+        },
+        "en-US": {
+          "shortDesc": "Engine-neutral physics tuning with Godot checks: fixed timestep and interpolation, CCD against tunnelling, damping, solver iterations and collision layer matric…"
+        }
+      }
+    },
+    {
+      "id": "procedural-gen",
+      "path": "skills/disciplines/procedural-gen",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Engine-neutral procedural generation in Python with Godot and Unity mappings: seeded RNG, dungeon layouts, wave function collapse, noise terrain and loot tables…"
+        },
+        "en-US": {
+          "shortDesc": "Engine-neutral procedural generation in Python with Godot and Unity mappings: seeded RNG, dungeon layouts, wave function collapse, noise terrain and loot tables…"
+        }
+      }
+    },
+    {
+      "id": "save-systems",
+      "path": "skills/disciplines/save-systems",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Engine-neutral save and load with Godot and Python code: what to serialize, slots and autosave, atomic writes and versioned migration."
+        },
+        "en-US": {
+          "shortDesc": "Engine-neutral save and load with Godot and Python code: what to serialize, slots and autosave, atomic writes and versioned migration."
+        }
+      }
+    },
+    {
+      "id": "shader-programming",
+      "path": "skills/disciplines/shader-programming",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Engine-neutral shader technique in GLSL with HLSL equivalents: how dissolve, outline, fresnel rim and post effects work, and porting GLSL to HLSL."
+        },
+        "en-US": {
+          "shortDesc": "Engine-neutral shader technique in GLSL with HLSL equivalents: how dissolve, outline, fresnel rim and post effects work, and porting GLSL to HLSL."
+        }
+      }
+    },
+    {
+      "id": "ebitengine-game",
+      "path": "skills/ebitengine/ebitengine-game",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Creates, debugs and packages 2D games in Go with Ebitengine v2: a play-and-retry loop, input, pixel-art scaling, text, audio and desktop, WASM or mobile builds."
+        },
+        "en-US": {
+          "shortDesc": "Creates, debugs and packages 2D games in Go with Ebitengine v2: a play-and-retry loop, input, pixel-art scaling, text, audio and desktop, WASM or mobile builds."
+        }
+      }
+    },
+    {
+      "id": "card-game",
+      "path": "skills/genres/card-game",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Designs card games and deckbuilders in any engine: cards as data with one effect interpreter, deck zones, a trigger stack and seeded shuffles."
+        },
+        "en-US": {
+          "shortDesc": "Designs card games and deckbuilders in any engine: cards as data with one effect interpreter, deck zones, a trigger stack and seeded shuffles."
+        }
+      }
+    },
+    {
+      "id": "fps-shooter",
+      "path": "skills/genres/fps-shooter",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Designs first-person shooter combat in any engine: hitscan vs projectiles, time-to-kill, damage falloff, recoil patterns, ADS sensitivity and lag-compensated hi…"
+        },
+        "en-US": {
+          "shortDesc": "Designs first-person shooter combat in any engine: hitscan vs projectiles, time-to-kill, damage falloff, recoil patterns, ADS sensitivity and lag-compensated hi…"
+        }
+      }
+    },
+    {
+      "id": "platformer",
+      "path": "skills/genres/platformer",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Designs 2D platformers in any engine: jump feel (coyote time, jump buffering, variable height, fall gravity, corner correction), wall jumps, hazards, checkpoint…"
+        },
+        "en-US": {
+          "shortDesc": "Designs 2D platformers in any engine: jump feel (coyote time, jump buffering, variable height, fall gravity, corner correction), wall jumps, hazards, checkpoint…"
+        }
+      }
+    },
+    {
+      "id": "puzzle",
+      "path": "skills/genres/puzzle",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Designs grid and logic puzzle games in any engine: match-3 cascades, Sokoban pushing, unique-solution grids (nonogram, Sudoku), exact undo and solver-checked le…"
+        },
+        "en-US": {
+          "shortDesc": "Designs grid and logic puzzle games in any engine: match-3 cascades, Sokoban pushing, unique-solution grids (nonogram, Sudoku), exact undo and solver-checked le…"
+        }
+      }
+    },
+    {
+      "id": "roguelike",
+      "path": "skills/genres/roguelike",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Designs run-based roguelikes and roguelites in any engine: run structure, permadeath, meta-progression, seeded and daily runs, turn order and symmetric field of…"
+        },
+        "en-US": {
+          "shortDesc": "Designs run-based roguelikes and roguelites in any engine: run structure, permadeath, meta-progression, seeded and daily runs, turn order and symmetric field of…"
+        }
+      }
+    },
+    {
+      "id": "rpg",
+      "path": "skills/genres/rpg",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Designs RPG progression and combat numbers in any engine: stats with a modifier stack, XP curves, damage formulas, items and equipment (slots, rarity, affixes)…"
+        },
+        "en-US": {
+          "shortDesc": "Designs RPG progression and combat numbers in any engine: stats with a modifier stack, XP curves, damage formulas, items and equipment (slots, rarity, affixes)…"
+        }
+      }
+    },
+    {
+      "id": "survival-crafting",
+      "path": "skills/genres/survival-crafting",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Designs survival-crafting loops in any engine: gathering, recipes and tech trees, carry weight, spoilage, hunger and temperature, and base building."
+        },
+        "en-US": {
+          "shortDesc": "Designs survival-crafting loops in any engine: gathering, recipes and tech trees, carry weight, spoilage, hunger and temperature, and base building."
+        }
+      }
+    },
+    {
+      "id": "tower-defense",
+      "path": "skills/genres/tower-defense",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Designs tower defense games in any engine: lane and maze pathing, wave pacing, targeting priorities, armoured and flying counters, and the gold economy, with a…"
+        },
+        "en-US": {
+          "shortDesc": "Designs tower defense games in any engine: lane and maze pathing, wave pacing, targeting priorities, armoured and flying counters, and the gold economy, with a…"
+        }
+      }
+    },
+    {
+      "id": "visual-novel",
+      "path": "skills/genres/visual-novel",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Builds visual novels and choice-driven stories in Ren'Py or any engine: routes and endings, save-anywhere, backlog, skip-read-only and typewriter text."
+        },
+        "en-US": {
+          "shortDesc": "Builds visual novels and choice-driven stories in Ren'Py or any engine: routes and endings, save-anywhere, backlog, skip-read-only and typewriter text."
+        }
+      }
+    },
+    {
+      "id": "godot-2d-movement",
+      "path": "skills/godot/godot-2d-movement",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Godot 4.7 CharacterBody2D movement in GDScript: platformer run and jump, top-down 8-direction motion, slopes and one-way platforms, with a headless landing test…"
+        },
+        "en-US": {
+          "shortDesc": "Godot 4.7 CharacterBody2D movement in GDScript: platformer run and jump, top-down 8-direction motion, slopes and one-way platforms, with a headless landing test…"
+        }
+      }
+    },
+    {
+      "id": "godot-3d-essentials",
+      "path": "skills/godot/godot-3d-essentials",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Godot 4.7 3D scene setup: Camera3D, lights, WorldEnvironment (sky, ambient, tonemap, fog), StandardMaterial3D, GridMap and local vs global transforms, with a he…"
+        },
+        "en-US": {
+          "shortDesc": "Godot 4.7 3D scene setup: Camera3D, lights, WorldEnvironment (sky, ambient, tonemap, fog), StandardMaterial3D, GridMap and local vs global transforms, with a he…"
+        }
+      }
+    },
+    {
+      "id": "godot-animation",
+      "path": "skills/godot/godot-animation",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Godot 4.7 animation APIs: AnimationPlayer, AnimationTree state machines, AnimatedSprite2D and create_tween() Tweens, with a headless state test."
+        },
+        "en-US": {
+          "shortDesc": "Godot 4.7 animation APIs: AnimationPlayer, AnimationTree state machines, AnimatedSprite2D and create_tween() Tweens, with a headless state test."
+        }
+      }
+    },
+    {
+      "id": "godot-audio",
+      "path": "skills/godot/godot-audio",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Godot 4.7 audio APIs: AudioStreamPlayer 2D and 3D, the bus layout, AudioServer volume and mute, polyphony, looping imports and playback position for beat sync."
+        },
+        "en-US": {
+          "shortDesc": "Godot 4.7 audio APIs: AudioStreamPlayer 2D and 3D, the bus layout, AudioServer volume and mute, polyphony, looping imports and playback position for beat sync."
+        }
+      }
+    },
+    {
+      "id": "godot-csharp",
+      "path": "skills/godot/godot-csharp",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "C# and .NET in Godot 4.7: partial node classes, the PascalCase lifecycle, [Export] and [Signal], signals as C# events, the .csproj and calling GDScript."
+        },
+        "en-US": {
+          "shortDesc": "C# and .NET in Godot 4.7: partial node classes, the PascalCase lifecycle, [Export] and [Signal], signals as C# events, the .csproj and calling GDScript."
+        }
+      }
+    },
+    {
+      "id": "godot-export",
+      "path": "skills/godot/godot-export",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Exports Godot 4.7 projects: templates, export_presets.cfg for desktop, Web and Android, command-line exports and web COOP/COEP headers."
+        },
+        "en-US": {
+          "shortDesc": "Exports Godot 4.7 projects: templates, export_presets.cfg for desktop, Web and Android, command-line exports and web COOP/COEP headers."
+        }
+      }
+    },
+    {
+      "id": "godot-gdscript",
+      "path": "skills/godot/godot-gdscript",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "GDScript 2.0 for Godot 4.7: static typing, @export and @onready, await and coroutines, and porting 3.x code."
+        },
+        "en-US": {
+          "shortDesc": "GDScript 2.0 for Godot 4.7: static typing, @export and @onready, await and coroutines, and porting 3.x code."
+        }
+      }
+    },
+    {
+      "id": "godot-gdscript-headless-testing",
+      "path": "skills/godot/godot-gdscript-headless-testing",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Runs Godot 4.7 GDScript tests with godot --headless and a SceneTree runner that exits non-zero on failure, so CI can gate merges."
+        },
+        "en-US": {
+          "shortDesc": "Runs Godot 4.7 GDScript tests with godot --headless and a SceneTree runner that exits non-zero on failure, so CI can gate merges."
+        }
+      }
+    },
+    {
+      "id": "godot-multiplayer",
+      "path": "skills/godot/godot-multiplayer",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Godot 4.7 high-level multiplayer: ENet host and join, @rpc with rpc_id(), MultiplayerSpawner and MultiplayerSynchronizer, with a two-instance headless test."
+        },
+        "en-US": {
+          "shortDesc": "Godot 4.7 high-level multiplayer: ENet host and join, @rpc with rpc_id(), MultiplayerSpawner and MultiplayerSynchronizer, with a two-instance headless test."
+        }
+      }
+    },
+    {
+      "id": "godot-nodes-scenes",
+      "path": "skills/godot/godot-nodes-scenes",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Godot 4.7 scene-tree structure: reusable .tscn scenes, instantiate(), autoloads and a checker for broken res:// paths and uids."
+        },
+        "en-US": {
+          "shortDesc": "Godot 4.7 scene-tree structure: reusable .tscn scenes, instantiate(), autoloads and a checker for broken res:// paths and uids."
+        }
+      }
+    },
+    {
+      "id": "godot-physics",
+      "path": "skills/godot/godot-physics",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Godot 4.7 physics API in 2D and 3D: body and Area types, collision_layer and mask bits, Area signals for hurtboxes, RayCast and space queries, and Jolt (3D defa…"
+        },
+        "en-US": {
+          "shortDesc": "Godot 4.7 physics API in 2D and 3D: body and Area types, collision_layer and mask bits, Area signals for hurtboxes, RayCast and space queries, and Jolt (3D defa…"
+        }
+      }
+    },
+    {
+      "id": "godot-resources",
+      "path": "skills/godot/godot-resources",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Godot 4.7 data-driven design with custom Resources: class_name and @export fields, .tres files, shared references vs duplicate_deep(), uids and threaded loading…"
+        },
+        "en-US": {
+          "shortDesc": "Godot 4.7 data-driven design with custom Resources: class_name and @export fields, .tres files, shared references vs duplicate_deep(), uids and threaded loading…"
+        }
+      }
+    },
+    {
+      "id": "godot-shaders",
+      "path": "skills/godot/godot-shaders",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Godot 4.7 Shading Language syntax and pipeline: canvas_item, spatial and particle shaders, built-ins, ShaderMaterial wiring, a headless compile check and 3.x po…"
+        },
+        "en-US": {
+          "shortDesc": "Godot 4.7 Shading Language syntax and pipeline: canvas_item, spatial and particle shaders, built-ins, ShaderMaterial wiring, a headless compile check and 3.x po…"
+        }
+      }
+    },
+    {
+      "id": "godot-signals-groups",
+      "path": "skills/godot/godot-signals-groups",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Godot 4.7 signals and node groups: typed signals, connect() with Callables, one-shot and deferred connections, event-bus autoloads and call_group broadcasts."
+        },
+        "en-US": {
+          "shortDesc": "Godot 4.7 signals and node groups: typed signals, connect() with Callables, one-shot and deferred connections, event-bus autoloads and call_group broadcasts."
+        }
+      }
+    },
+    {
+      "id": "godot-tilemap",
+      "path": "skills/godot/godot-tilemap",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Godot 4.7 tile maps with TileMapLayer and TileSet: atlas sources, data layers, terrain autotiling and set_cell or local_to_map at runtime."
+        },
+        "en-US": {
+          "shortDesc": "Godot 4.7 tile maps with TileMapLayer and TileSet: atlas sources, data layers, terrain autotiling and set_cell or local_to_map at runtime."
+        }
+      }
+    },
+    {
+      "id": "godot-ui-control",
+      "path": "skills/godot/godot-ui-control",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Godot 4.7 Control-node API for menus and HUDs: anchors, Containers, Theme and StyleBox, focus neighbours and stretch settings, with a headless layout check."
+        },
+        "en-US": {
+          "shortDesc": "Godot 4.7 Control-node API for menus and HUDs: anchors, Containers, Theme and StyleBox, focus neighbours and stretch settings, with a headless layout check."
+        }
+      }
+    },
+    {
+      "id": "bevy-ecs",
+      "path": "skills/other-engines/bevy-ecs",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Builds and debugs Bevy 0.20 games in Rust: components, Query and Commands systems, schedules, States, observers and headless tests."
+        },
+        "en-US": {
+          "shortDesc": "Builds and debugs Bevy 0.20 games in Rust: components, Query and Commands systems, schedules, States, observers and headless tests."
+        }
+      }
+    },
+    {
+      "id": "defold-core",
+      "path": "skills/other-engines/defold-core",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Builds and debugs Defold 1.14 games in Lua: collections, game objects, input focus, msg.post messaging, factories, collection proxies and Bob builds."
+        },
+        "en-US": {
+          "shortDesc": "Builds and debugs Defold 1.14 games in Lua: collections, game objects, input focus, msg.post messaging, factories, collection proxies and Bob builds."
+        }
+      }
+    },
+    {
+      "id": "love2d-core",
+      "path": "skills/other-engines/love2d-core",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Builds and debugs LÖVE (Love2D) 11.x games in Lua: main.lua callbacks, conf.lua, fixed steps, crisp pixel-art scaling, love.filesystem saves and a scripted run."
+        },
+        "en-US": {
+          "shortDesc": "Builds and debugs LÖVE (Love2D) 11.x games in Lua: main.lua callbacks, conf.lua, fixed steps, crisp pixel-art scaling, love.filesystem saves and a scripted run."
+        }
+      }
+    },
+    {
+      "id": "pygame-core",
+      "path": "skills/other-engines/pygame-core",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Builds and debugs 2D games in Python with pygame-ce (imported as pygame): the event-update-draw loop, delta time, Surfaces and Rects, Sprite groups and headless…"
+        },
+        "en-US": {
+          "shortDesc": "Builds and debugs 2D games in Python with pygame-ce (imported as pygame): the event-update-draw loop, delta time, Surfaces and Rects, Sprite groups and headless…"
+        }
+      }
+    },
+    {
+      "id": "roblox-characters",
+      "path": "skills/other-engines/roblox-characters",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Roblox player characters: CharacterAdded lifecycle, Humanoid and HumanoidRootPart, R6, R15 and custom rigs, respawn and Tools."
+        },
+        "en-US": {
+          "shortDesc": "Roblox player characters: CharacterAdded lifecycle, Humanoid and HumanoidRootPart, R6, R15 and custom rigs, respawn and Tools."
+        }
+      }
+    },
+    {
+      "id": "roblox-datastores",
+      "path": "skills/other-engines/roblox-datastores",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Roblox DataStoreService persistence: load on join, save on leave and BindToClose, UpdateAsync vs SetAsync, session locking and OrderedDataStore leaderboards."
+        },
+        "en-US": {
+          "shortDesc": "Roblox DataStoreService persistence: load on join, save on leave and BindToClose, UpdateAsync vs SetAsync, session locking and OrderedDataStore leaderboards."
+        }
+      }
+    },
+    {
+      "id": "roblox-luau",
+      "path": "skills/other-engines/roblox-luau",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Roblox Luau scripting and code structure: services, Instances, Script vs LocalScript vs ModuleScript, the task library and typed Luau, with selene and luau-lsp…"
+        },
+        "en-US": {
+          "shortDesc": "Roblox Luau scripting and code structure: services, Instances, Script vs LocalScript vs ModuleScript, the task library and typed Luau, with selene and luau-lsp…"
+        }
+      }
+    },
+    {
+      "id": "roblox-networking",
+      "path": "skills/other-engines/roblox-networking",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Roblox client-server networking and anti-exploit: RemoteEvent and RemoteFunction contracts, server authority, rate limits, hit validation and replication."
+        },
+        "en-US": {
+          "shortDesc": "Roblox client-server networking and anti-exploit: RemoteEvent and RemoteFunction contracts, server authority, rate limits, hit validation and replication."
+        }
+      }
+    },
+    {
+      "id": "roblox-physics",
+      "path": "skills/other-engines/roblox-physics",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Roblox physics and spatial queries: assemblies, constraints, collision groups, Raycast and Shapecast, and network ownership."
+        },
+        "en-US": {
+          "shortDesc": "Roblox physics and spatial queries: assemblies, constraints, collision groups, Raycast and Shapecast, and network ownership."
+        }
+      }
+    },
+    {
+      "id": "roblox-simulator-economy",
+      "path": "skills/other-engines/roblox-simulator-economy",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Roblox simulator, tycoon and idle-game economies in Luau: upgrade cost curves, income per second, rebirth pacing, big-number formatting and paid-egg odds, with…"
+        },
+        "en-US": {
+          "shortDesc": "Roblox simulator, tycoon and idle-game economies in Luau: upgrade cost curves, income per second, rebirth pacing, big-number formatting and paid-egg odds, with…"
+        }
+      }
+    },
+    {
+      "id": "roblox-studio-workflow",
+      "path": "skills/other-engines/roblox-studio-workflow",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Safely edits an existing Roblox place or Rojo project: finds the source of truth and proves changes with the right test mode or Studio MCP (execute_luau)."
+        },
+        "en-US": {
+          "shortDesc": "Safely edits an existing Roblox place or Rojo project: finds the source of truth and proves changes with the right test mode or Studio MCP (execute_luau)."
+        }
+      }
+    },
+    {
+      "id": "roblox-ui",
+      "path": "skills/other-engines/roblox-ui",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Roblox UI with ScreenGui and PlayerGui: ResetOnSpawn, UDim2 scale and offset, UIListLayout flex, safe areas, StyleSheet, gamepad selection and touch controls."
+        },
+        "en-US": {
+          "shortDesc": "Roblox UI with ScreenGui and PlayerGui: ResetOnSpawn, UDim2 scale and offset, UIListLayout flex, safe areas, StyleSheet, gamepad selection and touch controls."
+        }
+      }
+    },
+    {
+      "id": "unity-animation",
+      "path": "skills/unity/unity-animation",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Unity 6.3 LTS character animation with the Animator (Mecanim): states and transitions, blend trees, Avatar Mask layers, root motion and humanoid IK."
+        },
+        "en-US": {
+          "shortDesc": "Unity 6.3 LTS character animation with the Animator (Mecanim): states and transitions, blend trees, Avatar Mask layers, root motion and humanoid IK."
+        }
+      }
+    },
+    {
+      "id": "unity-build-pipeline",
+      "path": "skills/unity/unity-build-pipeline",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Builds and ships Unity 6.3 LTS players: Build Profiles, IL2CPP vs Mono, managed stripping with link.xml, scripted BuildPlayer, Addressables and CI or headless b…"
+        },
+        "en-US": {
+          "shortDesc": "Builds and ships Unity 6.3 LTS players: Build Profiles, IL2CPP vs Mono, managed stripping with link.xml, scripted BuildPlayer, Addressables and CI or headless b…"
+        }
+      }
+    },
+    {
+      "id": "unity-build-size",
+      "path": "skills/unity/unity-build-size",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Finds and shrinks what makes a Unity 6.3 LTS build too big: Build Report reading, uncompressed textures, glTFast models, PCM audio and per-platform levers."
+        },
+        "en-US": {
+          "shortDesc": "Finds and shrinks what makes a Unity 6.3 LTS build too big: Build Report reading, uncompressed textures, glTFast models, PCM audio and per-platform levers."
+        }
+      }
+    },
+    {
+      "id": "unity-csharp-scripting",
+      "path": "skills/unity/unity-csharp-scripting",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Writes and fixes Unity 6.3 LTS C# gameplay scripts: MonoBehaviour lifecycle, serialization, .meta/GUID discipline and command-line tests."
+        },
+        "en-US": {
+          "shortDesc": "Writes and fixes Unity 6.3 LTS C# gameplay scripts: MonoBehaviour lifecycle, serialization, .meta/GUID discipline and command-line tests."
+        }
+      }
+    },
+    {
+      "id": "unity-input-system",
+      "path": "skills/unity/unity-input-system",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Wires Unity 6.3 LTS player input with the Input System package: .inputactions assets, action maps, PlayerInput and control schemes."
+        },
+        "en-US": {
+          "shortDesc": "Wires Unity 6.3 LTS player input with the Input System package: .inputactions assets, action maps, PlayerInput and control schemes."
+        }
+      }
+    },
+    {
+      "id": "unity-navmesh",
+      "path": "skills/unity/unity-navmesh",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Unity 6.3 LTS pathfinding with the AI Navigation package: NavMeshSurface baking, NavMeshAgent, NavMeshLink jumps and runtime rebakes."
+        },
+        "en-US": {
+          "shortDesc": "Unity 6.3 LTS pathfinding with the AI Navigation package: NavMeshSurface baking, NavMeshAgent, NavMeshLink jumps and runtime rebakes."
+        }
+      }
+    },
+    {
+      "id": "unity-physics",
+      "path": "skills/unity/unity-physics",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Unity 6.3 LTS physics in 3D and 2D: Rigidbody and Rigidbody2D, forces and linearVelocity, the layer collision matrix and raycasts."
+        },
+        "en-US": {
+          "shortDesc": "Unity 6.3 LTS physics in 3D and 2D: Rigidbody and Rigidbody2D, forces and linearVelocity, the layer collision matrix and raycasts."
+        }
+      }
+    },
+    {
+      "id": "unity-scriptableobjects",
+      "path": "skills/unity/unity-scriptableobjects",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Unity 6.3 LTS data and decoupling with ScriptableObjects: CreateAssetMenu config assets, shared runtime variables, event channels and .asset files made from cod…"
+        },
+        "en-US": {
+          "shortDesc": "Unity 6.3 LTS data and decoupling with ScriptableObjects: CreateAssetMenu config assets, shared runtime variables, event channels and .asset files made from cod…"
+        }
+      }
+    },
+    {
+      "id": "unity-tilemap-2d",
+      "path": "skills/unity/unity-tilemap-2d",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Unity 6.3 LTS 2D tilemaps: the Tile Palette, Tilemap Collider 2D with a Composite Collider, Rule Tiles and runtime SetTile."
+        },
+        "en-US": {
+          "shortDesc": "Unity 6.3 LTS 2D tilemaps: the Tile Palette, Tilemap Collider 2D with a Composite Collider, Rule Tiles and runtime SetTile."
+        }
+      }
+    },
+    {
+      "id": "unreal-behavior-trees",
+      "path": "skills/unreal/unreal-behavior-trees",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Unreal Engine 5 (UE 5.8) NPC AI with Behavior Trees, Blackboards, EQS and StateTree: decorators with Observer Aborts, C++ BTTask nodes and running trees from an…"
+        },
+        "en-US": {
+          "shortDesc": "Unreal Engine 5 (UE 5.8) NPC AI with Behavior Trees, Blackboards, EQS and StateTree: decorators with Observer Aborts, C++ BTTask nodes and running trees from an…"
+        }
+      }
+    },
+    {
+      "id": "unreal-blueprints",
+      "path": "skills/unreal/unreal-blueprints",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Unreal Engine 5 (UE 5.8) Blueprint visual scripting: Blueprint Classes vs the Level Blueprint, Event Graph, and Cast, Interfaces and Event Dispatchers."
+        },
+        "en-US": {
+          "shortDesc": "Unreal Engine 5 (UE 5.8) Blueprint visual scripting: Blueprint Classes vs the Level Blueprint, Event Graph, and Cast, Interfaces and Event Dispatchers."
+        }
+      }
+    },
+    {
+      "id": "unreal-cpp-gameplay",
+      "path": "skills/unreal/unreal-cpp-gameplay",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Unreal Engine 5 (UE 5.8) C++ gameplay code: UCLASS and UPROPERTY reflection, the Gameplay Framework, GC-safe pointers, Build.cs and command-line builds."
+        },
+        "en-US": {
+          "shortDesc": "Unreal Engine 5 (UE 5.8) C++ gameplay code: UCLASS and UPROPERTY reflection, the Gameplay Framework, GC-safe pointers, Build.cs and command-line builds."
+        }
+      }
+    },
+    {
+      "id": "unreal-enhanced-input",
+      "path": "skills/unreal/unreal-enhanced-input",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Unreal Engine 5 (UE 5.8) player input with Enhanced Input: Input Actions (IA_), Mapping Contexts (IMC_), ETriggerEvent bindings and remappable keys."
+        },
+        "en-US": {
+          "shortDesc": "Unreal Engine 5 (UE 5.8) player input with Enhanced Input: Input Actions (IA_), Mapping Contexts (IMC_), ETriggerEvent bindings and remappable keys."
+        }
+      }
+    },
+    {
+      "id": "unreal-niagara",
+      "path": "skills/unreal/unreal-niagara",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Unreal Engine 5 (UE 5.8) Niagara VFX: systems, emitters, User parameters, spawning from C++ or Blueprints, bounds and GPU vs CPU sim."
+        },
+        "en-US": {
+          "shortDesc": "Unreal Engine 5 (UE 5.8) Niagara VFX: systems, emitters, User parameters, spawning from C++ or Blueprints, bounds and GPU vs CPU sim."
+        }
+      }
+    },
+    {
+      "id": "unreal-packaging",
+      "path": "skills/unreal/unreal-packaging",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Packages and ships Unreal Engine 5 (UE 5.8) projects: Shipping builds, cooking, pak/IoStore and RunUAT BuildCookRun with UAT and cook log reading."
+        },
+        "en-US": {
+          "shortDesc": "Packages and ships Unreal Engine 5 (UE 5.8) projects: Shipping builds, cooking, pak/IoStore and RunUAT BuildCookRun with UAT and cook log reading."
+        }
+      }
+    },
+    {
+      "id": "phaser-arcade-physics",
+      "path": "skills/web-engines/phaser-arcade-physics",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Phaser 4 Arcade Physics movement and collision: bodies, velocity, gravity, colliders vs overlaps, groups and bullet pools."
+        },
+        "en-US": {
+          "shortDesc": "Phaser 4 Arcade Physics movement and collision: bodies, velocity, gravity, colliders vs overlaps, groups and bullet pools."
+        }
+      }
+    },
+    {
+      "id": "phaser-core",
+      "path": "skills/web-engines/phaser-core",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Sets up and debugs Phaser 4 games (and pinned Phaser 3.90): Game config, Scene lifecycle, the loader, scene transitions and Phaser 3 to 4 migration."
+        },
+        "en-US": {
+          "shortDesc": "Sets up and debugs Phaser 4 games (and pinned Phaser 3.90): Game config, Scene lifecycle, the loader, scene transitions and Phaser 3 to 4 migration."
+        }
+      }
+    },
+    {
+      "id": "pixijs-rendering",
+      "path": "skills/web-engines/pixijs-rendering",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Builds and debugs 2D browser game rendering with PixiJS v8: async init, Assets loading, the Container and Sprite scene graph, pointer dragging and v7-to-v8 migr…"
+        },
+        "en-US": {
+          "shortDesc": "Builds and debugs 2D browser game rendering with PixiJS v8: async init, Assets loading, the Container and Sprite scene graph, pointer dragging and v7-to-v8 migr…"
+        }
+      }
+    },
+    {
+      "id": "threejs-gltf-loading",
+      "path": "skills/web-engines/threejs-gltf-loading",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Loads glTF/GLB models into three.js r187 and plays their animations: GLTFLoader, DRACO, Meshopt and KTX2 decoders, AnimationMixer cross-fades and SkeletonUtils…"
+        },
+        "en-US": {
+          "shortDesc": "Loads glTF/GLB models into three.js r187 and plays their animations: GLTFLoader, DRACO, Meshopt and KTX2 decoders, AnimationMixer cross-fades and SkeletonUtils…"
+        }
+      }
+    },
+    {
+      "id": "threejs-materials-lighting",
+      "path": "skills/web-engines/threejs-materials-lighting",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Lights and shades three.js r187 scenes: standard, physical and unlit materials, lights, shadows, HDR environment lighting and tone mapping."
+        },
+        "en-US": {
+          "shortDesc": "Lights and shades three.js r187 scenes: standard, physical and unlit materials, lights, shadows, HDR environment lighting and tone mapping."
+        }
+      }
+    },
+    {
+      "id": "threejs-scene-setup",
+      "path": "skills/web-engines/threejs-scene-setup",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Sets up and debugs a plain three.js r187 game or 3D scene: import maps, Scene, PerspectiveCamera and WebGLRenderer, setAnimationLoop with Timer, resize, OrbitCo…"
+        },
+        "en-US": {
+          "shortDesc": "Sets up and debugs a plain three.js r187 game or 3D scene: import maps, Scene, PerspectiveCamera and WebGLRenderer, setAnimationLoop with Timer, resize, OrbitCo…"
+        }
+      }
+    },
+    {
+      "id": "game-docs",
+      "path": "skills/workflows/game-docs",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Writes and maintains a game's design docs: a one-page GDD with a feature index and short feature notes, kept true to the code by a link and status checker."
+        },
+        "en-US": {
+          "shortDesc": "Writes and maintains a game's design docs: a one-page GDD with a feature index and short feature notes, kept true to the code by a link and status checker."
+        }
+      }
+    },
+    {
+      "id": "game-jam",
+      "path": "skills/workflows/game-jam",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Plans and ships a game jam entry against a fixed deadline: reads the jam rules, scopes to the clock, keeps a cut list and checks the build before submitting."
+        },
+        "en-US": {
+          "shortDesc": "Plans and ships a game jam entry against a fixed deadline: reads the jam rules, scopes to the clock, keeps a cut list and checks the build before submitting."
+        }
+      }
+    },
+    {
+      "id": "itch-publish",
+      "path": "skills/workflows/itch-publish",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Publishes and updates games on itch.io with the butler CLI: butler push to user/game:channel, channel platform tags, HTML5 builds, --userversion and CI uploads."
+        },
+        "en-US": {
+          "shortDesc": "Publishes and updates games on itch.io with the butler CLI: butler push to user/game:channel, channel platform tags, HTML5 builds, --userversion and CI uploads."
+        }
+      }
+    },
+    {
+      "id": "prototype-fast",
+      "path": "skills/workflows/prototype-fast",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Builds a throwaway playable prototype in about an hour to answer one question, usually \"is this mechanic fun?\": a one-question brief, a greybox, a debug HUD, a…"
+        },
+        "en-US": {
+          "shortDesc": "Builds a throwaway playable prototype in about an hour to answer one question, usually \"is this mechanic fun?\": a one-question brief, a greybox, a debug HUD, a…"
+        }
+      }
+    },
+    {
+      "id": "steam-publish",
+      "path": "skills/workflows/steam-publish",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "Publishes or updates a game on Steam with Steamworks and SteamPipe: depots, app_build .vdf scripts, steamcmd uploads, beta branches, SetLive, store review and C…"
+        },
+        "en-US": {
+          "shortDesc": "Publishes or updates a game on Steam with Steamworks and SteamPipe: depots, app_build .vdf scripts, steamcmd uploads, beta branches, SetLive, store review and C…"
+        }
+      }
+    }
+  ]
+}

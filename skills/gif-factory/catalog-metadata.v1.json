@@ -1,0 +1,83 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "gif-factory"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "GIF Factory",
+        "summary": "GIF factory skill for stickers, lenticular cards, motion posters and related styles, plus five companion skills. MIT license is present, but this snapshot stays listing-only: the pin contains hundreds of files over 1 MiB (about 676 MiB), including assets inside skills/, so a full git install exceeds the ordinary audit budget.",
+        "description": "Pinned at e89003a4a6ca4fd0e9e39c8859851b58c82bc368. Root LICENSE is MIT. The tree has a root SKILL.md plus five skills/* companions and 245 files over 1 MiB (about 676 MiB), including 179 under skills/. excludePaths would only skip automatic audit traversal and would not stop a git installer from fetching those files. No slim local package was admitted in this change."
+      },
+      "zh-CN": {
+        "name": "GIF 工厂",
+        "summary": "GIF 工厂技能，用于表情包、光栅卡、动态海报等风格，另含五个配套技能。已有 MIT 许可，但本快照保持仅收录：固定版本含数百个超过 1 MiB 的文件（约 676 MiB），且技能目录内也有大资源，完整 Git 安装超出普通审核预算。",
+        "description": "固定版本 e89003a4a6ca4fd0e9e39c8859851b58c82bc368。根 LICENSE 为 MIT。树中有根 SKILL.md 和五个 skills/* 配套技能，以及 245 个超过 1 MiB 的文件（约 676 MiB），其中 179 个位于 skills/。excludePaths 只会跳过自动审核遍历，不能阻止 Git 安装器拉取这些文件。本次未准入精简本地包。"
+      }
+    },
+    "category": "media",
+    "tags": [
+      "gif",
+      "sticker",
+      "animation",
+      "media"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/WoYun520/gif-factory.git",
+      "ref": "e89003a4a6ca4fd0e9e39c8859851b58c82bc368"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "WoYun520",
+      "url": "https://github.com/WoYun520/gif-factory",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

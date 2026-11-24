@@ -1,0 +1,100 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "ppt-master"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "PPT Master",
+        "summary": "Native PowerPoint generation skill with scripts, templates and Python dependencies inside skills/ppt-master. Requires Python and the declared packages; optional model or TTS providers need the operator's own credentials and fees. One bundled wav file is just over 1 MiB.",
+        "description": "Pinned at 63a03673d5c3c928e7f52983a2c8ec65bac30002. The catalog path is the self-contained skills/ppt-master tree, not the whole 13k-file repository (docs/ and projects/ include large examples). Root LICENSE is MIT. skills/ppt-master/templates/sounds/bigsoundbank/0573.wav is about 1.03 MiB. This is not a runtime deck-generation acceptance."
+      },
+      "zh-CN": {
+        "name": "PPT Master",
+        "summary": "原生 PowerPoint 生成技能，脚本、模板和 Python 依赖位于 skills/ppt-master。需 Python 及已声明的依赖包；可选的模型或语音服务需自备凭据并承担费用。自带的一个 wav 文件略超过 1 MiB。",
+        "description": "固定版本 63a03673d5c3c928e7f52983a2c8ec65bac30002。目录路径是自包含的 skills/ppt-master，而不是整个约 1.3 万文件的仓库（docs/ 与 projects/ 含大型示例）。根 LICENSE 为 MIT。skills/ppt-master/templates/sounds/bigsoundbank/0573.wav 约 1.03 MiB。此准入不代表幻灯片生成运行验收。"
+      }
+    },
+    "category": "productivity",
+    "tags": [
+      "powerpoint",
+      "pptx",
+      "presentation"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/hugohe3/ppt-master.git",
+      "ref": "63a03673d5c3c928e7f52983a2c8ec65bac30002",
+      "path": "skills/ppt-master"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "Hugo He",
+      "url": "https://github.com/hugohe3/ppt-master",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "63a03673d5c3c928e7f52983a2c8ec65bac30002",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Requires Python and the packages listed in skills/ppt-master/requirements.txt. The skill directory also has its own LICENSE copy."
+      },
+      {
+        "kind": "connection",
+        "value": "Optional LLM, search or TTS providers named in .env.example need the operator's own accounts, credentials and billing; they are not bundled."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

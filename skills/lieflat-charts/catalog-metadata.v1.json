@@ -1,0 +1,100 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "lieflat-charts"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "lieflat-charts",
+        "summary": "HTML chart skill for agents, with templates that load Chart.js, ECharts and Inter from third-party CDNs. Licensed under PolyForm Noncommercial 1.0.0; those libraries keep their own licenses. Two docs images in this pin exceed 1 MiB.",
+        "description": "Pinned at 4b4e75bde11cbef44263de769f3705db54bbb277. LICENSE matches the same PolyForm Noncommercial 1.0.0 text as lieflat-gongwen and is not MIT."
+      },
+      "zh-CN": {
+        "name": "lieflat 图表",
+        "summary": "面向 Agent 的 HTML 图表技能，模板会从第三方 CDN 加载 Chart.js、ECharts 和 Inter 字体。许可为 PolyForm Noncommercial 1.0.0；这些库仍遵循各自许可。本固定版本 docs 中有两张图超过 1 MiB。",
+        "description": "固定版本 4b4e75bde11cbef44263de769f3705db54bbb277。LICENSE 与 lieflat-gongwen 为同一份 PolyForm Noncommercial 1.0.0 文本，不是 MIT。"
+      }
+    },
+    "category": "business",
+    "tags": [
+      "charts",
+      "data-visualization",
+      "html"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/larashero3-dotcom/lieflat-charts.git",
+      "ref": "4b4e75bde11cbef44263de769f3705db54bbb277"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "PolyForm-Noncommercial-1.0.0",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "shiujan",
+      "url": "https://github.com/larashero3-dotcom/lieflat-charts",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "4b4e75bde11cbef44263de769f3705db54bbb277",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false,
+      "noticePath": "THIRD_PARTY_NOTICES.md"
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requirements": [
+      {
+        "kind": "connection",
+        "value": "Some templates load Chart.js, Apache ECharts and the Inter font from jsDelivr and Google Fonts. Those projects are not under the PolyForm license; see THIRD_PARTY_NOTICES.md."
+      },
+      {
+        "kind": "permission",
+        "value": "PolyForm Noncommercial 1.0.0 allows noncommercial use and redistribution under its terms only. Review the LICENSE before any commercial use."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "pixelfx"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "pixelfx",
+        "summary": "Skill for making pixel-art effects with the pixelfx code library. The catalog path is skills/pixelfx; the effect library and Node tools live in the same MIT repo and must be checked out separately. gallery/fonts is not covered by the repo MIT license and is outside this install path. Optional pch CLI install uses a remote script and needs operator review.",
+        "description": "Pinned at 5294518ce7c72e48b6100a744596e0acf57f2826. Root LICENSE is MIT; NOTICE.md must travel with the skill path. Two docs/ files over 1 MiB are outside the skill install path."
+      },
+      "zh-CN": {
+        "name": "pixelfx 像素特效",
+        "summary": "用 pixelfx 代码库制作像素特效的技能。目录安装路径为 skills/pixelfx；特效库和 Node 工具在同一 MIT 仓库中，需另行检出。gallery/fonts 不受仓库 MIT 许可覆盖，也不在本安装路径内。可选的 pch CLI 通过远程脚本安装，需操作者自行审核。",
+        "description": "固定版本 5294518ce7c72e48b6100a744596e0acf57f2826。根 LICENSE 为 MIT；NOTICE.md 须随技能路径携带。docs/ 中两个超过 1 MiB 的文件不在技能安装路径内。"
+      }
+    },
+    "category": "creative",
+    "tags": [
+      "pixel-art",
+      "vfx",
+      "gamedev",
+      "sprites"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/patch-gg/pixelfx.git",
+      "ref": "5294518ce7c72e48b6100a744596e0acf57f2826",
+      "path": "skills/pixelfx"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "patch-gg",
+      "url": "https://github.com/patch-gg/pixelfx",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "5294518ce7c72e48b6100a744596e0acf57f2826",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false,
+      "noticePath": "NOTICE.md"
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "The skill instructs working in a full pixelfx checkout with Node.js 18+; ffmpeg is optional for GIF/MP4 previews. This market path only includes skills/pixelfx plus root LICENSE/NOTICE."
+      },
+      {
+        "kind": "permission",
+        "value": "NOTICE.md records MIT-adapted third-party code and states that the font in gallery/fonts is not covered by this repository's MIT license. Optional installation of the pch CLI uses a remote script (`curl | sh` or PowerShell); review that script and obtain approval before running it."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "high"
+  }
+}

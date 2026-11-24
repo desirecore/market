@@ -1,0 +1,147 @@
+{
+  "id": "patent-disclosure-skill",
+  "name": "Patent Disclosure Skills",
+  "category": "business",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M6 3.5h9l5 5V21H6z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M15 3.5V8h5M9 12h8M9 15h6M9 18h4\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "patent",
+    "disclosure",
+    "chinese",
+    "skill-collection"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "专利交底技能",
+      "shortDesc": "中文专利技能合集，用于交底、检索、阅读、专利地图和审查意见辅助。许可为 MIT。法律或申请事务仍需具备资质的专业人员；skills/ 下含可选 Python 工具，以及一个超过 1 MiB 的 vendored mermaid.min.js。"
+    },
+    "en-US": {
+      "name": "Patent Disclosure Skills",
+      "shortDesc": "Collection of Chinese patent skills for disclosure, search, reading, mapping and office-action assistance. MIT licensed. Legal or filing work still needs a qualified professional; optional Python tools and a vendored mermaid.min.js over 1 MiB are included under skills/."
+    }
+  },
+  "maintainer": {
+    "name": "handsomestWei",
+    "verified": false,
+    "account": "handsomestWei",
+    "url": "https://github.com/handsomestWei/patent-disclosure-skill"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/handsomestWei/patent-disclosure-skill.git",
+    "repoBranch": "main",
+    "ref": "491524bd36a3f9f8d2e35caa5b56368b67d88ced"
+  },
+  "children": [
+    {
+      "id": "patent-application",
+      "path": "skills/patent-application",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "申请文件：把已有交底写成权利要求书、说明书、摘要与说明书附图；规划发明母案与分案并核对原始披露。四件套须指定交底目录。内容争议写入问题清单，交付后请确认须摘要清单。已有产出上改稿则另存新时间戳目录。须显式触发。"
+        },
+        "en-US": {
+          "shortDesc": "申请文件：把已有交底写成权利要求书、说明书、摘要与说明书附图；规划发明母案与分案并核对原始披露。四件套须指定交底目录。内容争议写入问题清单，交付后请确认须摘要清单。已有产出上改稿则另存新时间戳目录。须显式触发。"
+        }
+      }
+    },
+    {
+      "id": "patent-chart",
+      "path": "skills/patent-chart",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "权利要求对照表：独权拆成技术特征，逐格比对对比文件/产品/标准，附证据与强弱。用于无效对照、FTO 初筛、侵权/EoU、SEP、可专利性底稿。须点名。不出法律意见。"
+        },
+        "en-US": {
+          "shortDesc": "权利要求对照表：独权拆成技术特征，逐格比对对比文件/产品/标准，附证据与强弱。用于无效对照、FTO 初筛、侵权/EoU、SEP、可专利性底稿。须点名。不出法律意见。"
+        }
+      }
+    },
+    {
+      "id": "patent-disclosure",
+      "path": "skills/patent-disclosure",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "中国专利交底书：发明/实用新型/外观设计的专利点挖掘、轻量查新与成文、保护型1+N专利布局。"
+        },
+        "en-US": {
+          "shortDesc": "中国专利交底书：发明/实用新型/外观设计的专利点挖掘、轻量查新与成文、保护型1+N专利布局。"
+        }
+      }
+    },
+    {
+      "id": "patent-docket",
+      "path": "skills/patent-docket",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "按发明人/工程师给的材料一趟写出交底书和申请文件；申请问题清单上的缺口最多改三轮。缺技术事实就问人，不编。触发：交底申请一起做、从零出交底和申请、一条龙、帮写交底再出申请、按清单改、会稿、案卷、/patent-docket。"
+        },
+        "en-US": {
+          "shortDesc": "按发明人/工程师给的材料一趟写出交底书和申请文件；申请问题清单上的缺口最多改三轮。缺技术事实就问人，不编。触发：交底申请一起做、从零出交底和申请、一条龙、帮写交底再出申请、按清单改、会稿、案卷、/patent-docket。"
+        }
+      }
+    },
+    {
+      "id": "patent-exam-policy",
+      "path": "skills/patent-exam-policy",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "给交底用的政策简报：对照国知局近期口径，说明对交底写法/本稿的影响，并提示申请书式。技能进化仅为旁路，默认只改交底包，须另点名才改文件。"
+        },
+        "en-US": {
+          "shortDesc": "给交底用的政策简报：对照国知局近期口径，说明对交底写法/本稿的影响，并提示申请书式。技能进化仅为旁路，默认只改交底包，须另点名才改文件。"
+        }
+      }
+    },
+    {
+      "id": "patent-map",
+      "path": "skills/patent-map",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "专利地图：基于通俗解读已入库的 Obsidian 案例，点名后打开五种图。地形按 bge-small-zh 向量摊开。"
+        },
+        "en-US": {
+          "shortDesc": "专利地图：基于通俗解读已入库的 Obsidian 案例，点名后打开五种图。地形按 bge-small-zh 向量摊开。"
+        }
+      }
+    },
+    {
+      "id": "patent-oa",
+      "path": "skills/patent-oa",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "审查答复辅助：审查意见问答与草稿；库薄时引导案例入库。须显式触发。"
+        },
+        "en-US": {
+          "shortDesc": "审查答复辅助：审查意见问答与草稿；库薄时引导案例入库。须显式触发。"
+        }
+      }
+    },
+    {
+      "id": "patent-reader",
+      "path": "skills/patent-reader",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "专利通俗解读：中国或海外（美欧日韩等）公开号 / PDF 成通俗笔记、图谱与 Obsidian 入库。"
+        },
+        "en-US": {
+          "shortDesc": "专利通俗解读：中国或海外（美欧日韩等）公开号 / PDF 成通俗笔记、图谱与 Obsidian 入库。"
+        }
+      }
+    },
+    {
+      "id": "patent-search",
+      "path": "skills/patent-search",
+      "i18n": {
+        "zh-CN": {
+          "shortDesc": "专利著录检索：中国专利公布公告（发明人、申请人、分类号、名称、摘要；也可从单图或权利要求生成名称/摘要关键字后查询）；用户点名海外时，用 Google Patents 检索美欧日韩等海外专利。"
+        },
+        "en-US": {
+          "shortDesc": "专利著录检索：中国专利公布公告（发明人、申请人、分类号、名称、摘要；也可从单图或权利要求生成名称/摘要关键字后查询）；用户点名海外时，用 Google Patents 检索美欧日韩等海外专利。"
+        }
+      }
+    }
+  ]
+}
