@@ -1,0 +1,37 @@
+{
+  "id": "ppt-master",
+  "name": "PPT Master",
+  "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M4 5h16v14H4z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M8 9h8M8 12h5M8 15h6\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
+  "tags": [
+    "powerpoint",
+    "pptx",
+    "presentation"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "PPT Master",
+      "shortDesc": "原生 PowerPoint 生成技能，脚本、模板和 Python 依赖位于 skills/ppt-master。需 Python 及已声明的依赖包；可选的模型或语音服务需自备凭据并承担费用。自带的一个 wav 文件略超过 1 MiB。"
+    },
+    "en-US": {
+      "name": "PPT Master",
+      "shortDesc": "Native PowerPoint generation skill with scripts, templates and Python dependencies inside skills/ppt-master. Requires Python and the declared packages; optional model or TTS providers need the operator's own credentials and fees. One bundled wav file is just over 1 MiB."
+    }
+  },
+  "maintainer": {
+    "name": "Hugo He",
+    "verified": false,
+    "account": "hugohe3",
+    "url": "https://github.com/hugohe3/ppt-master"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/hugohe3/ppt-master.git",
+    "repoBranch": "main",
+    "ref": "63a03673d5c3c928e7f52983a2c8ec65bac30002",
+    "path": "skills/ppt-master"
+  }
+}

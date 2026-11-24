@@ -1,0 +1,96 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "lieflat-gongwen"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "lieflat-gongwen",
+        "summary": "Chinese official-document writing skill derived from the author's corpus measurements. Licensed under PolyForm Noncommercial 1.0.0; commercial use is not granted by that license. This pin has no files over 1 MiB.",
+        "description": "Pinned at c17e885c557930a7d1b1e34c0dc1bada47af2dad. The LICENSE file is the PolyForm Noncommercial 1.0.0 text and is not MIT."
+      },
+      "zh-CN": {
+        "name": "lieflat 公文写作",
+        "summary": "基于作者语料测算的中文公文写作技能。许可为 PolyForm Noncommercial 1.0.0，该许可未授予商业使用。本固定版本没有超过 1 MiB 的文件。",
+        "description": "固定版本 c17e885c557930a7d1b1e34c0dc1bada47af2dad。LICENSE 文件是 PolyForm Noncommercial 1.0.0 全文，不是 MIT。"
+      }
+    },
+    "category": "business",
+    "tags": [
+      "writing",
+      "official-document",
+      "chinese",
+      "gongwen"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/larashero3-dotcom/lieflat-gongwen.git",
+      "ref": "c17e885c557930a7d1b1e34c0dc1bada47af2dad"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "PolyForm-Noncommercial-1.0.0",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "shiujan",
+      "url": "https://github.com/larashero3-dotcom/lieflat-gongwen",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "c17e885c557930a7d1b1e34c0dc1bada47af2dad",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requirements": [
+      {
+        "kind": "permission",
+        "value": "PolyForm Noncommercial 1.0.0 allows noncommercial use and redistribution under its terms only. Review the LICENSE before any commercial use."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

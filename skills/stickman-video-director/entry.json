@@ -1,0 +1,38 @@
+{
+  "id": "stickman-video-director",
+  "name": "Stickman Video Director",
+  "category": "media",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><circle cx=\"12\" cy=\"5\" r=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"M12 7v6M9 10h6M12 13l-3 6M12 13l3 6\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
+  "tags": [
+    "animation",
+    "video",
+    "stickman",
+    "youtube"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "火柴人视频导演",
+      "shortDesc": "火柴人动画技能，可将脚本做成口播、字幕和无脸视频，并带音频库。已有 MIT 许可，但本快照保持仅收录：有 176 个超过 1 MiB 的文件（约 812 MiB），其中 112 个位于 skills/directing-stickman-videos，按技能路径做 Git 安装会超出普通审核预算。"
+    },
+    "en-US": {
+      "name": "Stickman Video Director",
+      "shortDesc": "Stickman animation skill that turns scripts into faceless videos with voiceover, captions and an audio library. MIT license is present, but this snapshot stays listing-only: 176 files over 1 MiB (about 812 MiB), including 112 inside skills/directing-stickman-videos, so a git install of the skill path exceeds the ordinary audit budget."
+    }
+  },
+  "maintainer": {
+    "name": "kaomei",
+    "verified": false,
+    "account": "kaomei",
+    "url": "https://github.com/kaomei/stickman-video-director"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/kaomei/stickman-video-director.git",
+    "repoBranch": "main",
+    "ref": "10287822ba47579321068da1b93801face9160dd",
+    "path": "skills/directing-stickman-videos"
+  }
+}
