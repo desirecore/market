@@ -1,0 +1,41 @@
+{
+  "art": "Zhenxing-Harp.png",
+  "upper_mask": "Zhenxing-Harp-upper.png",
+  "background": [
+    26,
+    28,
+    30
+  ],
+  "target_polygon": [
+    [
+      234,
+      148
+    ],
+    [
+      335,
+      148
+    ],
+    [
+      341,
+      215
+    ],
+    [
+      377,
+      240
+    ],
+    [
+      382,
+      273
+    ],
+    [
+      231,
+      273
+    ],
+    [
+      231,
+      208
+    ]
+  ],
+  "particle": "stardust",
+  "seed": 117
+}

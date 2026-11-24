@@ -10,13 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "pixelfx",
-        "summary": "Skill for making pixel-art effects with the pixelfx code library. The catalog path is skills/pixelfx; the effect library and Node tools live in the same MIT repo and must be checked out separately. gallery/fonts is not covered by the repo MIT license and is outside this install path. Optional pch CLI install uses a remote script and needs operator review.",
-        "description": "Pinned at 5294518ce7c72e48b6100a744596e0acf57f2826. Root LICENSE is MIT; NOTICE.md must travel with the skill path. Two docs/ files over 1 MiB are outside the skill install path."
+        "summary": "Optional local MIT package of the pixelfx skill for making pixel-art effects. The effect library and Node tools stay in the same MIT repo and must be checked out separately. gallery/fonts is not covered by the repo MIT license and is not in this package. Optional pch CLI install uses a remote script and needs operator review.",
+        "description": "Market-local packaging of patch-gg/pixelfx@5294518ce7c72e48b6100a744596e0acf57f2826 path skills/pixelfx, with the upstream MIT LICENSE and NOTICE.md placed in the installed tree (the installer copies only this content directory). The effect library is not vendored here. Package version 2026.11.24."
       },
       "zh-CN": {
-        "name": "pixelfx 像素特效",
-        "summary": "用 pixelfx 代码库制作像素特效的技能。目录安装路径为 skills/pixelfx；特效库和 Node 工具在同一 MIT 仓库中，需另行检出。gallery/fonts 不受仓库 MIT 许可覆盖，也不在本安装路径内。可选的 pch CLI 通过远程脚本安装，需操作者自行审核。",
-        "description": "固定版本 5294518ce7c72e48b6100a744596e0acf57f2826。根 LICENSE 为 MIT；NOTICE.md 须随技能路径携带。docs/ 中两个超过 1 MiB 的文件不在技能安装路径内。"
+        "name": "pixelfx",
+        "summary": "用 pixelfx 制作像素特效的可选 MIT 本地技能包。特效库和 Node 工具在同一 MIT 仓库中，需另行检出。gallery/fonts 不受仓库 MIT 许可覆盖，也不在本包内。可选 pch CLI 通过远程脚本安装，需操作者自行审核。",
+        "description": "基于 patch-gg/pixelfx@5294518ce7c72e48b6100a744596e0acf57f2826 路径 skills/pixelfx 的市场本地包装，把上游 MIT LICENSE 与 NOTICE.md 放进安装产物（安装器只复制本内容目录）。特效库不在本包中。包版本 2026.11.24。"
       }
     },
     "category": "creative",
@@ -28,7 +28,9 @@
     ]
   },
   "release": {
-    "state": "unknown"
+    "state": "known",
+    "version": "2026.11.24",
+    "versionScheme": "calver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
@@ -54,8 +56,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/patch-gg/pixelfx.git",
-      "ref": "5294518ce7c72e48b6100a744596e0acf57f2826",
-      "path": "skills/pixelfx"
+      "ref": "5294518ce7c72e48b6100a744596e0acf57f2826"
     }
   },
   "governance": {
@@ -79,6 +80,11 @@
       "reviewedBy": "mashagua",
       "upstreamEndorsed": false,
       "noticePath": "NOTICE.md"
+    },
+    "listingMaintainer": {
+      "name": "mashagua",
+      "url": "https://github.com/mashagua",
+      "verified": true
     }
   },
   "compatibility": {
@@ -88,16 +94,21 @@
     "requirements": [
       {
         "kind": "runtime",
-        "value": "The skill instructs working in a full pixelfx checkout with Node.js 18+; ffmpeg is optional for GIF/MP4 previews. This market path only includes skills/pixelfx plus root LICENSE/NOTICE."
+        "value": "A DesireCore-compatible client that can install this optional local skill."
       },
       {
-        "kind": "permission",
-        "value": "NOTICE.md records MIT-adapted third-party code and states that the font in gallery/fonts is not covered by this repository's MIT license. Optional installation of the pch CLI uses a remote script (`curl | sh` or PowerShell); review that script and obtain approval before running it."
+        "kind": "runtime",
+        "value": "The pixelfx effect library and Node tools are not in this package; check out pin 5294518ce7c72e48b6100a744596e0acf57f2826 separately when you need to build effects."
+      },
+      {
+        "kind": "connection",
+        "value": "Optional pch CLI installation uses a remote script and must be reviewed by the operator before execution. This package does not run remote scripts. gallery/fonts is not licensed as MIT and is not shipped."
       }
     ]
   },
   "spec": {
     "kind": "skill",
-    "riskLevel": "high"
+    "riskLevel": "high",
+    "skillType": "hybrid"
   }
 }

@@ -1,0 +1,72 @@
+{
+  "upper_components": [
+    1,
+    2,
+    3
+  ],
+  "foreground_threshold": 60,
+  "width": 960,
+  "height": 640,
+  "timing": {
+    "upper_start": 0.3,
+    "upper_duration": 0.14,
+    "gap": 1.02,
+    "body_duration": 0.18,
+    "terminal_duration": 0.72,
+    "duration": 4
+  },
+  "image": "Woyunjian.png",
+  "tail": {
+    "coordinate_size": [
+      960,
+      640
+    ],
+    "region_polygon": [
+      [
+        730,
+        640
+      ],
+      [
+        960,
+        640
+      ],
+      [
+        960,
+        440
+      ],
+      [
+        790,
+        445
+      ],
+      [
+        750,
+        465
+      ],
+      [
+        730,
+        480
+      ]
+    ],
+    "paths": [
+      [
+        [
+          735,
+          490
+        ],
+        [
+          794,
+          507
+        ],
+        [
+          877,
+          446
+        ],
+        [
+          940,
+          457
+        ]
+      ]
+    ],
+    "brush_width": 55
+  }
+}

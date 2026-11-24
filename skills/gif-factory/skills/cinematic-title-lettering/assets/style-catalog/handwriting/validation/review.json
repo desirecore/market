@@ -1,0 +1,333 @@
+{
+  "method": "固定原稿与校准字稿，短片名和长片名各独立生成，再逐字与原稿并排检查。",
+  "model_weights_trained": false,
+  "generated": 20,
+  "selected": 16,
+  "comparison_attempts": 4,
+  "reviewer": "assistant visual review",
+  "user_accepted_all_new_trials": false,
+  "tested_titles": [
+    "等风来",
+    "灯亮了我们就回家"
+  ],
+  "issues_fixed": [
+    {
+      "case_id": "F44-A",
+      "issue": "统一提示把短收笔也带着拉长。",
+      "fix": "统一提示改为只在本款需要长笔时才延长，采用重测稿。"
+    },
+    {
+      "case_id": "F45-A",
+      "issue": "来字上部挤成回绕形，容易看混。",
+      "fix": "保留上横、中竖和左右点画，点画分开后重测。"
+    },
+    {
+      "case_id": "F48-A",
+      "issue": "来字两侧点画过度省略。",
+      "fix": "补清点画与主笔之间的空隙后重测。"
+    },
+    {
+      "case_id": "F43-B",
+      "issue": "亮字下方出现悬空长钩。",
+      "fix": "让长钩连续接在了字的实际竖钩上，采用重测稿。"
+    }
+  ],
+  "styles": [
+    {
+      "id": "F41",
+      "name": "回环长竖",
+      "status": "assistant_reviewed_two_titles",
+      "checks": [
+        {
+          "case_id": "F41-A",
+          "title": "等风来",
+          "image": "F41-A.png",
+          "size": [
+            1536,
+            1024
+          ],
+          "sha256": "9c0dd0669a9c9fb2ab938a5da45aa17e258a015f33e6f92505780485414db1b7",
+          "text_review": "pass",
+          "style_review": "pass",
+          "margin_review": "pass",
+          "attempt": 1,
+          "prompt_revision": 1
+        },
+        {
+          "case_id": "F41-B",
+          "title": "灯亮了我们就回家",
+          "image": "F41-B.png",
+          "size": [
+            1536,
+            1024
+          ],
+          "sha256": "33d83b2e43e64549f6a9d05c5d2b604afd7bd5bff014b5449a0a282fa14d5289",
+          "text_review": "pass",
+          "style_review": "pass",
+          "margin_review": "pass",
+          "attempt": 1,
+          "prompt_revision": 3
+        }
+      ]
+    },
+    {
+      "id": "F42",
+      "name": "圆头长锋",
+      "status": "assistant_reviewed_two_titles",
+      "checks": [
+        {
+          "case_id": "F42-A",
+          "title": "等风来",
+          "image": "F42-A.png",
+          "size": [
+            1536,
+            1024
+          ],
+          "sha256": "b9a181a367ed909cc3e423535c8491121ea549bbe57190d84807780db8791973",
+          "text_review": "pass",
+          "style_review": "pass",
+          "margin_review": "pass",
+          "attempt": 1,
+          "prompt_revision": 1
+        },
+        {
+          "case_id": "F42-B",
+          "title": "灯亮了我们就回家",
+          "image": "F42-B.png",
+          "size": [
+            1536,
+            1024
+          ],
+          "sha256": "47744f2c1b3aae345bad01e8a5ff687f3308269e9a7946eea03b7eda7a09939f",
+          "text_review": "pass",
+          "style_review": "pass",
+          "margin_review": "pass",
+          "attempt": 1,
+          "prompt_revision": 3
+        }
+      ]
+    },
+    {
+      "id": "F43",
+      "name": "墨点长钩",
+      "status": "assistant_reviewed_two_titles",
+      "checks": [
+        {
+          "case_id": "F43-A",
+          "title": "等风来",
+          "image": "F43-A.png",
+          "size": [
+            1536,
+            1024
+          ],
+          "sha256": "b803760fa4c2d328e769b9a438f24d96ab922ef815dbea763ba33e915435207c",
+          "text_review": "pass",
+          "style_review": "pass",
+          "margin_review": "pass",
+          "attempt": 1,
+          "prompt_revision": 1
+        },
+        {
+          "case_id": "F43-B",
+          "title": "灯亮了我们就回家",
+          "image": "F43-B.png",
+          "size": [
+            1536,
+            1024
+          ],
+          "sha256": "a804a5c72fb6f79141753ede9be8124b7da64b2f8bc45a09a1af32dfcc1b0c99",
+          "text_review": "pass",
+          "style_review": "pass",
+          "margin_review": "pass",
+          "attempt": 2,
+          "prompt_revision": 4
+        }
+      ]
+    },
+    {
+      "id": "F44",
+      "name": "收紧连笔",
+      "status": "assistant_reviewed_two_titles",
+      "checks": [
+        {
+          "case_id": "F44-A",
+          "title": "等风来",
+          "image": "F44-A.png",
+          "size": [
+            1536,
+            1024
+          ],
+          "sha256": "d807634328896870c6721a359d259d136b440431059273809b65da4e112833e6",
+          "text_review": "pass",
+          "style_review": "pass",
+          "margin_review": "pass",
+          "attempt": 2,
+          "prompt_revision": 3
+        },
+        {
+          "case_id": "F44-B",
+          "title": "灯亮了我们就回家",
+          "image": "F44-B.png",
+          "size": [
+            1536,
+            1024
+          ],
+          "sha256": "5d0843beee0fff4316d47d00868e1d68630d163196b165d15b752a82a9dfed6a",
+          "text_review": "pass",
+          "style_review": "pass",
+          "margin_review": "pass",
+          "attempt": 1,
+          "prompt_revision": 3
+        }
+      ]
+    },
+    {
+      "id": "F45",
+      "name": "饱墨圆写",
+      "status": "assistant_reviewed_two_titles",
+      "checks": [
+        {
+          "case_id": "F45-A",
+          "title": "等风来",
+          "image": "F45-A.png",
+          "size": [
+            1536,
+            1024
+          ],
+          "sha256": "f9789879963ae8008c231145c1f0bc731d3f106dce9495e236537c54ba2c82f0",
+          "text_review": "pass",
+          "style_review": "pass",
+          "margin_review": "pass",
+          "attempt": 2,
+          "prompt_revision": 3
+        },
+        {
+          "case_id": "F45-B",
+          "title": "灯亮了我们就回家",
+          "image": "F45-B.png",
+          "size": [
+            1536,
+            1024
+          ],
+          "sha256": "66be675c8ae4727126a40f070017213ce3891b80625d365a8a4fcbf42a5c8378",
+          "text_review": "pass",
+          "style_review": "pass",
+          "margin_review": "pass",
+          "attempt": 1,
+          "prompt_revision": 3
+        }
+      ]
+    },
+    {
+      "id": "F46",
+      "name": "松弛趣写",
+      "status": "assistant_reviewed_two_titles",
+      "checks": [
+        {
+          "case_id": "F46-A",
+          "title": "等风来",
+          "image": "F46-A.png",
+          "size": [
+            1536,
+            1024
+          ],
+          "sha256": "aa4479143caa4e61acf1aac40a6d5e5ac9d62abe37fc7cc08ad5659a42585cbd",
+          "text_review": "pass",
+          "style_review": "pass",
+          "margin_review": "pass",
+          "attempt": 1,
+          "prompt_revision": 1
+        },
+        {
+          "case_id": "F46-B",
+          "title": "灯亮了我们就回家",
+          "image": "F46-B.png",
+          "size": [
+            1536,
+            1024
+          ],
+          "sha256": "74b2767dbc332aaf76e1084b1f4cd385ffed83a83708f9c4715c5452de7d7bda",
+          "text_review": "pass",
+          "style_review": "pass",
+          "margin_review": "pass",
+          "attempt": 1,
+          "prompt_revision": 3
+        }
+      ]
+    },
+    {
+      "id": "F47",
+      "name": "尖笔日记",
+      "status": "assistant_reviewed_two_titles",
+      "checks": [
+        {
+          "case_id": "F47-A",
+          "title": "等风来",
+          "image": "F47-A.png",
+          "size": [
+            1536,
+            1024
+          ],
+          "sha256": "481b39e14a3335da1aca1de0278442434ae598a32fff75340306f4d90935bcf6",
+          "text_review": "pass",
+          "style_review": "pass",
+          "margin_review": "pass",
+          "attempt": 1,
+          "prompt_revision": 2
+        },
+        {
+          "case_id": "F47-B",
+          "title": "灯亮了我们就回家",
+          "image": "F47-B.png",
+          "size": [
+            1536,
+            1024
+          ],
+          "sha256": "c3af2088d0ee2233b52107341696dc6a06c5f23efa8238752ce42aabf292e2b6",
+          "text_review": "pass",
+          "style_review": "pass",
+          "margin_review": "pass",
+          "attempt": 1,
+          "prompt_revision": 3
+        }
+      ]
+    },
+    {
+      "id": "F48",
+      "name": "轻圆细笔",
+      "status": "assistant_reviewed_two_titles",
+      "checks": [
+        {
+          "case_id": "F48-A",
+          "title": "等风来",
+          "image": "F48-A.png",
+          "size": [
+            1536,
+            1024
+          ],
+          "sha256": "fadb494c62eadaa8d2e3930865520d4debc0ff4c4acbf61e74d4314124b1609f",
+          "text_review": "pass",
+          "style_review": "pass",
+          "margin_review": "pass",
+          "attempt": 2,
+          "prompt_revision": 3
+        },
+        {
+          "case_id": "F48-B",
+          "title": "灯亮了我们就回家",
+          "image": "F48-B.png",
+          "size": [
+            1536,
+            1024
+          ],
+          "sha256": "131368daaf4abf586c59da4e850f4028f49a288a97460f140d82f6b61b48bd31",
+          "text_review": "pass",
+          "style_review": "pass",
+          "margin_review": "pass",
+          "attempt": 1,
+          "prompt_revision": 3
+        }
+      ]
+    }
+  ]
+}

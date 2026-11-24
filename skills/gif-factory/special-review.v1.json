@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "mashagua",
+  "reviewedAt": "2026-11-24",
+  "notes": "Slim market-local MIT package of gif-factory at e89003a4a6ca4fd0e9e39c8859851b58c82bc368. Two paper-mechanism visual reference PNGs exceed 1 MiB and remain installed because the skill uses them as references. Example renders and preview catalogs are excluded, not hidden with excludePaths.",
+  "budgetExemptPaths": [
+    "skills/paper-mechanism-explainer/assets/watch-reference.png",
+    "skills/paper-mechanism-explainer/assets/zipper-reference.png"
+  ]
+}

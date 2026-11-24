@@ -1,0 +1,98 @@
+{
+  "method": "assistant visual review of reference-guided fresh sentences",
+  "model_weights_trained": false,
+  "generated": 12,
+  "selected": 10,
+  "titles_per_sheet": 2,
+  "independent_generation_per_title": false,
+  "tested_titles": [
+    "雨停了",
+    "把日子写成一封信"
+  ],
+  "styles_needing_reinforcement": [
+    "F44",
+    "F46"
+  ],
+  "styles": [
+    {
+      "id": "F41",
+      "name": "回环长竖",
+      "image": "F41-C.png",
+      "sha256": "f9bb71e99eccd77c4299fb6776a94757200a7921f84b6b10efdfa440c70b2618",
+      "text_review": "雨停了 / 把日子写成一封信，人工逐字看图，未见明显错字或缺字",
+      "style_review": "本句中的主要特点可分辨"
+    },
+    {
+      "id": "F42",
+      "name": "圆头长锋",
+      "image": "F42-C.png",
+      "sha256": "afb03ce57d13bf1ab5b3f696bb47feaaff075f68bf119ee3ae56c857fdf93eed",
+      "text_review": "雨停了 / 把日子写成一封信，人工逐字看图，未见明显错字或缺字",
+      "style_review": "本句中的主要特点可分辨"
+    },
+    {
+      "id": "F43",
+      "name": "墨点长钩",
+      "image": "F43-C.png",
+      "sha256": "096507b8eea0e398ae4c51d94dabea0380e57949c3cfad326e1ef2b8e28f0022",
+      "text_review": "雨停了 / 把日子写成一封信，人工逐字看图，未见明显错字或缺字",
+      "style_review": "本句中的主要特点可分辨"
+    },
+    {
+      "id": "F44",
+      "name": "收紧连笔",
+      "image": "F44-C.png",
+      "sha256": "1406e642480bd4829eb175b06622fea2f993ab2f80627a935ff059ad1076c702",
+      "text_review": "雨停了 / 把日子写成一封信，人工逐字看图，未见明显错字或缺字",
+      "style_review": "有改善，仍需加强"
+    },
+    {
+      "id": "F45",
+      "name": "饱墨圆写",
+      "image": "F45-C.png",
+      "sha256": "d39be62b33d95c9c6b07019f020269e983336bf6eafd5a7a39211cfeac80db89",
+      "text_review": "雨停了 / 把日子写成一封信，人工逐字看图，未见明显错字或缺字",
+      "style_review": "本句中的主要特点可分辨"
+    },
+    {
+      "id": "F46",
+      "name": "松弛趣写",
+      "image": "F46-C.png",
+      "sha256": "fb8631a48ff57a20d3871e4ed4187a803bf9bffcaadd020ece9f898759740458",
+      "text_review": "雨停了 / 把日子写成一封信，人工逐字看图，未见明显错字或缺字",
+      "style_review": "有改善，仍需加强"
+    },
+    {
+      "id": "F47",
+      "name": "尖笔日记",
+      "image": "F47-C.png",
+      "sha256": "d0981373e5b53e6b6875c47b16cae04474169abbb544a3c240a78951701c8f27",
+      "text_review": "雨停了 / 把日子写成一封信，人工逐字看图，未见明显错字或缺字",
+      "style_review": "本句中的主要特点可分辨"
+    },
+    {
+      "id": "F48",
+      "name": "轻圆细笔",
+      "image": "F48-C.png",
+      "sha256": "3c84cc5b33d5f836bfe0d82bd0af841382065341f0f5a830744190af30d41e63",
+      "text_review": "雨停了 / 把日子写成一封信，人工逐字看图，未见明显错字或缺字",
+      "style_review": "本句中的主要特点可分辨"
+    },
+    {
+      "id": "F49",
+      "name": "细锋顿收",
+      "image": "F49-C.png",
+      "sha256": "71dea9a2af42402597b9b41e17fb143a61961397721d18d40c41fac2682dedb7",
+      "text_review": "雨停了 / 把日子写成一封信，人工逐字看图，未见明显错字或缺字",
+      "style_review": "本句中的主要特点可分辨"
+    },
+    {
+      "id": "F50",
+      "name": "疏朗横展",
+      "image": "F50-C.png",
+      "sha256": "7bb34a74556085f4aadc360abf0f80bd18a0180b03bb789e8720aeea46eed715",
+      "text_review": "雨停了 / 把日子写成一封信，人工逐字看图，未见明显错字或缺字",
+      "style_review": "本句中的主要特点可分辨"
+    }
+  ]
+}

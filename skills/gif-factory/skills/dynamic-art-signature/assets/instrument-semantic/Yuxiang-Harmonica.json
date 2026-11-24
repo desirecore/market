@@ -1,0 +1,41 @@
+{
+  "art": "Yuxiang-Harmonica.png",
+  "upper_mask": "Yuxiang-Harmonica-upper.png",
+  "background": [
+    26,
+    28,
+    30
+  ],
+  "target_polygon": [
+    [
+      33,
+      157
+    ],
+    [
+      226,
+      157
+    ],
+    [
+      231,
+      198
+    ],
+    [
+      224,
+      240
+    ],
+    [
+      205,
+      270
+    ],
+    [
+      190,
+      299
+    ],
+    [
+      36,
+      317
+    ]
+  ],
+  "particle": "rain",
+  "seed": 231
+}

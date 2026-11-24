@@ -1,0 +1,450 @@
+{
+  "mode": "built-in image generation with user image references",
+  "created": "2026-11-11",
+  "scope": "20 new cinematic title frames, F21-F40",
+  "scene_source": "AI-generated photographic scenes. User-provided reference crops informed style and composition; no original reference image is redistributed.",
+  "reproduction": "Exact prompts and reference crop roles are recorded. Regeneration varies; saved PNG hashes preserve these exact results. Original reference crops are not bundled.",
+  "review_status": "assistant_visual_checked_pending_user_selection",
+  "cases": [
+    {
+      "id": "F21",
+      "title": "街口那家还亮着",
+      "english": "A LIGHT ON THE CORNER",
+      "name": "招牌连笔",
+      "ref": "ce3ffb4a416adb57445c74d0097c8bb2.jpg",
+      "crop": [
+        0,
+        0.685,
+        1,
+        1
+      ],
+      "direction": "午夜小店窗边，深绿旧木门、暖黄色玻璃灯、湿地反光，店面招牌虚焦无可读文字。字在左中暗处，奶油白招牌手绘连笔，宽扁笔头产生明显侧锋粗细；『街口那家 / 还亮着』错位两行，家与亮较大，字脚用细连筋接住相邻字，宽实笔画的内腔故意歪、行脚高低不一。区别于细线绕写：这里是厚实漆笔的连写字骨。极小英文嵌在行脚下，字组约48%宽。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「街口那家还亮着」. Exact small English:「A LIGHT ON THE CORNER」. Lettering category: 招牌连笔. Scene and construction: 午夜小店窗边，深绿旧木门、暖黄色玻璃灯、湿地反光，店面招牌虚焦无可读文字。字在左中暗处，奶油白招牌手绘连笔，宽扁笔头产生明显侧锋粗细；『街口那家 / 还亮着』错位两行，家与亮较大，字脚用细连筋接住相邻字，宽实笔画的内腔故意歪、行脚高低不一。区别于细线绕写：这里是厚实漆笔的连写字骨。极小英文嵌在行脚下，字组约48%宽。",
+      "output": "new-20/F21.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1935,
+        813
+      ],
+      "sha256": "b040f6569d30b8186f98aac1e43dff9f07fe2637ec9d925e9a00327173fe1b06"
+    },
+    {
+      "id": "F22",
+      "title": "寄往没有人的岛",
+      "english": "POSTMARK FOR AN ISLAND",
+      "name": "残印邮戳",
+      "ref": "65195906c8cfe810da9c5bb69ef55c71.jpg",
+      "crop": [
+        0,
+        0,
+        1,
+        0.332
+      ],
+      "direction": "清晨薄雾中的渡口，远处小岛、码头旧长凳、一个系绳木桩，低饱和蓝灰摄影。暗锈红残印字位于右上留白，近等宽、短粗笔画、圆钝矩形转角，『寄往 / 没有人的岛』两层挤合，字内局部压印不全但偏旁完整。寄字宝盖宽，岛字山部短而倔。每字像被按下去时压力不同，墨印轻微偏移；不要外围邮戳圆圈、信封小插图或把标准字体只做旧。英文极小灰白嵌入寄与往下侧。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「寄往没有人的岛」. Exact small English:「POSTMARK FOR AN ISLAND」. Lettering category: 残印邮戳. Scene and construction: 清晨薄雾中的渡口，远处小岛、码头旧长凳、一个系绳木桩，低饱和蓝灰摄影。暗锈红残印字位于右上留白，近等宽、短粗笔画、圆钝矩形转角，『寄往 / 没有人的岛』两层挤合，字内局部压印不全但偏旁完整。寄字宝盖宽，岛字山部短而倔。每字像被按下去时压力不同，墨印轻微偏移；不要外围邮戳圆圈、信封小插图或把标准字体只做旧。英文极小灰白嵌入寄与往下侧。",
+      "output": "new-20/F22.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1935,
+        813
+      ],
+      "sha256": "06ce645306d1f120aefbddf4ce0b3a1b6abd39cecd617f3215e790799c779d04"
+    },
+    {
+      "id": "F23",
+      "title": "最后一班向北",
+      "english": "THE LAST NORTHBOUND",
+      "name": "窄黑竖骨",
+      "ref": "827c41323edad9c4f74227e15d2f8043.jpg",
+      "crop": [
+        0,
+        0,
+        1,
+        0.333
+      ],
+      "direction": "凌晨长途汽车站月台，右侧空巴士轮廓与冷白顶灯，远端雾蓝，地面潮湿，电影写实。左侧砖红窄黑手绘字『最后一班 / 向北』，竖画厚、字身极窄长、横画短硬、无衬线，日口压窄，北左右两块分离，像疲惫城市楼群的节奏。各竖笔长度不齐、字肩轻斜；别做宋体、毛笔飞白或数字屏。主字班与北压高，微小英文压在窄缝，标题约40%宽。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「最后一班向北」. Exact small English:「THE LAST NORTHBOUND」. Lettering category: 窄黑竖骨. Scene and construction: 凌晨长途汽车站月台，右侧空巴士轮廓与冷白顶灯，远端雾蓝，地面潮湿，电影写实。左侧砖红窄黑手绘字『最后一班 / 向北』，竖画厚、字身极窄长、横画短硬、无衬线，日口压窄，北左右两块分离，像疲惫城市楼群的节奏。各竖笔长度不齐、字肩轻斜；别做宋体、毛笔飞白或数字屏。主字班与北压高，微小英文压在窄缝，标题约40%宽。",
+      "output": "new-20/F23.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1935,
+        813
+      ],
+      "sha256": "b93b1e26a16676886e39fd98a9265731d8b51822927e38756227dd3a6661c590"
+    },
+    {
+      "id": "F24",
+      "title": "小镇借我一场梦",
+      "english": "A TOWN LENT ME A DREAM",
+      "name": "软角胶刻",
+      "ref": "38c0ce364be6fcf6ae9be0db92910b3f.jpg",
+      "crop": [
+        0,
+        0.337,
+        1,
+        0.665
+      ],
+      "direction": "夏日小镇巷口，浅杏墙面、退色青绿百叶窗、小橙色门灯，太阳刚落，照片有柔和颗粒。右中深钴蓝软角胶刻字『小镇借我 / 一场梦』，用圆钝厚短笔画拼成稚拙轮廓，木旁像三根胖短棍，梦的双木大小不同。字腔偏心、短线粗细骤变，印迹边缘有轻微切刀缺口。区别于木刻锐角：整体是柔软笨拙的小圆块，仍可读，英文细小米白藏在梦的左上凹口。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「小镇借我一场梦」. Exact small English:「A TOWN LENT ME A DREAM」. Lettering category: 软角胶刻. Scene and construction: 夏日小镇巷口，浅杏墙面、退色青绿百叶窗、小橙色门灯，太阳刚落，照片有柔和颗粒。右中深钴蓝软角胶刻字『小镇借我 / 一场梦』，用圆钝厚短笔画拼成稚拙轮廓，木旁像三根胖短棍，梦的双木大小不同。字腔偏心、短线粗细骤变，印迹边缘有轻微切刀缺口。区别于木刻锐角：整体是柔软笨拙的小圆块，仍可读，英文细小米白藏在梦的左上凹口。",
+      "output": "new-20/F24.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1935,
+        813
+      ],
+      "sha256": "5545f98c356fabdd420c4fbd2e9816015aa05e2b94da7be40ede8af67a074716"
+    },
+    {
+      "id": "F25",
+      "title": "把风留在窗外",
+      "english": "KEEP THE WIND OUTSIDE",
+      "name": "空心双线",
+      "ref": "827c41323edad9c4f74227e15d2f8043.jpg",
+      "crop": [
+        0,
+        0.666,
+        1,
+        1
+      ],
+      "direction": "晨雾列车卧铺一角，左侧深棕木窗框和浅绿窗帘，窗外虚焦灰蓝山野，暗部留白在右。主片名用浅暖白双线空心手绘字，所有字画出不均匀的内外两道轮廓，笔画内部完全看得到背景；不要实心填充。『把风 / 留在窗外』松紧错落，风字外框狭长、窗的穴头宽扁，少数线段轻微错开或复描，靠不规则线宽维持层次。英文是极细实线小字嵌进组内，约48%画幅宽。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「把风留在窗外」. Exact small English:「KEEP THE WIND OUTSIDE」. Lettering category: 空心双线. Scene and construction: 晨雾列车卧铺一角，左侧深棕木窗框和浅绿窗帘，窗外虚焦灰蓝山野，暗部留白在右。主片名用浅暖白双线空心手绘字，所有字画出不均匀的内外两道轮廓，笔画内部完全看得到背景；不要实心填充。『把风 / 留在窗外』松紧错落，风字外框狭长、窗的穴头宽扁，少数线段轻微错开或复描，靠不规则线宽维持层次。英文是极细实线小字嵌进组内，约48%画幅宽。",
+      "output": "new-20/F25.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1934,
+        813
+      ],
+      "sha256": "aace9d5d1315930b1254ee83262ebe31383df83feb4e5ba44acc3eb14559a013"
+    },
+    {
+      "id": "F26",
+      "title": "旧信还没拆开",
+      "english": "THE UNOPENED LETTER",
+      "name": "铅字错位",
+      "ref": "7765fb961a8211b93b2114c04abc47fe.jpg",
+      "crop": [
+        0,
+        0.687,
+        1,
+        1
+      ],
+      "direction": "阴天旧居民楼外的生锈信箱和一地湿树叶，左侧信箱虚焦，右侧大块灰米色斑驳墙，柔淡写实。深褐红手工铅字风格『旧信 / 还没拆开』，字身近等宽偏扁，粗短矩形衬线、机械水平横线与不均匀压印并存；每字基线小幅错位、局部粗细偏重。旧的日框窄，信的言部宽，拆的末点突兀。区别于窄长宋体：这是扁厚、有齿脚、逐字敲下的纸面铅字骨架；没有纸张底板，直接在电影镜头中设计。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「旧信还没拆开」. Exact small English:「THE UNOPENED LETTER」. Lettering category: 铅字错位. Scene and construction: 阴天旧居民楼外的生锈信箱和一地湿树叶，左侧信箱虚焦，右侧大块灰米色斑驳墙，柔淡写实。深褐红手工铅字风格『旧信 / 还没拆开』，字身近等宽偏扁，粗短矩形衬线、机械水平横线与不均匀压印并存；每字基线小幅错位、局部粗细偏重。旧的日框窄，信的言部宽，拆的末点突兀。区别于窄长宋体：这是扁厚、有齿脚、逐字敲下的纸面铅字骨架；没有纸张底板，直接在电影镜头中设计。",
+      "output": "new-20/F26.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1935,
+        813
+      ],
+      "sha256": "578a0ca3454a05a2c022f0ed31f82247f84e94812e98607cbb5062988bcb7c32"
+    },
+    {
+      "id": "F27",
+      "title": "等你经过便利店",
+      "english": "PASS BY THE CORNER STORE",
+      "name": "圆头记号",
+      "ref": "38c0ce364be6fcf6ae9be0db92910b3f.jpg",
+      "crop": [
+        0,
+        0.675,
+        1,
+        1
+      ],
+      "direction": "晴天便利店的侧窗，玻璃映出薄荷绿天空，门边红色塑料筐，店内只见模糊色块不出现品牌，低角度电影摄影。奶油橙色圆头记号笔手写字占左中，『等你经过 / 便利店』，基本恒定笔宽、胖圆端头、拐角像笔尖慢慢拧过，字脚弹跳、店字厂部意外伸长。这里不要毛笔粗细渐变和飞白，靠笔宽、大小和挤压造型；英文细小白字夹进过与店之间的空位。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「等你经过便利店」. Exact small English:「PASS BY THE CORNER STORE」. Lettering category: 圆头记号. Scene and construction: 晴天便利店的侧窗，玻璃映出薄荷绿天空，门边红色塑料筐，店内只见模糊色块不出现品牌，低角度电影摄影。奶油橙色圆头记号笔手写字占左中，『等你经过 / 便利店』，基本恒定笔宽、胖圆端头、拐角像笔尖慢慢拧过，字脚弹跳、店字厂部意外伸长。这里不要毛笔粗细渐变和飞白，靠笔宽、大小和挤压造型；英文细小白字夹进过与店之间的空位。",
+      "output": "new-20/F27.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1935,
+        813
+      ],
+      "sha256": "6cfaff3575557d1b97b61d520a31aaa04b134708a21648daf14c6a3ef000607f"
+    },
+    {
+      "id": "F28",
+      "title": "我们在桥下散步",
+      "english": "A WALK UNDER THE BRIDGE",
+      "name": "断线钢笔",
+      "ref": "d512c89ba6aa350781f5ef664f5db3c3.jpg",
+      "crop": [
+        0.56,
+        0.58,
+        0.98,
+        0.88
+      ],
+      "direction": "黄昏河桥下的混凝土桥墩、水面和一辆靠在远处的小自行车，阴影蓝灰、河面一束杏色反光。偏右浅杏色细钢笔断线字『我们在桥下 / 散步』，单线骨架细硬、尖角多，若干笔在中段有窄小提笔间隙、端头不磨圆。桥木旁细高，散的右部像急写后顿住，步最后两笔一长一短。保证所有偏旁完整可认，不能把字擦碎；英文用更细手写嵌进大字的间隙。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「我们在桥下散步」. Exact small English:「A WALK UNDER THE BRIDGE」. Lettering category: 断线钢笔. Scene and construction: 黄昏河桥下的混凝土桥墩、水面和一辆靠在远处的小自行车，阴影蓝灰、河面一束杏色反光。偏右浅杏色细钢笔断线字『我们在桥下 / 散步』，单线骨架细硬、尖角多，若干笔在中段有窄小提笔间隙、端头不磨圆。桥木旁细高，散的右部像急写后顿住，步最后两笔一长一短。保证所有偏旁完整可认，不能把字擦碎；英文用更细手写嵌进大字的间隙。",
+      "output": "new-20/F28.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1935,
+        813
+      ],
+      "sha256": "669c8a6c7e04a956707fba7b4c5345a3c6dff994eb9547fd1e9ee55d02f4fb5a"
+    },
+    {
+      "id": "F29",
+      "title": "竹影替我关了灯",
+      "english": "WHEN BAMBOO SHADOWS FALL",
+      "name": "竹节窄骨",
+      "ref": "7670e1c7e5406bf8e3dbf55c8fac2a81.jpg",
+      "crop": [
+        0,
+        0,
+        1,
+        0.332
+      ],
+      "direction": "老宅傍晚的竹帘窗边，竹叶影子投在淡青灰墙，右下小台灯已经熄灭，画面清淡深绿。墨绿细长字『竹影替我 / 关了灯』，字骨窄而直，竖笔有少量关节般的方形短节，横笔轻薄，像刻在细木条上的字；字内不画真实竹叶。竹两组一长一短，影的三撇短促，灯字火旁略粗。高低不齐但整体安静，区分钢笔断线：笔画连续，靠节部和极窄内腔变化。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「竹影替我关了灯」. Exact small English:「WHEN BAMBOO SHADOWS FALL」. Lettering category: 竹节窄骨. Scene and construction: 老宅傍晚的竹帘窗边，竹叶影子投在淡青灰墙，右下小台灯已经熄灭，画面清淡深绿。墨绿细长字『竹影替我 / 关了灯』，字骨窄而直，竖笔有少量关节般的方形短节，横笔轻薄，像刻在细木条上的字；字内不画真实竹叶。竹两组一长一短，影的三撇短促，灯字火旁略粗。高低不齐但整体安静，区分钢笔断线：笔画连续，靠节部和极窄内腔变化。",
+      "output": "new-20/F29.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1935,
+        813
+      ],
+      "sha256": "d3857576ce0655c2effb6bcbc3fd85e5c632b3fdafb4fd0dc861b05b2f37463c"
+    },
+    {
+      "id": "F30",
+      "title": "沿着旧河找你",
+      "english": "FOLLOW THE OLD RIVER",
+      "name": "方折篆意",
+      "ref": "ac9b91106663d934b6554ec7f3e0097d.jpg",
+      "crop": [
+        0,
+        0,
+        1,
+        0.333
+      ],
+      "direction": "清晨平静旧河道，水泥堤岸从左下延向右方，远端极小木船，银灰水面与薄雾，镜头克制。右侧暗朱红方折篆意字『沿着旧河 / 找你』，使用可读的现代汉字，以粗细近匀的笔画重建回折、方圆结合的迷宫式内腔，横竖绕角、字形略扁。不要用难认古文字或真篆书替换文字，不加印章外框；也不要宋体或行草。整组紧而留出每字负形，英文微小米白嵌进内凹。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「沿着旧河找你」. Exact small English:「FOLLOW THE OLD RIVER」. Lettering category: 方折篆意. Scene and construction: 清晨平静旧河道，水泥堤岸从左下延向右方，远端极小木船，银灰水面与薄雾，镜头克制。右侧暗朱红方折篆意字『沿着旧河 / 找你』，使用可读的现代汉字，以粗细近匀的笔画重建回折、方圆结合的迷宫式内腔，横竖绕角、字形略扁。不要用难认古文字或真篆书替换文字，不加印章外框；也不要宋体或行草。整组紧而留出每字负形，英文微小米白嵌进内凹。",
+      "output": "new-20/F30.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1933,
+        814
+      ],
+      "sha256": "73e14814d680d30fec67013d3e8792dc09f998f88fccb7989b5659197b6a0825"
+    },
+    {
+      "id": "F31",
+      "title": "北风吹旧了门牌",
+      "english": "THE WEATHERED DOORPLATE",
+      "name": "扁隶挑尾",
+      "ref": "f12bde75bf40f3bf7251acae4029fd9c.jpg",
+      "crop": [
+        0,
+        0.675,
+        1,
+        1
+      ],
+      "direction": "北方老巷冬日午后，右侧褪蓝木门和无可读字的旧门牌，干燥灰墙、一束低斜金光，细颗粒摄影。左中米白扁隶意手写『北风吹旧了 / 门牌』，字身宽扁，横画从蚕头般钝起笔过渡到不均匀挑尾，竖画短厚，口部压扁，门字撑宽，牌略歪。保留民间匠人的笨劲，不整齐临帖；英文细窄衬线藏在两行错位处。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「北风吹旧了门牌」. Exact small English:「THE WEATHERED DOORPLATE」. Lettering category: 扁隶挑尾. Scene and construction: 北方老巷冬日午后，右侧褪蓝木门和无可读字的旧门牌，干燥灰墙、一束低斜金光，细颗粒摄影。左中米白扁隶意手写『北风吹旧了 / 门牌』，字身宽扁，横画从蚕头般钝起笔过渡到不均匀挑尾，竖画短厚，口部压扁，门字撑宽，牌略歪。保留民间匠人的笨劲，不整齐临帖；英文细窄衬线藏在两行错位处。",
+      "output": "new-20/F31.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1935,
+        813
+      ],
+      "sha256": "88f74e12c1f8926642532a0f4c597ad314ea3315d81da9f0fd5fdd58a8230d9c"
+    },
+    {
+      "id": "F32",
+      "title": "今天不想说再见",
+      "english": "NOT READY FOR GOODBYE",
+      "name": "反骨涂写",
+      "ref": "42cdd1de0eb5b490687d58683a86b4f2.jpg",
+      "crop": [
+        0,
+        0.69,
+        1,
+        1
+      ],
+      "direction": "城市楼顶空停车场，混凝土栏杆与远处霓虹虚焦，暮紫天空，低位一点荧黄路灯，摄影写实。暖荧黄色急促涂写『今天不想 / 说再见』，粗细混杂的毡笔，一些字内横线被反复划过、偏旁被故意向外挤，今窄、不高、见末笔一甩即停。结构有私人改写习惯和不服气的笔势，但不划掉任何完整字，不加乱箭头或涂满画面。区别于绕线怪字：用直线、短折、反复划痕，少圆环。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「今天不想说再见」. Exact small English:「NOT READY FOR GOODBYE」. Lettering category: 反骨涂写. Scene and construction: 城市楼顶空停车场，混凝土栏杆与远处霓虹虚焦，暮紫天空，低位一点荧黄路灯，摄影写实。暖荧黄色急促涂写『今天不想 / 说再见』，粗细混杂的毡笔，一些字内横线被反复划过、偏旁被故意向外挤，今窄、不高、见末笔一甩即停。结构有私人改写习惯和不服气的笔势，但不划掉任何完整字，不加乱箭头或涂满画面。区别于绕线怪字：用直线、短折、反复划痕，少圆环。",
+      "output": "new-20/F32.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1933,
+        814
+      ],
+      "sha256": "28f94ca0b143bb307485329d2b70f21164832e96464e68cc2cc1ab1cce8cfd89"
+    },
+    {
+      "id": "F33",
+      "title": "晚霞把路涂红",
+      "english": "THE ROAD TURNED RED",
+      "name": "丝带扁笔",
+      "ref": "43e14133cbc3a357caf8c603ba9d6594.jpg",
+      "crop": [
+        0,
+        0,
+        1,
+        0.199
+      ],
+      "direction": "傍晚山路向远处红霞延伸，暗山脊在两侧，路边一根细电杆，冷紫阴影与橙红天空，公路电影摄影。偏左米白扁笔标题『晚霞把路 / 涂红』，平笔尖使每笔形成宽窄交替的斜切带状平面，笔头截面方，折角处有短顿，像同一支扁头钢笔一笔压转。不要立体丝带、金属或渐变材质。晚窄、霞宽、红的绞丝如三道平带，长笔克制，英文细手写嵌入霞下。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「晚霞把路涂红」. Exact small English:「THE ROAD TURNED RED」. Lettering category: 丝带扁笔. Scene and construction: 傍晚山路向远处红霞延伸，暗山脊在两侧，路边一根细电杆，冷紫阴影与橙红天空，公路电影摄影。偏左米白扁笔标题『晚霞把路 / 涂红』，平笔尖使每笔形成宽窄交替的斜切带状平面，笔头截面方，折角处有短顿，像同一支扁头钢笔一笔压转。不要立体丝带、金属或渐变材质。晚窄、霞宽、红的绞丝如三道平带，长笔克制，英文细手写嵌入霞下。",
+      "output": "new-20/F33.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1935,
+        813
+      ],
+      "sha256": "18cf6108c43fff64bb6533912f27683e10cf38e60503904ce58693daf2a85616"
+    },
+    {
+      "id": "F34",
+      "title": "雨声从电话里来",
+      "english": "RAIN ON THE LINE",
+      "name": "疏漏点阵",
+      "ref": "ce3ffb4a416adb57445c74d0097c8bb2.jpg",
+      "crop": [
+        0,
+        0,
+        1,
+        0.333
+      ],
+      "direction": "雨夜街角一座旧公用电话亭，右侧红色电话轮廓被玻璃雨珠模糊，远处深蓝街灯，暗处左侧留白。奶白偏青点阵字『雨声从 / 电话里来』，汉字由一颗颗大小稍不同的圆墨点组成，点距有小幅不齐，一两处缺点但结构完整，字骨方宽、局部部件轻错位。必须真由离散墨点构成，不是给实心字覆盖网点纹理，不做数字UI屏幕或霓虹。英文也小而离散，藏在行间。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「雨声从电话里来」. Exact small English:「RAIN ON THE LINE」. Lettering category: 疏漏点阵. Scene and construction: 雨夜街角一座旧公用电话亭，右侧红色电话轮廓被玻璃雨珠模糊，远处深蓝街灯，暗处左侧留白。奶白偏青点阵字『雨声从 / 电话里来』，汉字由一颗颗大小稍不同的圆墨点组成，点距有小幅不齐，一两处缺点但结构完整，字骨方宽、局部部件轻错位。必须真由离散墨点构成，不是给实心字覆盖网点纹理，不做数字UI屏幕或霓虹。英文也小而离散，藏在行间。",
+      "output": "new-20/F34.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1934,
+        813
+      ],
+      "sha256": "022f1b7737f1ddb84416a7c19075d668d827e9c0de7d851b9d131579624202ef"
+    },
+    {
+      "id": "F35",
+      "title": "想把夏天画歪",
+      "english": "DRAW SUMMER CROOKED",
+      "name": "蜡笔重描",
+      "ref": "1632342453c92707b1d19f3171405beb.jpg",
+      "crop": [
+        0,
+        0,
+        1,
+        0.333
+      ],
+      "direction": "夏日下午旧学校走廊外，退色蓝扶手、黄色墙面与树叶光斑，远处空木椅，画面明朗有胶片感。左中细到中等粗的多色蜡笔手绘字『想把夏天 / 画歪』，橙黄、奶白、淡草绿各占局部，每根笔画是两三条不平行的反复重描线，保留露底；不是整块粗粉笔。夏内部横线歪而挤，画的框外鼓，歪的上下中心偏开。字型活泼私人，英文极细蓝灰混进小空隙。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「想把夏天画歪」. Exact small English:「DRAW SUMMER CROOKED」. Lettering category: 蜡笔重描. Scene and construction: 夏日下午旧学校走廊外，退色蓝扶手、黄色墙面与树叶光斑，远处空木椅，画面明朗有胶片感。左中细到中等粗的多色蜡笔手绘字『想把夏天 / 画歪』，橙黄、奶白、淡草绿各占局部，每根笔画是两三条不平行的反复重描线，保留露底；不是整块粗粉笔。夏内部横线歪而挤，画的框外鼓，歪的上下中心偏开。字型活泼私人，英文极细蓝灰混进小空隙。",
+      "output": "new-20/F35.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1935,
+        813
+      ],
+      "sha256": "c69da8b8ba028a9f3583ed28ea6b545a69662813a394539ec223624375248fa0"
+    },
+    {
+      "id": "F36",
+      "title": "被风撕开的下午",
+      "english": "AN AFTERNOON TORN OPEN",
+      "name": "剪口留桥",
+      "ref": "9d2b17fc920313fa110ffb3d06a25dfb.jpg",
+      "crop": [
+        0,
+        0.335,
+        1,
+        0.665
+      ],
+      "direction": "旧居民楼屋顶晒衣绳的白床单在风中，灰蓝天空、低位深色屋顶，微逆光照片。右下留白处橘红手剪字『被风撕开 / 的下午』，粗平面墨块的轮廓全由长直剪口和不规则切角构成，字腔有镂空桥接，小缺口与细桥有意保留，使整个字仍成一个块面。不是把现成字体贴纸化，不加纸张实体或拼贴边框。风外框像不对称断角，撕的两边宽窄突变，英文细小白字嵌在块面凹口。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「被风撕开的下午」. Exact small English:「AN AFTERNOON TORN OPEN」. Lettering category: 剪口留桥. Scene and construction: 旧居民楼屋顶晒衣绳的白床单在风中，灰蓝天空、低位深色屋顶，微逆光照片。右下留白处橘红手剪字『被风撕开 / 的下午』，粗平面墨块的轮廓全由长直剪口和不规则切角构成，字腔有镂空桥接，小缺口与细桥有意保留，使整个字仍成一个块面。不是把现成字体贴纸化，不加纸张实体或拼贴边框。风外框像不对称断角，撕的两边宽窄突变，英文细小白字嵌在块面凹口。",
+      "output": "new-20/F36.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1934,
+        813
+      ],
+      "sha256": "01f31eaad4c044b8d4e76997226ca42bd2ed61cb872131784d05c72693968f5d"
+    },
+    {
+      "id": "F37",
+      "title": "你把晚安缝进风里",
+      "english": "GOODNIGHT IN THE SEAMS",
+      "name": "缝线断笔",
+      "ref": "1702329441c022f351b2c89ac1bfbba7.jpg",
+      "crop": [
+        0.6,
+        0.25,
+        0.96,
+        0.78
+      ],
+      "direction": "黄昏裁缝铺窗边，左下老缝纫机仅露轮廓，窗帘与线轴虚焦，右侧深靛色墙，温暖台灯光。右侧奶白细字『你把晚安 / 缝进风里』，每根汉字笔画由有长有短、略微歪的针脚短线组成，转角有小结点，字身窄长，字脚不齐；看起来是平面缝线式图形，不做厚实3D绳字。缝字的绞丝旁和风末笔有少量连续线连接相邻字，仍按句子完整读取。英文极小夹在两行空处。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「你把晚安缝进风里」. Exact small English:「GOODNIGHT IN THE SEAMS」. Lettering category: 缝线断笔. Scene and construction: 黄昏裁缝铺窗边，左下老缝纫机仅露轮廓，窗帘与线轴虚焦，右侧深靛色墙，温暖台灯光。右侧奶白细字『你把晚安 / 缝进风里』，每根汉字笔画由有长有短、略微歪的针脚短线组成，转角有小结点，字身窄长，字脚不齐；看起来是平面缝线式图形，不做厚实3D绳字。缝字的绞丝旁和风末笔有少量连续线连接相邻字，仍按句子完整读取。英文极小夹在两行空处。",
+      "output": "new-20/F37.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1935,
+        813
+      ],
+      "sha256": "c98c525ba9c1374bc99fd5b29494b49091f86a8a4879dcc5c7306b8fb3028907"
+    },
+    {
+      "id": "F38",
+      "title": "海风梳过旧屋顶",
+      "english": "A BREEZE OVER THE ROOFS",
+      "name": "排刷梳纹",
+      "ref": "850b362b960ea23bfc24bd122c5577ac.jpg",
+      "crop": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "direction": "午后海边小镇高处，蓝灰瓦屋顶交叠向右下延伸，远处细海线，日光清亮而饱和度克制，写实摄影。左上珊瑚红排刷字『海风梳过 / 旧屋顶』，宽笔画由四到六条可分辨的平行刷毛细轨构成，轨迹随每笔转折而弯，粗笔处留空隙，看得到照片；这不是在实心字里加纹理。字骨略宽扁，海的三点墨团、梳的木旁梳开、顶最后一竖收得生硬。英文微小米白在行间。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「海风梳过旧屋顶」. Exact small English:「A BREEZE OVER THE ROOFS」. Lettering category: 排刷梳纹. Scene and construction: 午后海边小镇高处，蓝灰瓦屋顶交叠向右下延伸，远处细海线，日光清亮而饱和度克制，写实摄影。左上珊瑚红排刷字『海风梳过 / 旧屋顶』，宽笔画由四到六条可分辨的平行刷毛细轨构成，轨迹随每笔转折而弯，粗笔处留空隙，看得到照片；这不是在实心字里加纹理。字骨略宽扁，海的三点墨团、梳的木旁梳开、顶最后一竖收得生硬。英文微小米白在行间。",
+      "output": "new-20/F38.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1934,
+        813
+      ],
+      "sha256": "5f5c49dba4dfa1ca2ad5f5f634c009b18a064202f6f58ba26dc2c9d22fdc9ca0"
+    },
+    {
+      "id": "F39",
+      "title": "这一页被夜色打乱",
+      "english": "A PAGE OUT OF ORDER",
+      "name": "断层错版",
+      "ref": "9c15b37c3d8d33898d6a7603ef454834.jpg",
+      "crop": [
+        0,
+        0,
+        1,
+        0.319
+      ],
+      "direction": "雨后夜间关门的旧报亭，右侧金属卷帘和一束暖灯，地面深蓝反光，斜向街景，摄影细颗粒。左中奶油白手工印刷错版字『这一页 / 被夜色打乱』，每个字仍有完整骨架，但某一两段横向笔组稍微错开、偏旁高低像排版活字装歪；局部有非常轻的灰红套印错位。风格由部件错位构成，不靠复制整个词做彩色阴影。被和夜的大部件错层，乱末笔向一侧偏移，英文细小在断层留白中。不要数字故障扫描线、赛博特效。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「这一页被夜色打乱」. Exact small English:「A PAGE OUT OF ORDER」. Lettering category: 断层错版. Scene and construction: 雨后夜间关门的旧报亭，右侧金属卷帘和一束暖灯，地面深蓝反光，斜向街景，摄影细颗粒。左中奶油白手工印刷错版字『这一页 / 被夜色打乱』，每个字仍有完整骨架，但某一两段横向笔组稍微错开、偏旁高低像排版活字装歪；局部有非常轻的灰红套印错位。风格由部件错位构成，不靠复制整个词做彩色阴影。被和夜的大部件错层，乱末笔向一侧偏移，英文细小在断层留白中。不要数字故障扫描线、赛博特效。",
+      "output": "new-20/F39.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1935,
+        813
+      ],
+      "sha256": "31ebd23b5b78385895888fa1fdd00d9c49248c3210cdc2a61028c95526dd4b9c"
+    },
+    {
+      "id": "F40",
+      "title": "留白的那一天",
+      "english": "THE DAY LEFT BLANK",
+      "name": "负形留白",
+      "ref": "d975160e5ddbb46d9c549d1afbeff07f.jpg",
+      "crop": [
+        0,
+        0,
+        1,
+        0.333
+      ],
+      "direction": "极简午后庭院，米白墙、右侧一扇窄窗，树影从左上斜落到墙脚，角落一小把旧木椅，暖淡电影摄影。左中是一块边缘不规则的暗砖红平面墨迹，整句『留白的 / 那一天』的笔画以负形从墨迹中挖空，字的空白处直接露出墙面与淡树影。墨块外轮廓跟字的外形起伏，绝不规整矩形标签或海报纸。字腔疏密不匀、留字上下宽窄相反、白的日框偏心、天末脚一长一短。英文极小也作留白，嵌在墨迹自然内凹处，整体约38%宽，照片仍占主导。",
+      "prompt": "Create ONE finished ORIGINAL Chinese cinematic opening-title frame, ultrawide horizontal about 2.38:1, full-bleed photographic shot. Use case: stylized-concept / cinematic typography. The image provided is a film-title REFERENCE: study its designed hierarchy, handmade character, intentional imperfect proportions and relation to photography. Do not copy its exact glyph contours, words, photo, icons, author credits or watermark. Draw the exact NEW title with the SPECIFIC LETTER CONSTRUCTION below; this construction OVERRIDES the lettering style in the reference. Different lettering categories must genuinely use different stroke/counter/skeleton systems, not merely the same brush font in new colors. User preference: 字不用那么完美，要特别、有私人习惯，局部歪拙、挤压、断连但完整可读. Use an original photoreal cinematic scene described below, believable light and optics, finely observed real materials, no illustration background. Title, small subordinate English and scene form one art-directed shot. Small English belongs inside natural title whitespace and follows its character. Keep every Chinese character present once and exact reading order. No extra readable signage, credits or watermarks. No magazine cover, no collage, no paper panel, no outer frame, no grid. Keep cinema breathing space and visible scene subject. Flat ink lettering unless its stated construction calls for hollow/dots/dashes/negative space; no default metal, extrusion, bevel or neon. Exact Chinese title:「留白的那一天」. Exact small English:「THE DAY LEFT BLANK」. Lettering category: 负形留白. Scene and construction: 极简午后庭院，米白墙、右侧一扇窄窗，树影从左上斜落到墙脚，角落一小把旧木椅，暖淡电影摄影。左中是一块边缘不规则的暗砖红平面墨迹，整句『留白的 / 那一天』的笔画以负形从墨迹中挖空，字的空白处直接露出墙面与淡树影。墨块外轮廓跟字的外形起伏，绝不规整矩形标签或海报纸。字腔疏密不匀、留字上下宽窄相反、白的日框偏心、天末脚一长一短。英文极小也作留白，嵌在墨迹自然内凹处，整体约38%宽，照片仍占主导。",
+      "output": "new-20/F40.png",
+      "input_role": "Cropped user-provided third-party title design reference; new title and new photographic scene.",
+      "size": [
+        1935,
+        813
+      ],
+      "sha256": "4499a33c0e5d2fc3321a61061ca96c01a9daef287e7e95fbbbc189196ca7aa6a"
+    }
+  ]
+}

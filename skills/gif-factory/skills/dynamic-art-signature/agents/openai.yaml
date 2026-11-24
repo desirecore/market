@@ -1,0 +1,4 @@
+interface:
+  display_name: "动态艺术签名"
+  short_description: "支持多种字体和自定义字稿，按字形适配书写、乐器融字与墨迹聚合"
+  default_prompt: "使用 $dynamic-art-signature，按我指定的字体方向或提供的字稿，自定义一款名字、意象与渐变色融合的动态签名。"

@@ -10,13 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "Patent Disclosure Skills",
-        "summary": "Collection of Chinese patent skills for disclosure, search, reading, mapping and office-action assistance. MIT licensed. Legal or filing work still needs a qualified professional; optional Python tools and a vendored mermaid.min.js over 1 MiB are included under skills/.",
-        "description": "Pinned at 491524bd36a3f9f8d2e35caa5b56368b67d88ced. Collection children are the nine skills under skills/. A root SKILL.md umbrella document exists but is not a collection child. Two docs images also exceed 1 MiB. This is a different work from the already listed cnipa-patent-search skill."
+        "summary": "Optional local MIT package of Chinese patent skills for disclosure, search, reading, mapping and office-action assistance. Not legal advice; filing still needs a qualified professional. Includes upstream LICENSE in the installed tree and in each child. Optional Python tools and a vendored mermaid.min.js over 1 MiB are included.",
+        "description": "Market-local packaging of handsomestWei/patent-disclosure-skill@491524bd36a3f9f8d2e35caa5b56368b67d88ced. The installer copies only the skill content directory, so LICENSE is placed here. Example renderings under docs/ are excluded. This is not legal advice. Package version 2026.11.24."
       },
       "zh-CN": {
-        "name": "专利交底技能",
-        "summary": "中文专利技能合集，用于交底、检索、阅读、专利地图和审查意见辅助。许可为 MIT。法律或申请事务仍需具备资质的专业人员；skills/ 下含可选 Python 工具，以及一个超过 1 MiB 的 vendored mermaid.min.js。",
-        "description": "固定版本 491524bd36a3f9f8d2e35caa5b56368b67d88ced。合集子项是 skills/ 下的九个技能。根目录另有 SKILL.md 总述，不是合集子项。docs 中还有两张超过 1 MiB 的图。这与已上架的 cnipa-patent-search 不是同一作品。"
+        "name": "专利交底技能合集",
+        "summary": "中文专利技能的可选 MIT 本地包，用于交底、检索、阅读、专利地图和审查意见辅助。不是法律意见；申请事务仍需具备资质的专业人员。安装树和每个子技能都含上游 LICENSE。包含可选 Python 工具，以及一个超过 1 MiB 的 vendored mermaid.min.js。",
+        "description": "基于 handsomestWei/patent-disclosure-skill@491524bd36a3f9f8d2e35caa5b56368b67d88ced 的市场本地包装。安装器只复制技能内容目录，因此把 LICENSE 放进本包。docs/ 下的效果例图已排除。本包不是法律意见。包版本 2026.11.24。"
       }
     },
     "category": "business",
@@ -28,7 +28,9 @@
     ]
   },
   "release": {
-    "state": "unknown"
+    "state": "known",
+    "version": "2026.11.24",
+    "versionScheme": "calver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
@@ -76,7 +78,13 @@
       "reviewedRef": "491524bd36a3f9f8d2e35caa5b56368b67d88ced",
       "reviewedAt": "2026-11-24",
       "reviewedBy": "mashagua",
-      "upstreamEndorsed": false
+      "upstreamEndorsed": false,
+      "noticePath": "UPSTREAM.md"
+    },
+    "listingMaintainer": {
+      "name": "mashagua",
+      "url": "https://github.com/mashagua",
+      "verified": true
     }
   },
   "compatibility": {
@@ -86,246 +94,17 @@
     "requirements": [
       {
         "kind": "runtime",
-        "value": "Optional scripts use Python and packages listed in requirements.txt. skills/patent-disclosure/tools/vendor/mermaid.min.js is about 2.45 MiB."
+        "value": "Not legal advice; filing or legal conclusions need a qualified professional."
       },
       {
-        "kind": "permission",
-        "value": "This skill assists drafting and research; it is not legal advice and does not file applications. Confirm sources and have a qualified professional review any filing."
+        "kind": "runtime",
+        "value": "Optional Python tools and a vendored mermaid.min.js over 1 MiB are included. Install declared Python packages in a private environment if you use those tools."
       }
     ]
   },
   "spec": {
     "kind": "skill",
-    "collection": {
-      "role": "parent",
-      "childCount": 9,
-      "children": [
-        {
-          "identity": {
-            "kind": "skill",
-            "id": "patent-application",
-            "parentId": "patent-disclosure-skill"
-          },
-          "path": "skills/patent-application",
-          "presentation": {
-            "defaultLocale": "en-US",
-            "i18n": {
-              "en-US": {
-                "name": "patent-application",
-                "summary": "申请文件：把已有交底写成权利要求书、说明书、摘要与说明书附图；规划发明母案与分案并核对原始披露。四件套须指定交底目录。内容争议写入问题清单，交付后请确认须摘要清单。已有产出上改稿则另存新时间戳目录。须显式触发。"
-              },
-              "zh-CN": {
-                "name": "patent-application",
-                "summary": "申请文件：把已有交底写成权利要求书、说明书、摘要与说明书附图；规划发明母案与分案并核对原始披露。四件套须指定交底目录。内容争议写入问题清单，交付后请确认须摘要清单。已有产出上改稿则另存新时间戳目录。须显式触发。"
-              }
-            },
-            "tags": []
-          },
-          "release": {
-            "state": "unknown"
-          }
-        },
-        {
-          "identity": {
-            "kind": "skill",
-            "id": "patent-chart",
-            "parentId": "patent-disclosure-skill"
-          },
-          "path": "skills/patent-chart",
-          "presentation": {
-            "defaultLocale": "en-US",
-            "i18n": {
-              "en-US": {
-                "name": "patent-chart",
-                "summary": "权利要求对照表：独权拆成技术特征，逐格比对对比文件/产品/标准，附证据与强弱。用于无效对照、FTO 初筛、侵权/EoU、SEP、可专利性底稿。须点名。不出法律意见。"
-              },
-              "zh-CN": {
-                "name": "patent-chart",
-                "summary": "权利要求对照表：独权拆成技术特征，逐格比对对比文件/产品/标准，附证据与强弱。用于无效对照、FTO 初筛、侵权/EoU、SEP、可专利性底稿。须点名。不出法律意见。"
-              }
-            },
-            "tags": []
-          },
-          "release": {
-            "state": "unknown"
-          }
-        },
-        {
-          "identity": {
-            "kind": "skill",
-            "id": "patent-disclosure",
-            "parentId": "patent-disclosure-skill"
-          },
-          "path": "skills/patent-disclosure",
-          "presentation": {
-            "defaultLocale": "en-US",
-            "i18n": {
-              "en-US": {
-                "name": "patent-disclosure",
-                "summary": "中国专利交底书：发明/实用新型/外观设计的专利点挖掘、轻量查新与成文、保护型1+N专利布局。"
-              },
-              "zh-CN": {
-                "name": "patent-disclosure",
-                "summary": "中国专利交底书：发明/实用新型/外观设计的专利点挖掘、轻量查新与成文、保护型1+N专利布局。"
-              }
-            },
-            "tags": []
-          },
-          "release": {
-            "state": "unknown"
-          }
-        },
-        {
-          "identity": {
-            "kind": "skill",
-            "id": "patent-docket",
-            "parentId": "patent-disclosure-skill"
-          },
-          "path": "skills/patent-docket",
-          "presentation": {
-            "defaultLocale": "en-US",
-            "i18n": {
-              "en-US": {
-                "name": "patent-docket",
-                "summary": "按发明人/工程师给的材料一趟写出交底书和申请文件；申请问题清单上的缺口最多改三轮。缺技术事实就问人，不编。触发：交底申请一起做、从零出交底和申请、一条龙、帮写交底再出申请、按清单改、会稿、案卷、/patent-docket。"
-              },
-              "zh-CN": {
-                "name": "patent-docket",
-                "summary": "按发明人/工程师给的材料一趟写出交底书和申请文件；申请问题清单上的缺口最多改三轮。缺技术事实就问人，不编。触发：交底申请一起做、从零出交底和申请、一条龙、帮写交底再出申请、按清单改、会稿、案卷、/patent-docket。"
-              }
-            },
-            "tags": []
-          },
-          "release": {
-            "state": "unknown"
-          }
-        },
-        {
-          "identity": {
-            "kind": "skill",
-            "id": "patent-exam-policy",
-            "parentId": "patent-disclosure-skill"
-          },
-          "path": "skills/patent-exam-policy",
-          "presentation": {
-            "defaultLocale": "en-US",
-            "i18n": {
-              "en-US": {
-                "name": "patent-exam-policy",
-                "summary": "给交底用的政策简报：对照国知局近期口径，说明对交底写法/本稿的影响，并提示申请书式。技能进化仅为旁路，默认只改交底包，须另点名才改文件。"
-              },
-              "zh-CN": {
-                "name": "patent-exam-policy",
-                "summary": "给交底用的政策简报：对照国知局近期口径，说明对交底写法/本稿的影响，并提示申请书式。技能进化仅为旁路，默认只改交底包，须另点名才改文件。"
-              }
-            },
-            "tags": []
-          },
-          "release": {
-            "state": "unknown"
-          }
-        },
-        {
-          "identity": {
-            "kind": "skill",
-            "id": "patent-map",
-            "parentId": "patent-disclosure-skill"
-          },
-          "path": "skills/patent-map",
-          "presentation": {
-            "defaultLocale": "en-US",
-            "i18n": {
-              "en-US": {
-                "name": "patent-map",
-                "summary": "专利地图：基于通俗解读已入库的 Obsidian 案例，点名后打开五种图。地形按 bge-small-zh 向量摊开。"
-              },
-              "zh-CN": {
-                "name": "patent-map",
-                "summary": "专利地图：基于通俗解读已入库的 Obsidian 案例，点名后打开五种图。地形按 bge-small-zh 向量摊开。"
-              }
-            },
-            "tags": []
-          },
-          "release": {
-            "state": "unknown"
-          }
-        },
-        {
-          "identity": {
-            "kind": "skill",
-            "id": "patent-oa",
-            "parentId": "patent-disclosure-skill"
-          },
-          "path": "skills/patent-oa",
-          "presentation": {
-            "defaultLocale": "en-US",
-            "i18n": {
-              "en-US": {
-                "name": "patent-oa",
-                "summary": "审查答复辅助：审查意见问答与草稿；库薄时引导案例入库。须显式触发。"
-              },
-              "zh-CN": {
-                "name": "patent-oa",
-                "summary": "审查答复辅助：审查意见问答与草稿；库薄时引导案例入库。须显式触发。"
-              }
-            },
-            "tags": []
-          },
-          "release": {
-            "state": "unknown"
-          }
-        },
-        {
-          "identity": {
-            "kind": "skill",
-            "id": "patent-reader",
-            "parentId": "patent-disclosure-skill"
-          },
-          "path": "skills/patent-reader",
-          "presentation": {
-            "defaultLocale": "en-US",
-            "i18n": {
-              "en-US": {
-                "name": "patent-reader",
-                "summary": "专利通俗解读：中国或海外（美欧日韩等）公开号 / PDF 成通俗笔记、图谱与 Obsidian 入库。"
-              },
-              "zh-CN": {
-                "name": "patent-reader",
-                "summary": "专利通俗解读：中国或海外（美欧日韩等）公开号 / PDF 成通俗笔记、图谱与 Obsidian 入库。"
-              }
-            },
-            "tags": []
-          },
-          "release": {
-            "state": "unknown"
-          }
-        },
-        {
-          "identity": {
-            "kind": "skill",
-            "id": "patent-search",
-            "parentId": "patent-disclosure-skill"
-          },
-          "path": "skills/patent-search",
-          "presentation": {
-            "defaultLocale": "en-US",
-            "i18n": {
-              "en-US": {
-                "name": "patent-search",
-                "summary": "专利著录检索：中国专利公布公告（发明人、申请人、分类号、名称、摘要；也可从单图或权利要求生成名称/摘要关键字后查询）；用户点名海外时，用 Google Patents 检索美欧日韩等海外专利。"
-              },
-              "zh-CN": {
-                "name": "patent-search",
-                "summary": "专利著录检索：中国专利公布公告（发明人、申请人、分类号、名称、摘要；也可从单图或权利要求生成名称/摘要关键字后查询）；用户点名海外时，用 Google Patents 检索美欧日韩等海外专利。"
-              }
-            },
-            "tags": []
-          },
-          "release": {
-            "state": "unknown"
-          }
-        }
-      ]
-    }
+    "riskLevel": "medium",
+    "skillType": "hybrid"
   }
 }

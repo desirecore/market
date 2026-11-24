@@ -1,0 +1,4 @@
+interface:
+  display_name: "vibe 知识大赏"
+  short_description: "四种内置风格讲解知识；立体剖面联动使用外部 lemo-opuscar Skill。"
+  default_prompt: "使用 $paper-mechanism-explainer（vibe 知识大赏），沿用已选风格或选择摄影纸艺、彩色贴纸、复古档案、同屏实验；同屏实验采用独立流程，外部立体剖面联动调用另行安装的 lemo-opuscar 并注明来源，交付无水印成片、封面与可编辑工程。"

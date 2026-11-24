@@ -1,0 +1,31 @@
+{
+  "panels": [
+    {
+      "photo": "country-road.jpg",
+      "title": "wind.png",
+      "photo_focus": [0.5, 0.66],
+      "title_center": [0.57, 0.73],
+      "title_max": [0.60, 0.45],
+      "saturation": 0.78,
+      "exposure": 0.92
+    },
+    {
+      "photo": "open-sea.jpg",
+      "title": "tide.png",
+      "photo_focus": [0.5, 0.30],
+      "title_center": [0.52, 0.37],
+      "title_max": [0.42, 0.45],
+      "saturation": 0.78,
+      "exposure": 1.12
+    },
+    {
+      "photo": "night-mountains.jpg",
+      "title": "signal.png",
+      "photo_focus": [0.5, 0.59],
+      "title_center": [0.39, 0.69],
+      "title_max": [0.52, 0.45],
+      "saturation": 0.85,
+      "exposure": 0.88
+    }
+  ]
+}

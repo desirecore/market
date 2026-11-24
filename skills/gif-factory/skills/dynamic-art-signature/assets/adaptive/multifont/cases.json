@@ -1,0 +1,101 @@
+[
+  {
+    "id": "01",
+    "name": "Mira",
+    "family": "英文连笔",
+    "style": "流畅斜体花体，长升部",
+    "instrument": "竖琴",
+    "palette": "雾白到淡紫",
+    "label": "英文连笔 · Mira",
+    "slug": "Mira-Latin",
+    "config": "01/config.json"
+  },
+  {
+    "id": "02",
+    "name": "云栖",
+    "family": "篆意圆线",
+    "style": "均匀圆线的现代篆意",
+    "instrument": "洞箫",
+    "palette": "月白到浅翡翠",
+    "label": "篆意圆线 · 云栖",
+    "slug": "Yunqi-Seal",
+    "config": "02/config.json"
+  },
+  {
+    "id": "03",
+    "name": "长宁",
+    "family": "隶书横势",
+    "style": "横向舒展的现代隶签",
+    "instrument": "古琴",
+    "palette": "米白到淡金",
+    "label": "隶书横势 · 长宁",
+    "slug": "Changning-Clerical",
+    "config": "03/config.json"
+  },
+  {
+    "id": "04",
+    "name": "闻笛",
+    "family": "硬锋细线",
+    "style": "瘦硬长锋，细线与尖钩",
+    "instrument": "竹笛",
+    "palette": "珠白到冰青",
+    "label": "硬锋细线 · 闻笛",
+    "slug": "Wendi-Fine",
+    "config": "04/config.json"
+  },
+  {
+    "id": "05",
+    "name": "木棉",
+    "family": "圆笔手写",
+    "style": "圆头软笔，大小字错落",
+    "instrument": "铃鼓",
+    "palette": "奶黄到青柠绿",
+    "label": "圆笔手写 · 木棉",
+    "slug": "Mumian-Round",
+    "config": "05/config.json"
+  },
+  {
+    "id": "06",
+    "name": "清和",
+    "family": "行楷提按",
+    "style": "温润行楷，停连分明",
+    "instrument": "小提琴",
+    "palette": "奶白到豆沙粉",
+    "label": "行楷提按 · 清和",
+    "slug": "Qinghe-Running",
+    "config": "06/config.json"
+  },
+  {
+    "id": "07",
+    "name": "乘风",
+    "family": "狂草飞白",
+    "style": "粗细悬殊的飞白行草",
+    "instrument": "二胡",
+    "palette": "暖白到朱橙",
+    "label": "狂草飞白 · 乘风",
+    "slug": "Chengfeng-Cursive",
+    "config": "07/config.json"
+  },
+  {
+    "id": "08",
+    "name": "未央",
+    "family": "几何折笔",
+    "style": "折纸式硬折笔，疏密对比",
+    "instrument": "扬琴",
+    "palette": "白到电光蓝紫",
+    "label": "几何折笔 · 未央",
+    "slug": "Weiyang-Geometric",
+    "config": "08/config.json"
+  },
+  {
+    "id": "09",
+    "name": "石见",
+    "family": "魏碑楷意",
+    "style": "刀刻感魏碑，峻拔但不生硬",
+    "instrument": "琵琶",
+    "palette": "象牙白到灰蓝",
+    "label": "魏碑楷意 · 石见",
+    "slug": "Shijian-Wei",
+    "config": "09/config.json"
+  }
+]

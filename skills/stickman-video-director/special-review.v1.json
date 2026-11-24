@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "mashagua",
+  "reviewedAt": "2026-11-24",
+  "notes": "Slim market-local MIT package of stickman-video-director at 10287822ba47579321068da1b93801face9160dd. Kept files over 1 MiB are typography or style-lock stills/videos required for A/B-mode work that this snapshot can already support. Large audio/video libraries are on-demand fetch with fixed URLs and SHA-256, not hidden by excludePaths.",
+  "budgetExemptPaths": [
+    "assets/a6/apartment-style-example.png",
+    "assets/b-audio-library/catalog.json",
+    "assets/b3/portrait-approved-2026-11-13.mp4",
+    "assets/b4/reference-01-motor-room.png",
+    "assets/b4/reference-02-rooftop.png",
+    "assets/b4/reference-03-driver.png",
+    "assets/b4/reference-04-street.png",
+    "assets/b4/reference-05-opposite-rooftop.png",
+    "assets/b7/approved-v6-v11/fast-forward-v11-full.mp4",
+    "assets/b7/approved-v6-v11/paths-v6-full.mp4",
+    "assets/fonts/NotoSans.ttf"
+  ]
+}

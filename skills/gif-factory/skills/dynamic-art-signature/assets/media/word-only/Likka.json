@@ -1,0 +1,94 @@
+{
+  "size": [
+    480,
+    240
+  ],
+  "duration": 4.0,
+  "fps": 60,
+  "gif_fps": 25,
+  "input_is_static_art": true,
+  "reference_video_used_by_renderer": false,
+  "fragments": 0,
+  "fragment_pixels": 0,
+  "coverage": 1.0,
+  "last_fragment_lands": 0.0,
+  "tail_path_error_px": 0.0,
+  "timing": {
+    "upper_start": 0.0,
+    "upper_end": 0.0,
+    "first_start": 0.3,
+    "first_end": 1.9,
+    "tail_start": 1.9,
+    "tail_end": 2.62,
+    "fade_start": 3.7,
+    "fade_end": 4.0
+  },
+  "fragment_parameters": {
+    "cell_width": 13,
+    "cell_height": 8,
+    "rotation": 32,
+    "drift": 12.959999999999999,
+    "alpha_power": 1.75,
+    "edge_softness": 2.3,
+    "birth_base": 0.4,
+    "birth_spread": 0.19,
+    "land_base": 2.08,
+    "land_spread": 0.34,
+    "time_jitter": 0.045
+  },
+  "effect": "write",
+  "ink_profile": {
+    "pixels": 9068,
+    "bounds_xyxy": [
+      46,
+      55,
+      434,
+      177
+    ],
+    "median_width_px": 5.0,
+    "p90_width_px": 11.0,
+    "width_measure": "approximate medial city-distance width"
+  },
+  "unassigned_ink_pixels": 0,
+  "upper_pen": {
+    "method": "empty layer",
+    "coverage": 1.0
+  },
+  "first_pen": {
+    "method": "ordered-pen",
+    "coverage": 1.0,
+    "stroke_count": 18,
+    "pen_up_links": 1,
+    "stroke_pen_radii_px": [
+      3.0,
+      6.0,
+      3.0,
+      6.0,
+      3.0,
+      5.0,
+      4.0,
+      6.0,
+      3.0,
+      5.0,
+      5.0,
+      6.0,
+      5.0,
+      4.0,
+      4.0,
+      5.0,
+      3.0,
+      5.0
+    ],
+    "path_error_px": 10.817,
+    "start_seconds": 0.3,
+    "end_seconds": 1.9,
+    "duration_seconds": 1.6,
+    "front_duration": 0.006
+  },
+  "tail_pen": {
+    "method": "empty layer",
+    "coverage": 1.0
+  },
+  "exact_calligraphic_order": false,
+  "palette": "sea-salt-soda"
+}

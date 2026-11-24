@@ -1,0 +1,16 @@
+{
+  "art": "art.png",
+  "masks": {
+    "upper": "upper.png",
+    "first": "first.png",
+    "rest": "rest.png",
+    "tail": "tail.png"
+  },
+  "background": [
+    29,
+    30,
+    33
+  ],
+  "effect": "ink-fragments",
+  "seed": 1140317883
+}

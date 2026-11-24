@@ -1,0 +1,19 @@
+{
+  "image": "Iris.png",
+  "width": 960,
+  "height": 640,
+  "foreground_threshold": 60,
+  "upper_components": [
+    1
+  ],
+  "background": "1d1e21",
+  "key_color": "202124",
+  "timing": {
+    "upper_start": 0.3,
+    "upper_duration": 0.14,
+    "gap": 1.02,
+    "body_duration": 0.18,
+    "terminal_duration": 0.72,
+    "duration": 4
+  }
+}

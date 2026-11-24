@@ -1,0 +1,237 @@
+{
+  "mode": "built-in image generation with user image references",
+  "selection": "F11-F20 are the ten selected original frames; originals 03, 04 and 10 are retained rather than the later bold variants.",
+  "scene_source": "AI-generated photographic scenes. User-provided reference crops informed lettering and cinematic composition; reference images are not redistributed.",
+  "cases": [
+    {
+      "title": "把日子写慢一点",
+      "english": "TAKE YOUR TIME",
+      "ref": "1702329441c022f351b2c89ac1bfbba7.jpg",
+      "crop": [
+        0.07,
+        0.2,
+        0.6,
+        0.8
+      ],
+      "direction": "一部缓慢日常电影。新镜头：午后老公寓窗边，半透明旧纱帘在风里稍稍鼓起，窗台小玻璃杯，右侧一块深青灰墙面，大面积斜入的暖光；35mm静物实拍感，颗粒细而真实。右侧主片名以杏黄细硬笔私人随笔写『把日子 / 写慢一点』，把和慢高低撑开，中间日子小而挤，『写』最后一笔细长而略顿，所有字宽窄悬殊、有一点笨和犹豫，约占画幅44%宽。英文像补记嵌在写与慢之间。画面安静，字是独特的私人笔迹，不是端正行书。",
+      "prompt": "Create ONE original Chinese cinematic opening-title still, a complete photographic movie shot with designed title lettering, full-bleed ultrawide horizontal about 2.38:1 (roughly 2400x1008). Use case: stylized-concept / original cinematic typography. The supplied image is a LETTERING AND FILM-TITLE DESIGN REFERENCE ONLY. Observe its unusual glyph anatomy, handcrafted proportion, stroke character, hierarchy, small-text interweaving and relationship to a shot. Do not copy its exact glyph designs, words, illustration, photo, logo, author credit or watermark. Make an original new title and new photographic scene described below. Draw the Chinese glyphs as a specific handmade wordmark with personal quirks: designed asymmetry, unconventional proportions and pauses, not tidy font typing or generic graceful brush calligraphy. Be distinctive while every Chinese character remains recognizable and reading order is clear. The title, small English, scene, color and a few letter-attached details must work as one designed film frame. New photoreal cinematic scene, with believable light, optics and fine film grain; never paint or illustrate the photographic background. No magazine cover, no paper, no collage, no border, no grid, no comparison panels, no invented production credits or extra words. Leave cinematic breathing space around the main title and preserve scene storytelling. Exact main Chinese text:「把日子写慢一点」. Exact small English text:「TAKE YOUR TIME」. Art direction: 一部缓慢日常电影。新镜头：午后老公寓窗边，半透明旧纱帘在风里稍稍鼓起，窗台小玻璃杯，右侧一块深青灰墙面，大面积斜入的暖光；35mm静物实拍感，颗粒细而真实。右侧主片名以杏黄细硬笔私人随笔写『把日子 / 写慢一点』，把和慢高低撑开，中间日子小而挤，『写』最后一笔细长而略顿，所有字宽窄悬殊、有一点笨和犹豫，约占画幅44%宽。英文像补记嵌在写与慢之间。画面安静，字是独特的私人笔迹，不是端正行书。",
+      "id": "F11",
+      "original_case_id": "01",
+      "category": "日记硬笔",
+      "output": "selected/F11.png",
+      "status": "selected_original",
+      "size": [
+        1930,
+        815
+      ],
+      "sha256": "4028b9866a81c80747319d2189a2cff07c0a55703ed86281ead04ef47bb63a62"
+    },
+    {
+      "title": "今天先不回家",
+      "english": "NOT HOME YET",
+      "ref": "38c0ce364be6fcf6ae9be0db92910b3f.jpg",
+      "crop": [
+        0,
+        0,
+        1,
+        0.329
+      ],
+      "direction": "青春公路喜剧。新镜头：海边小镇公交站，浅蓝天空占大半，左侧低位有黄色候车棚、一辆旧自行车，远处一条细海线，胶片日光蓝与黄。右侧『今天先 / 不回家』作不规则两行粗扁头油漆字，钴蓝与奶白交错、少量粉红复描线。天字胖，今字斜，不字一长一短，回的双框有意歪斜，家略挤而下脚宽。每个字像手画的有缺口色块和露出的细线骨架。英文用手写小字错落嵌进两行。粉色小线直接依附字符拐角，不画独立表情或贴纸。片名约52%宽，保住公交站。",
+      "prompt": "Create ONE original Chinese cinematic opening-title still, a complete photographic movie shot with designed title lettering, full-bleed ultrawide horizontal about 2.38:1 (roughly 2400x1008). Use case: stylized-concept / original cinematic typography. The supplied image is a LETTERING AND FILM-TITLE DESIGN REFERENCE ONLY. Observe its unusual glyph anatomy, handcrafted proportion, stroke character, hierarchy, small-text interweaving and relationship to a shot. Do not copy its exact glyph designs, words, illustration, photo, logo, author credit or watermark. Make an original new title and new photographic scene described below. Draw the Chinese glyphs as a specific handmade wordmark with personal quirks: designed asymmetry, unconventional proportions and pauses, not tidy font typing or generic graceful brush calligraphy. Be distinctive while every Chinese character remains recognizable and reading order is clear. The title, small English, scene, color and a few letter-attached details must work as one designed film frame. New photoreal cinematic scene, with believable light, optics and fine film grain; never paint or illustrate the photographic background. No magazine cover, no paper, no collage, no border, no grid, no comparison panels, no invented production credits or extra words. Leave cinematic breathing space around the main title and preserve scene storytelling. Exact main Chinese text:「今天先不回家」. Exact small English text:「NOT HOME YET」. Art direction: 青春公路喜剧。新镜头：海边小镇公交站，浅蓝天空占大半，左侧低位有黄色候车棚、一辆旧自行车，远处一条细海线，胶片日光蓝与黄。右侧『今天先 / 不回家』作不规则两行粗扁头油漆字，钴蓝与奶白交错、少量粉红复描线。天字胖，今字斜，不字一长一短，回的双框有意歪斜，家略挤而下脚宽。每个字像手画的有缺口色块和露出的细线骨架。英文用手写小字错落嵌进两行。粉色小线直接依附字符拐角，不画独立表情或贴纸。片名约52%宽，保住公交站。",
+      "id": "F12",
+      "original_case_id": "02",
+      "category": "彩绘拼块",
+      "output": "selected/F12.png",
+      "status": "selected_original",
+      "size": [
+        1930,
+        815
+      ],
+      "sha256": "7b2133d319ee62c7630b31e6e2f375cd7f4fdfd187eaa700f4ccc57e7f3a1855"
+    },
+    {
+      "title": "夏天欠我一句话",
+      "english": "WORDS WE NEVER SAID",
+      "ref": "827c41323edad9c4f74227e15d2f8043.jpg",
+      "crop": [
+        0,
+        0.334,
+        1,
+        0.665
+      ],
+      "direction": "有一点叛逆的校园爱情电影。新镜头：傍晚空的露天泳池边，退色薄荷绿瓷砖、积水中的粉色天空倒影，右侧远处一只红色塑料椅，暗部青绿。左中两行『夏天欠我 / 一句话』，饱和浅粉色粉蜡笔宽字，带粗糙孔隙；夏像宽而挤的小房子，欠极瘦斜，一字很长，句和话一高一低，字块笨、各自歪而仍互相嵌合。少数米白细线沿字本身转折补一笔，英文字母穿插行间空隙。有戏谑又没说出口的情绪，不能变成漂亮毛笔字或整齐黑体。标题约占55%画幅宽。",
+      "prompt": "Create ONE original Chinese cinematic opening-title still, a complete photographic movie shot with designed title lettering, full-bleed ultrawide horizontal about 2.38:1 (roughly 2400x1008). Use case: stylized-concept / original cinematic typography. The supplied image is a LETTERING AND FILM-TITLE DESIGN REFERENCE ONLY. Observe its unusual glyph anatomy, handcrafted proportion, stroke character, hierarchy, small-text interweaving and relationship to a shot. Do not copy its exact glyph designs, words, illustration, photo, logo, author credit or watermark. Make an original new title and new photographic scene described below. Draw the Chinese glyphs as a specific handmade wordmark with personal quirks: designed asymmetry, unconventional proportions and pauses, not tidy font typing or generic graceful brush calligraphy. Be distinctive while every Chinese character remains recognizable and reading order is clear. The title, small English, scene, color and a few letter-attached details must work as one designed film frame. New photoreal cinematic scene, with believable light, optics and fine film grain; never paint or illustrate the photographic background. No magazine cover, no paper, no collage, no border, no grid, no comparison panels, no invented production credits or extra words. Leave cinematic breathing space around the main title and preserve scene storytelling. Exact main Chinese text:「夏天欠我一句话」. Exact small English text:「WORDS WE NEVER SAID」. Art direction: 有一点叛逆的校园爱情电影。新镜头：傍晚空的露天泳池边，退色薄荷绿瓷砖、积水中的粉色天空倒影，右侧远处一只红色塑料椅，暗部青绿。左中两行『夏天欠我 / 一句话』，饱和浅粉色粉蜡笔宽字，带粗糙孔隙；夏像宽而挤的小房子，欠极瘦斜，一字很长，句和话一高一低，字块笨、各自歪而仍互相嵌合。少数米白细线沿字本身转折补一笔，英文字母穿插行间空隙。有戏谑又没说出口的情绪，不能变成漂亮毛笔字或整齐黑体。标题约占55%画幅宽。",
+      "id": "F13",
+      "original_case_id": "03",
+      "category": "粉笔拙块",
+      "output": "selected/F13.png",
+      "status": "selected_original",
+      "size": [
+        1920,
+        819
+      ],
+      "sha256": "08d43b8468f1ec7d64d63a5ab5a316c106dfd59d2c7a6acc4bed04c07764439a"
+    },
+    {
+      "title": "凌晨两点的蓝",
+      "english": "BLUE AT TWO",
+      "ref": "827c41323edad9c4f74227e15d2f8043.jpg",
+      "crop": [
+        0,
+        0,
+        1,
+        0.333
+      ],
+      "direction": "城市夜行独立电影。新镜头：从末班电车内部斜看窗户，左下少量深蓝塑料座椅，窗外过曝的冷蓝街灯和远处隧道，右上黑色窗玻璃留白，窗框有一条暗暖黄色。把『凌晨两点的』压成紧密奶白两行块面字，把『蓝』画成更大、用冰蓝细刷和锐利断划构成的字，右侧伸出。主字像手剪的角面，局部突然细线相接，圆口和锐角并存；英文细小散落在两种笔性的接缝里。读取清楚六字，光学颗粒与轻微眩光。字标约48%宽，不复制参考原题的字形组合。",
+      "prompt": "Create ONE original Chinese cinematic opening-title still, a complete photographic movie shot with designed title lettering, full-bleed ultrawide horizontal about 2.38:1 (roughly 2400x1008). Use case: stylized-concept / original cinematic typography. The supplied image is a LETTERING AND FILM-TITLE DESIGN REFERENCE ONLY. Observe its unusual glyph anatomy, handcrafted proportion, stroke character, hierarchy, small-text interweaving and relationship to a shot. Do not copy its exact glyph designs, words, illustration, photo, logo, author credit or watermark. Make an original new title and new photographic scene described below. Draw the Chinese glyphs as a specific handmade wordmark with personal quirks: designed asymmetry, unconventional proportions and pauses, not tidy font typing or generic graceful brush calligraphy. Be distinctive while every Chinese character remains recognizable and reading order is clear. The title, small English, scene, color and a few letter-attached details must work as one designed film frame. New photoreal cinematic scene, with believable light, optics and fine film grain; never paint or illustrate the photographic background. No magazine cover, no paper, no collage, no border, no grid, no comparison panels, no invented production credits or extra words. Leave cinematic breathing space around the main title and preserve scene storytelling. Exact main Chinese text:「凌晨两点的蓝」. Exact small English text:「BLUE AT TWO」. Art direction: 城市夜行独立电影。新镜头：从末班电车内部斜看窗户，左下少量深蓝塑料座椅，窗外过曝的冷蓝街灯和远处隧道，右上黑色窗玻璃留白，窗框有一条暗暖黄色。把『凌晨两点的』压成紧密奶白两行块面字，把『蓝』画成更大、用冰蓝细刷和锐利断划构成的字，右侧伸出。主字像手剪的角面，局部突然细线相接，圆口和锐角并存；英文细小散落在两种笔性的接缝里。读取清楚六字，光学颗粒与轻微眩光。字标约48%宽，不复制参考原题的字形组合。",
+      "id": "F14",
+      "original_case_id": "04",
+      "category": "切面混写",
+      "output": "selected/F14.png",
+      "status": "selected_original",
+      "size": [
+        1933,
+        813
+      ],
+      "sha256": "1cc82ff65664c30f90a7d37a886f0f0d68fb66804438dc3189e670f067c5f2d4"
+    },
+    {
+      "title": "风从旧楼穿过",
+      "english": "THROUGH THE OLD HOUSE",
+      "ref": "42cdd1de0eb5b490687d58683a86b4f2.jpg",
+      "crop": [
+        0,
+        0.35,
+        1,
+        0.668
+      ],
+      "direction": "南方旧城奇异短片。新镜头：深巷向远处一盏暖橙路灯收拢，两侧旧楼墙面和潮湿管线暗得近黑，楼缝透出一点黄昏，实拍电影感。主标题浅翠绿色，跨度宽但笔身极细，私人偏锋字，『风从 / 旧楼穿过』断续轻重跳变；风的外钩特别长，旧的日框窄，楼的木旁细高，过的走之像突然拐弯的长横。不要每笔统一45度，写出局部乱、局部稳的节奏，少量厚墨起笔与极细长线冲突，整组轮廓轻盈而有险劲。英文极小嵌进旧楼下的留白。长线是字的一部分，不另加装饰箭头。",
+      "prompt": "Create ONE original Chinese cinematic opening-title still, a complete photographic movie shot with designed title lettering, full-bleed ultrawide horizontal about 2.38:1 (roughly 2400x1008). Use case: stylized-concept / original cinematic typography. The supplied image is a LETTERING AND FILM-TITLE DESIGN REFERENCE ONLY. Observe its unusual glyph anatomy, handcrafted proportion, stroke character, hierarchy, small-text interweaving and relationship to a shot. Do not copy its exact glyph designs, words, illustration, photo, logo, author credit or watermark. Make an original new title and new photographic scene described below. Draw the Chinese glyphs as a specific handmade wordmark with personal quirks: designed asymmetry, unconventional proportions and pauses, not tidy font typing or generic graceful brush calligraphy. Be distinctive while every Chinese character remains recognizable and reading order is clear. The title, small English, scene, color and a few letter-attached details must work as one designed film frame. New photoreal cinematic scene, with believable light, optics and fine film grain; never paint or illustrate the photographic background. No magazine cover, no paper, no collage, no border, no grid, no comparison panels, no invented production credits or extra words. Leave cinematic breathing space around the main title and preserve scene storytelling. Exact main Chinese text:「风从旧楼穿过」. Exact small English text:「THROUGH THE OLD HOUSE」. Art direction: 南方旧城奇异短片。新镜头：深巷向远处一盏暖橙路灯收拢，两侧旧楼墙面和潮湿管线暗得近黑，楼缝透出一点黄昏，实拍电影感。主标题浅翠绿色，跨度宽但笔身极细，私人偏锋字，『风从 / 旧楼穿过』断续轻重跳变；风的外钩特别长，旧的日框窄，楼的木旁细高，过的走之像突然拐弯的长横。不要每笔统一45度，写出局部乱、局部稳的节奏，少量厚墨起笔与极细长线冲突，整组轮廓轻盈而有险劲。英文极小嵌进旧楼下的留白。长线是字的一部分，不另加装饰箭头。",
+      "id": "F15",
+      "original_case_id": "05",
+      "category": "偏锋长线",
+      "output": "selected/F15.png",
+      "status": "selected_original",
+      "size": [
+        1934,
+        813
+      ],
+      "sha256": "0fe545a5d8f97ed371eb704683ce3d719ee07ad05aeedee2be98a71a284b8a1e"
+    },
+    {
+      "title": "第七盏灯",
+      "english": "THE SEVENTH LIGHT",
+      "ref": "9d2b17fc920313fa110ffb3d06a25dfb.jpg",
+      "crop": [
+        0,
+        0.335,
+        1,
+        0.665
+      ],
+      "direction": "克制的港镇悬疑电影。新镜头：深夜旧厂区一条湿路，右侧近景一盏亮着的橙色路灯，远处六个很小的冷白光点向雾里消失，混凝土墙暗灰绿，摄影写实。左侧『第七 / 盏灯』用暗朱红厚墨凿刻块字，四字压得很近却各自歪。第的竹头一大一小，七上横异常长，盏的皿部扁而厚，灯的火旁像锯齿。重心互抵，内部负形不均匀、粗糙钝口像手凿，短厚笔画而不是行草撇捺。很小的奶白衬线英文塞在右下内凹处。标题约35%宽，留出孤灯与路的空间。",
+      "prompt": "Create ONE original Chinese cinematic opening-title still, a complete photographic movie shot with designed title lettering, full-bleed ultrawide horizontal about 2.38:1 (roughly 2400x1008). Use case: stylized-concept / original cinematic typography. The supplied image is a LETTERING AND FILM-TITLE DESIGN REFERENCE ONLY. Observe its unusual glyph anatomy, handcrafted proportion, stroke character, hierarchy, small-text interweaving and relationship to a shot. Do not copy its exact glyph designs, words, illustration, photo, logo, author credit or watermark. Make an original new title and new photographic scene described below. Draw the Chinese glyphs as a specific handmade wordmark with personal quirks: designed asymmetry, unconventional proportions and pauses, not tidy font typing or generic graceful brush calligraphy. Be distinctive while every Chinese character remains recognizable and reading order is clear. The title, small English, scene, color and a few letter-attached details must work as one designed film frame. New photoreal cinematic scene, with believable light, optics and fine film grain; never paint or illustrate the photographic background. No magazine cover, no paper, no collage, no border, no grid, no comparison panels, no invented production credits or extra words. Leave cinematic breathing space around the main title and preserve scene storytelling. Exact main Chinese text:「第七盏灯」. Exact small English text:「THE SEVENTH LIGHT」. Art direction: 克制的港镇悬疑电影。新镜头：深夜旧厂区一条湿路，右侧近景一盏亮着的橙色路灯，远处六个很小的冷白光点向雾里消失，混凝土墙暗灰绿，摄影写实。左侧『第七 / 盏灯』用暗朱红厚墨凿刻块字，四字压得很近却各自歪。第的竹头一大一小，七上横异常长，盏的皿部扁而厚，灯的火旁像锯齿。重心互抵，内部负形不均匀、粗糙钝口像手凿，短厚笔画而不是行草撇捺。很小的奶白衬线英文塞在右下内凹处。标题约35%宽，留出孤灯与路的空间。",
+      "id": "F16",
+      "original_case_id": "06",
+      "category": "粗凿字块",
+      "output": "selected/F16.png",
+      "status": "selected_original",
+      "size": [
+        1933,
+        814
+      ],
+      "sha256": "99e91bbeb9b97eb93d304158260c43087e15840fd1e8f8824986c5ebb3741f2d"
+    },
+    {
+      "title": "山路拐进秋天",
+      "english": "THE TURN INTO AUTUMN",
+      "ref": "850b362b960ea23bfc24bd122c5577ac.jpg",
+      "crop": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "direction": "秋日山野公路电影。新镜头：远景梯田与一条盘山公路，土金、低饱和橄榄绿，最左下一个非常小的白色货车，侧光照亮田埂，天只留很窄一条。右上中部『山路拐进 / 秋天』为米白野笔干刷。山的中竖巨大而两侧短，拐偏瘦弯折，进突然挤小，秋粗重向左压，天宽扁两脚不对称。刷子一次猛按再突然提走，大片实墨和稀疏飞白并存，笔边像断裂纤维。山路的连带笔只在字间转折，避免额外巨大椭圆。标题约56%宽，不落成标准书法字库。",
+      "prompt": "Create ONE original Chinese cinematic opening-title still, a complete photographic movie shot with designed title lettering, full-bleed ultrawide horizontal about 2.38:1 (roughly 2400x1008). Use case: stylized-concept / original cinematic typography. The supplied image is a LETTERING AND FILM-TITLE DESIGN REFERENCE ONLY. Observe its unusual glyph anatomy, handcrafted proportion, stroke character, hierarchy, small-text interweaving and relationship to a shot. Do not copy its exact glyph designs, words, illustration, photo, logo, author credit or watermark. Make an original new title and new photographic scene described below. Draw the Chinese glyphs as a specific handmade wordmark with personal quirks: designed asymmetry, unconventional proportions and pauses, not tidy font typing or generic graceful brush calligraphy. Be distinctive while every Chinese character remains recognizable and reading order is clear. The title, small English, scene, color and a few letter-attached details must work as one designed film frame. New photoreal cinematic scene, with believable light, optics and fine film grain; never paint or illustrate the photographic background. No magazine cover, no paper, no collage, no border, no grid, no comparison panels, no invented production credits or extra words. Leave cinematic breathing space around the main title and preserve scene storytelling. Exact main Chinese text:「山路拐进秋天」. Exact small English text:「THE TURN INTO AUTUMN」. Art direction: 秋日山野公路电影。新镜头：远景梯田与一条盘山公路，土金、低饱和橄榄绿，最左下一个非常小的白色货车，侧光照亮田埂，天只留很窄一条。右上中部『山路拐进 / 秋天』为米白野笔干刷。山的中竖巨大而两侧短，拐偏瘦弯折，进突然挤小，秋粗重向左压，天宽扁两脚不对称。刷子一次猛按再突然提走，大片实墨和稀疏飞白并存，笔边像断裂纤维。山路的连带笔只在字间转折，避免额外巨大椭圆。标题约56%宽，不落成标准书法字库。",
+      "id": "F17",
+      "original_case_id": "07",
+      "category": "野笔干刷",
+      "output": "selected/F17.png",
+      "status": "selected_original",
+      "size": [
+        1934,
+        813
+      ],
+      "sha256": "e658cf9c97c03b7e4a9ba12b515762769b441bea23e639d04cf334ccb0d96c82"
+    },
+    {
+      "title": "雨停在八月",
+      "english": "AUGUST AFTER RAIN",
+      "ref": "7670e1c7e5406bf8e3dbf55c8fac2a81.jpg",
+      "crop": [
+        0,
+        0.334,
+        1,
+        0.666
+      ],
+      "direction": "潮湿而轻的文学电影。新镜头：雨后乡间小火车站，空站台、灰白天空、退色浅绿长椅在右侧，远处水汽消失在田野；画面明亮、低反差，保留细微摄影颗粒。片名位于左中，深苔绿色手刻细衬线字『雨停 / 在八月』，骨架窄长、横画纤细且不平，竖画突然长下去，末端有小而不一致的三角尖。雨字顶部横向伸长，四点密挤；停字亭部狭长；八很开，月很细。字间轻微互咬、不对称内腔，像个人手刻的文艺片题，不要宋体直接排字。英文微小直立衬线嵌在雨与停下面。",
+      "prompt": "Create ONE original Chinese cinematic opening-title still, a complete photographic movie shot with designed title lettering, full-bleed ultrawide horizontal about 2.38:1 (roughly 2400x1008). Use case: stylized-concept / original cinematic typography. The supplied image is a LETTERING AND FILM-TITLE DESIGN REFERENCE ONLY. Observe its unusual glyph anatomy, handcrafted proportion, stroke character, hierarchy, small-text interweaving and relationship to a shot. Do not copy its exact glyph designs, words, illustration, photo, logo, author credit or watermark. Make an original new title and new photographic scene described below. Draw the Chinese glyphs as a specific handmade wordmark with personal quirks: designed asymmetry, unconventional proportions and pauses, not tidy font typing or generic graceful brush calligraphy. Be distinctive while every Chinese character remains recognizable and reading order is clear. The title, small English, scene, color and a few letter-attached details must work as one designed film frame. New photoreal cinematic scene, with believable light, optics and fine film grain; never paint or illustrate the photographic background. No magazine cover, no paper, no collage, no border, no grid, no comparison panels, no invented production credits or extra words. Leave cinematic breathing space around the main title and preserve scene storytelling. Exact main Chinese text:「雨停在八月」. Exact small English text:「AUGUST AFTER RAIN」. Art direction: 潮湿而轻的文学电影。新镜头：雨后乡间小火车站，空站台、灰白天空、退色浅绿长椅在右侧，远处水汽消失在田野；画面明亮、低反差，保留细微摄影颗粒。片名位于左中，深苔绿色手刻细衬线字『雨停 / 在八月』，骨架窄长、横画纤细且不平，竖画突然长下去，末端有小而不一致的三角尖。雨字顶部横向伸长，四点密挤；停字亭部狭长；八很开，月很细。字间轻微互咬、不对称内腔，像个人手刻的文艺片题，不要宋体直接排字。英文微小直立衬线嵌在雨与停下面。",
+      "id": "F18",
+      "original_case_id": "08",
+      "category": "窄骨衬线",
+      "output": "selected/F18.png",
+      "status": "selected_original",
+      "size": [
+        1931,
+        814
+      ],
+      "sha256": "749ad5d5745cba51fca841fdb238c586300b3b18452268d166c32ab21090c553"
+    },
+    {
+      "title": "浪花替我回答",
+      "english": "LET THE WATER ANSWER",
+      "ref": "9c15b37c3d8d33898d6a7603ef454834.jpg",
+      "crop": [
+        0,
+        0.32,
+        1,
+        0.65
+      ],
+      "direction": "夜游青春电影。新镜头：夜色下的海边防波堤，右下几级潮湿水泥台阶，小范围近岸水面有冷蓝月光，远处黑暗海线和一个微小的橘色灯点，实拍蓝黑电影色。主片名海沫浅蓝，左中横向错落『浪花替我回答』。湿笔像墨吸进粗纸，但文字仍是平面墨迹，饱满圆弯与细小断点并存；浪的三点水直接延续字脚的水痕，花的下半部偏长，我字瘦小，回的框开合不规整，答结尾收笔向下回转。细白线从字符下沿延出局部涟漪，英文像用指尖写的小字藏在字间，不能做霓虹、3D水字或独立浪花图标。",
+      "prompt": "Create ONE original Chinese cinematic opening-title still, a complete photographic movie shot with designed title lettering, full-bleed ultrawide horizontal about 2.38:1 (roughly 2400x1008). Use case: stylized-concept / original cinematic typography. The supplied image is a LETTERING AND FILM-TITLE DESIGN REFERENCE ONLY. Observe its unusual glyph anatomy, handcrafted proportion, stroke character, hierarchy, small-text interweaving and relationship to a shot. Do not copy its exact glyph designs, words, illustration, photo, logo, author credit or watermark. Make an original new title and new photographic scene described below. Draw the Chinese glyphs as a specific handmade wordmark with personal quirks: designed asymmetry, unconventional proportions and pauses, not tidy font typing or generic graceful brush calligraphy. Be distinctive while every Chinese character remains recognizable and reading order is clear. The title, small English, scene, color and a few letter-attached details must work as one designed film frame. New photoreal cinematic scene, with believable light, optics and fine film grain; never paint or illustrate the photographic background. No magazine cover, no paper, no collage, no border, no grid, no comparison panels, no invented production credits or extra words. Leave cinematic breathing space around the main title and preserve scene storytelling. Exact main Chinese text:「浪花替我回答」. Exact small English text:「LET THE WATER ANSWER」. Art direction: 夜游青春电影。新镜头：夜色下的海边防波堤，右下几级潮湿水泥台阶，小范围近岸水面有冷蓝月光，远处黑暗海线和一个微小的橘色灯点，实拍蓝黑电影色。主片名海沫浅蓝，左中横向错落『浪花替我回答』。湿笔像墨吸进粗纸，但文字仍是平面墨迹，饱满圆弯与细小断点并存；浪的三点水直接延续字脚的水痕，花的下半部偏长，我字瘦小，回的框开合不规整，答结尾收笔向下回转。细白线从字符下沿延出局部涟漪，英文像用指尖写的小字藏在字间，不能做霓虹、3D水字或独立浪花图标。",
+      "id": "F19",
+      "original_case_id": "09",
+      "category": "水痕湿笔",
+      "output": "selected/F19.png",
+      "status": "selected_original",
+      "size": [
+        1933,
+        813
+      ],
+      "sha256": "2cde8ee902899b4706ce58ca5a596257b1a63ec61869ece7e8c9d1ae4b8118ba"
+    },
+    {
+      "title": "月亮晚点来",
+      "english": "THE MOON CAN WAIT",
+      "ref": "d975160e5ddbb46d9c549d1afbeff07f.jpg",
+      "crop": [
+        0,
+        0.335,
+        1,
+        0.666
+      ],
+      "direction": "带一点怪趣的孤独夜间电影。新镜头：老楼顶层的半开窗，画面左下窗内一小盆很暗的植物，窗外是紫蓝色将夜未夜天空和低位模糊屋顶，右侧有足够深色玻璃留白。主字暖粉红细圆头墨线，『月亮 / 晚点来』作奇怪而可读的两行。月的外框瘦长迂回，亮上半部小、儿的两脚形成大小不一的回环，晚的日部小圆框而右部细长，点的四点大小不等、来向下拖一根细长线。像一个人用圆珠笔绕出来的怪字，笔线有急停、重描和局部墨团，绝不变成端庄行书。英文极细手写，嵌进月亮与晚点之间；没有额外画月亮或星星。",
+      "prompt": "Create ONE original Chinese cinematic opening-title still, a complete photographic movie shot with designed title lettering, full-bleed ultrawide horizontal about 2.38:1 (roughly 2400x1008). Use case: stylized-concept / original cinematic typography. The supplied image is a LETTERING AND FILM-TITLE DESIGN REFERENCE ONLY. Observe its unusual glyph anatomy, handcrafted proportion, stroke character, hierarchy, small-text interweaving and relationship to a shot. Do not copy its exact glyph designs, words, illustration, photo, logo, author credit or watermark. Make an original new title and new photographic scene described below. Draw the Chinese glyphs as a specific handmade wordmark with personal quirks: designed asymmetry, unconventional proportions and pauses, not tidy font typing or generic graceful brush calligraphy. Be distinctive while every Chinese character remains recognizable and reading order is clear. The title, small English, scene, color and a few letter-attached details must work as one designed film frame. New photoreal cinematic scene, with believable light, optics and fine film grain; never paint or illustrate the photographic background. No magazine cover, no paper, no collage, no border, no grid, no comparison panels, no invented production credits or extra words. Leave cinematic breathing space around the main title and preserve scene storytelling. Exact main Chinese text:「月亮晚点来」. Exact small English text:「THE MOON CAN WAIT」. Art direction: 带一点怪趣的孤独夜间电影。新镜头：老楼顶层的半开窗，画面左下窗内一小盆很暗的植物，窗外是紫蓝色将夜未夜天空和低位模糊屋顶，右侧有足够深色玻璃留白。主字暖粉红细圆头墨线，『月亮 / 晚点来』作奇怪而可读的两行。月的外框瘦长迂回，亮上半部小、儿的两脚形成大小不一的回环，晚的日部小圆框而右部细长，点的四点大小不等、来向下拖一根细长线。像一个人用圆珠笔绕出来的怪字，笔线有急停、重描和局部墨团，绝不变成端庄行书。英文极细手写，嵌进月亮与晚点之间；没有额外画月亮或星星。",
+      "id": "F20",
+      "original_case_id": "10",
+      "category": "绕线怪字",
+      "output": "selected/F20.png",
+      "status": "selected_original",
+      "size": [
+        1930,
+        815
+      ],
+      "sha256": "7105119a7badd8c400dceeba2f136eb224ef1101a6607dd4626198b4aeaeb202"
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+[
+  {
+    "id": "F41",
+    "name": "回环长竖",
+    "titles": [
+      "雨停了",
+      "把日子写成一封信"
+    ],
+    "input_images": [
+      "../masters/F41.jpg",
+      "../F41.png"
+    ],
+    "image": "F41-C.png",
+    "prompt": "Use case: stylized-concept.\nAsset: ONE independent handwriting test sheet for ONE selected Chinese hand, landscape 3:2, 1536x1024 or higher, pure white background and black ink only.\nInput image 1 is the original user-authorized handwriting sample: PRIMARY reference for glyph skeleton, terminals, pressure rhythm, narrow/broad proportions, and human imperfections. Input image 2 is the approved calibration lettering of this same style: supporting reference for the pen weight and the grouping of characters. Both reference handwriting only; ignore old wording, photos, scenery, pens, paper texture, color, angle of photographed paper, and layout. Do not copy the old words.\nWrite EXACTLY TWO separate text groups, each horizontal on its own baseline:\nUpper short group (3 characters): 「雨停了」. Character order: 雨 / 停 / 了.\nLower long group (8 characters): 「把日子写成一封信」. Character order: 把 / 日 / 子 / 写 / 成 / 一 / 封 / 信.\nNo other text, labels, numbers or punctuation. All simplified Chinese. Do not merge the two groups or add a third line. Place the short group centered around y=270 and the long group centered around y=740 on a 1536x1024 canvas; generous whitespace between them. The lower eight characters must remain on ONE line. Lettering fills at most 85% canvas width; preserve complete strokes with margins. This is a handwriting test, not a uniform font specimen: keep natural changes in size, width and posture characteristic of this specific hand.\nKeep required character structure: 雨 has its enclosing structure and four internal drops; 停 retains 亻 and 亭 with the actual bottom 丁 stem; 把 retains 扌 and 巴; 日 retains an interior horizontal; 封 has two 土 at left and 寸 at right; 信 has 亻 and 言. Keep the two phrases readable without smoothing out the personal quirks.\nThe selected hand rules below determine pen weight and whether there is a long stroke. Any extended stroke starts in the actual glyph, never a disconnected flourish. Do not force long tails on short-tail styles. Do not thicken the handwriting just to fill the frame.\nNo scene, paper, shadows, doodles, icons, border, English, watermark, drop shadow or decorative underline. Preserve genuine individual pen turns; do not substitute an off-the-shelf font with distortion.\n\n本款：F41 回环长竖。\n必须保留：\n- 普通笔画细而柔韧，局部转弯回成小圈；字身松散，内部留白大。\n- 只挑一根适合的自然竖画明显向下拉长，偏直，末端轻收；其余字有宽有窄、有高有低。\n- 短片名可放大一个字，长句则保留一个长竖和少量回环，其余字收紧，仍逐字认得出来。\n避免：整组字连成难辨的一根乱线；把长直竖改成每个字都有的大弯钩；写成整齐的瘦金体或标准行书。\n这一款在上组拉长「停」中实际的丁竖，下组只挑「封」的寸竖略拉长，偏直，末端小收；不要整组串成乱线。",
+    "generation_mode": "built-in image_gen",
+    "revision_selected": 1
+  },
+  {
+    "id": "F42",
+    "name": "圆头长锋",
+    "titles": [
+      "雨停了",
+      "把日子写成一封信"
+    ],
+    "input_images": [
+      "../masters/F42.jpg",
+      "../F42.png"
+    ],
+    "image": "F42-C.png",
+    "prompt": "Use case: stylized-concept.\nAsset: ONE independent handwriting test sheet for ONE selected Chinese hand, landscape 3:2, 1536x1024 or higher, pure white background and black ink only.\nInput image 1 is the original user-authorized handwriting sample: PRIMARY reference for glyph skeleton, terminals, pressure rhythm, narrow/broad proportions, and human imperfections. Input image 2 is the approved calibration lettering of this same style: supporting reference for the pen weight and the grouping of characters. Both reference handwriting only; ignore old wording, photos, scenery, pens, paper texture, color, angle of photographed paper, and layout. Do not copy the old words.\nWrite EXACTLY TWO separate text groups, each horizontal on its own baseline:\nUpper short group (3 characters): 「雨停了」. Character order: 雨 / 停 / 了.\nLower long group (8 characters): 「把日子写成一封信」. Character order: 把 / 日 / 子 / 写 / 成 / 一 / 封 / 信.\nNo other text, labels, numbers or punctuation. All simplified Chinese. Do not merge the two groups or add a third line. Place the short group centered around y=270 and the long group centered around y=740 on a 1536x1024 canvas; generous whitespace between them. The lower eight characters must remain on ONE line. Lettering fills at most 85% canvas width; preserve complete strokes with margins. This is a handwriting test, not a uniform font specimen: keep natural changes in size, width and posture characteristic of this specific hand.\nKeep required character structure: 雨 has its enclosing structure and four internal drops; 停 retains 亻 and 亭 with the actual bottom 丁 stem; 把 retains 扌 and 巴; 日 retains an interior horizontal; 封 has two 土 at left and 寸 at right; 信 has 亻 and 言. Keep the two phrases readable without smoothing out the personal quirks.\nThe selected hand rules below determine pen weight and whether there is a long stroke. Any extended stroke starts in the actual glyph, never a disconnected flourish. Do not force long tails on short-tail styles. Do not thicken the handwriting just to fill the frame.\nNo scene, paper, shadows, doodles, icons, border, English, watermark, drop shadow or decorative underline. Preserve genuine individual pen turns; do not substitute an off-the-shelf font with distortion.\n\n本款：F42 圆头长锋。\n必须保留：\n- 小部分起笔圆而饱满，其余笔画细长；圆头和细收笔要看得出粗细落差。\n- 选一个自然的竖画或弯笔拖出柔和的长收笔，保留作者那种圆起细收的笔势。\n- 一个字略大，其他字轻轻错落，圆头也可接小回环；长句缩小字身，不把笔画加粗。\n避免：细线粗细全一样；长收笔变成旁边另画的下划线；写成干刷毛笔或粗记号笔。\n上组可让「了」自身的弯钩轻细拖长，下组让「子」的实际竖弯钩柔和收细；圆起笔与细收笔要看得出落差。",
+    "generation_mode": "built-in image_gen",
+    "revision_selected": 1
+  },
+  {
+    "id": "F43",
+    "name": "墨点长钩",
+    "titles": [
+      "雨停了",
+      "把日子写成一封信"
+    ],
+    "input_images": [
+      "../masters/F43.jpg",
+      "../F43.png"
+    ],
+    "image": "F43-C.png",
+    "prompt": "Use case: stylized-concept.\nAsset: ONE independent handwriting test sheet for ONE selected Chinese hand, landscape 3:2, 1536x1024 or higher, pure white background and black ink only.\nInput image 1 is the original user-authorized handwriting sample: PRIMARY reference for glyph skeleton, terminals, pressure rhythm, narrow/broad proportions, and human imperfections. Input image 2 is the approved calibration lettering of this same style: supporting reference for the pen weight and the grouping of characters. Both reference handwriting only; ignore old wording, photos, scenery, pens, paper texture, color, angle of photographed paper, and layout. Do not copy the old words.\nWrite EXACTLY TWO separate text groups, each horizontal on its own baseline:\nUpper short group (3 characters): 「雨停了」. Character order: 雨 / 停 / 了.\nLower long group (8 characters): 「把日子写成一封信」. Character order: 把 / 日 / 子 / 写 / 成 / 一 / 封 / 信.\nNo other text, labels, numbers or punctuation. All simplified Chinese. Do not merge the two groups or add a third line. Place the short group centered around y=270 and the long group centered around y=740 on a 1536x1024 canvas; generous whitespace between them. The lower eight characters must remain on ONE line. Lettering fills at most 85% canvas width; preserve complete strokes with margins. This is a handwriting test, not a uniform font specimen: keep natural changes in size, width and posture characteristic of this specific hand.\nKeep required character structure: 雨 has its enclosing structure and four internal drops; 停 retains 亻 and 亭 with the actual bottom 丁 stem; 把 retains 扌 and 巴; 日 retains an interior horizontal; 封 has two 土 at left and 寸 at right; 信 has 亻 and 言. Keep the two phrases readable without smoothing out the personal quirks.\nThe selected hand rules below determine pen weight and whether there is a long stroke. Any extended stroke starts in the actual glyph, never a disconnected flourish. Do not force long tails on short-tail styles. Do not thicken the handwriting just to fill the frame.\nNo scene, paper, shadows, doodles, icons, border, English, watermark, drop shadow or decorative underline. Preserve genuine individual pen turns; do not substitute an off-the-shelf font with distortion.\n\n本款：F43 墨点长钩。\n必须保留：\n- 骨架瘦长而疏朗，点笔是饱满小墨滴，主要线条仍细。\n- 只在一至两个合适的竖钩上拉出明显的长弧钩，钩尾轻圆，留足下方空白。\n- 偏旁可压小，字的宽窄与大小跳动明显；长句也要保留细线和墨点，不能靠密连笔填满。\n- 长钩的起点接在字内实际笔画上，不能在字下悬空另画一钩。\n避免：所有笔画都粗圆饱满；没有墨点、只剩普通细字；每个字拉同样长的尾巴；绕成连笔回环而丢掉独立字形。\n上组把「了」自身的竖钩连贯拉成长弧，下组把「封」的寸竖钩接着实际笔画拉成长弧；钩起点均接在字里，尾部轻圆，不悬空。",
+    "generation_mode": "built-in image_gen",
+    "revision_selected": 1
+  },
+  {
+    "id": "F44",
+    "name": "收紧连笔",
+    "titles": [
+      "雨停了",
+      "把日子写成一封信"
+    ],
+    "input_images": [
+      "../masters/F44.jpg",
+      "../F44.png"
+    ],
+    "image": "F44-C.png",
+    "prompt": "生成一张白底黑字的个人手写字稿，横向3:2，1536×1024。图1是原始手写字，为主参考；图2是同一写法的校准图。请像原稿作者换句话写，沿用原稿字身的松紧、用笔和小毛病。两张图片只参考字形，不带入旧文字、背景与图案。画面只有两组文字，上组「雨停了」，下组「把日子写成一封信」，下组八字完整单行，四周与上下之间留白，不加标签、数字或其他文字。各字偏旁能认出：雨里四个点，停的亻与亭，把的扌与巴，日内横，封的两个土与寸，信的亻与言均保留。\n重点仿图1「一切刚刚好」里面细笔紧凑快写的手。字身略窄，部件收在一起，字内有自然小回绕：像原稿里切的回环和刚的小折返，有几处不断笔，但字间不强行串联。上组雨略扁，停窄而微倾，了较小；下组日和信收窄，写的上盖收紧，成略歪，封的部件互相靠近但留细缝。小回环长在实际笔画里，不是加在字旁的小圈。每个字要有自然不齐的宽窄和高低，像一口气快速记下，收笔短。保住原稿的细线与压笔，不做圆头记号笔，不画任何撑场的长竖或长钩，不规整成端正练字，不加装饰。",
+    "generation_mode": "built-in image_gen",
+    "revision_selected": 2
+  },
+  {
+    "id": "F45",
+    "name": "饱墨圆写",
+    "titles": [
+      "雨停了",
+      "把日子写成一封信"
+    ],
+    "input_images": [
+      "../masters/F45.jpg",
+      "../F45.png"
+    ],
+    "image": "F45-C.png",
+    "prompt": "Use case: stylized-concept.\nAsset: ONE independent handwriting test sheet for ONE selected Chinese hand, landscape 3:2, 1536x1024 or higher, pure white background and black ink only.\nInput image 1 is the original user-authorized handwriting sample: PRIMARY reference for glyph skeleton, terminals, pressure rhythm, narrow/broad proportions, and human imperfections. Input image 2 is the approved calibration lettering of this same style: supporting reference for the pen weight and the grouping of characters. Both reference handwriting only; ignore old wording, photos, scenery, pens, paper texture, color, angle of photographed paper, and layout. Do not copy the old words.\nWrite EXACTLY TWO separate text groups, each horizontal on its own baseline:\nUpper short group (3 characters): 「雨停了」. Character order: 雨 / 停 / 了.\nLower long group (8 characters): 「把日子写成一封信」. Character order: 把 / 日 / 子 / 写 / 成 / 一 / 封 / 信.\nNo other text, labels, numbers or punctuation. All simplified Chinese. Do not merge the two groups or add a third line. Place the short group centered around y=270 and the long group centered around y=740 on a 1536x1024 canvas; generous whitespace between them. The lower eight characters must remain on ONE line. Lettering fills at most 85% canvas width; preserve complete strokes with margins. This is a handwriting test, not a uniform font specimen: keep natural changes in size, width and posture characteristic of this specific hand.\nKeep required character structure: 雨 has its enclosing structure and four internal drops; 停 retains 亻 and 亭 with the actual bottom 丁 stem; 把 retains 扌 and 巴; 日 retains an interior horizontal; 封 has two 土 at left and 寸 at right; 信 has 亻 and 言. Keep the two phrases readable without smoothing out the personal quirks.\nThe selected hand rules below determine pen weight and whether there is a long stroke. Any extended stroke starts in the actual glyph, never a disconnected flourish. Do not force long tails on short-tail styles. Do not thicken the handwriting just to fill the frame.\nNo scene, paper, shadows, doodles, icons, border, English, watermark, drop shadow or decorative underline. Preserve genuine individual pen turns; do not substitute an off-the-shelf font with distortion.\n\n本款：F45 饱墨圆写。\n必须保留：\n- 柔软圆笔写出的厚笔腹和饱满圆头，实际笔画内有明显粗细变化。\n- 窄长主笔与较矮圆的字交错，选一笔自然拖下，收尾抬成尖细笔锋。\n- 墨是实的、边缘干净；复杂字的内部空隙留开，长句宁可分行也不糊成墨块。\n- 粗笔的点画与横竖分开留空；像「来」这样的小字也保留中竖、短横和两侧点画，别挤成别的字。\n避免：均匀粗细的泡泡字；每笔都尖硬、没有圆润笔腹；飞白、溅墨或湿墨毛边；复杂字内部堵死。\n雨里四个点和封里重复横画之间留开；厚圆笔腹配尖细抬笔，内部空隙不能堵。",
+    "generation_mode": "built-in image_gen",
+    "revision_selected": 1
+  },
+  {
+    "id": "F46",
+    "name": "松弛趣写",
+    "titles": [
+      "雨停了",
+      "把日子写成一封信"
+    ],
+    "input_images": [
+      "../masters/F46.jpg",
+      "../F46.png"
+    ],
+    "image": "F46-C.png",
+    "prompt": "生成一张白底黑字的个人手写字稿，横向3:2，1536×1024。图1是原始手写字，为主参考；图2是同一写法的校准图。请像原稿作者换句话写，沿用原稿字身的松紧、用笔和小毛病。两张图片只参考字形，不带入旧文字、背景与图案。画面只有两组文字，上组「雨停了」，下组「把日子写成一封信」，下组八字完整单行，四周与上下之间留白，不加标签、数字或其他文字。各字偏旁能认出：雨里四个点，停的亻与亭，把的扌与巴，日内横，封的两个土与寸，信的亻与言均保留。\n重点仿图1「忙里偷个闲」里随手、松弛、略笨拙的细硬笔。它的趣味来自写歪的部件、不等长的短横、短钝笔端、大小不一的字身，不能写成排得很齐的练字样板。上组雨偏矮宽，内部四点位置自然错落，停的亻小而亭偏斜，了小且像顺手勾完。下组把略高而巴压小，日是歪窄小框，子略宽，写小且扁，成偏高右倾，一短且微斜，封的两个土宽窄不等，信的言部窄小而偏旁稍远。变化适度，像同一个人在日记本上边想边写，保持能读、轻松、不工整的真实笔迹。近等粗细线、短圆钝起落，不用尖笔书法长锋，不增加笑脸、下划线、花朵或原稿旁边的小涂鸦。",
+    "generation_mode": "built-in image_gen",
+    "revision_selected": 2
+  },
+  {
+    "id": "F47",
+    "name": "尖笔日记",
+    "titles": [
+      "雨停了",
+      "把日子写成一封信"
+    ],
+    "input_images": [
+      "../masters/F47.jpg",
+      "../F47.png"
+    ],
+    "image": "F47-C.png",
+    "prompt": "Use case: stylized-concept.\nAsset: ONE independent handwriting test sheet for ONE selected Chinese hand, landscape 3:2, 1536x1024 or higher, pure white background and black ink only.\nInput image 1 is the original user-authorized handwriting sample: PRIMARY reference for glyph skeleton, terminals, pressure rhythm, narrow/broad proportions, and human imperfections. Input image 2 is the approved calibration lettering of this same style: supporting reference for the pen weight and the grouping of characters. Both reference handwriting only; ignore old wording, photos, scenery, pens, paper texture, color, angle of photographed paper, and layout. Do not copy the old words.\nWrite EXACTLY TWO separate text groups, each horizontal on its own baseline:\nUpper short group (3 characters): 「雨停了」. Character order: 雨 / 停 / 了.\nLower long group (8 characters): 「把日子写成一封信」. Character order: 把 / 日 / 子 / 写 / 成 / 一 / 封 / 信.\nNo other text, labels, numbers or punctuation. All simplified Chinese. Do not merge the two groups or add a third line. Place the short group centered around y=270 and the long group centered around y=740 on a 1536x1024 canvas; generous whitespace between them. The lower eight characters must remain on ONE line. Lettering fills at most 85% canvas width; preserve complete strokes with margins. This is a handwriting test, not a uniform font specimen: keep natural changes in size, width and posture characteristic of this specific hand.\nKeep required character structure: 雨 has its enclosing structure and four internal drops; 停 retains 亻 and 亭 with the actual bottom 丁 stem; 把 retains 扌 and 巴; 日 retains an interior horizontal; 封 has two 土 at left and 寸 at right; 信 has 亻 and 言. Keep the two phrases readable without smoothing out the personal quirks.\nThe selected hand rules below determine pen weight and whether there is a long stroke. Any extended stroke starts in the actual glyph, never a disconnected flourish. Do not force long tails on short-tail styles. Do not thicken the handwriting just to fill the frame.\nNo scene, paper, shadows, doodles, icons, border, English, watermark, drop shadow or decorative underline. Preserve genuine individual pen turns; do not substitute an off-the-shelf font with distortion.\n\n本款：F47 尖笔日记。\n必须保留：\n- 细硬笔快写，骨架瘦高，长直笔、尖转角和小斜切面比较明显。\n- 起止有轻重，短横干脆，局部小断笔；整组高低不齐，收笔多尖。\n- 复杂字拆得清楚，保留尖角和细线，长句可分组、分行，别变成细长的标准黑体。\n避免：把尖角全部磨成圆弯；用粗笔腹和大回环写成软毛笔；整齐等宽、每字等高；为了尖锐而漏掉偏旁。\n",
+    "generation_mode": "built-in image_gen",
+    "revision_selected": 1
+  },
+  {
+    "id": "F48",
+    "name": "轻圆细笔",
+    "titles": [
+      "雨停了",
+      "把日子写成一封信"
+    ],
+    "input_images": [
+      "../masters/F48.jpg",
+      "../F48.png"
+    ],
+    "image": "F48-C.png",
+    "prompt": "Use case: stylized-concept.\nAsset: ONE independent handwriting test sheet for ONE selected Chinese hand, landscape 3:2, 1536x1024 or higher, pure white background and black ink only.\nInput image 1 is the original user-authorized handwriting sample: PRIMARY reference for glyph skeleton, terminals, pressure rhythm, narrow/broad proportions, and human imperfections. Input image 2 is the approved calibration lettering of this same style: supporting reference for the pen weight and the grouping of characters. Both reference handwriting only; ignore old wording, photos, scenery, pens, paper texture, color, angle of photographed paper, and layout. Do not copy the old words.\nWrite EXACTLY TWO separate text groups, each horizontal on its own baseline:\nUpper short group (3 characters): 「雨停了」. Character order: 雨 / 停 / 了.\nLower long group (8 characters): 「把日子写成一封信」. Character order: 把 / 日 / 子 / 写 / 成 / 一 / 封 / 信.\nNo other text, labels, numbers or punctuation. All simplified Chinese. Do not merge the two groups or add a third line. Place the short group centered around y=270 and the long group centered around y=740 on a 1536x1024 canvas; generous whitespace between them. The lower eight characters must remain on ONE line. Lettering fills at most 85% canvas width; preserve complete strokes with margins. This is a handwriting test, not a uniform font specimen: keep natural changes in size, width and posture characteristic of this specific hand.\nKeep required character structure: 雨 has its enclosing structure and four internal drops; 停 retains 亻 and 亭 with the actual bottom 丁 stem; 把 retains 扌 and 巴; 日 retains an interior horizontal; 封 has two 土 at left and 寸 at right; 信 has 亻 and 言. Keep the two phrases readable without smoothing out the personal quirks.\nThe selected hand rules below determine pen weight and whether there is a long stroke. Any extended stroke starts in the actual glyph, never a disconnected flourish. Do not force long tails on short-tail styles. Do not thicken the handwriting just to fill the frame.\nNo scene, paper, shadows, doodles, icons, border, English, watermark, drop shadow or decorative underline. Preserve genuine individual pen turns; do not substitute an off-the-shelf font with distortion.\n\n本款：F48 轻圆细笔。\n必须保留：\n- 轻而细的近等粗笔画，短圆转弯、浅浅弧线，点画和短收笔都柔和。\n- 字形略圆、略歪，内部留白松，字与字大多分开，轻轻错落。\n- 长句保留轻笔和短收尾，复杂字拆开留空；保持手写的小不齐，不必修成标准字体。\n避免：笔画越写越粗变成圆体；长钩、大回环或明显连笔；尖角硬折占主导；添加花朵来代替字形特点。\n",
+    "generation_mode": "built-in image_gen",
+    "revision_selected": 1
+  },
+  {
+    "id": "F49",
+    "name": "细锋顿收",
+    "titles": [
+      "雨停了",
+      "把日子写成一封信"
+    ],
+    "input_images": [
+      "../masters/F49.jpg",
+      "../F49.png"
+    ],
+    "image": "F49-C.png",
+    "prompt": "Use case: stylized-concept.\nAsset: ONE independent handwriting test sheet for ONE selected Chinese hand, landscape 3:2, 1536x1024 or higher, pure white background and black ink only.\nInput image 1 is the original user-authorized handwriting sample: PRIMARY reference for glyph skeleton, terminals, pressure rhythm, narrow/broad proportions, and human imperfections. Input image 2 is the approved calibration lettering of this same style: supporting reference for the pen weight and the grouping of characters. Both reference handwriting only; ignore old wording, photos, scenery, pens, paper texture, color, angle of photographed paper, and layout. Do not copy the old words.\nWrite EXACTLY TWO separate text groups, each horizontal on its own baseline:\nUpper short group (3 characters): 「雨停了」. Character order: 雨 / 停 / 了.\nLower long group (8 characters): 「把日子写成一封信」. Character order: 把 / 日 / 子 / 写 / 成 / 一 / 封 / 信.\nNo other text, labels, numbers or punctuation. All simplified Chinese. Do not merge the two groups or add a third line. Place the short group centered around y=270 and the long group centered around y=740 on a 1536x1024 canvas; generous whitespace between them. The lower eight characters must remain on ONE line. Lettering fills at most 85% canvas width; preserve complete strokes with margins. This is a handwriting test, not a uniform font specimen: keep natural changes in size, width and posture characteristic of this specific hand.\nKeep required character structure: 雨 has its enclosing structure and four internal drops; 停 retains 亻 and 亭 with the actual bottom 丁 stem; 把 retains 扌 and 巴; 日 retains an interior horizontal; 封 has two 土 at left and 寸 at right; 信 has 亻 and 言. Keep the two phrases readable without smoothing out the personal quirks.\nThe selected hand rules below determine pen weight and whether there is a long stroke. Any extended stroke starts in the actual glyph, never a disconnected flourish. Do not force long tails on short-tail styles. Do not thicken the handwriting just to fill the frame.\nNo scene, paper, shadows, doodles, icons, border, English, watermark, drop shadow or decorative underline. Preserve genuine individual pen turns; do not substitute an off-the-shelf font with distortion.\n\n本款：新稿01 细锋顿收。\n必须保留：\n- 真实细钢笔：字身紧而偏窄，细尖转折，短处稍停、局部压笔后尖收。\n- 字的大小高低略不齐，短横克制，主竖只略长；用局部顿笔和锋尖保住个人写法。\n- 整体保持自然手写，雨的内部点画分清，停的亻、亭结构可认，了的弯钩短而利落。\n避免：粗圆毛笔腹；很长的圆弧钩或回环飘带；整齐标准字库；把拍摄纸张的倾角带进新字稿。\n",
+    "generation_mode": "built-in image_gen",
+    "revision_selected": 1
+  },
+  {
+    "id": "F50",
+    "name": "疏朗横展",
+    "titles": [
+      "雨停了",
+      "把日子写成一封信"
+    ],
+    "input_images": [
+      "../masters/F50.jpg",
+      "../F50.png"
+    ],
+    "image": "F50-C.png",
+    "prompt": "Use case: stylized-concept.\nAsset: ONE independent handwriting test sheet for ONE selected Chinese hand, landscape 3:2, 1536x1024 or higher, pure white background and black ink only.\nInput image 1 is the original user-authorized handwriting sample: PRIMARY reference for glyph skeleton, terminals, pressure rhythm, narrow/broad proportions, and human imperfections. Input image 2 is the approved calibration lettering of this same style: supporting reference for the pen weight and the grouping of characters. Both reference handwriting only; ignore old wording, photos, scenery, pens, paper texture, color, angle of photographed paper, and layout. Do not copy the old words.\nWrite EXACTLY TWO separate text groups, each horizontal on its own baseline:\nUpper short group (3 characters): 「雨停了」. Character order: 雨 / 停 / 了.\nLower long group (8 characters): 「把日子写成一封信」. Character order: 把 / 日 / 子 / 写 / 成 / 一 / 封 / 信.\nNo other text, labels, numbers or punctuation. All simplified Chinese. Do not merge the two groups or add a third line. Place the short group centered around y=270 and the long group centered around y=740 on a 1536x1024 canvas; generous whitespace between them. The lower eight characters must remain on ONE line. Lettering fills at most 85% canvas width; preserve complete strokes with margins. This is a handwriting test, not a uniform font specimen: keep natural changes in size, width and posture characteristic of this specific hand.\nKeep required character structure: 雨 has its enclosing structure and four internal drops; 停 retains 亻 and 亭 with the actual bottom 丁 stem; 把 retains 扌 and 巴; 日 retains an interior horizontal; 封 has two 土 at left and 寸 at right; 信 has 亻 and 言. Keep the two phrases readable without smoothing out the personal quirks.\nThe selected hand rules below determine pen weight and whether there is a long stroke. Any extended stroke starts in the actual glyph, never a disconnected flourish. Do not force long tails on short-tail styles. Do not thicken the handwriting just to fill the frame.\nNo scene, paper, shadows, doodles, icons, border, English, watermark, drop shadow or decorative underline. Preserve genuine individual pen turns; do not substitute an off-the-shelf font with distortion.\n\n本款：新稿03 疏朗横展。\n必须保留：\n- 疏朗硬笔：字骨偏平正，横画自然舒展，偏旁之间和字内空隙留开。\n- 线条较轻、近等粗，转弯带小尖角，收笔克制；保留普通手写的轻微不齐。\n- 长句靠字本身较宽的骨架、分开的部件形成松感，雨中点画清楚，封的土、土、寸各留空。\n避免：只拉大字间距而不改变骨架；长垂笔和大回环；毛笔粗头；宋体或隶书；照着照片倾角斜排整句。\n",
+    "generation_mode": "built-in image_gen",
+    "revision_selected": 1
+  }
+]

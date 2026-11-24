@@ -1,0 +1,4 @@
+interface:
+  display_name: "动态绘本"
+  short_description: "把故事插画做成低帧动态绘本，可用真实书本横屏或白框竖屏呈现"
+  default_prompt: "用 $compact-storybook 把这个故事做成固定画面的低帧动态绘本，先完成一页样片。"
