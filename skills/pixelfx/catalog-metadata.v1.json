@@ -1,0 +1,107 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "pixelfx"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "pixelfx",
+        "summary": "Skill for making pixel-art effects with the pixelfx code library. The catalog path is skills/pixelfx; the effect library and Node tools live in the same MIT repo and must be checked out separately. gallery/fonts is not covered by the repo MIT license and is outside this path. Optional pch CLI install uses a remote script and needs operator review. Admission is paused at listing-only: the current DesireCore installer copies only the skill path and does not attach the repository-root MIT LICENSE or NOTICE.md.",
+        "description": "Pinned at 5294518ce7c72e48b6100a744596e0acf57f2826. Upstream root LICENSE is MIT and NOTICE.md must accompany redistribution, but both live outside skills/pixelfx, so a path-scoped install does not receive them. There is no existing market field or client behavior that attaches parent evidence to the selected contentDir. Source remains the original upstream git pointer; installable admission is paused. Two docs/ files over 1 MiB and gallery/fonts are outside the skill path. Do not auto-run the optional remote pch install script."
+      },
+      "zh-CN": {
+        "name": "pixelfx 像素特效",
+        "summary": "用 pixelfx 代码库制作像素特效的技能。目录路径为 skills/pixelfx；特效库和 Node 工具在同一 MIT 仓库中，需另行检出。gallery/fonts 不受仓库 MIT 许可覆盖，也不在本路径内。可选的 pch CLI 通过远程脚本安装，需操作者自行审核。准入暂停为仅收录：现行 DesireCore 安装器只复制该技能路径，不会把仓库根目录的 MIT LICENSE 或 NOTICE.md 附进安装产物。",
+        "description": "固定版本 5294518ce7c72e48b6100a744596e0acf57f2826。上游根 LICENSE 为 MIT，NOTICE.md 须随再分发携带，但二者都位于 skills/pixelfx 之外，因此按路径安装时不会得到这些文件。现行目录与客户端都不会把父级证据附到所选 contentDir。来源仍为原先的上游 Git 指针；可安装准入暂停。docs/ 中两个超过 1 MiB 的文件以及 gallery/fonts 不在技能路径内。不要自动运行可选的 pch 远程安装脚本。"
+      }
+    },
+    "category": "creative",
+    "tags": [
+      "pixel-art",
+      "vfx",
+      "gamedev",
+      "sprites"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/patch-gg/pixelfx.git",
+      "ref": "5294518ce7c72e48b6100a744596e0acf57f2826",
+      "path": "skills/pixelfx"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "patch-gg",
+      "url": "https://github.com/patch-gg/pixelfx",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "5294518ce7c72e48b6100a744596e0acf57f2826",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false,
+      "noticePath": "NOTICE.md"
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "The skill instructs working in a full pixelfx checkout with Node.js 18+; ffmpeg is optional for GIF/MP4 previews. This market pointer only selects skills/pixelfx."
+      },
+      {
+        "kind": "permission",
+        "value": "NOTICE.md records MIT-adapted third-party code and states that the font in gallery/fonts is not covered by this repository's MIT license. Optional installation of the pch CLI uses a remote script (`curl | sh` or PowerShell); review that script and obtain approval before running it."
+      },
+      {
+        "kind": "runtime",
+        "value": "Not admitted for install: a path-scoped git install copies only skills/pixelfx and does not include the repository-root MIT LICENSE or NOTICE.md. Admission stays listing-only until the client can attach that evidence to the installed skill."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "high"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "sag-wiki",
+  "name": "SAG Wiki Skill",
+  "category": "productivity",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M5 5h14v14H5z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M8 9h8M8 12h8M8 15h5\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
+  "tags": [
+    "knowledge-base",
+    "search",
+    "cli",
+    "mcp"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "SAG Wiki 技能",
+      "shortDesc": "SAG CLI 技能，用于安装配置、语义检索、索引目录、忽略规则和 MCP。需另行安装并运行独立许可的 @zleap-ai/sag CLI；本条目只指向 cli/skills/sag，不含完整 SAG Wiki 应用。准入暂停为仅收录：现行 DesireCore 安装器只复制该路径，不会把仓库根目录的 MIT LICENSE 附进安装产物。"
+    },
+    "en-US": {
+      "name": "SAG Wiki Skill",
+      "shortDesc": "SAG CLI skill for setup, semantic search, indexed folders, ignore rules and MCP configuration. Install and run the separately licensed @zleap-ai/sag CLI; this entry points at cli/skills/sag only, not the full SAG Wiki app. Admission is paused at listing-only: the current DesireCore installer copies only that path and does not attach the repository-root MIT LICENSE."
+    }
+  },
+  "maintainer": {
+    "name": "Zleap-AI",
+    "verified": false,
+    "account": "Zleap-AI",
+    "url": "https://github.com/Zleap-AI/SAG-Wiki"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/Zleap-AI/SAG-Wiki.git",
+    "repoBranch": "main",
+    "ref": "b6940ac834b3b1ec651c0b49dc1b0c45d4d74c4a",
+    "path": "cli/skills/sag"
+  }
+}

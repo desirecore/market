@@ -1,0 +1,37 @@
+{
+  "id": "lieflat-less-ai-tone",
+  "name": "lieflat-less-ai-tone",
+  "category": "creative",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M5 6h9l5 5v8H5z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M14 6v5h5M8 13h7M8 16h5\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "writing",
+    "humanize",
+    "ai-detection",
+    "chinese"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "lieflat 去 AI 味",
+      "shortDesc": "基于作者语料研究的中文去 AI 味检测与改写技能。许可为 CC BY-NC 4.0，商业使用需向作者另行取得许可。本固定版本中有两张超过 1 MiB 的截图资源。"
+    },
+    "en-US": {
+      "name": "lieflat-less-ai-tone",
+      "shortDesc": "Chinese AI-tone detection and rewrite skill based on the author's corpus study. Licensed under CC BY-NC 4.0; commercial use requires a separate license from the author. Two screenshot assets in this pin exceed 1 MiB."
+    }
+  },
+  "maintainer": {
+    "name": "shiujan",
+    "verified": false,
+    "account": "larashero3-dotcom",
+    "url": "https://github.com/larashero3-dotcom/lieflat-less-ai-tone"
+  },
+  "stewardship": "community",
+  "license": "CC-BY-NC-4.0",
+  "redistribution": "verify-package-terms",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/larashero3-dotcom/lieflat-less-ai-tone.git",
+    "repoBranch": "main",
+    "ref": "fe77df00a27cf94428632ad449a4aecdcb83db41"
+  }
+}

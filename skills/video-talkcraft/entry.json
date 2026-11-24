@@ -1,0 +1,37 @@
+{
+  "id": "video-talkcraft",
+  "name": "video-talkcraft",
+  "category": "media",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"6\" width=\"18\" height=\"12\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"M10 9.5v5l5-2.5-5-2.5Z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "video",
+    "voiceover",
+    "remotion",
+    "motion-design"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "video-talkcraft 口播视频",
+      "shortDesc": "口播讲解视频技能，含分镜、动效配方卡和 Remotion 渲染。许可为 PolyForm Noncommercial 1.0.0，工具本身的商业使用需作者事先授权。需 Node.js 与 Remotion；可选的 Fish Audio 为独立付费服务。"
+    },
+    "en-US": {
+      "name": "video-talkcraft",
+      "shortDesc": "Voiceover explainer-video skill with shot planning, motion recipe cards and Remotion rendering. Licensed under PolyForm Noncommercial 1.0.0; commercial use of the toolkit needs the author's prior authorization. Needs Node.js and Remotion; optional Fish Audio is a separate paid service."
+    }
+  },
+  "maintainer": {
+    "name": "Vincent Wei",
+    "verified": false,
+    "account": "Vincentwei1021",
+    "url": "https://github.com/Vincentwei1021/video-talkcraft"
+  },
+  "stewardship": "community",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "redistribution": "verify-package-terms",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/Vincentwei1021/video-talkcraft.git",
+    "repoBranch": "main",
+    "ref": "8ec0f3740868c8cb14e137c19b481d41bb034ea8"
+  }
+}

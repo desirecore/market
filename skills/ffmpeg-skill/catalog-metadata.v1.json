@@ -1,0 +1,101 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "ffmpeg-skill"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "FFmpeg Skill",
+        "summary": "Local FFmpeg editing skill and MCP server for cut, captions, reframe and exports. The complete tooling lives at the repo root, so this pin is the whole tree, not only skills/ffmpeg-skill. Requires a local FFmpeg install; no cloud account is required. The pin also contains contributor skills under .claude/skills and demo/site files over 1 MiB.",
+        "description": "Pinned at c7dad34c846099e7cf606ef943abe5e12d1ab0f9. Root LICENSE is MIT. skills/ffmpeg-skill contains only a SKILL.md copy; scripts, MCP and binaries are at the repository root, so a path-scoped install would be incomplete. 13 files under demos/, site/ and assets/ exceed 1 MiB. This is not a runtime transcode acceptance."
+      },
+      "zh-CN": {
+        "name": "FFmpeg Skill",
+        "summary": "本地 FFmpeg 剪辑技能与 MCP 服务，用于剪切、字幕、重构图和导出。完整工具位于仓库根目录，因此本固定版本是整棵树，而不仅是 skills/ffmpeg-skill。需本机安装 FFmpeg，不需要云账号。该快照还包含 .claude/skills 下的贡献者技能，以及超过 1 MiB 的演示和站点文件。",
+        "description": "固定版本 c7dad34c846099e7cf606ef943abe5e12d1ab0f9。根 LICENSE 为 MIT。skills/ffmpeg-skill 仅有一份 SKILL.md 副本；脚本、MCP 和二进制在仓库根目录，若只按该子目录安装会不完整。demos/、site/ 和 assets/ 下有 13 个文件超过 1 MiB。此准入不代表转码运行验收。"
+      }
+    },
+    "category": "media",
+    "tags": [
+      "ffmpeg",
+      "video",
+      "audio",
+      "mcp"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/kajisho5/ffmpeg-skill.git",
+      "ref": "c7dad34c846099e7cf606ef943abe5e12d1ab0f9"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "kajisho5",
+      "url": "https://github.com/kajisho5/ffmpeg-skill",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "c7dad34c846099e7cf606ef943abe5e12d1ab0f9",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Requires a local FFmpeg (and related tools declared by the skill) on the operator's machine. This is not a cloud transcoding service."
+      },
+      {
+        "kind": "permission",
+        "value": "FFmpeg commands can read and write media files. Confirm input/output paths before running. Contributor workflow skills under .claude/skills are not part of the published product surface."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "skill",
+    "riskLevel": "high"
+  }
+}
