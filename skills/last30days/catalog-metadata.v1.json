@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "Last 30 Days",
-        "summary": "Research what people actually say about any topic in the last 30 days across Reddit, X, YouTube, HN and more. Requires Python and the selected source tools; paid APIs, accounts and optional browser sessions need separate setup and authorization."
+        "summary": "Research public discussions from the last 30 days. Requires Python and selected source tools. TikTok and Instagram use the operator's paid API or public discovery and yt-dlp. Any optional SSH route, account or browser session requires separate setup and authorization."
       },
       "zh-CN": {
         "name": "近 30 天研究",
-        "summary": "调研任意话题近 30 天的真实讨论，聚合 Reddit、X、YouTube、HN、Polymarket、GitHub 等来源的热帖与观点。需 Python 与所选信源工具；付费 API、账号和可选浏览器会话须自行配置并授权。"
+        "summary": "研究近 30 天的公开讨论。需 Python 与所选信源工具。TikTok / Instagram 可用自备付费 API，或用搜索服务与 yt-dlp 读取公开元数据；可选 SSH 路由、账号及浏览器会话须由用户配置并授权。"
       }
     },
     "category": "research",
@@ -35,7 +35,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-22T14:20:32Z",
+      "value": "2026-11-24T01:37:18Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -43,12 +43,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-22",
+      "value": "2026-11-24",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-11-22T14:20:32Z",
+      "value": "2026-11-24T01:37:18Z",
       "precision": "second"
     }
   },
@@ -57,7 +57,7 @@
       "kind": "git",
       "url": "https://github.com/mvanhorn/last30days-skill.git",
       "path": "skills/last30days",
-      "ref": "e63f8e8732f1b934449b363f211b3654531b8ef2"
+      "ref": "331025e662756ca51e86dfddcf59969f6dba25a0"
     }
   },
   "governance": {
@@ -76,8 +76,8 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "e63f8e8732f1b934449b363f211b3654531b8ef2",
-      "reviewedAt": "2026-11-22",
+      "reviewedRef": "331025e662756ca51e86dfddcf59969f6dba25a0",
+      "reviewedAt": "2026-11-24",
       "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }
@@ -114,6 +114,10 @@
       {
         "kind": "permission",
         "value": "An optional OpenCode browse lane uses the host's browse tools when present. DesireCore does not provide, license or pay for OpenCode. / 可选 OpenCode browse 通道仅在宿主已提供浏览工具时使用。DesireCore 不提供、授权或支付 OpenCode。"
+      },
+      {
+        "kind": "connection",
+        "value": "The TikTok and Instagram fallback may send queries to configured SearXNG, Serper, Exa or Brave, or use host-supplied public URLs. It extracts public metadata with yt-dlp without browser cookies. An explicitly configured yt-dlp SSH host or proxy also applies here. Search services, credentials and charges are separate. Skip the lane if its prerequisites are unavailable."
       }
     ]
   },

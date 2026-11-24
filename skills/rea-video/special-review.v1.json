@@ -1,9 +1,12 @@
 {
   "schemaVersion": 1,
-  "reviewedBy": "mashagua",
-  "reviewedAt": "2026-11-22",
-  "notes": "The Apache-2.0 LICENSE and NOTICE are byte-identical across 07dd587119e884f7c50fbfae92e47840de86bea5 and 131d1527557d2cccacb64059d47560964235acd7 (LICENSE sha256 2beb280b855389587b12dfda5f61a7baf09d1c4a20aac833b1c96f9569c5e458; NOTICE sha256 abffceeef67cb20d0fd6cf997eec7c7ac4b2de19f389a08b67a1f75bc7dd025b); no COPYING. Install scope is skills/rea-video. Stable frontmatter adds evidence-based special-moment analysis (magic reveals, reversals, highlights, bloopers), frame illustrations and slow motion; new references include capsule-cinema, chatcut, diy and hyperframes, with remake-tools, remake and setup also updated. Source still requires separately installed Python >=3.10, FFmpeg/ffprobe and Rea-Video CLI. Optional OCR/ASR/VLM and remake integrations retain separate setup, data-transfer permission and provider fees. No dependency-manifest changes in install scope. Review covers pinned source, licensing and catalog metadata. Upstream programs were not executed; runtime and GUI acceptance remain untested.",
+  "reviewedBy": "DesireCore",
+  "reviewedAt": "2026-11-24",
+  "notes": "Read-only review of the Rea-Video install subtree and its external CLI prerequisites against the previous pin. In the root CLI manifest videomd moves from >=1.1 to >=1.2. Stable skill frontmatter adds English usage guidance. The capsule-cinema reference now describes prepare, dry-run, approved paid generation, and assembly with a separate Python 3.12 runtime. The default planning model is MiniMax H3 when there is no requested or preferred model. The separate CLI includes a report-first package path rewrite with an explicit apply flag. Apache-2.0 LICENSE and NOTICE were checked by the catalog auditor. No upstream program was run.",
+  "acceptedDependencyIdentities": {
+    "pyproject.toml": "f5e77dcda12c54ba4a1af8d6018df585ccb1cf1a"
+  },
   "acceptedFrontmatterSha256": {
-    "skills/rea-video": "a9ca48bd2eb6b29f95d4e853add54229101cb4b7d2217700ea500969905a7680"
+    "skills/rea-video": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
   }
 }

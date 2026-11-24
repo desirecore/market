@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "reviewer": "automated:source-license-metadata-v1",
-  "reviewedAt": "2026-11-21T01:26:27Z",
+  "reviewedAt": "2026-11-24T01:26:17Z",
   "source": {
     "url": "https://github.com/OthmanAdi/planning-with-files.git",
-    "previousRef": "2362ca385ad74f061aa0e7b73f56543a4b7e6df2",
-    "ref": "c37abd73ff25f309a7b1b5991ef2149d5858bc49",
+    "previousRef": "c37abd73ff25f309a7b1b5991ef2149d5858bc49",
+    "ref": "aaa38bc62053f5f7c1bfbcb60f0405f7cf0ee228",
     "paths": [
       "skills/i18n/planning-with-files-zh"
     ]
@@ -21,9 +21,9 @@
     "LICENSE": "4f2e5ecfaa4e0833621cfe54c0bdc2f60f086c0925540d7bdc713517eafb3c84"
   },
   "observedVersions": {
-    "skills/i18n/planning-with-files-zh": "3.29.0"
+    "skills/i18n/planning-with-files-zh": "3.29.1"
   },
-  "contentManifestSha256": "1a423b6f914bf20e2695eb894e03e50fc6ca3b15961a48e3885ba18735863bed",
+  "contentManifestSha256": "86a2e094c7a43faaadf5a3e3002a44311db371164a0facdf41d1ddcbb3a91a8a",
   "fileCount": 27,
   "limitations": [
     "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
