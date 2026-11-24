@@ -28,7 +28,7 @@
   },
   "release": {
     "state": "known",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "versionScheme": "semver"
   },
   "timestamps": {
@@ -39,7 +39,7 @@
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-11-24T07:06:09Z",
+      "value": "2026-11-24T07:39:16Z",
       "precision": "second"
     },
     "reviewedAt": {
@@ -57,7 +57,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore/video-use.git",
-      "ref": "370f946e085e978b5460d63964850c91031e76d5"
+      "ref": "ee6827e2707cce19fd47f89028b0562a3812a38f"
     }
   },
   "governance": {
@@ -77,7 +77,7 @@
     "compliance": {
       "licenseEvidencePath": "LICENSE",
       "noticePath": "THIRD_PARTY_NOTICES.md",
-      "reviewedRef": "370f946e085e978b5460d63964850c91031e76d5",
+      "reviewedRef": "ee6827e2707cce19fd47f89028b0562a3812a38f",
       "reviewedAt": "2026-11-24",
       "reviewedBy": "desirecore/video-use",
       "upstreamEndorsed": false
@@ -90,7 +90,7 @@
     "requirements": [
       {
         "kind": "runtime",
-        "value": "Python 3.12, uv, ffmpeg and ffprobe. The first local run sets up locked dependencies and downloads pinned public model assets. Local transcription runs on the machine holding the media and needs about 4 GB for English model weights."
+        "value": "Python 3.12, uv, ffmpeg and ffprobe. The first local run sets up locked dependencies and downloads pinned public model assets. Local transcription runs on the machine holding the media and needs about 4 GB for English model weights. Burned-in subtitles require an FFmpeg build with libass."
       },
       {
         "kind": "connection",
