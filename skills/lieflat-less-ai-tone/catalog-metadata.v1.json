@@ -1,0 +1,96 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "lieflat-less-ai-tone"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "lieflat-less-ai-tone",
+        "summary": "Chinese AI-tone detection and rewrite skill based on the author's corpus study. Licensed under CC BY-NC 4.0; commercial use requires a separate license from the author. Two screenshot assets in this pin exceed 1 MiB.",
+        "description": "Pinned at fe77df00a27cf94428632ad449a4aecdcb83db41. LICENSE text is Attribution-NonCommercial 4.0 International (CC BY-NC 4.0), not MIT. assets/ contains two files over 1 MiB."
+      },
+      "zh-CN": {
+        "name": "lieflat 去 AI 味",
+        "summary": "基于作者语料研究的中文去 AI 味检测与改写技能。许可为 CC BY-NC 4.0，商业使用需向作者另行取得许可。本固定版本中有两张超过 1 MiB 的截图资源。",
+        "description": "固定版本 fe77df00a27cf94428632ad449a4aecdcb83db41。LICENSE 文本为 CC BY-NC 4.0，不是 MIT。assets/ 中有两个超过 1 MiB 的文件。"
+      }
+    },
+    "category": "creative",
+    "tags": [
+      "writing",
+      "humanize",
+      "ai-detection",
+      "chinese"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/larashero3-dotcom/lieflat-less-ai-tone.git",
+      "ref": "fe77df00a27cf94428632ad449a4aecdcb83db41"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "CC-BY-NC-4.0",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "shiujan",
+      "url": "https://github.com/larashero3-dotcom/lieflat-less-ai-tone",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "fe77df00a27cf94428632ad449a4aecdcb83db41",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requirements": [
+      {
+        "kind": "permission",
+        "value": "CC BY-NC 4.0 allows sharing and adaptation with attribution for noncommercial purposes only. For commercial licensing, contact the author. This is a different work from the already listed Humanizer-zh skill."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

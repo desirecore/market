@@ -1,0 +1,37 @@
+{
+  "id": "lieflat-gongwen",
+  "name": "lieflat-gongwen",
+  "category": "business",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M6 4h9l5 5v11H6z\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linejoin=\"round\"/><path d=\"M15 4v5h5M9 13h8M9 16h6\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "writing",
+    "official-document",
+    "chinese",
+    "gongwen"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "lieflat 公文写作",
+      "shortDesc": "基于作者语料测算的中文公文写作技能。许可为 PolyForm Noncommercial 1.0.0，该许可未授予商业使用。本固定版本没有超过 1 MiB 的文件。"
+    },
+    "en-US": {
+      "name": "lieflat-gongwen",
+      "shortDesc": "Chinese official-document writing skill derived from the author's corpus measurements. Licensed under PolyForm Noncommercial 1.0.0; commercial use is not granted by that license. This pin has no files over 1 MiB."
+    }
+  },
+  "maintainer": {
+    "name": "shiujan",
+    "verified": false,
+    "account": "larashero3-dotcom",
+    "url": "https://github.com/larashero3-dotcom/lieflat-gongwen"
+  },
+  "stewardship": "community",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "redistribution": "verify-package-terms",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/larashero3-dotcom/lieflat-gongwen.git",
+    "repoBranch": "main",
+    "ref": "c17e885c557930a7d1b1e34c0dc1bada47af2dad"
+  }
+}

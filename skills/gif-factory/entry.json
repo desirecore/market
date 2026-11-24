@@ -1,0 +1,37 @@
+{
+  "id": "gif-factory",
+  "name": "GIF Factory",
+  "category": "media",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"4\" y=\"5\" width=\"16\" height=\"14\" rx=\"2\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"M8 12h2l1.5-2 2 4 1.5-2H16\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+  "tags": [
+    "gif",
+    "sticker",
+    "animation",
+    "media"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "GIF 工厂",
+      "shortDesc": "GIF 工厂技能，用于表情包、光栅卡、动态海报等风格，另含五个配套技能。已有 MIT 许可，但本快照保持仅收录：固定版本含数百个超过 1 MiB 的文件（约 676 MiB），且技能目录内也有大资源，完整 Git 安装超出普通审核预算。"
+    },
+    "en-US": {
+      "name": "GIF Factory",
+      "shortDesc": "GIF factory skill for stickers, lenticular cards, motion posters and related styles, plus five companion skills. MIT license is present, but this snapshot stays listing-only: the pin contains hundreds of files over 1 MiB (about 676 MiB), including assets inside skills/, so a full git install exceeds the ordinary audit budget."
+    }
+  },
+  "maintainer": {
+    "name": "WoYun520",
+    "verified": false,
+    "account": "WoYun520",
+    "url": "https://github.com/WoYun520/gif-factory"
+  },
+  "stewardship": "community",
+  "license": "MIT",
+  "redistribution": "allowed",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/WoYun520/gif-factory.git",
+    "repoBranch": "main",
+    "ref": "e89003a4a6ca4fd0e9e39c8859851b58c82bc368"
+  }
+}

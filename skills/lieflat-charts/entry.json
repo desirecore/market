@@ -1,0 +1,36 @@
+{
+  "id": "lieflat-charts",
+  "name": "lieflat-charts",
+  "category": "business",
+  "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M4 19h16\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/><path d=\"M7 16v-5M12 16V7M17 16v-8\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>",
+  "tags": [
+    "charts",
+    "data-visualization",
+    "html"
+  ],
+  "i18n": {
+    "zh-CN": {
+      "name": "lieflat 图表",
+      "shortDesc": "面向 Agent 的 HTML 图表技能，模板会从第三方 CDN 加载 Chart.js、ECharts 和 Inter 字体。许可为 PolyForm Noncommercial 1.0.0；这些库仍遵循各自许可。本固定版本 docs 中有两张图超过 1 MiB。"
+    },
+    "en-US": {
+      "name": "lieflat-charts",
+      "shortDesc": "HTML chart skill for agents, with templates that load Chart.js, ECharts and Inter from third-party CDNs. Licensed under PolyForm Noncommercial 1.0.0; those libraries keep their own licenses. Two docs images in this pin exceed 1 MiB."
+    }
+  },
+  "maintainer": {
+    "name": "shiujan",
+    "verified": false,
+    "account": "larashero3-dotcom",
+    "url": "https://github.com/larashero3-dotcom/lieflat-charts"
+  },
+  "stewardship": "community",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "redistribution": "verify-package-terms",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/larashero3-dotcom/lieflat-charts.git",
+    "repoBranch": "main",
+    "ref": "4b4e75bde11cbef44263de769f3705db54bbb277"
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "video-talkcraft"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "video-talkcraft",
+        "summary": "Voiceover explainer-video skill with shot planning, motion recipe cards and Remotion rendering. Licensed under PolyForm Noncommercial 1.0.0; commercial use of the toolkit needs the author's prior authorization. Needs Node.js and Remotion; optional Fish Audio is a separate paid service.",
+        "description": "Pinned at 8ec0f3740868c8cb14e137c19b481d41bb034ea8. The LICENSE is PolyForm Noncommercial 1.0.0 with a required copyright notice by Vincent Wei; it is not MIT. The companion site https://vincentwei1021.github.io/video-talkcraft/ is documentation for this skill, not a separate catalog entry. This is not a runtime render acceptance."
+      },
+      "zh-CN": {
+        "name": "video-talkcraft 口播视频",
+        "summary": "口播讲解视频技能，含分镜、动效配方卡和 Remotion 渲染。许可为 PolyForm Noncommercial 1.0.0，工具本身的商业使用需作者事先授权。需 Node.js 与 Remotion；可选的 Fish Audio 为独立付费服务。",
+        "description": "固定版本 8ec0f3740868c8cb14e137c19b481d41bb034ea8。LICENSE 为 PolyForm Noncommercial 1.0.0，并含 Vincent Wei 的 Required Notice，不是 MIT。配套网站 https://vincentwei1021.github.io/video-talkcraft/ 是该技能的文档，不是单独的目录条目。此准入不代表渲染运行验收。"
+      }
+    },
+    "category": "media",
+    "tags": [
+      "video",
+      "voiceover",
+      "remotion",
+      "motion-design"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/Vincentwei1021/video-talkcraft.git",
+      "ref": "8ec0f3740868c8cb14e137c19b481d41bb034ea8"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "PolyForm-Noncommercial-1.0.0",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "verify-package-terms",
+    "upstreamMaintainer": {
+      "name": "Vincent Wei",
+      "url": "https://github.com/Vincentwei1021/video-talkcraft",
+      "verified": false
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "8ec0f3740868c8cb14e137c19b481d41bb034ea8",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Requires Node.js and the upstream Remotion/runtime toolchain declared by the skill. Four gallery/demo files in this pin exceed 1 MiB and are shipped by a full git install."
+      },
+      {
+        "kind": "connection",
+        "value": "Optional Fish Audio voice synthesis needs the operator's own account, credentials and fees; it is not bundled."
+      },
+      {
+        "kind": "permission",
+        "value": "The license permits noncommercial use and redistribution under PolyForm Noncommercial 1.0.0. Commercial use of the toolkit requires prior authorization from the author. Videos produced with the toolkit belong to their creators."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}

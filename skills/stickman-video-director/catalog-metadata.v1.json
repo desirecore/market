@@ -1,0 +1,84 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "skill",
+    "id": "stickman-video-director"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "i18n": {
+      "en-US": {
+        "name": "Stickman Video Director",
+        "summary": "Stickman animation skill that turns scripts into faceless videos with voiceover, captions and an audio library. MIT license is present, but this snapshot stays listing-only: 176 files over 1 MiB (about 812 MiB), including 112 inside skills/directing-stickman-videos, so a git install of the skill path exceeds the ordinary audit budget.",
+        "description": "Pinned at 10287822ba47579321068da1b93801face9160dd. Root LICENSE is MIT. The skill path is skills/directing-stickman-videos; large reference videos, baselines and audio-library files are inside that path, so excludePaths would not keep them out of a git install. Nested audio license evidence also exists under the skill assets. No slim local package was admitted in this change."
+      },
+      "zh-CN": {
+        "name": "火柴人视频导演",
+        "summary": "火柴人动画技能，可将脚本做成口播、字幕和无脸视频，并带音频库。已有 MIT 许可，但本快照保持仅收录：有 176 个超过 1 MiB 的文件（约 812 MiB），其中 112 个位于 skills/directing-stickman-videos，按技能路径做 Git 安装会超出普通审核预算。",
+        "description": "固定版本 10287822ba47579321068da1b93801face9160dd。根 LICENSE 为 MIT。技能路径为 skills/directing-stickman-videos；大型参考视频、基线和音频库文件位于该路径内，excludePaths 不能把它们排除在 Git 安装之外。技能资源中还有嵌套的音频许可证据。本次未准入精简本地包。"
+      }
+    },
+    "category": "media",
+    "tags": [
+      "animation",
+      "video",
+      "stickman",
+      "youtube"
+    ]
+  },
+  "release": {
+    "state": "unknown"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/kaomei/stickman-video-director.git",
+      "ref": "10287822ba47579321068da1b93801face9160dd",
+      "path": "skills/directing-stickman-videos"
+    }
+  },
+  "governance": {
+    "stewardship": "community",
+    "availability": "listing-only",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "allowed",
+    "upstreamMaintainer": {
+      "name": "kaomei",
+      "url": "https://github.com/kaomei/stickman-video-director",
+      "verified": false
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    }
+  },
+  "spec": {
+    "kind": "skill"
+  }
+}
