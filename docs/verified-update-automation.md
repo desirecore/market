@@ -48,8 +48,8 @@ never a blind overwrite. Market wrappers/translations remain intact.
 
 AI News Radar tracks the actual upstream `master` branch. Its existing generator
 and the five previously reported alerts are not changed by this tooling PR.
-Real read-only discovery currently detects a conflict in locally transformed
-reference documentation; the safe result is a draft/manual reconciliation, not
+Real read-only discovery currently detects a conflict in locally formatted CSS
+(`assets/styles.css`); the safe result is a draft/manual reconciliation, not
 an overwritten wrapper or a claim that the newer upstream already passed.
 
 ## Publication and merge authority
