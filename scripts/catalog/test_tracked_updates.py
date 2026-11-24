@@ -326,3 +326,12 @@ def test_status_reruns_use_latest_context_not_obsolete_failure():
     assert m.checks_pass([check('validate')],statuses,['validate'])
     statuses.append({'id':3,'context':'external-ci','state':'pending'})
     assert not m.checks_pass([check('validate')],statuses,['validate'])
+
+
+def test_workflow_rerun_replaces_obsolete_cancelled_run_only():
+    runs=[{'id':1,'workflow_id':9,'status':'completed','conclusion':'cancelled'},
+          {'id':2,'workflow_id':9,'status':'completed','conclusion':'success'}]
+    assert m.workflow_runs_pass(runs)
+    assert not m.workflow_runs_pass(runs+[{'id':3,'workflow_id':9,'status':'queued','conclusion':None}])
+    assert not m.workflow_runs_pass(runs+[{'id':4,'workflow_id':10,'status':'completed','conclusion':'failure'}])
+    assert not m.workflow_runs_pass([])

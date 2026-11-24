@@ -72,6 +72,13 @@ def checks_pass(checks, statuses, required):
             and all(s.get('state')=='success' for s in latest_statuses.values()))
 
 
+def workflow_runs_pass(runs):
+    latest={}
+    for run in sorted(runs,key=lambda r:r.get('id',0)):
+        latest[run.get('workflow_id',run.get('name'))]=run
+    return bool(latest) and all(r.get('status')=='completed' and r.get('conclusion')=='success' for r in latest.values())
+
+
 def trusted_pr(pr):
     return (pr.get('state')=='open' and not pr.get('draft') and not pr.get('merged')
             and pr.get('user',{}).get('login')==LOGIN and pr.get('base',{}).get('ref')=='main'
@@ -210,7 +217,7 @@ def main():
             checks=pages(f"repos/{REPO}/commits/{pr['head']['sha']}/check-runs?filter=latest&per_page=100",'check_runs')
             statuses=pages(f"repos/{REPO}/commits/{pr['head']['sha']}/statuses?per_page=100")
             runs=pages(f"repos/{REPO}/actions/runs?head_sha={pr['head']['sha']}&per_page=100",'workflow_runs')
-            if not runs or any(r.get('status')!='completed' or r.get('conclusion')!='success' for r in runs):
+            if not workflow_runs_pass(runs):
                 raise AuditBlocked('exact-head workflow runs are unfinished/not successful')
             reviews=pages(f'repos/{REPO}/pulls/{number}/reviews?per_page=100')
             if reviewed and not reviewed_no_expansion(pr,reviews):
