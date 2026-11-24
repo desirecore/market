@@ -34,7 +34,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-22T14:30:43Z",
+      "value": "2026-11-24T01:39:27Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -42,12 +42,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-22",
+      "value": "2026-11-24",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-11-22T14:30:43Z",
+      "value": "2026-11-24T01:39:27Z",
       "precision": "second"
     }
   },
@@ -56,7 +56,7 @@
       "kind": "git",
       "url": "https://github.com/morluto/rea.git",
       "path": ".agents/skills/reverse-engineer-anything",
-      "ref": "87889b8729da8a02a4159bc7274c92be52464031"
+      "ref": "57f4e3c4bd7577336f344f5ec5b14a5ea0c9ce6b"
     }
   },
   "governance": {
@@ -75,8 +75,8 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "87889b8729da8a02a4159bc7274c92be52464031",
-      "reviewedAt": "2026-11-22",
+      "reviewedRef": "57f4e3c4bd7577336f344f5ec5b14a5ea0c9ce6b",
+      "reviewedAt": "2026-11-24",
       "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }

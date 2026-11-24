@@ -31,7 +31,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-22T14:20:32Z",
+      "value": "2026-11-24T01:26:45Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -39,12 +39,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-22",
+      "value": "2026-11-24",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-11-22T14:20:32Z",
+      "value": "2026-11-24T01:26:45Z",
       "precision": "second"
     }
   },
@@ -52,7 +52,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/deusyu/translate-book.git",
-      "ref": "1c531b49c688a7e8e601b176ce489790bcd10284"
+      "ref": "b6917b7731a8b1085bd5edf8c611b0147ff43b00"
     }
   },
   "governance": {
@@ -71,8 +71,8 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "1c531b49c688a7e8e601b176ce489790bcd10284",
-      "reviewedAt": "2026-11-22",
+      "reviewedRef": "b6917b7731a8b1085bd5edf8c611b0147ff43b00",
+      "reviewedAt": "2026-11-24",
       "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }
