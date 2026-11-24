@@ -10,13 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "Game Dev Agent Skills",
-        "summary": "Optional local Apache-2.0 package of 79 original game-dev agent skills for Godot, Unity, Unreal and other engines, with the root LICENSE and NOTICE in the installed tree and in each child. Engine runtimes are not bundled.",
-        "description": "Market-local packaging of gamedev-skills/awesome-gamedev-agent-skills@c6ca6c41c839b68319ffc08430b99ab768debc32. The installer copies only the skill content directory, so LICENSE and NOTICE are placed in this package. router/SKILL.md is included as an extra file, not a catalog child. Package version 2026.11.24."
+        "summary": "Catalog collection of 79 original game-dev agent skills for Godot, Unity, Unreal and other engines. Engine runtimes are not bundled. Admission is paused at listing-only: the current DesireCore collection installer copies only each selected child path and does not attach the repository-root Apache-2.0 LICENSE and NOTICE.",
+        "description": "Pinned at c6ca6c41c839b68319ffc08430b99ab768debc32. Upstream LICENSE and NOTICE are Apache-2.0 evidence at the repository root, outside nested skills/<engine>/<id> directories. A child install therefore does not receive them. There is no existing per-child license field in the market entry schema, and the client does not copy parent evidence into staged children. Collection structure and child selection are kept; installable admission is paused until a client change can attach root LICENSE and NOTICE to each selected child. The repo router/SKILL.md is not a catalog child."
       },
       "zh-CN": {
         "name": "游戏开发 Agent 技能合集",
-        "summary": "79 个原创游戏开发 Agent 技能的可选 Apache-2.0 本地包，覆盖 Godot、Unity、Unreal 等引擎；安装树根目录和每个子技能都包含 LICENSE 与 NOTICE。引擎运行时不随包分发。",
-        "description": "基于 gamedev-skills/awesome-gamedev-agent-skills@c6ca6c41c839b68319ffc08430b99ab768debc32 的市场本地包装。安装器只复制技能内容目录，因此把 LICENSE 与 NOTICE 放进本包。仓库的 router/SKILL.md 作为额外文件收录，不是目录子项。包版本 2026.11.24。"
+        "summary": "79 个原创游戏开发 Agent 技能合集，覆盖 Godot、Unity、Unreal 等引擎。引擎运行时不随目录分发。准入暂停为仅收录：现行 DesireCore 合集安装器只复制所选子路径，不会把仓库根目录的 Apache-2.0 LICENSE 与 NOTICE 附进子项安装产物。",
+        "description": "固定版本 c6ca6c41c839b68319ffc08430b99ab768debc32。上游 Apache-2.0 的 LICENSE 与 NOTICE 在仓库根目录，位于嵌套的 skills/<引擎>/<id> 目录之外，因此按子项安装时不会得到这些证据。现行目录条目 schema 没有每子额外许可字段，客户端也不会把父级证据复制进子项产物。合集结构与子项点选予以保留；在客户端能把根 LICENSE 与 NOTICE 附到所选子项之前，可安装准入暂停。仓库的 router/SKILL.md 不是目录子项。"
       }
     },
     "category": "development",
@@ -29,9 +29,7 @@
     ]
   },
   "release": {
-    "state": "known",
-    "version": "2026.11.24",
-    "versionScheme": "calver"
+    "state": "unknown"
   },
   "timestamps": {
     "catalogUpdatedAt": {
@@ -62,7 +60,7 @@
   },
   "governance": {
     "stewardship": "community",
-    "availability": "installable",
+    "availability": "listing-only",
     "license": {
       "state": "known",
       "value": "Apache-2.0",
@@ -81,11 +79,6 @@
       "reviewedBy": "mashagua",
       "upstreamEndorsed": false,
       "noticePath": "NOTICE"
-    },
-    "listingMaintainer": {
-      "name": "mashagua",
-      "url": "https://github.com/mashagua",
-      "verified": true
     }
   },
   "compatibility": {
@@ -99,13 +92,1993 @@
       },
       {
         "kind": "runtime",
-        "value": "This optional local package includes LICENSE and NOTICE at the root and in each child skill."
+        "value": "Not admitted for install: installing a selected child copies only that child path and does not include the repository-root Apache-2.0 LICENSE and NOTICE. Admission stays listing-only until the client can attach that evidence to each selected child."
       }
     ]
   },
   "spec": {
     "kind": "skill",
     "riskLevel": "high",
-    "skillType": "hybrid"
+    "collection": {
+      "role": "parent",
+      "childCount": 79,
+      "children": [
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "ai-behavior-trees-utility-ai",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/disciplines/ai-behavior-trees-utility-ai",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "ai-behavior-trees-utility-ai",
+                "summary": "Engine-neutral behavior tree and utility AI code for NPCs in any language: Blackboard, reactive composites, decorators and response-curve scoring. Use when an enemy keeps chasing after losing sight, restarts its action every frame or flip-flops between choices. Not for FSMs, steering or pathfinding (`game-ai`) or Unreal BT, EQS and StateTree (`unreal-behavior-trees`)."
+              },
+              "zh-CN": {
+                "name": "ai-behavior-trees-utility-ai",
+                "summary": "引擎中立的 NPC 行为树与效用 AI 代码，适用于任何语言：黑板、反应式组合节点、装饰器与响应曲线评分。用于敌人丢失视线后仍追击、每帧重启动作，或在选项间反复横跳。不用于 FSM、转向或寻路（`game-ai`），也不用于 Unreal 的 BT、EQS 与 StateTree（`unreal-behavior-trees`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "audio-design",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/disciplines/audio-design",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "audio-design",
+                "summary": "Engine-neutral game audio technique: bus layout, volume sliders in decibels, loudness, ducking music under dialogue, adaptive music and SFX variation, with Godot, Unity and FMOD/Wwise mappings. Use when mixing a game, making music react to combat, fixing repetitive footsteps or beat sync, or a mix that clips or pumps. Not for the Godot audio API (`godot-audio`)."
+              },
+              "zh-CN": {
+                "name": "audio-design",
+                "summary": "引擎中立的游戏音频方法：总线布局、以分贝为单位的音量滑条、响度、对白时压低音乐、自适应音乐与音效变化，并对照 Godot、Unity 与 FMOD/Wwise。用于混音、让音乐随战斗变化、修复重复脚步或节拍同步，或处理削波与泵感。不用于 Godot 音频 API（`godot-audio`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "camera-systems",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/disciplines/camera-systems",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "camera-systems",
+                "summary": "Builds and tunes game cameras, engine-neutral with Godot and Cinemachine 3 mappings: 2D follow with deadzone and look-ahead, third-person orbit, first-person look and split-screen. Use when the camera lags, jitters while following, shows past the level edge, clips through walls or changes with frame rate. Not for shake (`game-feel`) or physics timestep jitter (`physics-tuning`)."
+              },
+              "zh-CN": {
+                "name": "camera-systems",
+                "summary": "构建并调校游戏摄像机，引擎中立，并对照 Godot 与 Cinemachine 3：带死区和预瞄的 2D 跟随、第三人称环绕、第一人称视角与分屏。用于摄像机滞后、跟随抖动、露出关卡边缘、穿墙或随帧率变化。不用于震动（`game-feel`）或物理时间步抖动（`physics-tuning`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "create-game-assets",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/disciplines/create-game-assets",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "create-game-assets",
+                "summary": "Plans, generates or sources, and validates consistent game art: style guides, sprites, pixel art, tilesets, icons and textures, with QA and licence records. Use when making or AI-generating game art, fixing fake transparency, or checking Steam AI disclosure. Not for engine import (`godot-tilemap`, `godot-animation`, `unity-tilemap-2d`), UI layout (`game-ui-ux`) or sound (`audio-design`)."
+              },
+              "zh-CN": {
+                "name": "create-game-assets",
+                "summary": "规划、生成或采购并校验风格一致的游戏美术：风格指南、精灵、像素画、图块集、图标与纹理，附带 QA 与许可记录。用于制作或用 AI 生成游戏美术、修复假透明，或检查 Steam AI 披露。不用于引擎导入（`godot-tilemap`、`godot-animation`、`unity-tilemap-2d`）、UI 布局（`game-ui-ux`）或声音（`audio-design`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "dialogue-systems",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/disciplines/dialogue-systems",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "dialogue-systems",
+                "summary": "Builds engine-neutral branching dialogue with Ink, Yarn Spinner or a small JSON graph runner: lines, choices, conditions, variables and localization IDs. Use for NPC conversations, dialogue trees, barks, .ink or .yarn files, or dialogue that dead-ends. Not for visual-novel backlog and skip (`visual-novel`), quests (`rpg`) or text box widgets (`godot-ui-control`, `game-ui-ux`)."
+              },
+              "zh-CN": {
+                "name": "dialogue-systems",
+                "summary": "用 Ink、Yarn Spinner 或小型 JSON 图运行器构建引擎中立的分支对话：台词、选项、条件、变量与本地化 ID。用于 NPC 对话、对话树、短喊、.ink 或 .yarn 文件，或走进死胡同的对话。不用于视觉小说回顾与跳过（`visual-novel`）、任务（`rpg`）或文本框控件（`godot-ui-control`、`game-ui-ux`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "game-ai",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/disciplines/game-ai",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "game-ai",
+                "summary": "Designs engine-neutral enemy and NPC AI: picks FSM, behavior tree, utility or GOAP, and builds perception, steering and A* pathfinding. Use for patrol and chase, \"find a path to the player\", agents stuck on corners or AI that sees through walls. Not for BT or utility code (`ai-behavior-trees-utility-ai`), Unreal AI (`unreal-behavior-trees`) or Unity NavMesh (`unity-navmesh`)."
+              },
+              "zh-CN": {
+                "name": "game-ai",
+                "summary": "设计引擎中立的敌人与 NPC AI：在 FSM、行为树、效用或 GOAP 中选择，并构建感知、转向与 A* 寻路。用于巡逻与追击、“找到通往玩家的路径”、卡在拐角的智能体，或能透视墙壁的 AI。不用于行为树或效用代码（`ai-behavior-trees-utility-ai`）、Unreal AI（`unreal-behavior-trees`）或 Unity NavMesh（`unity-navmesh`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "game-feel",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/disciplines/game-feel",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "game-feel",
+                "summary": "Adds engine-neutral juice to a working mechanic: trauma-based screen shake, hit-stop, eased tweens, squash and stretch, and knockback. Use when the game feels flat, weightless or not punchy, or hits and jumps should feel satisfying. Not for coyote time (`platformer`), input buffering (`input-systems`), camera follow (`camera-systems`) or HUD layout (`game-ui-ux`)."
+              },
+              "zh-CN": {
+                "name": "game-feel",
+                "summary": "为已能运行的机制加入引擎中立的手感：基于创伤的屏幕震动、击停、缓动补间、挤压拉伸与击退。用于游戏发飘、没重量或不够脆，或希望命中与跳跃更爽。不用于土狼时间（`platformer`）、输入缓冲（`input-systems`）、摄像机跟随（`camera-systems`）或 HUD 布局（`game-ui-ux`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "game-ui-ux",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/disciplines/game-ui-ux",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "game-ui-ux",
+                "summary": "Engine-neutral design rules for game HUDs and menus: anchors and containers, scaling, safe areas, gamepad focus, HUDs driven by events instead of polling, and accessibility minimums. Use for menus, health bars or inventory screens that break on ultrawide or phones. Pair with `godot-ui-control` or `roblox-ui`. Not for button juice (`game-feel`) or rebinding (`input-systems`)."
+              },
+              "zh-CN": {
+                "name": "game-ui-ux",
+                "summary": "游戏 HUD 与菜单的引擎中立设计规则：锚点与容器、缩放、安全区、手柄焦点、由事件而非轮询驱动的 HUD，以及无障碍下限。用于超宽屏或手机上会坏掉的菜单、血条或背包界面。可与 `godot-ui-control` 或 `roblox-ui` 搭配。不用于按钮手感（`game-feel`）或按键重绑定（`input-systems`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "input-systems",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/disciplines/input-systems",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "input-systems",
+                "summary": "Engine-neutral input architecture with Godot InputMap code: named actions, stick deadzones, buffered presses and rebinding with conflict checks. Use for controller support or a rebind menu, or a drifting stick, WASD on AZERTY, or a dropped press. Not for coyote time (`platformer`) or Unity and Unreal input assets (`unity-input-system`, `unreal-enhanced-input`)."
+              },
+              "zh-CN": {
+                "name": "input-systems",
+                "summary": "引擎中立的输入架构，并含 Godot InputMap 代码：命名动作、摇杆死区、缓冲按下，以及带冲突检查的重绑定。用于手柄支持或重绑定菜单，或摇杆漂移、AZERTY 上的 WASD、丢失的按键。不用于土狼时间（`platformer`），也不用于 Unity 与 Unreal 的输入资产（`unity-input-system`、`unreal-enhanced-input`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "level-design",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/disciplines/level-design",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "level-design",
+                "summary": "Engine-neutral level design with Godot checks: player metrics from the real controller, key and ability gating with a soft-lock check, and pacing. Use when laying out a level or metroidvania gates, or players get lost or a key sits behind its own door. Not for generation (`procedural-gen`), painting tiles (`godot-tilemap`, `unity-tilemap-2d`) or jump tuning (`platformer`)."
+              },
+              "zh-CN": {
+                "name": "level-design",
+                "summary": "引擎中立的关卡设计，并含 Godot 检查：来自真实控制器的玩家度量、带软锁检查的钥匙与能力门，以及节奏。用于布置关卡或类银河战士恶魔城门，或玩家迷路、钥匙被挡在自己的门后。不用于生成（`procedural-gen`）、绘制图块（`godot-tilemap`、`unity-tilemap-2d`）或跳跃手感（`platformer`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "performance-optimization",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/disciplines/performance-optimization",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "performance-optimization",
+                "summary": "Finds and fixes game frame-rate problems by measurement in Godot, Unity, Unreal or Roblox: CPU- vs GPU-bound, then the biggest fix (draw calls, pooling, GC spikes). Use for low FPS, stutter, a first-use hitch, or requests to optimize or profile. Not for build size (`unity-build-size`), physics jitter (`physics-tuning`) or network lag (`roblox-networking`, `godot-multiplayer`)."
+              },
+              "zh-CN": {
+                "name": "performance-optimization",
+                "summary": "通过在 Godot、Unity、Unreal 或 Roblox 中测量来查找并修复帧率问题：先分清 CPU 还是 GPU 受限，再做最大项修复（绘制调用、对象池、GC 尖峰）。用于低帧率、卡顿、首次使用卡顿，或要求优化/剖析。不用于包体大小（`unity-build-size`）、物理抖动（`physics-tuning`）或网络延迟（`roblox-networking`、`godot-multiplayer`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "physics-tuning",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/disciplines/physics-tuning",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "physics-tuning",
+                "summary": "Engine-neutral physics tuning with Godot checks: fixed timestep and interpolation, CCD against tunnelling, damping, solver iterations and collision layer matrices. Use when bodies jitter, fast objects pass through walls or physics feels floaty or wrong. Not for engine physics APIs (`godot-physics`, `unity-physics`, `roblox-physics`, `phaser-arcade-physics`) or jump feel (`platformer`)."
+              },
+              "zh-CN": {
+                "name": "physics-tuning",
+                "summary": "引擎中立的物理调校，并含 Godot 检查：固定时间步与插值、防止穿透的 CCD、阻尼、求解器迭代与碰撞层矩阵。用于物体抖动、高速物体穿墙，或物理发飘/不对。不用于各引擎物理 API（`godot-physics`、`unity-physics`、`roblox-physics`、`phaser-arcade-physics`）或跳跃手感（`platformer`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "procedural-gen",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/disciplines/procedural-gen",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "procedural-gen",
+                "summary": "Engine-neutral procedural generation in Python with Godot and Unity mappings: seeded RNG, dungeon layouts, wave function collapse, noise terrain and loot tables. Use for a dungeon generator, WFC or Perlin terrain, or seeds that give different maps. Not for roguelike run structure (`roguelike`), deckbuilders (`card-game`) or painting tiles (`godot-tilemap`, `unity-tilemap-2d`)."
+              },
+              "zh-CN": {
+                "name": "procedural-gen",
+                "summary": "引擎中立的程序生成，以 Python 实现并对照 Godot 与 Unity：带种子的 RNG、地牢布局、波函数坍缩、噪声地形与掉落表。用于地牢生成器、WFC 或 Perlin 地形，或同一种子给出不同地图。不用于 roguelike 局结构（`roguelike`）、卡组构筑（`card-game`）或绘制图块（`godot-tilemap`、`unity-tilemap-2d`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "save-systems",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/disciplines/save-systems",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "save-systems",
+                "summary": "Engine-neutral save and load with Godot and Python code: what to serialize, slots and autosave, atomic writes and versioned migration. Use for save/load or a continue button, or saves that corrupt after a crash or break after a patch. Not for Roblox DataStores (`roblox-datastores`), data assets (`godot-resources`, `unity-scriptableobjects`) or genre save screens (`rpg`, `visual-novel`)."
+              },
+              "zh-CN": {
+                "name": "save-systems",
+                "summary": "引擎中立的存档与读档，并含 Godot 与 Python 代码：序列化范围、槽位与自动存档、原子写入与带版本的迁移。用于存读档或继续按钮，或崩溃后存档损坏、补丁后无法读取。不用于 Roblox DataStores（`roblox-datastores`）、数据资产（`godot-resources`、`unity-scriptableobjects`）或类型化存档界面（`rpg`、`visual-novel`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "shader-programming",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/disciplines/shader-programming",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "shader-programming",
+                "summary": "Engine-neutral shader technique in GLSL with HLSL equivalents: how dissolve, outline, fresnel rim and post effects work, and porting GLSL to HLSL. Use when the math of an effect is the question, or for specks or mobile shimmer. To write a shader in one engine, its skill alone is enough (`godot-shaders`, `threejs-materials-lighting`, `pixijs-rendering`). Not for particles (`unreal-niagara`)."
+              },
+              "zh-CN": {
+                "name": "shader-programming",
+                "summary": "引擎中立的着色器方法，以 GLSL 讲述并给出 HLSL 对应：溶解、描边、菲涅尔轮廓与后期效果的原理，以及 GLSL 到 HLSL 的移植。用于效果数学本身，或斑点、移动端闪烁。若只在某一引擎写着色器，单独使用该引擎技能即可（`godot-shaders`、`threejs-materials-lighting`、`pixijs-rendering`）。不用于粒子（`unreal-niagara`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "ebitengine-game",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/ebitengine/ebitengine-game",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "ebitengine-game",
+                "summary": "Creates, debugs and packages 2D games in Go with Ebitengine v2: a play-and-retry loop, input, pixel-art scaling, text, audio and desktop, WASM or mobile builds. Use when go.mod requires ebiten/v2 or the user wants a game in Go, or on blurry pixel art, missed key presses or stutter. Not for engine patches; pair with `game-feel`, `game-ui-ux` or a genre skill for design."
+              },
+              "zh-CN": {
+                "name": "ebitengine-game",
+                "summary": "用 Go 与 Ebitengine v2 创建、调试并打包 2D 游戏：可重试的游玩循环、输入、像素画缩放、文字、音频，以及桌面、WASM 或移动构建。用于 go.mod 依赖 ebiten/v2，或用户要用 Go 做游戏，或像素画模糊、按键丢失、卡顿。不用于引擎补丁；设计可搭配 `game-feel`、`game-ui-ux` 或类型技能。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "card-game",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/genres/card-game",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "card-game",
+                "summary": "Designs card games and deckbuilders in any engine: cards as data with one effect interpreter, deck zones, a trigger stack and seeded shuffles. Use for a Slay the Spire- or Balatro-like or a TCG, or cards that duplicate or streaky shuffles. Pair with the engine skill for card data and hand UI (`godot-resources`, `godot-ui-control`, `unity-scriptableobjects`). Not for grid crawlers (`roguelike`)."
+              },
+              "zh-CN": {
+                "name": "card-game",
+                "summary": "在任何引擎中设计卡牌游戏与构筑玩法：把卡牌做成数据并配合一个效果解释器，以及牌库区域、触发栈与带种子的洗牌。用于类杀戮尖塔或 Balatro、TCG，或卡牌复制、洗牌连张。卡牌数据与手牌 UI 可搭配引擎技能（`godot-resources`、`godot-ui-control`、`unity-scriptableobjects`）。不用于网格爬行（`roguelike`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "fps-shooter",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/genres/fps-shooter",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "fps-shooter",
+                "summary": "Designs first-person shooter combat in any engine: hitscan vs projectiles, time-to-kill, damage falloff, recoil patterns, ADS sensitivity and lag-compensated hits. Use for a Doom- or Counter-Strike-like, or guns that feel weak or shots that do not register. Not for the camera rig (`camera-systems`), shake and hit-stop (`game-feel`) or raycast APIs (`godot-physics`, `unity-physics`)."
+              },
+              "zh-CN": {
+                "name": "fps-shooter",
+                "summary": "在任何引擎中设计第一人称射击战斗：命中扫描与抛射物、击杀时间、伤害衰减、后坐力模式、瞄准镜灵敏度与延迟补偿命中。用于类 Doom 或 CS 的玩法，或枪感到弱、射击不结算。不用于摄像机装置（`camera-systems`）、震动与击停（`game-feel`）或射线 API（`godot-physics`、`unity-physics`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "platformer",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/genres/platformer",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "platformer",
+                "summary": "Designs 2D platformers in any engine: jump feel (coyote time, jump buffering, variable height, fall gravity, corner correction), wall jumps, hazards, checkpoints and one-way platforms. Use for a Mario- or Celeste-like, or a jump that feels floaty or laggy. Pair with the engine skill (`godot-2d-movement`, `phaser-arcade-physics`). Not for generic input buffering (`input-systems`) or juice (`game-feel`)."
+              },
+              "zh-CN": {
+                "name": "platformer",
+                "summary": "在任何引擎中设计 2D 平台跳跃：跳跃手感（土狼时间、跳跃缓冲、可变高度、下落重力、拐角修正）、墙跳、危险、检查点与单向平台。用于类马里奥或蔚蓝，或跳跃发飘、滞后。可搭配引擎技能（`godot-2d-movement`、`phaser-arcade-physics`）。不用于通用输入缓冲（`input-systems`）或手感汁液（`game-feel`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "puzzle",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/genres/puzzle",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "puzzle",
+                "summary": "Designs grid and logic puzzle games in any engine: match-3 cascades, Sokoban pushing, unique-solution grids (nonogram, Sudoku), exact undo and solver-checked levels. Use for a Candy Crush-like, Sokoban or Picross, or broken cascades, drifting undo or unsolvable levels. Not for physics puzzlers (`platformer`, `physics-tuning`) or card games (`card-game`)."
+              },
+              "zh-CN": {
+                "name": "puzzle",
+                "summary": "在任何引擎中设计网格与逻辑解谜：三消连锁、推箱子、唯一解网格（数织、数独）、精确撤销与经求解器检查的关卡。用于类 Candy Crush、推箱子或 Picross，或连锁损坏、撤销漂移、无解关卡。不用于物理解谜（`platformer`、`physics-tuning`）或卡牌游戏（`card-game`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "roguelike",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/genres/roguelike",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "roguelike",
+                "summary": "Designs run-based roguelikes and roguelites in any engine: run structure, permadeath, meta-progression, seeded and daily runs, turn order and symmetric field of view. Use for NetHack- or Hades-style games, or runs that feel cheap. Pair with `procedural-gen` for dungeon generation and `save-systems` for run vs meta saves. Not for roguelike deckbuilders (`card-game`)."
+              },
+              "zh-CN": {
+                "name": "roguelike",
+                "summary": "在任何引擎中设计以单局为核心的 roguelike 与 roguelite：局结构、永久死亡、局外成长、带种子与每日挑战、回合顺序与对称视野。用于类 NetHack 或哈迪斯，或单局显得廉价。地牢生成搭配 `procedural-gen`，单局与局外存档搭配 `save-systems`。不用于 roguelike 构筑（`card-game`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "rpg",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/genres/rpg",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "rpg",
+                "summary": "Designs RPG progression and combat numbers in any engine: stats with a modifier stack, XP curves, damage formulas, items and equipment (slots, rarity, affixes) and quests. Use for a JRPG or Diablo-style looter, or stats wrong after unequipping. Pair with `save-systems` to save characters and inventory. Not for crafting and carry weight (`survival-crafting`) or dialogue (`dialogue-systems`)."
+              },
+              "zh-CN": {
+                "name": "rpg",
+                "summary": "在任何引擎中设计 RPG 成长与战斗数值：带修正栈的属性、经验曲线、伤害公式、物品与装备（槽位、稀有度、词缀）以及任务。用于 JRPG 或类暗黑搜刮，或卸装后属性不对。角色与背包存档可搭配 `save-systems`。不用于合成与负重（`survival-crafting`）或对话（`dialogue-systems`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "survival-crafting",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/genres/survival-crafting",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "survival-crafting",
+                "summary": "Designs survival-crafting loops in any engine: gathering, recipes and tech trees, carry weight, spoilage, hunger and temperature, and base building. Use for a Minecraft-, Valheim- or Don't Starve-like, or crafting that eats materials or needs that feel like chores. Not for RPG equipment stats (`rpg`), terrain generation (`procedural-gen`) or save files (`save-systems`)."
+              },
+              "zh-CN": {
+                "name": "survival-crafting",
+                "summary": "在任何引擎中设计生存合成循环：采集、配方与科技树、负重、腐败、饥饿与温度，以及基地建造。用于类 Minecraft、Valheim 或不饿死，或合成吞材料、需求像杂务。不用于 RPG 装备数值（`rpg`）、地形生成（`procedural-gen`）或存档文件（`save-systems`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "tower-defense",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/genres/tower-defense",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "tower-defense",
+                "summary": "Designs tower defense games in any engine: lane and maze pathing, wave pacing, targeting priorities, armoured and flying counters, and the gold economy, with a wave-curve checker. Use for a Bloons- or Kingdom Rush-like, or late waves that are impossible or trivial or a dominant tower. Not for pathfinding (`game-ai`) or survival base building (`survival-crafting`)."
+              },
+              "zh-CN": {
+                "name": "tower-defense",
+                "summary": "在任何引擎中设计塔防：车道与迷宫寻路、波次节奏、锁定优先级、装甲与飞行克制，以及金币经济，并带波次曲线检查。用于类气球塔防或 Kingdom Rush，或后期波次不可能/过于轻松、某塔一家独大。不用于寻路（`game-ai`）或生存基地建造（`survival-crafting`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "visual-novel",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/genres/visual-novel",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "visual-novel",
+                "summary": "Builds visual novels and choice-driven stories in Ren'Py or any engine: routes and endings, save-anywhere, backlog, skip-read-only and typewriter text. Use for a VN or dating sim, or loads at the wrong line, skip running through unread text or an unreachable ending. Not for dialogue in a larger game or Ink and Yarn (`dialogue-systems`) or text box widgets (`godot-ui-control`)."
+              },
+              "zh-CN": {
+                "name": "visual-novel",
+                "summary": "用 Ren'Py 或任意引擎做视觉小说与选择驱动故事：路线与结局、随处存档、回顾、仅跳过已读与打字机文本。用于视觉小说或恋爱模拟，或读档错行、跳过读到未读文本、无法到达的结局。不用于更大游戏中的对话或 Ink 与 Yarn（`dialogue-systems`），也不用于文本框控件（`godot-ui-control`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "godot-2d-movement",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/godot/godot-2d-movement",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "godot-2d-movement",
+                "summary": "Godot 4.7 CharacterBody2D movement in GDScript: platformer run and jump, top-down 8-direction motion, slopes and one-way platforms, with a headless landing test. Use when a 2D controller will not move, falls through the floor or is_on_floor() is always false. Not for coyote time and jump feel (`platformer`), RigidBody2D, raycasts or 3D (`godot-physics`) or tile levels (`godot-tilemap`)."
+              },
+              "zh-CN": {
+                "name": "godot-2d-movement",
+                "summary": "Godot 4.7 中用 GDScript 写 CharacterBody2D 移动：平台跑跳、顶视角八向运动、斜坡与单向平台，并带无头落地测试。用于 2D 控制器不动、掉穿地板，或 is_on_floor() 始终为假。不用于土狼时间与跳跃手感（`platformer`）、RigidBody2D、射线或 3D（`godot-physics`），也不用于图块关卡（`godot-tilemap`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "godot-3d-essentials",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/godot/godot-3d-essentials",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "godot-3d-essentials",
+                "summary": "Godot 4.7 3D scene setup: Camera3D, lights, WorldEnvironment (sky, ambient, tonemap, fog), StandardMaterial3D, GridMap and local vs global transforms, with a headless scene check. Use when a 3D scene renders black or washed out, a mesh is invisible, or a child rotates on the wrong axis. Not for spatial shaders (`godot-shaders`), bodies and raycasts (`godot-physics`) or camera feel (`camera-systems`)."
+              },
+              "zh-CN": {
+                "name": "godot-3d-essentials",
+                "summary": "Godot 4.7 的 3D 场景搭建：Camera3D、灯光、WorldEnvironment（天空、环境光、色调映射、雾）、StandardMaterial3D、GridMap 以及局部与全局变换，并带无头场景检查。用于 3D 场景全黑或过曝、网格不可见，或子节点绕错误轴旋转。不用于空间着色器（`godot-shaders`）、刚体与射线（`godot-physics`）或摄像机手感（`camera-systems`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "godot-animation",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/godot/godot-animation",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "godot-animation",
+                "summary": "Godot 4.7 animation APIs: AnimationPlayer, AnimationTree state machines, AnimatedSprite2D and create_tween() Tweens, with a headless state test. Use when travel() does nothing, an animation will not play, a tween snaps back or the log says \"Animation not found\". Not for easing choices (`game-feel`), sprite art (`create-game-assets`) or Unity (`unity-animation`)."
+              },
+              "zh-CN": {
+                "name": "godot-animation",
+                "summary": "Godot 4.7 动画 API：AnimationPlayer、AnimationTree 状态机、AnimatedSprite2D 与 create_tween() Tweens，并带无头状态测试。用于 travel() 无效、动画不播放、补间弹回，或日志提示 “Animation not found”。不用于缓动选择（`game-feel`）、精灵美术（`create-game-assets`）或 Unity（`unity-animation`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "godot-audio",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/godot/godot-audio",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "godot-audio",
+                "summary": "Godot 4.7 audio APIs: AudioStreamPlayer 2D and 3D, the bus layout, AudioServer volume and mute, polyphony, looping imports and playback position for beat sync. Use when wiring SFX, music or volume sliders in Godot, or a sound is silent, cut off, does not loop or ignores its bus. Not for engine-neutral mixing, ducking or adaptive music (`audio-design`)."
+              },
+              "zh-CN": {
+                "name": "godot-audio",
+                "summary": "Godot 4.7 音频 API：2D/3D AudioStreamPlayer、总线布局、AudioServer 音量与静音、复音、循环导入，以及用于节拍同步的播放位置。用于在 Godot 中接线效、音乐或音量滑条，或声音静音、被切断、不循环、不遵循总线。不用于引擎中立的混音、闪避或自适应音乐（`audio-design`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "godot-csharp",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/godot/godot-csharp",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "godot-csharp",
+                "summary": "C# and .NET in Godot 4.7: partial node classes, the PascalCase lifecycle, [Export] and [Signal], signals as C# events, the .csproj and calling GDScript. Use for .cs scripts in Godot, porting GDScript to C#, a failed build, or a failed web or Android export. Not for GDScript (`godot-gdscript`), Unity C# (`unity-csharp-scripting`) or export presets (`godot-export`)."
+              },
+              "zh-CN": {
+                "name": "godot-csharp",
+                "summary": "Godot 4.7 中的 C# 与 .NET：partial 节点类、PascalCase 生命周期、[Export] 与 [Signal]、作为 C# 事件的信号、.csproj 以及调用 GDScript。用于 Godot 的 .cs 脚本、把 GDScript 迁到 C#、构建失败，或 Web/Android 导出失败。不用于 GDScript（`godot-gdscript`）、Unity C#（`unity-csharp-scripting`）或导出预设（`godot-export`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "godot-export",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/godot/godot-export",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "godot-export",
+                "summary": "Exports Godot 4.7 projects: templates, export_presets.cfg for desktop, Web and Android, command-line exports and web COOP/COEP headers. Use on \"No export template found\", a blank web build, a SharedArrayBuffer error or files missing after export. Not for tests in CI (`godot-gdscript-headless-testing`), store uploads (`steam-publish`, `itch-publish`) or netcode (`godot-multiplayer`)."
+              },
+              "zh-CN": {
+                "name": "godot-export",
+                "summary": "导出 Godot 4.7 项目：模板、面向桌面、Web 与 Android 的 export_presets.cfg、命令行导出与 Web 的 COOP/COEP 头。用于 “No export template found”、空白 Web 构建、SharedArrayBuffer 错误，或导出后文件缺失。不用于 CI 测试（`godot-gdscript-headless-testing`）、商店上传（`steam-publish`、`itch-publish`）或网络同步（`godot-multiplayer`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "godot-gdscript",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/godot/godot-gdscript",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "godot-gdscript",
+                "summary": "GDScript 2.0 for Godot 4.7: static typing, @export and @onready, await and coroutines, and porting 3.x code. Use for .gd parse errors (\"Cannot infer the type\"), a coroutine that never resumes, a null @onready variable or upgrade breakage. Not for signals (`godot-signals-groups`), scenes (`godot-nodes-scenes`), C# (`godot-csharp`) or CI tests (`godot-gdscript-headless-testing`)."
+              },
+              "zh-CN": {
+                "name": "godot-gdscript",
+                "summary": "面向 Godot 4.7 的 GDScript 2.0：静态类型、@export 与 @onready、await 与协程，以及 3.x 代码迁移。用于 .gd 解析错误（“Cannot infer the type”）、协程永不恢复、@onready 为 null，或升级破坏。不用于信号（`godot-signals-groups`）、场景（`godot-nodes-scenes`）、C#（`godot-csharp`）或 CI 测试（`godot-gdscript-headless-testing`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "godot-gdscript-headless-testing",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/godot/godot-gdscript-headless-testing",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "godot-gdscript-headless-testing",
+                "summary": "Runs Godot 4.7 GDScript tests with godot --headless and a SceneTree runner that exits non-zero on failure, so CI can gate merges. Owns Godot tests in CI. Use for GitHub Actions jobs or a headless run that hangs or exits 0 despite SCRIPT ERROR lines. Not for export in CI (`godot-export`), GDScript language (`godot-gdscript`) or Unity tests (`unity-csharp-scripting`)."
+              },
+              "zh-CN": {
+                "name": "godot-gdscript-headless-testing",
+                "summary": "用 godot --headless 与失败时非零退出的 SceneTree 运行器来跑 Godot 4.7 GDScript 测试，以便 CI 把关合并。负责 CI 中的 Godot 测试。用于 GitHub Actions 任务，或无头运行挂起、即使有 SCRIPT ERROR 仍以 0 退出。不用于 CI 导出（`godot-export`）、GDScript 语言本身（`godot-gdscript`）或 Unity 测试（`unity-csharp-scripting`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "godot-multiplayer",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/godot/godot-multiplayer",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "godot-multiplayer",
+                "summary": "Godot 4.7 high-level multiplayer: ENet host and join, @rpc with rpc_id(), MultiplayerSpawner and MultiplayerSynchronizer, with a two-instance headless test. Use for online or LAN co-op in Godot, or a rejected RPC, spawned nodes missing on clients, or state that does not sync. Not for Roblox (`roblox-networking`), server exports (`godot-export`) or local split-screen (`camera-systems`)."
+              },
+              "zh-CN": {
+                "name": "godot-multiplayer",
+                "summary": "Godot 4.7 高层多人：ENet 主持与加入、带 rpc_id() 的 @rpc、MultiplayerSpawner 与 MultiplayerSynchronizer，并带双实例无头测试。用于 Godot 在线或局域网合作，或被拒绝的 RPC、客户端缺少生成节点、状态不同步。不用于 Roblox（`roblox-networking`）、服务器导出（`godot-export`）或本机分屏（`camera-systems`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "godot-nodes-scenes",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/godot/godot-nodes-scenes",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "godot-nodes-scenes",
+                "summary": "Godot 4.7 scene-tree structure: reusable .tscn scenes, instantiate(), autoloads and a checker for broken res:// paths and uids. Use when spawning bullets or enemies, or on \"Node not found\", \"previously freed instance\" or scenes broken after files moved, even if the user only says the project broke. Not for GDScript syntax (`godot-gdscript`) or signals (`godot-signals-groups`)."
+              },
+              "zh-CN": {
+                "name": "godot-nodes-scenes",
+                "summary": "Godot 4.7 场景树结构：可复用的 .tscn 场景、instantiate()、自动加载，以及损坏的 res:// 路径与 uid 检查器。用于生成子弹或敌人，或出现 “Node not found”、“previously freed instance”，或文件移动后场景损坏，即使使用者只说项目坏了。不用于 GDScript 语法（`godot-gdscript`）或信号（`godot-signals-groups`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "godot-physics",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/godot/godot-physics",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "godot-physics",
+                "summary": "Godot 4.7 physics API in 2D and 3D: body and Area types, collision_layer and mask bits, Area signals for hurtboxes, RayCast and space queries, and Jolt (3D default since 4.6). Use when objects pass through each other, body_entered never fires or a raycast hits itself. Not for engine-neutral jitter and tunnelling (`physics-tuning`) or CharacterBody movement (`godot-2d-movement`)."
+              },
+              "zh-CN": {
+                "name": "godot-physics",
+                "summary": "Godot 4.7 的 2D/3D 物理 API：各种 body 与 Area 类型、collision_layer 与 mask 位、受伤盒的 Area 信号、RayCast 与空间查询，以及 Jolt（自 4.6 起为 3D 默认）。用于物体相互穿过、body_entered 从不触发，或射线打到自身。不用于引擎中立的抖动与穿透（`physics-tuning`）或 CharacterBody 移动（`godot-2d-movement`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "godot-resources",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/godot/godot-resources",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "godot-resources",
+                "summary": "Godot 4.7 data-driven design with custom Resources: class_name and @export fields, .tres files, shared references vs duplicate_deep(), uids and threaded loading. Use for items, stats or enemy configs as data, or when editing one enemy changes every enemy or a .tres stops loading. Not for save slots (`save-systems`) or the C# version (`godot-csharp`)."
+              },
+              "zh-CN": {
+                "name": "godot-resources",
+                "summary": "用自定义 Resource 在 Godot 4.7 做数据驱动设计：class_name 与 @export 字段、.tres 文件、共享引用与 duplicate_deep()、uid 与线程加载。用于把物品、数值或敌人配置做成数据，或改一个敌人却改到所有敌人、.tres 无法加载。不用于存档槽（`save-systems`）或 C# 版本（`godot-csharp`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "godot-shaders",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/godot/godot-shaders",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "godot-shaders",
+                "summary": "Godot 4.7 Shading Language syntax and pipeline: canvas_item, spatial and particle shaders, built-ins, ShaderMaterial wiring, a headless compile check and 3.x porting. Use for a .gdshader, a SHADER ERROR, shader parameters set from GDScript, or an effect that looks washed out or sorts wrong. Not for effect maths such as dissolve or outline (`shader-programming`)."
+              },
+              "zh-CN": {
+                "name": "godot-shaders",
+                "summary": "Godot 4.7 着色语言语法与管线：canvas_item、spatial 与粒子着色器、内置变量、ShaderMaterial 接线、无头编译检查以及 3.x 移植。用于 .gdshader、SHADER ERROR、从 GDScript 设置着色器参数，或效果过曝、排序错误。不用于溶解或描边等效果数学（`shader-programming`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "godot-signals-groups",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/godot/godot-signals-groups",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "godot-signals-groups",
+                "summary": "Godot 4.7 signals and node groups: typed signals, connect() with Callables, one-shot and deferred connections, event-bus autoloads and call_group broadcasts. Use when nodes must talk without hard references, a handler fires twice or never, or the log says \"already connected\". Not for GDScript syntax (`godot-gdscript`) or autoload setup (`godot-nodes-scenes`)."
+              },
+              "zh-CN": {
+                "name": "godot-signals-groups",
+                "summary": "Godot 4.7 信号与节点组：带类型的信号、用 Callable 的 connect()、一次性与延迟连接、事件总线自动加载与 call_group 广播。用于节点需通信但不要硬引用、处理函数触发两次或从不触发，或日志提示 “already connected”。不用于 GDScript 语法（`godot-gdscript`）或自动加载设置（`godot-nodes-scenes`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "godot-tilemap",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/godot/godot-tilemap",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "godot-tilemap",
+                "summary": "Godot 4.7 tile maps with TileMapLayer and TileSet: atlas sources, data layers, terrain autotiling and set_cell or local_to_map at runtime. Use for 2D tile levels in Godot, tiles with no collision, a click on the wrong cell or porting a deprecated TileMap. Not for Unity (`unity-tilemap-2d`), tile art (`create-game-assets`) or generation (`procedural-gen`)."
+              },
+              "zh-CN": {
+                "name": "godot-tilemap",
+                "summary": "Godot 4.7 中用 TileMapLayer 与 TileSet 做图块地图：图集源、数据层、地形自动拼接，以及运行时的 set_cell 或 local_to_map。用于 Godot 的 2D 图块关卡、没有碰撞的图块、点到错误格子，或迁移已弃用的 TileMap。不用于 Unity（`unity-tilemap-2d`）、图块美术（`create-game-assets`）或生成（`procedural-gen`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "godot-ui-control",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/godot/godot-ui-control",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "godot-ui-control",
+                "summary": "Godot 4.7 Control-node API for menus and HUDs: anchors, Containers, Theme and StyleBox, focus neighbours and stretch settings, with a headless layout check. Use when Godot UI overlaps or drifts on resize, buttons ignore the gamepad, or an invisible panel swallows clicks. Not for engine-neutral UI rules (`game-ui-ux`; load both) or rebinding (`input-systems`)."
+              },
+              "zh-CN": {
+                "name": "godot-ui-control",
+                "summary": "Godot 4.7 用于菜单与 HUD 的 Control 节点 API：锚点、Container、Theme 与 StyleBox、焦点邻接与拉伸设置，并带无头布局检查。用于 Godot UI 重叠、缩放后漂移、按钮忽略手柄，或不可见面板吞掉点击。不用于引擎中立的 UI 规则（`game-ui-ux`；两者应一起加载）或重绑定（`input-systems`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "bevy-ecs",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/other-engines/bevy-ecs",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "bevy-ecs",
+                "summary": "Builds and debugs Bevy 0.20 games in Rust: components, Query and Commands systems, schedules, States, observers and headless tests. Use when Cargo.toml depends on bevy, on a B0001 query-conflict panic, or pre-0.20 code (EventReader, SpriteBundle). Not for engine-neutral AI, generation, physics or shaders (`game-ai`, `procedural-gen`, `physics-tuning`, `shader-programming`)."
+              },
+              "zh-CN": {
+                "name": "bevy-ecs",
+                "summary": "用 Rust 构建并调试 Bevy 0.20 游戏：组件、Query 与 Commands 系统、调度、States、观察者与无头测试。用于 Cargo.toml 依赖 bevy、出现 B0001 查询冲突 panic，或 0.20 之前的代码（EventReader、SpriteBundle）。不用于引擎中立的 AI、生成、物理或着色器（`game-ai`、`procedural-gen`、`physics-tuning`、`shader-programming`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "defold-core",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/other-engines/defold-core",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "defold-core",
+                "summary": "Builds and debugs Defold 1.14 games in Lua: collections, game objects, input focus, msg.post messaging, factories, collection proxies and Bob builds. Use for .collection or .script files, on_input never firing, a proxy that never loads, or \"could not be found when dispatching message\". Not for LÖVE (`love2d-core`), HUD rules (`game-ui-ux`) or physics feel (`physics-tuning`)."
+              },
+              "zh-CN": {
+                "name": "defold-core",
+                "summary": "用 Lua 构建并调试 Defold 1.14 游戏：集合、游戏对象、输入焦点、msg.post 消息、工厂、集合代理与 Bob 构建。用于 .collection 或 .script 文件、on_input 从不触发、代理永不加载，或 “could not be found when dispatching message”。不用于 LÖVE（`love2d-core`）、HUD 规则（`game-ui-ux`）或物理手感（`physics-tuning`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "love2d-core",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/other-engines/love2d-core",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "love2d-core",
+                "summary": "Builds and debugs LÖVE (Love2D) 11.x games in Lua: main.lua callbacks, conf.lua, fixed steps, crisp pixel-art scaling, love.filesystem saves and a scripted run. Use when main.lua calls love.*, or on blurry pixel art, the blue error screen or speed tied to frame rate. Not for Defold (`defold-core`) or engine-neutral saves and input (`save-systems`, `input-systems`)."
+              },
+              "zh-CN": {
+                "name": "love2d-core",
+                "summary": "用 Lua 构建并调试 LÖVE（Love2D）11.x 游戏：main.lua 回调、conf.lua、固定步进、清晰像素缩放、love.filesystem 存档与脚本化运行。用于 main.lua 调用 love.*，或像素画模糊、蓝色错误屏、速度绑在帧率上。不用于 Defold（`defold-core`）或引擎中立的存档与输入（`save-systems`、`input-systems`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "pygame-core",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/other-engines/pygame-core",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "pygame-core",
+                "summary": "Builds and debugs 2D games in Python with pygame-ce (imported as pygame): the event-update-draw loop, delta time, Surfaces and Rects, Sprite groups and headless tests. Use when code imports pygame, or a window says not responding, speed differs per PC or pygame and pygame-ce conflict. Not for engine-neutral input or saves (`input-systems`, `save-systems`) or jump feel (`platformer`)."
+              },
+              "zh-CN": {
+                "name": "pygame-core",
+                "summary": "用 pygame-ce（以 pygame 导入）在 Python 中构建并调试 2D 游戏：事件-更新-绘制循环、增量时间、Surface 与 Rect、Sprite 组与无头测试。用于代码导入 pygame，或窗口显示未响应、速度因电脑而异，或 pygame 与 pygame-ce 冲突。不用于引擎中立的输入或存档（`input-systems`、`save-systems`）或跳跃手感（`platformer`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "roblox-characters",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/other-engines/roblox-characters",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "roblox-characters",
+                "summary": "Roblox player characters: CharacterAdded lifecycle, Humanoid and HumanoidRootPart, R6, R15 and custom rigs, respawn and Tools. Use when a character script breaks after respawn, animations do not play or replicate, or sprint code fights the Humanoid. Not for hit validation (`roblox-networking`), forces and raycasts (`roblox-physics`) or cameras (`camera-systems`)."
+              },
+              "zh-CN": {
+                "name": "roblox-characters",
+                "summary": "Roblox 玩家角色：CharacterAdded 生命周期、Humanoid 与 HumanoidRootPart、R6、R15 与自定义骨架、重生与 Tools。用于重生后角色脚本损坏、动画不播放或不复制，或冲刺代码与 Humanoid 冲突。不用于命中校验（`roblox-networking`）、力与射线（`roblox-physics`）或摄像机（`camera-systems`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "roblox-datastores",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/other-engines/roblox-datastores",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "roblox-datastores",
+                "summary": "Roblox DataStoreService persistence: load on join, save on leave and BindToClose, UpdateAsync vs SetAsync, session locking and OrderedDataStore leaderboards. Use for lost player data, items duplicating after teleport, or \"too many requests\" errors. Not for engine-neutral saves (`save-systems`), Luau basics (`roblox-luau`) or economy numbers (`roblox-simulator-economy`)."
+              },
+              "zh-CN": {
+                "name": "roblox-datastores",
+                "summary": "Roblox DataStoreService 持久化：加入时加载、离开与 BindToClose 时保存、UpdateAsync 与 SetAsync、会话锁与 OrderedDataStore 排行榜。用于玩家数据丢失、传送后物品复制，或 “too many requests”。不用于引擎中立存档（`save-systems`）、Luau 基础（`roblox-luau`）或经济数值（`roblox-simulator-economy`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "roblox-luau",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/other-engines/roblox-luau",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "roblox-luau",
+                "summary": "Roblox Luau scripting and code structure: services, Instances, Script vs LocalScript vs ModuleScript, the task library and typed Luau, with selene and luau-lsp checks. Use when a LocalScript does not run, a client gets nil after joining or wait() needs replacing. Not for remotes (`roblox-networking`), saving (`roblox-datastores`) or live-place edits (`roblox-studio-workflow`)."
+              },
+              "zh-CN": {
+                "name": "roblox-luau",
+                "summary": "Roblox Luau 脚本与代码结构：服务、Instance、Script 与 LocalScript 与 ModuleScript、task 库与带类型的 Luau，并含 selene 与 luau-lsp 检查。用于 LocalScript 不运行、客户端加入后得到 nil，或需要替换 wait()。不用于远程（`roblox-networking`）、存档（`roblox-datastores`）或现场编辑（`roblox-studio-workflow`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "roblox-networking",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/other-engines/roblox-networking",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "roblox-networking",
+                "summary": "Roblox client-server networking and anti-exploit: RemoteEvent and RemoteFunction contracts, server authority, rate limits, hit validation and replication. Use when a remote trusts the client, exploiters spam remotes or gain items, or hits register wrongly. Not for Luau basics (`roblox-luau`), saving (`roblox-datastores`) or force and raycast APIs (`roblox-physics`)."
+              },
+              "zh-CN": {
+                "name": "roblox-networking",
+                "summary": "Roblox 客户端-服务器网络与反作弊：RemoteEvent 与 RemoteFunction 契约、服务器权威、速率限制、命中校验与复制。用于远程信任客户端、作弊者刷远程或刷物品，或命中登记错误。不用于 Luau 基础（`roblox-luau`）、存档（`roblox-datastores`）或力与射线 API（`roblox-physics`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "roblox-physics",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/other-engines/roblox-physics",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "roblox-physics",
+                "summary": "Roblox physics and spatial queries: assemblies, constraints, collision groups, Raycast and Shapecast, and network ownership. Use when parts fall through or jitter, Touched is unreliable, a ray hits the shooter, or BodyMovers need replacing. Not for hit legitimacy (`roblox-networking`), Humanoid movement (`roblox-characters`) or engine-neutral tuning (`physics-tuning`)."
+              },
+              "zh-CN": {
+                "name": "roblox-physics",
+                "summary": "Roblox 物理与空间查询：装配体、约束、碰撞组、Raycast 与 Shapecast，以及网络所有权。用于零件掉落或抖动、Touched 不可靠、射线打到射击者，或需要替换 BodyMovers。不用于命中合法性（`roblox-networking`）、Humanoid 移动（`roblox-characters`）或引擎中立调校（`physics-tuning`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "roblox-simulator-economy",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/other-engines/roblox-simulator-economy",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "roblox-simulator-economy",
+                "summary": "Roblox simulator, tycoon and idle-game economies in Luau: upgrade cost curves, income per second, rebirth pacing, big-number formatting and paid-egg odds, with a Lune calculator. Use for baseCost or rebirth numbers or unearned currency. Not for DataStores (`roblox-datastores`), remote limits (`roblox-networking`), shop layout (`roblox-ui`) or wave economies (`tower-defense`)."
+              },
+              "zh-CN": {
+                "name": "roblox-simulator-economy",
+                "summary": "用 Luau 做 Roblox 模拟器、大亨与放置游戏经济：升级成本曲线、每秒收入、转生节奏、大数格式与付费蛋概率，并带 Lune 计算器。用于 baseCost、转生数值或不应获得的货币。不用于 DataStores（`roblox-datastores`）、远程限制（`roblox-networking`）、商店布局（`roblox-ui`）或波次经济（`tower-defense`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "roblox-studio-workflow",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/other-engines/roblox-studio-workflow",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "roblox-studio-workflow",
+                "summary": "Safely edits an existing Roblox place or Rojo project: finds the source of truth and proves changes with the right test mode or Studio MCP (execute_luau). Use when an agent edits a .rbxl or Rojo project, works through Studio MCP tools, or must report what was tested. Not for installing Studio MCP (`roblox-get-started`) or the feature code (`roblox-luau`, `roblox-ui`)."
+              },
+              "zh-CN": {
+                "name": "roblox-studio-workflow",
+                "summary": "安全编辑已有 Roblox 场景或 Rojo 项目：找到事实来源，并用正确的测试模式或 Studio MCP（execute_luau）证明改动。用于智能体编辑 .rbxl 或 Rojo 项目、通过 Studio MCP 工具工作，或必须报告测了什么。不用于安装 Studio MCP（`roblox-get-started`），也不用于功能代码本身（`roblox-luau`、`roblox-ui`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "roblox-ui",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/other-engines/roblox-ui",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "roblox-ui",
+                "summary": "Roblox UI with ScreenGui and PlayerGui: ResetOnSpawn, UDim2 scale and offset, UIListLayout flex, safe areas, StyleSheet, gamepad selection and touch controls. Use for Roblox HUDs, shops or settings menus, or UI that clips on phones, resets on respawn or loses controller focus. Load `game-ui-ux` too. Not for input mapping (`input-systems`) or purchase checks (`roblox-networking`)."
+              },
+              "zh-CN": {
+                "name": "roblox-ui",
+                "summary": "用 ScreenGui 与 PlayerGui 做 Roblox UI：ResetOnSpawn、UDim2 的缩放与偏移、UIListLayout 弹性、安全区、StyleSheet、手柄选择与触控。用于 Roblox 的 HUD、商店或设置菜单，或手机上裁切、重生重置、丢失手柄焦点。也应加载 `game-ui-ux`。不用于输入映射（`input-systems`）或购买校验（`roblox-networking`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "unity-animation",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/unity/unity-animation",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "unity-animation",
+                "summary": "Unity 6.3 LTS character animation with the Animator (Mecanim): states and transitions, blend trees, Avatar Mask layers, root motion and humanoid IK. Use for SetTrigger wiring, a transition that lags or never fires, sliding root motion, or an upper-body layer overriding the legs. Not for AI state machines (`game-ai`), juice (`game-feel`) or Godot (`godot-animation`)."
+              },
+              "zh-CN": {
+                "name": "unity-animation",
+                "summary": "用 Animator（Mecanim）做 Unity 6.3 LTS 角色动画：状态与过渡、混合树、Avatar Mask 层、根运动与人形 IK。用于接线 SetTrigger、过渡滞后或不触发、根运动滑动，或上半身层覆盖腿部。不用于 AI 状态机（`game-ai`）、手感（`game-feel`）或 Godot（`godot-animation`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "unity-build-pipeline",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/unity/unity-build-pipeline",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "unity-build-pipeline",
+                "summary": "Builds and ships Unity 6.3 LTS players: Build Profiles, IL2CPP vs Mono, managed stripping with link.xml, scripted BuildPlayer, Addressables and CI or headless builds. Use when automating a Unity build or MissingMethodException appears only in the player. Not for a build that is too big (`unity-build-size`) or store uploads (`steam-publish`, `itch-publish`)."
+              },
+              "zh-CN": {
+                "name": "unity-build-pipeline",
+                "summary": "构建并交付 Unity 6.3 LTS 播放器：Build Profiles、IL2CPP 与 Mono、带 link.xml 的托管裁剪、脚本化 BuildPlayer、Addressables 以及 CI 或无头构建。用于自动化 Unity 构建，或仅在播放器中出现 MissingMethodException。不用于包体过大（`unity-build-size`）或商店上传（`steam-publish`、`itch-publish`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "unity-build-size",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/unity/unity-build-size",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "unity-build-size",
+                "summary": "Finds and shrinks what makes a Unity 6.3 LTS build too big: Build Report reading, uncompressed textures, glTFast models, PCM audio and per-platform levers. Use when an APK, AAB, WebGL build or Steam depot is over a size limit or the download is too big. Not for frame rate (`performance-optimization`), build scripts or stripping (`unity-build-pipeline`) or store uploads (`steam-publish`)."
+              },
+              "zh-CN": {
+                "name": "unity-build-size",
+                "summary": "找出并缩小使 Unity 6.3 LTS 构建过大的内容：阅读 Build Report、未压缩纹理、glTFast 模型、PCM 音频与各平台杠杆。用于 APK、AAB、WebGL 构建或 Steam depot 超出大小限制，或下载包过大。不用于帧率（`performance-optimization`）、构建脚本或裁剪（`unity-build-pipeline`）或商店上传（`steam-publish`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "unity-csharp-scripting",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/unity/unity-csharp-scripting",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "unity-csharp-scripting",
+                "summary": "Writes and fixes Unity 6.3 LTS C# gameplay scripts: MonoBehaviour lifecycle, serialization, .meta/GUID discipline and command-line tests. Use for new or renamed .cs files, \"Missing script\" or a field missing from the Inspector. Not for physics (`unity-physics`), input (`unity-input-system`), data assets (`unity-scriptableobjects`) or builds (`unity-build-pipeline`)."
+              },
+              "zh-CN": {
+                "name": "unity-csharp-scripting",
+                "summary": "编写并修复 Unity 6.3 LTS 的 C# 玩法脚本：MonoBehaviour 生命周期、序列化、.meta/GUID 纪律与命令行测试。用于新建或重命名 .cs 文件、“Missing script”，或 Inspector 中字段丢失。不用于物理（`unity-physics`）、输入（`unity-input-system`）、数据资产（`unity-scriptableobjects`）或构建（`unity-build-pipeline`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "unity-input-system",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/unity/unity-input-system",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "unity-input-system",
+                "summary": "Wires Unity 6.3 LTS player input with the Input System package: .inputactions assets, action maps, PlayerInput and control schemes. Use when input does nothing or fires under a menu, FindAction returns null, the old Input class throws, or Input.GetAxis code needs porting. Not for engine-neutral buffering, remapping or deadzones (`input-systems`) or jump feel (`platformer`)."
+              },
+              "zh-CN": {
+                "name": "unity-input-system",
+                "summary": "用 Input System 包为 Unity 6.3 LTS 接线玩家输入：.inputactions 资产、动作映射、PlayerInput 与控制方案。用于输入无反应或在菜单下触发、FindAction 返回 null、旧 Input 类抛错，或需要移植 Input.GetAxis 代码。不用于引擎中立的缓冲、重映射或死区（`input-systems`）或跳跃手感（`platformer`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "unity-navmesh",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/unity/unity-navmesh",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "unity-navmesh",
+                "summary": "Unity 6.3 LTS pathfinding with the AI Navigation package: NavMeshSurface baking, NavMeshAgent, NavMeshLink jumps and runtime rebakes. Use when a Unity enemy should chase or patrol, an agent will not move or warps, a path is partial, or the Bake tab is missing. Not for deciding when NPCs move (`game-ai`, `ai-behavior-trees-utility-ai`) or force-driven movement (`unity-physics`)."
+              },
+              "zh-CN": {
+                "name": "unity-navmesh",
+                "summary": "用 AI Navigation 包做 Unity 6.3 LTS 寻路：烘焙 NavMeshSurface、NavMeshAgent、NavMeshLink 跳跃与运行时重烘焙。用于 Unity 敌人应追击或巡逻、智能体不动或瞬移、路径不完整，或缺少 Bake 选项卡。不用于决定 NPC 何时移动（`game-ai`、`ai-behavior-trees-utility-ai`）或受力运动（`unity-physics`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "unity-physics",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/unity/unity-physics",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "unity-physics",
+                "summary": "Unity 6.3 LTS physics in 3D and 2D: Rigidbody and Rigidbody2D, forces and linearVelocity, the layer collision matrix and raycasts. Use when an object falls through the floor, OnTriggerEnter never fires, or a ground ray hits the player. Not for engine-neutral tunnelling tuning (`physics-tuning`), tilemap colliders (`unity-tilemap-2d`) or NavMesh (`unity-navmesh`)."
+              },
+              "zh-CN": {
+                "name": "unity-physics",
+                "summary": "Unity 6.3 LTS 的 3D 与 2D 物理：Rigidbody 与 Rigidbody2D、力与 linearVelocity、层碰撞矩阵与射线。用于物体掉穿地板、OnTriggerEnter 从不触发，或地面射线打到玩家。不用于引擎中立的穿透调校（`physics-tuning`）、图块碰撞体（`unity-tilemap-2d`）或 NavMesh（`unity-navmesh`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "unity-scriptableobjects",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/unity/unity-scriptableobjects",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "unity-scriptableobjects",
+                "summary": "Unity 6.3 LTS data and decoupling with ScriptableObjects: CreateAssetMenu config assets, shared runtime variables, event channels and .asset files made from code. Use for replacing singletons, data-driven items or cards, or values that persist after leaving Play mode. Not for saving progress (`save-systems`) or Godot Resources (`godot-resources`)."
+              },
+              "zh-CN": {
+                "name": "unity-scriptableobjects",
+                "summary": "用 ScriptableObject 做 Unity 6.3 LTS 的数据与解耦：CreateAssetMenu 配置资产、共享运行时变量、事件通道，以及用代码生成的 .asset 文件。用于替换单例、数据驱动的物品或卡牌，或离开 Play 模式后值仍残留。不用于保存进度（`save-systems`）或 Godot Resources（`godot-resources`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "unity-tilemap-2d",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/unity/unity-tilemap-2d",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "unity-tilemap-2d",
+                "summary": "Unity 6.3 LTS 2D tilemaps: the Tile Palette, Tilemap Collider 2D with a Composite Collider, Rule Tiles and runtime SetTile. Use for painting or generating a tile level, seams between tile colliders, RuleTile not found, or hex and isometric grids. Not for level design (`level-design`), generation (`procedural-gen`), movement (`unity-physics`) or Godot (`godot-tilemap`)."
+              },
+              "zh-CN": {
+                "name": "unity-tilemap-2d",
+                "summary": "Unity 6.3 LTS 的 2D 图块地图：Tile Palette、带 Composite Collider 的 Tilemap Collider 2D、Rule Tiles 与运行时 SetTile。用于绘制或生成图块关卡、图块碰撞体接缝、找不到 RuleTile，或六边形与等轴测网格。不用于关卡设计（`level-design`）、生成（`procedural-gen`）、移动（`unity-physics`）或 Godot（`godot-tilemap`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "unreal-behavior-trees",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/unreal/unreal-behavior-trees",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "unreal-behavior-trees",
+                "summary": "Unreal Engine 5 (UE 5.8) NPC AI with Behavior Trees, Blackboards, EQS and StateTree: decorators with Observer Aborts, C++ BTTask nodes and running trees from an AIController. Use for UE enemy AI, BT_, BB_ or EQS_ assets, \"my AI just stands there\" or \"MoveTo fails\". Not for engine-neutral BT or utility code (`ai-behavior-trees-utility-ai`) or choosing FSM vs BT (`game-ai`)."
+              },
+              "zh-CN": {
+                "name": "unreal-behavior-trees",
+                "summary": "用 Behavior Trees、Blackboards、EQS 与 StateTree 做 Unreal Engine 5（UE 5.8）的 NPC AI：带 Observer Aborts 的装饰器、C++ BTTask 节点，以及从 AIController 运行树。用于 UE 敌人 AI、BT_、BB_ 或 EQS_ 资产，“AI 只是站着”或 “MoveTo fails”。不用于引擎中立的行为树或效用代码（`ai-behavior-trees-utility-ai`），也不用于在 FSM 与 BT 之间选择（`game-ai`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "unreal-blueprints",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/unreal/unreal-blueprints",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "unreal-blueprints",
+                "summary": "Unreal Engine 5 (UE 5.8) Blueprint visual scripting: Blueprint Classes vs the Level Blueprint, Event Graph, and Cast, Interfaces and Event Dispatchers. Use for BP graphs, how one Blueprint calls another, \"cast failed\", slow Event Tick or Blueprint compile errors. Not for C++ (`unreal-cpp-gameplay`), input assets (`unreal-enhanced-input`) or AI trees (`unreal-behavior-trees`)."
+              },
+              "zh-CN": {
+                "name": "unreal-blueprints",
+                "summary": "Unreal Engine 5（UE 5.8）的蓝图可视化脚本：Blueprint Class 与关卡蓝图、Event Graph，以及 Cast、接口与 Event Dispatcher。用于蓝图图、一个蓝图如何调用另一个、“cast failed”、缓慢的 Event Tick 或蓝图编译错误。不用于 C++（`unreal-cpp-gameplay`）、输入资产（`unreal-enhanced-input`）或 AI 树（`unreal-behavior-trees`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "unreal-cpp-gameplay",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/unreal/unreal-cpp-gameplay",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "unreal-cpp-gameplay",
+                "summary": "Unreal Engine 5 (UE 5.8) C++ gameplay code: UCLASS and UPROPERTY reflection, the Gameplay Framework, GC-safe pointers, Build.cs and command-line builds. Use for GENERATED_BODY, Live Coding, \"unresolved external symbol\" or UHT errors. Not for Blueprints (`unreal-blueprints`), Enhanced Input (`unreal-enhanced-input`) or packaging (`unreal-packaging`); engine source builds are out of scope."
+              },
+              "zh-CN": {
+                "name": "unreal-cpp-gameplay",
+                "summary": "Unreal Engine 5（UE 5.8）的 C++ 玩法代码：UCLASS 与 UPROPERTY 反射、Gameplay Framework、GC 安全指针、Build.cs 与命令行构建。用于 GENERATED_BODY、Live Coding、“unresolved external symbol” 或 UHT 错误。不用于蓝图（`unreal-blueprints`）、Enhanced Input（`unreal-enhanced-input`）或打包（`unreal-packaging`）；引擎源码构建不在范围内。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "unreal-enhanced-input",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/unreal/unreal-enhanced-input",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "unreal-enhanced-input",
+                "summary": "Unreal Engine 5 (UE 5.8) player input with Enhanced Input: Input Actions (IA_), Mapping Contexts (IMC_), ETriggerEvent bindings and remappable keys. Use when wiring move, look or fire, building a rebind menu, or input does nothing, stops after respawn or fires every frame. Not for engine-neutral input design (`input-systems`) or the Character class (`unreal-cpp-gameplay`)."
+              },
+              "zh-CN": {
+                "name": "unreal-enhanced-input",
+                "summary": "用 Enhanced Input 做 Unreal Engine 5（UE 5.8）的玩家输入：Input Action（IA_）、Mapping Context（IMC_）、ETriggerEvent 绑定与可重映射按键。用于接线移动、视角或开火、做重绑定菜单，或输入无反应、重生后失效、每帧触发。不用于引擎中立的输入设计（`input-systems`）或 Character 类（`unreal-cpp-gameplay`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "unreal-niagara",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/unreal/unreal-niagara",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "unreal-niagara",
+                "summary": "Unreal Engine 5 (UE 5.8) Niagara VFX: systems, emitters, User parameters, spawning from C++ or Blueprints, bounds and GPU vs CPU sim. Use for any Unreal particle effect, NS_ assets, muzzle flashes or impacts, or effects that do not show, vanish at the screen edge or never stop. Not for Unity VFX Graph, shader authoring (`shader-programming`) or hit-stop (`game-feel`)."
+              },
+              "zh-CN": {
+                "name": "unreal-niagara",
+                "summary": "Unreal Engine 5（UE 5.8）的 Niagara 视效：系统、发射器、User 参数、从 C++ 或蓝图生成、边界以及 GPU 与 CPU 模拟。用于任何 Unreal 粒子效果、NS_ 资产、枪口焰或命中，或效果不显示、在屏幕边缘消失、永不停止。不用于 Unity VFX Graph、着色器编写（`shader-programming`）或击停（`game-feel`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "unreal-packaging",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/unreal/unreal-packaging",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "unreal-packaging",
+                "summary": "Packages and ships Unreal Engine 5 (UE 5.8) projects: Shipping builds, cooking, pak/IoStore and RunUAT BuildCookRun with UAT and cook log reading. Use for a packaged game with a black screen, a map missing in the build, \"BUILD FAILED\" or an AutomationTool exit code. Not for store uploads (`steam-publish`, `itch-publish`) or gameplay compile errors (`unreal-cpp-gameplay`)."
+              },
+              "zh-CN": {
+                "name": "unreal-packaging",
+                "summary": "打包并交付 Unreal Engine 5（UE 5.8）项目：Shipping 构建、cooking、pak/IoStore，以及用 UAT 与 cook 日志阅读的 RunUAT BuildCookRun。用于打包后黑屏、构建中缺少地图、“BUILD FAILED” 或 AutomationTool 退出码。不用于商店上传（`steam-publish`、`itch-publish`）或玩法编译错误（`unreal-cpp-gameplay`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "phaser-arcade-physics",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/web-engines/phaser-arcade-physics",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "phaser-arcade-physics",
+                "summary": "Phaser 4 Arcade Physics movement and collision: bodies, velocity, gravity, colliders vs overlaps, groups and bullet pools. Use for a Phaser platformer or top-down controller, or a sprite that ignores physics, onFloor() always false or bodies passing through walls. Not for scenes and the loader (`phaser-core`), coyote time (`platformer`) or tunnelling theory (`physics-tuning`)."
+              },
+              "zh-CN": {
+                "name": "phaser-arcade-physics",
+                "summary": "Phaser 4 Arcade Physics 的移动与碰撞：刚体、速度、重力、碰撞器与重叠、组与子弹池。用于 Phaser 平台或顶视角控制器，或精灵忽略物理、onFloor() 始终为假、刚体穿墙。不用于场景与加载器（`phaser-core`）、土狼时间（`platformer`）或穿透理论（`physics-tuning`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "phaser-core",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/web-engines/phaser-core",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "phaser-core",
+                "summary": "Sets up and debugs Phaser 4 games (and pinned Phaser 3.90): Game config, Scene lifecycle, the loader, scene transitions and Phaser 3 to 4 migration. Use when code imports phaser, or on a black screen, assets undefined in create, or a HUD scene behind the game. Not for colliders (`phaser-arcade-physics`), HUD layout (`game-ui-ux`) or PixiJS (`pixijs-rendering`)."
+              },
+              "zh-CN": {
+                "name": "phaser-core",
+                "summary": "搭建并调试 Phaser 4 游戏（以及固定的 Phaser 3.90）：Game 配置、Scene 生命周期、加载器、场景切换与 Phaser 3 到 4 的迁移。用于代码导入 phaser，或黑屏、create 中资源为 undefined、HUD 场景落在游戏后面。不用于碰撞器（`phaser-arcade-physics`）、HUD 布局（`game-ui-ux`）或 PixiJS（`pixijs-rendering`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "pixijs-rendering",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/web-engines/pixijs-rendering",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "pixijs-rendering",
+                "summary": "Builds and debugs 2D browser game rendering with PixiJS v8: async init, Assets loading, the Container and Sprite scene graph, pointer dragging and v7-to-v8 migration. Use when a game or playable ad uses pixi.js, or on a blank canvas, clicks not firing, or drag stopping at the sprite edge. Not for dashboards or charts, Phaser (`phaser-core`) or 3D (`threejs-scene-setup`)."
+              },
+              "zh-CN": {
+                "name": "pixijs-rendering",
+                "summary": "用 PixiJS v8 构建并调试 2D 浏览器游戏渲染：异步初始化、Assets 加载、Container 与 Sprite 场景图、指针拖拽，以及 v7 到 v8 迁移。用于使用 pixi.js 的游戏或可玩广告，或空白画布、点击不触发、拖拽在精灵边缘停止。不用于仪表盘或图表、Phaser（`phaser-core`）或 3D（`threejs-scene-setup`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "threejs-gltf-loading",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/web-engines/threejs-gltf-loading",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "threejs-gltf-loading",
+                "summary": "Loads glTF/GLB models into three.js r187 and plays their animations: GLTFLoader, DRACO, Meshopt and KTX2 decoders, AnimationMixer cross-fades and SkeletonUtils clones. Use when a model is invisible or tiny, decoder files 404, animations never play, or clones share one skeleton. Not for scene setup (`threejs-scene-setup`) or lighting (`threejs-materials-lighting`)."
+              },
+              "zh-CN": {
+                "name": "threejs-gltf-loading",
+                "summary": "把 glTF/GLB 模型加载进 three.js r187 并播放其动画：GLTFLoader、DRACO、Meshopt 与 KTX2 解码器、AnimationMixer 交叉淡化与 SkeletonUtils 克隆。用于模型不可见或过小、解码器文件 404、动画不播放，或克隆共享同一骨架。不用于场景搭建（`threejs-scene-setup`）或光照（`threejs-materials-lighting`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "threejs-materials-lighting",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/web-engines/threejs-materials-lighting",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "threejs-materials-lighting",
+                "summary": "Lights and shades three.js r187 scenes: standard, physical and unlit materials, lights, shadows, HDR environment lighting and tone mapping. Use when a mesh renders black or washed out, shadows are missing or full of acne, or EffectComposer darkens the image. Not for renderer setup (`threejs-scene-setup`), model loading (`threejs-gltf-loading`) or custom shaders (`shader-programming`)."
+              },
+              "zh-CN": {
+                "name": "threejs-materials-lighting",
+                "summary": "为 three.js r187 场景打光与着色：standard、physical 与 unlit 材质、灯光、阴影、HDR 环境光与色调映射。用于网格全黑或过曝、阴影缺失或粉刺，或 EffectComposer 让画面变暗。不用于渲染器搭建（`threejs-scene-setup`）、模型加载（`threejs-gltf-loading`）或自定义着色器（`shader-programming`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "threejs-scene-setup",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/web-engines/threejs-scene-setup",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "threejs-scene-setup",
+                "summary": "Sets up and debugs a plain three.js r187 game or 3D scene: import maps, Scene, PerspectiveCamera and WebGLRenderer, setAnimationLoop with Timer, resize, OrbitControls and WebGPURenderer. Use on \"Failed to resolve module specifier three\", a black canvas or nothing animating. Not for GLB loading (`threejs-gltf-loading`), materials (`threejs-materials-lighting`) or React Three Fiber."
+              },
+              "zh-CN": {
+                "name": "threejs-scene-setup",
+                "summary": "搭建并调试普通 three.js r187 游戏或 3D 场景：import maps、Scene、PerspectiveCamera 与 WebGLRenderer、带 Timer 的 setAnimationLoop、缩放、OrbitControls 与 WebGPURenderer。用于 “Failed to resolve module specifier three”、黑色画布或没有动画。不用于 GLB 加载（`threejs-gltf-loading`）、材质（`threejs-materials-lighting`）或 React Three Fiber。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "game-docs",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/workflows/game-docs",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "game-docs",
+                "summary": "Writes and maintains a game's design docs: a one-page GDD with a feature index and short feature notes, kept true to the code by a link and status checker. Use for \"draft a GDD\", \"spec out this mechanic\", or updating docs after a playtest or code change. Not for building a game when no docs were asked for (`prototype-fast`, `game-jam`), READMEs or level layouts (`level-design`)."
+              },
+              "zh-CN": {
+                "name": "game-docs",
+                "summary": "编写并维护游戏设计文档：一页 GDD，带功能索引与简短功能说明，并用链接与状态检查器与代码保持一致。用于“起草 GDD”、“写清这个机制”，或在试玩或改代码后更新文档。不用于未要求文档时直接做游戏（`prototype-fast`、`game-jam`）、README 或关卡布局（`level-design`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "game-jam",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/workflows/game-jam",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "game-jam",
+                "summary": "Plans and ships a game jam entry against a fixed deadline: reads the jam rules, scopes to the clock, keeps a cut list and checks the build before submitting. Use for Ludum Dare, GMTK, Global Game Jam or any itch.io jam, a 48-hour game, or \"we're behind, what do we cut\". Not for untimed experiments (`prototype-fast`) or upload commands (`itch-publish`)."
+              },
+              "zh-CN": {
+                "name": "game-jam",
+                "summary": "在固定截止日期内规划并交付游戏 jam 作品：阅读 jam 规则、按时间收范围、维护砍功能清单，并在提交前检查构建。用于 Ludum Dare、GMTK、Global Game Jam 或任何 itch.io jam、48 小时游戏，或“我们落后了，该砍什么”。不用于不限时实验（`prototype-fast`）或上传命令（`itch-publish`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "itch-publish",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/workflows/itch-publish",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "itch-publish",
+                "summary": "Publishes and updates games on itch.io with the butler CLI: butler push to user/game:channel, channel platform tags, HTML5 builds, --userversion and CI uploads. Use for \"upload to itch\", an HTML5 game that downloads instead of playing, a blank or 403 web build, or \"invalid target\". Not for Steam (`steam-publish`) or jam scope (`game-jam`)."
+              },
+              "zh-CN": {
+                "name": "itch-publish",
+                "summary": "用 butler CLI 在 itch.io 发布并更新游戏：butler push 到 user/game:channel、频道平台标签、HTML5 构建、--userversion 与 CI 上传。用于“上传到 itch”、HTML5 游戏变成下载而不是游玩、空白或 403 网页构建，或 “invalid target”。不用于 Steam（`steam-publish`）或 jam 范围（`game-jam`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "prototype-fast",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/workflows/prototype-fast",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "prototype-fast",
+                "summary": "Builds a throwaway playable prototype in about an hour to answer one question, usually \"is this mechanic fun?\": a one-question brief, a greybox, a debug HUD, a playtest and a keep, kill or retune call. Use for \"prototype this\", \"just get something playable\" or whether to keep prototype code. Not for a timed jam (`game-jam`) or level blockouts (`level-design`)."
+              },
+              "zh-CN": {
+                "name": "prototype-fast",
+                "summary": "大约一小时内做出可扔掉的可玩原型，用来回答一个问题，通常是“这个机制好玩吗？”：一问简报、灰盒、调试 HUD、试玩，以及保留、放弃或重调的决定。用于“先做个原型”、“先弄出能玩的东西”，或是否保留原型代码。不用于限时 jam（`game-jam`）或关卡体块（`level-design`）。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "steam-publish",
+            "parentId": "gamedev-agent-skills"
+          },
+          "path": "skills/workflows/steam-publish",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "en-US": {
+                "name": "steam-publish",
+                "summary": "Publishes or updates a game on Steam with Steamworks and SteamPipe: depots, app_build .vdf scripts, steamcmd uploads, beta branches, SetLive, store review and Coming Soon. Use for steamcmd, ContentBuilder, \"Failed to get application info\", Steam Deck Verified or \"ship it on Steam\". Not for itch.io (`itch-publish`) or Steamworks SDK calls in game code."
+              },
+              "zh-CN": {
+                "name": "steam-publish",
+                "summary": "用 Steamworks 与 SteamPipe 在 Steam 发布或更新游戏：depot、app_build .vdf 脚本、steamcmd 上传、beta 分支、SetLive、商店审核与即将推出。用于 steamcmd、ContentBuilder、“Failed to get application info”、Steam Deck Verified 或“要上 Steam”。不用于 itch.io（`itch-publish`）或游戏代码中的 Steamworks SDK 调用。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        }
+      ]
+    }
   }
 }

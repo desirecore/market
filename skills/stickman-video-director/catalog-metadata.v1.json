@@ -10,13 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "Stickman Video Director",
-        "summary": "Optional local MIT package of the stickman video director skill, with scripts, fonts, licenses, style boards and catalogs. B-mode soundtrack audio, B6 style-lock reference videos, the B6 paint kit and the approved B8 reference/replay packs are not shipped; fetch them on demand from pin-fixed URLs with SHA-256 checks. The fetch script is never run automatically and does not execute downloads. Node.js 20+ and the declared npm packages are required for the local Code Engine renderer.",
-        "description": "Market-local packaging of kaomei/stickman-video-director@10287822ba47579321068da1b93801face9160dd path skills/directing-stickman-videos, with the repository-root MIT LICENSE copied into the installed content directory. Package version 2026.11.24. On-demand asset groups and exclusion reasons are recorded in UPSTREAM.md and references/fetch-manifest.json."
+        "summary": "Stickman animation skill that turns scripts into faceless videos with voiceover, captions and an audio library. MIT license is present, but this snapshot stays listing-only: 176 files over 1 MiB (about 812 MiB), including 112 inside skills/directing-stickman-videos, so a git install of the skill path exceeds the ordinary audit budget.",
+        "description": "Pinned at 10287822ba47579321068da1b93801face9160dd. Root LICENSE is MIT. The skill path is skills/directing-stickman-videos; large reference videos, baselines and audio-library files are inside that path, so excludePaths would not keep them out of a git install. Nested audio license evidence also exists under the skill assets. No slim local package was admitted in this change."
       },
       "zh-CN": {
         "name": "火柴人视频导演",
-        "summary": "火柴人视频导演技能的可选 MIT 本地包，收录脚本、字体、许可证、风格样板和目录。B 模式配乐音频、B6 风格锁定参考视频、B6 绘制底板，以及已批准的 B8 参考/回放包不随包分发；需按固定 URL 与 SHA-256 清单按需下载。下载脚本不会自动运行，也不会执行下载的文件。本地代码引擎渲染器需要 Node.js 20+ 和已声明的 npm 依赖。",
-        "description": "基于 kaomei/stickman-video-director@10287822ba47579321068da1b93801face9160dd 路径 skills/directing-stickman-videos 的市场本地包装，并把仓库根目录 MIT LICENSE 放入安装内容目录。包版本 2026.11.24。按需资源分组与排除理由见 UPSTREAM.md 和 references/fetch-manifest.json。"
+        "summary": "火柴人动画技能，可将脚本做成口播、字幕和无脸视频，并带音频库。已有 MIT 许可，但本快照保持仅收录：有 176 个超过 1 MiB 的文件（约 812 MiB），其中 112 个位于 skills/directing-stickman-videos，按技能路径做 Git 安装会超出普通审核预算。",
+        "description": "固定版本 10287822ba47579321068da1b93801face9160dd。根 LICENSE 为 MIT。技能路径为 skills/directing-stickman-videos；大型参考视频、基线和音频库文件位于该路径内，excludePaths 不能把它们排除在 Git 安装之外。技能资源中还有嵌套的音频许可证据。本次未准入精简本地包。"
       }
     },
     "category": "media",
@@ -28,9 +28,7 @@
     ]
   },
   "release": {
-    "state": "known",
-    "version": "2026.11.24",
-    "versionScheme": "calver"
+    "state": "unknown"
   },
   "timestamps": {
     "catalogUpdatedAt": {
@@ -62,7 +60,7 @@
   },
   "governance": {
     "stewardship": "community",
-    "availability": "installable",
+    "availability": "listing-only",
     "license": {
       "state": "known",
       "value": "MIT",
@@ -73,47 +71,14 @@
       "name": "kaomei",
       "url": "https://github.com/kaomei/stickman-video-director",
       "verified": false
-    },
-    "listingMaintainer": {
-      "name": "mashagua",
-      "url": "https://github.com/mashagua",
-      "verified": true
-    },
-    "compliance": {
-      "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "10287822ba47579321068da1b93801face9160dd",
-      "reviewedAt": "2026-11-24",
-      "reviewedBy": "mashagua",
-      "upstreamEndorsed": false,
-      "noticePath": "UPSTREAM.md"
     }
   },
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    },
-    "requirements": [
-      {
-        "kind": "runtime",
-        "value": "Node.js 20+ and the declared npm packages in package.json (@napi-rs/canvas, sharp) for the local Code Engine renderer. These binaries are not bundled."
-      },
-      {
-        "kind": "runtime",
-        "value": "Some B-mode helper scripts need Python 3 and, for B8, packages listed in scripts/requirements-b8.txt."
-      },
-      {
-        "kind": "runtime",
-        "value": "B-mode soundtrack audio, B6 style-lock videos, the B6 paint kit and approved B8 references are fetched only by an explicit run of scripts/fetch-optional-assets.py against pin-fixed URLs and SHA-256 hashes. Install does not run this script or execute downloads."
-      },
-      {
-        "kind": "runtime",
-        "value": "No paid API is bundled. Do not auto-run untrusted remote code."
-      }
-    ]
+    }
   },
   "spec": {
-    "kind": "skill",
-    "riskLevel": "high",
-    "skillType": "hybrid"
+    "kind": "skill"
   }
 }

@@ -10,13 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "GIF Factory",
-        "summary": "Optional local MIT package of the GIF factory skill and five companions for stickers, lenticular cards, motion posters, signatures, film titles, article-cover palettes, storybooks and related styles. Scripts, fonts, templates, references, the 100 color cards and LICENSE are included. Example renders and preview catalogs stay at the pinned upstream and are not shipped. Python 3 and Pillow are required for common sticker export; FFmpeg is needed only for optional MP4 previews. No generative models or paid services are bundled.",
-        "description": "Market-local packaging of WoYun520/gif-factory@e89003a4a6ca4fd0e9e39c8859851b58c82bc368. The installer copies only the skill content directory. Package version 2026.11.24. See UPSTREAM.md for the same-pin per-file manifest and exclusion reasons."
+        "summary": "GIF factory skill for stickers, lenticular cards, motion posters and related styles, plus five companion skills. MIT license is present, but this snapshot stays listing-only: the pin contains hundreds of files over 1 MiB (about 676 MiB), including assets inside skills/, so a full git install exceeds the ordinary audit budget.",
+        "description": "Pinned at e89003a4a6ca4fd0e9e39c8859851b58c82bc368. Root LICENSE is MIT. The tree has a root SKILL.md plus five skills/* companions and 245 files over 1 MiB (about 676 MiB), including 179 under skills/. excludePaths would only skip automatic audit traversal and would not stop a git installer from fetching those files. No slim local package was admitted in this change."
       },
       "zh-CN": {
         "name": "GIF 工厂",
-        "summary": "GIF 工厂技能及其五个配套技能的可选 MIT 本地包，用于表情包、光栅卡、动态海报、动态签名、电影片头、文章封面配色、动态绘本及相关风格。收录脚本、字体、模板、参考说明、100 张色卡和 LICENSE。示例成片和预览图库仍留在固定上游版本，不随包分发。常用表情包导出需要自行准备 Python 3 与 Pillow；仅在可选 MP4 预览时需要 FFmpeg。本包不附带生图模型或付费服务。",
-        "description": "基于 WoYun520/gif-factory@e89003a4a6ca4fd0e9e39c8859851b58c82bc368 的市场本地包装。安装器只复制技能内容目录。包版本 2026.11.24。同 pin 的逐文件清单与排除理由见 UPSTREAM.md。"
+        "summary": "GIF 工厂技能，用于表情包、光栅卡、动态海报等风格，另含五个配套技能。已有 MIT 许可，但本快照保持仅收录：固定版本含数百个超过 1 MiB 的文件（约 676 MiB），且技能目录内也有大资源，完整 Git 安装超出普通审核预算。",
+        "description": "固定版本 e89003a4a6ca4fd0e9e39c8859851b58c82bc368。根 LICENSE 为 MIT。树中有根 SKILL.md 和五个 skills/* 配套技能，以及 245 个超过 1 MiB 的文件（约 676 MiB），其中 179 个位于 skills/。excludePaths 只会跳过自动审核遍历，不能阻止 Git 安装器拉取这些文件。本次未准入精简本地包。"
       }
     },
     "category": "media",
@@ -28,9 +28,7 @@
     ]
   },
   "release": {
-    "state": "known",
-    "version": "2026.11.24",
-    "versionScheme": "calver"
+    "state": "unknown"
   },
   "timestamps": {
     "catalogUpdatedAt": {
@@ -61,7 +59,7 @@
   },
   "governance": {
     "stewardship": "community",
-    "availability": "installable",
+    "availability": "listing-only",
     "license": {
       "state": "known",
       "value": "MIT",
@@ -72,47 +70,14 @@
       "name": "WoYun520",
       "url": "https://github.com/WoYun520/gif-factory",
       "verified": false
-    },
-    "listingMaintainer": {
-      "name": "mashagua",
-      "url": "https://github.com/mashagua",
-      "verified": true
-    },
-    "compliance": {
-      "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "e89003a4a6ca4fd0e9e39c8859851b58c82bc368",
-      "reviewedAt": "2026-11-24",
-      "reviewedBy": "mashagua",
-      "upstreamEndorsed": false,
-      "noticePath": "UPSTREAM.md"
     }
   },
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    },
-    "requirements": [
-      {
-        "kind": "runtime",
-        "value": "Python 3 and Pillow in a private environment for common sticker export."
-      },
-      {
-        "kind": "runtime",
-        "value": "FFmpeg is required only when using --preview to write an MP4."
-      },
-      {
-        "kind": "runtime",
-        "value": "Example renders and preview catalogs are not shipped; they remain at the pinned upstream commit."
-      },
-      {
-        "kind": "runtime",
-        "value": "No generative model or paid service is bundled. The optional lemo-opuscar skill is not included."
-      }
-    ]
+    }
   },
   "spec": {
-    "kind": "skill",
-    "riskLevel": "medium",
-    "skillType": "hybrid"
+    "kind": "skill"
   }
 }

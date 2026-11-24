@@ -1,2 +1,0 @@
-﻿# patent_reader.vault
-

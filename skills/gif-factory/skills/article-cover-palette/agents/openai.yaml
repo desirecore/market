@@ -1,4 +1,0 @@
-interface:
-  display_name: "文章配色 · 100套"
-  short_description: "从文章内容挑选配色，说明底色、标题和点缀怎么搭，可将方案交给Punk制作封面。"
-  default_prompt: "使用 $article-cover-palette，为这篇文章推荐配色并说明颜色分工，只交付选色方案；需要制作封面时，再交给Punk或其他封面工具。"
