@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "reviewer": "automated:source-license-metadata-v1",
-  "reviewedAt": "2026-11-22T14:30:43Z",
+  "reviewedAt": "2026-11-24T01:39:27Z",
   "source": {
     "url": "https://github.com/morluto/rea.git",
-    "previousRef": "79d2fc05405c76bc0a8f71b9c10355135da4747b",
-    "ref": "87889b8729da8a02a4159bc7274c92be52464031",
+    "previousRef": "87889b8729da8a02a4159bc7274c92be52464031",
+    "ref": "57f4e3c4bd7577336f344f5ec5b14a5ea0c9ce6b",
     "paths": [
       ".agents/skills/reverse-engineer-anything"
     ]
@@ -35,17 +35,15 @@
     "licenses/ghidra-12.2-NOTICE.txt": "ad4b2bb6e75e908251226180081b5afa01c7161d7710e08b603d0c340a08a23f",
     "licenses/microsoft-uf2-MIT.txt": "c581accf1e5449482b70ac5fcdfb171599317ccff559cf0794d771671486f800",
     "licenses/nativeaot-parser-MIT.txt": "7f6ad98b7d1d65a39daf369ab2bda361b617f9bb01cc3706a5217d7578ed6b05",
-    "licenses/npm-dependencies.txt": "a0920fad15dc38f53994eb18708ba5070c917d1700b4218faf5a3dca2cf5ca5e",
-    "licenses/npm-runtime-notices.txt": "94e8db608090d9dc0ca449964f9915de59ac94a3f384d4874da97bc5994bae74",
+    "licenses/npm-dependencies.txt": "5472d2f06f05f3277421e0c01c962b354e9fb475639cccf55f608097dd7c91ce",
+    "licenses/npm-runtime-notices.txt": "94e737fe517a190c07d2c04964e37f0e66cd6f84c233ccb6efdae71d38469d0e",
     "licenses/pefile-2024.8.26-LICENSE.txt": "b44409c067c6da52bfb54bb6624fb11a7b52157c3a13ae1400232f8196e86ad3",
     "licenses/protobuf-es-v2.16.0-LICENSE.txt": "c04b4216f1cd4c5a4f7fb2f2a1b0ae70d847e9e0cac7c9dee9bf8cc03177c449",
     "licenses/upstream-sources.json": "dfc8853fcfafd440abc34adbdc3c5ebb51bf372783f3ab402164668b46c5bfaa",
     "licenses/xterm-MIT.txt": "b569f629d00f2626a8100df2a1798210535621e42164dfd426a6fe5aac7b0ccd"
   },
-  "observedVersions": {
-    ".agents/skills/reverse-engineer-anything": "63.0.0"
-  },
-  "contentManifestSha256": "82a87720f9f4d5e3df84a40db9dfe9d94c55377a89f32d360f55b106692a06cd",
+  "observedVersions": {},
+  "contentManifestSha256": "7fb2b21654df2862aea97b0869013e41ce40657074d4fae21eeedab9b9794c63",
   "fileCount": 11,
   "limitations": [
     "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
@@ -54,8 +52,8 @@
     "根 licenses/ 等许可目录内的第三方许可文本如有变化，已按专项复核记录中的目录清单哈希核对，不代表与旧快照逐文件相同；不接受根 LICENSE/NOTICE/COPYING 文件被删除或改成非普通文件。"
   ],
   "specialReview": {
-    "reviewedBy": "mashagua",
-    "reviewedAt": "2026-11-22",
+    "reviewedBy": "DesireCore",
+    "reviewedAt": "2026-11-24",
     "excludePaths": [],
     "budgetExemptPaths": []
   }

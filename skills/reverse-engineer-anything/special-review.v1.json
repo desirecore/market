@@ -1,16 +1,13 @@
 {
   "schemaVersion": 1,
-  "reviewedBy": "mashagua",
-  "reviewedAt": "2026-11-22",
-  "notes": "Class C review of reverse-engineer-anything 87889b8729da8a02a4159bc7274c92be52464031 against 79d2fc05405c76bc0a8f71b9c10355135da4747b. This receipt is written against the root-evidence tooling that no longer misclassifies a normal licenses/ directory as a broken LICENSE file; it is not reproducible with the auditor currently on main. Root MIT LICENSE was read and is a regular unchanged file (git blob 2d476d24fa5a9ae2ab35e5fd121494049eb2ee5d, content sha256 798f9e4d18e49b30bf2f12696c8ced73dc4e1413da375a333d01281543a1ea8b, Copyright 2026 morluto). Root package.json 6.8.0 → 6.10.1 (new identity 9b940491af660c79865ca27c9ac220caf6f1fa9a74712fe3c51806075a6c456e); package-lock.json blob 67a4b07da6dd6c51b13dc5720ca477294a333658 → f52ba5ae04bdc0ecc60fde06bcc9a9169b5e3be3. Runtime deps add graphql@17.1.0, @toon-format/toon@2.3.1, lzma-purejs@0.9.3; remove incur@0.6.1; move @electron/asar@4.2.0 from dependencies to devDependencies; devDeps also add markdown-it@15.0.3. Engines remain Node.js ^22.23.4 || ^24.22.1 || >=26.12.1; package license remains MIT. SKILL.md stable frontmatter adds Linux desktop AgentEnv recording from a task/request (accepted sha256 8f1cd6a0103fd63fa11525bb4a5d5dd377511d3f17a0b7cb5a61d3f339bb6e13); install-path also adds references/desktop-build.md and updates other references. Root licenses/ third-party texts were reviewed and are not claimed unchanged: ghidra 12.1.4 → 12.2 is a same-blob rename of LICENSE/NOTICE/DISCLAIMER; added microsoft-uf2-MIT.txt (standard MIT, Copyright Microsoft Corporation, source pinned in upstream-sources.json); npm-dependencies.txt / npm-runtime-notices.txt / README.md / upstream-sources.json updated for the lockfile and notices (including graphql MIT, lzma-purejs BSD/README, and incur no longer a runtime dependency). Directory manifest sha256 173e41d7be5787c8e2eb11f21eeb44aa8c791816f81e0bdc5e6f0883fc2e6bef. DesireCore installs only .agents/skills/reverse-engineer-anything; it does not install the REA CLI, root npm dependencies, or the repo-root licenses/ directory. Audit does not execute upstream code.",
+  "reviewedBy": "DesireCore",
+  "reviewedAt": "2026-11-24",
+  "notes": "Read-only review of the install subtree and root evidence. Root MIT LICENSE is unchanged. The two changed root licenses/ files refresh npm manifests and notices for @modelcontextprotocol/client, core and server 2.3.1 to 2.4.0. The new registry metadata matches the pinned package-lock integrity fields and Apache-2.0 notices for all three. Root THIRD_PARTY_NOTICES updates the separately supplied JADX MCP and mitmproxy versions. The four installed documentation files update local artifact selection and MCP recovery guidance. Root npm dependencies, tools, and notices outside the skill subtree are separately supplied. No external tool or npm lifecycle was run.",
   "acceptedDependencyIdentities": {
-    "package-lock.json": "f52ba5ae04bdc0ecc60fde06bcc9a9169b5e3be3",
-    "package.json": "9b940491af660c79865ca27c9ac220caf6f1fa9a74712fe3c51806075a6c456e"
-  },
-  "acceptedFrontmatterSha256": {
-    ".agents/skills/reverse-engineer-anything": "8f1cd6a0103fd63fa11525bb4a5d5dd377511d3f17a0b7cb5a61d3f339bb6e13"
+    "package.json": "42f95eca8096e253649a2e09f5f47694ddeea4bf0bb433725924f1fdb70ed8c5",
+    "package-lock.json": "9b694207407f2447c479543b815f1b3d928fe418"
   },
   "acceptedRootLicenseDirectoryManifestSha256": {
-    "licenses": "173e41d7be5787c8e2eb11f21eeb44aa8c791816f81e0bdc5e6f0883fc2e6bef"
+    "licenses": "eebd7ddc69390eb97299603e9aa9a75e733c0799025b9b5974c638571631db05"
   }
 }
