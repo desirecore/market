@@ -1,6 +1,6 @@
 {
   "id": "archify",
-  "name": "Archify",
+  "name": "Archify (DesireCore diagrams)",
   "category": "development",
   "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\"><rect x=\"3\" y=\"4\" width=\"7\" height=\"6\" rx=\"1\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"6\" rx=\"1\" stroke=\"#2563EB\" stroke-width=\"1.7\"/><path d=\"M6.5 10v3.5H17.5V14\" stroke=\"#2563EB\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
   "tags": [
@@ -11,12 +11,12 @@
   ],
   "i18n": {
     "zh-CN": {
-      "name": "Archify",
-      "shortDesc": "把代码库或系统描述编译成可交互、可校验的图（架构/流程/时序/数据流/生命周期/ER/类/树/时间线/瀑布），或做成一页式讲解页，产出自带动效、可导出的单文件 HTML/SVG，适配 Claude Code、Codex、Cursor。需 Node.js 18+ 与本地 Chrome、Chromium 或 Edge；交付时会做有限的上游更新检查，主动讲解模式仅在用户同意后写入智能体全局规则。"
+      "name": "Archify（DesireCore 绘图版）",
+      "shortDesc": "生成架构图、流程图、时序图等可交互图表，以及讲解页和故事。基于 3.3.0 的绘图版支持实时预览、单文件 HTML 和 SVG 导出。需 Node.js 18+ 和本地 Chromium 系浏览器；故事导出为 MP4 需 FFmpeg。"
     },
     "en-US": {
-      "name": "Archify",
-      "shortDesc": "Compile a codebase or system description into interactive, verifiable diagrams (architecture, workflow, sequence, data flow, lifecycle, ERD, class, tree, timeline, waterfall) or a one-page explainer — self-contained HTML/SVG with motion and export, for Claude Code, Codex and Cursor. Requires Node.js 18+ and a local Chrome, Chromium or Edge; delivery runs a bounded upstream update check, and proactive explainer mode edits the agent's global rules only after the user agrees."
+      "name": "Archify (DesireCore diagrams)",
+      "shortDesc": "Create architecture, workflow, sequence and other native diagrams, explainers and stories. The 3.3.0-based drawing edition supports live preview, self-contained HTML and SVG export. Requires Node.js 18+ and a local Chromium-family browser; FFmpeg is needed for MP4 story export."
     }
   },
   "maintainer": {
@@ -30,10 +30,10 @@
   "redistribution": "allowed",
   "source": {
     "kind": "git",
-    "repoUrl": "https://github.com/tt-a1i/archify.git",
-    "repoBranch": "main",
-    "ref": "a7ed6fd6657da90414831d1d42cf95987188750c",
+    "repoUrl": "https://github.com/desirecore/archify.git",
+    "repoBranch": "market",
+    "ref": "c2a27f4154c39610429212cb5573e38ffdeb2508",
     "path": "archify"
   },
-  "latestVersion": "3.2.0"
+  "latestVersion": "3.3.0"
 }
