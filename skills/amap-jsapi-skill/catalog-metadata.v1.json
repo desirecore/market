@@ -10,11 +10,11 @@
     "i18n": {
       "en-US": {
         "name": "AMap JSAPI Skill",
-        "summary": "AMap JSAPI v2.0 (WebGL) development skill covering map lifecycle, security config, 3D views, overlays and LBS services"
+        "summary": "Complete ClawHub 1.1.1 ZIP: 36 files including all 33 reference docs and the security guide. Requires your AMap Web JSAPI Key and securityJsCode or serviceHost proxy; AMap quotas and billing apply."
       },
       "zh-CN": {
         "name": "高德地图 JSAPI 技能",
-        "summary": "高德地图 JSAPI v2.0（WebGL）开发技能，涵盖地图生命周期、安全配置、3D 视图、覆盖物绘制与 LBS 服务集成"
+        "summary": "ClawHub 1.1.1 完整 ZIP：36 文件，含全部 33 个引用文档和安全指南。需自备高德 Web JSAPI Key、安全密钥或 serviceHost 代理；适用高德配额及收费条款。"
       }
     },
     "category": "development",
@@ -30,46 +30,76 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-08-30T18:00:09Z",
-      "precision": "second"
+      "value": "2026-11-24",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-11-24",
+      "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-08-30T18:00:09Z",
-      "precision": "second"
+      "value": "2026-11-24",
+      "precision": "day"
     }
   },
   "provenance": {
     "content": {
-      "kind": "web",
-      "url": "https://clawhub.ai/api/v1/skills/amap-jsapi-skill/file?path=SKILL.md&ownerHandle=lbs-amap",
-      "sha256": "cf2f06cc5abf5e41a626f823c50575ab52c81aecbceca5abd4e69d56ca5c5d75"
+      "kind": "zip",
+      "url": "https://clawhub.ai/api/v1/download?slug=amap-jsapi-skill&version=1.1.1&ownerHandle=lbs-amap",
+      "sha256": "9468743ee18dbe1704e8a98f47f6628d6a4e6acec30a05f0b8f59a07603d011f"
     }
   },
   "governance": {
     "stewardship": "community",
-    "availability": "listing-only",
+    "availability": "installable",
     "license": {
       "state": "known",
-      "value": "MIT"
+      "value": "MIT",
+      "evidencePath": "SKILL.md"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {
       "name": "lbs-amap",
       "url": "https://clawhub.ai/lbs-amap/skills/amap-jsapi-skill",
       "verified": false
+    },
+    "listingMaintainer": {
+      "name": "mashagua",
+      "url": "https://github.com/mashagua",
+      "verified": true
+    },
+    "compliance": {
+      "licenseEvidencePath": "SKILL.md",
+      "noticePath": "skill-card.md",
+      "reviewedRef": "9468743ee18dbe1704e8a98f47f6628d6a4e6acec30a05f0b8f59a07603d011f",
+      "reviewedAt": "2026-11-24",
+      "reviewedBy": "mashagua",
+      "upstreamEndorsed": false
     }
   },
   "compatibility": {
     "platforms": {
       "state": "unknown"
-    }
+    },
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Full unmodified ClawHub lbs-amap 1.1.1 ZIP (36 files, all 33 referenced docs including references/security.md); SHA-256 9468743ee18dbe1704e8a98f47f6628d6a4e6acec30a05f0b8f59a07603d011f. SKILL.md is at ZIP root; no source.path is needed."
+      },
+      {
+        "kind": "connection",
+        "value": "Supply your own AMap Web JSAPI Key and securityJsCode, or a correctly configured backend serviceHost proxy. Keep sensitive values in private host configuration; production must not expose security credentials. AMap account authorization, allowed domains, quotas, usage terms and possible billing are separate."
+      },
+      {
+        "kind": "runtime",
+        "value": "License declaration discrepancy is preserved: SKILL.md declares MIT; skill-card.md and ClawHub metadata declare MIT-0. There is no standalone LICENSE. This reviewed listing follows the SKILL MIT declaration conservatively and retains attribution; it does not claim upstream clarified or granted dual licensing. See ADMISSION.md in the market listing."
+      }
+    ]
   },
   "spec": {
     "kind": "skill"
