@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "mashagua",
+  "reviewedAt": "2026-11-25",
+  "notes": "Exact-target read-only review: 22c2e72e1a4bb0fc0f3e19f992fc55615b48989e -> 65452b9258f31ed2893734c86481216d2e4105ff. The only four changed files are feed-blogs.json, feed-podcasts.json, feed-x.json and state-feed.json, all parseable JSON data with unchanged top-level key sets. README.md, SKILL.md, all scripts, package.json and lockfile are byte-identical. README.md SHA256 ed622ec7b1c36417b3b5d684cb995611ce55c2f1987d8a7a6815c314f4447db7 ends with the one-line MIT declaration and remains inside the whole-repository install scope. Explicitly accept the same catalog-specific one-line-license exception for the exact new pin, not all future snapshots. Third-party feed content retains its own rights/terms; this is not third-party-content relicensing, a security certification, or runtime/delivery acceptance. No upstream code or external delivery was executed. Detailed changed-file hashes and boundaries: docs/follow-builders-snapshot-review-20261125.md."
+}

@@ -11,12 +11,12 @@
       "en-US": {
         "name": "Follow Builders",
         "summary": "Curate AI-builder updates from a public podcast, X and blog feed. Requires networking; scripts need Node.js/npm dependencies. Telegram or email delivery needs separately configured accounts and authorization.",
-        "description": "This snapshot still has no standalone LICENSE file. For the pinned commit 22c2e72 only, the Market accepted the README's one-line MIT declaration as a reviewed exception and lists this snapshot as installable. Public-feed and third-party content retain their respective rights and service terms. Scripts require separately installed Node.js and the declared npm dependencies (dotenv ^16.4.0 and proper-lockfile ^4.1.0). Telegram/Resend delivery requires operator credentials, applicable fees and explicit send/schedule authorization. Report unavailable feeds, dependencies or permissions."
+        "description": "This snapshot has no standalone LICENSE file. For pinned commit 65452b9258f31ed2893734c86481216d2e4105ff, mashagua explicitly re-reviewed the unchanged README's one-line MIT declaration and accepted the same Market-specific exception as the previous pin 22c2e72; this snapshot is installable. The README remains inside the whole-repository install scope. Only four JSON feed/state files changed; instructions, scripts and declared dependencies are unchanged. This does not extend the exception to future versions or relicense third-party feed content. Public-feed and third-party content retain their respective rights and service terms. Scripts require separately installed Node.js and the declared npm dependencies (dotenv ^16.4.0 and proper-lockfile ^4.1.0). Telegram/Resend delivery requires operator credentials, applicable fees and explicit send/schedule authorization. Report unavailable feeds, dependencies or permissions. No upstream code execution or actual external delivery was tested."
       },
       "zh-CN": {
         "name": "Follow Builders",
         "summary": "追踪 AI 开发者、研究者与创始人的公开动态，整理播客、X 和博客摘要。需联网；脚本另需 Node.js 和 npm 依赖，Telegram/邮件推送需自备账号并授权。",
-        "description": "该快照仍无独立 LICENSE 文件。仅针对固定提交 22c2e72，Market 经审核例外接受 README 中的一行 MIT 声明作为许可依据，并将此快照标为可安装。公共信源与第三方内容仍受其各自权利和服务条款约束。脚本需另装 Node.js 及已声明的 npm 依赖（dotenv ^16.4.0 和 proper-lockfile ^4.1.0）。Telegram/Resend 推送需自备凭据、确认费用并明确授权发送或定时。信源、依赖或权限不可用时说明阻碍。"
+        "description": "该快照无独立 LICENSE 文件。针对固定提交 65452b9258f31ed2893734c86481216d2e4105ff，mashagua 已重新核对未变化的 README 一行 MIT 声明，明确接受与旧固定提交 22c2e72 相同的 Market 目录专用例外，将此新快照标为可安装。README 仍在整库安装范围内。差异仅为四个 JSON 信源/状态文件；技能指令、脚本和已声明依赖均未变化。此例外不自动适用于未来版本，也不为第三方信源内容重新授权。公共信源与第三方内容仍受其各自权利和服务条款约束。脚本需另装 Node.js 及已声明的 npm 依赖（dotenv ^16.4.0 和 proper-lockfile ^4.1.0）。Telegram/Resend 推送需自备凭据、确认费用并明确授权发送或定时。信源、依赖或权限不可用时说明阻碍。未执行上游代码，未验收真实外部推送。"
       }
     },
     "category": "productivity",
@@ -30,7 +30,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-25T01:26:41Z",
+      "value": "2026-11-25T03:36:37Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -43,7 +43,7 @@
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-11-25T01:26:41Z",
+      "value": "2026-11-25T03:36:37Z",
       "precision": "second"
     }
   },
