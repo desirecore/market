@@ -55,7 +55,7 @@ class CandidateTests(unittest.TestCase):
         self.assertIsNone(candidate(self.entry, self.sidecar, self.result))
 
 
-    def exercise_publish(self, audited=True, validation_failure=False, publish_failure=False):
+    def exercise_publish(self, audited=True, validation_failure=False, publish_failure=False, existing_open=False):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary); folder = root / 'skills/sample'; folder.mkdir(parents=True)
             (folder/'entry.json').write_text(json.dumps(self.entry))
@@ -65,7 +65,8 @@ class CandidateTests(unittest.TestCase):
             metadata['governance']['compliance'].update(reviewedRef=self.new, reviewedBy='automated:test')
             seen = {}
             def run(*args, cwd=None):
-                if args[:3] == ('gh', 'pr', 'list'): return '[]'
+                if args[:3] == ('gh', 'pr', 'list'):
+                    return json.dumps([{'headRefName':'updates/sample-existing'}]) if existing_open and args[-1]=='headRefName' else '[]'
                 if args[:3] == ('git', 'worktree', 'add'):
                     shutil.copytree(root/'skills', Path(args[4])/'skills'); return ''
                 if args[0] == 'uv' and validation_failure:
@@ -75,6 +76,7 @@ class CandidateTests(unittest.TestCase):
                         raise subprocess.CalledProcessError(1, args, stderr='API unavailable')
                     seen['draft'] = '--draft' in args
                     seen['metadata'] = json.loads((cwd/'skills/sample/catalog-metadata.v1.json').read_text())
+                    seen['blocked'] = [json.loads(p.read_text()) for p in (cwd/'docs/update-reviews').glob('*.json')]
                     seen['audit'] = json.loads((cwd/'skills/sample/upstream-audit.v1.json').read_text()) if (cwd/'skills/sample/upstream-audit.v1.json').exists() else None
                 return ''
             with patch.object(proposer, 'ROOT', root), patch.object(proposer, 'run', side_effect=run), \
@@ -90,6 +92,13 @@ class CandidateTests(unittest.TestCase):
             identity_check.assert_called_once_with()
             seen['coverage'] = json.loads((root/'coverage.json').read_text())
             return seen
+
+    def test_existing_pr_is_reaudited_without_republishing(self):
+        result = self.exercise_publish(audited=False, existing_open=True)
+        self.assertNotIn('draft', result)
+        self.assertEqual(result['coverage'][0]['status'], 'manual-review-required')
+        self.assertEqual(result['coverage'][0]['oldRef'], self.old)
+        self.assertEqual(result['coverage'][0]['newRef'], self.new)
 
     def test_successful_audit_and_validation_create_a_normal_pr(self):
         result = self.exercise_publish()
@@ -107,7 +116,11 @@ class CandidateTests(unittest.TestCase):
         result = self.exercise_publish(validation_failure=True)
         self.assertTrue(result['draft'])
         self.assertEqual(result['metadata']['governance']['compliance']['reviewedRef'], self.old)
-        self.assertEqual(result['audit']['status'], 'blocked')
+        self.assertIsNone(result['audit'])
+        self.assertEqual(result['blocked'][0]['status'], 'blocked')
+        self.assertIn('catalog failure', result['blocked'][0]['reason'])
+        self.assertEqual(result['blocked'][0]['oldRef'], self.old)
+        self.assertEqual(result['blocked'][0]['newRef'], self.new)
 
     def test_publish_failure_still_writes_truthful_coverage(self):
         result = self.exercise_publish(publish_failure=True)

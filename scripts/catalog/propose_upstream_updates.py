@@ -49,6 +49,16 @@ def candidate(entry: dict, metadata: dict, result: dict) -> tuple[dict, dict] | 
 
 
 
+class FailureReason(str):
+    def __new__(cls, error):
+        from update_diagnostics import render_findings
+        findings = getattr(error, 'findings', [])
+        value = str(error) + ('\n\n' + render_findings(findings) if findings else '')
+        obj = super().__new__(cls, value)
+        obj.findings = findings
+        return obj
+
+
 def prepare_proposal(entry: dict, metadata: dict, result: dict):
     proposed = candidate(entry, metadata, result)
     if proposed is None:
@@ -60,7 +70,12 @@ def prepare_proposal(entry: dict, metadata: dict, result: dict):
         return (updated, sidecar), audit, None
     except (AuditBlocked, OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
         # 保留旧审核证据；失败必须可见，不能改成机器审核已通过。
-        return proposed, None, str(error)[:400]
+        if hasattr(error, 'findings'):
+            error.findings.append(dict(id=entry['id'], path='.', oldRef=result['ref'], newRef=result['head'],
+                gate='proposal-repository-validation', state='not_checked', origin='unknown',
+                reason='审核已阻断，本提案器没有运行其后的目录/本地化/合集生成校验。 / Audit blocked; this proposer did not run subsequent catalog, localization or collection-generation validators.',
+                repair='先修复审核门槛，再实际运行并记录每条校验；不得把未运行说成通过。 / Fix audit gates, then execute and record each validator; unrun checks are not passes.'))
+        return proposed, None, FailureReason(error)
 
 
 def coverage(results: list[dict], root: Path = ROOT) -> list[dict]:
@@ -91,7 +106,7 @@ def coverage(results: list[dict], root: Path = ROOT) -> list[dict]:
                     status, reason = 'queued', '等待有界自动审核预算'
                 else:
                     status, reason = 'manual-review-required', ', '.join(sorted(statuses))
-            rows.append({'id': entry['id'], 'sourceKind': kind, 'status': status, 'reason': reason})
+            rows.append({'id': entry['id'], 'sourceKind': kind, 'status': status, 'reason': reason, 'oldRef': (result or {}).get('ref'), 'newRef': (result or {}).get('head')})
             for child in entry.get('children', []):
                 rows.append({'id': entry['id'] + '/' + child['id'], 'parentId': entry['id'], 'sourceKind': 'collection-child', 'status': status, 'reason': reason})
         elif (folder / 'SKILL.md').is_file():
@@ -111,7 +126,7 @@ def write_coverage(rows, destination):
     for row in rows:
         if row.get('parentId'):
             parent = parents[row['parentId']]
-            row.update(status=parent['status'], reason='随父合集核验：' + parent['reason'])
+            row.update(status=parent['status'], reason='随父合集核验 / See parent audit: ' + parent['reason'].split('\n')[0])
     destination.write_text(json.dumps(rows, ensure_ascii=False, indent=2) + "\n")
     summary = ["| Skill | 来源 | 更新状态 | 说明 |", "|---|---|---|---|"]
     summary.extend(f"| {row['id']} | {row['sourceKind']} | {row['status']} | {row['reason'].replace('|', '/').replace(chr(10), ' ')} |" for row in rows)
@@ -141,6 +156,7 @@ def main() -> None:
         if args.publish:
             open_heads = {pr["headRefName"] for pr in json.loads(run("gh", "pr", "list", "--repo", repository, "--state", "open", "--limit", "1000", "--json", "headRefName"))}
         count = 0
+        existing_rechecks = 0
         for result in results:
             item_id = result.get("id", "")
             if result.get("kind") != "skill" or not SLUG.fullmatch(item_id):
@@ -161,7 +177,14 @@ def main() -> None:
             branch = f"updates/{item_id}-{result['head'][:12]}"
             # 保留审核者已编辑的候选；已关闭候选也不在下一轮重新创建。
             if any(head.startswith(f"updates/{item_id}-") for head in open_heads):
-                by_id[item_id].update(status="already-open", reason="保留已有 PR 和审核者修改")
+                if existing_rechecks < args.limit:
+                    existing_rechecks += 1
+                    _, fresh_audit, fresh_reason = prepare_proposal(json.loads(entry_path.read_text()), json.loads(metadata_path.read_text()), result)
+                    by_id[item_id].update(status="audit-passed" if fresh_audit else "manual-review-required",
+                        reason=fresh_reason or "已有 PR 本轮重新静态核验通过；不修改其内容 / Existing PR re-audited without modifying it",
+                        findings=getattr(fresh_reason, "findings", []))
+                else:
+                    by_id[item_id].update(status="not-checked", reason="已有 PR，本轮复核预算未覆盖；未修改 / Existing PR exceeds re-audit budget; untouched")
                 continue
             existing = json.loads(run("gh", "pr", "list", "--repo", repository, "--state", "all",
                                       "--head", branch, "--json", "number")) if args.publish else []
@@ -175,7 +198,7 @@ def main() -> None:
             if proposed is None:
                 by_id[item_id].update(status="manual-review-required", reason=reason)
                 continue
-            by_id[item_id].update(status="audit-passed" if audit else "manual-review-required", reason=reason or "来源、许可与结构化元数据核验通过；不代表运行或安全认证")
+            by_id[item_id].update(status="audit-passed" if audit else "manual-review-required", reason=reason or "来源、许可与结构化元数据核验通过；不代表运行或安全认证", oldRef=result["ref"], newRef=result["head"], findings=getattr(reason, "findings", []))
             print(f"{item_id}: {by_id[item_id]['status']}: {by_id[item_id]['reason']}")
             if not args.publish:
                 continue
@@ -189,6 +212,7 @@ def main() -> None:
                     paths = [f"skills/{item_id}/entry.json", f"skills/{item_id}/catalog-metadata.v1.json"]
                     if audit:
                         audit_path = f"skills/{item_id}/upstream-audit.v1.json"
+                        baseline_audit = (checkout / audit_path).read_bytes() if (checkout / audit_path).exists() else None
                         (checkout / audit_path).write_text(json.dumps(audit, ensure_ascii=False, indent=2) + "\n")
                         try:
                             # 只运行受审仓库自己的元数据校验，不运行上游代码。
@@ -199,14 +223,23 @@ def main() -> None:
                                 run("uv", "run", "--quiet", "scripts/gen-collection-children.py", "--check", item_id, cwd=checkout)
                         except subprocess.CalledProcessError as error:
                             print(error.stdout or error.stderr or '目录校验失败')
-                            audit, reason = None, '目录或本地化元数据校验未通过；保持草稿，不能发布'
+                            audit, reason = None, '目录或本地化元数据校验未通过；保持草稿，不能发布。 / Catalog/localization validation failed: ' + str(error.cmd) + '\n' + str(error.stdout or error.stderr or '')[-6000:]
                             by_id[item_id].update(status="manual-review-required", reason=reason)
                             fallback = candidate(json.loads(entry_path.read_text()), json.loads(metadata_path.read_text()), result)
                             for path, data in zip((entry_path, metadata_path), fallback):
                                 (checkout / path.relative_to(ROOT)).write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n")
-                            # 如果已有旧审计文件，不把它误称为本次通过记录。
-                            (checkout / audit_path).write_text(json.dumps({'schemaVersion': 1, 'status': 'blocked', 'ref': result['head'], 'reason': reason}, ensure_ascii=False, indent=2) + "\n")
-                        paths.append(audit_path)
+                            # Preserve an actual old receipt; failures are separate evidence,
+                            # never a replacement or a forged successful new receipt.
+                            if baseline_audit is None:
+                                (checkout / audit_path).unlink()
+                            else:
+                                (checkout / audit_path).write_bytes(baseline_audit)
+                            blocked_path = f"docs/update-reviews/{item_id}-{result['head'][:12]}.json"
+                            (checkout / blocked_path).parent.mkdir(parents=True, exist_ok=True)
+                            (checkout / blocked_path).write_text(json.dumps({'schemaVersion': 1, 'status': 'blocked', 'oldRef': result['ref'], 'newRef': result['head'], 'reason': reason}, ensure_ascii=False, indent=2) + "\n")
+                            paths.append(blocked_path)
+                        if (checkout / audit_path).is_file():
+                            paths.append(audit_path)
 
                     run("git", "add", "--", *paths, cwd=checkout)
                     run("git", "-c", f"user.name={actor}", "-c", f"user.email={EMAIL}",
@@ -220,7 +253,7 @@ def main() -> None:
                            if audit else "自动核验未通过，保留旧审核回执与草稿，不能据此发布新版。\n")
                         + "不执行上游代码，不代表软件安全认证或真实运行验收，不自动合并。非结构化依赖和行为变化仍需结合 PR 差异复核。\n\n"
                         + "Automated source/license/metadata verification, not a security certification or runtime acceptance. No auto-merge.\n\n"
-                        + "```json\n" + str(findings) + "\n```\n", encoding="utf-8")
+                        + ("```json\n" + str(findings) + "\n```\n" if audit else str(findings) + "\n"), encoding="utf-8")
                     command = ["gh", "pr", "create", "--repo", repository, "--base", "main", "--head", branch,
                                "--title", f"chore(market): 更新 {item_id} 上游快照", "--body-file", str(body)]
                     if not audit:

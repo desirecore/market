@@ -97,7 +97,7 @@ def metadata(ref='a'*64,kind='zip'):
 
 def payload():
     return {'SKILL.md':b'---\nname: sample\ndescription: Sample fixture\n---\nInstructions\n',
-            'LICENSE':b'MIT fixture, previously reviewed\n','scripts/tool.py':b'print("fixture")\n'}
+            'LICENSE':(Path(__file__).resolve().parents[2]/'LICENSE').read_bytes(),'scripts/tool.py':b'print("fixture")\n'}
 
 
 def test_artifact_receipt_binds_real_digest_and_fresh_audit():

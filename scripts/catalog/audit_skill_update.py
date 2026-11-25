@@ -272,7 +272,7 @@ def dependency_identity(repo: Path, ref: str, path: str, record):
     return record[:2]
 
 
-def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
+def _audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
                     observed_at: str | None = None, special_review: dict | None = None) -> tuple[dict, dict, dict]:
     old, new = result['ref'], result['head']
     if not all(re.fullmatch('[0-9a-f]{40}', ref) for ref in (old, new)):
@@ -527,6 +527,38 @@ def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
     if errors:
         raise AuditBlocked('; '.join(errors))
     return updated, metadata, report
+
+
+def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
+                    observed_at: str | None = None, special_review: dict | None = None):
+    from update_diagnostics import inspect_snapshots
+    if not all(isinstance(result.get(k), str) and re.fullmatch('[0-9a-f]{40}', result[k]) for k in ('ref', 'head')):
+        return _audit_snapshots(repo, entry, sidecar, result, observed_at, special_review)
+    findings = []
+    try:
+        findings = inspect_snapshots(repo, entry, sidecar, result, special_review)
+    except (ValueError, OSError, RuntimeError, subprocess.SubprocessError) as error:
+        findings = [dict(id=entry.get('id', '?'), path='.', oldRef=result.get('ref', '?'),
+                         newRef=result.get('head', '?'), gate='independent-static-diagnostics',
+                         state='not_checked', origin='unknown', reason=str(error),
+                         repair='静态诊断未完成，人工检查并重跑；不能假设通过。 / Complete diagnostics and rerun; never assume success.')]
+    try:
+        output = _audit_snapshots(repo, entry, sidecar, result, observed_at, special_review)
+    except AuditBlocked as error:
+        pipeline = dict(id=entry.get('id', '?'), path='.', oldRef=result.get('ref', '?'),
+                        newRef=result.get('head', '?'), gate='actual-pipeline-failure', state='blocked',
+                        origin='unknown', reason=str(error),
+                        repair='修复实际失败门槛后重跑；其后流水线未完成，独立静态发现不代表后续检查已通过。 / Fix this gate and rerun; downstream pipeline stages did not complete. Independent findings are not downstream passes.')
+        remaining = {**pipeline, 'gate': 'remaining-pipeline', 'state': 'not_checked',
+                     'reason': '实际失败点之后的流水线未完成；独立静态检查不等于后续流水线通过。 / Pipeline stages after the actual failure did not complete; independent static findings are not downstream passes.'}
+        error.findings = [pipeline, remaining, *findings]
+        raise error
+    blockers = [r for r in findings if r['state'] in ('blocked', 'manual_review', 'not_checked')]
+    if blockers:
+        error = AuditBlocked('安装通知、精确 pin 例外或元数据一致性需处理 / Installed notices, exact-pin exception or metadata consistency needs review: ' + '; '.join(r['gate'] + ': ' + r['path'] for r in blockers))
+        error.findings = findings
+        raise error
+    return output
 
 
 def audit_update(entry: dict, sidecar: dict, result: dict,

@@ -256,7 +256,12 @@ def audit_payload(entry, metadata, old_files, new_files, old_ref, new_ref, new_c
         sidecar = copy.deepcopy(metadata)
         sidecar['provenance']['content'] = {'kind': 'git', 'url': new_content['url'], 'ref': a}
         sidecar['governance']['compliance']['reviewedRef'] = a
-        _, updated, report = audit_snapshots(repo, virtual, sidecar, {'ref': a, 'head': b})
+        try:
+            _, updated, report = audit_snapshots(repo, virtual, sidecar, {'ref': a, 'head': b})
+        except AuditBlocked as error:
+            for finding in getattr(error, 'findings', []):
+                finding.update(oldRef=old_ref, newRef=new_ref, sourceUrl=new_content['url'])
+            raise
     updated['provenance']['content'] = copy.deepcopy(new_content)
     updated['governance']['compliance']['reviewedRef'] = new_ref
     report['source'] = {'kind': new_content['kind'], 'url': new_content['url'], 'previousUrl': metadata['provenance']['content']['url'],

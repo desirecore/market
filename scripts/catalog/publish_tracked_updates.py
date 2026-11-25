@@ -15,6 +15,13 @@ from tracked_updates import (AuditBlocked, CONFIG, LOGIN, EMAIL, check_identity,
 ROOT = Path(__file__).resolve().parents[2]
 
 
+class Publication(str):
+    def __new__(cls, url, reason=None):
+        obj = super().__new__(cls, url)
+        obj.blocked_reason = reason
+        return obj
+
+
 def publish(root, item_id, target, changes, reason=None):
     branch = f'tracked-updates/{item_id}-{digest(encoded(target))[:12]}'
     open_heads = json.loads(gh('pr', 'list', '--repo', 'desirecore/market', '--state', 'open', '--limit', '1000', '--json', 'headRefName'))
@@ -48,7 +55,7 @@ def publish(root, item_id, target, changes, reason=None):
                                 p.unlink(missing_ok=True)
                             else:
                                 p.write_bytes(baseline)
-                        reason = 'generated proposal failed repository/i18n validation; unchanged admission retained'
+                        reason = '目录/本地化失败，保留旧准入；失败后其余校验未完成。 / Repository/i18n validation failed; old admission retained and later validators did not complete. Command: ' + ' '.join(cmd) + '\n' + (result.stdout + result.stderr).decode('utf-8', errors='replace')[-6000:]
                         path = f'docs/update-reviews/{item_id}.json'
                         changes = {path: encoded({'schemaVersion':1,'status':'blocked','id':item_id,'candidate':target,'reason':reason})}
                         p = checkout / path
@@ -67,7 +74,7 @@ def publish(root, item_id, target, changes, reason=None):
                     '--title',f'chore(market): review {item_id} tracked upstream','--body-file',str(body)]
             if reason:
                 args += ['--draft']
-            return gh(*args)
+            return Publication(gh(*args), reason)
         finally:
             # Remove only the disposable worktree created above, never a user's checkout.
             subprocess.run(['git','worktree','remove','--force',str(checkout)], cwd=root, check=True)
@@ -77,6 +84,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--publish', action='store_true')
     parser.add_argument('--limit', type=int, default=5)
+    parser.add_argument('--report-file', type=Path, help='Exact outcomes, including blocked and not-checked entries')
     args=parser.parse_args()
     if args.limit < 1:
         parser.error('--limit must be positive')
@@ -84,37 +92,56 @@ def main():
         check_identity()
     cfg=load_config(ROOT)
     attempted=0
-    for item_id, track in cfg['tracking'].items():
-        if attempted >= args.limit:
-            break
-        target=None
-        publication_attempted=False
-        try:
-            if (ROOT/'skills'/item_id/'upstream-health-hold.json').exists():
-                print(item_id, 'held; not advancing')
+    rows=[]
+    try:
+        for item_id, track in cfg['tracking'].items():
+            row={'id':item_id,'status':'not-checked','reason':'预算未覆盖，未检查 / Not checked within budget','oldRef':track.get('ref','未读取 / not read'),'newRef':'未读取 / not read'}
+            rows.append(row)
+            if attempted >= args.limit:
                 continue
-            target=discover_target(ROOT,item_id,track)
-            if track['adapter']=='local-git' and target['ref']==track['ref']:
-                print(item_id,'current')
-                continue
-            result=plan(ROOT,item_id,cfg,target)
-            if result is None:
-                print(item_id,'current')
-                continue
-            changes,report=result
-            print(item_id,'audited',report['source']['ref'])
-            if args.publish:
-                attempted+=1
-                publication_attempted=True
-                print(publish(ROOT,item_id,target,changes))
-        except (AuditBlocked, ValueError, KeyError, OSError, subprocess.SubprocessError) as exc:
-            reason=str(exc) if isinstance(exc,AuditBlocked) else 'discovery/fetch/validation failed: '+type(exc).__name__
-            print(item_id,'BLOCKED:',reason)
-            if args.publish and target is not None and not publication_attempted:
-                attempted+=1
-                path=f'docs/update-reviews/{item_id}.json'
-                changes={path:encoded({'schemaVersion':1,'status':'blocked','id':item_id,'candidate':target,'reason':reason})}
-                print(publish(ROOT,item_id,target,changes,reason))
+            target=None
+            publication_attempted=False
+            try:
+                if (ROOT/'skills'/item_id/'upstream-health-hold.json').exists():
+                    row.update(status='held',reason='保留已审核暂缓决定 / Reviewed hold retained')
+                    print(item_id, 'held; not advancing')
+                    continue
+                target=discover_target(ROOT,item_id,track)
+                row['newRef']=target.get('ref') or target.get('sha256') or '尚未取得不可变 pin / immutable pin not obtained'
+                metadata=json.loads((ROOT/'skills'/item_id/'catalog-metadata.v1.json').read_text())
+                origin=metadata.get('provenance',{}).get('content',{})
+                row['oldRef']=origin.get('ref') or origin.get('sha256') or row['oldRef']
+                if track['adapter']=='local-git' and target['ref']==track['ref']:
+                    row.update(status='current',reason='已配置来源无待处理更新 / Configured source is current')
+                    print(item_id,'current')
+                    continue
+                result=plan(ROOT,item_id,cfg,target)
+                if result is None:
+                    row.update(status='current',reason='已配置来源无待处理更新 / Configured source is current')
+                    print(item_id,'current')
+                    continue
+                changes,report=result
+                row.update(status='audit-passed',reason='静态核验通过，不代表运行或安全认证 / Static verification passed, not runtime/security acceptance',newRef=report['source']['ref'])
+                print(item_id,'audited',report['source']['ref'])
+                if args.publish:
+                    attempted+=1
+                    publication_attempted=True
+                    publication=publish(ROOT,item_id,target,changes)
+                if getattr(publication,'blocked_reason',None):
+                    row.update(status='manual-review-required',reason=publication.blocked_reason)
+                print(publication)
+            except (AuditBlocked, ValueError, KeyError, OSError, subprocess.SubprocessError) as exc:
+                reason=str(exc) if isinstance(exc,AuditBlocked) else 'discovery/fetch/validation failed: '+type(exc).__name__
+                row.update(status='manual-review-required',reason='人工待审，保留旧准入 / Manual review; old admission retained: '+reason,findings=getattr(exc,'findings',[]))
+                print(item_id,'BLOCKED:',reason)
+                if args.publish and target is not None and not publication_attempted:
+                    attempted+=1
+                    path=f'docs/update-reviews/{item_id}.json'
+                    changes={path:encoded({'schemaVersion':1,'status':'blocked','id':item_id,'candidate':target,'reason':reason})}
+                    print(publish(ROOT,item_id,target,changes,reason))
+    finally:
+        if args.report_file:
+            args.report_file.write_text(json.dumps(rows,ensure_ascii=False,indent=2)+"\n")
 
 
 if __name__=='__main__':

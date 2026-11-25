@@ -53,44 +53,8 @@ jobs:
           PY
           cat report.md >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Update tracking issue
-        env:
-          GH_TOKEN: ${{ github.token }}
-          ACTIONABLE: ${{ steps.check.outputs.actionable }}
-          UNKNOWN: ${{ steps.check.outputs.unknown }}
-          HELD: ${{ steps.check.outputs.held }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          set -euo pipefail
-          label=upstream-health
-          gh label create "$label" --color D93F0B \
-            --description "Upstream availability of external catalog entries" 2>/dev/null || true
-
-          {
-            echo "_Updated by [Upstream Health]($RUN_URL) on $(date -u +%Y-%m-%d)._"
-            echo
-            echo "Fix entries through a normal PR: repoint or remove \`gone\` entries, correct \`bad-*\` paths, and review upstream changes before bumping \`source.ref\` for \`outdated\` entries (rerun \`scripts/gen-collection-children.py\` for collections); a reviewed decision to keep the current pin or to leave new upstream children undeclared can be recorded in \`<kind>/<id>/upstream-health-hold.json\`. \`unreachable\` means a network error, not a confirmed failure."
-            echo
-            cat report.md
-          } > body.md
-
-          issue=$(gh issue list --label "$label" --state open --limit 1 --json number --jq '.[0].number // empty')
-          if [ "$ACTIONABLE" = "true" ] || [ "$UNKNOWN" = "true" ]; then
-            if [ -n "$issue" ]; then
-              gh issue edit "$issue" --body-file body.md
-            else
-              gh issue create --title "Upstream health report" --label "$label" --body-file body.md
-            fi
-          elif [ -n "$issue" ]; then
-            closing="All external entries resolve upstream and are current as of $RUN_URL."
-            if [ "${HELD:-0}" -gt 0 ]; then
-              closing="All external entries resolve upstream as of $RUN_URL; $HELD finding(s) remain under reviewed holds (see the run summary)."
-            fi
-            gh issue comment "$issue" --body "$closing Closing."
-            gh issue close "$issue"
-          fi
-
       - name: Propose reviewed-source updates
+        id: propose
         env:
           GH_TOKEN: ${{ secrets.MARKET_MAINTAINER_TOKEN || github.token }}
           MAINTAINER_TOKEN_AVAILABLE: ${{ secrets.MARKET_MAINTAINER_TOKEN != '' }}
@@ -106,11 +70,35 @@ jobs:
             echo 'Maintainer authentication not configured: audit-only, no bot-authored PR fallback.' >> "$GITHUB_STEP_SUMMARY"
           fi
           uv run --quiet scripts/catalog/propose_upstream_updates.py results.json "${publish[@]}" --limit 5 --coverage-file coverage.json
-          uv run --quiet scripts/catalog/publish_tracked_updates.py "${publish[@]}" --limit 5
+          uv run --quiet scripts/catalog/publish_tracked_updates.py "${publish[@]}" --limit 5 --report-file tracked-results.json
       - name: 展示所有技能的覆盖与阻碍
         if: always()
         run: |
           if [ -f coverage.md ]; then cat coverage.md >> "$GITHUB_STEP_SUMMARY"; else echo '覆盖报告未生成，来源核验未完成。' >> "$GITHUB_STEP_SUMMARY"; fi
+
+      - name: 双语审核报告与跟踪 issue / Bilingual audit report and tracking issue
+        if: always() && steps.check.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROPOSAL_COMPLETE: ${{ steps.propose.outcome == 'success' }}
+        run: |
+          complete=()
+          if [ "$PROPOSAL_COMPLETE" = true ]; then complete=(--complete); fi
+          uv run --quiet --with pyyaml python scripts/catalog/unhealthy_report.py --results results.json --coverage coverage.json --tracked tracked-results.json --output unhealthy-report.md "${complete[@]}" --publish
+          cat unhealthy-report.md >> "$GITHUB_STEP_SUMMARY"
+      - name: 保留真实逐项审核证据 / Preserve per-item audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-results
+          path: |
+            results.json
+            summary.json
+            coverage.json
+            coverage.md
+            tracked-results.json
+            unhealthy-report.md
+          if-no-files-found: warn
 
       - name: Fail when an entry is broken
         if: steps.check.outputs.broken == 'true'
