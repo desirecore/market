@@ -29,7 +29,7 @@
   },
   "release": {
     "state": "known",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "versionScheme": "semver"
   },
   "timestamps": {
@@ -56,7 +56,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/douyin-creator-analyst.git",
-      "ref": "878a4145facea25d90bd4957cc11a26db4a5eff4"
+      "ref": "b9e581a72936458550c2da2ed74b21d046f42531"
     }
   },
   "governance": {
@@ -80,7 +80,7 @@
     "compliance": {
       "licenseEvidencePath": "LICENSE",
       "noticePath": "THIRD_PARTY_NOTICES.md",
-      "reviewedRef": "878a4145facea25d90bd4957cc11a26db4a5eff4",
+      "reviewedRef": "b9e581a72936458550c2da2ed74b21d046f42531",
       "reviewedAt": "2026-11-25",
       "reviewedBy": "Codex source and license review",
       "upstreamEndorsed": true
@@ -88,7 +88,10 @@
   },
   "compatibility": {
     "platforms": {
-      "state": "unknown"
+      "state": "known",
+      "values": [
+        "macos"
+      ]
     },
     "requiredClientVersion": "10.0.203",
     "requirements": [
