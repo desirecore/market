@@ -128,7 +128,9 @@ def comparison_scope(entry: dict, kind: str) -> list[str]:
     A single-skill pointer installs only source.path, and a collection installs
     only its declared children, so upstream feeds, site builds, CLI sources and
     unrelated skills must not cause endless repins. Root licensing changes still
-    need review. Undeclared upstream children are reported separately as
+    need review; these added root pathspecs are audit evidence, not proof that
+    the client copies a parent license into the selected install path.
+    Undeclared upstream children are reported separately as
     `new-skill`. Agents, teams and root-level skills install the whole snapshot.
     """
     if kind != "skills":
