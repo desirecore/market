@@ -14,7 +14,7 @@ STATE = {'blocked': '阻断 / blocked', 'manual_review': '人工待审 / manual 
          'passed': '静态通过 / static pass'}
 ORIGIN = {'pre_existing': '历史遗留 / pre-existing', 'introduced': '本次引入 / introduced',
           'changed': '本次变化 / changed', 'unchanged': '未变化 / unchanged',
-          'unknown': '未确认 / unknown'}
+          'unknown': '未确认 / unknown', 'derived': '未签新回执的派生错误 / derived from unsigned target'}
 
 
 def mit_grant(data):
@@ -280,6 +280,49 @@ def inspect_snapshots(repo, entry, metadata, result, special_review=None):
     return list(deduplicated.values())
 
 
+
+def candidate_consistency(entry, metadata, result, view):
+    """Read-only candidate metadata checks, never permission to issue a receipt."""
+    rows = []
+    target = result['head']
+    candidate = view.get('entry', {})
+    sidecar = view.get('metadata', {})
+    receipt = view.get('audit') or {}
+    source = candidate.get('source', {})
+    def add(path, gate, state, reason, evidence):
+        rows.append(dict(id=entry['id'], path=path, oldRef=result['ref'], newRef=target,
+            gate=gate, state=state, origin='derived' if gate in ('candidate-reviewed-ref','candidate-receipt-ref','candidate-receipt-scope') else 'unknown', basis='existing-pr-candidate@'+view['head'],
+            reason=reason, evidence=evidence,
+            repair='先解决主通知交付/真实审核阻碍，再重跑生成真实目标回执；不能只改 reviewedRef 或复制 source/scope 字段凑通过。 / Resolve primary notice-delivery and actual review blockers, then generate a genuine target receipt; never merely rebind reviewedRef or copy source/scope fields.'))
+    valid = (candidate.get('id') == entry['id'] and source.get('kind') == 'git'
+             and source.get('repoUrl') == entry['source']['repoUrl'] and source.get('ref') == target)
+    if not valid:
+        add('entry.json', 'candidate-source', 'blocked',
+            '当前 PR 来源与可信 main 的待审来源不一致，不能用本次对象证明它。 / Candidate source differs from the trusted-main audit target; these objects cannot prove that candidate.', {'candidateSource':source})
+        return rows, False
+    reviewed = sidecar.get('governance', {}).get('compliance', {}).get('reviewedRef')
+    if reviewed != target:
+        add('catalog-metadata.v1.json#governance.compliance.reviewedRef', 'candidate-reviewed-ref', 'blocked',
+            '目标已提升但人工/机器 reviewedRef 仍不对应目标；这是未签新回执的派生一致性错误。 / The target advanced but reviewedRef does not bind it; this is a derived consistency error while the target remains unsigned.',
+            {'reviewedRef':reviewed,'requiredRef':target})
+    receipt_source = receipt.get('source', {})
+    if receipt_source.get('ref') != target:
+        add('upstream-audit.v1.json#source.ref', 'candidate-receipt-ref', 'blocked',
+            '保留的旧回执 source 不对应新目标，不能称为新 pin 审核通过。 / The retained old receipt source does not bind the new target; it is not a passing new-pin receipt.',
+            {'receiptRef':receipt_source.get('ref'),'requiredRef':target})
+    required_scope = sorted(c['path'] for c in candidate.get('children', [])) or [source.get('path', '')]
+    actual_scope = sorted(receipt_source.get('paths') or [])
+    if actual_scope != required_scope:
+        add('upstream-audit.v1.json#source.paths', 'candidate-receipt-scope', 'blocked',
+            f'旧回执范围 {len(actual_scope)} 不覆盖当前登记 {len(required_scope)}；不能靠扩写 scope 假造复审。 / Receipt scope {len(actual_scope)} does not cover current declared scope {len(required_scope)}; editing scope is not a genuine re-audit.',
+            {'receiptPaths':actual_scope,'requiredPaths':required_scope})
+    for check in view.get('checks', []):
+        if check.get('conclusion') not in ('success', 'skipped', 'neutral') or check.get('status') != 'completed':
+            add('PR#'+str(view.get('number'))+'/'+check.get('name','?'), 'candidate-live-check',
+                'blocked' if check.get('status') == 'completed' else 'not_checked',
+                '当前 PR 精确 head 的实时检查结果；不是 main 重放结果，也不由本报告认定其余检查通过。 / Live check result for the exact candidate head, not a trusted-main replay or proof that other checks passed.', check)
+    return rows, True
+
 def render_findings(rows):
     def cell(value):
         return str(value).replace('|', '\\|').replace('\n', '<br>')
@@ -288,6 +331,6 @@ def render_findings(rows):
         evidence = json.dumps(row.get('evidence', {}), ensure_ascii=False, sort_keys=True)
         out.append('| ' + ' | '.join(cell(v) for v in (
             ('[' + row['id'] + '/' + row['path'] + '](' + row['sourceUrl'] + ')') if row.get('sourceUrl') else row['id'] + '/' + row['path'], row['oldRef'] + ' → ' + row['newRef'], row['gate'],
-            STATE.get(row['state'], row['state']) + '; ' + ORIGIN.get(row['origin'], row['origin']),
+            STATE.get(row['state'], row['state']) + '; ' + ORIGIN.get(row['origin'], row['origin']) + '; ' + row.get('basis','trusted-main-replay / 对可信main重放'),
             row['reason'] + (' ' + evidence if evidence != '{}' else ''), row['repair'])) + ' |')
     return '\n'.join(out)

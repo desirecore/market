@@ -293,3 +293,49 @@ def test_inline_readme_can_deliver_declared_notice(case):
     baseline(case)
     case.write('skills/sample/scripts/tool.py','new')
     assert not any(r['gate']=='installed-notice-delivery' for r in findings(case))
+
+
+
+def candidate_view(c):
+    return {'head':'f'*40,'number':123,'entry':copy.deepcopy(c.entry),'metadata':copy.deepcopy(c.metadata),
+            'audit':{'source':{'ref':c.old,'paths':['old/scope']}},'checks':[]}
+
+
+def test_candidate_reports_three_receipt_errors_as_derived_not_new_license_changes(case):
+    from update_diagnostics import candidate_consistency
+    result={'ref':case.old,'head':'b'*40}
+    view=candidate_view(case);view['entry']['source']['ref']=result['head']
+    rows,valid=candidate_consistency(case.entry,case.metadata,result,view)
+    assert valid
+    assert {r['gate'] for r in rows}=={'candidate-reviewed-ref','candidate-receipt-ref','candidate-receipt-scope'}
+    assert all(r['origin']=='derived' for r in rows)
+    assert all(r['basis']=='existing-pr-candidate@'+'f'*40 for r in rows)
+    assert rows[0]['evidence']['reviewedRef']==case.old
+
+
+def test_correct_candidate_receipt_is_not_reported_as_old_main_error(case):
+    from update_diagnostics import candidate_consistency
+    result={'ref':case.old,'head':'b'*40}
+    view=candidate_view(case);view['entry']['source']['ref']=result['head']
+    view['metadata']['governance']['compliance']['reviewedRef']=result['head']
+    view['audit']['source']={'ref':result['head'],'paths':['skills/sample']}
+    assert candidate_consistency(case.entry,case.metadata,result,view)==([],True)
+
+
+def test_candidate_cannot_repoint_static_proof_to_untrusted_source(case):
+    from update_diagnostics import candidate_consistency
+    result={'ref':case.old,'head':'b'*40}
+    view=candidate_view(case);view['entry']['source'].update(ref=result['head'],repoUrl='https://github.com/other/source.git')
+    rows,valid=candidate_consistency(case.entry,case.metadata,result,view)
+    assert not valid and rows[0]['gate']=='candidate-source'
+
+
+def test_live_check_failure_is_not_misclassified_as_receipt_derivative(case):
+    from update_diagnostics import candidate_consistency
+    result={'ref':case.old,'head':'b'*40}
+    view=candidate_view(case);view['entry']['source']['ref']=result['head']
+    view['checks']=[{'name':'validate','status':'completed','conclusion':'failure','details_url':'https://github.com/example/check'}]
+    rows,_=candidate_consistency(case.entry,case.metadata,result,view)
+    check=next(r for r in rows if r['gate']=='candidate-live-check')
+    assert check['origin']=='unknown'
+    assert check['evidence']['conclusion']=='failure'

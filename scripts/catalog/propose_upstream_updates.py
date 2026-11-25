@@ -59,17 +59,19 @@ class FailureReason(str):
         return obj
 
 
-def prepare_proposal(entry: dict, metadata: dict, result: dict):
+def prepare_proposal(entry: dict, metadata: dict, result: dict, candidate_view=None):
     proposed = candidate(entry, metadata, result)
     if proposed is None:
         return None, None, '不符合固定来源候选条件'
     try:
         review_path = ROOT / "skills" / entry["id"] / "special-review.v1.json"
         special_review = json.loads(review_path.read_text()) if review_path.is_file() else None
-        updated, sidecar, audit = audit_update(entry, metadata, result, special_review=special_review)
+        updated, sidecar, audit = audit_update(entry, metadata, result, special_review=special_review, candidate_view=candidate_view)
         return (updated, sidecar), audit, None
     except (AuditBlocked, OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
         # 保留旧审核证据；失败必须可见，不能改成机器审核已通过。
+        if not hasattr(error, 'findings'):
+            error.findings = [dict(id=entry['id'], path=entry.get('source', {}).get('path') or '.', oldRef=result['ref'], newRef=result['head'], gate='source-static-audit', state='blocked', origin='unknown', reason=type(error).__name__ + ': ' + str(error), repair='读取精确来源并重跑实际失败审核；不能推断未执行阶段已通过。 / Read exact source objects and rerun the failed audit; unexecuted stages are not passes.')]
         if hasattr(error, 'findings'):
             error.findings.append(dict(id=entry['id'], path='.', oldRef=result['ref'], newRef=result['head'],
                 gate='proposal-repository-validation', state='not_checked', origin='unknown',
@@ -119,6 +121,31 @@ def run(*args: str, cwd: Path = ROOT) -> str:
     return subprocess.run(args, cwd=cwd, check=True, capture_output=True, text=True).stdout.strip()
 
 
+
+def read_existing_candidate(repository, item_id, pr):
+    """Static data only. Never check out, import or execute the candidate."""
+    head = pr.get('headRefOid', '')
+    if not SHA.fullmatch(head) or not isinstance(pr.get('number'), int):
+        return None
+    view = {'head':head, 'number':pr['number'], 'isDraft':pr.get('isDraft')}
+    for key, filename in [('entry','entry.json'),('metadata','catalog-metadata.v1.json'),('audit','upstream-audit.v1.json')]:
+        try:
+            data = run('gh','api','-H','Accept: application/vnd.github.raw+json',
+                       f'repos/{repository}/contents/skills/{item_id}/{filename}?ref={head}')
+            if len(data) > 1024*1024:
+                raise ValueError('candidate metadata exceeds budget')
+            view[key] = json.loads(data)
+            if not isinstance(view[key], dict):
+                raise ValueError('candidate metadata must be an object')
+        except subprocess.CalledProcessError:
+            # A refused/failed read is unknown, never proof of a missing or stale receipt.
+            raise
+    checks = json.loads(run('gh','api',f'repos/{repository}/commits/{head}/check-runs?per_page=100'))
+    view['checks'] = [{k: c.get(k) for k in ('name','status','conclusion','details_url')} for c in checks.get('check_runs', [])]
+    if checks.get('total_count', 0) > len(view['checks']):
+        view['checks'].append({'name':'remaining checks beyond page budget / 超出读取预算的检查','status':'not_checked','conclusion':None})
+    return view
+
 def write_coverage(rows, destination):
     if destination is None:
         return
@@ -153,8 +180,10 @@ def main() -> None:
     by_id = {row["id"]: row for row in rows}
     try:
         open_heads = set()
+        open_prs = []
         if args.publish:
-            open_heads = {pr["headRefName"] for pr in json.loads(run("gh", "pr", "list", "--repo", repository, "--state", "open", "--limit", "1000", "--json", "headRefName"))}
+            open_prs = json.loads(run("gh", "pr", "list", "--repo", repository, "--state", "open", "--limit", "1000", "--json", "number,headRefOid,isDraft,headRefName"))
+            open_heads = {pr['headRefName'] for pr in open_prs}
         count = 0
         existing_rechecks = 0
         for result in results:
@@ -179,10 +208,20 @@ def main() -> None:
             if any(head.startswith(f"updates/{item_id}-") for head in open_heads):
                 if existing_rechecks < args.limit:
                     existing_rechecks += 1
-                    _, fresh_audit, fresh_reason = prepare_proposal(json.loads(entry_path.read_text()), json.loads(metadata_path.read_text()), result)
+                    pr = next(pr for pr in open_prs if pr['headRefName'].startswith(f"updates/{item_id}-"))
+                    view_error = None
+                    try:
+                        view = read_existing_candidate(repository, item_id, pr)
+                    except (OSError, ValueError, subprocess.SubprocessError) as error:
+                        view = None
+                        view_error = str(error)
+                    _, fresh_audit, fresh_reason = prepare_proposal(json.loads(entry_path.read_text()), json.loads(metadata_path.read_text()), result, candidate_view=view)
                     by_id[item_id].update(status="audit-passed" if fresh_audit else "manual-review-required",
                         reason=fresh_reason or "已有 PR 本轮重新静态核验通过；不修改其内容 / Existing PR re-audited without modifying it",
                         findings=getattr(fresh_reason, "findings", []))
+                    if view_error:
+                        by_id[item_id]['findings'].append(dict(id=item_id,path='PR#'+str(pr.get('number')),oldRef=result['ref'],newRef=result['head'],gate='candidate-evidence-read',state='not_checked',origin='unknown',reason='当前 PR 元数据或检查未读取完成 / Candidate metadata/check read incomplete: '+view_error,repair='恢复标准 GitHub 读取后重试；main 重放不代表当前 PR 检查通过。 / Retry standard GitHub reads; main replay is not a candidate validation pass.'))
+                        by_id[item_id].update(status='manual-review-required')
                 else:
                     by_id[item_id].update(status="not-checked", reason="已有 PR，本轮复核预算未覆盖；未修改 / Existing PR exceeds re-audit budget; untouched")
                 continue

@@ -28,3 +28,11 @@ Git 提案 coverage、ZIP/Web/local 的 tracked-results 和来源健康结果汇
 - #361：物理 SKILL 39→39；软件工厂原文件 YAML 修好后重新可发现，使市场登记38与解析39不一致；chief-of-staff 简介及双语派生目录需复审；新增 yaml 是根开发依赖。实际原失败在 collection gate，后续未完成，不能写成全套测试通过。所选子项主通知交付还是独立的历史问题。
 
 适用安装器证据由独立复核提供：desirecore dev `e817d57e819975052c5da610874b7747de18b7c8` 的 market-install.ts L406/L442、source-fetch.ts L578–581、skill-staging.ts L26–74 与 market.ts L424–455。当前未发现市场元数据能无声补父级通知的合法开关。任何客户端通知携带方案均需另行授权、摘要/锁记录覆盖和实际安装回读；本 PR 不跨仓实现、不改上游结构或资源。
+
+## 已修订候选 PR 与可信 main 重放必须分开
+
+已有 PR 的只读复审还读取精确 PR head 的 entry、sidecar、旧回执和实时检查；不 checkout 或执行候选代码，不信任这些 JSON 授权发布。表格标注 `trusted-main-replay` 与 `existing-pr-candidate@<head>`。对 main 旧登记重放的失败，不得说成已修订候选 PR 仍存在同样的旧文案/成员错误。
+
+候选 reviewedRef 不匹配、receipt.source.ref 不匹配、receipt.source.paths 不覆盖当前登记，明确标记为“未签新回执的派生错误”；与安装通知缺口这个根本阻碍分层。实时检查失败另列，不把所有 CI 问题都归因于旧回执；未完成检查明确未完成。读取失败或检查超过分页预算不代表通过，也不阻塞其他独立候选继续被检查。
+
+#361 后续修订 head `4cd8c6a4a31ef4512a871d15a355dd8dcf670cb0` 已补39成员、78条双语及历史回退说明；其真实文档见该 PR 的 `docs/reviews/mattpocock-skills-pr361-d65391149dbb.md` / `.json`。39个目录共109文件仍未携带必要完整主 MIT 通知（旧38也已有缺口），因此保持 Draft、不伪造新回执。旧 reviewedRef、旧回执 pin、38范围不足39属于未签回执的派生错误，不是额外三项上游许可变化。原38/解析39失败是 main 基线重放，不再说成此修订 head 未补成员。

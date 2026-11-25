@@ -66,7 +66,7 @@ class CandidateTests(unittest.TestCase):
             seen = {}
             def run(*args, cwd=None):
                 if args[:3] == ('gh', 'pr', 'list'):
-                    return json.dumps([{'headRefName':'updates/sample-existing'}]) if existing_open and args[-1]=='headRefName' else '[]'
+                    return json.dumps([{'headRefName':'updates/sample-existing'}]) if existing_open and args[-1].endswith('headRefName') else '[]'
                 if args[:3] == ('git', 'worktree', 'add'):
                     shutil.copytree(root/'skills', Path(args[4])/'skills'); return ''
                 if args[0] == 'uv' and validation_failure:
@@ -92,6 +92,13 @@ class CandidateTests(unittest.TestCase):
             identity_check.assert_called_once_with()
             seen['coverage'] = json.loads((root/'coverage.json').read_text())
             return seen
+
+    def test_existing_pr_read_failure_is_unknown_without_stopping_independent_audit(self):
+        with patch.object(proposer, 'read_existing_candidate', side_effect=ValueError('GitHub read unavailable')):
+            result = self.exercise_publish(existing_open=True)
+        self.assertEqual(result['coverage'][0]['status'], 'manual-review-required')
+        self.assertTrue(any(row['gate']=='candidate-evidence-read' and row['state']=='not_checked' for row in result['coverage'][0]['findings']))
+        self.assertNotIn('draft', result)
 
     def test_existing_pr_is_reaudited_without_republishing(self):
         result = self.exercise_publish(audited=False, existing_open=True)
