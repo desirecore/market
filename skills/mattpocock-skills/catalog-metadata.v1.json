@@ -87,7 +87,7 @@
       },
       {
         "kind": "permission",
-        "value": "The operator authorizes access and writes to the chosen issue tracker; issues are filed only into the user's own repository. Manual-only upstream skills retain their explicit invocation requirement, and chief-of-staff writes its wiki only to a location agreed with the user; stop and explain when a required host capability is unavailable."
+        "value": "The operator authorizes wiki, Git and chosen issue-tracker access and writes separately; issues are filed only into the user's own repository. Upstream manual-only skills require explicit invocation. Chief-of-staff uses an agreed wiki location; environment changes and recurring schedules require user acceptance and host support. Software-factory is a design guide, not permission to deploy, create triggers or merge. Stop and explain when a required host capability is unavailable."
       }
     ]
   },
@@ -95,7 +95,7 @@
     "kind": "skill",
     "collection": {
       "role": "parent",
-      "childCount": 38,
+      "childCount": 39,
       "children": [
         {
           "identity": {
@@ -113,7 +113,7 @@
               },
               "zh-CN": {
                 "name": "ask-matt",
-                "summary": "Ask which skill or flow fits your situation."
+                "summary": "判断哪项技能或工作流程适合当前情况。"
               }
             },
             "tags": []
@@ -138,7 +138,7 @@
               },
               "zh-CN": {
                 "name": "code-review",
-                "summary": "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes: Standards (does the code follow this repo's documented coding standa…"
+                "summary": "以固定提交、分支、标签或合并基点为起点，从仓库规范与正确性两个维度审查代码变更。"
               }
             },
             "tags": []
@@ -163,7 +163,7 @@
               },
               "zh-CN": {
                 "name": "codebase-design",
-                "summary": "Shared vocabulary for designing deep modules."
+                "summary": "用于设计深模块的共同术语。"
               }
             },
             "tags": []
@@ -188,7 +188,7 @@
               },
               "zh-CN": {
                 "name": "diagnosing-bugs",
-                "summary": "Diagnosis loop for hard bugs and performance regressions."
+                "summary": "用于诊断疑难缺陷和性能回退的循环流程。"
               }
             },
             "tags": []
@@ -213,7 +213,7 @@
               },
               "zh-CN": {
                 "name": "domain-modeling",
-                "summary": "Build and sharpen a project's domain model."
+                "summary": "建立并完善项目的领域模型。"
               }
             },
             "tags": []
@@ -238,7 +238,7 @@
               },
               "zh-CN": {
                 "name": "grill-with-docs",
-                "summary": "A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go."
+                "summary": "通过持续追问完善计划或设计，同时形成架构决策记录与术语表。"
               }
             },
             "tags": []
@@ -263,7 +263,7 @@
               },
               "zh-CN": {
                 "name": "implement",
-                "summary": "Implement a piece of work based on a spec or set of tickets."
+                "summary": "依据规格或一组任务单实现工作。"
               }
             },
             "tags": []
@@ -313,7 +313,7 @@
               },
               "zh-CN": {
                 "name": "improve-codebase-architecture",
-                "summary": "Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick."
+                "summary": "扫描代码库中加深模块封装的机会，生成可视化 HTML 报告，再对选定机会展开追问。"
               }
             },
             "tags": []
@@ -363,7 +363,7 @@
               },
               "zh-CN": {
                 "name": "prototype",
-                "summary": "Build a throwaway prototype to answer a design question."
+                "summary": "构建可丢弃的原型，以验证设计问题。"
               }
             },
             "tags": []
@@ -388,7 +388,7 @@
               },
               "zh-CN": {
                 "name": "research",
-                "summary": "Investigate a question against high-trust primary sources and capture the findings as a Markdown file in the repo."
+                "summary": "依据高可信的一手来源调查问题，并将发现保存为仓库中的 Markdown 文件。"
               }
             },
             "tags": []
@@ -438,7 +438,7 @@
               },
               "zh-CN": {
                 "name": "setup-matt-pocock-skills",
-                "summary": "Configure this repo for the engineering skills: set up its issue tracker, triage label vocabulary, and domain doc layout."
+                "summary": "配置工程技能使用的任务跟踪工具、分流标签与领域文档布局。"
               }
             },
             "tags": []
@@ -463,7 +463,7 @@
               },
               "zh-CN": {
                 "name": "tdd",
-                "summary": "Test-driven development."
+                "summary": "测试驱动开发。"
               }
             },
             "tags": []
@@ -488,7 +488,7 @@
               },
               "zh-CN": {
                 "name": "to-spec",
-                "summary": "Turn the current conversation into a spec and publish it to the project issue tracker: no interview, just synthesis of what you've already discussed."
+                "summary": "将当前已讨论的内容综合为规格并发布到项目任务跟踪工具，不额外访谈。"
               }
             },
             "tags": []
@@ -513,7 +513,7 @@
               },
               "zh-CN": {
                 "name": "to-tickets",
-                "summary": "Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker (edg…"
+                "summary": "将计划、规格或当前对话拆成端到端贯通的任务单，声明阻塞依赖并发布到配置的任务跟踪工具。"
               }
             },
             "tags": []
@@ -538,7 +538,7 @@
               },
               "zh-CN": {
                 "name": "triage",
-                "summary": "Move issues and external PRs through a state machine of triage roles, categorise, verify, grill if needed, and write agent-ready briefs."
+                "summary": "通过角色状态机分流议题与外部 PR，分类、核验，必要时追问，并形成可交给 Agent 执行的简报。"
               }
             },
             "tags": []
@@ -563,7 +563,7 @@
               },
               "zh-CN": {
                 "name": "wayfinder",
-                "summary": "Plan a huge chunk of work (more than one agent session can hold) as a shared map of decision tickets on your issue tracker, and resolve them one at a time until…"
+                "summary": "将超出单次 Agent 会话容量的大型工作规划为任务跟踪工具中的共享决策地图，逐项解决决策任务。"
               }
             },
             "tags": []
@@ -588,7 +588,7 @@
               },
               "zh-CN": {
                 "name": "wizard",
-                "summary": "Generate an interactive bash wizard that walks a human through steps only they can perform."
+                "summary": "生成交互式 Bash 向导，引导用户完成只能由人执行的步骤。"
               }
             },
             "tags": []
@@ -609,11 +609,11 @@
             "i18n": {
               "en-US": {
                 "name": "chief-of-staff",
-                "summary": "Upstream in-progress skill that runs only when the user invokes it explicitly: acts as a chief of staff in one long session, delegating work to background subagents, keeping a dated Markdown wiki in a folder agreed with the user and suggesting recurring schedules where the host supports them; requires host subagent support."
+                "summary": "Upstream in-progress, explicitly user-invoked coordination skill: delegates work to fresh-context background subagents, keeps the conversation in the main session, and records dated, commit-cited knowledge in an agreed wiki for later sessions. After friction, offers environment changes before acting on acceptance. May propose recurring work where the host supports it; wiki, Git, tracker writes and schedules still require user authorization."
               },
               "zh-CN": {
                 "name": "chief-of-staff",
-                "summary": "上游 in-progress（测试中）技能，仅在用户显式手动调用时运行：在单个长会话中作为统筹者，把工作分派给后台子 Agent，在与用户约定的文件夹中维护注明日期的 Markdown 知识库，并在宿主支持时建议定期计划，持续推进长期目标；需要宿主支持子 Agent。"
+                "summary": "上游 in-progress（测试中）、仅显式手动调用的统筹技能：将工作委派给新上下文后台子 Agent，主会话保留问答，并把有日期与提交依据的知识写入约定的 wiki，供后续会话续接；任务遇到阻力时先提议环境改进，用户接受后再执行。重复任务可在宿主支持时提议定期运行，仍需用户授权；需要子 Agent 能力及另行授权的 wiki、Git 和任务跟踪工具访问。"
               }
             },
             "tags": []
@@ -638,7 +638,7 @@
               },
               "zh-CN": {
                 "name": "claude-handoff",
-                "summary": "Hand the current conversation off to a fresh background agent that picks up the work immediately."
+                "summary": "将当前对话交接给一个新的后台 Agent，由其立即接手工作。"
               }
             },
             "tags": []
@@ -663,7 +663,7 @@
               },
               "zh-CN": {
                 "name": "loop-me",
-                "summary": "Grill me about specs for the workflows I want to build, within this workspace."
+                "summary": "围绕当前工作区内拟构建的工作流规格向用户深入追问。"
               }
             },
             "tags": []
@@ -688,7 +688,32 @@
               },
               "zh-CN": {
                 "name": "setup-ts-deep-modules",
-                "summary": "Wire dependency-cruiser into a TypeScript repo so each package is a deep module, with implementation hidden in subfolders and reachable only through its entry-p…"
+                "summary": "为 TypeScript 仓库接入 dependency-cruiser，使各包成为实现藏于子目录、仅通过入口文件访问的深模块。"
+              }
+            },
+            "tags": []
+          },
+          "release": {
+            "state": "unknown"
+          }
+        },
+        {
+          "identity": {
+            "kind": "skill",
+            "id": "software-factory",
+            "parentId": "mattpocock-skills"
+          },
+          "path": "skills/in-progress/software-factory",
+          "presentation": {
+            "defaultLocale": "en-US",
+            "i18n": {
+              "zh-CN": {
+                "name": "software-factory",
+                "summary": "上游 in-progress（测试中）、仅显式手动调用的软件工厂设计术语与方法：梳理任务、运行及服务，设置自动校验、独立审查和人工审查制动；设计建议不构成部署、创建触发器或合并代码的授权。"
+              },
+              "en-US": {
+                "name": "software-factory",
+                "summary": "Upstream in-progress, explicitly user-invoked vocabulary and design guide for software factories: maps tasks, runs and services, with automated checks, independent review and human review as brakes. Design guidance does not authorize deployment, trigger creation or merging."
               }
             },
             "tags": []
@@ -713,7 +738,7 @@
               },
               "zh-CN": {
                 "name": "writing-beats",
-                "summary": "Writing, exploit; assemble raw material into a journey of beats, grounding each term before a beat leans on it."
+                "summary": "写作整合阶段：将原始材料组织成叙事节拍，在后续节拍依赖术语前先交代其含义。"
               }
             },
             "tags": []
@@ -738,7 +763,7 @@
               },
               "zh-CN": {
                 "name": "writing-fragments",
-                "summary": "Writing, explore: mine raw fragments, no structure yet."
+                "summary": "写作探索阶段：挖掘原始片段，暂不组织结构。"
               }
             },
             "tags": []
@@ -763,7 +788,7 @@
               },
               "zh-CN": {
                 "name": "writing-shape",
-                "summary": "Writing, exploit: shape raw material into an article, paragraph by paragraph."
+                "summary": "写作整合阶段：逐段将原始材料组织成文章。"
               }
             },
             "tags": []
@@ -788,7 +813,7 @@
               },
               "zh-CN": {
                 "name": "git-guardrails-claude-code",
-                "summary": "Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, branch -D, etc.) before they execute."
+                "summary": "配置 Claude Code hooks，在危险 Git 命令执行前阻止 push、reset --hard、clean、branch -D 等操作。"
               }
             },
             "tags": []
@@ -813,7 +838,7 @@
               },
               "zh-CN": {
                 "name": "migrate-to-shoehorn",
-                "summary": "Migrate test files from `as` type assertions to @total-typescript/shoehorn."
+                "summary": "将测试文件中的 as 类型断言迁移为 @total-typescript/shoehorn。"
               }
             },
             "tags": []
@@ -838,7 +863,7 @@
               },
               "zh-CN": {
                 "name": "scaffold-exercises",
-                "summary": "Create exercise directory structures with sections, problems, solutions, and explainers that pass linting."
+                "summary": "创建包含章节、习题、答案与讲解且通过 lint 检查的练习目录结构。"
               }
             },
             "tags": []
@@ -863,7 +888,7 @@
               },
               "zh-CN": {
                 "name": "setup-pre-commit",
-                "summary": "Set up Husky pre-commit hooks with lint-staged (Prettier), type checking, and tests in the current repo."
+                "summary": "在当前仓库配置 Husky pre-commit hooks，执行 lint-staged（Prettier）、类型检查与测试。"
               }
             },
             "tags": []
@@ -888,7 +913,7 @@
               },
               "zh-CN": {
                 "name": "grill-me",
-                "summary": "A relentless interview to sharpen a plan or design."
+                "summary": "通过持续深入的访谈完善计划或设计。"
               }
             },
             "tags": []
@@ -913,7 +938,7 @@
               },
               "zh-CN": {
                 "name": "grilling",
-                "summary": "Grill the user relentlessly about a plan, decision, or idea."
+                "summary": "围绕计划、决策或想法向用户持续深入追问。"
               }
             },
             "tags": []
@@ -938,7 +963,7 @@
               },
               "zh-CN": {
                 "name": "handoff",
-                "summary": "Compact the current conversation into a handoff document for another agent to pick up."
+                "summary": "将当前对话压缩为交接文档，供另一位 Agent 接手。"
               }
             },
             "tags": []
@@ -963,7 +988,7 @@
               },
               "zh-CN": {
                 "name": "teach",
-                "summary": "Teach the user a new skill or concept, within this workspace."
+                "summary": "在当前工作区内向用户讲解一项新技能或概念。"
               }
             },
             "tags": []
@@ -988,7 +1013,7 @@
               },
               "zh-CN": {
                 "name": "to-questionnaire",
-                "summary": "Turn a decision you can't fully answer into a questionnaire for someone else to fill in."
+                "summary": "将尚无法完全回答的决策转成问卷，交由他人填写。"
               }
             },
             "tags": []
@@ -1013,7 +1038,7 @@
               },
               "zh-CN": {
                 "name": "wait-what",
-                "summary": "Stop."
+                "summary": "停止。"
               }
             },
             "tags": []
@@ -1038,7 +1063,7 @@
               },
               "zh-CN": {
                 "name": "writing-for-agents",
-                "summary": "Writing documents for agents."
+                "summary": "为 Agent 编写文档。"
               }
             },
             "tags": []
