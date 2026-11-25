@@ -1,0 +1,122 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "agent",
+    "id": "douyin-creator-analyst"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "category": "media",
+    "tags": [
+      "douyin",
+      "creator-research",
+      "video-analysis",
+      "content-strategy"
+    ],
+    "i18n": {
+      "zh-CN": {
+        "name": "抖音博主分析师",
+        "summary": "从主页、作品链接或本地视频分析博主，拆解开头、正文和互动，整理成账号报告或实拍案例。默认启用 Rea-Video，首次分析由 uv 准备 CLI，需 Git、FFmpeg 和 ffprobe。",
+        "description": "先确认作品范围、作者身份和指标口径。逐条核对时码、画面、识别稿和互动，再把内容手法、作者公开教学和样本表现整理成报告，也可做带截图和原创口播练习的入门案例。\n\n安装 Agent 会同时启用 Rea-Video 和博主研究技能。首次分析由 uv 下载固定版本 CLI、Python 3.13（缺失时）及识别模型。需准备 uv、Git、FFmpeg 和 ffprobe，并允许命令执行和首次下载。作品可来自获授权的浏览器会话或用户提供的本地文件。视频默认本地处理，额外模型服务须另行配置和授权，费用按服务商条款。登录状态和人机验证由用户处理，无法取得的作品会列出缺口。"
+      },
+      "en-US": {
+        "name": "Douyin Creator Analyst",
+        "summary": "Research creators from a profile, individual links or local videos. Get timestamped breakdowns, an account report or filming exercises. Rea-Video is enabled by default; first use provisions the CLI through uv and needs Git, FFmpeg and ffprobe.",
+        "description": "Confirm the author, coverage and metric labels. Check timestamps, frames, speech and calls to action, then use public teaching videos and observed sample performance to write an account report or a beginner casebook with frames and original filming exercises.\n\nThe Rea-Video and Creator Research Skills are enabled with the Agent. First use provisions the pinned CLI, Python 3.13 if needed, and recognition models. Requires uv, Git, FFmpeg and ffprobe, permission to run commands, and network access for initial downloads. Use an authorized browser session or user-provided local video. Analysis is local by default; alternate model services need separate setup and consent and may charge usage fees. Login and verification are handled by the user. Missing works are reported explicitly."
+      }
+    }
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-25",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-25",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-25",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore-agent/douyin-creator-analyst.git",
+      "ref": "e18becb8d6420398a38b8cce2e308193de97f91e"
+    }
+  },
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "source-pointer-only",
+    "upstreamMaintainer": {
+      "name": "desirecore-agent",
+      "verified": false,
+      "url": "https://github.com/desirecore-agent/douyin-creator-analyst"
+    },
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "noticePath": "THIRD_PARTY_NOTICES.md",
+      "reviewedRef": "e18becb8d6420398a38b8cce2e308193de97f91e",
+      "reviewedAt": "2026-11-25",
+      "reviewedBy": "Codex source and license review",
+      "upstreamEndorsed": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "unknown"
+    },
+    "requiredClientVersion": "10.0.203",
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "需 uv、Git、FFmpeg 和 ffprobe。首次分析安装固定版本 Rea-Video CLI，并按需下载 Python 3.13 和识别模型。 / Requires uv, Git, FFmpeg and ffprobe. First analysis provisions a pinned Rea-Video CLI and downloads Python 3.13 and recognition models as needed."
+      },
+      {
+        "kind": "permission",
+        "value": "采集可通过已授权浏览器或用户提供的素材。遇到登录、验证或限速，继续处理已取得的作品并标注缺口。 / Use an authorized browser or user-supplied media. If login, verification or rate limits interrupt access, analyze available works and document gaps."
+      },
+      {
+        "kind": "connection",
+        "value": "默认本地分析。可选服务需另行配置并获授权，可能产生费用。 / Local analysis by default. Optional services require separate setup and authorization; fees may apply."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "agent",
+    "installPolicy": "market",
+    "updatePolicy": "market",
+    "persona": {
+      "role": "Short-video creator research",
+      "traits": [
+        "timestamped evidence",
+        "clear coverage and comparisons",
+        "practical filming exercises"
+      ]
+    }
+  }
+}
