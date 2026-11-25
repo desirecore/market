@@ -547,7 +547,7 @@ def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
                     if row['gate'] == 'description-and-locales':
                         row['reason'] = '上游简介曾变化；此行是当前 PR 文案的独立人工复核要求，不表示 main 的旧文案错误仍存在于已修订 PR。 / Upstream description changed; this is independent semantic review of the current candidate, not a claim that old main copy remains stale in a repaired PR.'
                 findings.extend(independent)
-    except (ValueError, OSError, RuntimeError, subprocess.SubprocessError) as error:
+    except (ValueError, TypeError, KeyError, AttributeError, OSError, RuntimeError, subprocess.SubprocessError) as error:
         findings = [dict(id=entry.get('id', '?'), path='.', oldRef=result.get('ref', '?'),
                          newRef=result.get('head', '?'), gate='independent-static-diagnostics',
                          state='not_checked', origin='unknown', reason=str(error),

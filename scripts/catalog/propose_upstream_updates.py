@@ -68,7 +68,7 @@ def prepare_proposal(entry: dict, metadata: dict, result: dict, candidate_view=N
         special_review = json.loads(review_path.read_text()) if review_path.is_file() else None
         updated, sidecar, audit = audit_update(entry, metadata, result, special_review=special_review, candidate_view=candidate_view)
         return (updated, sidecar), audit, None
-    except (AuditBlocked, OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
+    except (AuditBlocked, OSError, ValueError, TypeError, KeyError, AttributeError, RuntimeError, subprocess.SubprocessError) as error:
         # 保留旧审核证据；失败必须可见，不能改成机器审核已通过。
         if not hasattr(error, 'findings'):
             error.findings = [dict(id=entry['id'], path=entry.get('source', {}).get('path') or '.', oldRef=result['ref'], newRef=result['head'], gate='source-static-audit', state='blocked', origin='unknown', reason=type(error).__name__ + ': ' + str(error), repair='读取精确来源并重跑实际失败审核；不能推断未执行阶段已通过。 / Read exact source objects and rerun the failed audit; unexecuted stages are not passes.')]
@@ -217,7 +217,7 @@ def main() -> None:
                         view_error = str(error)
                     _, fresh_audit, fresh_reason = prepare_proposal(json.loads(entry_path.read_text()), json.loads(metadata_path.read_text()), result, candidate_view=view)
                     by_id[item_id].update(status="audit-passed" if fresh_audit else "manual-review-required",
-                        reason=fresh_reason or "已有 PR 本轮重新静态核验通过；不修改其内容 / Existing PR re-audited without modifying it",
+                        reason=("对可信main旧登记重放；当前PR证据另列 / Trusted-main baseline replay; current candidate evidence is separate: " + fresh_reason) if fresh_reason else "已有 PR 对应main来源本轮重新静态核验通过；候选证据另列，不修改PR / Trusted-main source re-audited; candidate evidence is separate; PR untouched",
                         findings=getattr(fresh_reason, "findings", []))
                     if view_error:
                         by_id[item_id]['findings'].append(dict(id=item_id,path='PR#'+str(pr.get('number')),oldRef=result['ref'],newRef=result['head'],gate='candidate-evidence-read',state='not_checked',origin='unknown',reason='当前 PR 元数据或检查未读取完成 / Candidate metadata/check read incomplete: '+view_error,repair='恢复标准 GitHub 读取后重试；main 重放不代表当前 PR 检查通过。 / Retry standard GitHub reads; main replay is not a candidate validation pass.'))

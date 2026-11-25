@@ -158,9 +158,10 @@ def test_identical_bilingual_fallback_is_info_not_new_failure(case):
     assert row['state']=='info' and row['origin']=='pre_existing'
 
 
-def test_unparseable_diagnostics_fail_closed_not_passed(case):
+@pytest.mark.parametrize('error_type',[ValueError,TypeError,KeyError,AttributeError])
+def test_unparseable_diagnostics_fail_closed_not_passed(case,error_type):
     case.write('skills/sample/scripts/tool.py','new')
-    with patch('update_diagnostics.inspect_snapshots',side_effect=ValueError('unavailable')):
+    with patch('update_diagnostics.inspect_snapshots',side_effect=error_type('unavailable')):
         with pytest.raises(AuditBlocked) as blocked:
             case.audit()
     assert blocked.value.findings[0]['state']=='not_checked'

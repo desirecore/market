@@ -55,11 +55,13 @@ class CandidateTests(unittest.TestCase):
         self.assertIsNone(candidate(self.entry, self.sidecar, self.result))
 
 
-    def exercise_publish(self, audited=True, validation_failure=False, publish_failure=False, existing_open=False):
+    def exercise_publish(self, audited=True, validation_failure=False, publish_failure=False, existing_open=False, old_receipt=False):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary); folder = root / 'skills/sample'; folder.mkdir(parents=True)
             (folder/'entry.json').write_text(json.dumps(self.entry))
             (folder/'catalog-metadata.v1.json').write_text(json.dumps(self.sidecar))
+            if old_receipt:
+                (folder/'upstream-audit.v1.json').write_text(json.dumps({'source':{'ref':self.old},'genuineOldReceipt':True}))
             results = root/'results.json'; results.write_text(json.dumps([self.result]))
             updated, metadata = candidate(self.entry, self.sidecar, self.result)
             metadata['governance']['compliance'].update(reviewedRef=self.new, reviewedBy='automated:test')
@@ -118,6 +120,12 @@ class CandidateTests(unittest.TestCase):
         self.assertTrue(result['draft'])
         self.assertEqual(result['metadata']['governance']['compliance']['reviewedRef'], self.old)
         self.assertEqual(result['coverage'][0]['status'], 'manual-review-required')
+
+    def test_validator_failure_preserves_genuine_old_receipt_bytes(self):
+        result = self.exercise_publish(validation_failure=True, old_receipt=True)
+        self.assertEqual(result['audit'], {'source':{'ref':self.old},'genuineOldReceipt':True})
+        self.assertEqual(result['blocked'][0]['newRef'], self.new)
+        self.assertTrue(result['draft'])
 
     def test_validator_failure_cannot_publish_a_successful_audit(self):
         result = self.exercise_publish(validation_failure=True)
