@@ -8,7 +8,7 @@
     "video-analysis",
     "content-strategy"
   ],
-  "latestVersion": "1.0.0",
+  "latestVersion": "1.0.1",
   "requiredClientVersion": "10.0.203",
   "maintainer": {
     "name": "desirecore-agent",
@@ -22,11 +22,14 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/douyin-creator-analyst.git",
     "repoBranch": "main",
-    "ref": "e18becb8d6420398a38b8cce2e308193de97f91e"
+    "ref": "878a4145facea25d90bd4957cc11a26db4a5eff4"
   },
   "avatar": {
     "t": "析",
-    "bg": "linear-gradient(135deg, #087E78, #0D4855)"
+    "bg": "linear-gradient(135deg, #087E78, #0D4855)",
+    "image": {
+      "path": "assets/avatar.webp"
+    }
   },
   "installPolicy": "market",
   "updatePolicy": "market",

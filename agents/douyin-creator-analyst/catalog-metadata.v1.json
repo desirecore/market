@@ -18,18 +18,18 @@
       "zh-CN": {
         "name": "抖音博主分析师",
         "summary": "从主页、作品链接或本地视频分析博主，拆解开头、正文和互动，整理成账号报告或实拍案例。默认启用 Rea-Video，首次分析由 uv 准备 CLI，需 Git、FFmpeg 和 ffprobe。",
-        "description": "先确认作品范围、作者身份和指标口径。逐条核对时码、画面、识别稿和互动，再把内容手法、作者公开教学和样本表现整理成报告，也可做带截图和原创口播练习的入门案例。\n\n安装 Agent 会同时启用 Rea-Video 和博主研究技能。首次分析由 uv 下载固定版本 CLI、Python 3.13（缺失时）及识别模型。需准备 uv、Git、FFmpeg 和 ffprobe，并允许命令执行和首次下载。作品可来自获授权的浏览器会话或用户提供的本地文件。视频默认本地处理，额外模型服务须另行配置和授权，费用按服务商条款。登录状态和人机验证由用户处理，无法取得的作品会列出缺口。"
+        "description": "先确认作品范围、作者身份和指标口径。逐条核对时码、画面、识别稿和互动，再把内容手法、作者公开教学和样本表现整理成报告，也可做带截图和原创口播练习的入门案例。\n\n安装 Agent 会同时启用 Rea-Video 和博主研究技能。首次分析由 uv 下载固定版本 CLI、Python 3.13（缺失时）及识别模型。需准备 uv、Git、FFmpeg 和 ffprobe，并允许命令执行和首次下载。作品可来自获授权的浏览器会话或用户提供的本地文件。视频默认本地处理，额外模型服务须另行配置和授权，费用按服务商条款。登录状态和人机验证由用户处理，无法取得的作品会列出缺口。\n\n试用时发一条作品，并说“用时间戳标出开头、正文和结尾互动，给一版我能照着拍的脚本”。更多可直接发送的示例见使用说明。"
       },
       "en-US": {
         "name": "Douyin Creator Analyst",
         "summary": "Research creators from a profile, individual links or local videos. Get timestamped breakdowns, an account report or filming exercises. Rea-Video is enabled by default; first use provisions the CLI through uv and needs Git, FFmpeg and ffprobe.",
-        "description": "Confirm the author, coverage and metric labels. Check timestamps, frames, speech and calls to action, then use public teaching videos and observed sample performance to write an account report or a beginner casebook with frames and original filming exercises.\n\nThe Rea-Video and Creator Research Skills are enabled with the Agent. First use provisions the pinned CLI, Python 3.13 if needed, and recognition models. Requires uv, Git, FFmpeg and ffprobe, permission to run commands, and network access for initial downloads. Use an authorized browser session or user-provided local video. Analysis is local by default; alternate model services need separate setup and consent and may charge usage fees. Login and verification are handled by the user. Missing works are reported explicitly."
+        "description": "Confirm the author, coverage and metric labels. Check timestamps, frames, speech and calls to action, then use public teaching videos and observed sample performance to write an account report or a beginner casebook with frames and original filming exercises.\n\nThe Rea-Video and Creator Research Skills are enabled with the Agent. First use provisions the pinned CLI, Python 3.13 if needed, and recognition models. Requires uv, Git, FFmpeg and ffprobe, permission to run commands, and network access for initial downloads. Use an authorized browser session or user-provided local video. Analysis is local by default; alternate model services need separate setup and consent and may charge usage fees. Login and verification are handled by the user. Missing works are reported explicitly.\n\nFor a first run, send a video and ask for timestamped opening, body and closing interaction plus a script you can film. The usage guide includes copy-ready examples."
       }
     }
   },
   "release": {
     "state": "known",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "versionScheme": "semver"
   },
   "timestamps": {
@@ -56,7 +56,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/douyin-creator-analyst.git",
-      "ref": "e18becb8d6420398a38b8cce2e308193de97f91e"
+      "ref": "878a4145facea25d90bd4957cc11a26db4a5eff4"
     }
   },
   "governance": {
@@ -80,7 +80,7 @@
     "compliance": {
       "licenseEvidencePath": "LICENSE",
       "noticePath": "THIRD_PARTY_NOTICES.md",
-      "reviewedRef": "e18becb8d6420398a38b8cce2e308193de97f91e",
+      "reviewedRef": "878a4145facea25d90bd4957cc11a26db4a5eff4",
       "reviewedAt": "2026-11-25",
       "reviewedBy": "Codex source and license review",
       "upstreamEndorsed": true
