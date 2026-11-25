@@ -10,11 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "Marketing Skills",
-        "summary": "Marketing skills for technical marketers and founders — CRO, copywriting, SEO, analytics and growth engineering, for Claude Code and Cursor. Third-party marketing, advertising and analytics tools require separate accounts, authorization and billing."
+        "summary": "Marketing skills for technical marketers and founders — CRO, copywriting, SEO, analytics and growth engineering, for Claude Code and Cursor. Third-party marketing, advertising and analytics tools require separate accounts, authorization and billing.",
+        "description": "Correction to #350: retain the original pinned Git source and known MIT license; pause Market installation at listing-only. None of the 50 collection children carries the root MIT LICENSE; child selection is preserved. Staging does not attach root notices to selected directories. The earlier review confirmed root evidence but did not establish delivery in the installed copy. This does not mean upstream is unusable or cannot be referenced. No upstream edit or repackaging; the client must preserve notices correctly."
       },
       "zh-CN": {
         "name": "Marketing Skills",
-        "summary": "面向技术型营销人与创始人的 AI Agent 技能集，涵盖转化率优化、文案、SEO、数据分析与增长工程，适配 Claude Code、Cursor 等。第三方营销、广告与分析工具需自行开通；账号、授权和费用另计。"
+        "summary": "面向技术型营销人与创始人的 AI Agent 技能集，涵盖转化率优化、文案、SEO、数据分析与增长工程，适配 Claude Code、Cursor 等。第三方营销、广告与分析工具需自行开通；账号、授权和费用另计。",
+        "description": "复审纠正 #350：保留原固定 Git 来源和已知 MIT；当前市场安装暂缓为仅收录。50 个合集子项都没有根 MIT LICENSE；继续保留合集点选。当前 staging 不把根通知附到所选目录；先前审核确认根许可存在，但未证明它进入安装副本。此问题不等于上游不可用或无权引用。未改上游、未重打包；需要客户端正确保留通知。"
       }
     },
     "category": "business",
@@ -32,7 +34,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-05",
+      "value": "2026-11-25",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -58,7 +60,7 @@
   },
   "governance": {
     "stewardship": "community",
-    "availability": "installable",
+    "availability": "listing-only",
     "license": {
       "state": "known",
       "value": "MIT",

@@ -10,13 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "Stickman Video Director",
-        "summary": "Stickman animation skill that turns scripts into faceless videos with voiceover, captions and an audio library. MIT license is present, but this snapshot stays listing-only: 176 files over 1 MiB (about 812 MiB), including 112 inside skills/directing-stickman-videos, so a git install of the skill path exceeds the ordinary audit budget.",
-        "description": "Pinned at 10287822ba47579321068da1b93801face9160dd. Root LICENSE is MIT. The skill path is skills/directing-stickman-videos; large reference videos, baselines and audio-library files are inside that path, so excludePaths would not keep them out of a git install. Nested audio license evidence also exists under the skill assets. No slim local package was admitted in this change."
+        "summary": "Stickman video skill retaining its original path and complete resources. Listing-only reflects Market/default-client budgets and the root MIT notice not reaching path-scoped installs, not upstream unusability.",
+        "description": "Pinned at 10287822ba47579321068da1b93801face9160dd; source.path=skills/directing-stickman-videos. The full repository has 2207 files/955317387 bytes (911.06 MiB); the selected path has 1970 files/579433740 bytes (552.59 MiB). Files over 1 MiB sum to 812.54 MiB repository-wide and 465.81 MiB within the path; neither is the complete package size. Assets in the path total about 543.61 MiB, including voice/video, audio-library and reference-image resources; none are stripped. The selected path is below 2000 files but exceeds the Market 1 MiB/file and 50 MiB total budgets; budgetExemptPaths cannot raise the total. At e817d57e the pinned-Git cache defaults are 200 MiB checkout/256 MiB object repository, overridable via internal SourceFetchOptions.limits, not absolute non-configurable limits; ZIP settings are separate. The root MIT LICENSE is outside the path and staging does not attach it, so the installed copy lacks that notice; this does not mean Market cannot reference the MIT upstream. Original structure/resources/install method are preserved, without slimming or custom fetch."
       },
       "zh-CN": {
         "name": "火柴人视频导演",
-        "summary": "火柴人动画技能，可将脚本做成口播、字幕和无脸视频，并带音频库。已有 MIT 许可，但本快照保持仅收录：有 176 个超过 1 MiB 的文件（约 812 MiB），其中 112 个位于 skills/directing-stickman-videos，按技能路径做 Git 安装会超出普通审核预算。",
-        "description": "固定版本 10287822ba47579321068da1b93801face9160dd。根 LICENSE 为 MIT。技能路径为 skills/directing-stickman-videos；大型参考视频、基线和音频库文件位于该路径内，excludePaths 不能把它们排除在 Git 安装之外。技能资源中还有嵌套的音频许可证据。本次未准入精简本地包。"
+        "summary": "保持原路径与完整资源的火柴人视频技能。仅收录受市场审核/默认客户端预算及根 MIT 通知未随路径安装约束，不代表上游不可用。",
+        "description": "固定版本 10287822ba47579321068da1b93801face9160dd，source.path=skills/directing-stickman-videos。整库 2207 文件/955317387 bytes（911.06 MiB）；所选路径 1970 文件/579433740 bytes（552.59 MiB）。整库超 1 MiB 文件合计 812.54 MiB，所选路径合计 465.81 MiB，均不是完整包大小。路径内 assets 约 543.61 MiB，包含口播音视频、音频库、参考图等原资源，不擅删。路径未超过市场 2000 文件阈值，但超过单文件 1 MiB 和总计 50 MiB；budgetExemptPaths 不提高总量。e817d57e 固定 SHA Git 缓存默认检出 200 MiB、对象库 256 MiB，内部 SourceFetchOptions.limits 可覆盖，不能把默认值说成不可配置硬限制；ZIP 设置不适用。根 MIT LICENSE 在所选路径外，当前 staging 不补入，安装产物缺少该通知；这不等于市场无权引用 MIT 上游。保留原上游结构/资源/安装方式，不精简或自创 fetch。"
       }
     },
     "category": "media",
@@ -33,7 +33,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-24",
+      "value": "2026-11-25",
       "precision": "day"
     },
     "releasePublishedAt": {

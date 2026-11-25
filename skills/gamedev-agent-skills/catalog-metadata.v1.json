@@ -11,12 +11,12 @@
       "en-US": {
         "name": "Game Dev Agent Skills",
         "summary": "Catalog collection of 79 original game-dev agent skills for Godot, Unity, Unreal and other engines. Engine runtimes are not bundled. Admission is paused at listing-only: the current DesireCore collection installer copies only each selected child path and does not attach the repository-root Apache-2.0 LICENSE and NOTICE.",
-        "description": "Pinned at c6ca6c41c839b68319ffc08430b99ab768debc32. Upstream LICENSE and NOTICE are Apache-2.0 evidence at the repository root, outside nested skills/<engine>/<id> directories. A child install therefore does not receive them. There is no existing per-child license field in the market entry schema, and the client does not copy parent evidence into staged children. Collection structure and child selection are kept; installable admission is paused until a client change can attach root LICENSE and NOTICE to each selected child. The repo router/SKILL.md is not a catalog child."
+        "description": "Pinned at c6ca6c41c839b68319ffc08430b99ab768debc32. Upstream LICENSE and NOTICE are Apache-2.0 evidence at the repository root, outside nested skills/<engine>/<id> directories. A child install therefore does not receive them. There is no existing per-child license field in the market entry schema, and the client does not copy parent evidence into staged children. Collection structure and child selection are kept; installable admission is paused until a client change can attach root LICENSE and NOTICE to each selected child. The repo router/SKILL.md is not a catalog child. This is a notice-delivery issue in the Market installed copy, not an unknown license or a lack of permission to reference upstream. Original pointers/collection selection and upstream installation remain unchanged. The client should carry the MIT/Apache notices into selected-path staging rather than Market repackaging upstream without approval."
       },
       "zh-CN": {
         "name": "游戏开发 Agent 技能合集",
         "summary": "79 个原创游戏开发 Agent 技能合集，覆盖 Godot、Unity、Unreal 等引擎。引擎运行时不随目录分发。准入暂停为仅收录：现行 DesireCore 合集安装器只复制所选子路径，不会把仓库根目录的 Apache-2.0 LICENSE 与 NOTICE 附进子项安装产物。",
-        "description": "固定版本 c6ca6c41c839b68319ffc08430b99ab768debc32。上游 Apache-2.0 的 LICENSE 与 NOTICE 在仓库根目录，位于嵌套的 skills/<引擎>/<id> 目录之外，因此按子项安装时不会得到这些证据。现行目录条目 schema 没有每子额外许可字段，客户端也不会把父级证据复制进子项产物。合集结构与子项点选予以保留；在客户端能把根 LICENSE 与 NOTICE 附到所选子项之前，可安装准入暂停。仓库的 router/SKILL.md 不是目录子项。"
+        "description": "固定版本 c6ca6c41c839b68319ffc08430b99ab768debc32。上游 Apache-2.0 的 LICENSE 与 NOTICE 在仓库根目录，位于嵌套的 skills/<引擎>/<id> 目录之外，因此按子项安装时不会得到这些证据。现行目录条目 schema 没有每子额外许可字段，客户端也不会把父级证据复制进子项产物。合集结构与子项点选予以保留；在客户端能把根 LICENSE 与 NOTICE 附到所选子项之前，可安装准入暂停。仓库的 router/SKILL.md 不是目录子项。 这是市场安装产物的通知携带问题，不是许可未知或市场无权引用上游；保留原指针/合集点选及上游安装方式。MIT/Apache 通知应由客户端在所选路径暂存时正确附带，不能为此擅自重打包上游。"
       }
     },
     "category": "development",
@@ -34,7 +34,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-24",
+      "value": "2026-11-25",
       "precision": "day"
     },
     "releasePublishedAt": {

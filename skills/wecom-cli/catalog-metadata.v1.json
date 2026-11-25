@@ -10,11 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "WeCom CLI",
-        "summary": "Official WeCom (Enterprise WeChat) CLI for humans and AI agents to operate docs, smart sheets, slides and messaging in the terminal. Requires separately installed wecom-cli 1.2.1+ and account authorization; document, sheet and slide generation needs additional Python dependencies, with optional LibreOffice for reference-deck previews."
+        "summary": "Official WeCom (Enterprise WeChat) CLI for humans and AI agents to operate docs, smart sheets, slides and messaging in the terminal. Requires separately installed wecom-cli 1.2.1+ and account authorization; document, sheet and slide generation needs additional Python dependencies, with optional LibreOffice for reference-deck previews.",
+        "description": "Correction to #350: retain the original pinned Git source and known MIT license; pause Market installation at listing-only. None of the 15 collection children carries the root MIT LICENSE; the PPTX template license covers different third-party material, not upstream. Child selection is preserved. Staging does not attach root notices to selected directories. The earlier review confirmed root evidence but did not establish delivery in the installed copy. This does not mean upstream is unusable or cannot be referenced. No upstream edit or repackaging; the client must preserve notices correctly."
       },
       "zh-CN": {
         "name": "企业微信 CLI",
-        "summary": "企业微信官方命令行工具，让人与 AI Agent 在终端操作企业微信文档、智能表格、演示文稿、消息等核心业务。需自行安装 wecom-cli 1.2.1 及以上版本并授权；文档、表格和演示文稿生成另需 Python 依赖，参考 PPT 转图可选 LibreOffice。"
+        "summary": "企业微信官方命令行工具，让人与 AI Agent 在终端操作企业微信文档、智能表格、演示文稿、消息等核心业务。需自行安装 wecom-cli 1.2.1 及以上版本并授权；文档、表格和演示文稿生成另需 Python 依赖，参考 PPT 转图可选 LibreOffice。",
+        "description": "复审纠正 #350：保留原固定 Git 来源和已知 MIT；当前市场安装暂缓为仅收录。15 个合集子项均未携带根 MIT LICENSE；PPTX 子项中的模板许可证属于另一第三方，不能替代上游根许可。继续保留合集点选。当前 staging 不把根通知附到所选目录；先前审核确认根许可存在，但未证明它进入安装副本。此问题不等于上游不可用或无权引用。未改上游、未重打包；需要客户端正确保留通知。"
       }
     },
     "category": "communication",
@@ -28,7 +30,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-19",
+      "value": "2026-11-25",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -54,7 +56,7 @@
   },
   "governance": {
     "stewardship": "community",
-    "availability": "installable",
+    "availability": "listing-only",
     "license": {
       "state": "known",
       "value": "MIT",

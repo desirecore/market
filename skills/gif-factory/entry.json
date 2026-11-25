@@ -12,11 +12,11 @@
   "i18n": {
     "zh-CN": {
       "name": "GIF 工厂",
-      "shortDesc": "GIF 工厂技能，用于表情包、光栅卡、动态海报等风格，另含五个配套技能。已有 MIT 许可，但本快照保持仅收录：固定版本含数百个超过 1 MiB 的文件（约 676 MiB），且技能目录内也有大资源，完整 Git 安装超出普通审核预算。"
+      "shortDesc": "保持上游完整 Git 来源的 GIF 创作技能，含五个配套技能。仅收录是市场自动审核/默认客户端预算状态，不代表上游技能不可用或许可未知。"
     },
     "en-US": {
       "name": "GIF Factory",
-      "shortDesc": "GIF factory skill for stickers, lenticular cards, motion posters and related styles, plus five companion skills. MIT license is present, but this snapshot stays listing-only: the pin contains hundreds of files over 1 MiB (about 676 MiB), including assets inside skills/, so a full git install exceeds the ordinary audit budget."
+      "shortDesc": "GIF creation skill with five companions, retaining the complete upstream Git source. Listing-only describes Market review/default-client budgets, not upstream unusability or an unknown license."
     }
   },
   "maintainer": {
