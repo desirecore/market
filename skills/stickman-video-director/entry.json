@@ -12,11 +12,11 @@
   "i18n": {
     "zh-CN": {
       "name": "火柴人视频导演",
-      "shortDesc": "火柴人动画技能，可将脚本做成口播、字幕和无脸视频，并带音频库。已有 MIT 许可，但本快照保持仅收录：有 176 个超过 1 MiB 的文件（约 812 MiB），其中 112 个位于 skills/directing-stickman-videos，按技能路径做 Git 安装会超出普通审核预算。"
+      "shortDesc": "保持原路径与完整资源的火柴人视频技能。仅收录受市场审核/默认客户端预算及根 MIT 通知未随路径安装约束，不代表上游不可用。"
     },
     "en-US": {
       "name": "Stickman Video Director",
-      "shortDesc": "Stickman animation skill that turns scripts into faceless videos with voiceover, captions and an audio library. MIT license is present, but this snapshot stays listing-only: 176 files over 1 MiB (about 812 MiB), including 112 inside skills/directing-stickman-videos, so a git install of the skill path exceeds the ordinary audit budget."
+      "shortDesc": "Stickman video skill retaining its original path and complete resources. Listing-only reflects Market/default-client budgets and the root MIT notice not reaching path-scoped installs, not upstream unusability."
     }
   },
   "maintainer": {

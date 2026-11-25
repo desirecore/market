@@ -10,11 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "Karpathy Guidelines",
-        "summary": "Behavioral guidelines to reduce common LLM coding mistakes, derived from Andrej Karpathy's observations"
+        "summary": "Behavioral guidelines to reduce common LLM coding mistakes, derived from Andrej Karpathy's observations",
+        "description": "Pinned commit 2c606141936f1eeef17fa3043a72095b4765b9c2 has no standalone LICENSE. The previous review accepted the one-line MIT declaration in README; the installed SKILL.md also explicitly declares license: MIT on line 4. Correct the evidence path to that original in-scope file rather than downgrading solely for a missing standalone LICENSE. This neither invents full MIT text nor generalizes to other snapshots. Upstream files and install method are unchanged."
       },
       "zh-CN": {
         "name": "Karpathy 编码准则",
-        "summary": "降低 LLM 常见编码错误的行为准则，源自 Andrej Karpathy 对 LLM 编码陷阱的观察"
+        "summary": "降低 LLM 常见编码错误的行为准则，源自 Andrej Karpathy 对 LLM 编码陷阱的观察",
+        "description": "固定提交 2c606141936f1eeef17fa3043a72095b4765b9c2 无独立 LICENSE 文件。原审核接受 README 的一行 MIT 声明；复核发现实际安装路径内 SKILL.md 第 4 行同样明确 license: MIT，故将许可证据路径纠正到该原始文件，不因没有独立 LICENSE 而一刀切降级。本条不是补写 MIT 全文或泛化到其他固定版本。未改上游文件或安装方式。"
       }
     },
     "category": "development",
@@ -33,15 +35,15 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-08-30T18:00:09Z",
-      "precision": "second"
+      "value": "2026-11-25",
+      "precision": "day"
     },
     "releasePublishedAt": {
       "state": "unknown"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-24",
+      "value": "2026-11-25",
       "precision": "day"
     },
     "upstreamObservedAt": {
@@ -64,7 +66,7 @@
     "license": {
       "state": "known",
       "value": "MIT",
-      "evidencePath": "README.md"
+      "evidencePath": "skills/karpathy-guidelines/SKILL.md"
     },
     "redistribution": "allowed",
     "upstreamMaintainer": {
@@ -73,9 +75,9 @@
       "verified": false
     },
     "compliance": {
-      "licenseEvidencePath": "README.md",
+      "licenseEvidencePath": "skills/karpathy-guidelines/SKILL.md",
       "reviewedRef": "2c606141936f1eeef17fa3043a72095b4765b9c2",
-      "reviewedAt": "2026-11-24",
+      "reviewedAt": "2026-11-25",
       "reviewedBy": "mashagua",
       "upstreamEndorsed": false
     }

@@ -11,12 +11,12 @@
       "en-US": {
         "name": "pixelfx",
         "summary": "Skill for making pixel-art effects with the pixelfx code library. The catalog path is skills/pixelfx; the effect library and Node tools live in the same MIT repo and must be checked out separately. gallery/fonts is not covered by the repo MIT license and is outside this path. Optional pch CLI install uses a remote script and needs operator review. Admission is paused at listing-only: the current DesireCore installer copies only the skill path and does not attach the repository-root MIT LICENSE or NOTICE.md.",
-        "description": "Pinned at 5294518ce7c72e48b6100a744596e0acf57f2826. Upstream root LICENSE is MIT and NOTICE.md must accompany redistribution, but both live outside skills/pixelfx, so a path-scoped install does not receive them. There is no existing market field or client behavior that attaches parent evidence to the selected contentDir. Source remains the original upstream git pointer; installable admission is paused. Two docs/ files over 1 MiB and gallery/fonts are outside the skill path. Do not auto-run the optional remote pch install script."
+        "description": "Pinned at 5294518ce7c72e48b6100a744596e0acf57f2826. Upstream root LICENSE is MIT and NOTICE.md must accompany redistribution, but both live outside skills/pixelfx, so a path-scoped install does not receive them. There is no existing market field or client behavior that attaches parent evidence to the selected contentDir. Source remains the original upstream git pointer; installable admission is paused. Two docs/ files over 1 MiB and gallery/fonts are outside the skill path. Do not auto-run the optional remote pch install script. This is a notice-delivery issue in the Market installed copy, not an unknown license or a lack of permission to reference upstream. Original pointers/collection selection and upstream installation remain unchanged. The client should carry the MIT/Apache notices into selected-path staging rather than Market repackaging upstream without approval."
       },
       "zh-CN": {
         "name": "pixelfx 像素特效",
         "summary": "用 pixelfx 代码库制作像素特效的技能。目录路径为 skills/pixelfx；特效库和 Node 工具在同一 MIT 仓库中，需另行检出。gallery/fonts 不受仓库 MIT 许可覆盖，也不在本路径内。可选的 pch CLI 通过远程脚本安装，需操作者自行审核。准入暂停为仅收录：现行 DesireCore 安装器只复制该技能路径，不会把仓库根目录的 MIT LICENSE 或 NOTICE.md 附进安装产物。",
-        "description": "固定版本 5294518ce7c72e48b6100a744596e0acf57f2826。上游根 LICENSE 为 MIT，NOTICE.md 须随再分发携带，但二者都位于 skills/pixelfx 之外，因此按路径安装时不会得到这些文件。现行目录与客户端都不会把父级证据附到所选 contentDir。来源仍为原先的上游 Git 指针；可安装准入暂停。docs/ 中两个超过 1 MiB 的文件以及 gallery/fonts 不在技能路径内。不要自动运行可选的 pch 远程安装脚本。"
+        "description": "固定版本 5294518ce7c72e48b6100a744596e0acf57f2826。上游根 LICENSE 为 MIT，NOTICE.md 须随再分发携带，但二者都位于 skills/pixelfx 之外，因此按路径安装时不会得到这些文件。现行目录与客户端都不会把父级证据附到所选 contentDir。来源仍为原先的上游 Git 指针；可安装准入暂停。docs/ 中两个超过 1 MiB 的文件以及 gallery/fonts 不在技能路径内。不要自动运行可选的 pch 远程安装脚本。 这是市场安装产物的通知携带问题，不是许可未知或市场无权引用上游；保留原指针/合集点选及上游安装方式。MIT/Apache 通知应由客户端在所选路径暂存时正确附带，不能为此擅自重打包上游。"
       }
     },
     "category": "creative",
@@ -33,7 +33,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-24",
+      "value": "2026-11-25",
       "precision": "day"
     },
     "releasePublishedAt": {
