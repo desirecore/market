@@ -30,7 +30,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-25T03:36:37Z",
+      "value": "2026-11-26T01:26:35Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -38,12 +38,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-25",
+      "value": "2026-11-26",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-11-25T03:36:37Z",
+      "value": "2026-11-26T01:26:35Z",
       "precision": "second"
     }
   },
@@ -51,7 +51,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/zarazhangrui/follow-builders.git",
-      "ref": "65452b9258f31ed2893734c86481216d2e4105ff"
+      "ref": "669f7f4b5320ac69ac2360fa8278b314834ed34c"
     }
   },
   "governance": {
@@ -70,8 +70,8 @@
     },
     "compliance": {
       "licenseEvidencePath": "README.md",
-      "reviewedRef": "65452b9258f31ed2893734c86481216d2e4105ff",
-      "reviewedAt": "2026-11-25",
+      "reviewedRef": "669f7f4b5320ac69ac2360fa8278b314834ed34c",
+      "reviewedAt": "2026-11-26",
       "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }

@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "reviewer": "automated:source-license-metadata-v1",
-  "reviewedAt": "2026-11-25T03:36:37Z",
+  "reviewedAt": "2026-11-26T01:26:35Z",
   "source": {
     "url": "https://github.com/zarazhangrui/follow-builders.git",
-    "previousRef": "22c2e72e1a4bb0fc0f3e19f992fc55615b48989e",
-    "ref": "65452b9258f31ed2893734c86481216d2e4105ff",
+    "previousRef": "65452b9258f31ed2893734c86481216d2e4105ff",
+    "ref": "669f7f4b5320ac69ac2360fa8278b314834ed34c",
     "paths": [
       ""
     ]
@@ -21,7 +21,7 @@
     "README.md": "ed622ec7b1c36417b3b5d684cb995611ce55c2f1987d8a7a6815c314f4447db7"
   },
   "observedVersions": {},
-  "contentManifestSha256": "296603b192adf4057e2f9075f9929f306a6d9c6ac6ccc39a4989c8c29b2ce1b4",
+  "contentManifestSha256": "33bcab6124947e973a6f312571e8e273199afb13c7637f4a36699dd3cb4592fa",
   "fileCount": 22,
   "limitations": [
     "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
