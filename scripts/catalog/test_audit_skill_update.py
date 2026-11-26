@@ -11,7 +11,8 @@ import subprocess
 import tempfile
 import unittest
 from pathlib import Path
-from audit_skill_update import audit_snapshots, audit_update, AuditBlocked, REVIEWER
+from audit_skill_update import (audit_snapshots, audit_update, AuditBlocked, REVIEWER,
+                                 GENERATOR, frontmatter_identity, _text_sha256)
 
 
 class AuditTests(unittest.TestCase):
@@ -799,6 +800,152 @@ class AuditTests(unittest.TestCase):
     def test_disallows_non_github_fetch_targets(self):
         self.entry['source']['repoUrl'] = 'file:///private/source'
         with self.assertRaisesRegex(AuditBlocked, 'HTTPS'): audit_update(self.entry, self.metadata, {})
+
+    def _collection_description_fixture(self, new_description, short_descs, catalog=True):
+        self.entry = {
+            'id': 'collection',
+            'latestVersion': '1.0.0',
+            'source': {'kind': 'git', 'repoUrl': 'https://github.com/example/sample.git', 'ref': self.old},
+            'children': [{
+                'id': 'sample',
+                'path': 'skills/sample',
+                'version': '1.0.0',
+                'i18n': {
+                    'zh-CN': {'shortDesc': '旧的中文简介：在单个长会话中统筹子 Agent。'},
+                    'en-US': {'shortDesc': 'Acts as a chief of staff in one long session, co-ordinating subagents toward a long-running goal.'},
+                },
+            }],
+        }
+        self.metadata['identity'] = {'kind': 'skill', 'id': 'collection'}
+        self.metadata['provenance']['content'] = {'kind': 'git', 'url': self.entry['source']['repoUrl'], 'ref': self.old}
+        self.metadata['spec'] = {'collection': {'children': [{
+            'identity': {'kind': 'skill', 'id': 'sample', 'parentId': 'collection'},
+            'path': 'skills/sample',
+            'presentation': {'defaultLocale': 'en-US', 'i18n': {
+                'en-US': {'name': 'sample', 'summary': self.entry['children'][0]['i18n']['en-US']['shortDesc']},
+                'zh-CN': {'name': 'sample', 'summary': self.entry['children'][0]['i18n']['zh-CN']['shortDesc']},
+            }, 'tags': []},
+            'release': {'state': 'unknown'},
+        }]}} if catalog else {'collection': {'children': [{'identity': {'id': 'sample'}, 'path': 'skills/sample'}]}}
+        old_text = (self.repo / 'skills/sample/SKILL.md').read_text()
+        self.write('skills/sample/SKILL.md', old_text.replace('description: Fixture', f'description: {new_description}'))
+        self.entry['children'][0]['i18n']['en-US']['shortDesc'] = short_descs['en-US']
+        self.entry['children'][0]['i18n']['zh-CN']['shortDesc'] = short_descs['zh-CN']
+        if catalog:
+            i18n = self.metadata['spec']['collection']['children'][0]['presentation']['i18n']
+            i18n['en-US']['summary'] = short_descs['en-US']
+            i18n['zh-CN']['summary'] = short_descs['zh-CN']
+        new = self.commit()
+        return new, GENERATOR.skill_frontmatter(self.repo, 'skills/sample/SKILL.md', new)
+
+    def _description_review(self, new, fm, short_descs, **overrides):
+        from audit_skill_update import frontmatter_identity, _text_sha256
+        accepted = {
+            'fromRef': self.old,
+            'toRef': new,
+            'files': [{
+                'path': 'skills/sample',
+                'oldDescription': 'Fixture',
+                'newDescription': fm['description'],
+                'newFrontmatterSha256': frontmatter_identity(fm),
+                'locales': {
+                    locale: {
+                        'shortDesc': text,
+                        'sha256': _text_sha256(text),
+                        'previousShortDesc': {
+                            'en-US': 'Acts as a chief of staff in one long session, co-ordinating subagents toward a long-running goal.',
+                            'zh-CN': '旧的中文简介：在单个长会话中统筹子 Agent。',
+                        }[locale],
+                    }
+                    for locale, text in short_descs.items()
+                },
+            }],
+        }
+        accepted.update(overrides)
+        return {
+            'schemaVersion': 1,
+            'reviewedBy': 'mashagua',
+            'reviewedAt': '2026-11-27',
+            'notes': 'Reviewed bilingual listing copy against the new upstream description for this pin.',
+            'acceptedFrontmatterSha256': {'skills/sample': frontmatter_identity(fm)},
+            'acceptedDescriptionAndLocales': accepted,
+        }
+
+    def test_description_and_locales_accepts_updated_short_desc(self):
+        new_description = 'Delegate the work to fresh subagents and remember what it taught you in a dated wiki, so the next session picks up the thread.'
+        short_descs = {
+            'en-US': 'Delegates work to fresh-context background subagents and records dated knowledge in an agreed wiki for later sessions.',
+            'zh-CN': '将工作委派给新上下文后台子 Agent，并把有日期的知识写入约定 wiki，供后续会话续接。',
+        }
+        new, fm = self._collection_description_fixture(new_description, short_descs)
+        entry, metadata, report = audit_snapshots(
+            self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+            '2026-10-31T01:02:03Z', special_review=self._description_review(new, fm, short_descs))
+        self.assertEqual(entry['source']['ref'], new)
+        self.assertEqual(metadata['governance']['compliance']['reviewedRef'], new)
+        self.assertTrue(any('双语简介' in item or '简介' in item for item in report['limitations']))
+
+    def test_description_and_locales_rejects_mismatched_bindings(self):
+        new_description = 'Delegate the work to fresh subagents and remember what it taught you in a dated wiki, so the next session picks up the thread.'
+        short_descs = {
+            'en-US': 'Delegates work to fresh-context background subagents and records dated knowledge in an agreed wiki for later sessions.',
+            'zh-CN': '将工作委派给新上下文后台子 Agent，并把有日期的知识写入约定 wiki，供后续会话续接。',
+        }
+        new, fm = self._collection_description_fixture(new_description, short_descs)
+        review = self._description_review(new, fm, short_descs)
+        variants = [
+            ('未绑定当前固定快照', {'toRef': self.old}),
+            ('未绑定当前固定快照', {'fromRef': new}),
+            ('路径与上游简介变化范围不一致', {'files': [{**review['acceptedDescriptionAndLocales']['files'][0], 'path': 'skills/missing'}]}),
+        ]
+        for message, override in variants:
+            with self.subTest(message):
+                broken = self._description_review(new, fm, short_descs, **override)
+                with self.assertRaisesRegex(AuditBlocked, message):
+                    audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                                    '2026-10-31T01:02:03Z', special_review=broken)
+
+    def test_description_and_locales_rejects_stale_or_unmatched_short_desc(self):
+        new_description = 'Delegate the work to fresh subagents and remember what it taught you in a dated wiki, so the next session picks up the thread.'
+        stale = {
+            'en-US': 'Acts as a chief of staff in one long session, co-ordinating subagents toward a long-running goal.',
+            'zh-CN': '将工作委派给新上下文后台子 Agent，并把有日期的知识写入约定 wiki，供后续会话续接。',
+        }
+        new, fm = self._collection_description_fixture(new_description, stale)
+        with self.assertRaisesRegex(AuditBlocked, '未相对原先文案更新|未实际更新以匹配上游简介'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                            '2026-10-31T01:02:03Z', special_review=self._description_review(new, fm, stale))
+        self.run_git('reset', '--hard', self.old)
+        self.run_git('clean', '-fd')
+        unmatched = {
+            'en-US': 'A completely unrelated listing about typography and typographic color palettes.',
+            'zh-CN': '将工作委派给新上下文后台子 Agent，并把有日期的知识写入约定 wiki，供后续会话续接。',
+        }
+        new, fm = self._collection_description_fixture(new_description, unmatched)
+        with self.assertRaisesRegex(AuditBlocked, '未实际更新以匹配上游简介'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                            '2026-10-31T01:02:03Z', special_review=self._description_review(new, fm, unmatched))
+
+    def test_notes_without_description_locale_evidence_do_not_pass(self):
+        new_description = 'Delegate the work to fresh subagents and remember what it taught you in a dated wiki, so the next session picks up the thread.'
+        short_descs = {
+            'en-US': 'Delegates work to fresh-context background subagents and records dated knowledge in an agreed wiki for later sessions.',
+            'zh-CN': '将工作委派给新上下文后台子 Agent，并把有日期的知识写入约定 wiki，供后续会话续接。',
+        }
+        new, fm = self._collection_description_fixture(new_description, short_descs)
+        from audit_skill_update import frontmatter_identity
+        with self.assertRaisesRegex(AuditBlocked, 'description-and-locales|简介|manual_review|安装通知|元数据'):
+            audit_snapshots(
+                self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                '2026-10-31T01:02:03Z',
+                special_review={
+                    'schemaVersion': 1,
+                    'reviewedBy': 'mashagua',
+                    'reviewedAt': '2026-11-27',
+                    'notes': 'The bilingual shortDesc was reviewed.',
+                    'acceptedFrontmatterSha256': {'skills/sample': frontmatter_identity(fm)},
+                })
+
 
 
 if __name__ == '__main__': unittest.main()
