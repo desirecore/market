@@ -8,7 +8,7 @@
     "video-analysis",
     "content-strategy"
   ],
-  "latestVersion": "1.0.2",
+  "latestVersion": "1.0.3",
   "requiredClientVersion": "10.0.203",
   "maintainer": {
     "name": "desirecore-agent",
@@ -22,7 +22,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/douyin-creator-analyst.git",
     "repoBranch": "main",
-    "ref": "b9e581a72936458550c2da2ed74b21d046f42531"
+    "ref": "e381fcfcebdf823d8aea585ceb54d36a5c046cf2"
   },
   "avatar": {
     "t": "析",
@@ -36,11 +36,11 @@
   "i18n": {
     "zh-CN": {
       "name": "抖音博主分析师",
-      "shortDesc": "从主页、作品链接或本地视频分析博主，拆解开头、正文和互动，整理成账号报告或实拍案例。默认启用 Rea-Video，首次分析由 uv 准备 CLI，需 Git、FFmpeg 和 ffprobe。"
+      "shortDesc": "从主页、作品链接或本地视频分析博主，输出带时码和截图的拆解。随包启用抖音下载与 Rea-Video，优先用巨章内置运行时。"
     },
     "en-US": {
       "name": "Douyin Creator Analyst",
-      "shortDesc": "Research creators from a profile, individual links or local videos. Get timestamped breakdowns, an account report or filming exercises. Rea-Video is enabled by default; first use provisions the CLI through uv and needs Git, FFmpeg and ffprobe."
+      "shortDesc": "Analyze creator profiles, video links or local files with timestamps and frames. The bundled Douyin downloader and Rea-Video prefer DesireCore’s managed runtimes."
     }
   }
 }
