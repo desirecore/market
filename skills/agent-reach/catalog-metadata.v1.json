@@ -10,11 +10,13 @@
     "i18n": {
       "en-US": {
         "name": "Agent Reach",
-        "summary": "Web research and social search across Xiaohongshu, X/Twitter, Bilibili, Reddit, YouTube and more. Install Agent Reach and required third-party CLIs separately, and authorize the relevant platform accounts."
+        "summary": "Web research and social search across Xiaohongshu, X/Twitter, Bilibili, Reddit, YouTube and more. Install Agent Reach and required third-party CLIs separately, and authorize the relevant platform accounts.",
+        "description": "Correction to #350: retain the original pinned Git source and known MIT license; pause Market installation at listing-only. The agent_reach/skill path has 9 files and no root LICENSE. Staging does not attach root notices to selected directories. The earlier review confirmed root evidence but did not establish delivery in the installed copy. This does not mean upstream is unusable or cannot be referenced. No upstream edit or repackaging; the client must preserve notices correctly."
       },
       "zh-CN": {
         "name": "Agent Reach",
-        "summary": "全网调研与社媒搜索：覆盖小红书、X/Twitter、B 站、Reddit、YouTube 等平台的内容检索与信息聚合。需自行安装 Agent Reach 及所需第三方 CLI，并授权对应平台账号。"
+        "summary": "全网调研与社媒搜索：覆盖小红书、X/Twitter、B 站、Reddit、YouTube 等平台的内容检索与信息聚合。需自行安装 Agent Reach 及所需第三方 CLI，并授权对应平台账号。",
+        "description": "复审纠正 #350：保留原固定 Git 来源和已知 MIT；当前市场安装暂缓为仅收录。实际路径 agent_reach/skill 含 9 文件，根 LICENSE 不在路径内。当前 staging 不把根通知附到所选目录；先前审核确认根许可存在，但未证明它进入安装副本。此问题不等于上游不可用或无权引用。未改上游、未重打包；需要客户端正确保留通知。"
       }
     },
     "category": "research",
@@ -35,7 +37,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-10-19",
+      "value": "2026-11-25",
       "precision": "day"
     },
     "releasePublishedAt": {
@@ -62,7 +64,7 @@
   },
   "governance": {
     "stewardship": "community",
-    "availability": "installable",
+    "availability": "listing-only",
     "license": {
       "state": "known",
       "value": "MIT",

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "mashagua",
+  "reviewedAt": "2026-11-26",
+  "notes": "Class C special review of ffmpeg-skill 2617bf01f11b021bf487b0005c7db06bb1cb616a against the admitted main pin c7dad34c846099e7cf606ef943abe5e12d1ab0f9 (PR #353, availability=installable, license MIT, evidencePath LICENSE, reviewedRef=old SHA, reviewedBy=mashagua, reviewedAt=2026-11-24). Root LICENSE is byte-identical at both pins (git blob 6d76d5f6cce41e74b6cebdbf013faddf3abb1afe, SHA-256 7522b29e4d6e90f2a8fab15f07d224b1064c70692a872be9996ac1a88cf474e9): MIT, Copyright (c) 2026 kajisho5. No NOTICE or COPYING. package.json is unchanged (git blob dc334d382e450ae43f328db2067d6762089712be, license MIT, version 4.7.1, no dependency declarations). Root SKILL.md and skills/ffmpeg-skill/SKILL.md are unchanged; frontmatter is only name and description (no version). Install scope remains the whole repository tree because scripts, MCP and binaries live at the repo root; this is not a path-scoped or collection install, so the root LICENSE is inside the install copy. The automated draft PR #367 failed with 单文件超过自动审核预算 (first-failure only). The complete over-budget set is the same 13 regular files already disclosed on the old pin, each with an identical path, size and git blob at both pins: demos/footage/veo_rain.mp4 (4534847, aa2a88fa7d8e725a7a905bdaec7aa9d5960cef1c), site/media/showcase_reel_en.mp4 (3837412, bc7aff9ea5dac401c82dcf853e54897138dbfdbb), site/media/showcase_reel_ja.mp4 (3820115, 6e5b6f35970e0c75be0621d0891af7aa6983025c), demos/footage/veo_sea.mp4 (3228862, b26f5797c5099b913991352ba2a43d9c14605986), demos/footage/veo_basketball.mp4 (2337097, 8e4462b0e1ce19c02f807703ca5d2b2d19da4333), assets/demo.gif (1647658, 44a56d168e40c62a542b8e4138b36dc3e6daa3dd), demos/footage/veo_hall.mp4 (1561150, 63661cbba76497072701b741b0d0b8606ad617fc), demos/footage/veo_pause_en.mp4 (1524215, c84e8bea5f864a0e2a4e43b297ca48a56abe48fc), site/media/filler_en.mp4 (1375647, a299067ab54524399f7df74689f26c53ea7e8d37), demos/footage/real_city.mp4 (1287190, 10a8aa56f9db75953d367d1019f80d67c043360b), site/media/showcase_colour.mp4 (1253687, 1d181c67ad016d678ae1f812cbbf149222c79b36), site/media/reframe_talk.mp4 (1165539, 220fccb19cc1e860d66efac2c096ffe0d4660e44), demos/footage/veo_talk_en.mp4 (1097550, bc98a3af11e52a6f119f48807656c7aa47222f3e). Together they are 28670969 bytes. They are demo footage, site showcase media and a demo GIF, not license, NOTICE or dependency manifests, and not runtime skill tooling. budgetExemptPaths cannot pass this target: those 13 files remain in the audit manifest, the whole-tree totals are 65171935 bytes (old) and 65255608 bytes (new), and budgetExemptPaths does not raise MAX_CONTENT_BYTES (50 MiB). excludePaths names the exact 13 paths so the audit tree walk can finish; after omission the new-pin walk is 490 files / 36584639 bytes (34.89 MiB), under the 50 MiB and 2000-file audit caps. This is not an install exclusion, does not slim or strip the upstream tree, and does not raise global audit or client Git budgets. The DesireCore installer does not honor excludePaths and will still install these 13 files as part of the whole-tree pin (about 62.23 MiB tracked blobs, under the 200 MiB default Git checkout budget that #353 already accepted). Other files in demos/, site/ and assets/ stay in the audit walk, including near-budget media still under 1 MiB (for example demos/footage/veo_hands.mp4 966457 and tests/test_contract.py 949811 on the new pin). Upstream delta is 5 commits / 23 paths: docs and plugin packaging, reference pacing scripts, eval/test updates; no license, NOTICE, dependency-manifest or SKILL.md frontmatter change. Review covers the pinned source, licensing and catalog metadata. Upstream programs were not executed; this is not a transcode or runtime acceptance.",
+  "excludePaths": [
+    "demos/footage/veo_rain.mp4",
+    "site/media/showcase_reel_en.mp4",
+    "site/media/showcase_reel_ja.mp4",
+    "demos/footage/veo_sea.mp4",
+    "demos/footage/veo_basketball.mp4",
+    "assets/demo.gif",
+    "demos/footage/veo_hall.mp4",
+    "demos/footage/veo_pause_en.mp4",
+    "site/media/filler_en.mp4",
+    "demos/footage/real_city.mp4",
+    "site/media/showcase_colour.mp4",
+    "site/media/reframe_talk.mp4",
+    "demos/footage/veo_talk_en.mp4"
+  ]
+}
