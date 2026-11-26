@@ -873,11 +873,11 @@
   ],
   "schemaVersion": 1,
   "reviewer": "mashagua",
-  "reviewedAt": "2026-11-25",
+  "reviewedAt": "2026-11-27",
   "status": "blocked",
   "previousRef": "5863806dd4e15c63174bee4e7515a4256792ecfa",
   "upstreamUrl": "https://github.com/mattpocock/skills",
-  "clientRef": "e817d57e819975052c5da610874b7747de18b7c8",
+  "clientRef": "28128a15b3abd76e1529b983ca8a921bdfe9ff30",
   "scopeRule": "client joins repo contentDir with child.path and copies only that subtree; root LICENSE is not injected",
   "upstreamRootLicensePaths": [
     "LICENSE"
@@ -903,10 +903,13 @@
     "historicalReviewedRefPreserved": "5863806dd4e15c63174bee4e7515a4256792ecfa"
   },
   "blocker": {
-    "code": "INSTALL_SCOPE_LICENSE_NOTICE_MISSING",
-    "affectedExistingMembers": 38,
-    "affectedNewlyDiscoverableMembers": 1,
-    "requiredAction": "Upstream must include necessary MIT notice in each independently installed subtree, or a separately authorized client change must deliver the required notice with each copy. Neither is changed by this market-only PR. No source repacking, selection changes or exception accepted."
+    "code": "OFFICIAL_AUDIT_STILL_BLOCKED_AFTER_NOTICE_READBACK",
+    "installedProjectNotice": "cleared_via_client_attached_readback",
+    "remaining": [
+      "root package.json and package-lock.json changed (yaml devDependency and check-frontmatter script); existing acceptedDependencyIdentities can bind the hashes after the rest of the audit can pass",
+      "skills/in-progress/chief-of-staff description-and-locales remains manual_review when i18n copy exists; current schema cannot record a passing locale review, so no official new-pin receipt was issued"
+    ],
+    "requiredAction": "Do not invent a passing receipt. A supported way to accept the already-reviewed chief-of-staff locale copy is still required before Ready."
   },
   "deltaEvidence": {
     "dependencyManifests": {
@@ -966,5 +969,16 @@
     ],
     "newPinAuditPassed": false,
     "readyForReview": false
-  }
+  },
+  "clientTree": "e8c1321e6a098eb905f4646b2027bc7b2259ca6b",
+  "installReadback": {
+    "observedAt": "2026-11-26T16:04:23Z",
+    "deliveredCount": 39,
+    "allDelivered": true,
+    "attachedName": "LICENSE",
+    "rootLicenseSha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+    "sourceChildDirectoriesStillLackLicense": true,
+    "installedProjectNoticeAfterHook": "info"
+  },
+  "toolingPullRequest": "https://github.com/desirecore/market/pull/374"
 }

@@ -1,6 +1,21 @@
-# PR361 实际安装范围许可复审（阻塞）
+# PR361 实际安装范围许可复审（仍阻塞正式回执）
 
 旧 pin：`5863806dd4e15c63174bee4e7515a4256792ecfa`；目标 pin：`d65391149dbb5fe76478e76fa8d5122b2aa5a70e`。
+
+## 2026-11-27 更新（新加坡时间 UTC+8）
+
+客户端 [desirecore#6426](https://github.com/desirecore/desirecore/pull/6426) 已 squash 合入 `dev`：`28128a15b3abd76e1529b983ca8a921bdfe9ff30`（tree `e8c1321e6a098eb905f4646b2027bc7b2259ca6b`）。当前 `dev` 已前移到 `accccc6747ac0ead52d0be248f9918130164d0e0`，该修复仍在历史中，且 `attachRootNoticeFiles` 代码未被改动。
+
+2026-11-27 00:04:23（新加坡时间 UTC+8）用与 `28128a15…` 同一 tree 的 `stageMarketSkillDirectory` 做了诚实安装回读：39/39 子项安装副本都附上了名为 `LICENSE` 的普通文件（`sourceName=LICENSE`，无命名冲突），哈希与合集根 LICENSE 一致：`0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5`。源树 39/39 子目录仍无 LICENSE。权威是安装副本里的完整 MIT 文本，不是审核时看到根 LICENSE。
+
+市场侧专项复核挂钩已写入 [market#374](https://github.com/desirecore/market/pull/374)（head `dd8707029923bf9c9371f0d2e3d176a853c87a12`），并用正常 merge 合入本分支（merge `2c74a8eda913c17c08910b7044f5980c1020a9ee`）。`inspect_snapshots` 在绑定当前 pin、已核验客户端提交和逐项回读后，将 39 项 `installed-project-notice` 记为 `info`，不再因源子目录缺 LICENSE 而 blocked。这不是许可例外，也不能自动延伸到新 pin。
+
+**仍未签发新 pin 成功回执，PR 保持 Draft。** 官方 `audit_snapshots` 在通知门禁清除后，仍被以下既有专项复核项挡住：
+
+1. 根 `package.json` / `package-lock.json` 变化：新增开发依赖 `yaml@^2.9.1` 与 `check-frontmatter` 脚本（包版本 0.0.0→1.3.2；package.json 身份比较会去掉 version）。此变化此前已人工复核，可用既有 `acceptedDependencyIdentities` 绑定哈希，但须与完整通过的审核一起写入。
+2. `skills/in-progress/chief-of-staff/SKILL.md` 上游简介变化。本分支已人工更新中英 `shortDesc`，但 `description-and-locales` 在条目已有 i18n 时仍为 `manual_review`；现行 schema 没有能把该项从 `manual_review` 清成可通过的字段。因此不能把失败的官方审核写成成功回执，也不能转 Ready。
+
+以下为 2026-11-25 对源树子目录的历史复审（源树结论仍成立，但不再是安装副本交付的最终结论）。
 
 ## 结论
 
