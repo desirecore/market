@@ -1,6 +1,19 @@
-# PR361 实际安装范围许可复审（仍阻塞正式回执）
+# PR361 实际安装范围许可复审
 
 旧 pin：`5863806dd4e15c63174bee4e7515a4256792ecfa`；目标 pin：`d65391149dbb5fe76478e76fa8d5122b2aa5a70e`。
+
+## 2026-11-27 07:43:23（新加坡时间 UTC+8）官方审核通过并签发新 pin 回执
+
+官方 `audit_snapshots` 已对 pin `d65391149dbb5fe76478e76fa8d5122b2aa5a70e` 通过，并签发绑定该 pin 的新回执；`reviewedRef` 与范围已同步为新 pin、39 条 paths。旧回执未延伸到新 pin。这不是许可例外，也不代表安全认证或运行验收。
+
+依据：
+
+1. 客户端 [desirecore#6426](https://github.com/desirecore/desirecore/pull/6426) squash `28128a15b3abd76e1529b983ca8a921bdfe9ff30`（tree `e8c1321e6a098eb905f4646b2027bc7b2259ca6b`）已合入 `dev`。2026-11-27 00:04:23（新加坡时间 UTC+8）安装回读：39/39 子项副本都附上名为 `LICENSE` 的普通文件（`sourceName=LICENSE`，无命名冲突），哈希 `0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5`。源树 39/39 子目录仍无 LICENSE。
+2. [market#374](https://github.com/desirecore/market/pull/374) 增加 `acceptedClientAttachedNotices` 与 `acceptedDescriptionAndLocales`（最终 head `ccdd35dea8d66a7a97b324caff167a0582805bfe`；相关测试 150 passed / 190 subtests）。本分支用正常 merge 合入该挂钩，未合并 #374。
+3. `acceptedDependencyIdentities` 绑定根 `package.json`（SHA-256 `405ad26c331e1f345de2221f2d8883083f0b9d4f29bc5aba06e683c6c866c235`，已去掉 version）与 `package-lock.json`（git blob `2787482775ab39d301710ce8b78ce1bb3730a98b`），对应已复核的 `yaml@^2.9.1` 与 `check-frontmatter` 脚本。
+4. `acceptedDescriptionAndLocales` 绑定 chief-of-staff 的旧/新 pin、新 frontmatter 哈希 `a7e51a294e73a8b36aa90d1d90ad281e397bf7b5e9cbc544469b52de09409242`，以及已更新并与 catalog 镜像一致的中英 `shortDesc`。
+
+回执 `reviewedAt`：`2026-11-26T23:43:23Z`（新加坡时间 2026-11-27 07:43:23 UTC+8）。`upstream-audit.v1.json` 现绑定新 pin、39 条 paths。
 
 ## 2026-11-27 更新（新加坡时间 UTC+8）
 
@@ -10,16 +23,16 @@
 
 市场侧专项复核挂钩已写入 [market#374](https://github.com/desirecore/market/pull/374)（head `dd8707029923bf9c9371f0d2e3d176a853c87a12`），并用正常 merge 合入本分支（merge `2c74a8eda913c17c08910b7044f5980c1020a9ee`）。`inspect_snapshots` 在绑定当前 pin、已核验客户端提交和逐项回读后，将 39 项 `installed-project-notice` 记为 `info`，不再因源子目录缺 LICENSE 而 blocked。这不是许可例外，也不能自动延伸到新 pin。
 
-**仍未签发新 pin 成功回执，PR 保持 Draft。** 官方 `audit_snapshots` 在通知门禁清除后，仍被以下既有专项复核项挡住：
+此前官方 `audit_snapshots` 在通知门禁清除后，曾被以下专项复核项挡住；这些项已在本次正式审核中绑定并通过对应当前 hook：
 
 1. 根 `package.json` / `package-lock.json` 变化：新增开发依赖 `yaml@^2.9.1` 与 `check-frontmatter` 脚本（包版本 0.0.0→1.3.2；package.json 身份比较会去掉 version）。此变化此前已人工复核，可用既有 `acceptedDependencyIdentities` 绑定哈希，但须与完整通过的审核一起写入。
-2. `skills/in-progress/chief-of-staff/SKILL.md` 上游简介变化。本分支已人工更新中英 `shortDesc`，但 `description-and-locales` 在条目已有 i18n 时仍为 `manual_review`；现行 schema 没有能把该项从 `manual_review` 清成可通过的字段。因此不能把失败的官方审核写成成功回执，也不能转 Ready。
+2. `skills/in-progress/chief-of-staff/SKILL.md` 上游简介变化。本分支已人工更新中英 `shortDesc`，但 `description-and-locales` 在条目已有 i18n 时仍为 `manual_review`；现行 schema 没有能把该项从 `manual_review` 清成可通过的字段。这些阻塞随后已通过 `acceptedDependencyIdentities` 与 `acceptedDescriptionAndLocales` 解除，见上文正式回执。
 
 以下为 2026-11-25 对源树子目录的历史复审（源树结论仍成立，但不再是安装副本交付的最终结论）。
 
 ## 结论
 
-**39/39 个可发现子技能安装范围均缺完整必要 MIT 通知，包含既有38项及重新可发现的 software-factory。原准入的历史回执不证明实际安装副本携带通知。本次不生成新 pin 成功回执，PR 必须保持 Draft。**
+**（历史源树结论，仍然成立于源目录）** 39/39 个可发现子技能的源树安装范围仍缺完整必要 MIT 通知。该结论已被安装回读取代为交付证据：安装副本携带根 LICENSE。正式新 pin 回执已在上文签发。
 
 根 LICENSE 实际全文已读，要求在复制品或实质部分中包含 copyright notice 和 permission notice。根 LICENSE SHA-256 为 `0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5`。完整固定源码归档逐个扫描每个子目录及全部文件：没有子目录 LICENSE/NOTICE/COPYING，也没有任何文件含 `Copyright (c) 2026 Matt Pocock`、`Permission is hereby granted` 或完整根 MIT 文本。不把一行 MIT 声明/目录 evidencePath 当成通知全文。
 

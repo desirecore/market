@@ -30,7 +30,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-19T01:25:31Z",
+      "value": "2026-11-26T23:43:23Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -38,12 +38,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-19",
+      "value": "2026-11-26",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-11-19T01:25:31Z",
+      "value": "2026-11-26T23:43:23Z",
       "precision": "second"
     }
   },
@@ -70,8 +70,8 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "5863806dd4e15c63174bee4e7515a4256792ecfa",
-      "reviewedAt": "2026-11-19",
+      "reviewedRef": "d65391149dbb5fe76478e76fa8d5122b2aa5a70e",
+      "reviewedAt": "2026-11-26",
       "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }

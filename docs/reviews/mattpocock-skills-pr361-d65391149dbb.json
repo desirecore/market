@@ -874,7 +874,7 @@
   "schemaVersion": 1,
   "reviewer": "mashagua",
   "reviewedAt": "2026-11-27",
-  "status": "blocked",
+  "status": "passed-official-audit",
   "previousRef": "5863806dd4e15c63174bee4e7515a4256792ecfa",
   "upstreamUrl": "https://github.com/mattpocock/skills",
   "clientRef": "28128a15b3abd76e1529b983ca8a921bdfe9ff30",
@@ -883,8 +883,8 @@
     "LICENSE"
   ],
   "license": "MIT",
-  "safetyBoundary": "Read-only exact source archive inspection, no upstream execution or runtime/security certification. Not a successful audit receipt. Root license evidence is not installation delivery evidence.",
-  "newPinReceiptIssued": false,
+  "safetyBoundary": "Automated source/license/metadata verification, plus bound install-copy readback for client-attached root notices. No upstream execution, and not a security certification or runtime acceptance. Source child directories still lack LICENSE; delivery is proven on install copies bound to this pin and client commit.",
+  "newPinReceiptIssued": true,
   "collection": {
     "oldSourceSkillFiles": 39,
     "newSourceSkillFiles": 39,
@@ -900,16 +900,16 @@
     "historicalEnglishFallbacksTranslated": 34,
     "newlyDiscoverableMemberBilingual": true,
     "chiefOfStaffBilingualUpdated": true,
-    "historicalReviewedRefPreserved": "5863806dd4e15c63174bee4e7515a4256792ecfa"
+    "historicalReviewedRefPreserved": false,
+    "newPinReceiptBound": true,
+    "reviewedRef": "d65391149dbb5fe76478e76fa8d5122b2aa5a70e",
+    "receiptPathCount": 39
   },
   "blocker": {
-    "code": "OFFICIAL_AUDIT_STILL_BLOCKED_AFTER_NOTICE_READBACK",
-    "installedProjectNotice": "cleared_via_client_attached_readback",
-    "remaining": [
-      "root package.json and package-lock.json changed (yaml devDependency and check-frontmatter script); existing acceptedDependencyIdentities can bind the hashes after the rest of the audit can pass",
-      "skills/in-progress/chief-of-staff description-and-locales remains manual_review when i18n copy exists; current schema cannot record a passing locale review, so no official new-pin receipt was issued"
-    ],
-    "requiredAction": "Do not invent a passing receipt. A supported way to accept the already-reviewed chief-of-staff locale copy is still required before Ready."
+    "code": null,
+    "installedProjectNotice": "info-via-acceptedClientAttachedNotices",
+    "remaining": [],
+    "requiredAction": "None for official receipt. Required GitHub checks must pass on the exact final head before Ready."
   },
   "deltaEvidence": {
     "dependencyManifests": {
@@ -951,7 +951,7 @@
       "sha256": "34d6b0fdd267aa03f427e449275aa7bc31ffbe97086ab02c172a5a64b702f6d9",
       "conclusion": "Upstream CI workflow only; not run, not imported into market CI, not evidence of runtime acceptance."
     },
-    "acceptanceStatus": "Content deltas reviewed; installation acceptance withheld for missing MIT notice. Do not feed this blocked report to the automated success-receipt generator."
+    "acceptanceStatus": "accepted-in-special-review-with-passing-audit"
   },
   "validation": {
     "repositoryTests": {
@@ -960,15 +960,12 @@
     },
     "translationFreshnessExitCode": 0,
     "diffCheckExitCode": 0,
-    "catalogExitCode": 1,
-    "i18nExitCode": 1,
-    "actualErrors": [
-      "compliance.reviewedRef must match immutable content ref/digest",
-      "old receipt source does not match provenance",
-      "old receipt paths do not cover current 39 member scope"
-    ],
-    "newPinAuditPassed": false,
-    "readyForReview": false
+    "catalogExitCode": 0,
+    "i18nExitCode": 0,
+    "actualErrors": [],
+    "newPinAuditPassed": true,
+    "readyForReview": false,
+    "officialAuditObservedAt": "2026-11-26T23:43:23Z"
   },
   "clientTree": "e8c1321e6a098eb905f4646b2027bc7b2259ca6b",
   "installReadback": {
@@ -980,5 +977,6 @@
     "sourceChildDirectoriesStillLackLicense": true,
     "installedProjectNoticeAfterHook": "info"
   },
-  "toolingPullRequest": "https://github.com/desirecore/market/pull/374"
+  "toolingPullRequest": "https://github.com/desirecore/market/pull/374",
+  "toolingPullRequestHead": "ccdd35dea8d66a7a97b324caff167a0582805bfe"
 }

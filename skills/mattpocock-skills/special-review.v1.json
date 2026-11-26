@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "reviewedBy": "mashagua",
   "reviewedAt": "2026-11-27",
-  "notes": "Honest install-copy readback after desirecore#6426 landed on dev as 28128a15b3abd76e1529b983ca8a921bdfe9ff30. stageMarketSkillDirectory with attachNoticeFilesFrom=collection root attached the root MIT LICENSE (SHA-256 0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5) into all 39 selected child copies at pin d65391149dbb5fe76478e76fa8d5122b2aa5a70e. Source child directories still lack LICENSE; this is not a license exception and does not extend to a later pin.",
+  "notes": "Honest install-copy readback after desirecore#6426 landed on dev as 28128a15b3abd76e1529b983ca8a921bdfe9ff30. stageMarketSkillDirectory attached the root MIT LICENSE (SHA-256 0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5) into all 39 selected child copies at pin d65391149dbb5fe76478e76fa8d5122b2aa5a70e. Source child directories still lack LICENSE. Also recorded human review of the new chief-of-staff upstream description against updated zh-CN/en-US shortDesc and catalog summaries, and of the root package.json/package-lock.json change that adds yaml@^2.9.1 plus the check-frontmatter script. This is not a license exception and does not automatically extend to a later pin.",
   "acceptedClientAttachedNotices": {
     "sourceRef": "d65391149dbb5fe76478e76fa8d5122b2aa5a70e",
     "clientCommit": "28128a15b3abd76e1529b983ca8a921bdfe9ff30",
@@ -439,6 +439,79 @@
           }
         ],
         "contentDigest": "51c6334f07314d778116238f3c1b2392266e93bab7a718a8b6b3e14d69554630"
+      }
+    ]
+  },
+  "acceptedCollectionPaths": [
+    "skills/engineering/ask-matt",
+    "skills/engineering/code-review",
+    "skills/engineering/codebase-design",
+    "skills/engineering/diagnosing-bugs",
+    "skills/engineering/domain-modeling",
+    "skills/engineering/grill-with-docs",
+    "skills/engineering/implement",
+    "skills/engineering/implement-spec",
+    "skills/engineering/improve-codebase-architecture",
+    "skills/engineering/pr",
+    "skills/engineering/prototype",
+    "skills/engineering/research",
+    "skills/engineering/retro",
+    "skills/engineering/setup-matt-pocock-skills",
+    "skills/engineering/tdd",
+    "skills/engineering/to-spec",
+    "skills/engineering/to-tickets",
+    "skills/engineering/triage",
+    "skills/engineering/wayfinder",
+    "skills/engineering/wizard",
+    "skills/in-progress/chief-of-staff",
+    "skills/in-progress/claude-handoff",
+    "skills/in-progress/loop-me",
+    "skills/in-progress/setup-ts-deep-modules",
+    "skills/in-progress/software-factory",
+    "skills/in-progress/writing-beats",
+    "skills/in-progress/writing-fragments",
+    "skills/in-progress/writing-shape",
+    "skills/misc/git-guardrails-claude-code",
+    "skills/misc/migrate-to-shoehorn",
+    "skills/misc/scaffold-exercises",
+    "skills/misc/setup-pre-commit",
+    "skills/productivity/grill-me",
+    "skills/productivity/grilling",
+    "skills/productivity/handoff",
+    "skills/productivity/teach",
+    "skills/productivity/to-questionnaire",
+    "skills/productivity/wait-what",
+    "skills/productivity/writing-for-agents"
+  ],
+  "acceptedFrontmatterSha256": {
+    "skills/in-progress/chief-of-staff": "a7e51a294e73a8b36aa90d1d90ad281e397bf7b5e9cbc544469b52de09409242",
+    "skills/in-progress/software-factory": "e95fca3691f1ad75d5b6e5d85543e30f8ad7125c9ba7f1c7ccfcd910386bc0c1"
+  },
+  "acceptedDependencyIdentities": {
+    "package-lock.json": "2787482775ab39d301710ce8b78ce1bb3730a98b",
+    "package.json": "405ad26c331e1f345de2221f2d8883083f0b9d4f29bc5aba06e683c6c866c235"
+  },
+  "acceptedDescriptionAndLocales": {
+    "fromRef": "5863806dd4e15c63174bee4e7515a4256792ecfa",
+    "toRef": "d65391149dbb5fe76478e76fa8d5122b2aa5a70e",
+    "files": [
+      {
+        "path": "skills/in-progress/chief-of-staff",
+        "oldDescription": "Pursue a long-running goal in a single session by co-ordinating subagents.",
+        "newDescription": "Delegate the work to fresh subagents and remember what it taught you in a dated wiki, so the next session picks up the thread.",
+        "newFrontmatterSha256": "a7e51a294e73a8b36aa90d1d90ad281e397bf7b5e9cbc544469b52de09409242",
+        "locales": {
+          "zh-CN": {
+            "shortDesc": "上游 in-progress（测试中）、仅显式手动调用的统筹技能：将工作委派给新上下文后台子 Agent，主会话保留问答，并把有日期与提交依据的知识写入约定的 wiki，供后续会话续接；任务遇到阻力时先提议环境改进，用户接受后再执行。重复任务可在宿主支持时提议定期运行，仍需用户授权；需要子 Agent 能力及另行授权的 wiki、Git 和任务跟踪工具访问。",
+            "sha256": "7b40587f7c8af877c5ed81aa0da8c515b832ab1288f6763872e5dcfd529ecdc4",
+            "previousShortDesc": "上游 in-progress（测试中）技能，仅在用户显式手动调用时运行：在单个长会话中作为统筹者，把工作分派给后台子 Agent，在与用户约定的文件夹中维护注明日期的 Markdown 知识库，并在宿主支持时建议定期计划，持续推进长期目标；需要宿主支持子 Agent。"
+          },
+          "en-US": {
+            "shortDesc": "Upstream in-progress, explicitly user-invoked coordination skill: delegates work to fresh-context background subagents, keeps the conversation in the main session, and records dated, commit-cited knowledge in an agreed wiki for later sessions. After friction, offers environment changes before acting on acceptance. May propose recurring work where the host supports it; wiki, Git, tracker writes and schedules still require user authorization.",
+            "sha256": "a7d31b3e19d3656d3fbe57a490a8d788ba788e5854f86c9f66f221276043bf55",
+            "previousShortDesc": "Upstream in-progress skill that runs only when the user invokes it explicitly: acts as a chief of staff in one long session, delegating work to background subagents, keeping a dated Markdown wiki in a folder agreed with the user and suggesting recurring schedules where the host supports them; requires host subagent support."
+          }
+        }
       }
     ]
   }
