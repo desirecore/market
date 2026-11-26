@@ -34,7 +34,7 @@ def inspect_snapshots(repo, entry, metadata, result, special_review=None):
     # Lazy import avoids a circular module import; helpers only read bounded blobs.
     from audit_skill_update import (
         git, blob, safe_path, GENERATOR, MAX_FILE_BYTES, MAX_FILES,
-        accept_client_attached_notices, AuditBlocked,
+        accept_client_attached_notices, accept_description_and_locales, AuditBlocked,
     )
     old, new = result['ref'], result['head']
     review = special_review or {}
@@ -90,6 +90,16 @@ def inspect_snapshots(repo, entry, metadata, result, special_review=None):
             add('.', 'client-attached-notice', 'blocked', 'introduced',
                 '专项复核的客户端附加通知证据无效或未绑定当前 pin。 / Client-attached notice special review is invalid or not bound to this pin.',
                 '按已核验客户端实现、当前上游 pin、根通知哈希和全部安装范围的真实安装回读补全证据；不要把「将会附加」写成已交付，也不要把旧回执延伸到新 pin。 / Complete evidence bound to a verified client implementation, the current pin, the root notice hash, and install-copy readback for every install scope; do not record future attachment as delivery or extend an old receipt to a new pin.',
+                {'detail': str(error)})
+    locale_accepted_scopes = set()
+    if review.get('acceptedDescriptionAndLocales'):
+        try:
+            locale_accepted_scopes = accept_description_and_locales(
+                review, entry, metadata, repo, old, new, scopes)
+        except AuditBlocked as error:
+            add('.', 'description-and-locales-review', 'blocked', 'introduced',
+                '专项复核的简介与双语证据无效或未绑定当前 pin。 / Description-and-locales special review is invalid or not bound to this pin.',
+                '按当前旧/新 pin、变化路径、新 frontmatter 哈希和已更新并匹配上游新简介的条目/catalog 简介补全证据；不要把未更新文案或旧回执延伸到新 pin。 / Complete evidence bound to the current pins, changed paths, the new frontmatter hash, and updated entry/catalog summaries that match the new upstream description; do not extend stale copy or an old receipt to a new pin.',
                 {'detail': str(error)})
     for scope in scopes:
         def delivered(ref):
@@ -199,7 +209,8 @@ def inspect_snapshots(repo, entry, metadata, result, special_review=None):
             from audit_skill_update import frontmatter_identity
             accepted = review.get('acceptedFrontmatterSha256', {}).get(scope) == frontmatter_identity(after)
             has_locale_copy = bool(entry.get('i18n')) or any(c.get('path') == scope and any(v.get('shortDesc') for v in c.get('i18n', {}).values()) for c in entry.get('children', []))
-            add(marker, 'description-and-locales', 'manual_review' if has_locale_copy or not accepted else 'info', 'changed',
+            locale_ok = scope in locale_accepted_scopes
+            add(marker, 'description-and-locales', 'info' if locale_ok else ('manual_review' if has_locale_copy or not accepted else 'info'), 'changed',
                 '上游简介变化；旧双语及派生简介不得默认为仍然准确。 / Upstream description changed; old bilingual and derived summaries require review.',
                 '人工复核中英文及 entry/catalog 镜像；不能自动翻译或仅改 pin。 / Review both locales and entry/catalog mirrors; do not merely bump the pin or invent translations.',
                 {'oldDescription': before.get('description'), 'newDescription': after.get('description')})
