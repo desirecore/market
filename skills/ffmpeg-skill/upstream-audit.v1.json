@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "automated:source-license-metadata-v1",
+  "reviewedAt": "2026-11-26T07:24:35Z",
+  "source": {
+    "url": "https://github.com/kajisho5/ffmpeg-skill.git",
+    "previousRef": "c7dad34c846099e7cf606ef943abe5e12d1ab0f9",
+    "ref": "2617bf01f11b021bf487b0005c7db06bb1cb616a",
+    "paths": [
+      ""
+    ]
+  },
+  "checks": {
+    "immutableSnapshots": true,
+    "installedScopeBoundedFiles": true,
+    "licenseAndNoticeUnchanged": true,
+    "structuredPrerequisitesUnchanged": true,
+    "presentationMetadataUnchanged": true
+  },
+  "licenseEvidenceSha256": {
+    "LICENSE": "7522b29e4d6e90f2a8fab15f07d224b1064c70692a872be9996ac1a88cf474e9"
+  },
+  "observedVersions": {},
+  "contentManifestSha256": "e9c36b36903f2fdf0cbf48130a911ba90c0536a511521b772e5102cf30e3aed5",
+  "fileCount": 490,
+  "limitations": [
+    "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
+    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。",
+    "依赖清单或结构化简介如有变化，已按专项复核记录中的接受哈希核对，不代表这些字段与旧快照逐字节相同。",
+    "excludePaths 只从本仓库的自动审核树遍历中省略路径；DesireCore 安装器在支持该字段前仍会从上游 pin 安装这些文件。"
+  ],
+  "specialReview": {
+    "reviewedBy": "mashagua",
+    "reviewedAt": "2026-11-26",
+    "excludePaths": [
+      "demos/footage/veo_rain.mp4",
+      "site/media/showcase_reel_en.mp4",
+      "site/media/showcase_reel_ja.mp4",
+      "demos/footage/veo_sea.mp4",
+      "demos/footage/veo_basketball.mp4",
+      "assets/demo.gif",
+      "demos/footage/veo_hall.mp4",
+      "demos/footage/veo_pause_en.mp4",
+      "site/media/filler_en.mp4",
+      "demos/footage/real_city.mp4",
+      "site/media/showcase_colour.mp4",
+      "site/media/reframe_talk.mp4",
+      "demos/footage/veo_talk_en.mp4"
+    ],
+    "budgetExemptPaths": []
+  }
+}

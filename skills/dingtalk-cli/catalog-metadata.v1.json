@@ -30,7 +30,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-22T11:46:49Z",
+      "value": "2026-11-26T01:26:14Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -38,12 +38,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-22",
+      "value": "2026-11-26",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-11-22T11:46:49Z",
+      "value": "2026-11-26T01:26:14Z",
       "precision": "second"
     }
   },
@@ -51,7 +51,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/DingTalk-Real-AI/dingtalk-workspace-cli.git",
-      "ref": "df0fb53b5dcc8de64d49cfe0cce900eef4bc1d15"
+      "ref": "deac28acaf510955d8c9b3fc0318764f625c35d6"
     }
   },
   "governance": {
@@ -76,8 +76,8 @@
     "compliance": {
       "licenseEvidencePath": "LICENSE",
       "noticePath": "NOTICE",
-      "reviewedRef": "df0fb53b5dcc8de64d49cfe0cce900eef4bc1d15",
-      "reviewedAt": "2026-11-22",
+      "reviewedRef": "deac28acaf510955d8c9b3fc0318764f625c35d6",
+      "reviewedAt": "2026-11-26",
       "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }
