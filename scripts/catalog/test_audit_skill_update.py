@@ -18,7 +18,10 @@ class AuditTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory(); self.repo = Path(self.tmp.name)
         self.run_git('init', '--quiet')
         self.run_git('config', 'user.name', 'test'); self.run_git('config', 'user.email', 'test@example.com')
-        self.write('LICENSE', 'MIT fixture; previously reviewed bytes\n')
+        self.mit = (Path(__file__).resolve().parents[2] / 'LICENSE').read_text()
+        self.write('LICENSE', self.mit)
+        self.write('skills/sample/LICENSE', self.mit)
+        self.write('skills/another/LICENSE', self.mit)
         self.write('skills/sample/SKILL.md', '---\nname: sample\ndescription: Fixture\nversion: 1.0.0\n---\nOld instructions\n')
         self.write('skills/sample/scripts/tool.py', 'print("fixture")\n')
         self.old = self.commit()
@@ -131,6 +134,7 @@ class AuditTests(unittest.TestCase):
         self.assertEqual(entry['children'][0]['version'], '1.1.0')
         self.assertEqual(entry['children'][0]['i18n'], self.entry['children'][0]['i18n'])
         self.assertEqual(metadata['spec']['collection']['children'][0]['release']['version'], '1.1.0')
+        self.write('skills/another/LICENSE', self.mit)
         self.write('skills/another/SKILL.md', '---\nname: another\ndescription: New member\n---\n')
         with self.assertRaisesRegex(AuditBlocked, '合集成员'): self.audit()
 
@@ -239,6 +243,7 @@ class AuditTests(unittest.TestCase):
         from check_upstream_health import GENERATOR
         self.entry['children'] = [{'id': 'sample', 'path': 'skills/sample', 'version': '1.0.0', 'i18n': {'zh-CN': {'name': '示例'}}}]
         self.metadata['spec'] = {'collection': {'children': [{'identity': {'id':'sample'}, 'path':'skills/sample', 'release': {'state':'known','version':'1.0.0','versionScheme':'semver'}}]}}
+        self.write('skills/another/LICENSE', self.mit)
         self.write('skills/another/SKILL.md', '---\nname: another\ndescription: New member\nversion: 0.1.0\n---\nBody\n')
         new = self.commit()
         fm = GENERATOR.skill_frontmatter(self.repo, 'skills/another/SKILL.md', new)
@@ -272,6 +277,7 @@ class AuditTests(unittest.TestCase):
         from check_upstream_health import GENERATOR
         self.entry['children'] = [{'id': 'sample', 'path': 'skills/sample', 'version': '1.0.0'}]
         self.metadata['spec'] = {'collection': {'children': [{'identity': {'id':'sample'}, 'path':'skills/sample'}]}}
+        self.write('skills/another/LICENSE', self.mit)
         self.write('skills/another/SKILL.md', '---\nname: another\ndescription: New member\nversion: 0.1.0\n---\n')
         new = self.commit()
         fm = GENERATOR.skill_frontmatter(self.repo, 'skills/another/SKILL.md', new)
@@ -291,11 +297,13 @@ class AuditTests(unittest.TestCase):
     def test_special_review_accepts_root_notice_change(self):
         from audit_skill_update import root_evidence
         self.write('NOTICE', 'old notice\n')
+        self.write('skills/sample/README.md', 'old notice\n')
         self.old = self.commit()
         self.entry['source']['ref'] = self.old
         self.metadata['provenance']['content']['ref'] = self.old
         self.metadata['governance']['compliance']['reviewedRef'] = self.old
         self.write('NOTICE', 'new notice documenting a font license\n')
+        self.write('skills/sample/README.md', 'new notice documenting a font license\n')
         new = self.commit()
         with self.assertRaisesRegex(AuditBlocked, '许可证|Notice'):
             audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z')

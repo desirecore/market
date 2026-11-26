@@ -27,13 +27,13 @@
   },
   "release": {
     "state": "known",
-    "version": "4.10.0",
+    "version": "4.11.1",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-19T13:50:00Z",
+      "value": "2026-11-26T07:24:26Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -41,12 +41,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-19",
+      "value": "2026-11-26",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-11-19T13:50:00Z",
+      "value": "2026-11-26T07:24:26Z",
       "precision": "second"
     }
   },
@@ -55,7 +55,7 @@
       "kind": "git",
       "url": "https://github.com/pbakaus/impeccable.git",
       "path": "plugin/skills/impeccable",
-      "ref": "b49177d32788f2dc585c42831d845dacf1ebed2c"
+      "ref": "2fc5e1459efbbf06d92c7306517c286bf12490cf"
     }
   },
   "governance": {
@@ -74,8 +74,8 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "b49177d32788f2dc585c42831d845dacf1ebed2c",
-      "reviewedAt": "2026-11-19",
+      "reviewedRef": "2fc5e1459efbbf06d92c7306517c286bf12490cf",
+      "reviewedAt": "2026-11-26",
       "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }

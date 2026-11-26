@@ -16,14 +16,20 @@ def validate_record(metadata: dict, record: dict) -> list[str]:
     content = metadata.get('provenance', {}).get('content', {})
     if record.get('schemaVersion') != 1 or record.get('reviewer') != REVIEWER:
         errors.append('缺少受支持的机器审核身份/回执版本')
-    if (metadata.get('identity', {}).get('kind') != 'skill' or content.get('kind') != 'git'
-            or not isinstance(content.get('ref'), str) or not re.fullmatch('[0-9a-f]{40}', content['ref'])):
-        errors.append('该机器审核契约仅适用于固定 Git Skill 来源')
+    kind = content.get('kind')
+    digest = content.get('ref') if kind == 'git' else content.get('sha256')
+    pattern = '[0-9a-f]{40}' if kind == 'git' else '[0-9a-f]{64}'
+    if (metadata.get('identity', {}).get('kind') != 'skill' or kind not in ('git', 'zip', 'web')
+            or not isinstance(digest, str) or not re.fullmatch(pattern, digest)):
+        errors.append('该机器审核契约仅适用于固定 Git/ZIP/Web Skill 来源')
     source = record.get('source', {})
-    if not isinstance(source, dict) or source.get('url') != content.get('url') or source.get('ref') != content.get('ref'):
+    if not isinstance(source, dict) or source.get('url') != content.get('url') or source.get('ref') != digest:
         errors.append('回执来源必须与当前 provenance 完全一致')
-    elif not isinstance(source.get('previousRef'), str) or not re.fullmatch('[0-9a-f]{40}', source['previousRef']) or source.get('previousRef') == source.get('ref'):
+    elif not isinstance(source.get('previousRef'), str) or not re.fullmatch(pattern, source['previousRef']) or source.get('previousRef') == source.get('ref'):
         errors.append('回执必须绑定不同的旧、新固定快照')
+    if kind in ('zip', 'web') and (source.get('kind') != kind or not isinstance(source.get('previousUrl'), str)
+            or not source['previousUrl'].startswith('https://')):
+        errors.append('ZIP/Web 回执必须绑定类型和旧地址')
     children = metadata.get('spec', {}).get('collection', {}).get('children', [])
     paths = [child.get('path') for child in children] if children else [content.get('path', '')]
     if not all(isinstance(path, str) for path in paths):

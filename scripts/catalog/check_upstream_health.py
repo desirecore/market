@@ -417,37 +417,59 @@ def render_text(results: list[dict]) -> str:
     return "\n".join(rows)
 
 
+def bilingual_detail(status: str, detail: str) -> str:
+    explanation = {
+        'stale-hold': '原暂缓决定需重新审核；不自动解除 hold',
+        'upstream-path-change': '上游当前路径变化，但固定版本安装仍可解析；更新前审核路径',
+        'bad-path': '固定版本所选路径缺少有效 SKILL.md，需修正路径',
+        'new-skill': '以下是可发现但尚未登记的路径；不代表物理文件本次新增，需逐项审核',
+        'outdated': '存在上游差异，须审核后通过 PR 更新，不代表已经审核通过',
+        'gone': '来源已报告不可用，需核实并修正或移除',
+        'unreachable': '网络或读取错误，结果未知，不是已确认失效',
+        'bad-branch': '登记分支在上游不存在，需核实并修正',
+        'bad-ref': '无法读取登记的固定版本，需核实精确引用',
+        'unpinned': '未固定不可变版本，需审核并固定来源',
+        'held': '保留已审核暂缓决定，当前不推进更新',
+        'ok': '本轮来源可解析，未发现需处理的上游差异',
+    }.get(status, '按原始证据核实并人工处理，不能假设通过')
+    if 'has no SKILL.md' in detail:
+        explanation += '；原始详情所列路径缺少 SKILL.md'
+    if 'upstream changed within the installed scope since' in detail:
+        explanation += '；所列旧 pin 之后安装范围内容已变化'
+    return explanation + ' / ' + detail
+
+
 def render_markdown(results: list[dict]) -> str:
     counts = {s: 0 for s in ORDER}
     for r in results:
         counts[ORDER[worst(r)]] += 1
     summary = " · ".join(f"{s}: {n}" for s, n in counts.items() if n)
-    out = [f"Checked {len(results)} external entries. {summary}", ""]
+    out = [f"已检查 {len(results)} 个外部条目 / Checked {len(results)} external entries. {summary}", ""]
     sections = [
-        ("Broken — installation fails", BROKEN),
-        ("Unreachable — network error, status unknown", ("unreachable",)),
-        ("Stale holds — re-review", ("stale-hold",)),
-        ("Upstream path changes — pinned installation still resolves", ("upstream-path-change",)),
-        ("Undeclared upstream skills", ("new-skill",)),
-        ("Updates available", ("outdated",)),
-        ("Unpinned", ("unpinned",)),
-        ("Reviewed holds — not actionable", ("held",)),
+        ("失效——安装失败 / Broken — installation fails", BROKEN),
+        ("无法访问——网络错误、状态未知 / Unreachable — network error, status unknown", ("unreachable",)),
+        ("暂缓决定过期——需重审 / Stale holds — re-review", ("stale-hold",)),
+        ("上游路径变化——固定版本仍可解析 / Upstream path changes — pinned installation still resolves", ("upstream-path-change",)),
+        ("尚未登记的上游技能 / Undeclared upstream skills", ("new-skill",)),
+        ("有可用更新 / Updates available", ("outdated",)),
+        ("未固定版本 / Unpinned", ("unpinned",)),
+        ("已审核暂缓——不推进 / Reviewed holds — not actionable", ("held",)),
     ]
     for title, statuses in sections:
         rows = [(r, i) for r in results for i in r["issues"] if i["status"] in statuses]
         if not rows:
             continue
-        out += [f"### {title} ({len(rows)})", "", "| Status | Entry | Detail |", "|---|---|---|"]
+        out += [f"### {title} ({len(rows)})", "", "| 状态 / Status | 条目 / Entry | 原因及处理 / Reason and action |", "|---|---|---|"]
         for r, i in sorted(rows, key=lambda x: (ORDER.index(x[1]["status"]), x[0]["id"])):
-            detail = i["detail"].replace("|", "\\|")
+            detail = bilingual_detail(i["status"], i["detail"]).replace("|", "\\|")
             compare = compare_url(r["url"], r.get("ref"), r.get("head"))
             if i["status"] == "outdated" and compare:
-                detail = f"[{r['ref'][:7]} → {r['head'][:7]}]({compare})"
+                detail = "审核差异后再更新 / Review before updating: " + f"[{r['ref'][:7]} → {r['head'][:7]}]({compare})"
             out.append(f"| `{i['status']}` | [{r['kind']}/{r['id']}]({r['url']}) | {detail} |")
         out.append("")
     ok = sorted(r["id"] for r in results if worst(r) == ORDER.index("ok"))
     if ok:
-        out += [f"<details><summary>OK ({len(ok)})</summary>", "", ", ".join(f"`{i}`" for i in ok), "", "</details>"]
+        out += [f"<details><summary>正常 / OK ({len(ok)})</summary>", "", ", ".join(f"`{i}`" for i in ok), "", "</details>"]
     return "\n".join(out)
 
 

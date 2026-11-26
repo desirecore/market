@@ -1,0 +1,46 @@
+{
+  "id": "douyin-creator-analyst",
+  "name": "抖音博主分析师",
+  "category": "media",
+  "tags": [
+    "douyin",
+    "creator-research",
+    "video-analysis",
+    "content-strategy"
+  ],
+  "latestVersion": "1.0.3",
+  "requiredClientVersion": "10.0.203",
+  "maintainer": {
+    "name": "desirecore-agent",
+    "verified": false,
+    "url": "https://github.com/desirecore-agent/douyin-creator-analyst"
+  },
+  "stewardship": "official",
+  "license": "MIT",
+  "redistribution": "source-pointer-only",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/desirecore-agent/douyin-creator-analyst.git",
+    "repoBranch": "main",
+    "ref": "e381fcfcebdf823d8aea585ceb54d36a5c046cf2"
+  },
+  "avatar": {
+    "t": "析",
+    "bg": "linear-gradient(135deg, #087E78, #0D4855)",
+    "image": {
+      "path": "assets/avatar.webp"
+    }
+  },
+  "installPolicy": "market",
+  "updatePolicy": "market",
+  "i18n": {
+    "zh-CN": {
+      "name": "抖音博主分析师",
+      "shortDesc": "从主页、作品链接或本地视频分析博主，输出带时码和截图的拆解。随包启用抖音下载与 Rea-Video，优先用巨章内置运行时。"
+    },
+    "en-US": {
+      "name": "Douyin Creator Analyst",
+      "shortDesc": "Analyze creator profiles, video links or local files with timestamps and frames. The bundled Douyin downloader and Rea-Video prefer DesireCore’s managed runtimes."
+    }
+  }
+}

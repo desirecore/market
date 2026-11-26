@@ -272,7 +272,7 @@ def dependency_identity(repo: Path, ref: str, path: str, record):
     return record[:2]
 
 
-def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
+def _audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
                     observed_at: str | None = None, special_review: dict | None = None) -> tuple[dict, dict, dict]:
     old, new = result['ref'], result['head']
     if not all(re.fullmatch('[0-9a-f]{40}', ref) for ref in (old, new)):
@@ -529,8 +529,50 @@ def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
     return updated, metadata, report
 
 
+def audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
+                    observed_at: str | None = None, special_review: dict | None = None, candidate_view: dict | None = None):
+    from update_diagnostics import inspect_snapshots, candidate_consistency
+    if not all(isinstance(result.get(k), str) and re.fullmatch('[0-9a-f]{40}', result[k]) for k in ('ref', 'head')):
+        return _audit_snapshots(repo, entry, sidecar, result, observed_at, special_review)
+    findings = []
+    try:
+        findings = inspect_snapshots(repo, entry, sidecar, result, special_review)
+        if candidate_view:
+            candidate_rows, valid_source = candidate_consistency(entry, sidecar, result, candidate_view)
+            findings.extend(candidate_rows)
+            if valid_source:
+                independent = inspect_snapshots(repo, candidate_view['entry'], candidate_view['metadata'], result)
+                for row in independent:
+                    row['basis'] = 'existing-pr-candidate@' + candidate_view['head']
+                    if row['gate'] == 'description-and-locales':
+                        row['reason'] = '上游简介曾变化；此行是当前 PR 文案的独立人工复核要求，不表示 main 的旧文案错误仍存在于已修订 PR。 / Upstream description changed; this is independent semantic review of the current candidate, not a claim that old main copy remains stale in a repaired PR.'
+                findings.extend(independent)
+    except (ValueError, TypeError, KeyError, AttributeError, OSError, RuntimeError, subprocess.SubprocessError) as error:
+        findings = [dict(id=entry.get('id', '?'), path='.', oldRef=result.get('ref', '?'),
+                         newRef=result.get('head', '?'), gate='independent-static-diagnostics',
+                         state='not_checked', origin='unknown', reason=str(error),
+                         repair='静态诊断未完成，人工检查并重跑；不能假设通过。 / Complete diagnostics and rerun; never assume success.')]
+    try:
+        output = _audit_snapshots(repo, entry, sidecar, result, observed_at, special_review)
+    except AuditBlocked as error:
+        pipeline = dict(id=entry.get('id', '?'), path='.', oldRef=result.get('ref', '?'),
+                        newRef=result.get('head', '?'), gate='actual-pipeline-failure', state='blocked',
+                        origin='unknown', reason=str(error),
+                        repair='修复实际失败门槛后重跑；其后流水线未完成，独立静态发现不代表后续检查已通过。 / Fix this gate and rerun; downstream pipeline stages did not complete. Independent findings are not downstream passes.')
+        remaining = {**pipeline, 'gate': 'remaining-pipeline', 'state': 'not_checked',
+                     'reason': '实际失败点之后的流水线未完成；独立静态检查不等于后续流水线通过。 / Pipeline stages after the actual failure did not complete; independent static findings are not downstream passes.'}
+        error.findings = [pipeline, remaining, *findings]
+        raise error
+    blockers = [r for r in findings if r['state'] in ('blocked', 'manual_review', 'not_checked')]
+    if blockers:
+        error = AuditBlocked('安装通知、精确 pin 例外或元数据一致性需处理 / Installed notices, exact-pin exception or metadata consistency needs review: ' + '; '.join(r['gate'] + ': ' + r['path'] for r in blockers))
+        error.findings = findings
+        raise error
+    return output
+
+
 def audit_update(entry: dict, sidecar: dict, result: dict,
-                 special_review: dict | None = None) -> tuple[dict, dict, dict]:
+                 special_review: dict | None = None, candidate_view: dict | None = None) -> tuple[dict, dict, dict]:
     url = entry['source']['repoUrl']
     if not re.fullmatch(r'https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:\.git)?/?', url):
         raise AuditBlocked('自动获取仅使用已登记的 GitHub HTTPS 来源')
@@ -538,4 +580,4 @@ def audit_update(entry: dict, sidecar: dict, result: dict,
         repo = Path(temporary)
         git(repo, 'init', '--quiet')
         git(repo, 'fetch', '--quiet', '--no-tags', '--depth=1', url, result['ref'], result['head'])
-        return audit_snapshots(repo, entry, sidecar, result, special_review=special_review)
+        return audit_snapshots(repo, entry, sidecar, result, special_review=special_review, candidate_view=candidate_view)

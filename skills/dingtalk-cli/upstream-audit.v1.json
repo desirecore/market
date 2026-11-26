@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "reviewer": "automated:source-license-metadata-v1",
-  "reviewedAt": "2026-11-22T11:46:49Z",
+  "reviewedAt": "2026-11-26T01:26:14Z",
   "source": {
     "url": "https://github.com/DingTalk-Real-AI/dingtalk-workspace-cli.git",
-    "previousRef": "38d49e4e68997bca23621a272a27b0fbbfbed668",
-    "ref": "df0fb53b5dcc8de64d49cfe0cce900eef4bc1d15",
+    "previousRef": "df0fb53b5dcc8de64d49cfe0cce900eef4bc1d15",
+    "ref": "deac28acaf510955d8c9b3fc0318764f625c35d6",
     "paths": [
       "skills/multi/dingtalk-aicard",
       "skills/multi/dingtalk-aisearch",
@@ -41,7 +41,7 @@
     "skills/multi/dingtalk-aicard/references/protocol/NOTICE": "1416e46cd8e91578bbbd57fe24a5fb35d6548f5dedd875295426a6556cfb2784"
   },
   "observedVersions": {},
-  "contentManifestSha256": "4d2ca2b90f35ae430537e580e4d01835813409bbf64ff251abd3aaff47b4e8c2",
+  "contentManifestSha256": "45ed0b09ffbd743a585f1ed4cd057d748c297b404822bcb0d64dac6c9696b8a0",
   "fileCount": 418,
   "limitations": [
     "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",

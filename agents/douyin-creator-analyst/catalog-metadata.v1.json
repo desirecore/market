@@ -1,0 +1,125 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "agent",
+    "id": "douyin-creator-analyst"
+  },
+  "presentation": {
+    "defaultLocale": "en-US",
+    "category": "media",
+    "tags": [
+      "douyin",
+      "creator-research",
+      "video-analysis",
+      "content-strategy"
+    ],
+    "i18n": {
+      "zh-CN": {
+        "name": "抖音博主分析师",
+        "summary": "从主页、作品链接或本地视频分析博主，输出带时码和截图的拆解。随包启用抖音下载与 Rea-Video，优先用巨章内置运行时。",
+        "description": "先确认作品范围、作者身份和指标口径。逐条核对时码、画面、识别稿和互动，再把内容手法、作者公开教学和样本表现整理成报告，也可做带截图和原创口播练习的入门案例。\n\n安装后默认启用博主研究、抖音视频下载和 Rea-Video。用已授权的浏览器会话核对主页，下载用户有权保存的单条作品，也可直接分析用户提供的视频。优先用巨章受管的 uv、Python 3.13 和 FFmpeg 套件，并沿用执行环境中可用的 Git。首次需联网准备固定版本 CLI、Python 依赖和识别模型。视频默认在本地处理。外部模型服务须另行配置和授权，可能额外收费。遇到登录、验证或限速时保留已取得作品，并注明缺口。\n\n试用时发一条作品，并说“用时间戳标出开头、正文和结尾互动，给一版我能照着拍的脚本”。更多可直接发送的示例见使用说明。"
+      },
+      "en-US": {
+        "name": "Douyin Creator Analyst",
+        "summary": "Analyze creator profiles, video links or local files with timestamps and frames. The bundled Douyin downloader and Rea-Video prefer DesireCore’s managed runtimes.",
+        "description": "Confirm the author, coverage and metric labels. Check timestamps, frames, speech and calls to action, then use public teaching videos and observed sample performance to write an account report or a beginner casebook with frames and original filming exercises.\n\nCreator Research, Douyin Video Download and Rea-Video are enabled at install. Check profile listings in an authorized browser session, download individual works the user is allowed to save, or analyze user-supplied files. Prefer DesireCore’s managed uv, Python 3.13 and FFmpeg toolkit, with Git available in the execution environment. First use needs network access for the pinned CLI, Python packages and recognition models. Video analysis runs locally by default. External model services require separate configuration and consent and may charge fees. Record missing works when login, verification or rate limits interrupt access.\n\nFor a first run, send a video and ask for timestamped opening, body and closing interaction plus a script you can film. The usage guide includes copy-ready examples."
+      }
+    }
+  },
+  "release": {
+    "state": "known",
+    "version": "1.0.3",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-26",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-26",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "known",
+      "value": "2026-11-26",
+      "precision": "day"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore-agent/douyin-creator-analyst.git",
+      "ref": "e381fcfcebdf823d8aea585ceb54d36a5c046cf2"
+    }
+  },
+  "governance": {
+    "stewardship": "official",
+    "availability": "installable",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "source-pointer-only",
+    "upstreamMaintainer": {
+      "name": "desirecore-agent",
+      "verified": false,
+      "url": "https://github.com/desirecore-agent/douyin-creator-analyst"
+    },
+    "listingMaintainer": {
+      "name": "DesireCore Official",
+      "verified": true
+    },
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "noticePath": "THIRD_PARTY_NOTICES.md",
+      "reviewedRef": "e381fcfcebdf823d8aea585ceb54d36a5c046cf2",
+      "reviewedAt": "2026-11-26",
+      "reviewedBy": "Codex source and license review",
+      "upstreamEndorsed": true
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos"
+      ]
+    },
+    "requiredClientVersion": "10.0.203",
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "优先使用巨章受管 uv、Python 3.13、FFmpeg 和 ffprobe。现有 Git 可用，首次需联网获取固定版本 CLI、依赖和识别模型。 / Prefer managed uv, Python 3.13, FFmpeg and ffprobe. Requires available Git and network access for initial CLI, package and recognition-model downloads."
+      },
+      {
+        "kind": "permission",
+        "value": "通过已授权浏览器核对主页。下载技能按单条作品处理用户有权保存的素材，支持直接分析本地视频。 / Verify profiles in an authorized browser. Download individual works the user is allowed to save or analyze local video files."
+      },
+      {
+        "kind": "connection",
+        "value": "默认本地分析。可选服务需另行配置并获授权，可能产生费用。 / Local analysis by default. Optional services require separate setup and authorization; fees may apply."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "agent",
+    "installPolicy": "market",
+    "updatePolicy": "market",
+    "persona": {
+      "role": "Short-video creator research",
+      "traits": [
+        "timestamped evidence",
+        "clear coverage and comparisons",
+        "practical filming exercises"
+      ]
+    }
+  }
+}

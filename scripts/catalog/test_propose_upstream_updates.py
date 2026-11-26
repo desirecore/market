@@ -55,17 +55,20 @@ class CandidateTests(unittest.TestCase):
         self.assertIsNone(candidate(self.entry, self.sidecar, self.result))
 
 
-    def exercise_publish(self, audited=True, validation_failure=False, publish_failure=False):
+    def exercise_publish(self, audited=True, validation_failure=False, publish_failure=False, existing_open=False, old_receipt=False):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary); folder = root / 'skills/sample'; folder.mkdir(parents=True)
             (folder/'entry.json').write_text(json.dumps(self.entry))
             (folder/'catalog-metadata.v1.json').write_text(json.dumps(self.sidecar))
+            if old_receipt:
+                (folder/'upstream-audit.v1.json').write_text(json.dumps({'source':{'ref':self.old},'genuineOldReceipt':True}))
             results = root/'results.json'; results.write_text(json.dumps([self.result]))
             updated, metadata = candidate(self.entry, self.sidecar, self.result)
             metadata['governance']['compliance'].update(reviewedRef=self.new, reviewedBy='automated:test')
             seen = {}
             def run(*args, cwd=None):
-                if args[:3] == ('gh', 'pr', 'list'): return '[]'
+                if args[:3] == ('gh', 'pr', 'list'):
+                    return json.dumps([{'headRefName':'updates/sample-existing'}]) if existing_open and args[-1].endswith('headRefName') else '[]'
                 if args[:3] == ('git', 'worktree', 'add'):
                     shutil.copytree(root/'skills', Path(args[4])/'skills'); return ''
                 if args[0] == 'uv' and validation_failure:
@@ -75,9 +78,11 @@ class CandidateTests(unittest.TestCase):
                         raise subprocess.CalledProcessError(1, args, stderr='API unavailable')
                     seen['draft'] = '--draft' in args
                     seen['metadata'] = json.loads((cwd/'skills/sample/catalog-metadata.v1.json').read_text())
+                    seen['blocked'] = [json.loads(p.read_text()) for p in (cwd/'docs/update-reviews').glob('*.json')]
                     seen['audit'] = json.loads((cwd/'skills/sample/upstream-audit.v1.json').read_text()) if (cwd/'skills/sample/upstream-audit.v1.json').exists() else None
                 return ''
             with patch.object(proposer, 'ROOT', root), patch.object(proposer, 'run', side_effect=run), \
+                 patch.object(proposer, 'check_identity') as identity_check, \
                  patch.object(proposer, 'audit_update', return_value=(updated, metadata, {'reviewer':'automated:test'}),
                               side_effect=None if audited else proposer.AuditBlocked('license changed')), \
                  patch.dict(os.environ, {'GITHUB_REPOSITORY':'desirecore/market', 'GITHUB_ACTOR':'example-user'}), \
@@ -86,8 +91,23 @@ class CandidateTests(unittest.TestCase):
                     with self.assertRaises(subprocess.CalledProcessError): proposer.main()
                 else:
                     proposer.main()
+            identity_check.assert_called_once_with()
             seen['coverage'] = json.loads((root/'coverage.json').read_text())
             return seen
+
+    def test_existing_pr_read_failure_is_unknown_without_stopping_independent_audit(self):
+        with patch.object(proposer, 'read_existing_candidate', side_effect=ValueError('GitHub read unavailable')):
+            result = self.exercise_publish(existing_open=True)
+        self.assertEqual(result['coverage'][0]['status'], 'manual-review-required')
+        self.assertTrue(any(row['gate']=='candidate-evidence-read' and row['state']=='not_checked' for row in result['coverage'][0]['findings']))
+        self.assertNotIn('draft', result)
+
+    def test_existing_pr_is_reaudited_without_republishing(self):
+        result = self.exercise_publish(audited=False, existing_open=True)
+        self.assertNotIn('draft', result)
+        self.assertEqual(result['coverage'][0]['status'], 'manual-review-required')
+        self.assertEqual(result['coverage'][0]['oldRef'], self.old)
+        self.assertEqual(result['coverage'][0]['newRef'], self.new)
 
     def test_successful_audit_and_validation_create_a_normal_pr(self):
         result = self.exercise_publish()
@@ -101,15 +121,34 @@ class CandidateTests(unittest.TestCase):
         self.assertEqual(result['metadata']['governance']['compliance']['reviewedRef'], self.old)
         self.assertEqual(result['coverage'][0]['status'], 'manual-review-required')
 
+    def test_validator_failure_preserves_genuine_old_receipt_bytes(self):
+        result = self.exercise_publish(validation_failure=True, old_receipt=True)
+        self.assertEqual(result['audit'], {'source':{'ref':self.old},'genuineOldReceipt':True})
+        self.assertEqual(result['blocked'][0]['newRef'], self.new)
+        self.assertTrue(result['draft'])
+
     def test_validator_failure_cannot_publish_a_successful_audit(self):
         result = self.exercise_publish(validation_failure=True)
         self.assertTrue(result['draft'])
         self.assertEqual(result['metadata']['governance']['compliance']['reviewedRef'], self.old)
-        self.assertEqual(result['audit']['status'], 'blocked')
+        self.assertIsNone(result['audit'])
+        self.assertEqual(result['blocked'][0]['status'], 'blocked')
+        self.assertIn('catalog failure', result['blocked'][0]['reason'])
+        self.assertEqual(result['blocked'][0]['oldRef'], self.old)
+        self.assertEqual(result['blocked'][0]['newRef'], self.new)
 
     def test_publish_failure_still_writes_truthful_coverage(self):
         result = self.exercise_publish(publish_failure=True)
         self.assertEqual(result['coverage'][0]['status'], 'publish-failed')
+
+    def test_failed_identity_prevents_any_publish_side_effect(self):
+        with patch.object(proposer, 'check_identity', side_effect=proposer.AuditBlocked('not designated maintainer')), \
+             patch.object(proposer, 'run') as run, \
+             patch.dict(os.environ, {'GITHUB_REPOSITORY':'desirecore/market', 'MARKET_MAINTAINER_LOGIN':'mashagua'}), \
+             patch('sys.argv', ['propose', 'not-read-before-identity.json', '--publish']):
+            with self.assertRaises(proposer.AuditBlocked):
+                proposer.main()
+            run.assert_not_called()
 
     def test_coverage_includes_builtins_and_http_blockers(self):
         with tempfile.TemporaryDirectory() as temporary:

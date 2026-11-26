@@ -74,6 +74,7 @@ jobs:
           uv run --quiet scripts/catalog/test_check_upstream_health.py
           uv run --quiet scripts/catalog/test_propose_upstream_updates.py
           uv run --quiet scripts/catalog/test_audit_skill_update.py
+          uv run --quiet --with pytest --with pyyaml --with jsonschema python -m pytest scripts/catalog/test_tracked_updates.py -q
           uv run --quiet scripts/catalog/test_review_workflow.py
 
       - name: Validate catalog metadata
