@@ -35,7 +35,7 @@
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-24T01:37:18Z",
+      "value": "2026-11-25T01:27:03Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -43,12 +43,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-24",
+      "value": "2026-11-25",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-11-24T01:37:18Z",
+      "value": "2026-11-25T01:27:03Z",
       "precision": "second"
     }
   },
@@ -57,7 +57,7 @@
       "kind": "git",
       "url": "https://github.com/JuneYaooo/rea-video.git",
       "path": "skills/rea-video",
-      "ref": "a124acd4a02b3a9b72b9e7dedca5d1bfcda2a7b8"
+      "ref": "fc69e194bdb4da91f72420c58debbc38eee647f5"
     }
   },
   "governance": {
@@ -82,8 +82,8 @@
     "compliance": {
       "licenseEvidencePath": "LICENSE",
       "noticePath": "NOTICE",
-      "reviewedRef": "a124acd4a02b3a9b72b9e7dedca5d1bfcda2a7b8",
-      "reviewedAt": "2026-11-24",
+      "reviewedRef": "fc69e194bdb4da91f72420c58debbc38eee647f5",
+      "reviewedAt": "2026-11-25",
       "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }

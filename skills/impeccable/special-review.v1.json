@@ -1,20 +1,17 @@
 {
   "schemaVersion": 1,
   "reviewedBy": "mashagua",
-  "reviewedAt": "2026-11-19",
-  "notes": "Class C special review of impeccable b49177d32788f2dc585c42831d845dacf1ebed2c. Root Apache-2.0 LICENSE is unchanged. NOTICE.md adds documentation of browser-extension fonts Albert Sans / Alumni Sans (SIL OFL 1.1, extension/fonts/) and DuckDuckGo autoconsent (MPL-2.0, extension/walks/consent-rules.js); those files are not under the install path plugin/skills/impeccable. mashagua reviewed this NOTICE addition and the install-path engine bump 0.1.25 → 0.1.27 (package.json, Cargo.toml, Cargo.lock, and engine checksums in the install path). font-index.json remains 1,100,013 bytes of typography runtime data and stays budget-exempt. SKILL.md stable frontmatter is unchanged aside from version 4.9.2 → 4.10.0.",
+  "reviewedAt": "2026-11-26",
+  "notes": "Class C special review of impeccable 2fc5e1459efbbf06d92c7306517c286bf12490cf (from b49177d32788f2dc585c42831d845dacf1ebed2c). Root Apache-2.0 LICENSE (blob bb3f6d23b1f8025514a62a12b51b47d73e3c9aa9, SHA-256 02bb8c3b4e70190e3986c0404ad2fd8d639b4f534252d82379cc1b502b6d1812) and NOTICE.md (blob 03538a22d990f52223c976eba9d80dc1ff9e422f, SHA-256 01bf53e5d24d64e19e9e1c33b24c37cef0d314323df7bf678c6ba22d4528a115) are byte-identical to the old pin. Auto-verify failed because root dependency identities changed: package.json optionalDependencies @impeccable/cli-* 0.1.27 → 0.1.31 (manifest version 4.10.0 → 4.11.1 is ignored for identity); Cargo.toml workspace.package version 0.1.27 → 0.1.31; Cargo.lock only bumps the 20 workspace crate versions 0.1.27 → 0.1.31, with no third-party dependency graph change. No dependency file was added or removed; none exist under the install path plugin/skills/impeccable. mashagua reviewed and accepted this engine pin bump. In install scope, scripts/VERSION and engine-checksums.txt move in lockstep to 0.1.31 with new SHA-256 digests; launchers add download-error detail and stale-part cleanup but still refuse unverified downloads. SKILL.md stable frontmatter is unchanged aside from version 4.10.0 → 4.11.1. font-index.json remains 1,100,013 bytes, blob 9d2029971df232a72ff6584d264c104490521742, typography runtime data, and stays budget-exempt. Catalog keeps the existing first-run download and optional OpenAI API cost warnings.",
   "budgetExemptPaths": [
     "plugin/skills/impeccable/scripts/data/font-index.json"
   ],
   "acceptedDependencyIdentities": {
-    "Cargo.lock": "10dfa98ccd7695acfb8c7103a82b6f32a5e4367a",
-    "Cargo.toml": "b89c4a072188562a6b819daea34314ba7fa73902",
-    "package.json": "7e129e288d950fb1f3b8f0c39ee1a7b1bc4c6f8127864c2e0f1a548c38715264"
+    "Cargo.lock": "b80d1239c2254d3909e6f9510ff9530054515abe",
+    "Cargo.toml": "eb97ee5043857818b944f8bfeeca48b7833ae14d",
+    "package.json": "7841cdaa6d4e5c6180aee70d719e4f07dde1b728f8c254e998d8e91110c55679"
   },
   "acceptedFrontmatterSha256": {
     "plugin/skills/impeccable": "b1807ab57d0cfa49ed367575ca1425c1747c9d01edc48f3a10714cc3862eb209"
-  },
-  "acceptedRootEvidenceSha256": {
-    "NOTICE.md": "01bf53e5d24d64e19e9e1c33b24c37cef0d314323df7bf678c6ba22d4528a115"
   }
 }
