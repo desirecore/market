@@ -340,3 +340,60 @@ def test_live_check_failure_is_not_misclassified_as_receipt_derivative(case):
     check=next(r for r in rows if r['gate']=='candidate-live-check')
     assert check['origin']=='unknown'
     assert check['evidence']['conclusion']=='failure'
+
+
+def _client_attach_review(case, new, scopes, notice_sha):
+    return {
+        'schemaVersion': 1,
+        'reviewedBy': 'mashagua',
+        'reviewedAt': '2026-11-27',
+        'notes': 'Install-copy readback of verified client root-notice attach for this pin.',
+        'acceptedClientAttachedNotices': {
+            'sourceRef': new,
+            'clientCommit': '28128a15b3abd76e1529b983ca8a921bdfe9ff30',
+            'clientTree': 'e8c1321e6a098eb905f4646b2027bc7b2259ca6b',
+            'observedAt': '2026-11-26T16:04:23Z',
+            'noticeRootPath': 'LICENSE',
+            'noticeSha256': notice_sha,
+            'scopes': [
+                {'path': path, 'attached': [
+                    {'name': 'LICENSE', 'sourceName': 'LICENSE', 'sha256': notice_sha},
+                ]}
+                for path in scopes
+            ],
+        },
+    }
+
+
+def test_client_attached_notice_readback_is_info_not_blocked(case):
+    import hashlib
+    (case.repo/'skills/sample/LICENSE').unlink()
+    baseline(case)
+    case.write('skills/sample/scripts/tool.py','new')
+    new = case.commit()
+    notice_sha = hashlib.sha256((case.repo/'LICENSE').read_bytes()).hexdigest()
+    review = _client_attach_review(case, new, ['skills/sample'], notice_sha)
+    rows = inspect_snapshots(case.repo, case.entry, case.metadata, {'ref': case.old, 'head': new}, review)
+    row = next(r for r in rows if r['gate']=='installed-project-notice')
+    assert row['state']=='info'
+    assert row['evidence']['clientCommit']=='28128a15b3abd76e1529b983ca8a921bdfe9ff30'
+    assert not any(r['gate']=='installed-project-notice' and r['state']=='blocked' for r in rows)
+    _,_,receipt = audit_snapshots(case.repo, case.entry, case.metadata, {'ref': case.old, 'head': new},
+                                  '2026-10-31T01:02:03Z', special_review=review)
+    assert receipt['source']['ref']==new
+
+
+def test_wrong_pin_client_attach_review_does_not_deliver(case):
+    import hashlib
+    (case.repo/'skills/sample/LICENSE').unlink()
+    baseline(case)
+    case.write('skills/sample/scripts/tool.py','new')
+    new = case.commit()
+    notice_sha = hashlib.sha256((case.repo/'LICENSE').read_bytes()).hexdigest()
+    review = _client_attach_review(case, case.old, ['skills/sample'], notice_sha)
+    rows = inspect_snapshots(case.repo, case.entry, case.metadata, {'ref': case.old, 'head': new}, review)
+    assert any(r['gate']=='client-attached-notice' and r['state']=='blocked' for r in rows)
+    assert any(r['gate']=='installed-project-notice' and r['state']=='blocked' for r in rows)
+    with pytest.raises(AuditBlocked):
+        audit_snapshots(case.repo, case.entry, case.metadata, {'ref': case.old, 'head': new},
+                        '2026-10-31T01:02:03Z', special_review=review)

@@ -71,6 +71,47 @@
       "type": "object",
       "description": "Map of a repo-root LICENSE*/NOTICE*/COPYING* directory name (for example licenses) to the SHA-256 of the canonical JSON manifest of regular files under that directory at the *new* snapshot (sorted path to file SHA-256). Required when those directory file sets change, including renames. This does not accept changes to, replacements of, or deletions of root LICENSE/NOTICE/COPYING files (deletions remain forbidden; file changes still use acceptedRootEvidenceSha256). Symlinks, submodules, and other non-regular files at those root names or inside the directory remain blocked.",
       "additionalProperties": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+    },
+    "acceptedClientAttachedNotices": {
+      "type": "object",
+      "description": "Bound install-readback evidence that a verified DesireCore client commit attached collection/repo-root LICENSE/NOTICE/COPYING files into each selected install copy. This is not a license exception and does not treat a root file seen at audit time, or a future client change, as delivery. sourceRef must equal the audit's new pin; clientCommit must be an already-verified attach implementation (not a descendant tip by default); noticeSha256 must equal the regular root notice file at that pin; scopes must be exactly the install paths with per-copy attached name/sourceName/sha256 matching that root notice. The acceptance does not automatically extend to a later pin.",
+      "additionalProperties": false,
+      "required": ["sourceRef", "clientCommit", "noticeRootPath", "noticeSha256", "scopes"],
+      "properties": {
+        "sourceRef": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "clientCommit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "clientTree": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "observedAt": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$" },
+        "noticeRootPath": { "type": "string", "minLength": 1 },
+        "noticeSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "scopes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "attached"],
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "contentDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+              "attached": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["name", "sourceName", "sha256"],
+                  "properties": {
+                    "name": { "type": "string", "minLength": 1 },
+                    "sourceName": { "type": "string", "minLength": 1 },
+                    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "allOf": [
@@ -80,6 +121,10 @@
     },
     {
       "if": { "required": ["acceptedRootLicenseDirectoryManifestSha256"] },
+      "then": { "required": ["reviewedBy", "reviewedAt", "notes"] }
+    },
+    {
+      "if": { "required": ["acceptedClientAttachedNotices"] },
       "then": { "required": ["reviewedBy", "reviewedAt", "notes"] }
     }
   ]

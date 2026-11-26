@@ -32,7 +32,10 @@ def normalized(data):
 
 def inspect_snapshots(repo, entry, metadata, result, special_review=None):
     # Lazy import avoids a circular module import; helpers only read bounded blobs.
-    from audit_skill_update import git, blob, safe_path, GENERATOR, MAX_FILE_BYTES, MAX_FILES
+    from audit_skill_update import (
+        git, blob, safe_path, GENERATOR, MAX_FILE_BYTES, MAX_FILES,
+        accept_client_attached_notices, AuditBlocked,
+    )
     old, new = result['ref'], result['head']
     review = special_review or {}
     rows = []
@@ -78,6 +81,16 @@ def inspect_snapshots(repo, entry, metadata, result, special_review=None):
             '取得完整主许可通知，或由维护者明确审核并授权精确新 pin；不得由更新器改写 reviewedRef 冒充授权。 / Obtain the complete project notice or explicit human authorization for the exact new pin; never manufacture authorization by rebinding reviewedRef.',
             {'declaredLicense': license_value, 'evidencePath': evidence_path,
              'oldSha256': hashlib.sha256(grants[old]).hexdigest(), 'newSha256': hashlib.sha256(grants[new]).hexdigest()})
+    attached_scopes = set()
+    if review.get('acceptedClientAttachedNotices'):
+        try:
+            attached_scopes = accept_client_attached_notices(
+                review, repo, new, scopes, grants[new], license_value)
+        except AuditBlocked as error:
+            add('.', 'client-attached-notice', 'blocked', 'introduced',
+                '专项复核的客户端附加通知证据无效或未绑定当前 pin。 / Client-attached notice special review is invalid or not bound to this pin.',
+                '按已核验客户端实现、当前上游 pin、根通知哈希和全部安装范围的真实安装回读补全证据；不要把「将会附加」写成已交付，也不要把旧回执延伸到新 pin。 / Complete evidence bound to a verified client implementation, the current pin, the root notice hash, and install-copy readback for every install scope; do not record future attachment as delivery or extend an old receipt to a new pin.',
+                {'detail': str(error)})
     for scope in scopes:
         def delivered(ref):
             grant = grants[ref]
@@ -98,7 +111,19 @@ def inspect_snapshots(repo, entry, metadata, result, special_review=None):
             return bool(exact) and (license_value != 'MIT' or mit_grant(grant)), exact
         old_ok, old_paths = delivered(old)
         new_ok, new_paths = delivered(new)
-        if not new_ok:
+        if not new_ok and scope in attached_scopes:
+            accepted = review.get('acceptedClientAttachedNotices') or {}
+            add(scope, 'installed-project-notice', 'info', 'pre_existing' if not old_ok else 'changed',
+                '源子目录仍无完整通知；已按绑定当前 pin 与已核验客户端实现的安装回读，证明安装副本携带了完整根通知。 / The source child directory still lacks a complete notice; install-copy readback bound to this pin and a verified client implementation proves the staged copy carries the complete root notice.',
+                '该接受仅绑定本专项复核中的上游 pin 与客户端提交；不得自动延伸到新 pin，也不是许可例外。 / This acceptance is bound to the source pin and client commit in the special review; it does not automatically extend to a later pin and is not a license exception.',
+                {'declaredLicense': license_value, 'requiredNoticePath': evidence_path,
+                 'requiredNoticeSha256': hashlib.sha256(grants[new]).hexdigest(),
+                 'requiredNoticeInsideScope': not scope or evidence_path.startswith(scope + '/'),
+                 'oldDeliveredPaths': old_paths, 'newDeliveredPaths': new_paths,
+                 'clientCommit': accepted.get('clientCommit'),
+                 'noticeRootPath': accepted.get('noticeRootPath'),
+                 'proof': 'client attach install-copy readback bound to pin, client commit, and root notice hash'})
+        elif not new_ok:
             add(scope, 'installed-project-notice', 'blocked', 'pre_existing' if not old_ok else 'introduced',
                 '未证明所选安装目录携带主项目完整通知；仓库根证据或 vendor 许可不等于安装交付。 / Complete project notice delivery is unverified in the selected directory; root evidence or a vendor license is not installed delivery.',
                 '在不改变资源/选择/交付方式的前提下，由上游在原目录携带通知，或另行批准客户端确定性携带、摘要及锁记录方案并真实安装回读。嵌套或非标准等效通知可人工复核；不要伪造 LICENSE。 / Preserve scope/resources/delivery; upstream may include notices in-place, or separately authorize deterministic client notice staging with digest/lock and installation readback. Nonstandard or nested equivalents need human review; do not invent a LICENSE.',
