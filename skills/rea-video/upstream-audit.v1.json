@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "reviewer": "automated:source-license-metadata-v1",
-  "reviewedAt": "2026-11-24T01:37:18Z",
+  "reviewedAt": "2026-11-25T01:27:03Z",
   "source": {
     "url": "https://github.com/JuneYaooo/rea-video.git",
-    "previousRef": "131d1527557d2cccacb64059d47560964235acd7",
-    "ref": "a124acd4a02b3a9b72b9e7dedca5d1bfcda2a7b8",
+    "previousRef": "a124acd4a02b3a9b72b9e7dedca5d1bfcda2a7b8",
+    "ref": "fc69e194bdb4da91f72420c58debbc38eee647f5",
     "paths": [
       "skills/rea-video"
     ]
@@ -22,7 +22,7 @@
     "NOTICE": "abffceeef67cb20d0fd6cf997eec7c7ac4b2de19f389a08b67a1f75bc7dd025b"
   },
   "observedVersions": {},
-  "contentManifestSha256": "42cf4b3ff6c8a1ee5bf259757f590477af869f0ff4048031ac5853383984e903",
+  "contentManifestSha256": "946d83279260218c51abbb10cc97e717d1b5601ae3907efdf4a4055ea40350c4",
   "fileCount": 15,
   "limitations": [
     "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
