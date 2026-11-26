@@ -5,6 +5,7 @@
 # ///
 """真实本地 Git 快照的自动核验；不联网、不运行上游代码。"""
 import copy
+import hashlib
 import json
 import subprocess
 import tempfile
@@ -563,6 +564,36 @@ class AuditTests(unittest.TestCase):
         self.metadata['provenance']['content']['ref'] = sha
         self.metadata['governance']['compliance']['reviewedRef'] = sha
 
+    def _client_attach_review(self, new, scopes, notice_sha, **overrides):
+        review = {
+            'schemaVersion': 1,
+            'reviewedBy': 'mashagua',
+            'reviewedAt': '2026-11-27',
+            'notes': 'Install-copy readback of verified client root-notice attach for this pin.',
+            'acceptedClientAttachedNotices': {
+                'sourceRef': new,
+                'clientCommit': '28128a15b3abd76e1529b983ca8a921bdfe9ff30',
+                'clientTree': 'e8c1321e6a098eb905f4646b2027bc7b2259ca6b',
+                'observedAt': '2026-11-26T16:04:23Z',
+                'noticeRootPath': 'LICENSE',
+                'noticeSha256': notice_sha,
+                'scopes': [
+                    {'path': path, 'attached': [
+                        {'name': 'LICENSE', 'sourceName': 'LICENSE', 'sha256': notice_sha},
+                    ]}
+                    for path in scopes
+                ],
+            },
+        }
+        accepted = overrides.pop('acceptedClientAttachedNotices', None)
+        review.update(overrides)
+        if accepted is not None:
+            merged = dict(review['acceptedClientAttachedNotices'])
+            merged.update(accepted)
+            review['acceptedClientAttachedNotices'] = merged
+        return review
+
+
     def test_root_licenses_directory_is_not_a_broken_license_file(self):
         """A normal licenses/ directory plus an unchanged MIT LICENSE must pass (old and new pins)."""
         self.write('licenses/thirdparty-MIT.txt', 'Permission is hereby granted, MIT third-party text.\n')
@@ -666,6 +697,104 @@ class AuditTests(unittest.TestCase):
         self.assertEqual(report['licenseEvidenceSha256'][path], digest)
         self.assertIn('licenses/thirdparty-MIT.txt', report['licenseEvidenceSha256'])
         self.assertTrue(any('安装范围内的 Notice' in item for item in report['limitations']))
+
+
+    def test_client_attached_notices_accepts_bound_install_readback(self):
+        from jsonschema import Draft7Validator
+        schema = json.loads((Path(__file__).resolve().parents[2] / 'schemas' / 'special-review.v1.schema.json').read_text())
+        (self.repo / 'skills/sample/LICENSE').unlink()
+        self._rebind_old(self.commit())
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        notice_sha = hashlib.sha256((self.repo / 'LICENSE').read_bytes()).hexdigest()
+        new = self.commit()
+        review = self._client_attach_review(new, ['skills/sample'], notice_sha)
+        Draft7Validator(schema).validate(review)
+        entry, metadata, report = audit_snapshots(
+            self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z',
+            special_review=review)
+        self.assertEqual(metadata['governance']['compliance']['reviewedRef'], new)
+        self.assertEqual(report['source']['ref'], new)
+        self.assertEqual(report['source']['previousRef'], self.old)
+        self.assertTrue(any('安装副本携带了完整根通知' in item for item in report['limitations']))
+
+    def test_client_attached_notices_rejects_mismatched_bindings(self):
+        (self.repo / 'skills/sample/LICENSE').unlink()
+        self._rebind_old(self.commit())
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        notice_sha = hashlib.sha256((self.repo / 'LICENSE').read_bytes()).hexdigest()
+        new = self.commit()
+        valid = self._client_attach_review(new, ['skills/sample'], notice_sha)
+        cases = [
+            ('未绑定当前固定快照', {'acceptedClientAttachedNotices': {'sourceRef': self.old}}),
+            ('未绑定当前固定快照', {'acceptedClientAttachedNotices': {'sourceRef': 'a' * 40}}),
+            ('不在已核验实现清单中', {'acceptedClientAttachedNotices': {'clientCommit': 'a' * 40}}),
+            ('客户端提交无效', {'acceptedClientAttachedNotices': {'clientCommit': '28128a15'}}),
+            ('客户端 tree 与已核验实现不一致', {'acceptedClientAttachedNotices': {'clientTree': 'a' * 40}}),
+            ('根通知哈希与当前快照不一致', {'acceptedClientAttachedNotices': {'noticeSha256': 'b' * 64}}),
+            ('缺少子项安装回读', {'acceptedClientAttachedNotices': {'scopes': []}}),
+            ('必须包含审核人、日期和理由', {'notes': ''}),
+            ('必须包含审核人、日期和理由', {'reviewedBy': ''}),
+        ]
+        for message, overrides in cases:
+            with self.subTest(overrides=overrides):
+                review = self._client_attach_review(new, ['skills/sample'], notice_sha, **overrides)
+                with self.assertRaisesRegex(AuditBlocked, message):
+                    audit_snapshots(self.repo, self.entry, self.metadata,
+                                    {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z',
+                                    special_review=review)
+
+    def test_client_attached_notices_rejects_missing_child_readback(self):
+        self.write('skills/another/SKILL.md', '---\nname: another\ndescription: Fixture\nversion: 1.0.0\n---\n')
+        (self.repo / 'skills/sample/LICENSE').unlink()
+        (self.repo / 'skills/another/LICENSE').unlink()
+        self.entry['children'] = [
+            {'id': 'sample', 'path': 'skills/sample', 'version': '1.0.0'},
+            {'id': 'another', 'path': 'skills/another', 'version': '1.0.0'},
+        ]
+        self.metadata['spec'] = {'collection': {'children': [
+            {'identity': {'id': 'sample'}, 'path': 'skills/sample',
+             'release': {'state': 'known', 'version': '1.0.0', 'versionScheme': 'semver'}},
+            {'identity': {'id': 'another'}, 'path': 'skills/another',
+             'release': {'state': 'known', 'version': '1.0.0', 'versionScheme': 'semver'}},
+        ]}}
+        self._rebind_old(self.commit())
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        notice_sha = hashlib.sha256((self.repo / 'LICENSE').read_bytes()).hexdigest()
+        new = self.commit()
+        complete = self._client_attach_review(new, ['skills/sample', 'skills/another'], notice_sha)
+        audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                        '2026-10-31T01:02:03Z', special_review=complete)
+        partial = self._client_attach_review(new, ['skills/sample'], notice_sha)
+        with self.assertRaisesRegex(AuditBlocked, '缺少子项安装回读|与安装范围不一致'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                            '2026-10-31T01:02:03Z', special_review=partial)
+
+    def test_client_attached_notices_cannot_excuse_incomplete_mit(self):
+        self.write('LICENSE', 'License: MIT\n')
+        (self.repo / 'skills/sample/LICENSE').unlink()
+        self._rebind_old(self.commit())
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        notice_sha = hashlib.sha256((self.repo / 'LICENSE').read_bytes()).hexdigest()
+        new = self.commit()
+        review = self._client_attach_review(new, ['skills/sample'], notice_sha)
+        with self.assertRaisesRegex(AuditBlocked, '不完整的 MIT 声明|完整版权|pin-bound-license-exception'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                            '2026-10-31T01:02:03Z', special_review=review)
+
+    def test_notes_without_client_attached_evidence_do_not_pass(self):
+        (self.repo / 'skills/sample/LICENSE').unlink()
+        self._rebind_old(self.commit())
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        with self.assertRaisesRegex(AuditBlocked, 'Installed notices|安装通知'):
+            audit_snapshots(
+                self.repo, self.entry, self.metadata, {'ref': self.old, 'head': self.commit()},
+                '2026-10-31T01:02:03Z',
+                special_review={
+                    'schemaVersion': 1,
+                    'reviewedBy': 'mashagua',
+                    'reviewedAt': '2026-11-27',
+                    'notes': 'The client will attach the root LICENSE later.',
+                })
 
     def test_disallows_non_github_fetch_targets(self):
         self.entry['source']['repoUrl'] = 'file:///private/source'
