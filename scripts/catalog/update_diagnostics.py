@@ -34,7 +34,7 @@ def inspect_snapshots(repo, entry, metadata, result, special_review=None):
     # Lazy import avoids a circular module import; helpers only read bounded blobs.
     from audit_skill_update import (
         git, blob, safe_path, GENERATOR, MAX_FILE_BYTES, MAX_FILES,
-        accept_client_attached_notices, accept_description_and_locales, AuditBlocked,
+        accept_client_attached_notices, accept_description_and_locales, _has_locale_copy, AuditBlocked,
     )
     old, new = result['ref'], result['head']
     review = special_review or {}
@@ -208,7 +208,7 @@ def inspect_snapshots(repo, entry, metadata, result, special_review=None):
         if before and after and before.get('description') != after.get('description'):
             from audit_skill_update import frontmatter_identity
             accepted = review.get('acceptedFrontmatterSha256', {}).get(scope) == frontmatter_identity(after)
-            has_locale_copy = bool(entry.get('i18n')) or any(c.get('path') == scope and any(v.get('shortDesc') for v in c.get('i18n', {}).values()) for c in entry.get('children', []))
+            has_locale_copy = _has_locale_copy(entry, scope)
             locale_ok = scope in locale_accepted_scopes
             add(marker, 'description-and-locales', 'info' if locale_ok else ('manual_review' if has_locale_copy or not accepted else 'info'), 'changed',
                 '上游简介变化；旧双语及派生简介不得默认为仍然准确。 / Upstream description changed; old bilingual and derived summaries require review.',

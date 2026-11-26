@@ -947,5 +947,35 @@ class AuditTests(unittest.TestCase):
                 })
 
 
+    def test_collection_root_i18n_does_not_require_child_locale_review(self):
+        # A collection listing shortDesc is not derived copy for a member that has none.
+        self.entry = {
+            'id': 'collection',
+            'latestVersion': '1.0.0',
+            'source': {'kind': 'git', 'repoUrl': 'https://github.com/example/sample.git', 'ref': self.old},
+            'i18n': {'en-US': {'name': 'Collection', 'shortDesc': 'Root listing only.'},
+                     'zh-CN': {'name': '合集', 'shortDesc': '仅有合集简介。'}},
+            'children': [{'id': 'sample', 'path': 'skills/sample', 'version': '1.0.0'}],
+        }
+        self.metadata['identity'] = {'kind': 'skill', 'id': 'collection'}
+        self.metadata['provenance']['content'] = {'kind': 'git', 'url': self.entry['source']['repoUrl'], 'ref': self.old}
+        self.metadata['spec'] = {'collection': {'children': [{'identity': {'id': 'sample'}, 'path': 'skills/sample'}]}}
+        new_description = 'Delegate the work to fresh subagents and remember what it taught you in a dated wiki, so the next session picks up the thread.'
+        self.write('skills/sample/SKILL.md', (self.repo/'skills/sample/SKILL.md').read_text().replace('description: Fixture', f'description: {new_description}'))
+        new = self.commit()
+        fm = GENERATOR.skill_frontmatter(self.repo, 'skills/sample/SKILL.md', new)
+        review = {
+            'schemaVersion': 1,
+            'reviewedBy': 'mashagua',
+            'reviewedAt': '2026-11-27',
+            'notes': 'Frontmatter-only review; this child has no listing shortDesc.',
+            'acceptedFrontmatterSha256': {'skills/sample': frontmatter_identity(fm)},
+        }
+        entry, metadata, report = audit_snapshots(
+            self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+            '2026-10-31T01:02:03Z', special_review=review)
+        self.assertEqual(entry['source']['ref'], new)
+        self.assertEqual(metadata['governance']['compliance']['reviewedRef'], new)
+
 
 if __name__ == '__main__': unittest.main()
