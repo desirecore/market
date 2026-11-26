@@ -1,0 +1,45 @@
+name: Merge verified upstream updates
+
+on:
+  workflow_run:
+    workflows: [i18n Validate, i18n Auto-Translate, Wait for Copilot review, CodeQL]
+    types: [completed]
+  schedule:
+    - cron: '47 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+  checks: read
+  statuses: read
+  actions: read
+
+concurrency:
+  group: trusted-market-update-merge
+  cancel-in-progress: false
+
+jobs:
+  verify-and-merge:
+    if: github.repository == 'desirecore/market'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      # workflow_run is privileged: use ONLY current main, never event PR code/artifacts.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v3
+      - name: Reaudit trusted updates and conditionally merge the exact checked head
+        env:
+          GH_TOKEN: ${{ secrets.MARKET_MAINTAINER_TOKEN || github.token }}
+          MAINTAINER_TOKEN_AVAILABLE: ${{ secrets.MARKET_MAINTAINER_TOKEN != '' }}
+        run: |
+          merge=()
+          if [ "$MAINTAINER_TOKEN_AVAILABLE" = true ]; then
+            merge=(--merge)
+          else
+            echo 'Maintainer authentication not configured: verification-only; never impersonate mashagua.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+          uv run --quiet scripts/catalog/merge_verified_updates.py "${merge[@]}"

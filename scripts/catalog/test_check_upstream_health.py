@@ -377,7 +377,7 @@ class UpstreamHealthTests(unittest.TestCase):
             {"id": "b", "kind": "skill", "url": "u", "issues": [{"status": "stale-hold", "detail": "y"}]},
         ]
         text = CHECKER.render_markdown(results)
-        self.assertIn("### Reviewed holds — not actionable (1)", text)
+        self.assertIn("### 已审核暂缓——不推进 / Reviewed holds — not actionable (1)", text)
         self.assertLess(text.index("Stale holds — re-review"), text.index("Reviewed holds"))
         self.assertNotIn("OK (", text)
 
@@ -433,7 +433,7 @@ class UpstreamHealthTests(unittest.TestCase):
         ref, head = "a19a171" + "0" * 33, "94f06c1" + "0" * 33
         results = [{"id": "a", "kind": "skill", "url": "https://github.com/o/r.git", "ref": ref, "head": head,
                     "issues": [{"status": "outdated", "detail": "a19a171 -> 94f06c1"}]}]
-        self.assertIn(f"| [a19a171 → 94f06c1](https://github.com/o/r/compare/{ref}...{head}) |",
+        self.assertIn(f"| 审核差异后再更新 / Review before updating: [a19a171 → 94f06c1](https://github.com/o/r/compare/{ref}...{head}) |",
                       CHECKER.render_markdown(results))
 
     def test_compare_url_accepts_github_url_variants(self) -> None:
@@ -455,7 +455,7 @@ class UpstreamHealthTests(unittest.TestCase):
                 results = [{"id": "a", "kind": "skill", "url": url, "ref": pinned, "head": checked,
                             "issues": [{"status": "outdated", "detail": "aaaaaaa -> bbbbbbb"}]}]
                 text = CHECKER.render_markdown(results)
-                self.assertIn("| aaaaaaa -> bbbbbbb |", text)
+                self.assertIn("存在上游差异，须审核后通过 PR 更新，不代表已经审核通过 / aaaaaaa -> bbbbbbb |", text)
                 self.assertNotIn("/compare/", text)
 
     def test_markdown_links_only_outdated_rows(self) -> None:
@@ -464,7 +464,7 @@ class UpstreamHealthTests(unittest.TestCase):
                                                  {"status": "upstream-path-change", "detail": "x | y"}]}]
         text = CHECKER.render_markdown(results)
         self.assertEqual(text.count("/compare/"), 1)
-        self.assertIn("| x \\| y |", text)
+        self.assertIn("更新前审核路径 / x \\| y |", text)
 
 
 if __name__ == "__main__":
