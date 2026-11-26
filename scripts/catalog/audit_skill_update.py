@@ -371,12 +371,19 @@ def _scope_locale_sources(entry: dict, sidecar: dict, scope: str) -> tuple[dict,
 
 
 def _has_locale_copy(entry: dict, scope: str) -> bool:
-    if entry.get('i18n'):
-        return True
-    return any(
-        child.get('path') == scope and any(value.get('shortDesc') for value in child.get('i18n', {}).values())
-        for child in entry.get('children') or []
-    )
+    """True only when this install scope already has listing shortDesc to review.
+
+    Collection-root i18n is not a derived summary of every child; a new member
+    without its own shortDesc is not treated as already having locale copy.
+    """
+    for child in entry.get('children') or []:
+        if child.get('path') == scope:
+            return any(isinstance(value, dict) and value.get('shortDesc')
+                       for value in (child.get('i18n') or {}).values())
+    if entry.get('children'):
+        return False
+    return any(isinstance(value, dict) and value.get('shortDesc')
+               for value in (entry.get('i18n') or {}).values())
 
 
 def description_changed_locale_scopes(repo: Path, entry: dict, old: str, new: str, install_scopes: list[str]) -> dict[str, tuple[dict, dict]]:
