@@ -56,7 +56,7 @@
   },
   "governance": {
     "stewardship": "community",
-    "availability": "installable",
+    "availability": "listing-only",
     "license": {
       "state": "known",
       "value": "MIT",
