@@ -9,6 +9,7 @@ import argparse
 import json
 import os
 import subprocess
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from check_upstream_health import render_markdown, summarize
 from update_diagnostics import render_findings
@@ -20,12 +21,28 @@ GUIDE = ('通过普通 PR 修正来源/路径、审核精确目标 pin 及安装
          'Use normal PRs to fix sources/paths and review exact target pins and installed notices. Failures stay drafts; never rebind old receipts. Unknown network status or unreviewed budget overflow is not a pass.')
 
 
-def render(results, coverage, tracked, complete=True):
+def report_header(generated_at, env):
+    beijing = generated_at.astimezone(timezone(timedelta(hours=8)))
+    stamp = beijing.strftime('%Y-%m-%d %H:%M:%S')
+    header = f'**报告生成时间（北京时间） / Report generated (Beijing time):** {stamp} (UTC+08:00)'
+    repo, run_id = env.get('GITHUB_REPOSITORY'), env.get('GITHUB_RUN_ID', '')
+    if repo and run_id.isascii() and run_id.isdecimal():
+        server = env.get('GITHUB_SERVER_URL', 'https://github.com').rstrip('/')
+        run_url = f'{server}/{repo}/actions/runs/{run_id}'
+        attempt = env.get('GITHUB_RUN_ATTEMPT', '')
+        if attempt.isascii() and attempt.isdecimal():
+            run_url += f'/attempts/{attempt}'
+        header += f' · [本次运行 / Workflow run]({run_url})'
+    return header
+
+
+def render(results, coverage, tracked, complete=True, *, header=None):
     rows = []
     for item in [*coverage, *tracked]:
         if not item.get('parentId'):
             rows.extend(item.get('findings', []))
-    out = [GUIDE, '', render_markdown(results), '', '## 更新审核结果 / Update audit results', '',
+    out = [header, ''] if header else []
+    out += [GUIDE, '', render_markdown(results), '', '## 更新审核结果 / Update audit results', '',
            '完整逐项证据见同次 Actions 的 audit-results 工件；本报告不代表运行验收。 / Complete per-item evidence is in the audit-results artifact of the same Actions run; this report is not runtime acceptance.', '',
            '| 技能 / Skill | 状态 / State | 精确旧→新 pin / Exact pins | 原因 / Reason |', '|---|---|---|---|']
     labels = {'audit-passed':'静态审核通过 / static audit passed', 'manual-review-required':'人工待审 / manual review',
@@ -97,7 +114,8 @@ def main():
     a = p.parse_args()
     complete = a.complete and all(path.is_file() for path in (a.results, a.coverage, a.tracked))
     results, coverage, tracked = [json.loads(path.read_text()) if path.is_file() else [] for path in (a.results, a.coverage, a.tracked)]
-    report, actionable = render(results, coverage, tracked, complete)
+    header = report_header(datetime.now(timezone.utc), os.environ)
+    report, actionable = render(results, coverage, tracked, complete, header=header)
     a.output.write_text(report + '\n')
     if not a.publish:
         return
