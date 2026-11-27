@@ -8,7 +8,7 @@ name: Upstream Health
 
 on:
   schedule:
-    - cron: "23 1 * * *" # Daily 01:23 UTC
+    - cron: "20 1 * * *" # Daily 01:20 UTC
   workflow_dispatch:
 
 permissions:
