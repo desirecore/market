@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import patch
 
-from unhealthy_report import START, main, managed_body, report_header
+from unhealthy_report import START, main, managed_body, report_header, sync_plan
 
 
 class ReportHeaderTests(unittest.TestCase):
@@ -43,3 +43,32 @@ class ReportHeaderTests(unittest.TestCase):
             first = output.read_text().splitlines()[0]
             self.assertIn('Report generated (Beijing time):', first)
             self.assertIn('https://github.com/desirecore/market/actions/runs/123)', first)
+
+    def test_unchanged_rerun_skips_body_edit_but_preserves_state_transitions(self):
+        old = report_header(datetime(2026, 11, 27, 2, 1, tzinfo=timezone.utc), {
+            'GITHUB_REPOSITORY': 'desirecore/market', 'GITHUB_RUN_ID': '123',
+        })
+        new = report_header(datetime(2026, 11, 28, 2, 1, tzinfo=timezone.utc), {
+            'GITHUB_REPOSITORY': 'desirecore/market', 'GITHUB_RUN_ID': '456',
+        })
+        body = managed_body('', old + '\n\nSame findings')
+        rerun = new + '\n\nSame findings'
+        self.assertEqual(sync_plan({'body': body, 'state': 'open'}, rerun, True, True), {})
+        self.assertEqual(sync_plan({'body': body, 'state': 'closed'}, rerun, True, True), {'state': 'open'})
+        self.assertEqual(sync_plan({'body': body, 'state': 'open'}, rerun, False, True),
+                         {'state': 'closed', 'state_reason': 'completed'})
+
+    def test_existing_headerless_report_gets_a_header(self):
+        header = report_header(datetime(2026, 11, 27, 2, 1, tzinfo=timezone.utc), {})
+        issue = {'body': managed_body('', 'Same findings'), 'state': 'open'}
+        edits = sync_plan(issue, header + '\n\nSame findings', True, True)
+        self.assertIn(START + '\n' + header, edits['body'])
+
+    def test_changed_findings_publish_new_header_and_preserve_archived_text(self):
+        old = report_header(datetime(2026, 11, 27, 2, 1, tzinfo=timezone.utc), {})
+        new = report_header(datetime(2026, 11, 28, 2, 1, tzinfo=timezone.utc), {})
+        body = managed_body('Archived text', old + '\n\nOld findings')
+        edits = sync_plan({'body': body, 'state': 'open'}, new + '\n\nNew findings', True, True)
+        self.assertIn(START + '\n' + new, edits['body'])
+        self.assertNotIn(old, edits['body'])
+        self.assertIn('Archived text', edits['body'])

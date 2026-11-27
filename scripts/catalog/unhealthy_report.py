@@ -21,10 +21,13 @@ GUIDE = ('通过普通 PR 修正来源/路径、审核精确目标 pin 及安装
          'Use normal PRs to fix sources/paths and review exact target pins and installed notices. Failures stay drafts; never rebind old receipts. Unknown network status or unreviewed budget overflow is not a pass.')
 
 
+REPORT_HEADER_LABEL = '**报告生成时间（北京时间） / Report generated (Beijing time):** '
+
+
 def report_header(generated_at, env):
     beijing = generated_at.astimezone(timezone(timedelta(hours=8)))
     stamp = beijing.strftime('%Y-%m-%d %H:%M:%S')
-    header = f'**报告生成时间（北京时间） / Report generated (Beijing time):** {stamp} (UTC+08:00)'
+    header = f'{REPORT_HEADER_LABEL}{stamp} (UTC+08:00)'
     repo, run_id = env.get('GITHUB_REPOSITORY'), env.get('GITHUB_RUN_ID', '')
     if repo and run_id.isascii() and run_id.isdecimal():
         server = env.get('GITHUB_SERVER_URL', 'https://github.com').rstrip('/')
@@ -86,11 +89,24 @@ def managed_body(previous, report):
     return managed + '\n'
 
 
+def without_generated_header(body):
+    prefix, marker, managed = body.partition(START + '\n')
+    header, newline, rest = managed.partition('\n')
+    if marker and newline and header.startswith(REPORT_HEADER_LABEL) and END in rest:
+        return prefix + marker + rest
+    return None
+
+
 def sync_plan(issue, report, actionable, complete):
-    body = managed_body(issue.get('body') or '', report)
+    previous = issue.get('body') or ''
+    body = managed_body(previous, report)
     edits = {}
-    if body != (issue.get('body') or ''):
-        edits['body'] = body
+    # The issue links to the run that generated the content it displays.
+    # A report without a header still gets one on its first publish.
+    if body != previous:
+        previous_content = without_generated_header(previous)
+        if previous_content is None or previous_content != without_generated_header(body):
+            edits['body'] = body
     if actionable and issue['state'] == 'closed':
         edits['state'] = 'open'
     elif not actionable and complete and issue['state'] == 'open':
