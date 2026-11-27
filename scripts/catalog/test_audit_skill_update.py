@@ -5,12 +5,14 @@
 # ///
 """真实本地 Git 快照的自动核验；不联网、不运行上游代码。"""
 import copy
+import hashlib
 import json
 import subprocess
 import tempfile
 import unittest
 from pathlib import Path
-from audit_skill_update import audit_snapshots, audit_update, AuditBlocked, REVIEWER
+from audit_skill_update import (audit_snapshots, audit_update, AuditBlocked, REVIEWER,
+                                 GENERATOR, frontmatter_identity, _text_sha256)
 
 
 class AuditTests(unittest.TestCase):
@@ -563,6 +565,36 @@ class AuditTests(unittest.TestCase):
         self.metadata['provenance']['content']['ref'] = sha
         self.metadata['governance']['compliance']['reviewedRef'] = sha
 
+    def _client_attach_review(self, new, scopes, notice_sha, **overrides):
+        review = {
+            'schemaVersion': 1,
+            'reviewedBy': 'mashagua',
+            'reviewedAt': '2026-11-27',
+            'notes': 'Install-copy readback of verified client root-notice attach for this pin.',
+            'acceptedClientAttachedNotices': {
+                'sourceRef': new,
+                'clientCommit': '28128a15b3abd76e1529b983ca8a921bdfe9ff30',
+                'clientTree': 'e8c1321e6a098eb905f4646b2027bc7b2259ca6b',
+                'observedAt': '2026-11-26T16:04:23Z',
+                'noticeRootPath': 'LICENSE',
+                'noticeSha256': notice_sha,
+                'scopes': [
+                    {'path': path, 'attached': [
+                        {'name': 'LICENSE', 'sourceName': 'LICENSE', 'sha256': notice_sha},
+                    ]}
+                    for path in scopes
+                ],
+            },
+        }
+        accepted = overrides.pop('acceptedClientAttachedNotices', None)
+        review.update(overrides)
+        if accepted is not None:
+            merged = dict(review['acceptedClientAttachedNotices'])
+            merged.update(accepted)
+            review['acceptedClientAttachedNotices'] = merged
+        return review
+
+
     def test_root_licenses_directory_is_not_a_broken_license_file(self):
         """A normal licenses/ directory plus an unchanged MIT LICENSE must pass (old and new pins)."""
         self.write('licenses/thirdparty-MIT.txt', 'Permission is hereby granted, MIT third-party text.\n')
@@ -667,9 +699,283 @@ class AuditTests(unittest.TestCase):
         self.assertIn('licenses/thirdparty-MIT.txt', report['licenseEvidenceSha256'])
         self.assertTrue(any('安装范围内的 Notice' in item for item in report['limitations']))
 
+
+    def test_client_attached_notices_accepts_bound_install_readback(self):
+        from jsonschema import Draft7Validator
+        schema = json.loads((Path(__file__).resolve().parents[2] / 'schemas' / 'special-review.v1.schema.json').read_text())
+        (self.repo / 'skills/sample/LICENSE').unlink()
+        self._rebind_old(self.commit())
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        notice_sha = hashlib.sha256((self.repo / 'LICENSE').read_bytes()).hexdigest()
+        new = self.commit()
+        review = self._client_attach_review(new, ['skills/sample'], notice_sha)
+        Draft7Validator(schema).validate(review)
+        entry, metadata, report = audit_snapshots(
+            self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z',
+            special_review=review)
+        self.assertEqual(metadata['governance']['compliance']['reviewedRef'], new)
+        self.assertEqual(report['source']['ref'], new)
+        self.assertEqual(report['source']['previousRef'], self.old)
+        self.assertTrue(any('安装副本携带了完整根通知' in item for item in report['limitations']))
+
+    def test_client_attached_notices_rejects_mismatched_bindings(self):
+        (self.repo / 'skills/sample/LICENSE').unlink()
+        self._rebind_old(self.commit())
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        notice_sha = hashlib.sha256((self.repo / 'LICENSE').read_bytes()).hexdigest()
+        new = self.commit()
+        valid = self._client_attach_review(new, ['skills/sample'], notice_sha)
+        cases = [
+            ('未绑定当前固定快照', {'acceptedClientAttachedNotices': {'sourceRef': self.old}}),
+            ('未绑定当前固定快照', {'acceptedClientAttachedNotices': {'sourceRef': 'a' * 40}}),
+            ('不在已核验实现清单中', {'acceptedClientAttachedNotices': {'clientCommit': 'a' * 40}}),
+            ('客户端提交无效', {'acceptedClientAttachedNotices': {'clientCommit': '28128a15'}}),
+            ('客户端 tree 与已核验实现不一致', {'acceptedClientAttachedNotices': {'clientTree': 'a' * 40}}),
+            ('根通知哈希与当前快照不一致', {'acceptedClientAttachedNotices': {'noticeSha256': 'b' * 64}}),
+            ('缺少子项安装回读', {'acceptedClientAttachedNotices': {'scopes': []}}),
+            ('必须包含审核人、日期和理由', {'notes': ''}),
+            ('必须包含审核人、日期和理由', {'reviewedBy': ''}),
+        ]
+        for message, overrides in cases:
+            with self.subTest(overrides=overrides):
+                review = self._client_attach_review(new, ['skills/sample'], notice_sha, **overrides)
+                with self.assertRaisesRegex(AuditBlocked, message):
+                    audit_snapshots(self.repo, self.entry, self.metadata,
+                                    {'ref': self.old, 'head': new}, '2026-10-31T01:02:03Z',
+                                    special_review=review)
+
+    def test_client_attached_notices_rejects_missing_child_readback(self):
+        self.write('skills/another/SKILL.md', '---\nname: another\ndescription: Fixture\nversion: 1.0.0\n---\n')
+        (self.repo / 'skills/sample/LICENSE').unlink()
+        (self.repo / 'skills/another/LICENSE').unlink()
+        self.entry['children'] = [
+            {'id': 'sample', 'path': 'skills/sample', 'version': '1.0.0'},
+            {'id': 'another', 'path': 'skills/another', 'version': '1.0.0'},
+        ]
+        self.metadata['spec'] = {'collection': {'children': [
+            {'identity': {'id': 'sample'}, 'path': 'skills/sample',
+             'release': {'state': 'known', 'version': '1.0.0', 'versionScheme': 'semver'}},
+            {'identity': {'id': 'another'}, 'path': 'skills/another',
+             'release': {'state': 'known', 'version': '1.0.0', 'versionScheme': 'semver'}},
+        ]}}
+        self._rebind_old(self.commit())
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        notice_sha = hashlib.sha256((self.repo / 'LICENSE').read_bytes()).hexdigest()
+        new = self.commit()
+        complete = self._client_attach_review(new, ['skills/sample', 'skills/another'], notice_sha)
+        audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                        '2026-10-31T01:02:03Z', special_review=complete)
+        partial = self._client_attach_review(new, ['skills/sample'], notice_sha)
+        with self.assertRaisesRegex(AuditBlocked, '缺少子项安装回读|与安装范围不一致'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                            '2026-10-31T01:02:03Z', special_review=partial)
+
+    def test_client_attached_notices_cannot_excuse_incomplete_mit(self):
+        self.write('LICENSE', 'License: MIT\n')
+        (self.repo / 'skills/sample/LICENSE').unlink()
+        self._rebind_old(self.commit())
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        notice_sha = hashlib.sha256((self.repo / 'LICENSE').read_bytes()).hexdigest()
+        new = self.commit()
+        review = self._client_attach_review(new, ['skills/sample'], notice_sha)
+        with self.assertRaisesRegex(AuditBlocked, '不完整的 MIT 声明|完整版权|pin-bound-license-exception'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                            '2026-10-31T01:02:03Z', special_review=review)
+
+    def test_notes_without_client_attached_evidence_do_not_pass(self):
+        (self.repo / 'skills/sample/LICENSE').unlink()
+        self._rebind_old(self.commit())
+        self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
+        with self.assertRaisesRegex(AuditBlocked, 'Installed notices|安装通知'):
+            audit_snapshots(
+                self.repo, self.entry, self.metadata, {'ref': self.old, 'head': self.commit()},
+                '2026-10-31T01:02:03Z',
+                special_review={
+                    'schemaVersion': 1,
+                    'reviewedBy': 'mashagua',
+                    'reviewedAt': '2026-11-27',
+                    'notes': 'The client will attach the root LICENSE later.',
+                })
+
     def test_disallows_non_github_fetch_targets(self):
         self.entry['source']['repoUrl'] = 'file:///private/source'
         with self.assertRaisesRegex(AuditBlocked, 'HTTPS'): audit_update(self.entry, self.metadata, {})
+
+    def _collection_description_fixture(self, new_description, short_descs, catalog=True):
+        self.entry = {
+            'id': 'collection',
+            'latestVersion': '1.0.0',
+            'source': {'kind': 'git', 'repoUrl': 'https://github.com/example/sample.git', 'ref': self.old},
+            'children': [{
+                'id': 'sample',
+                'path': 'skills/sample',
+                'version': '1.0.0',
+                'i18n': {
+                    'zh-CN': {'shortDesc': '旧的中文简介：在单个长会话中统筹子 Agent。'},
+                    'en-US': {'shortDesc': 'Acts as a chief of staff in one long session, co-ordinating subagents toward a long-running goal.'},
+                },
+            }],
+        }
+        self.metadata['identity'] = {'kind': 'skill', 'id': 'collection'}
+        self.metadata['provenance']['content'] = {'kind': 'git', 'url': self.entry['source']['repoUrl'], 'ref': self.old}
+        self.metadata['spec'] = {'collection': {'children': [{
+            'identity': {'kind': 'skill', 'id': 'sample', 'parentId': 'collection'},
+            'path': 'skills/sample',
+            'presentation': {'defaultLocale': 'en-US', 'i18n': {
+                'en-US': {'name': 'sample', 'summary': self.entry['children'][0]['i18n']['en-US']['shortDesc']},
+                'zh-CN': {'name': 'sample', 'summary': self.entry['children'][0]['i18n']['zh-CN']['shortDesc']},
+            }, 'tags': []},
+            'release': {'state': 'unknown'},
+        }]}} if catalog else {'collection': {'children': [{'identity': {'id': 'sample'}, 'path': 'skills/sample'}]}}
+        old_text = (self.repo / 'skills/sample/SKILL.md').read_text()
+        self.write('skills/sample/SKILL.md', old_text.replace('description: Fixture', f'description: {new_description}'))
+        self.entry['children'][0]['i18n']['en-US']['shortDesc'] = short_descs['en-US']
+        self.entry['children'][0]['i18n']['zh-CN']['shortDesc'] = short_descs['zh-CN']
+        if catalog:
+            i18n = self.metadata['spec']['collection']['children'][0]['presentation']['i18n']
+            i18n['en-US']['summary'] = short_descs['en-US']
+            i18n['zh-CN']['summary'] = short_descs['zh-CN']
+        new = self.commit()
+        return new, GENERATOR.skill_frontmatter(self.repo, 'skills/sample/SKILL.md', new)
+
+    def _description_review(self, new, fm, short_descs, **overrides):
+        from audit_skill_update import frontmatter_identity, _text_sha256
+        accepted = {
+            'fromRef': self.old,
+            'toRef': new,
+            'files': [{
+                'path': 'skills/sample',
+                'oldDescription': 'Fixture',
+                'newDescription': fm['description'],
+                'newFrontmatterSha256': frontmatter_identity(fm),
+                'locales': {
+                    locale: {
+                        'shortDesc': text,
+                        'sha256': _text_sha256(text),
+                        'previousShortDesc': {
+                            'en-US': 'Acts as a chief of staff in one long session, co-ordinating subagents toward a long-running goal.',
+                            'zh-CN': '旧的中文简介：在单个长会话中统筹子 Agent。',
+                        }[locale],
+                    }
+                    for locale, text in short_descs.items()
+                },
+            }],
+        }
+        accepted.update(overrides)
+        return {
+            'schemaVersion': 1,
+            'reviewedBy': 'mashagua',
+            'reviewedAt': '2026-11-27',
+            'notes': 'Reviewed bilingual listing copy against the new upstream description for this pin.',
+            'acceptedFrontmatterSha256': {'skills/sample': frontmatter_identity(fm)},
+            'acceptedDescriptionAndLocales': accepted,
+        }
+
+    def test_description_and_locales_accepts_updated_short_desc(self):
+        new_description = 'Delegate the work to fresh subagents and remember what it taught you in a dated wiki, so the next session picks up the thread.'
+        short_descs = {
+            'en-US': 'Delegates work to fresh-context background subagents and records dated knowledge in an agreed wiki for later sessions.',
+            'zh-CN': '将工作委派给新上下文后台子 Agent，并把有日期的知识写入约定 wiki，供后续会话续接。',
+        }
+        new, fm = self._collection_description_fixture(new_description, short_descs)
+        entry, metadata, report = audit_snapshots(
+            self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+            '2026-10-31T01:02:03Z', special_review=self._description_review(new, fm, short_descs))
+        self.assertEqual(entry['source']['ref'], new)
+        self.assertEqual(metadata['governance']['compliance']['reviewedRef'], new)
+        self.assertTrue(any('双语简介' in item or '简介' in item for item in report['limitations']))
+
+    def test_description_and_locales_rejects_mismatched_bindings(self):
+        new_description = 'Delegate the work to fresh subagents and remember what it taught you in a dated wiki, so the next session picks up the thread.'
+        short_descs = {
+            'en-US': 'Delegates work to fresh-context background subagents and records dated knowledge in an agreed wiki for later sessions.',
+            'zh-CN': '将工作委派给新上下文后台子 Agent，并把有日期的知识写入约定 wiki，供后续会话续接。',
+        }
+        new, fm = self._collection_description_fixture(new_description, short_descs)
+        review = self._description_review(new, fm, short_descs)
+        variants = [
+            ('未绑定当前固定快照', {'toRef': self.old}),
+            ('未绑定当前固定快照', {'fromRef': new}),
+            ('路径与上游简介变化范围不一致', {'files': [{**review['acceptedDescriptionAndLocales']['files'][0], 'path': 'skills/missing'}]}),
+        ]
+        for message, override in variants:
+            with self.subTest(message):
+                broken = self._description_review(new, fm, short_descs, **override)
+                with self.assertRaisesRegex(AuditBlocked, message):
+                    audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                                    '2026-10-31T01:02:03Z', special_review=broken)
+
+    def test_description_and_locales_rejects_stale_or_unmatched_short_desc(self):
+        new_description = 'Delegate the work to fresh subagents and remember what it taught you in a dated wiki, so the next session picks up the thread.'
+        stale = {
+            'en-US': 'Acts as a chief of staff in one long session, co-ordinating subagents toward a long-running goal.',
+            'zh-CN': '将工作委派给新上下文后台子 Agent，并把有日期的知识写入约定 wiki，供后续会话续接。',
+        }
+        new, fm = self._collection_description_fixture(new_description, stale)
+        with self.assertRaisesRegex(AuditBlocked, '未相对原先文案更新|未实际更新以匹配上游简介'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                            '2026-10-31T01:02:03Z', special_review=self._description_review(new, fm, stale))
+        self.run_git('reset', '--hard', self.old)
+        self.run_git('clean', '-fd')
+        unmatched = {
+            'en-US': 'A completely unrelated listing about typography and typographic color palettes.',
+            'zh-CN': '将工作委派给新上下文后台子 Agent，并把有日期的知识写入约定 wiki，供后续会话续接。',
+        }
+        new, fm = self._collection_description_fixture(new_description, unmatched)
+        with self.assertRaisesRegex(AuditBlocked, '未实际更新以匹配上游简介'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                            '2026-10-31T01:02:03Z', special_review=self._description_review(new, fm, unmatched))
+
+    def test_notes_without_description_locale_evidence_do_not_pass(self):
+        new_description = 'Delegate the work to fresh subagents and remember what it taught you in a dated wiki, so the next session picks up the thread.'
+        short_descs = {
+            'en-US': 'Delegates work to fresh-context background subagents and records dated knowledge in an agreed wiki for later sessions.',
+            'zh-CN': '将工作委派给新上下文后台子 Agent，并把有日期的知识写入约定 wiki，供后续会话续接。',
+        }
+        new, fm = self._collection_description_fixture(new_description, short_descs)
+        from audit_skill_update import frontmatter_identity
+        with self.assertRaisesRegex(AuditBlocked, 'description-and-locales|简介|manual_review|安装通知|元数据'):
+            audit_snapshots(
+                self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                '2026-10-31T01:02:03Z',
+                special_review={
+                    'schemaVersion': 1,
+                    'reviewedBy': 'mashagua',
+                    'reviewedAt': '2026-11-27',
+                    'notes': 'The bilingual shortDesc was reviewed.',
+                    'acceptedFrontmatterSha256': {'skills/sample': frontmatter_identity(fm)},
+                })
+
+
+    def test_collection_root_i18n_does_not_require_child_locale_review(self):
+        # A collection listing shortDesc is not derived copy for a member that has none.
+        self.entry = {
+            'id': 'collection',
+            'latestVersion': '1.0.0',
+            'source': {'kind': 'git', 'repoUrl': 'https://github.com/example/sample.git', 'ref': self.old},
+            'i18n': {'en-US': {'name': 'Collection', 'shortDesc': 'Root listing only.'},
+                     'zh-CN': {'name': '合集', 'shortDesc': '仅有合集简介。'}},
+            'children': [{'id': 'sample', 'path': 'skills/sample', 'version': '1.0.0'}],
+        }
+        self.metadata['identity'] = {'kind': 'skill', 'id': 'collection'}
+        self.metadata['provenance']['content'] = {'kind': 'git', 'url': self.entry['source']['repoUrl'], 'ref': self.old}
+        self.metadata['spec'] = {'collection': {'children': [{'identity': {'id': 'sample'}, 'path': 'skills/sample'}]}}
+        new_description = 'Delegate the work to fresh subagents and remember what it taught you in a dated wiki, so the next session picks up the thread.'
+        self.write('skills/sample/SKILL.md', (self.repo/'skills/sample/SKILL.md').read_text().replace('description: Fixture', f'description: {new_description}'))
+        new = self.commit()
+        fm = GENERATOR.skill_frontmatter(self.repo, 'skills/sample/SKILL.md', new)
+        review = {
+            'schemaVersion': 1,
+            'reviewedBy': 'mashagua',
+            'reviewedAt': '2026-11-27',
+            'notes': 'Frontmatter-only review; this child has no listing shortDesc.',
+            'acceptedFrontmatterSha256': {'skills/sample': frontmatter_identity(fm)},
+        }
+        entry, metadata, report = audit_snapshots(
+            self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+            '2026-10-31T01:02:03Z', special_review=review)
+        self.assertEqual(entry['source']['ref'], new)
+        self.assertEqual(metadata['governance']['compliance']['reviewedRef'], new)
 
 
 if __name__ == '__main__': unittest.main()
