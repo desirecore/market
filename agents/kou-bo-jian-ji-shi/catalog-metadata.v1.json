@@ -29,7 +29,7 @@
   },
   "release": {
     "state": "known",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "versionScheme": "semver"
   },
   "timestamps": {
@@ -39,7 +39,9 @@
       "precision": "day"
     },
     "releasePublishedAt": {
-      "state": "unknown"
+      "state": "known",
+      "value": "2026-11-27T16:45:36Z",
+      "precision": "second"
     },
     "reviewedAt": {
       "state": "known",
@@ -54,7 +56,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/talking-head-editor.git",
-      "ref": "fb316fb4054ed702c771a08827bd7e948f9bee36"
+      "ref": "c96f4a7a1f7599a3224725f44fb13685a337875b"
     }
   },
   "governance": {
@@ -68,7 +70,7 @@
     "redistribution": "source-pointer-only",
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "fb316fb4054ed702c771a08827bd7e948f9bee36",
+      "reviewedRef": "c96f4a7a1f7599a3224725f44fb13685a337875b",
       "reviewedAt": "2026-11-27",
       "reviewedBy": "Market source review",
       "upstreamEndorsed": false

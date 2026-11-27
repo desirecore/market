@@ -8,7 +8,7 @@
     "captions",
     "local-editing"
   ],
-  "latestVersion": "0.1.0",
+  "latestVersion": "0.1.1",
   "maintainer": {
     "name": "desirecore-agent",
     "verified": false,
@@ -21,7 +21,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/talking-head-editor.git",
     "repoBranch": "main",
-    "ref": "fb316fb4054ed702c771a08827bd7e948f9bee36"
+    "ref": "c96f4a7a1f7599a3224725f44fb13685a337875b"
   },
   "requiredClientVersion": "10.0.208",
   "i18n": {
