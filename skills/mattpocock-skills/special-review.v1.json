@@ -1,0 +1,518 @@
+{
+  "schemaVersion": 1,
+  "reviewedBy": "mashagua",
+  "reviewedAt": "2026-11-27",
+  "notes": "Honest install-copy readback after desirecore#6426 landed on dev as 28128a15b3abd76e1529b983ca8a921bdfe9ff30. stageMarketSkillDirectory attached the root MIT LICENSE (SHA-256 0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5) into all 39 selected child copies at pin d65391149dbb5fe76478e76fa8d5122b2aa5a70e. Source child directories still lack LICENSE. Also recorded human review of the new chief-of-staff upstream description against updated zh-CN/en-US shortDesc and catalog summaries, and of the root package.json/package-lock.json change that adds yaml@^2.9.1 plus the check-frontmatter script. This is not a license exception and does not automatically extend to a later pin.",
+  "acceptedClientAttachedNotices": {
+    "sourceRef": "d65391149dbb5fe76478e76fa8d5122b2aa5a70e",
+    "clientCommit": "28128a15b3abd76e1529b983ca8a921bdfe9ff30",
+    "clientTree": "e8c1321e6a098eb905f4646b2027bc7b2259ca6b",
+    "observedAt": "2026-11-26T16:04:23Z",
+    "noticeRootPath": "LICENSE",
+    "noticeSha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+    "scopes": [
+      {
+        "path": "skills/engineering/ask-matt",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "cec219fd1ff9ff2fd3a83ac5b73cb13bb34ded59f20287c0391c0e53c8397ecf"
+      },
+      {
+        "path": "skills/engineering/code-review",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "9b77e5bead9fb56f0aff048aadc9fe5c0b18833934a061138b20ab5e3d5e4a86"
+      },
+      {
+        "path": "skills/engineering/codebase-design",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "6649fb7f6b204f96420048eb5570527dc208928219e6cc1a2f30e5e08a67a67c"
+      },
+      {
+        "path": "skills/engineering/diagnosing-bugs",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "6d963b0f007be6d0683aa5f25f5b8187693f411f108bbd649846cd2d2a1f2dd5"
+      },
+      {
+        "path": "skills/engineering/domain-modeling",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "70dd344f8e044ad835552505f497bb12e45bb8ae0482acc3b6791ab480a913e0"
+      },
+      {
+        "path": "skills/engineering/grill-with-docs",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "63592fd1da8de65c8f4b872cbb360b8bf1516bcffbd569547e28b46815310e20"
+      },
+      {
+        "path": "skills/engineering/implement",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "a1ded8b02f8facc417da1545d8dfe23932ee0a94962c7b46f31095c5ef7b8553"
+      },
+      {
+        "path": "skills/engineering/implement-spec",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "5cea4e4c6fd35ef98678e23d15097f982d35ae8ac840d2b54de890eeb5c2527a"
+      },
+      {
+        "path": "skills/engineering/improve-codebase-architecture",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "bbb7660408dfe7d2815ba679f508b6ec715e591813e8ea7876a61adc9640de15"
+      },
+      {
+        "path": "skills/engineering/pr",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "02be4a8354ca7f3f5b0097a1d8880ae18a903baeed6ef1eb94ba65c1810a892b"
+      },
+      {
+        "path": "skills/engineering/prototype",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "d459ced298b38f03e525d8aacc14e41d09e2b383d7285ffa989a2085ff0dd0bf"
+      },
+      {
+        "path": "skills/engineering/research",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "71c43b3d4a293a5b4e840f000fd43e01d3c611d0569a1f54dc6afde4b6fbaa6e"
+      },
+      {
+        "path": "skills/engineering/retro",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "ae8c327f090ff8a5c598d237e654f5f790e0464611e46bcd5e03f5a2bcb1e98f"
+      },
+      {
+        "path": "skills/engineering/setup-matt-pocock-skills",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "51fd930c3c6ca41d9177278bf79ee1558fd2b39be42f7b501b38cdef81d25a14"
+      },
+      {
+        "path": "skills/engineering/tdd",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "1d0db0e1418e065ae11031341808453f29767008db09bd601484b9b6b84e69c1"
+      },
+      {
+        "path": "skills/engineering/to-spec",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "f9b71a833a7912e09a2f849ff229b03aaa07b9c2481f53a61cac723f45def8cc"
+      },
+      {
+        "path": "skills/engineering/to-tickets",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "11446d1096c00c213e6f6b3b82dc503b0c4c9f517652c48dfefcc563fe31b6fe"
+      },
+      {
+        "path": "skills/engineering/triage",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "d05a015a45ebb2f15b108f8ee52e8b417aec33567a346bf7289320ccfcf70063"
+      },
+      {
+        "path": "skills/engineering/wayfinder",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "8dc19c3894c1af898b466b483c6ac5acedb5bd444c98dd5abc18dfcef202dad6"
+      },
+      {
+        "path": "skills/engineering/wizard",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "c69fd704fd563801fa66a45d6bdbe923434cdc55939398f5d4e161b524c4c35f"
+      },
+      {
+        "path": "skills/in-progress/chief-of-staff",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "9ee978190119f27a25e3d69c5165fd277967834293e396bb3a6f2bc4fab95d20"
+      },
+      {
+        "path": "skills/in-progress/claude-handoff",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "365f8cff279fec0dc8a72e420a5c34a26fcaae4dbc631e3cd29a2ac19c9026d2"
+      },
+      {
+        "path": "skills/in-progress/loop-me",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "ab0df6427692424292c44a7cfad43ff295fe4417d9cdcf0baea1b084c4ce6a75"
+      },
+      {
+        "path": "skills/in-progress/setup-ts-deep-modules",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "e6a8f48285b66a6f50a776f17fefd59de2bcdb510e50328c2fd3d438cd6c8aaf"
+      },
+      {
+        "path": "skills/in-progress/software-factory",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "273300b3ad59b3cd1688f9e7d8bfe9017e4818dad33e81a142e133675da779cd"
+      },
+      {
+        "path": "skills/in-progress/writing-beats",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "865ca72d7eef01e14e2577434f2c50509cc16cc966296bb73a5646f8ba16e114"
+      },
+      {
+        "path": "skills/in-progress/writing-fragments",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "c21e2817dee8ff69e9ead848c74491f6f1132a72d1bb07a4cdb3ee3fde2eae1a"
+      },
+      {
+        "path": "skills/in-progress/writing-shape",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "ab0743ab68dbf12714f8cbbaff4f456d2c3838b68e2e63ef45895f2297fa8554"
+      },
+      {
+        "path": "skills/misc/git-guardrails-claude-code",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "32fc9d01b19f4d7f9b891bb286e4c64e675370d673ac66ba5165a80da37ad5d9"
+      },
+      {
+        "path": "skills/misc/migrate-to-shoehorn",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "546aad52cb04f87d078779cb86025e9513d23919361fa35838d8a5f0f5dcb313"
+      },
+      {
+        "path": "skills/misc/scaffold-exercises",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "a7381d495d8ee3b0f09be668c8cb8740231e6f148a8e5b1f5b50b1f711de8c12"
+      },
+      {
+        "path": "skills/misc/setup-pre-commit",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "ec74351f1075befde1bbfcc8c1b6dde52a0448e3784b70fba6ed354778716b94"
+      },
+      {
+        "path": "skills/productivity/grill-me",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "0de35be0ed110da09e886a6e46486993b2736d45308dc376f5f0ebcc9773bd24"
+      },
+      {
+        "path": "skills/productivity/grilling",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "ba50cb0c9abb6ad1a72a82a98cf39654ab908bfbb763eed5e1f283d441cf89ec"
+      },
+      {
+        "path": "skills/productivity/handoff",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "893aa6a802b951c610f7e0cb23dbc7f5a23591e6266cb6524b3543d61f9f6009"
+      },
+      {
+        "path": "skills/productivity/teach",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "b0f2b528daccda3b6c5bacf2e67ae8e3249844a21b8979db921856dd66e7b450"
+      },
+      {
+        "path": "skills/productivity/to-questionnaire",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "b82c2be29b52fc3bf8127762e2d908dbd2124ecc2f7ba5b6b9d8ccb5f078c659"
+      },
+      {
+        "path": "skills/productivity/wait-what",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "3a77f31c972a556d75b9ecbdab964ba57802abab4221f2eb65bf185da1161c1e"
+      },
+      {
+        "path": "skills/productivity/writing-for-agents",
+        "attached": [
+          {
+            "name": "LICENSE",
+            "sourceName": "LICENSE",
+            "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+          }
+        ],
+        "contentDigest": "51c6334f07314d778116238f3c1b2392266e93bab7a718a8b6b3e14d69554630"
+      }
+    ]
+  },
+  "acceptedCollectionPaths": [
+    "skills/engineering/ask-matt",
+    "skills/engineering/code-review",
+    "skills/engineering/codebase-design",
+    "skills/engineering/diagnosing-bugs",
+    "skills/engineering/domain-modeling",
+    "skills/engineering/grill-with-docs",
+    "skills/engineering/implement",
+    "skills/engineering/implement-spec",
+    "skills/engineering/improve-codebase-architecture",
+    "skills/engineering/pr",
+    "skills/engineering/prototype",
+    "skills/engineering/research",
+    "skills/engineering/retro",
+    "skills/engineering/setup-matt-pocock-skills",
+    "skills/engineering/tdd",
+    "skills/engineering/to-spec",
+    "skills/engineering/to-tickets",
+    "skills/engineering/triage",
+    "skills/engineering/wayfinder",
+    "skills/engineering/wizard",
+    "skills/in-progress/chief-of-staff",
+    "skills/in-progress/claude-handoff",
+    "skills/in-progress/loop-me",
+    "skills/in-progress/setup-ts-deep-modules",
+    "skills/in-progress/software-factory",
+    "skills/in-progress/writing-beats",
+    "skills/in-progress/writing-fragments",
+    "skills/in-progress/writing-shape",
+    "skills/misc/git-guardrails-claude-code",
+    "skills/misc/migrate-to-shoehorn",
+    "skills/misc/scaffold-exercises",
+    "skills/misc/setup-pre-commit",
+    "skills/productivity/grill-me",
+    "skills/productivity/grilling",
+    "skills/productivity/handoff",
+    "skills/productivity/teach",
+    "skills/productivity/to-questionnaire",
+    "skills/productivity/wait-what",
+    "skills/productivity/writing-for-agents"
+  ],
+  "acceptedFrontmatterSha256": {
+    "skills/in-progress/chief-of-staff": "a7e51a294e73a8b36aa90d1d90ad281e397bf7b5e9cbc544469b52de09409242",
+    "skills/in-progress/software-factory": "e95fca3691f1ad75d5b6e5d85543e30f8ad7125c9ba7f1c7ccfcd910386bc0c1"
+  },
+  "acceptedDependencyIdentities": {
+    "package-lock.json": "2787482775ab39d301710ce8b78ce1bb3730a98b",
+    "package.json": "405ad26c331e1f345de2221f2d8883083f0b9d4f29bc5aba06e683c6c866c235"
+  },
+  "acceptedDescriptionAndLocales": {
+    "fromRef": "5863806dd4e15c63174bee4e7515a4256792ecfa",
+    "toRef": "d65391149dbb5fe76478e76fa8d5122b2aa5a70e",
+    "files": [
+      {
+        "path": "skills/in-progress/chief-of-staff",
+        "oldDescription": "Pursue a long-running goal in a single session by co-ordinating subagents.",
+        "newDescription": "Delegate the work to fresh subagents and remember what it taught you in a dated wiki, so the next session picks up the thread.",
+        "newFrontmatterSha256": "a7e51a294e73a8b36aa90d1d90ad281e397bf7b5e9cbc544469b52de09409242",
+        "locales": {
+          "zh-CN": {
+            "shortDesc": "上游 in-progress（测试中）、仅显式手动调用的统筹技能：将工作委派给新上下文后台子 Agent，主会话保留问答，并把有日期与提交依据的知识写入约定的 wiki，供后续会话续接；任务遇到阻力时先提议环境改进，用户接受后再执行。重复任务可在宿主支持时提议定期运行，仍需用户授权；需要子 Agent 能力及另行授权的 wiki、Git 和任务跟踪工具访问。",
+            "sha256": "7b40587f7c8af877c5ed81aa0da8c515b832ab1288f6763872e5dcfd529ecdc4",
+            "previousShortDesc": "上游 in-progress（测试中）技能，仅在用户显式手动调用时运行：在单个长会话中作为统筹者，把工作分派给后台子 Agent，在与用户约定的文件夹中维护注明日期的 Markdown 知识库，并在宿主支持时建议定期计划，持续推进长期目标；需要宿主支持子 Agent。"
+          },
+          "en-US": {
+            "shortDesc": "Upstream in-progress, explicitly user-invoked coordination skill: delegates work to fresh-context background subagents, keeps the conversation in the main session, and records dated, commit-cited knowledge in an agreed wiki for later sessions. After friction, offers environment changes before acting on acceptance. May propose recurring work where the host supports it; wiki, Git, tracker writes and schedules still require user authorization.",
+            "sha256": "a7d31b3e19d3656d3fbe57a490a8d788ba788e5854f86c9f66f221276043bf55",
+            "previousShortDesc": "Upstream in-progress skill that runs only when the user invokes it explicitly: acts as a chief of staff in one long session, delegating work to background subagents, keeping a dated Markdown wiki in a folder agreed with the user and suggesting recurring schedules where the host supports them; requires host subagent support."
+          }
+        }
+      }
+    ]
+  }
+}

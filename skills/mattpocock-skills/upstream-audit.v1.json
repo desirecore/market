@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "reviewer": "automated:source-license-metadata-v1",
-  "reviewedAt": "2026-11-19T01:25:31Z",
+  "reviewedAt": "2026-11-26T23:43:23Z",
   "source": {
     "url": "https://github.com/mattpocock/skills.git",
-    "previousRef": "59db609eb1e18aaf59b63284d0e52255aff0c63c",
-    "ref": "5863806dd4e15c63174bee4e7515a4256792ecfa",
+    "previousRef": "5863806dd4e15c63174bee4e7515a4256792ecfa",
+    "ref": "d65391149dbb5fe76478e76fa8d5122b2aa5a70e",
     "paths": [
       "skills/engineering/ask-matt",
       "skills/engineering/code-review",
@@ -31,6 +31,7 @@
       "skills/in-progress/claude-handoff",
       "skills/in-progress/loop-me",
       "skills/in-progress/setup-ts-deep-modules",
+      "skills/in-progress/software-factory",
       "skills/in-progress/writing-beats",
       "skills/in-progress/writing-fragments",
       "skills/in-progress/writing-shape",
@@ -58,10 +59,20 @@
     "LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
   },
   "observedVersions": {},
-  "contentManifestSha256": "35a21e86b99a691741836387dd9cf7449738eb2d4566d8bb4b2e2ee663ca0338",
-  "fileCount": 105,
+  "contentManifestSha256": "c39c577399b29a50b6684fb856fcb727e01066079fc36a3bc8622f979516b7fa",
+  "fileCount": 111,
   "limitations": [
     "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
-    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。"
-  ]
+    "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。",
+    "依赖清单或结构化简介如有变化，已按专项复核记录中的接受哈希核对，不代表这些字段与旧快照逐字节相同。",
+    "根许可证/Notice 或合集成员如有变化，已按专项复核记录中的接受哈希或路径集合核对，不代表与旧快照逐字节或成员集合相同。",
+    "所选安装目录在源树中仍可能没有完整通知；已按专项复核中绑定的上游 pin、已核验客户端提交和逐项安装回读哈希证明安装副本携带了完整根通知。该接受不是许可例外，不得自动延伸到新 pin，也不能把尚未回读的客户端附加写成已交付。",
+    "上游简介如有变化，已按专项复核中绑定的旧/新 pin、路径、frontmatter 哈希和已更新的双语简介核对；不代表自动翻译，也不得把旧简介或未匹配新简介的文案延伸到新 pin。"
+  ],
+  "specialReview": {
+    "reviewedBy": "mashagua",
+    "reviewedAt": "2026-11-27",
+    "excludePaths": [],
+    "budgetExemptPaths": []
+  }
 }
