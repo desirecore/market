@@ -1,0 +1,43 @@
+{
+  "id": "kou-bo-jian-ji-shi",
+  "name": "口播剪辑师",
+  "category": "media",
+  "tags": [
+    "video",
+    "talking-head",
+    "captions",
+    "local-editing"
+  ],
+  "latestVersion": "0.1.0",
+  "maintainer": {
+    "name": "desirecore-agent",
+    "verified": false,
+    "url": "https://github.com/desirecore-agent/talking-head-editor"
+  },
+  "stewardship": "pointer",
+  "license": "MIT",
+  "redistribution": "source-pointer-only",
+  "source": {
+    "kind": "git",
+    "repoUrl": "https://github.com/desirecore-agent/talking-head-editor.git",
+    "repoBranch": "main",
+    "ref": "fb316fb4054ed702c771a08827bd7e948f9bee36"
+  },
+  "requiredClientVersion": "10.0.208",
+  "i18n": {
+    "zh-CN": {
+      "name": "口播剪辑师",
+      "shortDesc": "在本机剪辑竖屏口播，交付 MP4、字幕和封面。需本机 FFmpeg、离线转写工具及可用的 DesireCore 算力。"
+    },
+    "en-US": {
+      "name": "Talking-Head Editor",
+      "shortDesc": "Edit vertical talking-head footage locally. Requires FFmpeg, offline transcription and configured DesireCore compute."
+    }
+  },
+  "avatar": {
+    "t": "剪",
+    "bg": "linear-gradient(135deg, #2E6656, #508C78)"
+  },
+  "installPolicy": "market",
+  "updatePolicy": "market"
+}
