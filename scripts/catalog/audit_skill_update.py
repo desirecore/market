@@ -187,6 +187,315 @@ def _sha256_hex(value: object) -> bool:
     return isinstance(value, str) and bool(re.fullmatch(r'[a-f0-9]{64}', value))
 
 
+# Verified DesireCore client commits whose collection-child installer attaches
+# root LICENSE/NOTICE/COPYING files after verifying the selected child tree.
+# This is not a license exception. A later descendant tip is not accepted
+# automatically; add a newly verified implementation commit explicitly.
+CLIENT_ATTACHED_NOTICE_IMPLEMENTATIONS = {
+    '28128a15b3abd76e1529b983ca8a921bdfe9ff30': 'e8c1321e6a098eb905f4646b2027bc7b2259ca6b',
+}
+
+ROOT_NOTICE_NAME_PREFIXES = ('LICENSE', 'LICENCE', 'NOTICE', 'COPYING')
+
+
+def is_root_notice_filename(name: str) -> bool:
+    if not isinstance(name, str) or not name or name in ('.', '..'):
+        return False
+    if name != PurePosixPath(name).name or any(symbol in name for symbol in ('/', '\\', '\0')):
+        return False
+    upper = name.upper()
+    return any(upper == prefix or upper.startswith(prefix + '.') or upper.startswith(prefix + '-')
+               for prefix in ROOT_NOTICE_NAME_PREFIXES)
+
+
+def root_regular_file_sha256(repo: Path, ref: str, path: str) -> str:
+    path = safe_path(path)
+    if path != PurePosixPath(path).name:
+        raise AuditBlocked('客户端附加通知专项复核的根通知路径无效')
+    for record in git(repo, 'ls-tree', '-z', ref, '--', path).split(b'\0'):
+        if not record:
+            continue
+        meta, name = record.split(b'\t', 1)
+        if name.decode() != path:
+            continue
+        mode, kind, _ = meta.decode().split()[:3]
+        if kind != 'blob' or mode not in ('100644', '100755'):
+            raise AuditBlocked('根许可或 Notice 不是普通文件')
+        return hashlib.sha256(blob(repo, ref, path)).hexdigest()
+    raise AuditBlocked('客户端附加通知专项复核的根通知在当前快照中不存在')
+
+
+def accept_client_attached_notices(review: dict, repo: Path, new: str, install_scopes: list[str],
+                                  grant: bytes, license_value: str | None) -> set[str]:
+    """Return install scopes proven by bound client attach + install readback.
+
+    Absent field: empty set. Present but invalid: AuditBlocked. The acceptance is
+    bound to the exact new pin and a verified client commit; it does not extend
+    to a later pin and does not treat a future client change as delivery.
+    """
+    accepted = review.get('acceptedClientAttachedNotices')
+    if not accepted:
+        return set()
+    if not isinstance(accepted, dict):
+        raise AuditBlocked('客户端附加通知专项复核记录无效')
+    if not all(isinstance(review.get(key), str) and review[key].strip()
+               for key in ('reviewedBy', 'reviewedAt', 'notes')):
+        raise AuditBlocked('客户端附加通知专项复核必须包含审核人、日期和理由')
+    source_ref = accepted.get('sourceRef')
+    client_commit = accepted.get('clientCommit')
+    client_tree = accepted.get('clientTree')
+    observed_at = accepted.get('observedAt')
+    notice_path = accepted.get('noticeRootPath')
+    notice_sha = accepted.get('noticeSha256')
+    if not isinstance(source_ref, str) or not re.fullmatch(r'[0-9a-f]{40}', source_ref):
+        raise AuditBlocked('客户端附加通知专项复核未绑定完整上游 pin')
+    if source_ref != new:
+        raise AuditBlocked('客户端附加通知专项复核未绑定当前固定快照')
+    if not isinstance(client_commit, str) or not re.fullmatch(r'[0-9a-f]{40}', client_commit):
+        raise AuditBlocked('客户端附加通知专项复核的客户端提交无效')
+    if client_commit not in CLIENT_ATTACHED_NOTICE_IMPLEMENTATIONS:
+        raise AuditBlocked('客户端附加通知专项复核的客户端提交不在已核验实现清单中')
+    expected_tree = CLIENT_ATTACHED_NOTICE_IMPLEMENTATIONS[client_commit]
+    if client_tree is not None and (not isinstance(client_tree, str)
+                                    or not re.fullmatch(r'[0-9a-f]{40}', client_tree)
+                                    or client_tree != expected_tree):
+        raise AuditBlocked('客户端附加通知专项复核的客户端 tree 与已核验实现不一致')
+    if observed_at is not None and not (isinstance(observed_at, str)
+                                        and re.fullmatch(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z', observed_at)):
+        raise AuditBlocked('客户端附加通知专项复核的回读时间格式不正确')
+    if not isinstance(notice_path, str) or not is_root_notice_filename(notice_path):
+        raise AuditBlocked('客户端附加通知专项复核的根通知路径无效')
+    if not _sha256_hex(notice_sha):
+        raise AuditBlocked('客户端附加通知专项复核的根通知哈希无效')
+    actual = root_regular_file_sha256(repo, new, notice_path)
+    if actual != notice_sha:
+        raise AuditBlocked('客户端附加通知专项复核的根通知哈希与当前快照不一致')
+    if not grant or hashlib.sha256(grant).hexdigest() != notice_sha:
+        raise AuditBlocked('客户端附加通知专项复核的根通知哈希与当前快照不一致')
+    from update_diagnostics import mit_grant
+    if license_value == 'MIT' and not mit_grant(grant):
+        raise AuditBlocked('客户端附加通知专项复核不能用于不完整的 MIT 声明')
+
+    scopes = accepted.get('scopes')
+    if not isinstance(scopes, list) or not scopes:
+        raise AuditBlocked('客户端附加通知专项复核缺少子项安装回读')
+    required = {safe_path(scope) for scope in install_scopes}
+    seen: set[str] = set()
+    for item in scopes:
+        if not isinstance(item, dict):
+            raise AuditBlocked('客户端附加通知专项复核子项回读无效')
+        raw_path = item.get('path')
+        if not isinstance(raw_path, str) or any(symbol in raw_path for symbol in '*?[]'):
+            raise AuditBlocked('客户端附加通知专项复核路径不安全')
+        path = safe_path(raw_path)
+        if path != raw_path:
+            raise AuditBlocked('客户端附加通知专项复核路径不安全')
+        if path in seen:
+            raise AuditBlocked('客户端附加通知专项复核路径重复')
+        seen.add(path)
+        attached = item.get('attached')
+        if not isinstance(attached, list) or not attached:
+            raise AuditBlocked('客户端附加通知专项复核缺少子项安装回读')
+        delivered = False
+        names: set[str] = set()
+        for record in attached:
+            if not isinstance(record, dict):
+                raise AuditBlocked('客户端附加通知专项复核子项回读无效')
+            name, source_name, digest = record.get('name'), record.get('sourceName'), record.get('sha256')
+            if not is_root_notice_filename(name) or not is_root_notice_filename(source_name):
+                raise AuditBlocked('客户端附加通知专项复核的附带文件名无效')
+            if not _sha256_hex(digest):
+                raise AuditBlocked('客户端附加通知专项复核子项哈希无效')
+            if name in names:
+                raise AuditBlocked('客户端附加通知专项复核附带文件名重复')
+            names.add(name)
+            if source_name == notice_path and digest == notice_sha:
+                delivered = True
+        if not delivered:
+            raise AuditBlocked('客户端附加通知专项复核未证明该子项安装副本携带完整根通知')
+    if seen != required:
+        raise AuditBlocked('客户端附加通知专项复核与安装范围不一致或缺少子项安装回读')
+    return seen
+
+
+
+
+LATIN_TOKEN = re.compile(r"[A-Za-z][A-Za-z0-9'-]{4,}")
+CJK_RE = re.compile(r"[\u3400-\u9fff\uf900-\ufaff]")
+
+
+def _text_sha256(value: str) -> str:
+    return hashlib.sha256(value.encode('utf-8')).hexdigest()
+
+
+def _latin_stems(text: str) -> set[str]:
+    tokens: set[str] = set()
+    for match in LATIN_TOKEN.finditer(text or ''):
+        for part in re.split(r"[-']", match.group(0).casefold()):
+            if len(part) >= 5:
+                tokens.add(part)
+    stems = set(tokens)
+    for token in tokens:
+        for suffix in ('ing', 'ed', 'es', 's'):
+            if len(token) > len(suffix) + 3 and token.endswith(suffix):
+                stems.add(token[:-len(suffix)])
+                if suffix == 'ing':
+                    stems.add(token[:-3] + 'e')
+    return stems
+
+
+def short_desc_covers_new_description(short_desc: str, old_description: str, new_description: str,
+                                      previous_short_desc: str = '') -> bool:
+    """English/latin shortDesc must pick up distinctive new-description terms not already in the old listing."""
+    new_only = _latin_stems(new_description) - _latin_stems(old_description)
+    incremental = new_only - _latin_stems(previous_short_desc or '')
+    target = incremental or new_only
+    if not target:
+        return True
+    return bool(_latin_stems(short_desc) & target)
+
+
+def _scope_locale_sources(entry: dict, sidecar: dict, scope: str) -> tuple[dict, dict | None]:
+    for child in entry.get('children') or []:
+        if safe_path(child.get('path') or '') == scope:
+            catalog = None
+            for item in sidecar.get('spec', {}).get('collection', {}).get('children', []):
+                item_path = item.get('path')
+                same_path = isinstance(item_path, str) and safe_path(item_path) == scope
+                same_id = item.get('identity', {}).get('id') == child.get('id')
+                if same_path or same_id:
+                    catalog = item
+                    break
+            return child, catalog
+    return {'id': entry.get('id'), 'path': scope, 'i18n': entry.get('i18n') or {}}, sidecar
+
+
+def _has_locale_copy(entry: dict, scope: str) -> bool:
+    """True only when this install scope already has listing shortDesc to review.
+
+    Collection-root i18n is not a derived summary of every child; a new member
+    without its own shortDesc is not treated as already having locale copy.
+    """
+    for child in entry.get('children') or []:
+        if child.get('path') == scope:
+            return any(isinstance(value, dict) and value.get('shortDesc')
+                       for value in (child.get('i18n') or {}).values())
+    if entry.get('children'):
+        return False
+    return any(isinstance(value, dict) and value.get('shortDesc')
+               for value in (entry.get('i18n') or {}).values())
+
+
+def description_changed_locale_scopes(repo: Path, entry: dict, old: str, new: str, install_scopes: list[str]) -> dict[str, tuple[dict, dict]]:
+    changed: dict[str, tuple[dict, dict]] = {}
+    for scope in install_scopes:
+        marker = f'{scope}/SKILL.md' if scope else 'SKILL.md'
+        before = GENERATOR.skill_frontmatter(repo, marker, old)
+        after = GENERATOR.skill_frontmatter(repo, marker, new)
+        if not isinstance(before, dict) or not isinstance(after, dict):
+            continue
+        if before.get('description') != after.get('description') and _has_locale_copy(entry, scope):
+            changed[scope] = (before, after)
+    return changed
+
+
+def accept_description_and_locales(review: dict, entry: dict, sidecar: dict, repo: Path,
+                                   old: str, new: str, install_scopes: list[str]) -> set[str]:
+    """Return scopes whose listing shortDesc was reviewed against the new upstream description.
+
+    Absent field: empty set. Present but invalid: AuditBlocked. The acceptance is
+    bound to the exact old/new pins and reviewed listing text; it does not extend
+    to a later pin and does not accept stale or unmatched shortDesc.
+    """
+    accepted = review.get('acceptedDescriptionAndLocales')
+    if not accepted:
+        return set()
+    if not isinstance(accepted, dict):
+        raise AuditBlocked('简介与双语专项复核记录无效')
+    if not all(isinstance(review.get(key), str) and review[key].strip()
+               for key in ('reviewedBy', 'reviewedAt', 'notes')):
+        raise AuditBlocked('简介与双语专项复核必须包含审核人、日期和理由')
+    from_ref, to_ref = accepted.get('fromRef'), accepted.get('toRef')
+    if not isinstance(from_ref, str) or not re.fullmatch(r'[0-9a-f]{40}', from_ref):
+        raise AuditBlocked('简介与双语专项复核未绑定完整旧 pin')
+    if not isinstance(to_ref, str) or not re.fullmatch(r'[0-9a-f]{40}', to_ref):
+        raise AuditBlocked('简介与双语专项复核未绑定完整新 pin')
+    if from_ref != old or to_ref != new:
+        raise AuditBlocked('简介与双语专项复核未绑定当前固定快照')
+    required = description_changed_locale_scopes(repo, entry, old, new, install_scopes)
+    files = accepted.get('files')
+    if not isinstance(files, list) or not files:
+        raise AuditBlocked('简介与双语专项复核缺少受影响路径')
+    seen: set[str] = set()
+    for item in files:
+        if not isinstance(item, dict):
+            raise AuditBlocked('简介与双语专项复核路径记录无效')
+        raw_path = item.get('path')
+        if not isinstance(raw_path, str) or any(symbol in raw_path for symbol in '*?[]'):
+            raise AuditBlocked('简介与双语专项复核路径不安全')
+        path = safe_path(raw_path)
+        if path != raw_path:
+            raise AuditBlocked('简介与双语专项复核路径不安全')
+        if path in seen:
+            raise AuditBlocked('简介与双语专项复核路径重复')
+        seen.add(path)
+        if path not in required:
+            raise AuditBlocked('简介与双语专项复核路径与上游简介变化范围不一致')
+        before, after = required[path]
+        if item.get('oldDescription') != before.get('description'):
+            raise AuditBlocked('简介与双语专项复核的旧简介与当前快照不一致')
+        if item.get('newDescription') != after.get('description'):
+            raise AuditBlocked('简介与双语专项复核的新简介与当前快照不一致')
+        if item.get('newFrontmatterSha256') != frontmatter_identity(after):
+            raise AuditBlocked('简介与双语专项复核的 frontmatter 哈希与当前快照不一致')
+        locales = item.get('locales')
+        if not isinstance(locales, dict) or not locales:
+            raise AuditBlocked('简介与双语专项复核缺少语种文案')
+        source, catalog = _scope_locale_sources(entry, sidecar, path)
+        existing = {
+            locale: (copy.get('shortDesc') if isinstance(copy, dict) else None)
+            for locale, copy in (source.get('i18n') or {}).items()
+        }
+        existing = {locale: text for locale, text in existing.items() if isinstance(text, str) and text}
+        if set(locales) != set(existing):
+            raise AuditBlocked('简介与双语专项复核语种与条目现有简介不一致')
+        english_text = None
+        if isinstance(locales.get('en-US'), dict):
+            english_text = locales['en-US'].get('shortDesc')
+        for locale, record in locales.items():
+            if not isinstance(locale, str) or not locale.strip() or not isinstance(record, dict):
+                raise AuditBlocked('简介与双语专项复核语种记录无效')
+            short_desc = record.get('shortDesc')
+            previous = record.get('previousShortDesc')
+            digest = record.get('sha256')
+            if not isinstance(short_desc, str) or not short_desc.strip():
+                raise AuditBlocked('简介与双语专项复核的简介文案为空')
+            if not isinstance(previous, str):
+                raise AuditBlocked('简介与双语专项复核缺少原先简介')
+            if not _sha256_hex(digest) or digest != _text_sha256(short_desc):
+                raise AuditBlocked('简介与双语专项复核的简介哈希与文案不一致')
+            if existing.get(locale) != short_desc:
+                raise AuditBlocked('简介与双语专项复核的简介与条目现有文案不一致')
+            if catalog is not None:
+                summary = ((catalog.get('presentation') or {}).get('i18n') or {}).get(locale, {})
+                if not isinstance(summary, dict) or summary.get('summary') != short_desc:
+                    raise AuditBlocked('简介与双语专项复核的 catalog 镜像与条目简介不一致')
+            if previous.strip() and short_desc == previous:
+                raise AuditBlocked('简介与双语专项复核的简介未相对原先文案更新')
+            if short_desc == before.get('description'):
+                raise AuditBlocked('简介与双语专项复核的简介仍是旧的上游简介')
+            if CJK_RE.search(short_desc) or locale.lower().startswith('zh'):
+                if not CJK_RE.search(short_desc):
+                    raise AuditBlocked('简介与双语专项复核的中文简介不是中文')
+                if short_desc in {before.get('description'), after.get('description'), english_text}:
+                    raise AuditBlocked('简介与双语专项复核的中文简介未实际更新以匹配上游简介')
+            elif not short_desc_covers_new_description(short_desc, before.get('description') or '', after.get('description') or '', previous):
+                raise AuditBlocked('简介与双语专项复核的简介未实际更新以匹配上游简介')
+    if seen != set(required):
+        raise AuditBlocked('简介与双语专项复核与上游简介变化范围不一致或缺少路径')
+    return seen
+
+
 def accept_scoped_notice_changes(review: dict, repo: Path, old: str, new: str,
                                  old_map: dict[str, str], new_map: dict[str, str]) -> None:
     """Accept only exact, additive, in-place NOTICE edits bound to this snapshot pair.
@@ -328,6 +637,16 @@ def _audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
         raise AuditBlocked('新快照为空或超过总预算')
     old_root = root_evidence(repo, old)
     new_root = root_evidence(repo, new)
+    if review.get('acceptedClientAttachedNotices'):
+        evidence_path = safe_path((sidecar.get('governance', {}).get('license') or {}).get('evidencePath')
+                                  or sidecar.get('governance', {}).get('compliance', {}).get('licenseEvidencePath')
+                                  or '')
+        grant = blob(repo, new, evidence_path) if evidence_path else b''
+        accept_client_attached_notices(
+            review, repo, new, paths, grant,
+            (sidecar.get('governance', {}).get('license') or {}).get('value'))
+    if review.get('acceptedDescriptionAndLocales'):
+        accept_description_and_locales(review, entry, sidecar, repo, old, new, paths)
     if old_root != new_root:
         accepted_root = review.get('acceptedRootEvidenceSha256') or {}
         if set(old_root) - set(new_root):
@@ -521,6 +840,10 @@ def _audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
             report['limitations'].append('安装范围内的 Notice 如有变化，已按专项复核记录中绑定的快照、路径和哈希核对，且新文件必须完整保留旧 Notice 字节；不代表与旧快照逐字节相同，也不接受嵌套许可证变更。')
         if review.get('acceptedRootLicenseDirectoryManifestSha256'):
             report['limitations'].append('根 licenses/ 等许可目录内的第三方许可文本如有变化，已按专项复核记录中的目录清单哈希核对，不代表与旧快照逐文件相同；不接受根 LICENSE/NOTICE/COPYING 文件被删除或改成非普通文件。')
+        if review.get('acceptedClientAttachedNotices'):
+            report['limitations'].append('所选安装目录在源树中仍可能没有完整通知；已按专项复核中绑定的上游 pin、已核验客户端提交和逐项安装回读哈希证明安装副本携带了完整根通知。该接受不是许可例外，不得自动延伸到新 pin，也不能把尚未回读的客户端附加写成已交付。')
+        if review.get('acceptedDescriptionAndLocales'):
+            report['limitations'].append('上游简介如有变化，已按专项复核中绑定的旧/新 pin、路径、frontmatter 哈希和已更新的双语简介核对；不代表自动翻译，也不得把旧简介或未匹配新简介的文案延伸到新 pin。')
         if exclude_paths:
             report['limitations'].append('excludePaths 只从本仓库的自动审核树遍历中省略路径；DesireCore 安装器在支持该字段前仍会从上游 pin 安装这些文件。')
     errors = validate_record(metadata, report)

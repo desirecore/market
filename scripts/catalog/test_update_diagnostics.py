@@ -340,3 +340,167 @@ def test_live_check_failure_is_not_misclassified_as_receipt_derivative(case):
     check=next(r for r in rows if r['gate']=='candidate-live-check')
     assert check['origin']=='unknown'
     assert check['evidence']['conclusion']=='failure'
+
+
+def _client_attach_review(case, new, scopes, notice_sha):
+    return {
+        'schemaVersion': 1,
+        'reviewedBy': 'mashagua',
+        'reviewedAt': '2026-11-27',
+        'notes': 'Install-copy readback of verified client root-notice attach for this pin.',
+        'acceptedClientAttachedNotices': {
+            'sourceRef': new,
+            'clientCommit': '28128a15b3abd76e1529b983ca8a921bdfe9ff30',
+            'clientTree': 'e8c1321e6a098eb905f4646b2027bc7b2259ca6b',
+            'observedAt': '2026-11-26T16:04:23Z',
+            'noticeRootPath': 'LICENSE',
+            'noticeSha256': notice_sha,
+            'scopes': [
+                {'path': path, 'attached': [
+                    {'name': 'LICENSE', 'sourceName': 'LICENSE', 'sha256': notice_sha},
+                ]}
+                for path in scopes
+            ],
+        },
+    }
+
+
+def test_client_attached_notice_readback_is_info_not_blocked(case):
+    import hashlib
+    (case.repo/'skills/sample/LICENSE').unlink()
+    baseline(case)
+    case.write('skills/sample/scripts/tool.py','new')
+    new = case.commit()
+    notice_sha = hashlib.sha256((case.repo/'LICENSE').read_bytes()).hexdigest()
+    review = _client_attach_review(case, new, ['skills/sample'], notice_sha)
+    rows = inspect_snapshots(case.repo, case.entry, case.metadata, {'ref': case.old, 'head': new}, review)
+    row = next(r for r in rows if r['gate']=='installed-project-notice')
+    assert row['state']=='info'
+    assert row['evidence']['clientCommit']=='28128a15b3abd76e1529b983ca8a921bdfe9ff30'
+    assert not any(r['gate']=='installed-project-notice' and r['state']=='blocked' for r in rows)
+    _,_,receipt = audit_snapshots(case.repo, case.entry, case.metadata, {'ref': case.old, 'head': new},
+                                  '2026-10-31T01:02:03Z', special_review=review)
+    assert receipt['source']['ref']==new
+
+
+def test_wrong_pin_client_attach_review_does_not_deliver(case):
+    import hashlib
+    (case.repo/'skills/sample/LICENSE').unlink()
+    baseline(case)
+    case.write('skills/sample/scripts/tool.py','new')
+    new = case.commit()
+    notice_sha = hashlib.sha256((case.repo/'LICENSE').read_bytes()).hexdigest()
+    review = _client_attach_review(case, case.old, ['skills/sample'], notice_sha)
+    rows = inspect_snapshots(case.repo, case.entry, case.metadata, {'ref': case.old, 'head': new}, review)
+    assert any(r['gate']=='client-attached-notice' and r['state']=='blocked' for r in rows)
+    assert any(r['gate']=='installed-project-notice' and r['state']=='blocked' for r in rows)
+    with pytest.raises(AuditBlocked):
+        audit_snapshots(case.repo, case.entry, case.metadata, {'ref': case.old, 'head': new},
+                        '2026-10-31T01:02:03Z', special_review=review)
+
+
+def _updated_short_descs():
+    return {
+        'en-US': 'Delegates work to fresh-context background subagents and records dated knowledge in an agreed wiki for later sessions.',
+        'zh-CN': '将工作委派给新上下文后台子 Agent，并把有日期的知识写入约定 wiki，供后续会话续接。',
+    }
+
+
+def _description_locale_case(case, short_descs):
+    from audit_skill_update import GENERATOR, frontmatter_identity, _text_sha256
+    old_en = 'Acts as a chief of staff in one long session, co-ordinating subagents toward a long-running goal.'
+    old_zh = '旧的中文简介：在单个长会话中统筹子 Agent。'
+    case.entry = {
+        'id': 'collection',
+        'latestVersion': '1.0.0',
+        'source': {'kind': 'git', 'repoUrl': 'https://github.com/example/sample.git', 'ref': case.old},
+        'children': [{'id': 'sample', 'path': 'skills/sample', 'version': '1.0.0', 'i18n': {
+            'zh-CN': {'shortDesc': old_zh},
+            'en-US': {'shortDesc': old_en},
+        }}],
+    }
+    case.metadata['identity'] = {'kind': 'skill', 'id': 'collection'}
+    case.metadata['provenance']['content'] = {'kind': 'git', 'url': case.entry['source']['repoUrl'], 'ref': case.old}
+    case.metadata['spec'] = {'collection': {'children': [{
+        'identity': {'kind': 'skill', 'id': 'sample', 'parentId': 'collection'},
+        'path': 'skills/sample',
+        'presentation': {'defaultLocale': 'en-US', 'i18n': {
+            'en-US': {'name': 'sample', 'summary': old_en},
+            'zh-CN': {'name': 'sample', 'summary': old_zh},
+        }, 'tags': []},
+        'release': {'state': 'unknown'},
+    }]}}
+    case.entry['source']['ref'] = case.old
+    case.metadata['provenance']['content']['ref'] = case.old
+    case.metadata['governance']['compliance']['reviewedRef'] = case.old
+    new_description = 'Delegate the work to fresh subagents and remember what it taught you in a dated wiki, so the next session picks up the thread.'
+    case.write('skills/sample/SKILL.md', (case.repo/'skills/sample/SKILL.md').read_text().replace('description: Fixture', f'description: {new_description}'))
+    case.entry['children'][0]['i18n']['en-US']['shortDesc'] = short_descs['en-US']
+    case.entry['children'][0]['i18n']['zh-CN']['shortDesc'] = short_descs['zh-CN']
+    i18n = case.metadata['spec']['collection']['children'][0]['presentation']['i18n']
+    i18n['en-US']['summary'] = short_descs['en-US']
+    i18n['zh-CN']['summary'] = short_descs['zh-CN']
+    new = case.commit()
+    fm = GENERATOR.skill_frontmatter(case.repo, 'skills/sample/SKILL.md', new)
+    review = {
+        'schemaVersion': 1,
+        'reviewedBy': 'mashagua',
+        'reviewedAt': '2026-11-27',
+        'notes': 'Reviewed bilingual listing copy against the new upstream description for this pin.',
+        'acceptedFrontmatterSha256': {'skills/sample': frontmatter_identity(fm)},
+        'acceptedDescriptionAndLocales': {
+            'fromRef': case.old,
+            'toRef': new,
+            'files': [{
+                'path': 'skills/sample',
+                'oldDescription': 'Fixture',
+                'newDescription': fm['description'],
+                'newFrontmatterSha256': frontmatter_identity(fm),
+                'locales': {
+                    locale: {
+                        'shortDesc': text,
+                        'sha256': _text_sha256(text),
+                        'previousShortDesc': {'en-US': old_en, 'zh-CN': old_zh}[locale],
+                    }
+                    for locale, text in short_descs.items()
+                },
+            }],
+        },
+    }
+    return new, fm, review
+
+
+def test_description_locale_review_is_info_not_manual(case):
+    new, fm, review = _description_locale_case(case, _updated_short_descs())
+    rows = inspect_snapshots(case.repo, case.entry, case.metadata, {'ref': case.old, 'head': new}, review)
+    row = next(r for r in rows if r['gate']=='description-and-locales')
+    assert row['state']=='info'
+    assert not any(r['gate']=='description-and-locales-review' and r['state']=='blocked' for r in rows)
+    _,_,receipt = audit_snapshots(case.repo, case.entry, case.metadata, {'ref': case.old, 'head': new},
+                                  '2026-10-31T01:02:03Z', special_review=review)
+    assert receipt['source']['ref']==new
+
+
+def test_wrong_pin_description_locale_review_does_not_pass(case):
+    new, fm, review = _description_locale_case(case, _updated_short_descs())
+    review['acceptedDescriptionAndLocales']['toRef'] = case.old
+    rows = inspect_snapshots(case.repo, case.entry, case.metadata, {'ref': case.old, 'head': new}, review)
+    assert any(r['gate']=='description-and-locales-review' and r['state']=='blocked' for r in rows)
+    assert any(r['gate']=='description-and-locales' and r['state']=='manual_review' for r in rows)
+    with pytest.raises(AuditBlocked):
+        audit_snapshots(case.repo, case.entry, case.metadata, {'ref': case.old, 'head': new},
+                        '2026-10-31T01:02:03Z', special_review=review)
+
+
+def test_stale_short_desc_description_locale_review_does_not_pass(case):
+    stale = {
+        'en-US': 'Acts as a chief of staff in one long session, co-ordinating subagents toward a long-running goal.',
+        'zh-CN': '将工作委派给新上下文后台子 Agent，并把有日期的知识写入约定 wiki，供后续会话续接。',
+    }
+    new, fm, review = _description_locale_case(case, stale)
+    rows = inspect_snapshots(case.repo, case.entry, case.metadata, {'ref': case.old, 'head': new}, review)
+    assert any(r['gate']=='description-and-locales-review' and r['state']=='blocked' for r in rows)
+    assert any(r['gate']=='description-and-locales' and r['state']=='manual_review' for r in rows)
+    with pytest.raises(AuditBlocked):
+        audit_snapshots(case.repo, case.entry, case.metadata, {'ref': case.old, 'head': new},
+                        '2026-10-31T01:02:03Z', special_review=review)
