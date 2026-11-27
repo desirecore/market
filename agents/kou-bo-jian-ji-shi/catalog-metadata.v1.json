@@ -1,0 +1,106 @@
+{
+  "$schema": "../../schemas/catalog-metadata.v1.schema.json",
+  "schemaVersion": 1,
+  "identity": {
+    "kind": "agent",
+    "id": "kou-bo-jian-ji-shi"
+  },
+  "presentation": {
+    "defaultLocale": "zh-CN",
+    "i18n": {
+      "zh-CN": {
+        "name": "口播剪辑师",
+        "summary": "在本机剪辑竖屏口播，交付 MP4、字幕和封面。需本机 FFmpeg、离线转写工具及可用的 DesireCore 算力。",
+        "description": "以原声和论述为主线，按时间戳剪去空镜与冗余停顿，制作单行短句字幕、重点词标黄和讲解动效。交付 MP4、SRT、封面与验收说明。可按用户给定的本机手册工作。需另行准备 FFmpeg、ffprobe、离线转写工具、中文字体和具备工具调用能力的 DesireCore 算力。依赖各按自身条款使用，算力费用另计。"
+      },
+      "en-US": {
+        "name": "Talking-Head Editor",
+        "summary": "Edit vertical talking-head footage locally. Requires FFmpeg, offline transcription and configured DesireCore compute.",
+        "description": "Trim dead air against source timestamps, retain the speaker's voice and meaning, and add single-line captions, highlighted keywords and explanatory motion. Deliver an MP4, SRT, cover and verification note. Can follow an optional local playbook. Separately provide FFmpeg, ffprobe, offline transcription, appropriate fonts and a tool-capable DesireCore model. Dependencies have their own terms and model costs are separate."
+      }
+    },
+    "category": "media",
+    "tags": [
+      "video",
+      "talking-head",
+      "captions",
+      "local-editing"
+    ]
+  },
+  "release": {
+    "state": "known",
+    "version": "0.1.0",
+    "versionScheme": "semver"
+  },
+  "timestamps": {
+    "catalogUpdatedAt": {
+      "state": "known",
+      "value": "2026-11-27",
+      "precision": "day"
+    },
+    "releasePublishedAt": {
+      "state": "unknown"
+    },
+    "reviewedAt": {
+      "state": "known",
+      "value": "2026-11-27",
+      "precision": "day"
+    },
+    "upstreamObservedAt": {
+      "state": "unknown"
+    }
+  },
+  "provenance": {
+    "content": {
+      "kind": "git",
+      "url": "https://github.com/desirecore-agent/talking-head-editor.git",
+      "ref": "fb316fb4054ed702c771a08827bd7e948f9bee36"
+    }
+  },
+  "governance": {
+    "availability": "installable",
+    "stewardship": "pointer",
+    "license": {
+      "state": "known",
+      "value": "MIT",
+      "evidencePath": "LICENSE"
+    },
+    "redistribution": "source-pointer-only",
+    "compliance": {
+      "licenseEvidencePath": "LICENSE",
+      "reviewedRef": "fb316fb4054ed702c771a08827bd7e948f9bee36",
+      "reviewedAt": "2026-11-27",
+      "reviewedBy": "Market source review",
+      "upstreamEndorsed": false
+    },
+    "upstreamMaintainer": {
+      "name": "desirecore-agent",
+      "verified": false,
+      "url": "https://github.com/desirecore-agent/talking-head-editor"
+    }
+  },
+  "compatibility": {
+    "platforms": {
+      "state": "known",
+      "values": [
+        "macos"
+      ]
+    },
+    "requiredClientVersion": "10.0.208",
+    "requirements": [
+      {
+        "kind": "runtime",
+        "value": "Provide FFmpeg and ffprobe with appropriate decoder, encoder and caption filters, an offline ASR runtime and model, and local fonts. An optional playbook or renderer may have additional dependencies."
+      },
+      {
+        "kind": "permission",
+        "value": "Use an authorized local workspace and tool-capable DesireCore compute. Tools, models, fonts and optional renderers have independent licenses and may have separate costs. Credentials and preapproved permissions are not included."
+      }
+    ]
+  },
+  "spec": {
+    "kind": "agent",
+    "installPolicy": "market",
+    "updatePolicy": "market"
+  }
+}
