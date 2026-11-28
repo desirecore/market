@@ -29,23 +29,23 @@
   },
   "release": {
     "state": "known",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-27",
+      "value": "2026-11-28",
       "precision": "day"
     },
     "releasePublishedAt": {
       "state": "known",
-      "value": "2026-11-27T16:45:36Z",
+      "value": "2026-11-28T12:01:10Z",
       "precision": "second"
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-27",
+      "value": "2026-11-28",
       "precision": "day"
     },
     "upstreamObservedAt": {
@@ -56,7 +56,7 @@
     "content": {
       "kind": "git",
       "url": "https://github.com/desirecore-agent/talking-head-editor.git",
-      "ref": "c96f4a7a1f7599a3224725f44fb13685a337875b"
+      "ref": "cbce732dd26f52cb1d98053d181245720df86b96"
     }
   },
   "governance": {
@@ -70,8 +70,8 @@
     "redistribution": "source-pointer-only",
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "c96f4a7a1f7599a3224725f44fb13685a337875b",
-      "reviewedAt": "2026-11-27",
+      "reviewedRef": "cbce732dd26f52cb1d98053d181245720df86b96",
+      "reviewedAt": "2026-11-28",
       "reviewedBy": "Market source review",
       "upstreamEndorsed": false
     },
