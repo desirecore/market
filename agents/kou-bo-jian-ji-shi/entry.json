@@ -8,7 +8,7 @@
     "captions",
     "local-editing"
   ],
-  "latestVersion": "0.1.1",
+  "latestVersion": "0.1.2",
   "maintainer": {
     "name": "desirecore-agent",
     "verified": false,
@@ -21,7 +21,7 @@
     "kind": "git",
     "repoUrl": "https://github.com/desirecore-agent/talking-head-editor.git",
     "repoBranch": "main",
-    "ref": "c96f4a7a1f7599a3224725f44fb13685a337875b"
+    "ref": "cbce732dd26f52cb1d98053d181245720df86b96"
   },
   "requiredClientVersion": "10.0.208",
   "i18n": {
@@ -36,7 +36,10 @@
   },
   "avatar": {
     "t": "剪",
-    "bg": "linear-gradient(135deg, #2E6656, #508C78)"
+    "bg": "linear-gradient(135deg, #2E6656, #508C78)",
+    "image": {
+      "path": "assets/avatar.webp"
+    }
   },
   "installPolicy": "market",
   "updatePolicy": "market"
