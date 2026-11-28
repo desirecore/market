@@ -565,7 +565,7 @@ class AuditTests(unittest.TestCase):
         self.metadata['provenance']['content']['ref'] = sha
         self.metadata['governance']['compliance']['reviewedRef'] = sha
 
-    def _client_attach_review(self, new, scopes, notice_sha, **overrides):
+    def _client_attach_review(self, new, scopes, notice_sha, *, is_collection=False, **overrides):
         review = {
             'schemaVersion': 1,
             'reviewedBy': 'mashagua',
@@ -573,8 +573,10 @@ class AuditTests(unittest.TestCase):
             'notes': 'Install-copy readback of verified client root-notice attach for this pin.',
             'acceptedClientAttachedNotices': {
                 'sourceRef': new,
-                'clientCommit': '28128a15b3abd76e1529b983ca8a921bdfe9ff30',
-                'clientTree': 'e8c1321e6a098eb905f4646b2027bc7b2259ca6b',
+                'clientCommit': '28128a15b3abd76e1529b983ca8a921bdfe9ff30' if is_collection
+                                else '85fba4abf4c60c5704557b2c76568a3da3323967',
+                'clientTree': 'e8c1321e6a098eb905f4646b2027bc7b2259ca6b' if is_collection
+                              else '4e38063a01a6d8b9e7b7fc549bbc2716b7d45a81',
                 'observedAt': '2026-11-26T16:04:23Z',
                 'noticeRootPath': 'LICENSE',
                 'noticeSha256': notice_sha,
@@ -724,15 +726,19 @@ class AuditTests(unittest.TestCase):
         self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
         notice_sha = hashlib.sha256((self.repo / 'LICENSE').read_bytes()).hexdigest()
         new = self.commit()
-        valid = self._client_attach_review(new, ['skills/sample'], notice_sha)
         cases = [
             ('未绑定当前固定快照', {'acceptedClientAttachedNotices': {'sourceRef': self.old}}),
             ('未绑定当前固定快照', {'acceptedClientAttachedNotices': {'sourceRef': 'a' * 40}}),
             ('不在已核验实现清单中', {'acceptedClientAttachedNotices': {'clientCommit': 'a' * 40}}),
+            ('安装类型不匹配', self._client_attach_review(
+                new, ['skills/sample'], notice_sha, is_collection=True)),
+            ('需要客户端 tree 和回读时间', {'acceptedClientAttachedNotices': {'clientTree': None}}),
+            ('需要客户端 tree 和回读时间', {'acceptedClientAttachedNotices': {'observedAt': None}}),
             ('客户端提交无效', {'acceptedClientAttachedNotices': {'clientCommit': '28128a15'}}),
             ('客户端 tree 与已核验实现不一致', {'acceptedClientAttachedNotices': {'clientTree': 'a' * 40}}),
             ('根通知哈希与当前快照不一致', {'acceptedClientAttachedNotices': {'noticeSha256': 'b' * 64}}),
             ('缺少子项安装回读', {'acceptedClientAttachedNotices': {'scopes': []}}),
+            ('与安装范围不一致', self._client_attach_review(new, ['skills/another'], notice_sha)),
             ('必须包含审核人、日期和理由', {'notes': ''}),
             ('必须包含审核人、日期和理由', {'reviewedBy': ''}),
         ]
@@ -762,10 +768,15 @@ class AuditTests(unittest.TestCase):
         self.write('skills/sample/scripts/tool.py', 'print("new fixture")\n')
         notice_sha = hashlib.sha256((self.repo / 'LICENSE').read_bytes()).hexdigest()
         new = self.commit()
-        complete = self._client_attach_review(new, ['skills/sample', 'skills/another'], notice_sha)
+        complete = self._client_attach_review(new, ['skills/sample', 'skills/another'], notice_sha,
+                                              is_collection=True)
+        wrong_mode = self._client_attach_review(new, ['skills/sample', 'skills/another'], notice_sha)
+        with self.assertRaisesRegex(AuditBlocked, '安装类型不匹配'):
+            audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
+                            '2026-10-31T01:02:03Z', special_review=wrong_mode)
         audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
                         '2026-10-31T01:02:03Z', special_review=complete)
-        partial = self._client_attach_review(new, ['skills/sample'], notice_sha)
+        partial = self._client_attach_review(new, ['skills/sample'], notice_sha, is_collection=True)
         with self.assertRaisesRegex(AuditBlocked, '缺少子项安装回读|与安装范围不一致'):
             audit_snapshots(self.repo, self.entry, self.metadata, {'ref': self.old, 'head': new},
                             '2026-10-31T01:02:03Z', special_review=partial)

@@ -85,7 +85,7 @@ def inspect_snapshots(repo, entry, metadata, result, special_review=None):
     if review.get('acceptedClientAttachedNotices'):
         try:
             attached_scopes = accept_client_attached_notices(
-                review, repo, new, scopes, grants[new], license_value)
+                review, repo, new, scopes, grants[new], license_value, is_collection=bool(entry.get('children')))
         except AuditBlocked as error:
             add('.', 'client-attached-notice', 'blocked', 'introduced',
                 '专项复核的客户端附加通知证据无效或未绑定当前 pin。 / Client-attached notice special review is invalid or not bound to this pin.',

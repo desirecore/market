@@ -191,8 +191,15 @@ def _sha256_hex(value: object) -> bool:
 # root LICENSE/NOTICE/COPYING files after verifying the selected child tree.
 # This is not a license exception. A later descendant tip is not accepted
 # automatically; add a newly verified implementation commit explicitly.
-CLIENT_ATTACHED_NOTICE_IMPLEMENTATIONS = {
+CLIENT_COLLECTION_NOTICE_IMPLEMENTATIONS = {
     '28128a15b3abd76e1529b983ca8a921bdfe9ff30': 'e8c1321e6a098eb905f4646b2027bc7b2259ca6b',
+}
+
+# desirecore/desirecore#6429 (squashed into dev): the standalone Git-subdirectory
+# path copies the exact catalog-evidenced notice and records it in the lock.
+# This is source-implementation provenance, not a released-package or install receipt.
+CLIENT_STANDALONE_NOTICE_IMPLEMENTATIONS = {
+    '85fba4abf4c60c5704557b2c76568a3da3323967': '4e38063a01a6d8b9e7b7fc549bbc2716b7d45a81',
 }
 
 ROOT_NOTICE_NAME_PREFIXES = ('LICENSE', 'LICENCE', 'NOTICE', 'COPYING')
@@ -226,7 +233,7 @@ def root_regular_file_sha256(repo: Path, ref: str, path: str) -> str:
 
 
 def accept_client_attached_notices(review: dict, repo: Path, new: str, install_scopes: list[str],
-                                  grant: bytes, license_value: str | None) -> set[str]:
+                                  grant: bytes, license_value: str | None, *, is_collection: bool) -> set[str]:
     """Return install scopes proven by bound client attach + install readback.
 
     Absent field: empty set. Present but invalid: AuditBlocked. The acceptance is
@@ -253,9 +260,16 @@ def accept_client_attached_notices(review: dict, repo: Path, new: str, install_s
         raise AuditBlocked('客户端附加通知专项复核未绑定当前固定快照')
     if not isinstance(client_commit, str) or not re.fullmatch(r'[0-9a-f]{40}', client_commit):
         raise AuditBlocked('客户端附加通知专项复核的客户端提交无效')
-    if client_commit not in CLIENT_ATTACHED_NOTICE_IMPLEMENTATIONS:
-        raise AuditBlocked('客户端附加通知专项复核的客户端提交不在已核验实现清单中')
-    expected_tree = CLIENT_ATTACHED_NOTICE_IMPLEMENTATIONS[client_commit]
+    implementations = (CLIENT_COLLECTION_NOTICE_IMPLEMENTATIONS if is_collection
+                       else CLIENT_STANDALONE_NOTICE_IMPLEMENTATIONS)
+    expected_tree = implementations.get(client_commit)
+    if expected_tree is None:
+        raise AuditBlocked('客户端附加通知专项复核的客户端提交不在已核验实现清单中（安装类型不匹配或提交未核验）')
+    if not is_collection:
+        if len(install_scopes) != 1 or not safe_path(install_scopes[0]):
+            raise AuditBlocked('独立技能附加通知专项复核必须绑定单个 Git 子目录')
+        if client_tree is None or observed_at is None:
+            raise AuditBlocked('独立技能附加通知专项复核需要客户端 tree 和回读时间')
     if client_tree is not None and (not isinstance(client_tree, str)
                                     or not re.fullmatch(r'[0-9a-f]{40}', client_tree)
                                     or client_tree != expected_tree):
@@ -644,7 +658,8 @@ def _audit_snapshots(repo: Path, entry: dict, sidecar: dict, result: dict,
         grant = blob(repo, new, evidence_path) if evidence_path else b''
         accept_client_attached_notices(
             review, repo, new, paths, grant,
-            (sidecar.get('governance', {}).get('license') or {}).get('value'))
+            (sidecar.get('governance', {}).get('license') or {}).get('value'),
+            is_collection=bool(entry.get('children')))
     if review.get('acceptedDescriptionAndLocales'):
         accept_description_and_locales(review, entry, sidecar, repo, old, new, paths)
     if old_root != new_root:
