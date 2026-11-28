@@ -29,13 +29,13 @@
   },
   "release": {
     "state": "known",
-    "version": "4.5.0",
+    "version": "4.6.0",
     "versionScheme": "semver"
   },
   "timestamps": {
     "catalogUpdatedAt": {
       "state": "known",
-      "value": "2026-11-24T01:37:18Z",
+      "value": "2026-11-25T01:26:49Z",
       "precision": "second"
     },
     "releasePublishedAt": {
@@ -43,12 +43,12 @@
     },
     "reviewedAt": {
       "state": "known",
-      "value": "2026-11-24",
+      "value": "2026-11-25",
       "precision": "day"
     },
     "upstreamObservedAt": {
       "state": "known",
-      "value": "2026-11-24T01:37:18Z",
+      "value": "2026-11-25T01:26:49Z",
       "precision": "second"
     }
   },
@@ -57,7 +57,7 @@
       "kind": "git",
       "url": "https://github.com/mvanhorn/last30days-skill.git",
       "path": "skills/last30days",
-      "ref": "331025e662756ca51e86dfddcf59969f6dba25a0"
+      "ref": "7c2e1c2b099b13abd4397910168c4f53e638bb21"
     }
   },
   "governance": {
@@ -76,8 +76,8 @@
     },
     "compliance": {
       "licenseEvidencePath": "LICENSE",
-      "reviewedRef": "331025e662756ca51e86dfddcf59969f6dba25a0",
-      "reviewedAt": "2026-11-24",
+      "reviewedRef": "7c2e1c2b099b13abd4397910168c4f53e638bb21",
+      "reviewedAt": "2026-11-25",
       "reviewedBy": "automated:source-license-metadata-v1",
       "upstreamEndorsed": false
     }

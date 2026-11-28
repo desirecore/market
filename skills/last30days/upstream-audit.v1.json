@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "reviewer": "automated:source-license-metadata-v1",
-  "reviewedAt": "2026-11-24T01:37:18Z",
+  "reviewedAt": "2026-11-25T01:26:49Z",
   "source": {
     "url": "https://github.com/mvanhorn/last30days-skill.git",
-    "previousRef": "e63f8e8732f1b934449b363f211b3654531b8ef2",
-    "ref": "331025e662756ca51e86dfddcf59969f6dba25a0",
+    "previousRef": "331025e662756ca51e86dfddcf59969f6dba25a0",
+    "ref": "7c2e1c2b099b13abd4397910168c4f53e638bb21",
     "paths": [
       "skills/last30days"
     ]
@@ -21,9 +21,11 @@
     "LICENSE": "31803213a789825dc419de43542381e1d570b4408cf2bcf2e8a9947a6d3fd2ab",
     "skills/last30days/scripts/lib/vendor/bird-search/LICENSE": "62316704df7426e5a79d2827ff8aca36e9abb3a73b8e68557030749ebefec667"
   },
-  "observedVersions": {},
-  "contentManifestSha256": "7c4489e21798b67fb5419dbc8c86d73294bb8bdecc026ca7dbb4f405e2575d18",
-  "fileCount": 200,
+  "observedVersions": {
+    "skills/last30days": "4.6.0"
+  },
+  "contentManifestSha256": "14fe0cb3d6744f94482cceb37363851ca68be864511b0ebe038261e5309e915e",
+  "fileCount": 201,
   "limitations": [
     "自动来源、许可和结构化元数据核验；不执行上游代码，不代表软件安全认证或真实运行验收。",
     "未结构化表达的依赖与行为变化仍在 PR 差异中供复核，不据此扩大授权。",
